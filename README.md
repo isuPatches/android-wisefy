@@ -8,62 +8,62 @@ Util library used as a wrapper around WiFi and Connectivity manager for Android
 To add a WEP network:
 
 ```java
-WiseFy.getSmarts().addWEPNetwork(getActivity(), "WEP Network", "123456")
+WiseFy.getSmarts().addWEPNetwork(getActivity(), "WEP Network", "123456");
 ```
 
 To add a WPA2 network:
 
 ```java
-WiseFy.getSmarts().addWPA2Network(getActivity(), "WPA2 Network", "12345678")
+WiseFy.getSmarts().addWPA2Network(getActivity(), "WPA2 Network", "12345678");
 ```
 
 To add an open network:
 
 ```java
-WiseFy.getSmarts().addOpenNetwork(getActivity(), "Open Network")
+WiseFy.getSmarts().addOpenNetwork(getActivity(), "Open Network");
 ```
 
 To calculate number of bars given a networks signal strength and total number of bars:
 
 ```java
-int bars = WiseFy.getSmarts().calculateBars(-35, -5)
+int bars = WiseFy.getSmarts().calculateBars(-35, -5);
 ```
 
 To compare the signal strength of two networks:
 
 ```java
-int result = WiseFy.getSmarts().compareSignalLevel(-35, -70)
+int result = WiseFy.getSmarts().compareSignalLevel(-35, -70);
 ```
 
 To disable wifi:
 
 ```java
-WiseFy.getSmarts().disableWiFi(getActivity())
+WiseFy.getSmarts().disableWiFi(getActivity());
 ```
 
 To disconnect from current network:
 
 ```java
-WiseFy.getSmarts().disconnectFromCurrentNetwork(getActivity())
+WiseFy.getSmarts().disconnectFromCurrentNetwork(getActivity());
 ```
 
 To enable wifi:
 
 ```java
-WiseFy.getSmarts().enableWiFi(getActivity())
+WiseFy.getSmarts().enableWiFi(getActivity());
 ```
 
 To get current network:
 
 ```java
-WifiInfo wifiInfo = WiseFy.getSmarts().getCurrentNetwork(getActivity())
+WifiInfo wifiInfo = WiseFy.getSmarts().getCurrentNetwork(getActivity());
 ```
 
 To get nearby access points:<br/><br/>
 <strong>Setting filterDuplicates to true will not return SSIDs with a weaker signal strength (will always take the highest)</strong>
 
 ```java
-List<ScanResult> scanResults = WiseFy.getSmarts().getNearbyAccessPoints(getActivity(), true)
+List<ScanResult> scanResults = WiseFy.getSmarts().getNearbyAccessPoints(getActivity(), true);
 ```
 
 To get the networks whose configuration is already stored:
@@ -75,7 +75,7 @@ List<WifiConfiguration> savedNetworks = WiseFy.getSmarts().getSavedNetworks(getA
 To check and see if a network is secure (WEP/PSK/EAP capabilities):
 
 ```java
-boolean secure = WiseFy.getSmarts().isSecure(scanResult;
+boolean secure = WiseFy.getSmarts().isSecure(scanResult);
 ```
 
 To reconnect to a network given an SSID:
