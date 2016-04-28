@@ -468,6 +468,22 @@ public class WiseFy {
     }
 
     /**
+     * To check and return if a network is secure (WEP/PSK/EAP capabilities)
+     *
+     * @param scanResult - The network to see if it is secure
+     * @return boolean - Whether the network is secure
+     */
+    public boolean isSecure(ScanResult scanResult) {
+        boolean isSecure = false;
+        if(scanResult != null && scanResult.capabilities != null) {
+            if (scanResult.capabilities.contains("WEP") || scanResult.capabilities.contains("PSK") || scanResult.capabilities.contains("EAP")) {
+                isSecure = true;
+            }
+        }
+        return isSecure;
+    }
+
+    /**
      * Used to reconnect to a network
      *
      * Gets a list of saved networks, reconnects to the given ssid, and then calls checkWifi to verify connectivity

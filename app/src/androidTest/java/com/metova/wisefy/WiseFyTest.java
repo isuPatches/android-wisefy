@@ -13,6 +13,7 @@ import com.metova.wisefy.base.BaseInstrumentationTestCase;
 import com.metova.wisefy.util.GetManagerUtil;
 import com.metova.wisefy.util.TestActivity;
 import com.robotium.solo.Condition;
+import org.mockito.Mockito;
 import java.util.ArrayList;
 import java.util.List;
 import static org.mockito.Mockito.*;
@@ -225,6 +226,35 @@ public class WiseFyTest extends BaseInstrumentationTestCase<TestActivity> {
         when(mMockWiFiManager.getConfiguredNetworks()).thenReturn(wifiList);
 
         assertEquals(wifiList, WiseFy.getSmarts().getSavedNetworks(getActivity()));
+    }
+
+    public void testIsSecureWithWEP() {
+        ScanResult scanResult = mock(ScanResult.class);
+        scanResult.capabilities = "WEP";
+        assertEquals(true, WiseFy.getSmarts().isSecure(scanResult));
+    }
+
+    public void testIsSecureWithPSK() {
+        ScanResult scanResult = mock(ScanResult.class);
+        scanResult.capabilities = "PSK";
+        assertEquals(true, WiseFy.getSmarts().isSecure(scanResult));
+    }
+
+    public void testIsSecureWithEAP() {
+        ScanResult scanResult = mock(ScanResult.class);
+        scanResult.capabilities = "EAP";
+        assertEquals(true, WiseFy.getSmarts().isSecure(scanResult));
+    }
+
+    public void testIsSecureEmptyCapabilities() {
+        ScanResult scanResult = mock(ScanResult.class);
+        scanResult.capabilities = "";
+        assertEquals(false, WiseFy.getSmarts().isSecure(scanResult));
+    }
+
+    public void testIsSecureNullCapabilities() {
+        ScanResult scanResult = mock(ScanResult.class);
+        assertEquals(false, WiseFy.getSmarts().isSecure(scanResult));
     }
 
     public void testReconnectToNetworkSuccess() {

@@ -72,6 +72,12 @@ To get the networks whose configuration is already stored:
 List<WifiConfiguration> savedNetworks = WiseFy.getSmarts().getSavedNetworks(getActivity());
 ```
 
+To check and see if a network is secure (WEP/PSK/EAP capabilities):
+
+```java
+boolean secure = WiseFy.getSmarts().isSecure(scanResult;
+```
+
 To reconnect to a network given an SSID:
 
 ```java
