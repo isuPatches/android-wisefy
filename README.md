@@ -78,6 +78,12 @@ To check and see if a network is secure (WEP/PSK/EAP capabilities):
 boolean secure = WiseFy.getSmarts().isSecure(scanResult);
 ```
 
+To check and see if Wifi is enabled on a device:
+
+```java
+boolean wifiEnabled = WiseFy.getSmarts().isWifiEnabled(getActivity());
+```
+
 To reconnect to a network given an SSID:
 
 ```java
