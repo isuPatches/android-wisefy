@@ -483,6 +483,24 @@ public class WiseFy {
         return isSecure;
     }
 
+
+    /**
+     * To check if Wifi is enabled on the device or not
+     *
+     * @param activity - The activity to use as context to retrieve a wifi manager via getSystemService
+     * @return boolean - if Wifi is enabled on device
+     */
+    public boolean isWifiEnabled(Activity activity) {
+        boolean isWifiEnabled = false;
+        if(activity != null) {
+            WifiManager wifiManager = GetManagerUtil.getInstance().getWiFiManager(activity);
+            isWifiEnabled = wifiManager.isWifiEnabled();
+        } else {
+            LogUtil.w(TAG, "No activity to get wifi config");
+        }
+        return isWifiEnabled;
+    }
+
     /**
      * Used to reconnect to a network
      *

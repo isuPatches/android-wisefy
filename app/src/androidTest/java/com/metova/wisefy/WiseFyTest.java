@@ -13,7 +13,6 @@ import com.metova.wisefy.base.BaseInstrumentationTestCase;
 import com.metova.wisefy.util.GetManagerUtil;
 import com.metova.wisefy.util.TestActivity;
 import com.robotium.solo.Condition;
-import org.mockito.Mockito;
 import java.util.ArrayList;
 import java.util.List;
 import static org.mockito.Mockito.*;
@@ -255,6 +254,37 @@ public class WiseFyTest extends BaseInstrumentationTestCase<TestActivity> {
     public void testIsSecureNullCapabilities() {
         ScanResult scanResult = mock(ScanResult.class);
         assertEquals(false, WiseFy.getSmarts().isSecure(scanResult));
+    }
+
+    public void testIsWiFiEnabledFalse() {
+        final WifiManager wifiManager = getLiveWiFiManager(getActivity());
+        wifiManager.setWifiEnabled(false);
+        assertTrue(getSolo().waitForCondition(new Condition() {
+            @Override
+            public boolean isSatisfied() {
+                return !wifiManager.isWifiEnabled();
+            }
+        }, 3000));
+        assertEquals(false, WiseFy.getSmarts().isWifiEnabled(getActivity()));
+        wifiManager.setWifiEnabled(true);
+        assertTrue(getSolo().waitForCondition(new Condition() {
+            @Override
+            public boolean isSatisfied() {
+                return wifiManager.isWifiEnabled();
+            }
+        }, 3000));
+    }
+
+    public void testIsWifiEnabledTrue() {
+        final WifiManager wifiManager = getLiveWiFiManager(getActivity());
+        wifiManager.setWifiEnabled(true);
+        assertTrue(getSolo().waitForCondition(new Condition() {
+            @Override
+            public boolean isSatisfied() {
+                return wifiManager.isWifiEnabled();
+            }
+        }, 3000));
+        assertEquals(true, WiseFy.getSmarts().isWifiEnabled(getActivity()));
     }
 
     public void testReconnectToNetworkSuccess() {
