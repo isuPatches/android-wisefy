@@ -1,6 +1,18 @@
 ## v1.0.2 - 04/30/2016
 
+#####Create CHANGE.md
+commit c16118744ff2a52881c4af6f4afc8438262888c8<br/>
+Author: Patches <isuPatches@yahoo.com><br/>
+Date:   Sat Apr 30 14:46:44 2016 -0500
 
+#####Merge pull request #7 from isuPatches/develop
+commit cdc66951cfca2a8e964f411f67b6c27a592de222<br/>
+Merge: 3ba209b 12bb210<br/>
+Author: Patches <isuPatches@yahoo.com><br/>
+Date:   Sat Apr 30 14:29:51 2016 -0500
+    
+    v1.0.2
+    
 #####Increment versionName and versionCode for release
 commit 12bb210b2aa6513b0140a2e6de7594f0e1d0e64f<br/>
 Author: isuPatches <sarah.klinefelter@metova.com><br/>
@@ -11,7 +23,7 @@ commit a2aefadc1e46785d6f78c17d6130aa574cb05ac6<br/>
 Merge: 772558b ae81d49<br/>
 Author: Patches <isuPatches@yahoo.com><br/>
 Date:   Sat Apr 30 14:25:29 2016 -0500
-
+    
     issue-5
 
 #####Adding isWifiEnabled functionality
@@ -23,10 +35,27 @@ Date:   Sat Apr 30 14:23:43 2016 -0500
 ## v1.0.1 - 04/28/2016
 
 
+#####Merge pull request #3 from isuPatches/develop
+commit 3ba209b036b99f6cfd432b76b8e75616cdc1fc1c<br/>
+Merge: db745f2 772558b<br/>
+Author: Patches <isuPatches@yahoo.com><br/>
+Date:   Thu Apr 28 09:07:06 2016 -0500
+    
+    Fix README
+    
 #####Fix README
 commit 772558bc98f20b42849baf0eeacd012b0b383f0a<br/>
 Author: isuPatches <sarah.klinefelter@metova.com><br/>
 Date:   Thu Apr 28 09:05:24 2016 -0500
+
+    
+#####Merge pull request #1 from isuPatches/develop
+commit db745f25d2caf0768ee259aa11ed0ad57c7d8ee4<br/>
+Merge: 3df4638 b309b1c<br/>
+Author: Patches <isuPatches@yahoo.com><br/>
+Date:   Thu Apr 28 08:57:21 2016 -0500
+    
+    v1.0.1
 
 #####Add isSecure functionality
 commit b309b1c0c2550c08e92130c2e8bfb1ef1b0e48db<br/>
