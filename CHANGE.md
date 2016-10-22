@@ -1,5 +1,15 @@
 ## v1.0.2 - 04/30/2016
 
+#####Update README.md
+commit cd98623b74763e4d12a0c682b5023fdd5f169d91<br/>
+Author: Patches <isuPatches@yahoo.com><br/>
+Date:   Sat Apr 30 15:02:43 2016 -0500
+
+#####Update CHANGE.md
+commit af298c3a986c4418cf0003e33f9d591daec58dc5<br/>
+Author: Patches <isuPatches@yahoo.com><br/>
+Date:   Sat Apr 30 14:54:13 2016 -0500
+
 #####Create CHANGE.md
 commit c16118744ff2a52881c4af6f4afc8438262888c8<br/>
 Author: Patches <isuPatches@yahoo.com><br/>
