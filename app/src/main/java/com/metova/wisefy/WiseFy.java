@@ -32,27 +32,44 @@ public class WiseFy {
 
     private SSIDUtil mSSIDUtil = SSIDUtil.getInstance();
 
-    private static final WiseFy WISE_FY = new WiseFy();
-
-    private static boolean sLoggingEnabled;
+    private boolean loggingEnabled;
 
     /**
-     * Private constructor with no setup
+     * Private constructor that accepts builder input
      */
-    private WiseFy() {
-
+    private WiseFy(getSmarts getSmarts) {
+        this.loggingEnabled = getSmarts.loggingEnabled;
     }
 
     /**
-     * @return instance of WiseFy
+     * Internal static class for builder pattern
      */
-    public static WiseFy getSmarts() {
-        return WISE_FY;
-    }
+    public static class getSmarts {
+        private boolean loggingEnabled;
 
-    public static WiseFy getSmarts(boolean loggingEnabled) {
-        sLoggingEnabled = loggingEnabled;
-        return WISE_FY;
+        public getSmarts() {
+        }
+
+        /**
+         * To enable/disable logging for the WiseFy instance
+         *
+         * @param loggingEnabled - If logging is enabled or disabled
+         *
+         * @return getSmarts - The builder with updated logging setting
+         */
+        public getSmarts withLogging(boolean loggingEnabled) {
+            this.loggingEnabled = loggingEnabled;
+            return this;
+        }
+
+        /**
+         * To build and return a WiseFy instance
+         *
+         * @return WiseFy - The instance created by the builder
+         */
+        public WiseFy initiateHamsters() {
+            return new WiseFy(this);
+        }
     }
 
     /**
@@ -65,7 +82,7 @@ public class WiseFy {
      */
     public int addOpenNetwork(Activity activity, String ssid) {
         if (TextUtils.isEmpty(ssid) || activity == null || activity.isFinishing()) {
-            mLogUtil.w(TAG, "Breaking due to missing ssid or activity. ssid: " + ssid, sLoggingEnabled);
+            mLogUtil.w(TAG, "Breaking due to missing ssid or activity. ssid: " + ssid, loggingEnabled);
             return WISE_MANAGER_FAILURE;
         }
         WifiManager wifiManager = mGetManagerUtil.getWiFiManager(activity);
@@ -73,7 +90,7 @@ public class WiseFy {
             boolean ssidAlreadyConfigured = isNetworkInConfigurationList(wifiManager, ssid);
 
             if (!ssidAlreadyConfigured) {
-                mLogUtil.d(TAG, "Adding open network with SSID " + ssid, sLoggingEnabled);
+                mLogUtil.d(TAG, "Adding open network with SSID " + ssid, loggingEnabled);
 
                 WifiConfiguration wifiConfig = new WifiConfiguration();
 
@@ -106,7 +123,7 @@ public class WiseFy {
      */
     public int addWEPNetwork(Activity activity, String ssid, String password) {
         if (TextUtils.isEmpty(ssid) || TextUtils.isEmpty(password) || activity == null || activity.isFinishing()) {
-            mLogUtil.w(TAG, "Breaking due to missing ssid, password, or activity. ssid: " + ssid + ", password: " + password, sLoggingEnabled);
+            mLogUtil.w(TAG, "Breaking due to missing ssid, password, or activity. ssid: " + ssid + ", password: " + password, loggingEnabled);
             return WISE_MANAGER_FAILURE;
         }
         WifiManager wifiManager = mGetManagerUtil.getWiFiManager(activity);
@@ -114,7 +131,7 @@ public class WiseFy {
             boolean ssidAlreadyConfigured = isNetworkInConfigurationList(wifiManager, ssid);
 
             if (!ssidAlreadyConfigured) {
-                mLogUtil.d(TAG, "Adding WEP network with SSID " + ssid, sLoggingEnabled);
+                mLogUtil.d(TAG, "Adding WEP network with SSID " + ssid, loggingEnabled);
 
                 WifiConfiguration wifiConfig = new WifiConfiguration();
                 wifiConfig.SSID = mSSIDUtil.convertSSIDForConfig(ssid);
@@ -146,7 +163,7 @@ public class WiseFy {
      */
     public int addWPA2Network(Activity activity, String ssid, String password) {
         if (TextUtils.isEmpty(ssid) || TextUtils.isEmpty(password) || activity == null || activity.isFinishing()) {
-            mLogUtil.w(TAG, "Breaking due to missing ssid, password, or activity. ssid: " + ssid + ", password: " + password, sLoggingEnabled);
+            mLogUtil.w(TAG, "Breaking due to missing ssid, password, or activity. ssid: " + ssid + ", password: " + password, loggingEnabled);
             return WISE_MANAGER_FAILURE;
         }
         WifiManager wifiManager = mGetManagerUtil.getWiFiManager(activity);
@@ -154,7 +171,7 @@ public class WiseFy {
             boolean ssidAlreadyConfigured = isNetworkInConfigurationList(wifiManager, ssid);
 
             if (!ssidAlreadyConfigured) {
-                mLogUtil.d(TAG, "Adding WPA2 network with SSID " + ssid, sLoggingEnabled);
+                mLogUtil.d(TAG, "Adding WPA2 network with SSID " + ssid, loggingEnabled);
 
                 WifiConfiguration wifiConfig = new WifiConfiguration();
                 wifiConfig.SSID = mSSIDUtil.convertSSIDForConfig(ssid);
@@ -209,14 +226,14 @@ public class WiseFy {
      * Gets a list of saved networks, connects/reconnects to the given ssid, and then calls waitToConnectToSSID to verify connectivity
      *
      * @param activity - The activity to use as context to retrieve a wifi manager via getSystemService
-     * @param ssidToReconnectTo - The ssid to connect/reconnect to
-     * @param timeout - The approximate number of seconds to keep reconnecting for the SSID
+     * @param ssidToConnectTo - The ssid to connect/reconnect to
+     * @param timeoutInMillis - The number of milliseconds to continue waiting for the device to connect to the given SSID
      *
      * @return boolean - If the network was successfully reconnected
      */
-    public boolean connectToNetwork(Activity activity, String ssidToReconnectTo, int timeout) {
+    public boolean connectToNetwork(Activity activity, String ssidToConnectTo, int timeoutInMillis) {
         if (activity != null && !activity.isFinishing()) {
-            mLogUtil.d(TAG, "Connecting to network: " + ssidToReconnectTo, sLoggingEnabled);
+            mLogUtil.d(TAG, "Connecting to network: " + ssidToConnectTo, loggingEnabled);
             WifiManager wifiManager = mGetManagerUtil.getWiFiManager(activity);
             if (wifiManager != null) {
                 List<WifiConfiguration> list = wifiManager.getConfiguredNetworks();
@@ -226,22 +243,22 @@ public class WiseFy {
                         if (wifiConfiguration != null && wifiConfiguration.SSID != null) {
                             String ssidInList = wifiConfiguration.SSID.replaceAll("\"", "");
 
-                            mLogUtil.d(TAG, "Configured WiFi Network {index:" + i + ", ssidInList:" + ssidInList + "}", sLoggingEnabled);
-                            if (ssidInList.equals(ssidToReconnectTo)) {
-                                mLogUtil.d(TAG, "ssidToReconnectTo: " + ssidToReconnectTo + " matches ssidInList:" + ssidInList, sLoggingEnabled);
+                            mLogUtil.d(TAG, "Configured WiFi Network {index:" + i + ", ssidInList:" + ssidInList + "}", loggingEnabled);
+                            if (ssidInList.equals(ssidToConnectTo)) {
+                                mLogUtil.d(TAG, "ssidToReconnectTo: " + ssidToConnectTo + " matches ssidInList:" + ssidInList, loggingEnabled);
                                 wifiManager.disconnect();
                                 wifiManager.enableNetwork(wifiConfiguration.networkId, true);
                                 wifiManager.reconnect();
-                                return waitToConnectToSSID(activity, ssidToReconnectTo, timeout);
+                                return waitToConnectToSSID(activity, ssidToConnectTo, timeoutInMillis);
                             }
                         }
                     }
                 }
 
             }
-            mLogUtil.w(TAG, "ssidToReconnectTo: " + ssidToReconnectTo + " was not found in list to reconnect to", sLoggingEnabled);
+            mLogUtil.w(TAG, "ssidToReconnectTo: " + ssidToConnectTo + " was not found in list to reconnect to", loggingEnabled);
         } else {
-            mLogUtil.w(TAG, "No activity to reconnect to network", sLoggingEnabled);
+            mLogUtil.w(TAG, "No activity to reconnect to network", loggingEnabled);
         }
         return false;
     }
@@ -260,7 +277,7 @@ public class WiseFy {
                 return wifiManager.setWifiEnabled(false);
             }
         } else {
-            mLogUtil.w(TAG, "No activity to disable Wifi", sLoggingEnabled);
+            mLogUtil.w(TAG, "No activity to disable Wifi", loggingEnabled);
         }
         return false;
     }
@@ -274,13 +291,13 @@ public class WiseFy {
      */
     public boolean disconnectFromCurrentNetwork(Activity activity) {
         if (activity != null && !activity.isFinishing()) {
-            mLogUtil.d(TAG, "Disconnecting from current network", sLoggingEnabled);
+            mLogUtil.d(TAG, "Disconnecting from current network", loggingEnabled);
             WifiManager wifiManager = mGetManagerUtil.getWiFiManager(activity);
             if (wifiManager != null) {
                 return wifiManager.disconnect();
             }
         } else {
-            mLogUtil.w(TAG, "No activity to disconnect from current network", sLoggingEnabled);
+            mLogUtil.w(TAG, "No activity to disconnect from current network", loggingEnabled);
         }
         return false;
     }
@@ -294,13 +311,13 @@ public class WiseFy {
      */
     public boolean enableWifi(Activity activity) {
         if (activity != null && !activity.isFinishing()) {
-            mLogUtil.d(TAG, "Enabling WiFi", sLoggingEnabled);
+            mLogUtil.d(TAG, "Enabling WiFi", loggingEnabled);
             WifiManager wifiManager = mGetManagerUtil.getWiFiManager(activity);
             if (wifiManager != null) {
                 return wifiManager.setWifiEnabled(true);
             }
         } else {
-            mLogUtil.w(TAG, "No activity to enable Wifi", sLoggingEnabled);
+            mLogUtil.w(TAG, "No activity to enable Wifi", loggingEnabled);
         }
         return false;
     }
@@ -319,7 +336,7 @@ public class WiseFy {
                 return wifiManager.getConnectionInfo();
             }
         } else {
-            mLogUtil.w(TAG, "No activity to get current network", sLoggingEnabled);
+            mLogUtil.w(TAG, "No activity to get current network", loggingEnabled);
         }
         return null;
     }
@@ -349,26 +366,26 @@ public class WiseFy {
                         boolean found = false;
                         for (int i = 0; i < scanResultsToReturn.size(); i++) {
                             ScanResult scanResult = scanResultsToReturn.get(i);
-                            mLogUtil.d(TAG, "SSID 1: " + newScanResult.SSID + ". SSID 2: " + scanResult.SSID, sLoggingEnabled);
+                            mLogUtil.d(TAG, "SSID 1: " + newScanResult.SSID + ". SSID 2: " + scanResult.SSID, loggingEnabled);
                             if (newScanResult.SSID.equalsIgnoreCase(scanResult.SSID)) {
                                 found = true;
-                                mLogUtil.d(TAG, "SSID did match", sLoggingEnabled);
+                                mLogUtil.d(TAG, "SSID did match", loggingEnabled);
 
-                                mLogUtil.d(TAG, "Current level: " + scanResult.level, sLoggingEnabled);
-                                mLogUtil.d(TAG, "New level: " + newScanResult.level, sLoggingEnabled);
-                                mLogUtil.d(TAG, "comparison result: " + WifiManager.compareSignalLevel(newScanResult.level, scanResult.level), sLoggingEnabled);
+                                mLogUtil.d(TAG, "Current level: " + scanResult.level, loggingEnabled);
+                                mLogUtil.d(TAG, "New level: " + newScanResult.level, loggingEnabled);
+                                mLogUtil.d(TAG, "comparison result: " + WifiManager.compareSignalLevel(newScanResult.level, scanResult.level), loggingEnabled);
 
                                 if (WifiManager.compareSignalLevel(newScanResult.level, scanResult.level) > 0) {
-                                    mLogUtil.d(TAG, "New result has a higher signal strength, swapping", sLoggingEnabled);
+                                    mLogUtil.d(TAG, "New result has a higher signal strength, swapping", loggingEnabled);
                                     scanResultsToReturn.set(i, newScanResult);
                                 }
                             } else {
-                                mLogUtil.d(TAG, "SSID did not match", sLoggingEnabled);
+                                mLogUtil.d(TAG, "SSID did not match", loggingEnabled);
                             }
                         }
 
                         if (!found) {
-                            mLogUtil.d(TAG, "Found new wifi network", sLoggingEnabled);
+                            mLogUtil.d(TAG, "Found new wifi network", loggingEnabled);
                             scanResultsToReturn.add(newScanResult);
                         }
                     }
@@ -376,7 +393,7 @@ public class WiseFy {
                 }
             }
         } else {
-            mLogUtil.w(TAG, "No activity to get nearby access points", sLoggingEnabled);
+            mLogUtil.w(TAG, "No activity to get nearby access points", loggingEnabled);
 
         }
         return null;
@@ -396,7 +413,7 @@ public class WiseFy {
                 return wifiManager.getConfiguredNetworks();
             }
         } else {
-            mLogUtil.w(TAG, "No activity to get saved networks", sLoggingEnabled);
+            mLogUtil.w(TAG, "No activity to get saved networks", loggingEnabled);
         }
         return null;
     }
@@ -455,7 +472,7 @@ public class WiseFy {
      */
     public boolean isDeviceConnectedToSSID(Activity activity, String ssid) {
         if (activity == null || activity.isFinishing()) {
-            mLogUtil.w(TAG, "Breaking due to no activity", sLoggingEnabled);
+            mLogUtil.w(TAG, "Breaking due to no activity", loggingEnabled);
             return false;
         }
         WifiManager wifiManager = mGetManagerUtil.getWiFiManager(activity);
@@ -463,16 +480,16 @@ public class WiseFy {
             WifiInfo connectionInfo = wifiManager.getConnectionInfo();
             if (connectionInfo != null && connectionInfo.getSSID() != null) {
                 String currentSSID = connectionInfo.getSSID().replaceAll("\"", "");
-                mLogUtil.d(TAG, "Current SSID: " + currentSSID, sLoggingEnabled);
+                mLogUtil.d(TAG, "Current SSID: " + currentSSID, loggingEnabled);
 
                 if (currentSSID.equals(ssid)) {
-                    mLogUtil.d(TAG, "Correct SSID", sLoggingEnabled);
+                    mLogUtil.d(TAG, "Correct SSID", loggingEnabled);
                     ConnectivityManager connectivityManager = mGetManagerUtil.getConnectivityManager(activity);
                     if (connectivityManager != null
                             && connectivityManager.getActiveNetworkInfo() != null
                             && connectivityManager.getActiveNetworkInfo().isAvailable()
                             && connectivityManager.getActiveNetworkInfo().isConnected()) {
-                        mLogUtil.d(TAG, "Network is connected", sLoggingEnabled);
+                        mLogUtil.d(TAG, "Network is connected", loggingEnabled);
                         return true;
                     }
                 }
@@ -517,7 +534,7 @@ public class WiseFy {
                 return isNetworkInConfigurationList(wifiManager, ssid);
             }
         } else {
-            mLogUtil.w(TAG, "No activity to check if network is in configuration list", sLoggingEnabled);
+            mLogUtil.w(TAG, "No activity to check if network is in configuration list", loggingEnabled);
         }
         return false;
     }
@@ -553,7 +570,7 @@ public class WiseFy {
                 return wifiManager.isWifiEnabled();
             }
         } else {
-            mLogUtil.w(TAG, "No activity to check if wifi is enabled", sLoggingEnabled);
+            mLogUtil.w(TAG, "No activity to check if wifi is enabled", loggingEnabled);
         }
         return false;
     }
@@ -577,16 +594,16 @@ public class WiseFy {
                         if (wifiConfiguration != null && wifiConfiguration.SSID != null) {
                             String ssidInList = wifiConfiguration.SSID.replaceAll("\"", "");
 
-                            mLogUtil.d(TAG, "Configured WiFi Network {index:" + i + ", ssidInList:" + ssidInList + "}", sLoggingEnabled);
+                            mLogUtil.d(TAG, "Configured WiFi Network {index:" + i + ", ssidInList:" + ssidInList + "}", loggingEnabled);
                             if (ssidInList.equals(ssidToRemove)) {
-                                mLogUtil.d(TAG, "Removing network: " + ssidToRemove, sLoggingEnabled);
+                                mLogUtil.d(TAG, "Removing network: " + ssidToRemove, loggingEnabled);
                                 wifiManager.disconnect();
                                 boolean result = wifiManager.removeNetwork(wifiConfiguration.networkId);
                                 if (result) {
-                                    mLogUtil.d(TAG, "Successfully removed network", sLoggingEnabled);
+                                    mLogUtil.d(TAG, "Successfully removed network", loggingEnabled);
                                     wifiManager.saveConfiguration();
                                 } else {
-                                    mLogUtil.d(TAG, "Failed to remove network", sLoggingEnabled);
+                                    mLogUtil.d(TAG, "Failed to remove network", loggingEnabled);
                                 }
                                 wifiManager.reconnect();
                                 return result;
@@ -596,9 +613,9 @@ public class WiseFy {
                 }
 
             }
-            mLogUtil.w(TAG, "SSID to remove: " + ssidToRemove + " was not found in list to remove network", sLoggingEnabled);
+            mLogUtil.w(TAG, "SSID to remove: " + ssidToRemove + " was not found in list to remove network", loggingEnabled);
         } else {
-            mLogUtil.w(TAG, "No activity to remove network", sLoggingEnabled);
+            mLogUtil.w(TAG, "No activity to remove network", loggingEnabled);
         }
         return false;
     }
@@ -608,22 +625,26 @@ public class WiseFy {
      *
      * @param activity - The activity to use as context to retrieve a wifi manager via getSystemService
      * @param ssidToSearchFor - The ssid to search for
-     * @param timeout - The approximate number of seconds to keep searching for the SSID
+     * @param timeoutInMillis - The number of milliseconds to keep searching for the SSID
      *
      * @return String|null - The first SSID that contains the search ssid (if any, else null)
      */
-    public String searchForSSID(Activity activity, String ssidToSearchFor, int timeout) {
+    public String searchForSSID(Activity activity, String ssidToSearchFor, int timeoutInMillis) {
         if (activity != null && !activity.isFinishing()) {
             WifiManager wifiManager = mGetManagerUtil.getWiFiManager(activity);
             if (wifiManager != null) {
-                for (int x = 0; x < timeout; x++) {
-                    mLogUtil.d(TAG, "Scanning SSIDs, pass " + x, sLoggingEnabled);
+                int scanPass = 1;
+                long currentTime;
+                long endTime = System.currentTimeMillis() + timeoutInMillis;
+                LogUtil.getInstance().d(TAG, "End time (searchForSSID): " + endTime, loggingEnabled);
+                do {
+                    mLogUtil.d(TAG, "Scanning SSIDs, pass " + scanPass, loggingEnabled);
                     wifiManager.startScan();
                     List<ScanResult> networks = wifiManager.getScanResults();
                     for (ScanResult scanResult : networks) {
-                        mLogUtil.d(TAG, "scanResult.SSID: " + scanResult.SSID, sLoggingEnabled);
+                        mLogUtil.d(TAG, "scanResult.SSID: " + scanResult.SSID, loggingEnabled);
                         if (scanResult.SSID != null && (scanResult.SSID.toUpperCase().contains(ssidToSearchFor.toUpperCase()))) {
-                            mLogUtil.d(TAG, "Found match, SSID: " + scanResult.SSID, sLoggingEnabled);
+                            mLogUtil.d(TAG, "Found match, SSID: " + scanResult.SSID, loggingEnabled);
                             return scanResult.SSID;
                         }
                     }
@@ -633,12 +654,25 @@ public class WiseFy {
                     } catch (InterruptedException ie) {
                         // Do nothing
                     }
-                }
+                    currentTime = System.currentTimeMillis();
+                    LogUtil.getInstance().d(TAG, "Current time (searchForSSID): " + endTime, loggingEnabled);
+                    scanPass++;
+                } while(currentTime < endTime);
             }
         } else {
-            mLogUtil.w(TAG, "No activity to search for SSID", sLoggingEnabled);
+            mLogUtil.w(TAG, "No activity to search for SSID", loggingEnabled);
         }
         return null;
+    }
+
+    /**
+     * To query if logging is enabled or disabled for a WiseFy instance
+     *
+     * @return boolean - If logging is enabled for the WiseFy instance
+     */
+    @VisibleForTesting
+    public boolean isLoggingEnabled() {
+        return loggingEnabled;
     }
 
     /**
@@ -646,22 +680,33 @@ public class WiseFy {
      */
 
     /**
+     * Used internally by addOpenNetwork, addWEPNetwork, and addWPA2Network to add and save a new wifi configuration
      *
-     * @param wifiManager
-     * @param wifiConfig
-     * @return
+     * @param wifiManager - A wifi manager instance to add the network
+     * @param wifiConfig - The network to configuration to add
+     *
+     * @return int - The return code from WifiManager for network creation (-1 for failure)
      */
     private int addNetwork(WifiManager wifiManager, WifiConfiguration wifiConfig) {
         int result = wifiManager.addNetwork(wifiConfig);
         if (result != WIFI_MANAGER_FAILURE) {
-            mLogUtil.d(TAG, "Successfully added network", sLoggingEnabled);
+            mLogUtil.d(TAG, "Successfully added network", loggingEnabled);
             wifiManager.saveConfiguration();
         } else {
-            mLogUtil.e(TAG, "Failed to add network", sLoggingEnabled);
+            mLogUtil.e(TAG, "Failed to add network", loggingEnabled);
         }
         return result;
     }
 
+    /**
+     * Used internally by addOpenNetwork, addWEPNetwork, addWPA2Network, and
+     * isNetworkInConfigurationList to see if an ssid is already saved (CASE SENSITIVE!)
+     *
+     * @param wifiManager - A wifi manager instance to search for the ssid
+     * @param ssid - The ssid to check for in the configured network list
+     *
+     * @return boolean - If the ssid was found in the configuration list
+     */
     private boolean isNetworkInConfigurationList(WifiManager wifiManager, String ssid) {
         List<WifiConfiguration> list = wifiManager.getConfiguredNetworks();
         if (list != null && list.size() > 0) {
@@ -669,31 +714,46 @@ public class WiseFy {
                 WifiConfiguration wifiConfiguration = list.get(i);
                 if (wifiConfiguration != null && wifiConfiguration.SSID != null) {
                     String ssidInList = wifiConfiguration.SSID.replaceAll("\"", "");
-                    mLogUtil.d(TAG, "SSID in list: " + ssidInList + ", SSID: " + ssid, sLoggingEnabled);
+                    mLogUtil.d(TAG, "SSID in list: " + ssidInList + ", SSID: " + ssid, loggingEnabled);
                     if (ssidInList.equals(ssid)) {
-                        mLogUtil.d(TAG, "Found SSID in list", sLoggingEnabled);
+                        mLogUtil.d(TAG, "Found SSID in list", loggingEnabled);
                         return true;
                     }
                 }
             }
         } else {
-            mLogUtil.w(TAG, "Found 0 configured networks", sLoggingEnabled);
+            mLogUtil.w(TAG, "Found 0 configured networks", loggingEnabled);
         }
         return false;
     }
 
-    private boolean waitToConnectToSSID(Activity activity, String ssid, int timeout) {
-        for (int x = 0; x < timeout; x++) {
+    /**
+     * Used internally by connectToNetwork to check if the device connects to
+     * a given SSID within a specified time (timeout is in millis)
+     *
+     * @param activity - The activity to use as context to retrieve a wifi manager via getSystemService
+     * @param ssid - The ssid to wait for the device to connect to
+     * @param timeoutInMillis - The number of milliseconds to wait
+     *
+     * @return boolean - If the device is connected to the ssid in the given time
+     */
+    private boolean waitToConnectToSSID(Activity activity, String ssid, int timeoutInMillis) {
+        long currentTime;
+        long endTime = System.currentTimeMillis() + timeoutInMillis;
+        LogUtil.getInstance().d(TAG, "End time (waitToConnectToSSID): " + endTime, loggingEnabled);
+        do {
             boolean result = isDeviceConnectedToSSID(activity, ssid);
             if (result) {
                 return result;
             }
             try {
                 Thread.sleep(1000);
-            } catch (InterruptedException e) {
+            } catch (InterruptedException ie) {
                 // Do nothing
             }
-        }
+            currentTime = System.currentTimeMillis();
+            LogUtil.getInstance().d(TAG, "Current time (waitToConnectToSSID): " + endTime, loggingEnabled);
+        } while(currentTime < endTime);
         return false;
     }
 }
