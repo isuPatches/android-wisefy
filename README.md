@@ -113,6 +113,12 @@ To check and see if the device is connected to a given SSID:
 boolean isConnected = mWiseFy.isDeviceConnectedToSSID(getActivity(), "SSID");
 ```
 
+To check and see if the device is connected to a wifi network:
+
+```java
+boolean isConnected = mWiseFy.isDeviceConnectedToWifiNetwork(getActivity(), "SSID");
+```
+
 To check and see if a given SSID is in the devices set of configured networks:
 
 ```java
