@@ -3,21 +3,43 @@ package com.metova.wisefy.util;
 
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
-import com.metova.wisefy.base.BaseInstrumentationTestCase;
+import android.support.test.rule.ActivityTestRule;
+import com.metova.wisefy.base.BaseTestClass;
+import org.junit.Rule;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 
-public class GetManagerUtilTest extends BaseInstrumentationTestCase<TestActivity> {
+public class GetManagerUtilTest extends BaseTestClass<TestActivity> {
 
     public GetManagerUtilTest() {
         super(TestActivity.class);
     }
+
+    @Rule
+    public ActivityTestRule<TestActivity> mActivityTestRule = new ActivityTestRule<>(TestActivity.class);
+
+    @Test
+    public void testGetConnectivityManager() {
+        ConnectivityManager connectivityManager = GetManagerUtil.getInstance().getConnectivityManager(mActivityTestRule.getActivity());
+        assertNotNull(connectivityManager);
+    }
+
+    @Test
+    public void testGetConnectivityManagerNullActivity() {
+        ConnectivityManager connectivityManager = GetManagerUtil.getInstance().getConnectivityManager(null);
+        assertNull(connectivityManager);
+    }
+
+    @Test
     public void testGetWiFiManager() {
-        WifiManager wifiManager = GetManagerUtil.getInstance().getWiFiManager(getActivity());
+        WifiManager wifiManager = GetManagerUtil.getInstance().getWiFiManager(mActivityTestRule.getActivity());
         assertNotNull(wifiManager);
     }
 
-    public void testGetConnectivityManager() {
-        ConnectivityManager connectivityManager = GetManagerUtil.getInstance().getConnectivityManager(getActivity());
-        assertNotNull(connectivityManager);
+    @Test
+    public void testGetWiFiManagerNullActivity() {
+        WifiManager wifiManager = GetManagerUtil.getInstance().getWiFiManager(null);
+        assertNull(wifiManager);
     }
 }
