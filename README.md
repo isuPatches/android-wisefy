@@ -140,5 +140,5 @@ boolean removedSuccessfully = mWiseFy.removeNetwork(getActivity(), "SSID To Remo
 To search for an SSID given a search string:
 
 ```java
-String ssid = WiseFy.getSmarts().searchForSSID(getActivity(), "SSID To Search For", 3000);
+String ssid = mWiseFy.searchForSSID(getActivity(), "SSID To Search For", 3000);
 ```
