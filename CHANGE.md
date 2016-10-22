@@ -1,3 +1,60 @@
+## v1.0.3 - 10/22/2016
+
+#####Merge branch 'master' into develop
+commit 643dd759b21bbf9b3062b3566215bf84f02922e2<br/>
+Merge: a9d5f6a 0363b6e<br/>
+Author: isuPatches <isuPatches@yahoo.com><br/>
+Date:   Sat Oct 22 15:04:35 2016 -0500
+
+#####Merge pull request #17 from isuPatches/develop
+commit 0363b6e3987ba1952f4c2244af94a8848a3d37fb<br/>
+Merge: 2e2246e a9d5f6a<br/>
+Author: Patches <isuPatches@yahoo.com><br/>
+Date:   Sat Oct 22 14:57:29 2016 -0500
+
+    v1.0.3
+
+#####Increment versionName and versionCode
+commit a9d5f6aee10545c265680b92477cb33331d3d9f4<br/>
+Author: isuPatches <isuPatches@yahoo.com><br/>
+Date:   Sat Oct 22 14:56:20 2016 -0500
+
+#####Missed one spot in documentation
+commit 5f839d5fb115ef66cef2fe113ad82623f11ec663<br/>
+Author: isuPatches <isuPatches@yahoo.com><br/>
+Date:   Sat Oct 22 14:34:59 2016 -0500
+
+#####Update ready
+commit 9895f5dc9567a80b63b5f84fbcd3b884a0cf5106<br/>
+Author: isuPatches <isuPatches@yahoo.com><br/>
+Date:   Sat Oct 22 14:32:27 2016 -0500
+
+#####Move to builder pattern, use real time values, and update documentation
+commit e61e85e817b542eaa572e527068e911ffdcdcc8e<br/>
+Author: isuPatches <isuPatches@yahoo.com><br/>
+Date:   Sat Oct 22 14:32:09 2016 -0500
+    
+    close #13
+    close #14
+    close #15
+    close #16
+
+#####Merge branch 'master' into develop
+commit 88c05d013caffd7b688cde44b8efea74f69ba3e4
+Merge: cd98623 2e2246e<br/>
+Author: isuPatches <isuPatches@yahoo.com><br/>
+Date:   Sat Oct 22 04:08:26 2016 -0500
+
+#####More functionality, switching to espresso tests, updating libs, and providing logging option
+commit 2e2246e63fb4dc3b16b3a59c2081b9e9c39c4388<br/>
+Author: isuPatches <isuPatches@yahoo.com><br/>
+Date:   Sat Oct 22 04:08:05 2016 -0500
+    
+    closes #9
+    closes #10
+    closes #11
+    closes #12
+
 ## v1.0.2 - 04/30/2016
 
 #####Update README.md
