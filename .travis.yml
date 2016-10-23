@@ -1,3 +1,9 @@
+env:
+  global:
+    - ANDROID_API_LEVEL=24
+    - ANDROID_BUILD_TOOLS_VERSION=24.0.3
+    - ANDROID_ABI=armeabi-v7a
+    - ANDROID_TAG=google_apis
 language: android
 jdk:
   - oraclejdk8
@@ -6,10 +12,10 @@ android:
     - tools # to get the new `repository-11.xml`
     - tools # see https://github.com/travis-ci/travis-ci/issues/6040#issuecomment-219367943)
     - platform-tool
-    - build-tools-24.0.3
-    - android-24
+    - build-tools-$ANDROID_BUILD_TOOLS_VERSION
+    - android-$ANDROID_API_LEVEL
     - extra-android-m2repository
-    - sys-img-armeabi-v7a-google_apis-24
+    - sys-img-armeabi-v7a-google_apis-$ANDROID_API_LEVEL
 
 before_install:
   - export JAVA8_HOME=/usr/lib/jvm/java-8-oracle
@@ -19,7 +25,7 @@ script:
   - ./gradlew clean jacocoDebugTestReport
 
 before_script:
-  - echo no | android create avd --force -n test -t android-24 --abi armeabi-v7a
+  - echo no | android create avd --force -n test -t android-$ANDROID_API_LEVEL --abi $ANDROID_ABI
   - emulator -avd test -no-skin -no-audio -no-window &
   - android-wait-for-emulator
   - adb shell input keyevent 82 &
