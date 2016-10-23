@@ -1,8 +1,7 @@
-package com.metova.wisefy.util;
+package com.isupatches.wisefy.util;
 
 
 import android.util.Log;
-import com.metova.wisefy.BuildConfig;
 
 
 public class LogUtil {
@@ -42,7 +41,7 @@ public class LogUtil {
 
     private boolean isLoggable(String tag, int level, boolean loggingEnabled) {
         boolean isLoggable;
-        if(BuildConfig.DEBUG || loggingEnabled) {
+        if(loggingEnabled) {
             isLoggable = true;
         } else {
             if (tag.length() > 23) {

@@ -1,10 +1,11 @@
-package com.metova.wisefy.util;
+package com.isupatches.wisefy.util;
 
 
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
 import android.support.test.rule.ActivityTestRule;
-import com.metova.wisefy.base.BaseTestClass;
+import com.isupatches.wisefy.base.BaseTestClass;
+import com.isupatches.wisefy.base.TestActivity;
 import org.junit.Rule;
 import org.junit.Test;
 import static junit.framework.Assert.*;

@@ -1,7 +1,8 @@
-package com.metova.wisefy.util;
+package com.isupatches.wisefy.util;
 
 
 import android.os.Build;
+
 
 public class SSIDUtil {
 

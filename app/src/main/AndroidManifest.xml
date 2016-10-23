@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.metova.wisefy">
+    package="com.isupatches.wisefy">
 
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".util.TestActivity" android:exported="false"/>
+        <activity android:name=".base.TestActivity" android:exported="false"/>
 
     </application>
 
