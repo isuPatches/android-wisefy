@@ -3,6 +3,8 @@ Util library used as a wrapper around WiFi and Connectivity manager for Android
 
 > <br/>*Developed by Patches 04/24/2016 - present* <br/><br/>
 
+[![Build Status](https://travis-ci.org/isuPatches/WiseFy.svg?branch=master)](https://travis-ci.org/isuPatches/WiseFy)
+
 ## Getting An Instance
 
 WiseFy now supports the builder pattern so cool functionality can be added later!
