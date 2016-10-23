@@ -9,6 +9,7 @@ android:
     - build-tools-24.0.3
     - android-24
     - extra-android-m2repository
+    - sys-img-armeabi-v7a-android-24
 
 before_install:
   - export JAVA8_HOME=/usr/lib/jvm/java-8-oracle
