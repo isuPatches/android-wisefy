@@ -43,7 +43,7 @@ public class WiseFyTest extends BaseTestClass<TestActivity> {
 
         mActivityTestRule.launchActivity(new Intent());
 
-        mWiseFy = new WiseFy.generator().withContext(mActivityTestRule.getActivity()).getSmarts();
+        mWiseFy = new WiseFy.withContext(mActivityTestRule.getActivity()).getSmarts();
     }
 
     @Test
@@ -146,13 +146,13 @@ public class WiseFyTest extends BaseTestClass<TestActivity> {
 
     @Test
     public void testBuilderWithLoggingFalse() {
-        WiseFy wiseFy = new WiseFy.generator().logging(false).getSmarts();
+        WiseFy wiseFy = new WiseFy.withContext(mActivityTestRule.getActivity()).logging(false).getSmarts();
         assertEquals(false, wiseFy.isLoggingEnabled());
     }
 
     @Test
     public void testBuilderWithLoggingTrue() {
-        WiseFy wiseFy = new WiseFy.generator().logging(true).getSmarts();
+        WiseFy wiseFy = new WiseFy.withContext(mActivityTestRule.getActivity()).logging(true).getSmarts();
         assertEquals(true, wiseFy.isLoggingEnabled());
     }
 

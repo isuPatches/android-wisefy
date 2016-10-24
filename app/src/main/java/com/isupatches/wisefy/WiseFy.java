@@ -1,3 +1,19 @@
+/**
+ * Copyright 2016 by Patches Klinefelter
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.isupatches.wisefy;
 
 
@@ -16,6 +32,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+/**
+ *  Main class to manipulate and query network settings on an Android device
+ *
+ *  Uses the builder pattern for creation - {@link withContext}
+ */
 public class WiseFy {
 
     private static final String TAG = WiseFy.class.getSimpleName();
@@ -37,45 +58,33 @@ public class WiseFy {
     /**
      * Private constructor that accepts builder input
      */
-    private WiseFy(generator generator) {
-        this.mLoggingEnabled = generator.loggingEnabled;
-        this.mConnectivityManager = GetManagerUtil.getInstance().getConnectivityManager(generator.context);
-        this.mWifiManager = GetManagerUtil.getInstance().getWiFiManager(generator.context);
+    private WiseFy(withContext withContext) {
+        this.mLoggingEnabled = withContext.loggingEnabled;
+        this.mConnectivityManager = GetManagerUtil.getInstance().getConnectivityManager(withContext.context);
+        this.mWifiManager = GetManagerUtil.getInstance().getWiFiManager(withContext.context);
     }
 
     /**
-     * Internal static class for builder pattern
+     * Static class for builder pattern
+     *
+     * Implements builder interfaces #{@link Logging} #{@link GetSmarts}
      */
-    public static class generator implements GetSmarts, WithContext {
+    public static class withContext implements Logging, GetSmarts {
 
         private Context context;
 
         private boolean loggingEnabled;
 
         /**
-         * Mandatory - The context to get a WiFi and Connectivity manager
+         * Mandatory - The public constructor for the builder that requires a context
          *
-         * @param context - The activity or application context
-         * {@link WithContext}
+         * @param context - The activity or application context to get a WifiConfiguration and
+         * ConnectivityManager instance
          *
-         * @return generator - The builder with updated context
+         * {@link #WiseFy(withContext)}
          */
-        public GetSmarts withContext(Context context) {
+        public withContext(Context context) {
             this.context = context;
-            return this;
-        }
-
-        /**
-         * Non-mandatory - To enable/disable logging for the WiseFy instance
-         *
-         * @param loggingEnabled - If logging is enabled or disabled
-         * {@link GetSmarts}
-         *
-         * @return generator - The builder with updated logging setting
-         */
-        public generator logging(boolean loggingEnabled) {
-            this.loggingEnabled = loggingEnabled;
-            return this;
         }
 
         /**
@@ -83,18 +92,38 @@ public class WiseFy {
          *
          * @return WiseFy - The instance created by the builder
          */
+        @Override
         public WiseFy getSmarts() {
             return new WiseFy(this);
         }
+
+        /**
+         * Optional - Builder method that enables/disables logging for a WiseWy instance
+         *
+         * @param loggingEnabled - If logging is enabled or disabled for an instance
+         * {@link Logging}
+         *
+         * @return withContext - The builder with updated logging setting
+         */
+        @Override
+        public withContext logging(boolean loggingEnabled) {
+            this.loggingEnabled = loggingEnabled;
+            return this;
+        }
     }
 
+    /**
+     * An interface that enables/disables logging for a WiseFy instance
+     */
+    interface Logging {
+        withContext logging(boolean loggingEnabled);
+    }
+
+    /**
+     * An interface that builds a WiseFy instance
+     */
     interface GetSmarts {
         WiseFy getSmarts();
-    }
-
-    interface WithContext {
-        GetSmarts withContext(Context context);
-        generator logging(boolean loggingEnabled);
     }
 
     /**

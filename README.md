@@ -12,13 +12,13 @@ WiseFy now supports the builder pattern so cool functionality can be added later
 To grab a default instance:
 
 ```java
-WiseFy mWiseFy = new WiseFy.generator().withContext(getActivity()).getSmarts();
+WiseFy mWiseFy = new WiseFy.withContext(getActivity()).getSmarts();
 ```
 
 To grab an instance with logging enabled:
 
 ```java
-WiseFy mWiseFy = new WiseFy.generator().withContext(getActivity()).logging(true).getSmarts();
+WiseFy mWiseFy = new WiseFy.withContext(getActivity()).logging(true).getSmarts();
 ```
 
 **IMPORTANT!** Please make sure you call withContext for WiseFy to work properly
