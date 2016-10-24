@@ -22,7 +22,7 @@ android:
     - platform-tools
     - build-tools-$ANDROID_BUILD_TOOLS_VERSION
     - android-$ANDROID_API_LEVEL
-    - extra-google-m2repository
+    - extra-android-m2repository
     - sys-img-armeabi-v7a-google_apis-$ANDROID_API_LEVEL
 
 before_script:
