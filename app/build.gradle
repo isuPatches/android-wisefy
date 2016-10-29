@@ -51,6 +51,11 @@ dexcount {
 
 android {
 
+    adbOptions {
+        timeOutInMs 15 * 60 * 1000  // 15 minutes
+        installOptions "-d","-t"
+    }
+
     testOptions {
         // Allows Android code to be called from unit tests without causing a crash.
         // Helpful for allowing Log.d()-type calls
