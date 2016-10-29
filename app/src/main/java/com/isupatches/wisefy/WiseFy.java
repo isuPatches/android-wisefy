@@ -81,7 +81,6 @@ public class WiseFy {
          * @param context - The activity or application context to get a WifiConfiguration and
          * ConnectivityManager instance
          *
-         * {@link #WiseFy(withContext)}
          */
         public withContext(Context context) {
             this.context = context;
@@ -90,7 +89,11 @@ public class WiseFy {
         /**
          * Mandatory - To build and return a WiseFy instance
          *
+         * Must be called after withContext
+         * {@link #withContext(Context)}
+         *
          * @return WiseFy - The instance created by the builder
+         *
          */
         @Override
         public WiseFy getSmarts() {
