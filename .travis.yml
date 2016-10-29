@@ -39,4 +39,4 @@ before_script:
   - adb shell input keyevent 82 &
 
 script:
-  - travis_wait 20 ./gradlew clean jacocoDebugTestReport --debug --stacktrace
+  - travis_wait 20 ./gradlew clean jacocoDebugTestReport --stacktrace
