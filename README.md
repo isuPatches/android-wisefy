@@ -3,6 +3,8 @@ Util library used as a wrapper around WiFi and Connectivity manager for Android
 
 > <br/>*Developed by Patches 04/24/2016 - present* <br/><br/>
 
+[![Build Status](https://travis-ci.org/isuPatches/WiseFy.svg?branch=master)](https://travis-ci.org/isuPatches/WiseFy)
+
 ## Getting An Instance
 
 WiseFy now supports the builder pattern so cool functionality can be added later!
@@ -10,34 +12,35 @@ WiseFy now supports the builder pattern so cool functionality can be added later
 To grab a default instance:
 
 ```java
-WiseFy mWiseFy = new WiseFy.getSmarts().initiateHamsters();
+WiseFy mWiseFy = new WiseFy.withContext(getActivity()).getSmarts();
 ```
 
 To grab an instance with logging enabled:
 
 ```java
-WiseFy mWiseFy = new WiseFy.getSmarts().withLogging(true).initiateHamsters();
+WiseFy mWiseFy = new WiseFy.withContext(getActivity()).logging(true).getSmarts();
 ```
 
+**IMPORTANT!** Please make sure you call withContext for WiseFy to work properly
 
 ## Commands
 
 To add an open network:
 
 ```java
-int addedSuccessfully = mWiseFy.addOpenNetwork(getActivity(), "Open Network");
+int addedSuccessfully = mWiseFy.addOpenNetwork("Open Network");
 ```
 
 To add a WEP network:
 
 ```java
-int addedSuccessfully = mWiseFy.addWEPNetwork(getActivity(), "WEP Network", "123456");
+int addedSuccessfully = mWiseFy.addWEPNetwork("WEP Network", "123456");
 ```
 
 To add a WPA2 network:
 
 ```java
-int addedSuccessfully = mWiseFy.addWPA2Network(getActivity(), "WPA2 Network", "12345678");
+int addedSuccessfully = mWiseFy.addWPA2Network("WPA2 Network", "12345678");
 ```
 
 To calculate number of bars given a networks signal strength and total number of bars:
@@ -55,74 +58,74 @@ int result = mWiseFy.compareSignalLevel(-35, -70);
 To connect to a network given an SSID:
 
 ```java
-boolean connectedSuccessfully = mWiseFy.connectToNetwork(getActivity(), "SSID To Reconnect To", 3000);
+boolean connectedSuccessfully = mWiseFy.connectToNetwork("SSID To Reconnect To", 3000);
 ```
 
 To disable wifi:
 
 ```java
-boolean disabledWifiSuccessfully = mWiseFy.disableWifi(getActivity());
+boolean disabledWifiSuccessfully = mWiseFy.disableWifi();
 ```
 
 To disconnect from current network:
 
 ```java
-boolean disconnectedSuccessfully = mWiseFy.disconnectFromCurrentNetwork(getActivity());
+boolean disconnectedSuccessfully = mWiseFy.disconnectFromCurrentNetwork();
 ```
 
 To enable wifi:
 
 ```java
-boolean wifiEnabled = mWiseFy.enableWiFi(getActivity());
+boolean wifiEnabled = mWiseFy.enableWiFi();
 ```
 
 To get current network:
 
 ```java
-WifiInfo currentNetwork = mWiseFy.getCurrentNetwork(getActivity());
+WifiInfo currentNetwork = mWiseFy.getCurrentNetwork();
 ```
 
 To get nearby access points:<br/><br/>
 <strong>Setting filterDuplicates to true will not return SSIDs with a weaker signal strength (will always take the highest)</strong>
 
 ```java
-List<ScanResult> nearbyAccessPoints = mWiseFy.getNearbyAccessPoints(getActivity(), true);
+List<ScanResult> nearbyAccessPoints = mWiseFy.getNearbyAccessPoints(true);
 ```
 
 To get the networks whose configuration is already stored:
 
 ```java
-List<WifiConfiguration> savedNetworks = mWiseFy.getSavedNetworks(getActivity());
+List<WifiConfiguration> savedNetworks = mWiseFy.getSavedNetworks();
 ```
 
 To check and see if the device is connected to a mobile network:
 
 ```java
-boolean isConnected = mWiseFy.isDeviceConnectedToMobileNetwork(getActivity());
+boolean isConnected = mWiseFy.isDeviceConnectedToMobileNetwork();
 ```
 
 To check and see if the device is connected to a mobile or wifi network:
 
 ```java
-boolean isConnected = mWiseFy.isDeviceConnectedToMobileOrWifiNetwork(getActivity());
+boolean isConnected = mWiseFy.isDeviceConnectedToMobileOrWifiNetwork();
 ```
 
 To check and see if the device is connected to a given SSID:
 
 ```java
-boolean isConnected = mWiseFy.isDeviceConnectedToSSID(getActivity(), "SSID");
+boolean isConnected = mWiseFy.isDeviceConnectedToSSID("SSID");
 ```
 
 To check and see if the device is connected to a wifi network:
 
 ```java
-boolean isConnected = mWiseFy.isDeviceConnectedToWifiNetwork(getActivity(), "SSID");
+boolean isConnected = mWiseFy.isDeviceConnectedToWifiNetwork("SSID");
 ```
 
 To check and see if a given SSID is in the devices set of configured networks:
 
 ```java
-boolean isConfigured = mWiseFy.isNetworkInConfigurationList(getActivity(), "SSID");
+boolean isConfigured = mWiseFy.isNetworkInConfigurationList("SSID");
 ```
 
 To check and see if a network is secure (WEP/PSK/EAP capabilities):
@@ -134,17 +137,17 @@ boolean isSecure = mWiseFy.isNetworkSecure(scanResult);
 To check and see if Wifi is enabled on a device:
 
 ```java
-boolean wifiEnabled = mWiseFy.isWifiEnabled(getActivity());
+boolean wifiEnabled = mWiseFy.isWifiEnabled();
 ```
 
 To remove a configured network:
 
 ```java
-boolean removedSuccessfully = mWiseFy.removeNetwork(getActivity(), "SSID To Remove");
+boolean removedSuccessfully = mWiseFy.removeNetwork("SSID To Remove");
 ```
 
 To search for an SSID given a search string:
 
 ```java
-String ssid = mWiseFy.searchForSSID(getActivity(), "SSID To Search For", 3000);
+String ssid = mWiseFy.searchForSSID("SSID To Search For", 3000);
 ```

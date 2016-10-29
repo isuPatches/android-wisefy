@@ -14,4 +14,4 @@
 
 -verbose
 
--keep class com.metova.** { *; }
+-keep class com.isupatches.** { *; }

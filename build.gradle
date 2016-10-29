@@ -1,10 +1,14 @@
 buildscript {
     repositories {
         jcenter()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.1'
+        classpath 'com.android.tools.build:gradle:2.2.2'
         classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.5.6'
+        classpath "com.github.dcendents:android-maven-gradle-plugin:1.5"
         classpath "org.jacoco:org.jacoco.core:0.7.7.201606060606"
         classpath "org.jacoco:org.jacoco.agent:0.7.7.201606060606"
         classpath "org.jacoco:org.jacoco.report:0.7.7.201606060606"
@@ -19,4 +23,22 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+/**
+ * Improve build server performance by allowing disabling of pre-dexing
+ * (see http://tools.android.com/tech-docs/new-build-system/tips#TOC-Improving-Build-Server-performance.)
+ */
+project.ext.preDexLibs = !project.hasProperty('disablePreDex')
+
+subprojects {
+    project.plugins.whenPluginAdded { plugin ->
+        if (rootProject.ext.has('preDexLibs')) {
+            if ("com.android.build.gradle.AppPlugin".equals(plugin.class.name)) {
+                project.android.dexOptions.preDexLibraries = rootProject.ext.preDexLibs
+            } else if ("com.android.build.gradle.LibraryPlugin".equals(plugin.class.name)) {
+                project.android.dexOptions.preDexLibraries = rootProject.ext.preDexLibs
+            }
+        }
+    }
 }

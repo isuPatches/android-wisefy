@@ -1,4 +1,4 @@
-package com.metova.wisefy.util;
+package com.isupatches.wisefy.base;
 
 
 import android.net.wifi.WifiConfiguration;
