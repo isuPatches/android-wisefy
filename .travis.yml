@@ -2,11 +2,6 @@ language: android
 sudo: required
 jdk: oraclejdk8
 
-cache:
-  directories:
-    - ${TRAVIS_BUILD_DIR}/gradle/caches/
-    - ${TRAVIS_BUILD_DIR}/gradle/wrapper/dists/
-
 env:
   global:
     - ANDROID_API_LEVEL=24
@@ -28,7 +23,6 @@ android:
     - extra-android-support
     # Latest artifacts in local repository
     - extra-google-m2repository
-    - extra-android-m2repository
     # Specify at least one system image
     - sys-img-armeabi-v7a-google_apis-$ANDROID_API_LEVEL
 
@@ -39,4 +33,4 @@ before_script:
   - adb shell input keyevent 82 &
 
 script:
-  - travis_wait 20 ./gradlew clean connectedAndroidTest --stacktrace
+  - travis_wait 20 ./gradlew build connectedCheck
