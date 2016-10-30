@@ -5,6 +5,27 @@ Util library used as a wrapper around WiFi and Connectivity manager for Android
 
 [![Build Status](https://travis-ci.org/isuPatches/WiseFy.svg?branch=master)](https://travis-ci.org/isuPatches/WiseFy)
 
+[ ![Download](https://api.bintray.com/packages/isupatches/Maven/wisefy/images/download.svg) ](https://bintray.com/isupatches/Maven/wisefy/_latestVersion)
+
+## Adding to your project
+
+Gradle:
+
+```
+compile 'com.isupatches:wisefy:1.0.5'
+```
+
+Maven:
+
+```
+<dependency>
+  <groupId>com.isupatches</groupId>
+  <artifactId>wisefy</artifactId>
+  <version>1.0.5</version>
+  <type>pom</type>
+</dependency>
+```
+
 ## Getting An Instance
 
 WiseFy now supports the builder pattern so cool functionality can be added later!
@@ -20,8 +41,6 @@ To grab an instance with logging enabled:
 ```java
 WiseFy mWiseFy = new WiseFy.withContext(getActivity()).logging(true).getSmarts();
 ```
-
-**IMPORTANT!** Please make sure you call withContext for WiseFy to work properly
 
 ## Commands
 
