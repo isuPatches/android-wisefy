@@ -6,11 +6,11 @@ group = rootProject.ext.GROUP
 version = rootProject.ext.VERSION_NAME
 
 def coverageSourceDirs = [
-        '../app/src/main/java'
+        '../wisefy/src/main/java'
 ]
 
 def classDirs = fileTree(
-        dir: '../app/build/intermediates/classes/debug/com/',
+        dir: '../wisefy/build/intermediates/classes/debug/com/',
         excludes: ['**/R.class',
                    '**/R$*.class',
                    '**/*$ViewBinder*.*',
