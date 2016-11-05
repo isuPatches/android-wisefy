@@ -108,7 +108,7 @@ int result = mWiseFy.compareSignalLevel(-35, -70);
 To connect to a network given an SSID:
 
 ```java
-boolean connectedSuccessfully = mWiseFy.connectToNetwork("SSID To Reconnect To", 3000);
+boolean connectedSuccessfully = mWiseFy.connectToNetwork("SSID To Reconnect To", 30000);
 ```
 
 To disable wifi:
@@ -169,7 +169,7 @@ boolean isConnected = mWiseFy.isDeviceConnectedToSSID("SSID");
 To check and see if the device is connected to a wifi network:
 
 ```java
-boolean isConnected = mWiseFy.isDeviceConnectedToWifiNetwork("SSID");
+boolean isConnected = mWiseFy.isDeviceConnectedToWifiNetwork();
 ```
 
 To check and see if a given SSID is in the devices set of configured networks:
@@ -199,7 +199,7 @@ boolean removedSuccessfully = mWiseFy.removeNetwork("SSID To Remove");
 To search for an SSID given a search string:
 
 ```java
-String ssid = mWiseFy.searchForSSID("SSID To Search For", 3000);
+String ssid = mWiseFy.searchForSSID("SSID To Search For", 30000);
 ```
 
 ## License ##
