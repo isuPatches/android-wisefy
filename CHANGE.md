@@ -1,5 +1,18 @@
 ## v1.0.5 - 11/05/2016
 
+#####Merge pull request #29 from isuPatches/develop
+commit 0f670e635c7fe2cd1997446890ec6c6450cd6e9e<br/>
+Merge: ecbe2dc 7bdd39e<br/>
+Author: Patches <isuPatches@yahoo.com><br/>
+Date:   Sat Nov 5 14:06:26 2016 -0500
+    
+    v1.0.5
+
+#####Update change and readme files
+commit 7bdd39e8df97158c3f667ed128f4fc0f3466d852<br/>
+Author: isuPatches <isuPatches@yahoo.com><br/>
+Date:   Sat Nov 5 14:04:30 2016 -0500
+
 #####Adjust file structure for Bintray
 commit 3685c42d198fc700976a57217175c7f8e62f6719<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
