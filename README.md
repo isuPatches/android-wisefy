@@ -1,13 +1,42 @@
-# WiFiManager
-Util library used as a wrapper around WiFi and Connectivity manager for Android
+# WiseFy
 
-> <br/>*Developed by Patches 04/24/2016 - present* <br/><br/>
+Wifi configuration and util library built for Android.
+
+> <br/>*Developed by Patches 04/24/2016 - present* <br/>
+> 
+> <br/>Supports Android SDK levels 16-24<br/><br/>
 
 [![Build Status](https://travis-ci.org/isuPatches/WiseFy.svg?branch=master)](https://travis-ci.org/isuPatches/WiseFy)
 
 [ ![Download](https://api.bintray.com/packages/isupatches/Maven/wisefy/images/download.svg) ](https://bintray.com/isupatches/Maven/wisefy/_latestVersion)
 
+<a href="http://www.methodscount.com/?lib=com.isupatches%3Awisefy%3A1.0.5"><img src="https://img.shields.io/badge/Methods and size-core: 104 | deps: 16517 | 55 KB-e91e63.svg"/></a>
+
 ## Adding to your project
+
+Make sure you have one of the following repositories accessible:
+
+```
+repositories {
+    jcenter()
+}
+```
+
+```
+repositories {
+    mavenCentral()
+}
+```
+
+```
+repositories {
+    maven {
+        url  "http://dl.bintray.com/isupatches/Maven" 
+    }
+}
+```
+
+Then add it as a dependency:
 
 Gradle:
 
@@ -25,6 +54,8 @@ Maven:
   <type>pom</type>
 </dependency>
 ```
+
+You may also download the @aar from the <a href="https://github.com/isuPatches/WiseFy/releases" title="WiseFy Releases">releases page</a> and import it into your project manually. 
 
 ## Getting An Instance
 
