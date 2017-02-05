@@ -4,7 +4,7 @@ Wifi configuration and util library built for Android.
 
 > <br/>*Developed by Patches 04/24/2016 - present* <br/>
 > 
-> <br/>Supports Android SDK levels 16-24<br/><br/>
+> <br/>Supports Android SDK levels 16-25<br/><br/>
 
 [![Build Status](https://travis-ci.org/isuPatches/WiseFy.svg?branch=master)](https://travis-ci.org/isuPatches/WiseFy)
 
@@ -41,7 +41,7 @@ Then add it as a dependency:
 Gradle:
 
 ```
-compile 'com.isupatches:wisefy:1.0.5'
+compile 'com.isupatches:wisefy:1.0.6'
 ```
 
 Maven:
@@ -50,7 +50,7 @@ Maven:
 <dependency>
   <groupId>com.isupatches</groupId>
   <artifactId>wisefy</artifactId>
-  <version>1.0.5</version>
+  <version>1.0.6</version>
   <type>pom</type>
 </dependency>
 ```
@@ -135,6 +135,20 @@ To get current network:
 WifiInfo currentNetwork = mWiseFy.getCurrentNetwork();
 ```
 
+To get the frequency of the devices current network:<br/><br/>
+<strong>* NOTE *</strong>  Only supported on API >= 21
+
+```java
+int frequency = mWiseFy.getFrequency();
+```
+
+To get the frequency of a network:<br/><br/>
+<strong>* NOTE *</strong>  Only supported on API >= 21
+
+```java
+int frequency = mWiseFy.getFrequency(wifiInfo);
+```
+
 To get nearby access points:<br/><br/>
 <strong>Setting filterDuplicates to true will not return SSIDs with a weaker signal strength (will always take the highest)</strong>
 
@@ -170,6 +184,20 @@ To check and see if the device is connected to a wifi network:
 
 ```java
 boolean isConnected = mWiseFy.isDeviceConnectedToWifiNetwork();
+```
+
+To check if the device's current network is 5gHz:<br/><br/>
+<strong>* NOTE *</strong>  Only supported on API >= 21
+
+```java
+boolean is5gHz = mWiseFy.isNetwork5gHz();
+```
+
+To check if a network is 5gHz:<br/><br/>
+<strong>* NOTE *</strong>  Only supported on API >= 21
+
+```java
+boolean is5gHz = mWiseFy.isNetwork5gHz(wifiInfo);
 ```
 
 To check and see if a given SSID is in the devices set of configured networks:

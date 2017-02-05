@@ -1,5 +1,5 @@
 /**
- * Copyright 2016 Patches Klinefelter
+ * Copyright 2017 Patches Klinefelter
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,42 +19,21 @@ package com.isupatches.wisefy.util;
 import android.util.Log;
 
 
+/**
+ * Logging helper class
+ */
 public class LogUtil {
 
-    private static final LogUtil LOG_UTIL = new LogUtil();
-
     /**
-     * Private constructor with no setup
+     * Checks to see given a TAG, log level, and if logging is enabled if logging should occur
+     *
+     * @param tag - The tag to be used for the log
+     * @param level - The level of logging (i.e Log.DEBUG, Log.WARN, Log.ERROR, etc) {@link Log}
+     * @param loggingEnabled - If the instances of WiseFy has logging set to always be enabled
+     *
+     * @return boolean - if logging is enabled
      */
-    private LogUtil() {
-    }
-
-    /**
-     * @return instance of LogUtil
-     */
-    public static LogUtil getInstance() {
-        return LOG_UTIL;
-    }
-
-    public void d (String tag, String message, boolean loggingEnabled) {
-        if(isLoggable(tag, Log.DEBUG, loggingEnabled)) {
-            Log.d(tag, message);
-        }
-    }
-
-    public void w (String tag, String message, boolean loggingEnabled) {
-        if(isLoggable(tag, Log.WARN, loggingEnabled)) {
-            Log.w(tag, message);
-        }
-    }
-
-    public void e (String tag, String message, boolean loggingEnabled) {
-        if(isLoggable(tag, Log.ERROR, loggingEnabled)) {
-            Log.e(tag, message);
-        }
-    }
-
-    private boolean isLoggable(String tag, int level, boolean loggingEnabled) {
+    public static boolean isLoggable(String tag, int level, boolean loggingEnabled) {
         boolean isLoggable;
         if(loggingEnabled) {
             isLoggable = true;
