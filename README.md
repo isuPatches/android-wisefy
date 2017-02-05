@@ -4,7 +4,7 @@ Wifi configuration and util library built for Android.
 
 > <br/>*Developed by Patches 04/24/2016 - present* <br/>
 > 
-> <br/>Supports Android SDK levels 16-24<br/><br/>
+> <br/>Supports Android SDK levels 16-25<br/><br/>
 
 [![Build Status](https://travis-ci.org/isuPatches/WiseFy.svg?branch=master)](https://travis-ci.org/isuPatches/WiseFy)
 
@@ -41,7 +41,7 @@ Then add it as a dependency:
 Gradle:
 
 ```
-compile 'com.isupatches:wisefy:1.0.5'
+compile 'com.isupatches:wisefy:1.0.6'
 ```
 
 Maven:
@@ -50,7 +50,7 @@ Maven:
 <dependency>
   <groupId>com.isupatches</groupId>
   <artifactId>wisefy</artifactId>
-  <version>1.0.5</version>
+  <version>1.0.6</version>
   <type>pom</type>
 </dependency>
 ```
