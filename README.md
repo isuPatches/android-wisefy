@@ -135,6 +135,20 @@ To get current network:
 WifiInfo currentNetwork = mWiseFy.getCurrentNetwork();
 ```
 
+To get the frequency of the devices current network:<br/><br/>
+<strong>* NOTE *</strong>  Only supported on API >= 21
+
+```java
+int frequency = mWiseFy.getFrequency();
+```
+
+To get the frequency of a network:<br/><br/>
+<strong>* NOTE *</strong>  Only supported on API >= 21
+
+```java
+int frequency = mWiseFy.getFrequency(wifiInfo);
+```
+
 To get nearby access points:<br/><br/>
 <strong>Setting filterDuplicates to true will not return SSIDs with a weaker signal strength (will always take the highest)</strong>
 
@@ -170,6 +184,20 @@ To check and see if the device is connected to a wifi network:
 
 ```java
 boolean isConnected = mWiseFy.isDeviceConnectedToWifiNetwork();
+```
+
+To check if the device's current network is 5gHz:<br/><br/>
+<strong>* NOTE *</strong>  Only supported on API >= 21
+
+```java
+boolean is5gHz = mWiseFy.isNetwork5gHz();
+```
+
+To check if a network is 5gHz:<br/><br/>
+<strong>* NOTE *</strong>  Only supported on API >= 21
+
+```java
+boolean is5gHz = mWiseFy.isNetwork5gHz(wifiInfo);
 ```
 
 To check and see if a given SSID is in the devices set of configured networks:

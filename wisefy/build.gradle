@@ -61,13 +61,13 @@ android {
         unitTests.returnDefaultValues = true;
     }
 
-    compileSdkVersion 24
-    buildToolsVersion "24.0.3"
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
 
     defaultConfig {
         minSdkVersion 16
-        targetSdkVersion 24
-        versionCode 5
+        targetSdkVersion 25
+        versionCode 6
         versionName version
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
     }
@@ -88,14 +88,13 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:24.2.1'
-    androidTestCompile 'com.android.support:support-annotations:24.2.1'
+    compile 'com.android.support:appcompat-v7:25.1.1'
 
+    androidTestCompile 'com.android.support:support-annotations:25.1.1'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
-    androidTestCompile 'org.mockito:mockito-core:1.10.19'
-    androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
-    androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
+    androidTestCompile 'org.mockito:mockito-android:2.6.9'
 
+    testCompile 'org.mockito:mockito-core:2.6.9'
     testCompile 'junit:junit:4.12'
 }
 
