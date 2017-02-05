@@ -1,3 +1,56 @@
+## v1.0.6 - 02/04/2017
+
+#####Merge pull request #36 from isuPatches/develop
+commit 85640461ba06babdc4b37591249af269bec60c28<br/>
+Merge: 7ed8ed1 2a59351<br/>
+Author: Patches <isuPatches@yahoo.com><br/>
+Date:   Sat Feb 4 21:11:52 2017 -0600
+
+    v1.0.6
+
+#####Update README version for release
+commit 2a593513ce0638d04202ff4a9de01cc2cd16b964<br/>
+Author: isuPatches <isuPatches@yahoo.com><br/>
+Date:   Sat Feb 4 20:47:52 2017 -0600
+
+#####Update bin again
+commit a88e55a64e96e2fe40a3e673b56a669825811462<br/>
+Author: isuPatches <isuPatches@yahoo.com><br/>
+Date:   Sat Feb 4 20:20:48 2017 -0600
+
+#####Add getFrequency and isNetwork5gHz for >= 21 devices, update javadocs, adjust visibility, library updates, etc.
+commit a83f4fa6a8c3af1b7f357a7259fe420d57950979<br/>
+Author: isuPatches <isuPatches@yahoo.com><br/>
+Date:   Sat Feb 4 20:19:52 2017 -0600
+    
+    close #31
+    close #32
+    close #33
+    close #34
+    close #35
+
+#####Merge branch 'master' into develop
+commit 71a7151f7fdb7471d83f85eeedf46674803ed742<br/>
+Merge: 2c2cafd 7ed8ed1<br/>
+Author: isuPatches <isuPatches@yahoo.com><br/>
+Date:   Sat Nov 5 14:43:04 2016 -0500
+
+#####Update README.md
+commit 7ed8ed10bab57bf1ae8186e405db181a054f68f4<br/>
+Author: Patches <isuPatches@yahoo.com><br/>
+Date:   Sat Nov 5 14:42:27 2016 -0500
+
+#####Merge branch 'master' into develop
+commit 2c2cafdc09b140e914dfb9b9a14324dbbfb5817b<br/>
+Merge: 7bdd39e 716899f<br/>
+Author: isuPatches <isuPatches@yahoo.com><br/>
+Date:   Sat Nov 5 14:09:18 2016 -0500
+ 
+#####Update CHANGE.md
+commit 716899f792b4e88def76da74bcd2fec8df78e463<br/>
+Author: Patches <isuPatches@yahoo.com><br/>
+Date:   Sat Nov 5 14:08:51 2016 -0500
+
 ## v1.0.5 - 11/05/2016
 
 #####Merge pull request #29 from isuPatches/develop
