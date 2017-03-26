@@ -41,7 +41,7 @@ Then add it as a dependency:
 Gradle:
 
 ```
-compile 'com.isupatches:wisefy:1.0.6'
+compile 'com.isupatches:wisefy:1.0.7'
 ```
 
 Maven:
@@ -50,7 +50,7 @@ Maven:
 <dependency>
   <groupId>com.isupatches</groupId>
   <artifactId>wisefy</artifactId>
-  <version>1.0.6</version>
+  <version>1.0.7</version>
   <type>pom</type>
 </dependency>
 ```
@@ -231,7 +231,7 @@ String ssid = mWiseFy.searchForSSID("SSID To Search For", 30000);
 ```
 
 ## License ##
-Copyright 2016 Patches Klinefelter
+Copyright 2017 Patches Klinefelter
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
 compliance with the License. You may obtain a copy of the License at
