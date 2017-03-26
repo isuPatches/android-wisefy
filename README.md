@@ -231,7 +231,7 @@ String ssid = mWiseFy.searchForSSID("SSID To Search For", 30000);
 ```
 
 ## License ##
-Copyright 2016 Patches Klinefelter
+Copyright 2017 Patches Klinefelter
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
 compliance with the License. You may obtain a copy of the License at
