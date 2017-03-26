@@ -1,6 +1,42 @@
+## v1.0.7 - 03/25/2017
+
+#### Merge pull request #37 from isuPatches/develop
+commit a836baf09b974ea5332c037e236a153e9f30cf8d<br/>
+Merge: 31217ab e9f087b<br/>
+Author: Patches <isuPatches@yahoo.com><br/>
+Date:   Sat Mar 25 22:44:26 2017 -0500
+    
+    v1.0.7
+
+#### Revert Travis CI changes
+commit e9f087beb8f262c3b805843d45a6b7b09cf89546<br/>
+Author: isuPatches <isuPatches@yahoo.com><br/>
+Date:   Sat Mar 25 22:22:53 2017 -0500
+
+#### Going to try to cut down Travis CI time
+commit ef49b55b20277c3854eece485a827f8c39157b17<br/>
+Author: isuPatches <isuPatches@yahoo.com><br/>
+Date:   Sat Mar 25 22:10:53 2017 -0500 
+
+#### Update deps, update java docs, extract jacoco gradle logic
+commit d3a3a2c343e7b0b8be60a0751d2add05aca571b1<br/>
+Author: isuPatches <isuPatches@yahoo.com><br/>
+Date:   Sat Mar 25 21:43:40 2017 -0500
+
+#### Merge branch 'master' into develop
+commit 53cdb27b90586128514cf53a0611a1b2f4fd7032<br/>
+Merge: 2a59351 31217ab<br/>
+Author: isuPatches <isuPatches@yahoo.com><br/>
+Date:   Sat Feb 4 21:19:48 2017 -0600
+
+#### Update CHANGE.md
+commit 31217ab1b96b8e1b4907607050936e73e7e296a0<br/>
+Author: Patches <isuPatches@yahoo.com><br/>
+Date:   Sat Feb 4 21:18:44 2017 -0600
+
 ## v1.0.6 - 02/04/2017
 
-#####Merge pull request #36 from isuPatches/develop
+#### Merge pull request #36 from isuPatches/develop
 commit 85640461ba06babdc4b37591249af269bec60c28<br/>
 Merge: 7ed8ed1 2a59351<br/>
 Author: Patches <isuPatches@yahoo.com><br/>
@@ -8,17 +44,17 @@ Date:   Sat Feb 4 21:11:52 2017 -0600
 
     v1.0.6
 
-#####Update README version for release
+#### Update README version for release
 commit 2a593513ce0638d04202ff4a9de01cc2cd16b964<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sat Feb 4 20:47:52 2017 -0600
 
-#####Update bin again
+#### Update bin again
 commit a88e55a64e96e2fe40a3e673b56a669825811462<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sat Feb 4 20:20:48 2017 -0600
 
-#####Add getFrequency and isNetwork5gHz for >= 21 devices, update javadocs, adjust visibility, library updates, etc.
+#### Add getFrequency and isNetwork5gHz for >= 21 devices, update javadocs, adjust visibility, library updates, etc.
 commit a83f4fa6a8c3af1b7f357a7259fe420d57950979<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sat Feb 4 20:19:52 2017 -0600
@@ -29,31 +65,31 @@ Date:   Sat Feb 4 20:19:52 2017 -0600
     close #34
     close #35
 
-#####Merge branch 'master' into develop
+#### Merge branch 'master' into develop
 commit 71a7151f7fdb7471d83f85eeedf46674803ed742<br/>
 Merge: 2c2cafd 7ed8ed1<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sat Nov 5 14:43:04 2016 -0500
 
-#####Update README.md
+#### Update README.md
 commit 7ed8ed10bab57bf1ae8186e405db181a054f68f4<br/>
 Author: Patches <isuPatches@yahoo.com><br/>
 Date:   Sat Nov 5 14:42:27 2016 -0500
 
-#####Merge branch 'master' into develop
+#### Merge branch 'master' into develop
 commit 2c2cafdc09b140e914dfb9b9a14324dbbfb5817b<br/>
 Merge: 7bdd39e 716899f<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sat Nov 5 14:09:18 2016 -0500
  
-#####Update CHANGE.md
+#### Update CHANGE.md
 commit 716899f792b4e88def76da74bcd2fec8df78e463<br/>
 Author: Patches <isuPatches@yahoo.com><br/>
 Date:   Sat Nov 5 14:08:51 2016 -0500
 
 ## v1.0.5 - 11/05/2016
 
-#####Merge pull request #29 from isuPatches/develop
+#### Merge pull request #29 from isuPatches/develop
 commit 0f670e635c7fe2cd1997446890ec6c6450cd6e9e<br/>
 Merge: ecbe2dc 7bdd39e<br/>
 Author: Patches <isuPatches@yahoo.com><br/>
@@ -61,30 +97,30 @@ Date:   Sat Nov 5 14:06:26 2016 -0500
     
     v1.0.5
 
-#####Update change and readme files
+#### Update change and readme files
 commit 7bdd39e8df97158c3f667ed128f4fc0f3466d852<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sat Nov 5 14:04:30 2016 -0500
 
-#####Adjust file structure for Bintray
+#### Adjust file structure for Bintray
 commit 3685c42d198fc700976a57217175c7f8e62f6719<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sun Oct 30 08:35:11 2016 -0500
 
-#####Merge branch 'master' into develop
+#### Merge branch 'master' into develop
 commit 3d3e552ab7da0d46f7dd15d1367fd753268dca1d<br/>
 Merge: 948493f ecbe2dc<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sat Oct 29 21:26:29 2016 -0500
 
-#####Add gradle logic to publish to Binary
+#### Add gradle logic to publish to Binary
 commit 948493f42bd53283f6e7f8162fb9adaefd74b2e4<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sat Oct 29 21:23:21 2016 -0500
     
     closes #19
 
-#####Merge pull request #28 from isuPatches/develop
+#### Merge pull request #28 from isuPatches/develop
 commit ecbe2dc67a4c9d86324901fb2fae9ff58aaefe92<br/>
 Merge: 7a3014c a41b4b6<br/>
 Author: Patches <isuPatches@yahoo.com><br/>
@@ -92,14 +128,14 @@ Date:   Sat Oct 29 18:57:11 2016 -0500
     
     Add short license to readme
 
-#####Add short license to read
+#### Add short license to read
 commit a41b4b6ef55ccbf976ecec4172a90bf20286c0ea<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sat Oct 29 18:56:35 2016 -0500
 
 ## v1.0.4 - 10/29/2016
 
-#####Merge pull request #27 from isuPatches/develop
+#### Merge pull request #27 from isuPatches/develop
 commit 7a3014ce415db2f621d39e05193ffa5242c082d6<br/>
 Merge: 5ee444c 3ecb389<br/>
 Author: Patches <isuPatches@yahoo.com><br/>
@@ -107,254 +143,254 @@ Date:   Sat Oct 29 18:55:24 2016 -0500
     
     v1.0.4
 
-#####Update javadoc
+#### Update javadoc
 commit 3ecb3893952449ccc71aefa8930af08dd6c6bb2a<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sat Oct 29 18:53:10 2016 -0500
 
-#####More license stuff
+#### More license stuff
 commit 797008957e441a6e79991f4f06c2f95dd36dfe4d<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sat Oct 29 18:48:08 2016 -0500
    
-#####Update LICENSE.md
+#### Update LICENSE.md
 commit 882f6877a37bbf66324fd4a02a22f7565b62ff3d<br/>
 Author: Patches <isuPatches@yahoo.com><br/>
 Date:   Sat Oct 29 18:46:00 2016 -0500
 
-#####Update LICENSE.md
+#### Update LICENSE.md
 commit 9d89ef7a6dbeacbce54b93a41a51524b7c60d9cf<br/>
 Author: Patches <isuPatches@yahoo.com><br/>
 Date:   Sat Oct 29 18:42:49 2016 -0500
 
-#####Move license to separate file
+#### Move license to separate file
 commit fb464859eee4a0fe877a00bc0b538c59820b13bf<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sat Oct 29 18:38:13 2016 -0500
 
-#####Remove unnecessary files
+#### Remove unnecessary files
 commit cce36df939677677db363049085027f98dc3229a<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sat Oct 29 18:35:59 2016 -0500 
 
-#####GAH...just work
+#### GAH...just work
 commit cb4326f6f2c4af7d3161b6fedd4130d0dac7d658<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sat Oct 29 18:06:20 2016 -0500
 
-#####Another test
+#### Another test
 commit e2755d24f1adb079e146448db6d9db1124f0ad66<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sat Oct 29 17:46:17 2016 -0500
 
-#####Trying another thing
+#### Trying another thing
 commit 5d96b2ad1d4dc0150e6df67f6ac24440968532b9<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sat Oct 29 17:18:20 2016 -0500
  
-#####Trying a lower API level
+#### Trying a lower API level
 commit 4a94ad26d9c059e8090f059ed622b1633b35e500<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sat Oct 29 17:02:10 2016 -0500
     
-#####Adjust adoptions
+#### Adjust adoptions
 commit 341cee9340afb9a4f0f891db238a55dcaa39d425<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sat Oct 29 15:00:38 2016 -0500
 
-#####More updates
+#### More updates
 commit ec8bf2898c3ae6e6145fd8b608b63ec3dc47efe0<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sat Oct 29 14:32:42 2016 -0500
 
-#####Removing signed bit
+#### Removing signed bit
 commit d00d586869510ea65b366922f38b8bed3c1d1a28<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sat Oct 29 14:27:55 2016 -0500
 
-#####Another experiment
+#### Another experiment
 commit 9e00962af97bad9cf789c579b3d36b7082018992<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sat Oct 29 14:06:22 2016 -0500
 
-#####More tinkering
+#### More tinkering
 commit 52fa35942bfe0dfdcfc5410de2610fb397359134<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sat Oct 29 13:38:41 2016 -0500
 
-#####Update
+#### Update
 commit 1715ec5560ac4dbf7bb0e8526868162e04db4482<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sat Oct 29 12:59:47 2016 -0500
 
-#####Yet another travis test
+#### Yet another travis test
 commit 6c7a1a5af877d213e4558c1ebdc33933f79e7f71<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sat Oct 29 12:43:26 2016 -0500
 
-#####Another test
+#### Another test
 commit 221bdbec458e9696b3b6f18124a88307dd2e90fc<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sat Oct 29 12:22:33 2016 -0500
 
-#####Test
+#### Test
 commit d4e23f60f5236b27eb9047beee6aa3df1e36a24a<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sat Oct 29 12:14:45 2016 -0500
 
-#####Another potential travis fix
+#### Another potential travis fix
 commit e645fd867f4ca4835780c5c37adfb23960e0aecf<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sat Oct 29 11:56:55 2016 -0500
 
-#####Another test
+#### Another test
 commit 095aed8db9b05224bf0896b41727663a1cb4af78<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sat Oct 29 11:37:51 2016 -0500
 
-#####Too much logging for Travis
+#### Too much logging for Travis
 commit 2e49c408548429a309bc64b2db2a04189f62d927<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sat Oct 29 11:03:36 2016 -0500
 
-#####Potential fix for travis ci
+#### Potential fix for travis ci
 commit f7ec203be930bb89e6df07ed8907f6fbd4d46683<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sat Oct 29 10:49:49 2016 -0500
 
-#####Enforce context through builder constructor
+#### Enforce context through builder constructor
 commit 2a0f5f81a9d918a13fbf260c161e9384544a644b<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Mon Oct 24 00:00:49 2016 -0500
     
     close #25
 
-#####More crazy experiments
+#### More crazy experiments
 commit b0a73d81fb16d6580da73559c63fdf30f77a9a70<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sun Oct 23 22:49:29 2016 -0500
 
-#####Update
+#### Update
 commit 196ca252e3903a3957831bdb156e00fdebe77d8d<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sun Oct 23 21:40:28 2016 -0500
 
-#####Spaces
+####  Spaces
 commit c4d1abc12d482e31920148328a87bd1d9ddd7781<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sun Oct 23 20:56:11 2016 -0500
 
-##### Another try
+#### Another try
 commit df6ead8e07adf0fcc1d64657c968927fb3876f9f<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sun Oct 23 20:55:09 2016 -0500
 
-#####Support libs?
+#### Support libs?
 commit fe3ad453bb3edfefd8a2f2960894dbd1cba44f5f<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sun Oct 23 20:25:15 2016 -0500
 
-#####Bump
+#### Bump
 commit f87264db901d40b992408dcd1c005ec60b1a74d3<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sun Oct 23 20:11:14 2016 -0500
 
-#####Yet another attempt
+#### Yet another attempt
 commit ad81e789526d6355e2e9ffe1d6ab16503d1bb975<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sun Oct 23 19:59:50 2016 -0500
 
-#####Another attempt
+#### Another attempt
 commit 7d53c231da354faf2ef3562eee3ca0a6800a6c80<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sun Oct 23 19:50:01 2016 -0500
 
-#####Increment again
+#### Increment again
 commit 8a0c52c8c4a3435545e0aa5104df3b9366fe5a1f<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sun Oct 23 19:29:03 2016 -0500
 
-#####Trying to bump down build tools
+#### Trying to bump down build tools
 commit 7b7e36d4bc75f2231b1e8f58d7e37c8d173afd05<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sun Oct 23 19:10:13 2016 -0500
 
-#####Another test
+#### Another test
 commit cb5526001046099374991ade4585f1132cef110d<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sun Oct 23 18:28:56 2016 -0500
 
-#####Update travis.yml
+#### Update travis.yml
 commit ca88ab0ef050795d259aa893a23d5c164d781c8c<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sun Oct 23 17:56:28 2016 -0500
 
-#####One day travis ci will work with me
+#### One day travis ci will work with me
 commit 035eaa75a5c0a3276926b5b58713499dd2f0216a<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sun Oct 23 14:42:28 2016 -0500
 
-#####Forgot to add tag
+#### Forgot to add tag
 commit 204f753393c2101c08748bd24b1e4ebf06b19717<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sun Oct 23 14:32:31 2016 -0500
 
-#####Add tag, move to ENV variables
+#### Add tag, move to ENV variables
 commit fe7f01311d6bab0b26fb411447e55408e9819650<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sun Oct 23 14:21:34 2016 -0500
 
-#####:(
+#### :(
 commit c000de375e4f2863cce68db849fdc371ca09eea5<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sun Oct 23 14:05:23 2016 -0500
    
-#####Add abi
+#### Add abi
 commit 4b6e3a020af842d44953eceeb5145b6017f37922<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sun Oct 23 13:56:12 2016 -0500  
 
-#####Wait for emulator
+#### Wait for emulator
 commit eb6e5e9ac68884f37de6ae2be620556e4fe766dd<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sun Oct 23 13:47:02 2016 -0500
 
-#####Emulator
+#### Emulator
 commit acc2615abb18deb4d959701e3a6d9d39baf7754d<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sun Oct 23 13:34:28 2016 -0500
 
-#####Another attempt
+#### Another attempt
 commit d9bc598ed20f37c97d25586d790d7da9618d1c91<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sun Oct 23 13:24:16 2016 -0500  
 
-#####Another test
+#### Another test
 commit 7b34b0d529de9c7026f7f8604dfe6eac9eee9593<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sun Oct 23 13:19:04 2016 -0500
 
-#####Trying another update
+#### Trying another update
 commit 9164d2cd463923ba132e0fd3db662a79de5a09c5<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sun Oct 23 12:37:02 2016 -0500
 
-#####travis.yml updates
+#### travis.yml updates
 commit 95829f1ff7a69eed20b71fbafef5e680f01ab9b0<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sun Oct 23 12:32:16 2016 -0500
 
-#####Move travis.yml
+#### Move travis.yml
 commit 816f72fcac20311ebf5a62a0b35952750de72b5e<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sun Oct 23 12:27:46 2016 -0500
 
-#####Add Travis badge
+#### Add Travis badge
 commit e04ab71ee15ac0193d528eb94f21a8a655c72724<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sun Oct 23 12:26:39 2016 -0500
 
-#####Builder pattern updates, javadocs, new package name, updated README, and travis config
+#### Builder pattern updates, javadocs, new package name, updated README, and travis config
 commit bdb6ea7c3958cb29dbe80c6f9f5f8bdda9390022<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sun Oct 23 12:20:34 2016 -0500
@@ -366,13 +402,13 @@ Date:   Sun Oct 23 12:20:34 2016 -0500
     close #23
     close #24
 
-#####Merge branch 'master' into develop
+#### Merge branch 'master' into develop
 commit 3512ea1fc44ae55b82125fcf096ecf597819b7e0<br/>
 Merge: 4d45db3 5ee444c<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sat Oct 22 15:20:48 2016 -0500
 
-#####Merge pull request #18 from isuPatches/develop
+#### Merge pull request #18 from isuPatches/develop
 commit 5ee444c66e83ce17730df31f1442daaab09ea328<br/>
 Merge: c8292ba 4d45db3<br/>
 Author: Patches <isuPatches@yahoo.com><br/>
@@ -380,31 +416,31 @@ Date:   Sat Oct 22 15:20:18 2016 -0500
 
     Develop
 
-#####Update docs again
+#### Update docs again
 commit 4d45db3287a278dff512381d994cf05c5e3d1ebb<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sat Oct 22 15:19:31 2016 -0500
 
-#####Merge branch 'master' into develop
+#### Merge branch 'master' into develop
 commit d584eaf2aba3996709fc4c92254004ed03bd3a02<br/>
 Merge: 643dd75 c8292ba<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sat Oct 22 15:15:40 2016 -0500
 
-#####Update CHANGE.md
+#### Update CHANGE.md
 commit c8292baba16805731221cbb07c49e787b946a93c<br/>
 Author: Patches <isuPatches@yahoo.com><br/>
 Date:   Sat Oct 22 15:14:57 2016 -0500
 
 ## v1.0.3 - 10/22/2016
 
-#####Merge branch 'master' into develop
+#### Merge branch 'master' into develop
 commit 643dd759b21bbf9b3062b3566215bf84f02922e2<br/>
 Merge: a9d5f6a 0363b6e<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sat Oct 22 15:04:35 2016 -0500
 
-#####Merge pull request #17 from isuPatches/develop
+#### Merge pull request #17 from isuPatches/develop
 commit 0363b6e3987ba1952f4c2244af94a8848a3d37fb<br/>
 Merge: 2e2246e a9d5f6a<br/>
 Author: Patches <isuPatches@yahoo.com><br/>
@@ -412,22 +448,22 @@ Date:   Sat Oct 22 14:57:29 2016 -0500
 
     v1.0.3
 
-#####Increment versionName and versionCode
+#### Increment versionName and versionCode
 commit a9d5f6aee10545c265680b92477cb33331d3d9f4<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sat Oct 22 14:56:20 2016 -0500
 
-#####Missed one spot in documentation
+#### Missed one spot in documentation
 commit 5f839d5fb115ef66cef2fe113ad82623f11ec663<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sat Oct 22 14:34:59 2016 -0500
 
-#####Update ready
+#### Update ready
 commit 9895f5dc9567a80b63b5f84fbcd3b884a0cf5106<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sat Oct 22 14:32:27 2016 -0500
 
-#####Move to builder pattern, use real time values, and update documentation
+#### Move to builder pattern, use real time values, and update documentation
 commit e61e85e817b542eaa572e527068e911ffdcdcc8e<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sat Oct 22 14:32:09 2016 -0500
@@ -437,13 +473,13 @@ Date:   Sat Oct 22 14:32:09 2016 -0500
     close #15
     close #16
 
-#####Merge branch 'master' into develop
+#### Merge branch 'master' into develop
 commit 88c05d013caffd7b688cde44b8efea74f69ba3e4
 Merge: cd98623 2e2246e<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sat Oct 22 04:08:26 2016 -0500
 
-#####More functionality, switching to espresso tests, updating libs, and providing logging option
+#### More functionality, switching to espresso tests, updating libs, and providing logging option
 commit 2e2246e63fb4dc3b16b3a59c2081b9e9c39c4388<br/>
 Author: isuPatches <isuPatches@yahoo.com><br/>
 Date:   Sat Oct 22 04:08:05 2016 -0500
@@ -455,22 +491,22 @@ Date:   Sat Oct 22 04:08:05 2016 -0500
 
 ## v1.0.2 - 04/30/2016
 
-#####Update README.md
+#### Update README.md
 commit cd98623b74763e4d12a0c682b5023fdd5f169d91<br/>
 Author: Patches <isuPatches@yahoo.com><br/>
 Date:   Sat Apr 30 15:02:43 2016 -0500
 
-#####Update CHANGE.md
+#### Update CHANGE.md
 commit af298c3a986c4418cf0003e33f9d591daec58dc5<br/>
 Author: Patches <isuPatches@yahoo.com><br/>
 Date:   Sat Apr 30 14:54:13 2016 -0500
 
-#####Create CHANGE.md
+#### Create CHANGE.md
 commit c16118744ff2a52881c4af6f4afc8438262888c8<br/>
 Author: Patches <isuPatches@yahoo.com><br/>
 Date:   Sat Apr 30 14:46:44 2016 -0500
 
-#####Merge pull request #7 from isuPatches/develop
+#### Merge pull request #7 from isuPatches/develop
 commit cdc66951cfca2a8e964f411f67b6c27a592de222<br/>
 Merge: 3ba209b 12bb210<br/>
 Author: Patches <isuPatches@yahoo.com><br/>
@@ -478,12 +514,12 @@ Date:   Sat Apr 30 14:29:51 2016 -0500
     
     v1.0.2
     
-#####Increment versionName and versionCode for release
+#### Increment versionName and versionCode for release
 commit 12bb210b2aa6513b0140a2e6de7594f0e1d0e64f<br/>
 Author: isuPatches <sarah.klinefelter@metova.com><br/>
 Date:   Sat Apr 30 14:27:52 2016 -0500
 
-#####Merge pull request #6 from isuPatches/issue-5
+#### Merge pull request #6 from isuPatches/issue-5
 commit a2aefadc1e46785d6f78c17d6130aa574cb05ac6<br/>
 Merge: 772558b ae81d49<br/>
 Author: Patches <isuPatches@yahoo.com><br/>
@@ -491,16 +527,14 @@ Date:   Sat Apr 30 14:25:29 2016 -0500
     
     issue-5
 
-#####Adding isWifiEnabled functionality
+#### Adding isWifiEnabled functionality
 commit ae81d49fcac0421cc8d5a10730359e7d1e723aec<br/>
 Author: isuPatches <sarah.klinefelter@metova.com><br/>
 Date:   Sat Apr 30 14:23:43 2016 -0500
 
-
 ## v1.0.1 - 04/28/2016
 
-
-#####Merge pull request #3 from isuPatches/develop
+#### Merge pull request #3 from isuPatches/develop
 commit 3ba209b036b99f6cfd432b76b8e75616cdc1fc1c<br/>
 Merge: db745f2 772558b<br/>
 Author: Patches <isuPatches@yahoo.com><br/>
@@ -508,13 +542,12 @@ Date:   Thu Apr 28 09:07:06 2016 -0500
     
     Fix README
     
-#####Fix README
+#### Fix README
 commit 772558bc98f20b42849baf0eeacd012b0b383f0a<br/>
 Author: isuPatches <sarah.klinefelter@metova.com><br/>
 Date:   Thu Apr 28 09:05:24 2016 -0500
-
     
-#####Merge pull request #1 from isuPatches/develop
+#### Merge pull request #1 from isuPatches/develop
 commit db745f25d2caf0768ee259aa11ed0ad57c7d8ee4<br/>
 Merge: 3df4638 b309b1c<br/>
 Author: Patches <isuPatches@yahoo.com><br/>
@@ -522,21 +555,19 @@ Date:   Thu Apr 28 08:57:21 2016 -0500
     
     v1.0.1
 
-#####Add isSecure functionality
+#### Add isSecure functionality
 commit b309b1c0c2550c08e92130c2e8bfb1ef1b0e48db<br/>
 Author: isuPatches <sarah.klinefelter@metova.com><br/>
 Date:   Thu Apr 28 08:53:19 2016 -0500
 
-
 ## v1.0.0 - 04/26/2016
 
-
-#####Create README.md
+#### Create README.md
 commit 3df46380676592b033a4c512ec6d67e7b4e39ace<br/>
 Author: Patches <isuPatches@yahoo.com><br/>
 Date:   Tue Apr 26 15:25:33 2016 -0500
 
-#####Initial commit
+#### Initial commit
 commit 58826f9cd9002b5407c6bbaa540c49da46eee3f5<br/>
 Author: isuPatches <sarah.klinefelter@metova.com><br/>
 Date:   Tue Apr 26 15:09:41 2016 -0500
