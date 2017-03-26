@@ -44,7 +44,7 @@ public class WiseFyTest extends BaseTestClass<TestActivity> {
 
         mActivityTestRule.launchActivity(new Intent());
 
-        mWiseFy = new WiseFy.withContext(mActivityTestRule.getActivity()).getSmarts();
+        mWiseFy = new WiseFy.withContext(mActivityTestRule.getActivity()).logging(true).getSmarts();
     }
 
     @Test

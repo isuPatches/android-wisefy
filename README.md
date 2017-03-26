@@ -41,7 +41,7 @@ Then add it as a dependency:
 Gradle:
 
 ```
-compile 'com.isupatches:wisefy:1.0.6'
+compile 'com.isupatches:wisefy:1.0.7'
 ```
 
 Maven:
@@ -50,7 +50,7 @@ Maven:
 <dependency>
   <groupId>com.isupatches</groupId>
   <artifactId>wisefy</artifactId>
-  <version>1.0.6</version>
+  <version>1.0.7</version>
   <type>pom</type>
 </dependency>
 ```
