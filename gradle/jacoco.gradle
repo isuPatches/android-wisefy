@@ -16,17 +16,28 @@ def classDirs = fileTree(
                    '**/*Factory*.class',
                    '**/*$Builder*'])
 
-task jacocoDebugTestReport(type: JacocoReport, dependsOn: ["connectedDebugAndroidTest"]) {
+task jacocoDebugTestReport(type: JacocoReport) {
+    dependsOn = ["connectedDebugAndroidTest"]
     group = "Reporting"
-    description = "Generate Jacoco coverage report for debug tests"
+    description = "Run tests and generate Jacoco coverage report for debug"
     classDirectories = classDirs
     additionalSourceDirs = files(coverageSourceDirs)
     sourceDirectories = files(coverageSourceDirs)
     executionData = files([fileTree(dir: 'build/outputs/code-coverage/connected', include: '**/*.ec')])
 
-    onlyIf = {
-        true
+    reports {
+        xml.enabled = true
+        html.enabled = true
     }
+}
+
+task jacocoDebugReport(type: JacocoReport) {
+    group = "Reporting"
+    description = "Generate Jacoco coverage report for debug"
+    classDirectories = classDirs
+    additionalSourceDirs = files(coverageSourceDirs)
+    sourceDirectories = files(coverageSourceDirs)
+    executionData = files([fileTree(dir: 'build/outputs/code-coverage/connected', include: '**/*.ec')])
 
     reports {
         xml.enabled = true

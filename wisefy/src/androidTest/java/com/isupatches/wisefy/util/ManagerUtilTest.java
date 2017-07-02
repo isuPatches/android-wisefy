@@ -21,25 +21,25 @@ public class ManagerUtilTest extends BaseTestClass<TestActivity> {
     public ActivityTestRule<TestActivity> mActivityTestRule = new ActivityTestRule<>(TestActivity.class);
 
     @Test
-    public void testGetConnectivityManager() {
+    public void getConnectivityManager_returnsNotNull() {
         ConnectivityManager connectivityManager = ManagerUtil.getInstance().getConnectivityManager(mActivityTestRule.getActivity());
         assertNotNull(connectivityManager);
     }
 
     @Test
-    public void testGetConnectivityManagerNullActivity() {
+    public void getConnectivityManager_returnsNull_noActivity() {
         ConnectivityManager connectivityManager = ManagerUtil.getInstance().getConnectivityManager(null);
         assertNull(connectivityManager);
     }
 
     @Test
-    public void testGetWiFiManager() {
+    public void getWiFiManager_returnsNotNull() {
         WifiManager wifiManager = ManagerUtil.getInstance().getWiFiManager(mActivityTestRule.getActivity());
         assertNotNull(wifiManager);
     }
 
     @Test
-    public void testGetWiFiManagerNullActivity() {
+    public void getWiFiManager_returnsNull_noActivity() {
         WifiManager wifiManager = ManagerUtil.getInstance().getWiFiManager(null);
         assertNull(wifiManager);
     }

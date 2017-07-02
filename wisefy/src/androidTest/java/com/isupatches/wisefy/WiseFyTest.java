@@ -48,15 +48,7 @@ public class WiseFyTest extends BaseTestClass<TestActivity> {
     }
 
     @Test
-    public void testAddOpenNetworkSuccess() {
-        setManagers();
-        when(mMockWiFiManager.addNetwork(any(WifiConfiguration.class))).thenReturn(0);
-        int result = mWiseFy.addOpenNetwork(OPEN_NETWORK_SSID);
-        assertNotEquals(WiseFy.WIFI_MANAGER_FAILURE, result);
-    }
-
-    @Test
-    public void testAddOpenNetworkFailure() {
+    public void addOpenNetwork_failure() {
         setManagers();
         when(mMockWiFiManager.addNetwork(any(WifiConfiguration.class))).thenReturn(WiseFy.WIFI_MANAGER_FAILURE);
         int result = mWiseFy.addOpenNetwork(OPEN_NETWORK_SSID);
@@ -64,28 +56,28 @@ public class WiseFyTest extends BaseTestClass<TestActivity> {
     }
 
     @Test
-    public void testAddOpenNetworkNullSSID() {
+    public void addOpenNetwork_failure_nullSSID() {
         int result = mWiseFy.addOpenNetwork(null);
         assertEquals(WiseFy.WISEFY_FAILURE, result);
     }
 
     @Test
-    public void testAddOpenNetworkNullWifiManager() {
+    public void addOpenNetwork_failure_nullWifiManager() {
         setManagersToNull();
         int result = mWiseFy.addOpenNetwork(OPEN_NETWORK_SSID);
         assertEquals(WiseFy.WISEFY_FAILURE, result);
     }
 
     @Test
-    public void testAddWEPNetworkSuccess() {
+    public void addOpenNetwork_success() {
         setManagers();
         when(mMockWiFiManager.addNetwork(any(WifiConfiguration.class))).thenReturn(0);
-        int result = mWiseFy.addWEPNetwork(WEP_NETWORK_SSID, WEP_NETWORK_PASSWORD);
+        int result = mWiseFy.addOpenNetwork(OPEN_NETWORK_SSID);
         assertNotEquals(WiseFy.WIFI_MANAGER_FAILURE, result);
     }
 
     @Test
-    public void testAddWEPNetworkFailure() {
+    public void addWEPNetwork_failure() {
         setManagers();
         when(mMockWiFiManager.addNetwork(any(WifiConfiguration.class))).thenReturn(WiseFy.WIFI_MANAGER_FAILURE);
         int result = mWiseFy.addWEPNetwork(WEP_NETWORK_SSID, WEP_NETWORK_PASSWORD);
@@ -93,26 +85,60 @@ public class WiseFyTest extends BaseTestClass<TestActivity> {
     }
 
     @Test
-    public void testAddWEPNetworkNullPassword() {
+    public void addWEPNetwork_failure_nullPassword() {
         int result = mWiseFy.addWEPNetwork(WEP_NETWORK_SSID, null);
         assertEquals(WiseFy.WISEFY_FAILURE, result);
     }
 
     @Test
-    public void testAddWEPNetworkNullSSID() {
+    public void addWEPNetwork_failure_nullSSID() {
         int result = mWiseFy.addWEPNetwork(null, WEP_NETWORK_PASSWORD);
         assertEquals(WiseFy.WISEFY_FAILURE, result);
     }
 
     @Test
-    public void testAddWEPNetworkNullWifiManager() {
+    public void addWEPNetwork_failure_nullWifiManager() {
         setManagersToNull();
         int result = mWiseFy.addWEPNetwork(WEP_NETWORK_SSID, WEP_NETWORK_PASSWORD);
         assertEquals(WiseFy.WISEFY_FAILURE, result);
     }
 
     @Test
-    public void testAddWPA2NetworkSuccess() {
+    public void addWEPNetwork_success() {
+        setManagers();
+        when(mMockWiFiManager.addNetwork(any(WifiConfiguration.class))).thenReturn(0);
+        int result = mWiseFy.addWEPNetwork(WEP_NETWORK_SSID, WEP_NETWORK_PASSWORD);
+        assertNotEquals(WiseFy.WIFI_MANAGER_FAILURE, result);
+    }
+
+    @Test
+    public void addWPA2Network_failure() {
+        when(mMockWiFiManager.addNetwork(any(WifiConfiguration.class))).thenReturn(WiseFy.WIFI_MANAGER_FAILURE);
+        int result = mWiseFy.addWPA2Network(WPA2_NETWORK_SSID, WPA2_NETWORK_PASSWORD);
+        assertEquals(WiseFy.WIFI_MANAGER_FAILURE, result);
+    }
+
+    @Test
+    public void addWPA2Network_failure_nullPassword() {
+        int result = mWiseFy.addWPA2Network(WPA2_NETWORK_SSID, null);
+        assertEquals(WiseFy.WISEFY_FAILURE, result);
+    }
+
+    @Test
+    public void addWPA2Network_failure_nullSSID() {
+        int result = mWiseFy.addWPA2Network(null, WPA2_NETWORK_PASSWORD);
+        assertEquals(WiseFy.WISEFY_FAILURE, result);
+    }
+
+    @Test
+    public void addWPA2Network_failure_nullWifiManager() {
+        setManagersToNull();
+        int result = mWiseFy.addWPA2Network(WPA2_NETWORK_SSID, WPA2_NETWORK_PASSWORD);
+        assertEquals(WiseFy.WISEFY_FAILURE, result);
+    }
+
+    @Test
+    public void addWPA2Network_success() {
         setManagers();
         when(mMockWiFiManager.addNetwork(any(WifiConfiguration.class))).thenReturn(0);
         int result = mWiseFy.addWPA2Network(WPA2_NETWORK_SSID, WPA2_NETWORK_PASSWORD);
@@ -120,64 +146,38 @@ public class WiseFyTest extends BaseTestClass<TestActivity> {
     }
 
     @Test
-    public void testAddWPA2NetworkFailure() {
-        when(mMockWiFiManager.addNetwork(any(WifiConfiguration.class))).thenReturn(WiseFy.WIFI_MANAGER_FAILURE);
-        int result = mWiseFy.addWPA2Network(WPA2_NETWORK_SSID, WPA2_NETWORK_PASSWORD);
-        assertEquals(WiseFy.WIFI_MANAGER_FAILURE, result);
-    }
-
-    @Test
-    public void testAddWPA2NetworkNullPassword() {
-        int result = mWiseFy.addWPA2Network(WPA2_NETWORK_SSID, null);
-        assertEquals(WiseFy.WISEFY_FAILURE, result);
-    }
-
-    @Test
-    public void testAddWPA2NetworkNullSSID() {
-        int result = mWiseFy.addWPA2Network(null, WPA2_NETWORK_PASSWORD);
-        assertEquals(WiseFy.WISEFY_FAILURE, result);
-    }
-
-    @Test
-    public void testAddWPA2NetworkNullWifiManager() {
-        setManagersToNull();
-        int result = mWiseFy.addWPA2Network(WPA2_NETWORK_SSID, WPA2_NETWORK_PASSWORD);
-        assertEquals(WiseFy.WISEFY_FAILURE, result);
-    }
-
-    @Test
-    public void testBuilderWithLoggingFalse() {
+    public void builder_loggingFalse() {
         WiseFy wiseFy = new WiseFy.withContext(mActivityTestRule.getActivity()).logging(false).getSmarts();
         assertEquals(false, wiseFy.isLoggingEnabled());
     }
 
     @Test
-    public void testBuilderWithLoggingTrue() {
+    public void builder_loggingTrue() {
         WiseFy wiseFy = new WiseFy.withContext(mActivityTestRule.getActivity()).logging(true).getSmarts();
         assertEquals(true, wiseFy.isLoggingEnabled());
     }
 
     @Test
-    public void testCalculateBar() {
+    public void calculateBars() {
         int result = mWiseFy.calculateBars(-35, 5);
         assertEquals(4, result);
     }
 
     @Test
-    public void testCompareSignalLevel() {
+    public void compareSignalLevel() {
         int result = mWiseFy.compareSignalLevel(-35, -70);
         assertEquals(35, result);
     }
 
     @Test
-    public void testConnectToNetworkFailureNoList() {
+    public void connectToNetwork_failure_noList() {
         setManagers();
         boolean result = mWiseFy.connectToNetwork(TEST_SSID, 1);
         assertEquals(false, result);
     }
 
     @Test
-    public void testConnectToNetworkFailureNotAvailable() {
+    public void connectToNetwork_failure_notAvailable() {
         setManagers();
         List<WifiConfiguration> wifiList = new ArrayList<>();
         WifiConfiguration mWiFiConfiguration = new WifiConfiguration();
@@ -201,7 +201,7 @@ public class WiseFyTest extends BaseTestClass<TestActivity> {
     }
 
     @Test
-    public void testConnectToNetworkFailureNotConnected() {
+    public void connectToNetwork_failure_notConnected() {
         setManagers();
         List<WifiConfiguration> wifiList = new ArrayList<>();
         WifiConfiguration mWiFiConfiguration = new WifiConfiguration();
@@ -225,14 +225,14 @@ public class WiseFyTest extends BaseTestClass<TestActivity> {
     }
 
     @Test
-    public void testConnectToNetworkFailureNullWifiManager() {
+    public void connectToNetwork_failure_nullWifiManager() {
         setManagersToNull();
         boolean result = mWiseFy.connectToNetwork(TEST_SSID, 1);
         assertEquals(false, result);
     }
 
     @Test
-    public void testConnectToNetworkSuccess() {
+    public void connectToNetwork_success() {
         setManagers();
         List<WifiConfiguration> wifiList = new ArrayList<>();
         WifiConfiguration mWiFiConfiguration = new WifiConfiguration();
@@ -256,7 +256,7 @@ public class WiseFyTest extends BaseTestClass<TestActivity> {
     }
 
     @Test
-    public void testDisableWifiFailure() {
+    public void disableWifi_failure() {
         setManagers();
         when(mMockWiFiManager.setWifiEnabled(anyBoolean())).thenReturn(true);
         boolean result = mWiseFy.disableWifi();
@@ -265,14 +265,14 @@ public class WiseFyTest extends BaseTestClass<TestActivity> {
     }
 
     @Test
-    public void testDisableWifiNullWifiManager() {
+    public void disableWifi_failure_nullWifiManager() {
         setManagersToNull();
         boolean result = mWiseFy.disableWifi();
         assertEquals(false, result);
     }
 
     @Test
-    public void testDisableWifiSuccess() {
+    public void disableWifi_success() {
         setManagers();
         when(mMockWiFiManager.setWifiEnabled(anyBoolean())).thenReturn(true);
         boolean result = mWiseFy.disableWifi();
@@ -281,7 +281,7 @@ public class WiseFyTest extends BaseTestClass<TestActivity> {
     }
 
     @Test
-    public void testDisconnectFromCurrentNetworkFailure() {
+    public void disconnectFromCurrentNetwork_failure() {
         setManagers();
         when(mMockWiFiManager.disconnect()).thenReturn(false);
         boolean result = mWiseFy.disconnectFromCurrentNetwork();
@@ -290,14 +290,14 @@ public class WiseFyTest extends BaseTestClass<TestActivity> {
     }
 
     @Test
-    public void testDisconnectFromCurrentNetworkNullWifiManager() {
+    public void disconnectFromCurrentNetwork_failure_nullWifiManager() {
         setManagersToNull();
         boolean result = mWiseFy.disconnectFromCurrentNetwork();
         assertEquals(false, result);
     }
 
     @Test
-    public void testDisconnectFromCurrentNetworkSuccess() {
+    public void disconnectFromCurrentNetwork_success() {
         setManagers();
         when(mMockWiFiManager.disconnect()).thenReturn(true);
         boolean result = mWiseFy.disconnectFromCurrentNetwork();
@@ -306,7 +306,7 @@ public class WiseFyTest extends BaseTestClass<TestActivity> {
     }
 
     @Test
-    public void testEnableWiFiFailure() {
+    public void enableWiFi_failure() {
         setManagers();
         when(mMockWiFiManager.setWifiEnabled(anyBoolean())).thenReturn(false);
         boolean result = mWiseFy.enableWifi();
@@ -315,14 +315,14 @@ public class WiseFyTest extends BaseTestClass<TestActivity> {
     }
 
     @Test
-    public void testEnableWiFiNullWifiManager() {
+    public void enableWiFi_failure_nullWifiManager() {
         setManagersToNull();
         boolean result = mWiseFy.enableWifi();
         assertEquals(false, result);
     }
 
     @Test
-    public void testEnableWiFiSuccess() {
+    public void enableWiFi_success() {
         setManagers();
         when(mMockWiFiManager.setWifiEnabled(anyBoolean())).thenReturn(true);
         boolean result = mWiseFy.enableWifi();
@@ -331,7 +331,13 @@ public class WiseFyTest extends BaseTestClass<TestActivity> {
     }
 
     @Test
-    public void testGetCurrentNetwork() {
+    public void getCurrentNetwork_failure_nullWifiManager() {
+        setManagersToNull();
+        assertEquals(null, mWiseFy.getCurrentNetwork());
+    }
+
+    @Test
+    public void getCurrentNetwork_success() {
         setManagers();
         WifiInfo mockWifiInfo = mock(WifiInfo.class);
         when(mockWifiInfo.getSSID()).thenReturn(TEST_SSID);
@@ -341,32 +347,17 @@ public class WiseFyTest extends BaseTestClass<TestActivity> {
     }
 
     @Test
-    public void testGetCurrentNetworkNullWifiManager() {
-        setManagersToNull();
-        assertEquals(null, mWiseFy.getCurrentNetwork());
-    }
-
-    @Test
-    public void testGetFrequency() {
-      if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-        setManagers();
-        WifiInfo mockWifiInfo = mock(WifiInfo.class);
-        when(mockWifiInfo.getFrequency()).thenReturn(TEST_NETWORK_FREQUENCY);
-        when(mMockWiFiManager.getConnectionInfo()).thenReturn(mockWifiInfo);
-
-        assertEquals(TEST_NETWORK_FREQUENCY, mWiseFy.getFrequency(mockWifiInfo));
-      }
-    }
-
-    @Test
-    public void testGetFrequencyError() {
+    public void getFrequency_currentNetwork_failure() {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            assertEquals(WiseFy.WISEFY_FAILURE, mWiseFy.getFrequency(null));
+            setManagers();
+            when(mMockWiFiManager.getConnectionInfo()).thenReturn(null);
+
+            assertEquals(WiseFy.WISEFY_FAILURE, mWiseFy.getFrequency());
         }
     }
 
     @Test
-    public void testGetFrequencyCurrentNetwork() {
+    public void getFrequency_currentNetwork_success() {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             setManagers();
             WifiInfo mockWifiInfo = mock(WifiInfo.class);
@@ -378,17 +369,26 @@ public class WiseFyTest extends BaseTestClass<TestActivity> {
     }
 
     @Test
-    public void testGetFrequencyCurrentNetworkError() {
+    public void getFrequency_provideWifiInfo_failure() {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            setManagers();
-            when(mMockWiFiManager.getConnectionInfo()).thenReturn(null);
-
-            assertEquals(WiseFy.WISEFY_FAILURE, mWiseFy.getFrequency());
+            assertEquals(WiseFy.WISEFY_FAILURE, mWiseFy.getFrequency(null));
         }
     }
 
     @Test
-    public void testGetNearbyAccessPoints() {
+    public void getFrequency_provideWifiInfo_success() {
+      if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        setManagers();
+        WifiInfo mockWifiInfo = mock(WifiInfo.class);
+        when(mockWifiInfo.getFrequency()).thenReturn(TEST_NETWORK_FREQUENCY);
+        when(mMockWiFiManager.getConnectionInfo()).thenReturn(mockWifiInfo);
+
+        assertEquals(TEST_NETWORK_FREQUENCY, mWiseFy.getFrequency(mockWifiInfo));
+      }
+    }
+
+    @Test
+    public void getNearbyAccessPoints_success_filterDuplicates_false() {
         setManagers();
         List<ScanResult> scanResults = new ArrayList<>();
         ScanResult scanResult1 = mock(ScanResult.class);
@@ -407,7 +407,7 @@ public class WiseFyTest extends BaseTestClass<TestActivity> {
     }
 
     @Test
-    public void testGetNearbyAccessPointsFilterDuplicatesDifferent() {
+    public void getNearbyAccessPoints_success_filterDuplicates_true_differentSSIDs() {
         setManagers();
         List<ScanResult> scanResults = new ArrayList<>();
         ScanResult scanResult1 = mock(ScanResult.class);
@@ -426,7 +426,7 @@ public class WiseFyTest extends BaseTestClass<TestActivity> {
     }
 
     @Test
-    public void testGetNearbyAccessPointsFilterDuplicatesHigher() {
+    public void getNearbyAccessPoints_success_filterDuplicates_true_sameSSIDs_higherFrequency() {
         setManagers();
         List<ScanResult> scanResults = new ArrayList<>();
         ScanResult scanResult1 = mock(ScanResult.class);
@@ -450,7 +450,7 @@ public class WiseFyTest extends BaseTestClass<TestActivity> {
     }
 
     @Test
-    public void testGetNearbyAccessPointsFilterDuplicatesLower() {
+    public void getNearbyAccessPoints_filterDuplicates_true_sameSSIDs_lowerFrequency() {
         setManagers();
         List<ScanResult> scanResults = new ArrayList<>();
         ScanResult scanResult1 = mock(ScanResult.class);
@@ -474,14 +474,27 @@ public class WiseFyTest extends BaseTestClass<TestActivity> {
     }
 
     @Test
-    public void testGetNearbyAccessPointsNullWifiManager() {
+    public void getNearbyAccessPoints_failure_filterDuplicates_false_nullWifiManager() {
+        setManagersToNull();
+        List<ScanResult> results = mWiseFy.getNearbyAccessPoints(false);
+        assertEquals(null, results);
+    }
+
+    @Test
+    public void getNearbyAccessPoints_failure_filterDuplicates_true_nullWifiManager() {
         setManagersToNull();
         List<ScanResult> results = mWiseFy.getNearbyAccessPoints(true);
         assertEquals(null, results);
     }
 
     @Test
-    public void testGetSavedNetworks() {
+    public void getSavedNetworks_failure_nullWifiManager() {
+        setManagersToNull();
+        assertEquals(null, mWiseFy.getSavedNetworks());
+    }
+
+    @Test
+    public void getSavedNetworks_success() {
         setManagers();
         List<WifiConfiguration> wifiList = new ArrayList<>();
         WifiConfiguration mWiFiConfiguration = new WifiConfiguration();
@@ -493,27 +506,7 @@ public class WiseFyTest extends BaseTestClass<TestActivity> {
     }
 
     @Test
-    public void testGetSavedNetworksNullWifiManager() {
-        setManagersToNull();
-        assertEquals(null, mWiseFy.getSavedNetworks());
-    }
-
-    @Test
-    public void testIsDeviceConnectedToMobileNetworkFailureSuccess() {
-        setManagers();
-        NetworkInfo mockNetworkInfo = mock(NetworkInfo.class);
-        when(mockNetworkInfo.getTypeName()).thenReturn("MOBILE");
-
-        when(mMockConnectivityManager.getActiveNetworkInfo()).thenReturn(mockNetworkInfo);
-        when(mockNetworkInfo.isAvailable()).thenReturn(true);
-        when(mockNetworkInfo.isConnected()).thenReturn(true);
-
-        boolean result = mWiseFy.isDeviceConnectedToMobileNetwork();
-        assertEquals(true, result);
-    }
-
-    @Test
-    public void testIsDeviceConnectedToMobileNetworkFailureNotAvailable() {
+    public void isDeviceConnectedToMobileNetwork_failure_notAvailable() {
         setManagers();
         NetworkInfo mockNetworkInfo = mock(NetworkInfo.class);
         when(mockNetworkInfo.getTypeName()).thenReturn("MOBILE");
@@ -527,7 +520,7 @@ public class WiseFyTest extends BaseTestClass<TestActivity> {
     }
 
     @Test
-    public void testIsDeviceConnectedToMobileNetworkFailureNotConnected() {
+    public void isDeviceConnectedToMobileNetwork_failure_notConnected() {
         setManagers();
         NetworkInfo mockNetworkInfo = mock(NetworkInfo.class);
         when(mockNetworkInfo.getTypeName()).thenReturn("MOBILE");
@@ -541,7 +534,14 @@ public class WiseFyTest extends BaseTestClass<TestActivity> {
     }
 
     @Test
-    public void testIsDeviceConnectedToMobileNetworkFailureWrongType() {
+    public void isDeviceConnectedToMobileNetwork_failure_nullConfigurationManager() {
+        setManagersToNull();
+        boolean result = mWiseFy.isDeviceConnectedToMobileNetwork();
+        assertEquals(false, result);
+    }
+
+    @Test
+    public void isDeviceConnectedToMobileNetwork_failure_wrongType() {
         setManagers();
         NetworkInfo mockNetworkInfo = mock(NetworkInfo.class);
         when(mockNetworkInfo.getTypeName()).thenReturn("WRONG TYPE");
@@ -555,14 +555,21 @@ public class WiseFyTest extends BaseTestClass<TestActivity> {
     }
 
     @Test
-    public void testIsDeviceConnectedToMobileNetworkNullConfigurationManager() {
-        setManagersToNull();
+    public void isDeviceConnectedToMobileNetwork_success() {
+        setManagers();
+        NetworkInfo mockNetworkInfo = mock(NetworkInfo.class);
+        when(mockNetworkInfo.getTypeName()).thenReturn("MOBILE");
+
+        when(mMockConnectivityManager.getActiveNetworkInfo()).thenReturn(mockNetworkInfo);
+        when(mockNetworkInfo.isAvailable()).thenReturn(true);
+        when(mockNetworkInfo.isConnected()).thenReturn(true);
+
         boolean result = mWiseFy.isDeviceConnectedToMobileNetwork();
-        assertEquals(false, result);
+        assertEquals(true, result);
     }
 
     @Test
-    public void testIsDeviceConnectedToMobileOrWifiNetworkFailureSuccessMobile() {
+    public void isDeviceConnectedToMobileOrWifiNetwork_success_mobile() {
         setManagers();
         NetworkInfo mockNetworkInfo = mock(NetworkInfo.class);
         when(mockNetworkInfo.getTypeName()).thenReturn("MOBILE");
@@ -576,7 +583,7 @@ public class WiseFyTest extends BaseTestClass<TestActivity> {
     }
 
     @Test
-    public void testIsDeviceConnectedToMobileOrWifiNetworkFailureSuccessWifi() {
+    public void isDeviceConnectedToMobileOrWifiNetwork_success_wifi() {
         setManagers();
         NetworkInfo mockNetworkInfo = mock(NetworkInfo.class);
         when(mockNetworkInfo.getTypeName()).thenReturn("WIFI");
@@ -590,7 +597,7 @@ public class WiseFyTest extends BaseTestClass<TestActivity> {
     }
 
     @Test
-    public void testIsDeviceConnectedToMobileOrWifiNetworkFailureNotAvailableMobile() {
+    public void isDeviceConnectedToMobileOrWifiNetwork_failure_mobile_notAvailable() {
         setManagers();
         NetworkInfo mockNetworkInfo = mock(NetworkInfo.class);
         when(mockNetworkInfo.getTypeName()).thenReturn("MOBILE");
@@ -604,7 +611,7 @@ public class WiseFyTest extends BaseTestClass<TestActivity> {
     }
 
     @Test
-    public void testIsDeviceConnectedToMobileOrWifiNetworkFailureNotAvailableWifi() {
+    public void isDeviceConnectedToMobileOrWifiNetwork_failure_wifi_notAvailable() {
         setManagers();
         NetworkInfo mockNetworkInfo = mock(NetworkInfo.class);
         when(mockNetworkInfo.getTypeName()).thenReturn("WIFI");
@@ -618,7 +625,7 @@ public class WiseFyTest extends BaseTestClass<TestActivity> {
     }
 
     @Test
-    public void testIsDeviceConnectedToMobileOrWifiNetworkFailureNotConnectedMobile() {
+    public void isDeviceConnectedToMobileOrWifiNetwork_failure_mobile_notConnected() {
         setManagers();
         NetworkInfo mockNetworkInfo = mock(NetworkInfo.class);
         when(mockNetworkInfo.getTypeName()).thenReturn("MOBILE");
@@ -632,7 +639,7 @@ public class WiseFyTest extends BaseTestClass<TestActivity> {
     }
 
     @Test
-    public void testIsDeviceConnectedToMobileOrWifiNetworkFailureNotConnectedWifi() {
+    public void isDeviceConnectedToMobileOrWifiNetwork_failure_wifi_notConnected() {
         setManagers();
         NetworkInfo mockNetworkInfo = mock(NetworkInfo.class);
         when(mockNetworkInfo.getTypeName()).thenReturn("WIFI");
@@ -646,38 +653,14 @@ public class WiseFyTest extends BaseTestClass<TestActivity> {
     }
 
     @Test
-    public void testIsDeviceConnectedToMobileOrWifiNetworkNullConfigurationManager() {
+    public void isDeviceConnectedToMobileOrWifiNetwork_failure_nullConfigurationManager() {
         setManagersToNull();
         boolean result = mWiseFy.isDeviceConnectedToMobileOrWifiNetwork();
         assertEquals(false, result);
     }
 
     @Test
-    public void testIsDeviceConnectedToSSID() {
-        setManagers();
-        List<WifiConfiguration> wifiList = new ArrayList<>();
-        WifiConfiguration mWiFiConfiguration = new WifiConfiguration();
-        mWiFiConfiguration.SSID = TEST_SSID;
-        wifiList.add(mWiFiConfiguration);
-
-        WifiInfo mockWiFiInfo = mock(WifiInfo.class);
-        when(mockWiFiInfo.getSSID()).thenReturn(TEST_SSID);
-
-        when(mMockWiFiManager.getConfiguredNetworks()).thenReturn(wifiList);
-        when(mMockWiFiManager.getConnectionInfo()).thenReturn(mockWiFiInfo);
-
-        NetworkInfo mockNetworkInfo = mock(NetworkInfo.class);
-
-        when(mMockConnectivityManager.getActiveNetworkInfo()).thenReturn(mockNetworkInfo);
-        when(mockNetworkInfo.isAvailable()).thenReturn(true);
-        when(mockNetworkInfo.isConnected()).thenReturn(true);
-
-        boolean result = mWiseFy.isDeviceConnectedToSSID(TEST_SSID);
-        assertEquals(true, result);
-    }
-
-    @Test
-    public void testIsDeviceConnectedToSSIDFailureOtherSSID() {
+    public void isDeviceConnectedToSSID_failure_differentSSID() {
         setManagers();
         List<WifiConfiguration> wifiList = new ArrayList<>();
         WifiConfiguration mWiFiConfiguration = new WifiConfiguration();
@@ -701,7 +684,7 @@ public class WiseFyTest extends BaseTestClass<TestActivity> {
     }
 
     @Test
-    public void testIsDeviceConnectedToSSIDFailureNotAvailable() {
+    public void isDeviceConnectedToSSID_failure_NotAvailable() {
         setManagers();
         List<WifiConfiguration> wifiList = new ArrayList<>();
         WifiConfiguration mWiFiConfiguration = new WifiConfiguration();
@@ -725,7 +708,7 @@ public class WiseFyTest extends BaseTestClass<TestActivity> {
     }
 
     @Test
-    public void testIsDeviceConnectedToSSIDFailureNotConnected() {
+    public void isDeviceConnectedToSSID_failure_NotConnected() {
         setManagers();
         List<WifiConfiguration> wifiList = new ArrayList<>();
         WifiConfiguration mWiFiConfiguration = new WifiConfiguration();
@@ -749,28 +732,38 @@ public class WiseFyTest extends BaseTestClass<TestActivity> {
     }
 
     @Test
-    public void testIsDeviceConnectedToSSIDFailureNullWifiManager() {
+    public void isDeviceConnectedToSSID_failure_NullWifiManager() {
         setManagersToNull();
         boolean result = mWiseFy.isDeviceConnectedToSSID(TEST_SSID);
         assertEquals(false, result);
     }
 
     @Test
-    public void testIsDeviceConnectedToWifiNetworkFailureSuccess() {
+    public void isDeviceConnectedToSSID_success() {
         setManagers();
+        List<WifiConfiguration> wifiList = new ArrayList<>();
+        WifiConfiguration mWiFiConfiguration = new WifiConfiguration();
+        mWiFiConfiguration.SSID = TEST_SSID;
+        wifiList.add(mWiFiConfiguration);
+
+        WifiInfo mockWiFiInfo = mock(WifiInfo.class);
+        when(mockWiFiInfo.getSSID()).thenReturn(TEST_SSID);
+
+        when(mMockWiFiManager.getConfiguredNetworks()).thenReturn(wifiList);
+        when(mMockWiFiManager.getConnectionInfo()).thenReturn(mockWiFiInfo);
+
         NetworkInfo mockNetworkInfo = mock(NetworkInfo.class);
-        when(mockNetworkInfo.getTypeName()).thenReturn("WIFI");
 
         when(mMockConnectivityManager.getActiveNetworkInfo()).thenReturn(mockNetworkInfo);
         when(mockNetworkInfo.isAvailable()).thenReturn(true);
         when(mockNetworkInfo.isConnected()).thenReturn(true);
 
-        boolean result = mWiseFy.isDeviceConnectedToWifiNetwork();
+        boolean result = mWiseFy.isDeviceConnectedToSSID(TEST_SSID);
         assertEquals(true, result);
     }
 
     @Test
-    public void testIsDeviceConnectedToWifiNetworkFailureNotAvailable() {
+    public void isDeviceConnectedToWifiNetwork_Failure_notAvailable() {
         setManagers();
         NetworkInfo mockNetworkInfo = mock(NetworkInfo.class);
         when(mockNetworkInfo.getTypeName()).thenReturn("WIFI");
@@ -784,7 +777,7 @@ public class WiseFyTest extends BaseTestClass<TestActivity> {
     }
 
     @Test
-    public void testIsDeviceConnectedToWifiNetworkFailureNotConnected() {
+    public void isDeviceConnectedToWifiNetwork_failure_notConnected() {
         setManagers();
         NetworkInfo mockNetworkInfo = mock(NetworkInfo.class);
         when(mockNetworkInfo.getTypeName()).thenReturn("WIFI");
@@ -798,7 +791,14 @@ public class WiseFyTest extends BaseTestClass<TestActivity> {
     }
 
     @Test
-    public void testIsDeviceConnectedToWifiNetworkFailureWrongType() {
+    public void isDeviceConnectedToWifiNetwork_failure_nullConfigurationManager() {
+        setManagersToNull();
+        boolean result = mWiseFy.isDeviceConnectedToWifiNetwork();
+        assertEquals(false, result);
+    }
+
+    @Test
+    public void isDeviceConnectedToWifiNetwork_failure_wrongType() {
         setManagers();
         NetworkInfo mockNetworkInfo = mock(NetworkInfo.class);
         when(mockNetworkInfo.getTypeName()).thenReturn("WRONG TYPE");
@@ -812,26 +812,21 @@ public class WiseFyTest extends BaseTestClass<TestActivity> {
     }
 
     @Test
-    public void testIsDeviceConnectedToWifiNetworkNullConfigurationManager() {
-        setManagersToNull();
+    public void isDeviceConnectedToWifiNetwork_Success() {
+        setManagers();
+        NetworkInfo mockNetworkInfo = mock(NetworkInfo.class);
+        when(mockNetworkInfo.getTypeName()).thenReturn("WIFI");
+
+        when(mMockConnectivityManager.getActiveNetworkInfo()).thenReturn(mockNetworkInfo);
+        when(mockNetworkInfo.isAvailable()).thenReturn(true);
+        when(mockNetworkInfo.isConnected()).thenReturn(true);
+
         boolean result = mWiseFy.isDeviceConnectedToWifiNetwork();
-        assertEquals(false, result);
+        assertEquals(true, result);
     }
 
     @Test
-    public void testIsNetwork5gHzCurrentNetworkTrue() {
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            setManagers();
-            WifiInfo mockWifiInfo = mock(WifiInfo.class);
-            when(mockWifiInfo.getFrequency()).thenReturn(TEST_NETWORK_FREQUENCY_5G);
-            when(mMockWiFiManager.getConnectionInfo()).thenReturn(mockWifiInfo);
-
-            assertEquals(true, mWiseFy.isNetwork5gHz());
-        }
-    }
-
-    @Test
-    public void testIsNetwork5gHzCurrentNetworkFalse() {
+    public void isNetwork5gHz_currentNetwork_failure() {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             setManagers();
             WifiInfo mockWifiInfo = mock(WifiInfo.class);
@@ -843,19 +838,19 @@ public class WiseFyTest extends BaseTestClass<TestActivity> {
     }
 
     @Test
-    public void testIsNetwork5gHzTrue() {
+    public void isNetwork5gHz_currentNetwork_success() {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             setManagers();
             WifiInfo mockWifiInfo = mock(WifiInfo.class);
             when(mockWifiInfo.getFrequency()).thenReturn(TEST_NETWORK_FREQUENCY_5G);
             when(mMockWiFiManager.getConnectionInfo()).thenReturn(mockWifiInfo);
 
-            assertEquals(true, mWiseFy.isNetwork5gHz(mockWifiInfo));
+            assertEquals(true, mWiseFy.isNetwork5gHz());
         }
     }
 
     @Test
-    public void testIsNetwork5gHzFalse() {
+    public void isNetwork5gHz_provideWifiInfo_failure() {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             setManagers();
             WifiInfo mockWifiInfo = mock(WifiInfo.class);
@@ -867,13 +862,25 @@ public class WiseFyTest extends BaseTestClass<TestActivity> {
     }
 
     @Test
-    public void testIsNetworkInConfigurationListFailure() {
+    public void isNetwork5gHz_provideWifiInfo_success() {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            setManagers();
+            WifiInfo mockWifiInfo = mock(WifiInfo.class);
+            when(mockWifiInfo.getFrequency()).thenReturn(TEST_NETWORK_FREQUENCY_5G);
+            when(mMockWiFiManager.getConnectionInfo()).thenReturn(mockWifiInfo);
+
+            assertEquals(true, mWiseFy.isNetwork5gHz(mockWifiInfo));
+        }
+    }
+
+    @Test
+    public void isNetworkInConfigurationList_failure() {
         setManagers();
         assertEquals(false, mWiseFy.isNetworkInConfigurationList(TEST_SSID));
     }
 
     @Test
-    public void testIsNetworkInConfigurationListFailureNoNetworks() {
+    public void isNetworkInConfigurationList_failure_noNetworks() {
         setManagers();
         List<WifiConfiguration> wifiList = new ArrayList<>();
         when(mMockWiFiManager.getConfiguredNetworks()).thenReturn(wifiList);
@@ -881,7 +888,13 @@ public class WiseFyTest extends BaseTestClass<TestActivity> {
     }
 
     @Test
-    public void testIsNetworkInConfigurationListSuccess() {
+    public void isNetworkInConfigurationList_failure_nullWifiManager() {
+        setManagersToNull();
+        assertEquals(false, mWiseFy.isNetworkInConfigurationList(TEST_SSID));
+    }
+
+    @Test
+    public void isNetworkInConfigurationList_success() {
         setManagers();
         List<WifiConfiguration> wifiList = new ArrayList<>();
         WifiConfiguration mWiFiConfiguration = new WifiConfiguration();
@@ -892,67 +905,61 @@ public class WiseFyTest extends BaseTestClass<TestActivity> {
     }
 
     @Test
-    public void testIsNetworkInConfigurationNullWifiManager() {
-        setManagersToNull();
-        assertEquals(false, mWiseFy.isNetworkInConfigurationList(TEST_SSID));
-    }
-
-    @Test
-    public void testIsNetworkSecureWithWEP() {
+    public void isNetworkSecure_success_withWEP() {
         ScanResult scanResult = mock(ScanResult.class);
         scanResult.capabilities = "WEP";
         assertEquals(true, mWiseFy.isNetworkSecure(scanResult));
     }
 
     @Test
-    public void testIsNetworkSecureWithPSK() {
+    public void isNetworkSecure_success_withPSK() {
         ScanResult scanResult = mock(ScanResult.class);
         scanResult.capabilities = "PSK";
         assertEquals(true, mWiseFy.isNetworkSecure(scanResult));
     }
 
     @Test
-    public void testIsNetworkSecureWithEAP() {
+    public void isNetworkSecure_success_withEAP() {
         ScanResult scanResult = mock(ScanResult.class);
         scanResult.capabilities = "EAP";
         assertEquals(true, mWiseFy.isNetworkSecure(scanResult));
     }
 
     @Test
-    public void testIsNetworkSecureEmptyCapabilities() {
+    public void isNetworkSecure_failure_emptyCapabilities() {
         ScanResult scanResult = mock(ScanResult.class);
         scanResult.capabilities = "";
         assertEquals(false, mWiseFy.isNetworkSecure(scanResult));
     }
 
     @Test
-    public void testIsNetworkSecureNullCapabilities() {
+    public void isNetworkSecure_failure_nullCapabilities() {
         ScanResult scanResult = mock(ScanResult.class);
         assertEquals(false, mWiseFy.isNetworkSecure(scanResult));
     }
 
     @Test
-    public void testIsWifiEnabledFailure() {
+    public void isWifiEnabled_failure() {
         setManagers();
         when(mMockWiFiManager.isWifiEnabled()).thenReturn(false);
         assertEquals(false, mWiseFy.isWifiEnabled());
     }
 
     @Test
-    public void testIsWifiEnabledSuccess() {
+    public void isWifiEnabled_success() {
         setManagers();
         when(mMockWiFiManager.isWifiEnabled()).thenReturn(true);
         assertEquals(true, mWiseFy.isWifiEnabled());
     }
 
     @Test
-    public void testIsWifiEnabledNullWifiManager() {
+    public void isWifiEnabled_failure_NullWifiManager() {
         setManagersToNull();
         assertEquals(false, mWiseFy.isWifiEnabled());
     }
 
     @Test
-    public void testRemoveNetworkFailure() {
+    public void removeNetwork_failure() {
         setManagers();
         when(mMockWiFiManager.getConfiguredNetworks()).thenReturn(getTestWifiConfiguration());
         when(mMockWiFiManager.removeNetwork(anyInt())).thenReturn(false);
@@ -962,7 +969,7 @@ public class WiseFyTest extends BaseTestClass<TestActivity> {
     }
 
     @Test
-    public void testRemoveNetworkFailureNotInList() {
+    public void removeNetwork_failure_notInList() {
         setManagers();
         List<WifiConfiguration> wifiList = new ArrayList<>();
         when(mMockWiFiManager.getConfiguredNetworks()).thenReturn(wifiList);
@@ -973,14 +980,14 @@ public class WiseFyTest extends BaseTestClass<TestActivity> {
     }
 
     @Test
-    public void testRemoveNetworkNullWifiManager() {
+    public void removeNetwork_failure_nullWifiManager() {
         setManagersToNull();
         boolean result = mWiseFy.removeNetwork(TEST_SSID);
         assertEquals(false, result);
     }
 
     @Test
-    public void testRemoveNetworkSuccess() {
+    public void removeNetwork_success() {
         setManagers();
         List<WifiConfiguration> wifiList = new ArrayList<>();
         WifiConfiguration mWiFiConfiguration = new WifiConfiguration();
@@ -994,7 +1001,7 @@ public class WiseFyTest extends BaseTestClass<TestActivity> {
     }
 
     @Test
-    public void testSearchSSIDNFailure() {
+    public void searchSSID_failure() {
         setManagers();
         WifiInfo mockWifiInfo = mock(WifiInfo.class);
         when(mockWifiInfo.getSSID()).thenReturn(TEST_SSID);
@@ -1004,13 +1011,13 @@ public class WiseFyTest extends BaseTestClass<TestActivity> {
     }
 
     @Test
-    public void testSearchSSIDNullWifiManager() {
+    public void searchSSID_failure_nullWifiManager() {
         setManagersToNull();
         assertEquals(null, mWiseFy.searchForSSID(TEST_SSID, 1));
     }
 
     @Test
-    public void testSearchSSIDSuccess() {
+    public void searchSSID_success() {
         setManagers();
         List<ScanResult> scanResults = new ArrayList<>();
         ScanResult scanResult = mock(ScanResult.class);
