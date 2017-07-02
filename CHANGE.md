@@ -1,3 +1,80 @@
+## v1.0.8 - 07/02/2017
+
+#### Update Javadocs again
+commit d18109d7c3093015423541151595c7de25ce80c8<br/>
+Author: isuPatches <isuPatches@yahoo.com><br/>
+Date:   Sun Jul 2 14:58:28 2017 -0500
+
+#### Add more tests, switch to String.format, update more libs, and restore travis-ci functionality
+commit db218ba7122453097b696d45bc3a43d9d05ade9c<br/>
+Author: isuPatches <isuPatches@yahoo.com><br/>
+Date:   Sun Jul 2 14:57:17 2017 -0500
+
+#### Test for travis_wait
+commit 2cb4425e5b232b67b936da2e75a99d2fcc1ca310<br/>
+Author: isuPatches <isuPatches@yahoo.com><br/>
+Date:   Sun Jul 2 12:57:35 2017 -0500
+
+#### Update README to include permission blurb
+commit 40ce82ce7c9c00e8b6ef31a08cdba4d7b1c87cc9<br/>
+Author: isuPatches <isuPatches@yahoo.com><br/>
+Date:   Sun Jul 2 09:38:32 2017 -0500
+
+#### Adding travis_wait
+commit 64168a57918dd887ddb8da2de93c134f4d3688c0<br/>
+Author: isuPatches <isuPatches@yahoo.com><br/>
+Date:   Sun Jul 2 09:17:39 2017 -0500
+
+#### Test for travis-ci
+commit b8e5449ea6f23a41a503988dd1c41ad71702b68a<br/>
+Author: isuPatches <isuPatches@yahoo.com><br/>
+Date:   Sun Jul 2 08:53:09 2017 -0500  
+
+#### Update test naming schema
+commit 292487515bb1dd5883d5929f84a180066e5d8112<br/>
+Author: isuPatches <isuPatches@yahoo.com><br/>
+Date:   Sun Jul 2 01:26:05 2017 -0500
+    
+    close #48
+
+#### Rename GetManagerUtil
+commit 5495cf97f54c5d74bff5a8e2226fe0b4fbd6e077<br/>
+Author: isuPatches <isuPatches@yahoo.com><br/>
+Date:   Sat Jul 1 23:54:04 2017 -0500
+
+    close #46
+
+#### Update Javadocs, eliminate potential memory leak on Android N
+commit 716997a3d6e88b89e5999603664fc7f748ad4ec4<br/>
+Author: isuPatches <isuPatches@yahoo.com><br/>
+Date:   Sat Jul 1 23:48:02 2017 -0500
+
+    close #45
+
+#### Adjust scope for withContext, bump some versions, remove potential manifest conflicts
+commit 48def3c09edd2b5ae54129084bc6d2f266396fb2<br/>
+Author: isuPatches <isuPatches@yahoo.com><br/>
+Date:   Sat Jul 1 23:13:48 2017 -0500
+
+    close #41
+
+#### Merge branch 'master' into develop
+commit c9b9cb726be57e62a925f9ac2d84682e94c2c0b0<br/>
+Merge: b1da078 0b7a808<br/>
+Author: isuPatches <isuPatches@yahoo.com><br/>
+Date:   Sat Mar 25 23:07:56 2017 -0500
+
+#### Update CHANGE.md
+commit 0b7a808eabd41a2d2eb8fd1a1c29dcd19f1be455<br/>
+Author: Patches <isuPatches@yahoo.com><br/>
+Date:   Sat Mar 25 23:05:20 2017 -0500
+
+#### Merge branch 'master' into develop
+commit b1da078eb48f0b29ba140a8a334a5fd54d242316<br/>
+Merge: e9f087b a836baf<br/>
+Author: isuPatches <isuPatches@yahoo.com><br/>
+Date:   Sat Mar 25 22:45:21 2017 -0500
+    
 ## v1.0.7 - 03/25/2017
 
 #### Merge pull request #37 from isuPatches/develop
