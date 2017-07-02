@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.isupatches.wisefy;
 
 
@@ -651,7 +650,6 @@ public class WiseFy {
         int frequency = getFrequency();
         return frequency > 4900 && frequency < 5900;
     }
-
 
     /**
      * To check if a given network is 5gHz

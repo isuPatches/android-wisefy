@@ -67,7 +67,7 @@ public class GetManagerUtil {
      */
     public WifiManager getWiFiManager(Context context) {
         if(context != null) {
-            return (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+            return (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         } else {
             return null;
         }

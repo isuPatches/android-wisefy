@@ -10,7 +10,7 @@ Wifi configuration and util library built for Android.
 
 [ ![Download](https://api.bintray.com/packages/isupatches/Maven/wisefy/images/download.svg) ](https://bintray.com/isupatches/Maven/wisefy/_latestVersion)
 
-<a href="http://www.methodscount.com/?lib=com.isupatches%3Awisefy%3A1.0.5"><img src="https://img.shields.io/badge/Methods and size-core: 104 | deps: 16517 | 55 KB-e91e63.svg"/></a>
+<a href="http://www.methodscount.com/?lib=com.isupatches%3Awisefy%3A1.0.8"><img src="https://img.shields.io/badge/Methods and size-core: 105 | deps: 19372 | 56 KB-e91e63.svg"/></a>
 
 ## Adding to your project
 
@@ -41,7 +41,7 @@ Then add it as a dependency:
 Gradle:
 
 ```
-compile 'com.isupatches:wisefy:1.0.7'
+compile 'com.isupatches:wisefy:1.0.8'
 ```
 
 Maven:
@@ -50,7 +50,7 @@ Maven:
 <dependency>
   <groupId>com.isupatches</groupId>
   <artifactId>wisefy</artifactId>
-  <version>1.0.7</version>
+  <version>1.0.8</version>
   <type>pom</type>
 </dependency>
 ```
