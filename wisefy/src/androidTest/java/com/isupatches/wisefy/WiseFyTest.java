@@ -53,6 +53,7 @@ public class WiseFyTest extends BaseTestClass<TestActivity> {
         when(mMockWiFiManager.addNetwork(any(WifiConfiguration.class))).thenReturn(WiseFy.WIFI_MANAGER_FAILURE);
         int result = mWiseFy.addOpenNetwork(OPEN_NETWORK_SSID);
         assertEquals(WiseFy.WIFI_MANAGER_FAILURE, result);
+        assertEquals(1, 2);
     }
 
     @Test
