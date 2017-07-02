@@ -10,7 +10,7 @@ Wifi configuration and util library built for Android.
 
 [ ![Download](https://api.bintray.com/packages/isupatches/Maven/wisefy/images/download.svg) ](https://bintray.com/isupatches/Maven/wisefy/_latestVersion)
 
-<a href="http://www.methodscount.com/?lib=com.isupatches%3Awisefy%3A1.0.5"><img src="https://img.shields.io/badge/Methods and size-core: 104 | deps: 16517 | 55 KB-e91e63.svg"/></a>
+<a href="http://www.methodscount.com/?lib=com.isupatches%3Awisefy%3A1.0.8"><img src="https://img.shields.io/badge/Methods and size-core: 105 | deps: 19372 | 56 KB-e91e63.svg"/></a>
 
 ## Adding to your project
 
@@ -41,7 +41,7 @@ Then add it as a dependency:
 Gradle:
 
 ```
-compile 'com.isupatches:wisefy:1.0.7'
+compile 'com.isupatches:wisefy:1.0.8'
 ```
 
 Maven:
@@ -50,7 +50,7 @@ Maven:
 <dependency>
   <groupId>com.isupatches</groupId>
   <artifactId>wisefy</artifactId>
-  <version>1.0.7</version>
+  <version>1.0.8</version>
   <type>pom</type>
 </dependency>
 ```
@@ -72,6 +72,23 @@ To grab an instance with logging enabled:
 ```java
 WiseFy mWiseFy = new WiseFy.withContext(getActivity()).logging(true).getSmarts();
 ```
+
+## Permissions
+
+For the sake of transparency and because you're probably curious as to what permissions this library adds to your app, here are the additional expected permissions:
+
+```xml
+ <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+ <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+ <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+
+ <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+ <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+```
+
+<strong> * NOTE * </strong>
+
+If a search for an SSID is failing (returning false or NULL depending on the method) on >= 6.x devices but the network is visible, it's most likely because you haven't asked in your application for the `Manifest.permission.ACCESS_COARSE_LOCATION` permission which is what allows us to see the access points nearby. It has been up for debate on if it would be beneficial to move permission requests to the WiseFy library, but at this time, it remains as-is so users can determine their own UI/UX and to not add additional package bloat.
 
 ## Commands
 

@@ -22,9 +22,13 @@ public class TestUtils {
 
     public static final String TEST_SSID2 = "Test Network 2";
 
-    public static final int TEST_NETWORK_FREQUENCY = 2400;
+    public static final int TEST_NETWORK_FREQUENCY_BELOW_5GHZ = 2400;
 
-    public static final int TEST_NETWORK_FREQUENCY_5G = 5000;
+    public static final int TEST_NETWORK_FREQUENCY_ABOVE_5GHZ = 6000;
+
+    public static final int TEST_NETWORK_FREQUENCY_24GHZ = 2400;
+
+    public static final int TEST_NETWORK_FREQUENCY_5GHZ = 5000;
 
     public static List<WifiConfiguration> getTestWifiConfiguration() {
         List<WifiConfiguration> wifiList = new ArrayList<>();
