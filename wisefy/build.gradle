@@ -27,12 +27,12 @@ android {
     }
 
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion "25.0.3"
 
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 6
+        versionCode 7
         versionName version
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
     }
@@ -41,23 +41,25 @@ android {
         debug {
             testCoverageEnabled true
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            testProguardFile file("proguard-test-rules.txt")
         }
 
         release {
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:25.3.0'
+    compile 'com.android.support:appcompat-v7:25.3.1'
 
-    androidTestCompile 'com.android.support:support-annotations:25.3.0'
+    androidTestCompile 'com.android.support:support-annotations:25.3.1'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
-    androidTestCompile 'org.mockito:mockito-android:2.6.9'
+    androidTestCompile 'org.mockito:mockito-android:2.8.47'
+    androidTestCompile 'com.android.support.test:runner:0.5'
 
     testCompile 'org.mockito:mockito-core:2.7.19'
     testCompile 'junit:junit:4.12'

@@ -82,7 +82,7 @@ public class WiseFy {
          * @param context - The activity or application context to get a WifiConfiguration and
          * ConnectivityManager instance
          */
-        withContext(Context context) {
+        public withContext(Context context) {
             this.context = context;
         }
 
