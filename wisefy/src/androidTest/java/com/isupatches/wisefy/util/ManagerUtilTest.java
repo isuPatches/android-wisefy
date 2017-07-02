@@ -11,9 +11,9 @@ import org.junit.Test;
 import static junit.framework.Assert.*;
 
 
-public class GetManagerUtilTest extends BaseTestClass<TestActivity> {
+public class ManagerUtilTest extends BaseTestClass<TestActivity> {
 
-    public GetManagerUtilTest() {
+    public ManagerUtilTest() {
         super(TestActivity.class);
     }
 
@@ -22,25 +22,25 @@ public class GetManagerUtilTest extends BaseTestClass<TestActivity> {
 
     @Test
     public void testGetConnectivityManager() {
-        ConnectivityManager connectivityManager = GetManagerUtil.getInstance().getConnectivityManager(mActivityTestRule.getActivity());
+        ConnectivityManager connectivityManager = ManagerUtil.getInstance().getConnectivityManager(mActivityTestRule.getActivity());
         assertNotNull(connectivityManager);
     }
 
     @Test
     public void testGetConnectivityManagerNullActivity() {
-        ConnectivityManager connectivityManager = GetManagerUtil.getInstance().getConnectivityManager(null);
+        ConnectivityManager connectivityManager = ManagerUtil.getInstance().getConnectivityManager(null);
         assertNull(connectivityManager);
     }
 
     @Test
     public void testGetWiFiManager() {
-        WifiManager wifiManager = GetManagerUtil.getInstance().getWiFiManager(mActivityTestRule.getActivity());
+        WifiManager wifiManager = ManagerUtil.getInstance().getWiFiManager(mActivityTestRule.getActivity());
         assertNotNull(wifiManager);
     }
 
     @Test
     public void testGetWiFiManagerNullActivity() {
-        WifiManager wifiManager = GetManagerUtil.getInstance().getWiFiManager(null);
+        WifiManager wifiManager = ManagerUtil.getInstance().getWiFiManager(null);
         assertNull(wifiManager);
     }
 }

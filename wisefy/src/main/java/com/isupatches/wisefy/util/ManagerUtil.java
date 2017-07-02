@@ -22,21 +22,21 @@ import android.net.wifi.WifiManager;
 import com.isupatches.wisefy.WiseFy;
 
 
-public class GetManagerUtil {
+public class ManagerUtil {
 
-    private static final GetManagerUtil GET_MANAGER_UTIL = new GetManagerUtil();
+    private static final ManagerUtil MANAGER_UTIL = new ManagerUtil();
 
     /**
      * Private constructor with no setup
      */
-    private GetManagerUtil() {
+    private ManagerUtil() {
     }
 
     /**
      * @return instance of GetManagerUtil
      */
-    public static GetManagerUtil getInstance() {
-        return GET_MANAGER_UTIL;
+    public static ManagerUtil getInstance() {
+        return MANAGER_UTIL;
     }
 
     /**

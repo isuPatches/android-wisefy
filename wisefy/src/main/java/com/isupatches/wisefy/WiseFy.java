@@ -26,7 +26,7 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.text.TextUtils;
 import android.util.Log;
-import com.isupatches.wisefy.util.GetManagerUtil;
+import com.isupatches.wisefy.util.ManagerUtil;
 import com.isupatches.wisefy.util.LogUtil;
 import com.isupatches.wisefy.util.SSIDUtil;
 import java.util.ArrayList;
@@ -60,8 +60,8 @@ public class WiseFy {
      */
     private WiseFy(withContext withContext) {
         this.mLoggingEnabled = withContext.loggingEnabled;
-        this.mConnectivityManager = GetManagerUtil.getInstance().getConnectivityManager(withContext.context);
-        this.mWifiManager = GetManagerUtil.getInstance().getWiFiManager(withContext.context);
+        this.mConnectivityManager = ManagerUtil.getInstance().getConnectivityManager(withContext.context);
+        this.mWifiManager = ManagerUtil.getInstance().getWiFiManager(withContext.context);
     }
 
     /**
