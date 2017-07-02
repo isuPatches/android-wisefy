@@ -73,6 +73,23 @@ To grab an instance with logging enabled:
 WiseFy mWiseFy = new WiseFy.withContext(getActivity()).logging(true).getSmarts();
 ```
 
+## Permissions
+
+For the sake of transparency and because you're probably curious as to what permissions this library adds to your app, here are the additional expected permissions:
+
+```xml
+ <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+ <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+ <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+
+ <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+ <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+```
+
+<strong> * NOTE * </strong>
+
+If a search for an SSID is failing (returning false or NULL depending on the method) on >= 6.x devices but the network is visible, it's most likely because you haven't asked in your application for the `Manifest.permission.ACCESS_COARSE_LOCATION` permission which is what allows us to see the access points nearby. It has been up for debate on if it would be beneficial to move permission requests to the WiseFy library, but at this time, it remains as-is so users can determine their own UI/UX and to not add additional package bloat.
+
 ## Commands
 
 To add an open network:
