@@ -1,4 +1,4 @@
-package com.isupatches.wisefy;
+package com.isupatches.wisefy.test;
 
 
 import android.content.Intent;
@@ -10,14 +10,15 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.support.test.rule.ActivityTestRule;
-import com.isupatches.wisefy.base.BaseTestClass;
-import com.isupatches.wisefy.base.TestActivity;
+import com.isupatches.wisefy.WiseFy;
+import com.isupatches.wisefy.test.base.BaseTestClass;
+import com.isupatches.wisefy.test.base.TestActivity;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
-import static com.isupatches.wisefy.base.TestUtils.*;
+import static com.isupatches.wisefy.test.base.TestUtils.*;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 

@@ -1,4 +1,4 @@
-package com.isupatches.wisefy.base;
+package com.isupatches.wisefy.test.base;
 
 
 import android.app.Activity;

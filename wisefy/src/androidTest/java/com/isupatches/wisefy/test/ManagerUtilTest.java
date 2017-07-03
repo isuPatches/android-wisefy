@@ -1,11 +1,11 @@
-package com.isupatches.wisefy.util;
+package com.isupatches.wisefy.test;
 
 
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
 import android.support.test.rule.ActivityTestRule;
-import com.isupatches.wisefy.base.BaseTestClass;
-import com.isupatches.wisefy.base.TestActivity;
+import com.isupatches.wisefy.test.base.BaseTestClass;
+import com.isupatches.wisefy.test.base.TestActivity;
 import org.junit.Rule;
 import org.junit.Test;
 import static junit.framework.Assert.*;
@@ -22,25 +22,25 @@ public class ManagerUtilTest extends BaseTestClass<TestActivity> {
 
     @Test
     public void getConnectivityManager_returnsNotNull() {
-        ConnectivityManager connectivityManager = ManagerUtil.getInstance().getConnectivityManager(mActivityTestRule.getActivity());
+        ConnectivityManager connectivityManager = com.isupatches.wisefy.util.ManagerUtil.getInstance().getConnectivityManager(mActivityTestRule.getActivity());
         assertNotNull(connectivityManager);
     }
 
     @Test
     public void getConnectivityManager_returnsNull_noActivity() {
-        ConnectivityManager connectivityManager = ManagerUtil.getInstance().getConnectivityManager(null);
+        ConnectivityManager connectivityManager = com.isupatches.wisefy.util.ManagerUtil.getInstance().getConnectivityManager(null);
         assertNull(connectivityManager);
     }
 
     @Test
     public void getWiFiManager_returnsNotNull() {
-        WifiManager wifiManager = ManagerUtil.getInstance().getWiFiManager(mActivityTestRule.getActivity());
+        WifiManager wifiManager = com.isupatches.wisefy.util.ManagerUtil.getInstance().getWiFiManager(mActivityTestRule.getActivity());
         assertNotNull(wifiManager);
     }
 
     @Test
     public void getWiFiManager_returnsNull_noActivity() {
-        WifiManager wifiManager = ManagerUtil.getInstance().getWiFiManager(null);
+        WifiManager wifiManager = com.isupatches.wisefy.util.ManagerUtil.getInstance().getWiFiManager(null);
         assertNull(wifiManager);
     }
 }
