@@ -109,7 +109,7 @@ int addedSuccessfully = mWiseFy.addWPA2Network("WPA2 Network", "12345678");
 To calculate number of bars given a networks signal strength and total number of bars:
 
 ```java
-int bars = mWiseFy.calculateBars(-35, -5);
+int bars = mWiseFy.calculateBars(-35, 5);
 ```
 
 To compare the signal strength of two networks:
