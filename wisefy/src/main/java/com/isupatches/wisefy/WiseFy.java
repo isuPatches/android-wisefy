@@ -26,6 +26,7 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.text.TextUtils;
 import android.util.Log;
+import com.isupatches.wisefy.constants.WiseFyCodes;
 import com.isupatches.wisefy.util.ManagerUtil;
 import com.isupatches.wisefy.util.LogUtil;
 import com.isupatches.wisefy.util.SSIDUtil;
@@ -42,10 +43,6 @@ import java.util.Locale;
 public class WiseFy {
 
     private static final String TAG = WiseFy.class.getSimpleName();
-
-    public static final int WISEFY_FAILURE = -1000;
-
-    public static final int WISEFY_NETOWRK_ALREADY_CONFIGURED = -1001;
 
     public static final int WIFI_MANAGER_FAILURE = -1;
 
@@ -138,8 +135,8 @@ public class WiseFy {
      *
      * @param ssid - The ssid of the open network you want to add
      *
-     * @see WiseFy#WISEFY_FAILURE
-     * @see WiseFy#WISEFY_NETOWRK_ALREADY_CONFIGURED
+     * {@link WiseFyCodes#FAILURE}
+     * {@link WiseFyCodes#NETWORK_ALREADY_CONFIGURED}
      *
      * @return int - The return code from WifiManager for network creation (-1 for failure)
      */
@@ -148,7 +145,7 @@ public class WiseFy {
             if (LogUtil.isLoggable(TAG, Log.ERROR, mLoggingEnabled)) {
                 Log.e(TAG, "Breaking due to empty SSID");
             }
-            return WISEFY_FAILURE;
+            return WiseFyCodes.FAILURE;
         }
         if (mWifiManager != null) {
             boolean ssidAlreadyConfigured = checkIfNetworkInConfigurationList(ssid);
@@ -174,14 +171,14 @@ public class WiseFy {
 
                 return addNetwork(wifiConfig);
             } else {
-                return WISEFY_NETOWRK_ALREADY_CONFIGURED;
+                return WiseFyCodes.NETWORK_ALREADY_CONFIGURED;
             }
         } else {
             if (LogUtil.isLoggable(TAG, Log.ERROR, mLoggingEnabled)) {
                 Log.e(TAG, "No WifiManager to add open network");
             }
         }
-        return WISEFY_FAILURE;
+        return WiseFyCodes.FAILURE;
     }
 
     /**
@@ -190,8 +187,8 @@ public class WiseFy {
      * @param ssid - The ssid of the WEP network you want to add
      * @param password - The password for the WEP network being added
      *
-     * @see WiseFy#WISEFY_FAILURE
-     * @see WiseFy#WISEFY_NETOWRK_ALREADY_CONFIGURED
+     * {@link WiseFyCodes#FAILURE}
+     * {@link WiseFyCodes#NETWORK_ALREADY_CONFIGURED}
      *
      * @return int - The return code from WifiManager for network creation (-1 for failure)
      */
@@ -200,7 +197,7 @@ public class WiseFy {
             if (LogUtil.isLoggable(TAG, Log.WARN, mLoggingEnabled)) {
                 Log.w(TAG, String.format("Breaking due to missing ssid or password. ssid: %s, password: %s", ssid, password));
             }
-            return WISEFY_FAILURE;
+            return WiseFyCodes.FAILURE;
         }
         if (mWifiManager != null) {
             boolean ssidAlreadyConfigured = checkIfNetworkInConfigurationList(ssid);
@@ -225,14 +222,14 @@ public class WiseFy {
 
                 return addNetwork(wifiConfig);
             } else {
-                return WISEFY_NETOWRK_ALREADY_CONFIGURED;
+                return WiseFyCodes.NETWORK_ALREADY_CONFIGURED;
             }
         } else {
             if (LogUtil.isLoggable(TAG, Log.ERROR, mLoggingEnabled)) {
                 Log.e(TAG, "No WifiManager to add WEP network");
             }
         }
-        return WISEFY_FAILURE;
+        return WiseFyCodes.FAILURE;
     }
 
     /**
@@ -241,8 +238,8 @@ public class WiseFy {
      * @param ssid - The ssid of the WPA2 network you want to add
      * @param password - The password for the WPA2 network being added
      *
-     * @see WiseFy#WISEFY_FAILURE
-     * @see WiseFy#WISEFY_NETOWRK_ALREADY_CONFIGURED
+     * {@link WiseFyCodes#FAILURE}
+     * {@link WiseFyCodes#NETWORK_ALREADY_CONFIGURED}
      *
      * @return int - The return code from WifiManager for network creation (-1 for failure)
      */
@@ -251,7 +248,7 @@ public class WiseFy {
             if (LogUtil.isLoggable(TAG, Log.WARN, mLoggingEnabled)) {
                 Log.w(TAG, String.format("Breaking due to missing ssid or password. ssid: %s, password: %s", ssid, password));
             }
-            return WISEFY_FAILURE;
+            return WiseFyCodes.FAILURE;
         }
         if (mWifiManager != null) {
             boolean ssidAlreadyConfigured = checkIfNetworkInConfigurationList(ssid);
@@ -279,14 +276,14 @@ public class WiseFy {
 
                 return addNetwork(wifiConfig);
             } else {
-                return WISEFY_NETOWRK_ALREADY_CONFIGURED;
+                return WiseFyCodes.NETWORK_ALREADY_CONFIGURED;
             }
         } else {
             if (LogUtil.isLoggable(TAG, Log.ERROR, mLoggingEnabled)) {
                 Log.e(TAG, "No WifiManager to add WPA2 network");
             }
         }
-        return WISEFY_FAILURE;
+        return WiseFyCodes.FAILURE;
     }
 
     /**
@@ -449,7 +446,7 @@ public class WiseFy {
         if (currentNetwork != null) {
             return currentNetwork.getFrequency();
         }
-        return WISEFY_FAILURE;
+        return WiseFyCodes.FAILURE;
     }
 
     /**
@@ -467,7 +464,7 @@ public class WiseFy {
         if (network != null) {
             return network.getFrequency();
         }
-        return WISEFY_FAILURE;
+        return WiseFyCodes.FAILURE;
     }
 
     /**
