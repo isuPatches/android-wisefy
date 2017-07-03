@@ -121,7 +121,7 @@ int result = mWiseFy.compareSignalLevel(-35, -70);
 To connect to a network given an SSID:
 
 ```java
-boolean connectedSuccessfully = mWiseFy.connectToNetwork("SSID To Reconnect To", 30000);
+boolean connectedSuccessfully = mWiseFy.connectToNetwork("SSID To Connect To", 30000);
 ```
 
 To disable wifi:
