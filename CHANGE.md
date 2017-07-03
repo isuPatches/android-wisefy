@@ -1,3 +1,69 @@
+## v1.0.9 - 07/03/2017
+
+#### Undo bintray props
+commit 6603ea2112e3281b1974442cfcbe9a6e62f0b9cf<br/>
+Author: isuPatches <isuPatches@yahoo.com><br/>
+Date:   Mon Jul 3 11:09:32 2017 -0500
+
+#### Add local.properties back to gitignore
+commit 43b2a6cd322a86a4ecc329800a96cabd3729575c<br/>
+Author: isuPatches <isuPatches@yahoo.com><br/>
+Date:   Mon Jul 3 10:48:36 2017 -0500
+
+#### Remove local properties for travis-ci
+commit c4944e0c24538630687c70a3c02807e2f835e32c<br/>
+Author: isuPatches <isuPatches@yahoo.com><br/>
+Date:   Mon Jul 3 10:47:26 2017 -0500
+
+#### Remove unused resources
+commit 67543bfeaea1e9d0c2a993d8a3ba06e34163c30c<br/>
+Author: isuPatches <isuPatches@yahoo.com><br/>
+Date:   Mon Jul 3 10:44:53 2017 -0500
+
+#### Adjust package for return codes
+commit 7486de70fbf295fe975588ba9025149e81c54f33<br/>
+Author: isuPatches <isuPatches@yahoo.com><br/>
+Date:   Mon Jul 3 10:20:09 2017 -0500
+
+#### More adjustments for Binary
+commit b10efc7e037b7f02dd39aec11a2bbad4b7ca8ca8<br/>
+Author: isuPatches <isuPatches@yahoo.com><br/>
+Date:   Mon Jul 3 10:00:19 2017 -0500
+
+#### Adjust tests and WiseFy for scope and return unique code for network already configured
+commit 2ddf9f731d11d6cc6f1065ddba7e8863bc145631<br/>
+Author: isuPatches <isuPatches@yahoo.com><br/>
+Date:   Mon Jul 3 09:28:00 2017 -0500
+
+    close #51
+    close #52
+    close #53
+
+#### Merge branch 'master' into develop
+commit 74b4ae81e645c3d9f637baa030866450ea41412c<br/>
+Merge: fdedcc0 4e22889<br/>
+Author: isuPatches <isuPatches@yahoo.com><br/>
+Date:   Sun Jul 2 15:43:18 2017 -0500
+
+#### Merge branch 'master' into develop
+commit fdedcc03c892f1af56c145e54d3987ebe19058b5<br/>
+Merge: d18109d a0f8a3b<br/>
+Author: isuPatches <isuPatches@yahoo.com><br/>
+Date:   Sun Jul 2 15:42:42 2017 -0500
+
+#### Update CHANGE.md
+commit 4e228895dbf5260824acf27208c76e1433e6dd68<br/>
+Author: Patches <isuPatches@yahoo.com><br/>
+Date:   Sun Jul 2 15:42:15 2017 -0500
+
+#### Merge pull request #49 from isuPatches/develop
+commit a0f8a3bbb2c6631a3566a5970cd6df8e60e73ffc<br/>
+Merge: 0b7a808 d18109d<br/>
+Author: Patches <isuPatches@yahoo.com><br/>
+Date:   Sun Jul 2 15:35:33 2017 -0500
+
+    v1.0.8
+
 ## v1.0.8 - 07/02/2017
 
 #### Update Javadocs again
