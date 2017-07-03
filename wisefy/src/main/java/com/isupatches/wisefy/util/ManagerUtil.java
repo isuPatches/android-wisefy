@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017 Patches Klinefelter
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -33,7 +33,7 @@ public class ManagerUtil {
     }
 
     /**
-     * @return instance of GetManagerUtil
+     * @return instance of ManagerUtil
      */
     public static ManagerUtil getInstance() {
         return MANAGER_UTIL;

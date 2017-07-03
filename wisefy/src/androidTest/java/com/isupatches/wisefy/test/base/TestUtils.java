@@ -1,7 +1,8 @@
-package com.isupatches.wisefy.base;
+package com.isupatches.wisefy.test.base;
 
 
 import android.net.wifi.WifiConfiguration;
+import com.isupatches.wisefy.WiseFy;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,9 +23,9 @@ public class TestUtils {
 
     public static final String TEST_SSID2 = "Test Network 2";
 
-    public static final int TEST_NETWORK_FREQUENCY_BELOW_5GHZ = 2400;
+    public static final int TEST_NETWORK_FREQUENCY_BELOW_5GHZ = WiseFy.MIN_FREQUENCY_5GHZ - 1;
 
-    public static final int TEST_NETWORK_FREQUENCY_ABOVE_5GHZ = 6000;
+    public static final int TEST_NETWORK_FREQUENCY_ABOVE_5GHZ = WiseFy.MAX_FREQUENCY_5GHZ + 1;
 
     public static final int TEST_NETWORK_FREQUENCY_24GHZ = 2400;
 
