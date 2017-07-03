@@ -6,11 +6,7 @@ Wifi configuration and util library built for Android.
 > 
 > <br/>Supports Android SDK levels 16-25<br/><br/>
 
-[![Build Status](https://travis-ci.org/isuPatches/WiseFy.svg?branch=master)](https://travis-ci.org/isuPatches/WiseFy)
-
-[ ![Download](https://api.bintray.com/packages/isupatches/Maven/wisefy/images/download.svg) ](https://bintray.com/isupatches/Maven/wisefy/_latestVersion)
-
-<a href="http://www.methodscount.com/?lib=com.isupatches%3Awisefy%3A1%2B"><img src="https://img.shields.io/badge/Methods and size-core: 105 | deps: 19372 | 56 KB-e91e63.svg"/></a>
+[![Android Weekly](https://img.shields.io/badge/Android%20Weekly-%23230-blue.svg)](http://androidweekly.net/issues/issue-230) [![Build Status](https://travis-ci.org/isuPatches/WiseFy.svg?branch=master)](https://travis-ci.org/isuPatches/WiseFy) [ ![Download](https://api.bintray.com/packages/isupatches/Maven/wisefy/images/download.svg) ](https://bintray.com/isupatches/Maven/wisefy/_latestVersion) <a href="http://www.methodscount.com/?lib=com.isupatches%3Awisefy%3A1%2B"><img src="https://img.shields.io/badge/Methods and size-core: 105 | deps: 19372 | 56 KB-e91e63.svg"/></a>
 
 ## Adding to your project
 
