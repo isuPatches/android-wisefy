@@ -93,7 +93,7 @@ public class WiseFyTest extends BaseTestClass<TestActivity> {
         when(mMockWiFiManager.getConnectionInfo()).thenReturn(mockWiFiInfo);
 
         int result = mWiseFy.addOpenNetwork(OPEN_NETWORK_SSID);
-        assertNotEquals(WiseFy.WIFI_MANAGER_FAILURE, result);
+        assertEquals(WiseFy.WISEFY_NETOWRK_ALREADY_CONFIGURED, result);
     }
 
     @Test
@@ -146,7 +146,7 @@ public class WiseFyTest extends BaseTestClass<TestActivity> {
         when(mMockWiFiManager.getConnectionInfo()).thenReturn(mockWiFiInfo);
 
         int result = mWiseFy.addWEPNetwork(WEP_NETWORK_SSID, WEP_NETWORK_PASSWORD);
-        assertNotEquals(WiseFy.WIFI_MANAGER_FAILURE, result);
+        assertEquals(WiseFy.WISEFY_NETOWRK_ALREADY_CONFIGURED, result);
     }
 
     @Test
@@ -200,7 +200,7 @@ public class WiseFyTest extends BaseTestClass<TestActivity> {
         when(mMockWiFiManager.getConnectionInfo()).thenReturn(mockWiFiInfo);
 
         int result = mWiseFy.addWPA2Network(WPA2_NETWORK_SSID, WPA2_NETWORK_PASSWORD);
-        assertNotEquals(WiseFy.WIFI_MANAGER_FAILURE, result);
+        assertEquals(WiseFy.WISEFY_NETOWRK_ALREADY_CONFIGURED, result);
     }
 
     @Test
