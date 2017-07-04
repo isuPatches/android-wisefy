@@ -16,7 +16,8 @@
 package com.isupatches.wisefy.constants;
 
 
-public class WiseFyCodes {
-    public static final int FAILURE = -1000;
-    public static final int NETWORK_ALREADY_CONFIGURED = -1001;
+public class Capabilities {
+    public static final String EAP = "EAP";
+    public static final String PSK = "PSK";
+    public static final String WEP = "WEP";
 }
