@@ -46,7 +46,7 @@ subprojects {
 
 ext {
     GROUP = "com.isupatches"
-    VERSION_NAME = "1.0.9"
+    VERSION_NAME = "1.0.10"
 
     BINTRAY_REPO = "Maven"
     BINTRAY_NAME = "wisefy"

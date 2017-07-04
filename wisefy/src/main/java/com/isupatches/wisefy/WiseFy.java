@@ -26,6 +26,8 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.text.TextUtils;
 import android.util.Log;
+import com.isupatches.wisefy.constants.Capabilities;
+import com.isupatches.wisefy.constants.NetworkTypes;
 import com.isupatches.wisefy.constants.WiseFyCodes;
 import com.isupatches.wisefy.util.ManagerUtil;
 import com.isupatches.wisefy.util.LogUtil;
@@ -554,7 +556,7 @@ public class WiseFy {
     public boolean isDeviceConnectedToMobileNetwork() {
         if (mConnectivityManager != null) {
             NetworkInfo networkInfo = mConnectivityManager.getActiveNetworkInfo();
-            if (networkInfo != null && networkInfo.getTypeName().equalsIgnoreCase("MOBILE")) {
+            if (networkInfo != null && networkInfo.getTypeName() != null && networkInfo.getTypeName().equalsIgnoreCase(NetworkTypes.MOBILE)) {
                 if (networkInfo.isConnected() && networkInfo.isAvailable()) {
                     return true;
                 }
@@ -575,7 +577,7 @@ public class WiseFy {
     public boolean isDeviceConnectedToMobileOrWifiNetwork() {
         if (mConnectivityManager != null) {
             NetworkInfo networkInfo = mConnectivityManager.getActiveNetworkInfo();
-            if (networkInfo.isConnected() && networkInfo.isAvailable()) {
+            if (networkInfo != null && networkInfo.isConnected() && networkInfo.isAvailable()) {
                 return true;
             }
         } else {
@@ -635,7 +637,7 @@ public class WiseFy {
     public boolean isDeviceConnectedToWifiNetwork() {
         if (mConnectivityManager != null) {
             NetworkInfo networkInfo = mConnectivityManager.getActiveNetworkInfo();
-            if (networkInfo != null && networkInfo.getTypeName().equalsIgnoreCase("WIFI")) {
+            if (networkInfo != null && networkInfo.getTypeName() != null && networkInfo.getTypeName().equalsIgnoreCase(NetworkTypes.WIFI)) {
                 if (networkInfo.isConnected() && networkInfo.isAvailable()) {
                     return true;
                 }
@@ -711,7 +713,7 @@ public class WiseFy {
     public boolean isNetworkSecure(ScanResult scanResult) {
         boolean isSecure = false;
         if (scanResult != null && scanResult.capabilities != null) {
-            if (scanResult.capabilities.contains("WEP") || scanResult.capabilities.contains("PSK") || scanResult.capabilities.contains("EAP")) {
+            if (scanResult.capabilities.contains(Capabilities.WEP) || scanResult.capabilities.contains(Capabilities.PSK) || scanResult.capabilities.contains(Capabilities.EAP)) {
                 isSecure = true;
             }
         }
