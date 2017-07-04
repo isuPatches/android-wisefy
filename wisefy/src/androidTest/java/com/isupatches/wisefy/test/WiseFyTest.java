@@ -10,6 +10,7 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.support.test.rule.ActivityTestRule;
+import com.google.android.gms.iid.InstanceID;
 import com.isupatches.wisefy.WiseFy;
 import com.isupatches.wisefy.constants.WiseFyCodes;
 import com.isupatches.wisefy.test.base.BaseTestClass;
@@ -396,6 +397,12 @@ public class WiseFyTest extends BaseTestClass<TestActivity> {
         boolean result = mWiseFy.enableWifi();
         verify(mMockWiFiManager).setWifiEnabled(true);
         assertEquals(true, result);
+    }
+
+    @Test
+    public void olderGcm_IllegalAccessError_notThrown() {
+        InstanceID instanceID = InstanceID.getInstance(mActivityTestRule.getActivity());
+        assertNotNull(instanceID);
     }
 
     @Test
