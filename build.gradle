@@ -6,13 +6,13 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.2'
-        classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.7.1'
+        classpath "com.android.tools.build:gradle:2.3.2"
+        classpath "com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.7.1"
         classpath "com.github.dcendents:android-maven-gradle-plugin:1.5"
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
-        classpath "org.jacoco:org.jacoco.core:0.7.8"
-        classpath "org.jacoco:org.jacoco.agent:0.7.8"
-        classpath "org.jacoco:org.jacoco.report:0.7.8"
+        classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3"
+        classpath "org.jacoco:org.jacoco.core:0.7.9"
+        classpath "org.jacoco:org.jacoco.agent:0.7.9"
+        classpath "org.jacoco:org.jacoco.report:0.7.9"
     }
 }
 
@@ -46,7 +46,7 @@ subprojects {
 
 ext {
     GROUP = "com.isupatches"
-    VERSION_NAME = "1.0.10"
+    VERSION_NAME = "2.0.0-BETA"
 
     BINTRAY_REPO = "Maven"
     BINTRAY_NAME = "wisefy"

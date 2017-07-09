@@ -28,8 +28,10 @@ public class LogUtil {
      * Checks to see given a TAG, log level, and if logging is enabled if logging should occur
      *
      * @param tag - The tag to be used for the log
-     * @param level - The level of logging (i.e Log.DEBUG, Log.WARN, Log.ERROR, etc) {@link Log}
+     * @param level - The level of logging (i.e Log.DEBUG, Log.WARN, Log.ERROR, etc)
      * @param loggingEnabled - If the instances of WiseFy has logging set to always be enabled
+     *
+     * {@link Log}
      *
      * @return boolean - if logging is enabled
      */

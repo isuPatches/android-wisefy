@@ -13,11 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.wisefy.constants;
+package com.isupatches.wisefy.annotations;
 
 
-public class WiseFyCodes {
-    public static final int MISSING_PARAMETER = -1000;
-    public static final int NETWORK_ALREADY_CONFIGURED = -1001;
-    public static final int NULL_MANAGER = -1002;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Inherited;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+
+@Documented
+@Target(ElementType.METHOD)
+@Inherited
+@Retention(RetentionPolicy.RUNTIME)
+public @interface WaitsForTimeout {
+
 }
+
