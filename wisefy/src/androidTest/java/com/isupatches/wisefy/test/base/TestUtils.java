@@ -23,6 +23,8 @@ public class TestUtils {
 
     public static final String TEST_SSID2 = "Test Network 2";
 
+    public static final String TEST_SSID3 = "Test Network 3";
+
     public static final int TEST_NETWORK_FREQUENCY_BELOW_5GHZ = WiseFy.MIN_FREQUENCY_5GHZ - 1;
 
     public static final int TEST_NETWORK_FREQUENCY_ABOVE_5GHZ = WiseFy.MAX_FREQUENCY_5GHZ + 1;

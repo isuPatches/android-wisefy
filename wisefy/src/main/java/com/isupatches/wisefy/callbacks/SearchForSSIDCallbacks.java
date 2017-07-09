@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.wisefy.constants;
+package com.isupatches.wisefy.callbacks;
 
 
-public class WiseFyCodes {
-    public static final int MISSING_PARAMETER = -1000;
-    public static final int NETWORK_ALREADY_CONFIGURED = -1001;
-    public static final int NULL_MANAGER = -1002;
+public interface SearchForSSIDCallbacks {
+    void searchForSSIDWiseFyFailure(Integer wisefyReturnCode);
+    void ssidFound(String ssid);
+    void ssidNotFound();
 }
