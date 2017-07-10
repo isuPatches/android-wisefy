@@ -359,9 +359,6 @@ public class WiseFy {
     @CallingThread
     public int addWPA2Network(String ssid, String password) {
         if (TextUtils.isEmpty(ssid) || TextUtils.isEmpty(password)) {
-            if (LogUtil.isLoggable(TAG, Log.WARN, mLoggingEnabled)) {
-                Log.w(TAG, String.format("Breaking due to missing ssid or password. ssid: %s, password: %s", ssid, password));
-            }
             return WiseFyCodes.MISSING_PARAMETER;
         }
 
@@ -915,10 +912,6 @@ public class WiseFy {
                             }
                             scanResultsToReturn.set(i, newScanResult);
                         }
-                    } else {
-                        if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
-                            Log.d(TAG, "SSID did not match");
-                        }
                     }
                 }
 
@@ -982,10 +975,6 @@ public class WiseFy {
                                         Log.d(TAG, "New result has a higher signal strength, swapping");
                                     }
                                     scanResultsToReturn.set(i, newScanResult);
-                                }
-                            } else {
-                                if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
-                                    Log.d(TAG, "SSID did not match");
                                 }
                             }
                         }
@@ -1181,8 +1170,7 @@ public class WiseFy {
                 Log.d(TAG, String.format("Current SSID: %s, Desired SSID: %s", currentSSID, ssid));
             }
             if (currentSSID.equals(ssid)) {
-                if (mConnectivityManager != null
-                        && mConnectivityManager.getActiveNetworkInfo() != null
+                if (mConnectivityManager.getActiveNetworkInfo() != null
                         && mConnectivityManager.getActiveNetworkInfo().isAvailable()
                         && mConnectivityManager.getActiveNetworkInfo().isConnected()) {
                     if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
