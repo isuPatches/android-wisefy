@@ -71,7 +71,7 @@ public class DisconnectFromCurrentNetworkTests extends BaseTestClass<TestActivit
         DisconnectFromCurrentNetworkCallbacks disconnectFromCurrentNetworkCallbacks = mock(DisconnectFromCurrentNetworkCallbacks.class);
         mWiseFy.disconnectFromCurrentNetwork(disconnectFromCurrentNetworkCallbacks);
         verify(mMockWiFiManager, never()).disconnect();
-        verify(disconnectFromCurrentNetworkCallbacks, timeout(2000)).disconnectFromCurrentNetworkWiseFyFailure(WiseFyCodes.NULL_MANAGER);
+        verify(disconnectFromCurrentNetworkCallbacks, timeout(2000)).disconnectFromCurrentNetworkWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
     }
 
     @Test
@@ -80,7 +80,7 @@ public class DisconnectFromCurrentNetworkTests extends BaseTestClass<TestActivit
         DisconnectFromCurrentNetworkCallbacks disconnectFromCurrentNetworkCallbacks = mock(DisconnectFromCurrentNetworkCallbacks.class);
         mWiseFy.disconnectFromCurrentNetwork(null);
         verify(mMockWiFiManager, never()).disconnect();
-        verify(disconnectFromCurrentNetworkCallbacks, never()).disconnectFromCurrentNetworkWiseFyFailure(WiseFyCodes.NULL_MANAGER);
+        verify(disconnectFromCurrentNetworkCallbacks, never()).disconnectFromCurrentNetworkWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
     }
 
     @Test

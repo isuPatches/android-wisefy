@@ -470,7 +470,7 @@ public class ConnectToNetworkTests extends BaseTestClass<TestActivity> {
         setManagersToNull();
         ConnectToNetworkCallbacks connectToNetworkCallbacks = mock(ConnectToNetworkCallbacks.class);
         mWiseFy.connectToNetwork(TEST_SSID, 1, connectToNetworkCallbacks);
-        verify(connectToNetworkCallbacks, timeout(2000)).connectToNetworkWiseFyFailure(WiseFyCodes.NULL_MANAGER);
+        verify(connectToNetworkCallbacks, timeout(2000)).connectToNetworkWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
     }
 
     @Test
@@ -478,7 +478,7 @@ public class ConnectToNetworkTests extends BaseTestClass<TestActivity> {
         setManagersToNull();
         ConnectToNetworkCallbacks connectToNetworkCallbacks = mock(ConnectToNetworkCallbacks.class);
         mWiseFy.connectToNetwork(TEST_SSID, 1, null);
-        verify(connectToNetworkCallbacks, never()).connectToNetworkWiseFyFailure(WiseFyCodes.NULL_MANAGER);
+        verify(connectToNetworkCallbacks, never()).connectToNetworkWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
     }
 
     @Test

@@ -209,7 +209,7 @@ public class SearchForSSIDTests extends BaseTestClass<TestActivity> {
         setManagersToNull();
         SearchForSSIDCallbacks mockSearchForSSIDCallbacks = mock(SearchForSSIDCallbacks.class);
         mWiseFy.searchForSSID(TEST_SSID, 1, mockSearchForSSIDCallbacks);
-        verify(mockSearchForSSIDCallbacks, timeout(2000)).searchForSSIDWiseFyFailure(WiseFyCodes.NULL_MANAGER);
+        verify(mockSearchForSSIDCallbacks, timeout(2000)).searchForSSIDWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
     }
 
     @Test
@@ -217,7 +217,7 @@ public class SearchForSSIDTests extends BaseTestClass<TestActivity> {
         setManagersToNull();
         SearchForSSIDCallbacks mockSearchForSSIDCallbacks = mock(SearchForSSIDCallbacks.class);
         mWiseFy.searchForSSID(TEST_SSID, 1, null);
-        verify(mockSearchForSSIDCallbacks, never()).searchForSSIDWiseFyFailure(WiseFyCodes.NULL_MANAGER);
+        verify(mockSearchForSSIDCallbacks, never()).searchForSSIDWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
     }
 
     @Test

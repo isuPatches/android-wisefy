@@ -142,7 +142,7 @@ public class RemoveNetworkTests extends BaseTestClass<TestActivity> {
         setManagersToNull();
         RemoveNetworkCallbacks removeNetworkCallbacks = mock(RemoveNetworkCallbacks.class);
         mWiseFy.removeNetwork(TEST_SSID, removeNetworkCallbacks);
-        verify(removeNetworkCallbacks, timeout(2000)).removeNetworkWiseFyFailure(WiseFyCodes.NULL_MANAGER);
+        verify(removeNetworkCallbacks, timeout(2000)).removeNetworkWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
     }
 
     @Test
@@ -150,7 +150,7 @@ public class RemoveNetworkTests extends BaseTestClass<TestActivity> {
         setManagersToNull();
         RemoveNetworkCallbacks removeNetworkCallbacks = mock(RemoveNetworkCallbacks.class);
         mWiseFy.removeNetwork(TEST_SSID, null);
-        verify(removeNetworkCallbacks, never()).removeNetworkWiseFyFailure(WiseFyCodes.NULL_MANAGER);
+        verify(removeNetworkCallbacks, never()).removeNetworkWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
     }
 
     @Test

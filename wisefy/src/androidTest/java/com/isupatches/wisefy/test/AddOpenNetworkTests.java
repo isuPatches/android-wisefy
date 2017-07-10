@@ -46,7 +46,7 @@ public class AddOpenNetworkTests extends BaseTestClass<TestActivity> {
     public void noCallbacks_failure_nullWifiManager() {
         setManagersToNull();
         int result = mWiseFy.addOpenNetwork(OPEN_NETWORK_SSID);
-        assertEquals(WiseFyCodes.NULL_MANAGER, result);
+        assertEquals(WiseFyCodes.MISSING_PREREQUISITE, result);
     }
 
     @Test
@@ -115,7 +115,7 @@ public class AddOpenNetworkTests extends BaseTestClass<TestActivity> {
         setManagersToNull();
         AddOpenNetworkCallbacks mockAddNetworkCallbacks = mock(AddOpenNetworkCallbacks.class);
         mWiseFy.addOpenNetwork(OPEN_NETWORK_SSID, mockAddNetworkCallbacks);
-        verify(mockAddNetworkCallbacks, timeout(3000)).addOpenNetworkWiseFyFailure(WiseFyCodes.NULL_MANAGER);
+        verify(mockAddNetworkCallbacks, timeout(3000)).addOpenNetworkWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
     }
 
     @Test
@@ -123,7 +123,7 @@ public class AddOpenNetworkTests extends BaseTestClass<TestActivity> {
         setManagersToNull();
         AddOpenNetworkCallbacks mockAddNetworkCallbacks = mock(AddOpenNetworkCallbacks.class);
         mWiseFy.addOpenNetwork(OPEN_NETWORK_SSID, null);
-        verify(mockAddNetworkCallbacks, never()).addOpenNetworkWiseFyFailure(WiseFyCodes.NULL_MANAGER);
+        verify(mockAddNetworkCallbacks, never()).addOpenNetworkWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
     }
 
     @Test

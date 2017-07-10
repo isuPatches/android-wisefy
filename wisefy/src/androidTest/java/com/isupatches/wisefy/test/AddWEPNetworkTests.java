@@ -53,7 +53,7 @@ public class AddWEPNetworkTests extends BaseTestClass<TestActivity> {
     public void noCallbacks_failure_nullWifiManager() {
         setManagersToNull();
         int result = mWiseFy.addWEPNetwork(WEP_NETWORK_SSID, WEP_NETWORK_PASSWORD);
-        assertEquals(WiseFyCodes.NULL_MANAGER, result);
+        assertEquals(WiseFyCodes.MISSING_PREREQUISITE, result);
     }
 
     @Test
@@ -133,7 +133,7 @@ public class AddWEPNetworkTests extends BaseTestClass<TestActivity> {
         setManagersToNull();
         AddWEPNetworkCallbacks mockAddNetworkCallbacks = mock(AddWEPNetworkCallbacks.class);
         mWiseFy.addWEPNetwork(WEP_NETWORK_SSID, WEP_NETWORK_PASSWORD, mockAddNetworkCallbacks);
-        verify(mockAddNetworkCallbacks, timeout(2000)).addWEPNetworkWiseFyFailure(WiseFyCodes.NULL_MANAGER);
+        verify(mockAddNetworkCallbacks, timeout(2000)).addWEPNetworkWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
     }
 
     @Test
@@ -141,7 +141,7 @@ public class AddWEPNetworkTests extends BaseTestClass<TestActivity> {
         setManagersToNull();
         AddWEPNetworkCallbacks mockAddNetworkCallbacks = mock(AddWEPNetworkCallbacks.class);
         mWiseFy.addWEPNetwork(WEP_NETWORK_SSID, WEP_NETWORK_PASSWORD, null);
-        verify(mockAddNetworkCallbacks, never()).addWEPNetworkWiseFyFailure(WiseFyCodes.NULL_MANAGER);
+        verify(mockAddNetworkCallbacks, never()).addWEPNetworkWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
     }
 
     @Test

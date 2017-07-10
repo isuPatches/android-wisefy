@@ -294,7 +294,7 @@ public class GetNearbyAccessPointsTests extends BaseTestClass<TestActivity> {
         setManagersToNull();
         GetNearbyAccessPointsCallbacks getNearbyAccessPointsCallbacks = mock(GetNearbyAccessPointsCallbacks.class);
         mWiseFy.getNearbyAccessPoints(false, getNearbyAccessPointsCallbacks);
-        verify(getNearbyAccessPointsCallbacks, timeout(2000)).getNearbyAccessPointsWiseFyFailure(WiseFyCodes.NULL_MANAGER);
+        verify(getNearbyAccessPointsCallbacks, timeout(2000)).getNearbyAccessPointsWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
     }
 
     @Test
@@ -302,7 +302,7 @@ public class GetNearbyAccessPointsTests extends BaseTestClass<TestActivity> {
         setManagersToNull();
         GetNearbyAccessPointsCallbacks getNearbyAccessPointsCallbacks = mock(GetNearbyAccessPointsCallbacks.class);
         mWiseFy.getNearbyAccessPoints(false, null);
-        verify(getNearbyAccessPointsCallbacks, never()).getNearbyAccessPointsWiseFyFailure(WiseFyCodes.NULL_MANAGER);
+        verify(getNearbyAccessPointsCallbacks, never()).getNearbyAccessPointsWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
     }
 
     @Test
@@ -310,7 +310,7 @@ public class GetNearbyAccessPointsTests extends BaseTestClass<TestActivity> {
         setManagersToNull();
         GetNearbyAccessPointsCallbacks getNearbyAccessPointsCallbacks = mock(GetNearbyAccessPointsCallbacks.class);
         mWiseFy.getNearbyAccessPoints(true, getNearbyAccessPointsCallbacks);
-        verify(getNearbyAccessPointsCallbacks, timeout(2000)).getNearbyAccessPointsWiseFyFailure(WiseFyCodes.NULL_MANAGER);
+        verify(getNearbyAccessPointsCallbacks, timeout(2000)).getNearbyAccessPointsWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
     }
 
     @Test
@@ -318,6 +318,6 @@ public class GetNearbyAccessPointsTests extends BaseTestClass<TestActivity> {
         setManagersToNull();
         GetNearbyAccessPointsCallbacks getNearbyAccessPointsCallbacks = mock(GetNearbyAccessPointsCallbacks.class);
         mWiseFy.getNearbyAccessPoints(true, null);
-        verify(getNearbyAccessPointsCallbacks, never()).getNearbyAccessPointsWiseFyFailure(WiseFyCodes.NULL_MANAGER);
+        verify(getNearbyAccessPointsCallbacks, never()).getNearbyAccessPointsWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
     }
 }

@@ -52,7 +52,7 @@ public class AddWPA2NetworkTests extends BaseTestClass<TestActivity> {
     public void noCallbacks_failure_nullWifiManager() {
         setManagersToNull();
         int result = mWiseFy.addWPA2Network(WPA2_NETWORK_SSID, WPA2_NETWORK_PASSWORD);
-        assertEquals(WiseFyCodes.NULL_MANAGER, result);
+        assertEquals(WiseFyCodes.MISSING_PREREQUISITE, result);
     }
 
     @Test
@@ -132,7 +132,7 @@ public class AddWPA2NetworkTests extends BaseTestClass<TestActivity> {
         setManagersToNull();
         AddWPA2NetworkCallbacks mockAddNetworkCallbacks = mock(AddWPA2NetworkCallbacks.class);
         mWiseFy.addWPA2Network(WPA2_NETWORK_SSID, WPA2_NETWORK_PASSWORD, mockAddNetworkCallbacks);
-        verify(mockAddNetworkCallbacks, timeout(2000)).addWPA2NetworkWiseFyFailure(WiseFyCodes.NULL_MANAGER);
+        verify(mockAddNetworkCallbacks, timeout(2000)).addWPA2NetworkWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
     }
 
     @Test
@@ -140,7 +140,7 @@ public class AddWPA2NetworkTests extends BaseTestClass<TestActivity> {
         setManagersToNull();
         AddWPA2NetworkCallbacks mockAddNetworkCallbacks = mock(AddWPA2NetworkCallbacks.class);
         mWiseFy.addWPA2Network(WPA2_NETWORK_SSID, WPA2_NETWORK_PASSWORD, null);
-        verify(mockAddNetworkCallbacks, never()).addWPA2NetworkWiseFyFailure(WiseFyCodes.NULL_MANAGER);
+        verify(mockAddNetworkCallbacks, never()).addWPA2NetworkWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
     }
 
     @Test

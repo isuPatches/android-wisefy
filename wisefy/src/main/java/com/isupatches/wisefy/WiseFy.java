@@ -26,8 +26,6 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 import com.isupatches.wisefy.annotations.CallingThread;
@@ -172,30 +170,24 @@ public class WiseFy {
      */
     @Sync
     @CallingThread
-    public int addOpenNetwork(@Nullable String ssid) {
+    public int addOpenNetwork(String ssid) {
         if (TextUtils.isEmpty(ssid)) {
-            if (LogUtil.isLoggable(TAG, Log.ERROR, mLoggingEnabled)) {
-                Log.e(TAG, "Breaking due to empty SSID");
-            }
             return WiseFyCodes.MISSING_PARAMETER;
         }
-        if (mWifiManager != null) {
-            if (!checkIfNetworkInConfigurationList(ssid)) {
-                if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
-                    Log.d(TAG, String.format("Adding open network with SSID %s", ssid));
-                }
 
-                WifiConfiguration wifiConfiguration = WifiConfigurationUtil.getInstance().generateOpenNetworkConfiguration(ssid);
-                return addNetwork(wifiConfiguration);
-            } else {
-                return WiseFyCodes.NETWORK_ALREADY_CONFIGURED;
-            }
-        } else {
-            if (LogUtil.isLoggable(TAG, Log.ERROR, mLoggingEnabled)) {
-                Log.e(TAG, "No WifiManager to add open network");
-            }
-            return WiseFyCodes.NULL_MANAGER;
+        if (!hasPrerequisites()) {
+            return WiseFyCodes.MISSING_PREREQUISITE;
         }
+
+        if (checkIfNetworkInConfigurationList(ssid)) {
+            return WiseFyCodes.NETWORK_ALREADY_CONFIGURED;
+        }
+
+        if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
+            Log.d(TAG, String.format("Adding open network with SSID %s", ssid));
+        }
+        WifiConfiguration wifiConfiguration = WifiConfigurationUtil.getInstance().generateOpenNetworkConfiguration(ssid);
+        return addNetwork(wifiConfiguration);
     }
 
     /**
@@ -212,46 +204,41 @@ public class WiseFy {
      */
     @Async
     @WiseFyThread
-    public void addOpenNetwork(@Nullable final String ssid, @Nullable final AddOpenNetworkCallbacks addOpenNetworkCallbacks) {
+    public void addOpenNetwork(final String ssid, final AddOpenNetworkCallbacks addOpenNetworkCallbacks) {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
                 if (TextUtils.isEmpty(ssid)) {
-                    if (LogUtil.isLoggable(TAG, Log.ERROR, mLoggingEnabled)) {
-                        Log.e(TAG, "Breaking due to empty SSID");
-                    }
                     if (addOpenNetworkCallbacks != null) {
                         addOpenNetworkCallbacks.addOpenNetworkWiseFyFailure(WiseFyCodes.MISSING_PARAMETER);
                     }
                     return;
                 }
-                if (mWifiManager != null) {
-                    if (!checkIfNetworkInConfigurationList(ssid)) {
-                        if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
-                            Log.d(TAG, String.format("Adding open network with SSID %s", ssid));
-                        }
 
-                        WifiConfiguration wifiConfiguration = WifiConfigurationUtil.getInstance().generateOpenNetworkConfiguration(ssid);
-                        if (addOpenNetworkCallbacks != null) {
-                            int result = addNetwork(wifiConfiguration);
-                            if (result != WIFI_MANAGER_FAILURE) {
-                                addOpenNetworkCallbacks.openNetworkAdded(wifiConfiguration);
-                            } else {
-                                addOpenNetworkCallbacks.failureAddingOpenNetwork(result);
-                            }
-                        }
-                    } else {
-                        if (addOpenNetworkCallbacks != null) {
-                            addOpenNetworkCallbacks.addOpenNetworkWiseFyFailure(WiseFyCodes.NETWORK_ALREADY_CONFIGURED);
-                        }
-
-                    }
-                } else {
-                    if (LogUtil.isLoggable(TAG, Log.ERROR, mLoggingEnabled)) {
-                        Log.e(TAG, "No WifiManager to add open network");
-                    }
+                if (!hasPrerequisites()) {
                     if (addOpenNetworkCallbacks != null) {
-                        addOpenNetworkCallbacks.addOpenNetworkWiseFyFailure(WiseFyCodes.NULL_MANAGER);
+                        addOpenNetworkCallbacks.addOpenNetworkWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+                    }
+                    return;
+                }
+
+                if (checkIfNetworkInConfigurationList(ssid)) {
+                    if (addOpenNetworkCallbacks != null) {
+                        addOpenNetworkCallbacks.addOpenNetworkWiseFyFailure(WiseFyCodes.NETWORK_ALREADY_CONFIGURED);
+                    }
+                    return;
+                }
+
+                if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
+                    Log.d(TAG, String.format("Adding open network with SSID %s", ssid));
+                }
+                WifiConfiguration wifiConfiguration = WifiConfigurationUtil.getInstance().generateOpenNetworkConfiguration(ssid);
+                if (addOpenNetworkCallbacks != null) {
+                    int result = addNetwork(wifiConfiguration);
+                    if (result != WIFI_MANAGER_FAILURE) {
+                        addOpenNetworkCallbacks.openNetworkAdded(wifiConfiguration);
+                    } else {
+                        addOpenNetworkCallbacks.failureAddingOpenNetwork(result);
                     }
                 }
                 mWiseFyHandlerThread.quitSafely();
@@ -276,30 +263,24 @@ public class WiseFy {
      */
     @Sync
     @CallingThread
-    public int addWEPNetwork(@Nullable String ssid, @Nullable String password) {
+    public int addWEPNetwork(String ssid, String password) {
         if (TextUtils.isEmpty(ssid) || TextUtils.isEmpty(password)) {
-            if (LogUtil.isLoggable(TAG, Log.WARN, mLoggingEnabled)) {
-                Log.w(TAG, String.format("Breaking due to missing ssid or password. ssid: %s, password: %s", ssid, password));
-            }
             return WiseFyCodes.MISSING_PARAMETER;
         }
-        if (mWifiManager != null) {
-            if (!checkIfNetworkInConfigurationList(ssid)) {
-                if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
-                    Log.d(TAG, String.format("Adding WEP network with SSID %s", ssid));
-                }
 
-                WifiConfiguration wifiConfiguration = WifiConfigurationUtil.getInstance().generateWEPNetworkConfiguration(ssid, password);
-                return addNetwork(wifiConfiguration);
-            } else {
-                return WiseFyCodes.NETWORK_ALREADY_CONFIGURED;
-            }
-        } else {
-            if (LogUtil.isLoggable(TAG, Log.ERROR, mLoggingEnabled)) {
-                Log.e(TAG, "No WifiManager to add WEP network");
-            }
-            return WiseFyCodes.NULL_MANAGER;
+        if (!hasPrerequisites()) {
+            return WiseFyCodes.MISSING_PREREQUISITE;
         }
+
+        if (checkIfNetworkInConfigurationList(ssid)) {
+            return WiseFyCodes.NETWORK_ALREADY_CONFIGURED;
+        }
+
+        if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
+            Log.d(TAG, String.format("Adding WEP network with SSID %s", ssid));
+        }
+        WifiConfiguration wifiConfiguration = WifiConfigurationUtil.getInstance().generateWEPNetworkConfiguration(ssid, password);
+        return addNetwork(wifiConfiguration);
     }
 
     /**
@@ -317,45 +298,41 @@ public class WiseFy {
      */
     @Async
     @WiseFyThread
-    public void addWEPNetwork(@Nullable final String ssid, @Nullable final String password, @Nullable final AddWEPNetworkCallbacks addWEPNetworkCallbacks) {
+    public void addWEPNetwork(final String ssid, final String password, final AddWEPNetworkCallbacks addWEPNetworkCallbacks) {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
                 if (TextUtils.isEmpty(ssid) || TextUtils.isEmpty(password)) {
-                    if (LogUtil.isLoggable(TAG, Log.WARN, mLoggingEnabled)) {
-                        Log.w(TAG, String.format("Breaking due to missing ssid or password. ssid: %s, password: %s", ssid, password));
-                    }
                     if (addWEPNetworkCallbacks != null) {
                         addWEPNetworkCallbacks.addWEPNetworkWiseFyFailure(WiseFyCodes.MISSING_PARAMETER);
                     }
                     return;
                 }
-                if (mWifiManager != null) {
-                    if (!checkIfNetworkInConfigurationList(ssid)) {
-                        if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
-                            Log.d(TAG, String.format("Adding WEP network with SSID %s", ssid));
-                        }
 
-                        WifiConfiguration wifiConfiguration = WifiConfigurationUtil.getInstance().generateWEPNetworkConfiguration(ssid, password);
-                        if (addWEPNetworkCallbacks != null) {
-                            int result = addNetwork(wifiConfiguration);
-                            if (result != WIFI_MANAGER_FAILURE) {
-                                addWEPNetworkCallbacks.wepNetworkAdded(wifiConfiguration);
-                            } else {
-                                addWEPNetworkCallbacks.failureAddingWEPNetwork(result);
-                            }
-                        }
-                    } else {
-                        if (addWEPNetworkCallbacks != null) {
-                            addWEPNetworkCallbacks.addWEPNetworkWiseFyFailure(WiseFyCodes.NETWORK_ALREADY_CONFIGURED);
-                        }
-                    }
-                } else {
-                    if (LogUtil.isLoggable(TAG, Log.ERROR, mLoggingEnabled)) {
-                        Log.e(TAG, "No WifiManager to add WEP network");
-                    }
+                if (!hasPrerequisites()) {
                     if (addWEPNetworkCallbacks != null) {
-                        addWEPNetworkCallbacks.addWEPNetworkWiseFyFailure(WiseFyCodes.NULL_MANAGER);
+                        addWEPNetworkCallbacks.addWEPNetworkWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+                    }
+                    return;
+                }
+
+                if (checkIfNetworkInConfigurationList(ssid)) {
+                    if (addWEPNetworkCallbacks != null) {
+                        addWEPNetworkCallbacks.addWEPNetworkWiseFyFailure(WiseFyCodes.NETWORK_ALREADY_CONFIGURED);
+                    }
+                    return;
+                }
+
+                if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
+                    Log.d(TAG, String.format("Adding WEP network with SSID %s", ssid));
+                }
+                WifiConfiguration wifiConfiguration = WifiConfigurationUtil.getInstance().generateWEPNetworkConfiguration(ssid, password);
+                if (addWEPNetworkCallbacks != null) {
+                    int result = addNetwork(wifiConfiguration);
+                    if (result != WIFI_MANAGER_FAILURE) {
+                        addWEPNetworkCallbacks.wepNetworkAdded(wifiConfiguration);
+                    } else {
+                        addWEPNetworkCallbacks.failureAddingWEPNetwork(result);
                     }
                 }
                 mWiseFyHandlerThread.quitSafely();
@@ -380,30 +357,27 @@ public class WiseFy {
      */
     @Sync
     @CallingThread
-    public int addWPA2Network(@Nullable String ssid, @Nullable String password) {
+    public int addWPA2Network(String ssid, String password) {
         if (TextUtils.isEmpty(ssid) || TextUtils.isEmpty(password)) {
             if (LogUtil.isLoggable(TAG, Log.WARN, mLoggingEnabled)) {
                 Log.w(TAG, String.format("Breaking due to missing ssid or password. ssid: %s, password: %s", ssid, password));
             }
             return WiseFyCodes.MISSING_PARAMETER;
         }
-        if (mWifiManager != null) {
-            if (!checkIfNetworkInConfigurationList(ssid)) {
-                if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
-                    Log.d(TAG, String.format("Adding WPA2 network with SSID %s", ssid));
-                }
 
-                WifiConfiguration wifiConfiguration = WifiConfigurationUtil.getInstance().generateWPA2NetworkConfiguration(ssid, password);
-                return addNetwork(wifiConfiguration);
-            } else {
-                return WiseFyCodes.NETWORK_ALREADY_CONFIGURED;
-            }
-        } else {
-            if (LogUtil.isLoggable(TAG, Log.ERROR, mLoggingEnabled)) {
-                Log.e(TAG, "No WifiManager to add WPA2 network");
-            }
-            return WiseFyCodes.NULL_MANAGER;
+        if (!hasPrerequisites()) {
+            return WiseFyCodes.MISSING_PREREQUISITE;
         }
+
+        if (checkIfNetworkInConfigurationList(ssid)) {
+            return WiseFyCodes.NETWORK_ALREADY_CONFIGURED;
+        }
+
+        if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
+            Log.d(TAG, String.format("Adding WPA2 network with SSID %s", ssid));
+        }
+        WifiConfiguration wifiConfiguration = WifiConfigurationUtil.getInstance().generateWPA2NetworkConfiguration(ssid, password);
+        return addNetwork(wifiConfiguration);
     }
 
     /**
@@ -421,45 +395,41 @@ public class WiseFy {
      */
     @Async
     @WiseFyThread
-    public void addWPA2Network(@Nullable final String ssid, @Nullable final String password, @Nullable final AddWPA2NetworkCallbacks addWPA2NetworkCallbacks) {
+    public void addWPA2Network(final String ssid, final String password, final AddWPA2NetworkCallbacks addWPA2NetworkCallbacks) {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
                 if (TextUtils.isEmpty(ssid) || TextUtils.isEmpty(password)) {
-                    if (LogUtil.isLoggable(TAG, Log.WARN, mLoggingEnabled)) {
-                        Log.w(TAG, String.format("Breaking due to missing ssid or password. ssid: %s, password: %s", ssid, password));
-                    }
                     if (addWPA2NetworkCallbacks != null) {
                         addWPA2NetworkCallbacks.addWPA2NetworkWiseFyFailure(WiseFyCodes.MISSING_PARAMETER);
                     }
                     return;
                 }
-                if (mWifiManager != null) {
-                    if (!checkIfNetworkInConfigurationList(ssid)) {
-                        if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
-                            Log.d(TAG, String.format("Adding WPA2 network with SSID %s", ssid));
-                        }
 
-                        WifiConfiguration wifiConfiguration = WifiConfigurationUtil.getInstance().generateWPA2NetworkConfiguration(ssid, password);
-                        if (addWPA2NetworkCallbacks != null) {
-                            int result = addNetwork(wifiConfiguration);
-                            if (result != WIFI_MANAGER_FAILURE) {
-                                addWPA2NetworkCallbacks.wpa2NetworkAdded(wifiConfiguration);
-                            } else {
-                                addWPA2NetworkCallbacks.failureAddingWPA2Network(result);
-                            }
-                        }
-                    } else {
-                        if (addWPA2NetworkCallbacks != null) {
-                            addWPA2NetworkCallbacks.addWPA2NetworkWiseFyFailure(WiseFyCodes.NETWORK_ALREADY_CONFIGURED);
-                        }
-                    }
-                } else {
-                    if (LogUtil.isLoggable(TAG, Log.ERROR, mLoggingEnabled)) {
-                        Log.e(TAG, "No WifiManager to add WPA2 network");
-                    }
+                if (!hasPrerequisites()) {
                     if (addWPA2NetworkCallbacks != null) {
-                        addWPA2NetworkCallbacks.addWPA2NetworkWiseFyFailure(WiseFyCodes.NULL_MANAGER);
+                        addWPA2NetworkCallbacks.addWPA2NetworkWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+                    }
+                    return;
+                }
+
+                if (checkIfNetworkInConfigurationList(ssid)) {
+                    if (addWPA2NetworkCallbacks != null) {
+                        addWPA2NetworkCallbacks.addWPA2NetworkWiseFyFailure(WiseFyCodes.NETWORK_ALREADY_CONFIGURED);
+                    }
+                    return;
+                }
+
+                if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
+                    Log.d(TAG, String.format("Adding WPA2 network with SSID %s", ssid));
+                }
+                WifiConfiguration wifiConfiguration = WifiConfigurationUtil.getInstance().generateWPA2NetworkConfiguration(ssid, password);
+                if (addWPA2NetworkCallbacks != null) {
+                    int result = addNetwork(wifiConfiguration);
+                    if (result != WIFI_MANAGER_FAILURE) {
+                        addWPA2NetworkCallbacks.wpa2NetworkAdded(wifiConfiguration);
+                    } else {
+                        addWPA2NetworkCallbacks.failureAddingWPA2Network(result);
                     }
                 }
                 mWiseFyHandlerThread.quitSafely();
@@ -513,43 +483,34 @@ public class WiseFy {
     @Sync
     @CallingThread
     @WaitsForTimeout
-    public boolean connectToNetwork(@Nullable String ssidToConnectTo, int timeoutInMillis) {
-        if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
-            Log.d(TAG, String.format("Connecting to network: %s", ssidToConnectTo));
-        }
-        if (TextUtils.isEmpty(ssidToConnectTo)) {
+    public boolean connectToNetwork(String ssidToConnectTo, int timeoutInMillis) {
+        if (TextUtils.isEmpty(ssidToConnectTo) || !hasPrerequisites()) {
             return false;
         }
-        if (mWifiManager != null) {
-            List<WifiConfiguration> list = mWifiManager.getConfiguredNetworks();
-            if (list != null) {
-                for (int i = 0; i < list.size(); i++) {
-                    WifiConfiguration wifiConfiguration = list.get(i);
-                    if (wifiConfiguration != null && wifiConfiguration.SSID != null) {
-                        String ssidInList = wifiConfiguration.SSID.replaceAll("\"", "");
 
+        List<WifiConfiguration> list = mWifiManager.getConfiguredNetworks();
+        if (list != null) {
+            for (int i = 0; i < list.size(); i++) {
+                WifiConfiguration wifiConfiguration = list.get(i);
+                if (wifiConfiguration != null && wifiConfiguration.SSID != null) {
+                    String ssidInList = wifiConfiguration.SSID.replaceAll("\"", "");
+                    if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
+                        Log.d(TAG, String.format("Configured WiFi Network { index: %d, ssidInList: %s }", i, ssidInList));
+                    }
+                    if (ssidInList.equals(ssidToConnectTo)) {
                         if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
-                            Log.d(TAG, String.format("Configured WiFi Network { index: %d, ssidInList: %s }", i, ssidInList));
+                            Log.d(TAG, String.format("ssidToConnectTo: %s matches ssidInList: %s", ssidToConnectTo, ssidInList));
                         }
-                        if (ssidInList.equals(ssidToConnectTo)) {
-                            if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
-                                Log.d(TAG, String.format("ssidToReconnectTo: %s matches ssidInList: %s", ssidToConnectTo, ssidInList));
-                            }
-                            mWifiManager.disconnect();
-                            mWifiManager.enableNetwork(wifiConfiguration.networkId, true);
-                            mWifiManager.reconnect();
-                            return waitToConnectToSSID(ssidToConnectTo, timeoutInMillis);
-                        }
+                        mWifiManager.disconnect();
+                        mWifiManager.enableNetwork(wifiConfiguration.networkId, true);
+                        mWifiManager.reconnect();
+                        return waitToConnectToSSID(ssidToConnectTo, timeoutInMillis);
                     }
                 }
             }
-            if (LogUtil.isLoggable(TAG, Log.WARN, mLoggingEnabled)) {
-                Log.w(TAG, String.format("ssidToReconnectTo: %s was not found in list to connect to", ssidToConnectTo));
-            }
-        } else {
-            if (LogUtil.isLoggable(TAG, Log.ERROR, mLoggingEnabled)) {
-                Log.e(TAG, String.format("No WifiManager to connect to network. SSID: %s", ssidToConnectTo));
-            }
+        }
+        if (LogUtil.isLoggable(TAG, Log.WARN, mLoggingEnabled)) {
+            Log.w(TAG, String.format("ssidToConnectTo: %s was not found in list to connect to", ssidToConnectTo));
         }
         return false;
     }
@@ -569,63 +530,58 @@ public class WiseFy {
     @Async
     @WiseFyThread
     @WaitsForTimeout
-    public void connectToNetwork(@Nullable final String ssidToConnectTo, final int timeoutInMillis, @Nullable final ConnectToNetworkCallbacks connectToNetworkCallbacks) {
+    public void connectToNetwork(final String ssidToConnectTo, final int timeoutInMillis, final ConnectToNetworkCallbacks connectToNetworkCallbacks) {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
-                    Log.d(TAG, String.format("Connecting to network: %s", ssidToConnectTo));
-                }
                 if (TextUtils.isEmpty(ssidToConnectTo)) {
                     if (connectToNetworkCallbacks != null) {
                         connectToNetworkCallbacks.connectToNetworkWiseFyFailure(WiseFyCodes.MISSING_PARAMETER);
                     }
                     return;
                 }
-                if (mWifiManager != null) {
-                    List<WifiConfiguration> list = mWifiManager.getConfiguredNetworks();
-                    if (list != null) {
-                        for (int i = 0; i < list.size(); i++) {
-                            WifiConfiguration wifiConfiguration = list.get(i);
-                            if (wifiConfiguration != null && wifiConfiguration.SSID != null) {
-                                String ssidInList = wifiConfiguration.SSID.replaceAll("\"", "");
 
+                if (!hasPrerequisites()) {
+                    if (connectToNetworkCallbacks != null) {
+                        connectToNetworkCallbacks.connectToNetworkWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+                    }
+                    return;
+                }
+
+                List<WifiConfiguration> list = mWifiManager.getConfiguredNetworks();
+                if (list != null) {
+                    for (int i = 0; i < list.size(); i++) {
+                        WifiConfiguration wifiConfiguration = list.get(i);
+                        if (wifiConfiguration != null && wifiConfiguration.SSID != null) {
+                            String ssidInList = wifiConfiguration.SSID.replaceAll("\"", "");
+                            if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
+                                Log.d(TAG, String.format("Configured WiFi Network { index: %d, ssidInList: %s }", i, ssidInList));
+                            }
+                            if (ssidInList.equals(ssidToConnectTo)) {
                                 if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
-                                    Log.d(TAG, String.format("Configured WiFi Network { index: %d, ssidInList: %s }", i, ssidInList));
+                                    Log.d(TAG, String.format("ssidToConnectTo: %s matches ssidInList: %s", ssidToConnectTo, ssidInList));
                                 }
-                                if (ssidInList.equals(ssidToConnectTo)) {
-                                    if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
-                                        Log.d(TAG, String.format("ssidToReconnectTo: %s matches ssidInList: %s", ssidToConnectTo, ssidInList));
+                                mWifiManager.disconnect();
+                                mWifiManager.enableNetwork(wifiConfiguration.networkId, true);
+                                mWifiManager.reconnect();
+                                boolean connected = waitToConnectToSSID(ssidToConnectTo, timeoutInMillis);
+                                if (connectToNetworkCallbacks != null) {
+                                    if (connected) {
+                                        connectToNetworkCallbacks.connectedToNetwork();
+                                    } else {
+                                        connectToNetworkCallbacks.failureConnectingToNetwork();
                                     }
-                                    mWifiManager.disconnect();
-                                    mWifiManager.enableNetwork(wifiConfiguration.networkId, true);
-                                    mWifiManager.reconnect();
-                                    boolean connected = waitToConnectToSSID(ssidToConnectTo, timeoutInMillis);
-                                    if (connectToNetworkCallbacks != null) {
-                                        if (connected) {
-                                            connectToNetworkCallbacks.connectedToNetwork();
-                                        } else {
-                                            connectToNetworkCallbacks.failureConnectingToNetwork();
-                                        }
-                                    }
-                                    return;
                                 }
+                                return;
                             }
                         }
                     }
-                    if (LogUtil.isLoggable(TAG, Log.WARN, mLoggingEnabled)) {
-                        Log.w(TAG, String.format("ssidToReconnectTo: %s was not found in list to connect to", ssidToConnectTo));
-                    }
-                    if (connectToNetworkCallbacks != null) {
-                        connectToNetworkCallbacks.networkNotFoundToConnectTo();
-                    }
-                } else {
-                    if (LogUtil.isLoggable(TAG, Log.ERROR, mLoggingEnabled)) {
-                        Log.e(TAG, String.format("No WifiManager to connect to network. SSID: %s", ssidToConnectTo));
-                    }
-                    if (connectToNetworkCallbacks != null) {
-                        connectToNetworkCallbacks.connectToNetworkWiseFyFailure(WiseFyCodes.NULL_MANAGER);
-                    }
+                }
+                if (LogUtil.isLoggable(TAG, Log.WARN, mLoggingEnabled)) {
+                    Log.w(TAG, String.format("ssidToConnectTo: %s was not found in list to connect to", ssidToConnectTo));
+                }
+                if (connectToNetworkCallbacks != null) {
+                    connectToNetworkCallbacks.networkNotFoundToConnectTo();
                 }
                 mWiseFyHandlerThread.quitSafely();
             }
@@ -641,17 +597,7 @@ public class WiseFy {
     @Sync
     @CallingThread
     public boolean disableWifi() {
-        if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
-            Log.d(TAG, "Disabling WiFi");
-        }
-        if (mWifiManager != null) {
-            return mWifiManager.setWifiEnabled(false);
-        } else {
-            if (LogUtil.isLoggable(TAG, Log.ERROR, mLoggingEnabled)) {
-                Log.e(TAG, "No WifiManager to disable Wifi");
-            }
-        }
-        return false;
+        return hasPrerequisites() && mWifiManager.setWifiEnabled(false);
     }
 
     /**
@@ -662,28 +608,23 @@ public class WiseFy {
      */
     @Async
     @WiseFyThread
-    public void disableWifi(@Nullable final DisableWifiCallbacks disableWifiCallbacks) {
+    public void disableWifi(final DisableWifiCallbacks disableWifiCallbacks) {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
-                    Log.d(TAG, "Disabling WiFi");
+                if (!hasPrerequisites()) {
+                    if (disableWifiCallbacks != null) {
+                        disableWifiCallbacks.disableWifiWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+                    }
+                    return;
                 }
-                if (mWifiManager != null) {
-                    boolean result = mWifiManager.setWifiEnabled(false);
-                    if (disableWifiCallbacks != null) {
-                        if (result) {
-                            disableWifiCallbacks.wifiDisabled();
-                        } else {
-                            disableWifiCallbacks.failureDisablingWifi();
-                        }
-                    }
-                } else {
-                    if (LogUtil.isLoggable(TAG, Log.ERROR, mLoggingEnabled)) {
-                        Log.e(TAG, "No WifiManager to disable Wifi");
-                    }
-                    if (disableWifiCallbacks != null) {
-                        disableWifiCallbacks.disableWifiWiseFyFailure(WiseFyCodes.NULL_MANAGER);
+
+                boolean result = mWifiManager.setWifiEnabled(false);
+                if (disableWifiCallbacks != null) {
+                    if (result) {
+                        disableWifiCallbacks.wifiDisabled();
+                    } else {
+                        disableWifiCallbacks.failureDisablingWifi();
                     }
                 }
                 mWiseFyHandlerThread.quitSafely();
@@ -700,17 +641,7 @@ public class WiseFy {
     @Sync
     @CallingThread
     public boolean disconnectFromCurrentNetwork() {
-        if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
-            Log.d(TAG, "Disconnecting from current network");
-        }
-        if (mWifiManager != null) {
-            return mWifiManager.disconnect();
-        } else {
-            if (LogUtil.isLoggable(TAG, Log.ERROR, mLoggingEnabled)) {
-                Log.e(TAG, "No WifiManager to disconnect from current network");
-            }
-        }
-        return false;
+        return hasPrerequisites() && mWifiManager.disconnect();
     }
 
     /**
@@ -721,28 +652,24 @@ public class WiseFy {
      */
     @Async
     @WiseFyThread
-    public void disconnectFromCurrentNetwork(@Nullable final DisconnectFromCurrentNetworkCallbacks disconnectFromCurrentNetworkCallbacks) {
+    public void disconnectFromCurrentNetwork(final DisconnectFromCurrentNetworkCallbacks disconnectFromCurrentNetworkCallbacks) {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
-                    Log.d(TAG, "Disconnecting from current network");
+
+                if (!hasPrerequisites()) {
+                    if (disconnectFromCurrentNetworkCallbacks != null) {
+                        disconnectFromCurrentNetworkCallbacks.disconnectFromCurrentNetworkWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+                    }
+                    return;
                 }
-                if (mWifiManager != null) {
-                    boolean result = mWifiManager.disconnect();
-                    if (disconnectFromCurrentNetworkCallbacks != null) {
-                        if (result) {
-                            disconnectFromCurrentNetworkCallbacks.disconnectedFromCurrentNetwork();
-                        } else {
-                            disconnectFromCurrentNetworkCallbacks.failureDisconnectingFromCurrentNetwork();
-                        }
-                    }
-                } else {
-                    if (LogUtil.isLoggable(TAG, Log.ERROR, mLoggingEnabled)) {
-                        Log.e(TAG, "No WifiManager to disconnect from current network");
-                    }
-                    if (disconnectFromCurrentNetworkCallbacks != null) {
-                        disconnectFromCurrentNetworkCallbacks.disconnectFromCurrentNetworkWiseFyFailure(WiseFyCodes.NULL_MANAGER);
+
+                boolean result = mWifiManager.disconnect();
+                if (disconnectFromCurrentNetworkCallbacks != null) {
+                    if (result) {
+                        disconnectFromCurrentNetworkCallbacks.disconnectedFromCurrentNetwork();
+                    } else {
+                        disconnectFromCurrentNetworkCallbacks.failureDisconnectingFromCurrentNetwork();
                     }
                 }
                 mWiseFyHandlerThread.quitSafely();
@@ -759,17 +686,7 @@ public class WiseFy {
     @Sync
     @CallingThread
     public boolean enableWifi() {
-        if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
-            Log.d(TAG, "Enabling WiFi");
-        }
-        if (mWifiManager != null) {
-            return mWifiManager.setWifiEnabled(true);
-        } else {
-            if (LogUtil.isLoggable(TAG, Log.ERROR, mLoggingEnabled)) {
-                Log.e(TAG, "No WifiManager to enable wifi");
-            }
-        }
-        return false;
+        return hasPrerequisites() && mWifiManager.setWifiEnabled(true);
     }
 
     /**
@@ -780,28 +697,23 @@ public class WiseFy {
      */
     @Async
     @WiseFyThread
-    public void enableWifi(@Nullable final EnableWifiCallbacks enableWifiCallbacks) {
+    public void enableWifi(final EnableWifiCallbacks enableWifiCallbacks) {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
-                    Log.d(TAG, "Enabling WiFi");
+                if (!hasPrerequisites()) {
+                    if (enableWifiCallbacks != null) {
+                        enableWifiCallbacks.enableWifiWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+                    }
+                    return;
                 }
-                if (mWifiManager != null) {
-                    boolean result = mWifiManager.setWifiEnabled(true);
-                    if (enableWifiCallbacks != null) {
-                        if (result) {
-                            enableWifiCallbacks.wifiEnabled();
-                        } else {
-                            enableWifiCallbacks.failureEnablingWifi();
-                        }
-                    }
-                } else {
-                    if (LogUtil.isLoggable(TAG, Log.ERROR, mLoggingEnabled)) {
-                        Log.e(TAG, "No WifiManager to enable wifi");
-                    }
-                    if (enableWifiCallbacks != null) {
-                        enableWifiCallbacks.enableWifiWiseFyFailure(WiseFyCodes.NULL_MANAGER);
+
+                boolean result = mWifiManager.setWifiEnabled(true);
+                if (enableWifiCallbacks != null) {
+                    if (result) {
+                        enableWifiCallbacks.wifiEnabled();
+                    } else {
+                        enableWifiCallbacks.failureEnablingWifi();
                     }
                 }
                 mWiseFyHandlerThread.quitSafely();
@@ -818,14 +730,10 @@ public class WiseFy {
     @Sync
     @CallingThread
     public WifiInfo getCurrentNetwork() {
-        if (mWifiManager != null) {
-            return mWifiManager.getConnectionInfo();
-        } else {
-            if (LogUtil.isLoggable(TAG, Log.ERROR, mLoggingEnabled)) {
-                Log.e(TAG, "No WifiManager to get current network");
-            }
+        if (!hasPrerequisites()) {
+            return null;
         }
-        return null;
+        return mWifiManager.getConnectionInfo();
     }
 
     /**
@@ -836,21 +744,19 @@ public class WiseFy {
      */
     @Async
     @WiseFyThread
-    public void getCurrentNetwork(@Nullable final GetCurrentNetworkCallbacks getCurrentNetworkCallbacks) {
+    public void getCurrentNetwork(final GetCurrentNetworkCallbacks getCurrentNetworkCallbacks) {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if (mWifiManager != null) {
+                if (!hasPrerequisites()) {
                     if (getCurrentNetworkCallbacks != null) {
-                        getCurrentNetworkCallbacks.retrievedCurrentNetwork(mWifiManager.getConnectionInfo());
+                        getCurrentNetworkCallbacks.getCurrentNetworkWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
                     }
-                } else {
-                    if (LogUtil.isLoggable(TAG, Log.ERROR, mLoggingEnabled)) {
-                        Log.e(TAG, "No WifiManager to get current network");
-                    }
-                    if (getCurrentNetworkCallbacks != null) {
-                        getCurrentNetworkCallbacks.getCurrentNetworkWiseFyFailure(WiseFyCodes.NULL_MANAGER);
-                    }
+                    return;
+                }
+
+                if (getCurrentNetworkCallbacks != null) {
+                    getCurrentNetworkCallbacks.retrievedCurrentNetwork(mWifiManager.getConnectionInfo());
                 }
                 mWiseFyHandlerThread.quitSafely();
             }
@@ -893,7 +799,7 @@ public class WiseFy {
     @Async
     @WiseFyThread
     @TargetApi(21)
-    public void getFrequency(@Nullable final GetFrequencyCallbacks getFrequencyCallbacks) {
+    public void getFrequency(final GetFrequencyCallbacks getFrequencyCallbacks) {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -926,7 +832,7 @@ public class WiseFy {
     @Sync
     @CallingThread
     @TargetApi(21)
-    public Integer getFrequency(@Nullable WifiInfo network) {
+    public Integer getFrequency(WifiInfo network) {
         if (network != null) {
             return network.getFrequency();
         }
@@ -947,7 +853,7 @@ public class WiseFy {
     @Async
     @WiseFyThread
     @TargetApi(21)
-    public void getFrequency(@Nullable final WifiInfo network, @Nullable final GetFrequencyCallbacks getFrequencyCallbacks) {
+    public void getFrequency(final WifiInfo network, final GetFrequencyCallbacks getFrequencyCallbacks) {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -977,57 +883,54 @@ public class WiseFy {
     @Sync
     @CallingThread
     public List<ScanResult> getNearbyAccessPoints(boolean filterDuplicates) {
-        if (mWifiManager != null) {
-            mWifiManager.startScan();
-            if (!filterDuplicates) {
-                return mWifiManager.getScanResults();
-            } else {
-                List<ScanResult> scanResults = mWifiManager.getScanResults();
-                List<ScanResult> scanResultsToReturn = new ArrayList<>();
+        if (!hasPrerequisites()) {
+            return null;
+        }
 
-                for (ScanResult newScanResult : scanResults) {
-                    boolean found = false;
-                    for (int i = 0; i < scanResultsToReturn.size(); i++) {
-                        ScanResult scanResult = scanResultsToReturn.get(i);
-                        if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
-                            Log.d(TAG, String.format("SSID 1: %s, SSID 2: %s", newScanResult.SSID, scanResult.SSID));
-                        }
-                        if (newScanResult.SSID.equalsIgnoreCase(scanResult.SSID)) {
-                            found = true;
-                            if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
-                                Log.d(TAG, "SSID did match");
-                                Log.d(TAG, String.format("Current level: %d", scanResult.level));
-                                Log.d(TAG, String.format("New level: %d", newScanResult.level));
-                                Log.d(TAG, String.format("comparison result: %d", WifiManager.compareSignalLevel(newScanResult.level, scanResult.level)));
-                            }
-                            if (WifiManager.compareSignalLevel(newScanResult.level, scanResult.level) > 0) {
-                                if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
-                                    Log.d(TAG, "New result has a higher signal strength, swapping");
-                                }
-                                scanResultsToReturn.set(i, newScanResult);
-                            }
-                        } else {
-                            if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
-                                Log.d(TAG, "SSID did not match");
-                            }
-                        }
+        mWifiManager.startScan();
+        if (!filterDuplicates) {
+            return mWifiManager.getScanResults();
+        } else {
+            List<ScanResult> scanResults = mWifiManager.getScanResults();
+            List<ScanResult> scanResultsToReturn = new ArrayList<>();
+
+            for (ScanResult newScanResult : scanResults) {
+                boolean found = false;
+                for (int i = 0; i < scanResultsToReturn.size(); i++) {
+                    ScanResult scanResult = scanResultsToReturn.get(i);
+                    if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
+                        Log.d(TAG, String.format("SSID 1: %s, SSID 2: %s", newScanResult.SSID, scanResult.SSID));
                     }
-
-                    if (!found) {
+                    if (newScanResult.SSID.equalsIgnoreCase(scanResult.SSID)) {
+                        found = true;
                         if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
-                            Log.d(TAG, "Found new wifi network");
+                            Log.d(TAG, "SSID did match");
+                            Log.d(TAG, String.format("Current level: %d", scanResult.level));
+                            Log.d(TAG, String.format("New level: %d", newScanResult.level));
+                            Log.d(TAG, String.format("comparison result: %d", WifiManager.compareSignalLevel(newScanResult.level, scanResult.level)));
                         }
-                        scanResultsToReturn.add(newScanResult);
+                        if (WifiManager.compareSignalLevel(newScanResult.level, scanResult.level) > 0) {
+                            if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
+                                Log.d(TAG, "New result has a higher signal strength, swapping");
+                            }
+                            scanResultsToReturn.set(i, newScanResult);
+                        }
+                    } else {
+                        if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
+                            Log.d(TAG, "SSID did not match");
+                        }
                     }
                 }
-                return scanResultsToReturn;
+
+                if (!found) {
+                    if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
+                        Log.d(TAG, "Found new wifi network");
+                    }
+                    scanResultsToReturn.add(newScanResult);
+                }
             }
-        } else {
-            if (LogUtil.isLoggable(TAG, Log.ERROR, mLoggingEnabled)) {
-                Log.e(TAG, "No WifiManager to get nearby access points");
-            }
+            return scanResultsToReturn;
         }
-        return null;
     }
 
     /**
@@ -1039,65 +942,63 @@ public class WiseFy {
      */
     @Async
     @WiseFyThread
-    public void getNearbyAccessPoints(final boolean filterDuplicates, @Nullable final GetNearbyAccessPointsCallbacks getNearbyAccessPointsCallbacks) {
+    public void getNearbyAccessPoints(final boolean filterDuplicates, final GetNearbyAccessPointsCallbacks getNearbyAccessPointsCallbacks) {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if (mWifiManager != null) {
-                    mWifiManager.startScan();
-                    if (!filterDuplicates) {
-                        if (getNearbyAccessPointsCallbacks != null) {
-                            getNearbyAccessPointsCallbacks.retrievedNearbyAccessPoints(mWifiManager.getScanResults());
-                        }
-                    } else {
-                        List<ScanResult> scanResults = mWifiManager.getScanResults();
-                        List<ScanResult> scanResultsToReturn = new ArrayList<>();
+                if (!hasPrerequisites()) {
+                    if (getNearbyAccessPointsCallbacks != null) {
+                        getNearbyAccessPointsCallbacks.getNearbyAccessPointsWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+                    }
+                    return;
+                }
 
-                        for (ScanResult newScanResult : scanResults) {
-                            boolean found = false;
-                            for (int i = 0; i < scanResultsToReturn.size(); i++) {
-                                ScanResult scanResult = scanResultsToReturn.get(i);
-                                if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
-                                    Log.d(TAG, String.format("SSID 1: %s, SSID 2: %s", newScanResult.SSID, scanResult.SSID));
-                                }
-                                if (newScanResult.SSID.equalsIgnoreCase(scanResult.SSID)) {
-                                    found = true;
-                                    if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
-                                        Log.d(TAG, "SSID did match");
-                                        Log.d(TAG, String.format("Current level: %d", scanResult.level));
-                                        Log.d(TAG, String.format("New level: %d", newScanResult.level));
-                                        Log.d(TAG, String.format("comparison result: %d", WifiManager.compareSignalLevel(newScanResult.level, scanResult.level)));
-                                    }
-                                    if (WifiManager.compareSignalLevel(newScanResult.level, scanResult.level) > 0) {
-                                        if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
-                                            Log.d(TAG, "New result has a higher signal strength, swapping");
-                                        }
-                                        scanResultsToReturn.set(i, newScanResult);
-                                    }
-                                } else {
-                                    if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
-                                        Log.d(TAG, "SSID did not match");
-                                    }
-                                }
-                            }
-
-                            if (!found) {
-                                if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
-                                    Log.d(TAG, "Found new wifi network");
-                                }
-                                scanResultsToReturn.add(newScanResult);
-                            }
-                        }
-                        if (getNearbyAccessPointsCallbacks != null) {
-                            getNearbyAccessPointsCallbacks.retrievedNearbyAccessPoints(scanResultsToReturn);
-                        }
+                mWifiManager.startScan();
+                if (!filterDuplicates) {
+                    if (getNearbyAccessPointsCallbacks != null) {
+                        getNearbyAccessPointsCallbacks.retrievedNearbyAccessPoints(mWifiManager.getScanResults());
                     }
                 } else {
-                    if (LogUtil.isLoggable(TAG, Log.ERROR, mLoggingEnabled)) {
-                        Log.e(TAG, "No WifiManager to get nearby access points");
+                    List<ScanResult> scanResults = mWifiManager.getScanResults();
+                    List<ScanResult> scanResultsToReturn = new ArrayList<>();
+
+                    for (ScanResult newScanResult : scanResults) {
+                        boolean found = false;
+                        for (int i = 0; i < scanResultsToReturn.size(); i++) {
+                            ScanResult scanResult = scanResultsToReturn.get(i);
+                            if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
+                                Log.d(TAG, String.format("SSID 1: %s, SSID 2: %s", newScanResult.SSID, scanResult.SSID));
+                            }
+                            if (newScanResult.SSID.equalsIgnoreCase(scanResult.SSID)) {
+                                found = true;
+                                if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
+                                    Log.d(TAG, "SSID did match");
+                                    Log.d(TAG, String.format("Current level: %d", scanResult.level));
+                                    Log.d(TAG, String.format("New level: %d", newScanResult.level));
+                                    Log.d(TAG, String.format("comparison result: %d", WifiManager.compareSignalLevel(newScanResult.level, scanResult.level)));
+                                }
+                                if (WifiManager.compareSignalLevel(newScanResult.level, scanResult.level) > 0) {
+                                    if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
+                                        Log.d(TAG, "New result has a higher signal strength, swapping");
+                                    }
+                                    scanResultsToReturn.set(i, newScanResult);
+                                }
+                            } else {
+                                if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
+                                    Log.d(TAG, "SSID did not match");
+                                }
+                            }
+                        }
+
+                        if (!found) {
+                            if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
+                                Log.d(TAG, "Found new wifi network");
+                            }
+                            scanResultsToReturn.add(newScanResult);
+                        }
                     }
                     if (getNearbyAccessPointsCallbacks != null) {
-                        getNearbyAccessPointsCallbacks.getNearbyAccessPointsWiseFyFailure(WiseFyCodes.NULL_MANAGER);
+                        getNearbyAccessPointsCallbacks.retrievedNearbyAccessPoints(scanResultsToReturn);
                     }
                 }
                 mWiseFyHandlerThread.quitSafely();
@@ -1118,17 +1019,11 @@ public class WiseFy {
      */
     @Sync
     @CallingThread
-    public WifiConfiguration getSavedNetwork(@Nullable String ssid) {
-        if (mWifiManager != null) {
-            if (!TextUtils.isEmpty(ssid)) {
-                return findNetworkInConfigurationList(ssid);
-            }
-        } else {
-            if (LogUtil.isLoggable(TAG, Log.ERROR, mLoggingEnabled)) {
-                Log.e(TAG, "No WifiManager to get saved networks");
-            }
+    public WifiConfiguration getSavedNetwork(String ssid) {
+        if (!hasPrerequisites() || TextUtils.isEmpty(ssid)) {
+            return null;
         }
-        return null;
+        return findNetworkInConfigurationList(ssid);
     }
 
     /**
@@ -1145,7 +1040,7 @@ public class WiseFy {
      */
     @Async
     @WiseFyThread
-    public void getSavedNetwork(@Nullable final String ssid, @Nullable final GetSavedNetworkCallbacks getSavedNetworkCallback) {
+    public void getSavedNetwork(final String ssid, final GetSavedNetworkCallbacks getSavedNetworkCallback) {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -1155,21 +1050,20 @@ public class WiseFy {
                     }
                     return;
                 }
-                if (mWifiManager != null) {
-                    WifiConfiguration savedNetwork = findNetworkInConfigurationList(ssid);
+
+                if (!hasPrerequisites()) {
                     if (getSavedNetworkCallback != null) {
-                        if (savedNetwork != null) {
-                            getSavedNetworkCallback.retrievedSavedNetwork(savedNetwork);
-                        } else {
-                            getSavedNetworkCallback.networkNotFound();
-                        }
+                        getSavedNetworkCallback.getSavedNetworkWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
                     }
-                } else {
-                    if (LogUtil.isLoggable(TAG, Log.ERROR, mLoggingEnabled)) {
-                        Log.e(TAG, "No WifiManager to get saved networks");
-                    }
-                    if (getSavedNetworkCallback != null) {
-                        getSavedNetworkCallback.getSavedNetworkWiseFyFailure(WiseFyCodes.NULL_MANAGER);
+                    return;
+                }
+
+                WifiConfiguration savedNetwork = findNetworkInConfigurationList(ssid);
+                if (getSavedNetworkCallback != null) {
+                    if (savedNetwork != null) {
+                        getSavedNetworkCallback.retrievedSavedNetwork(savedNetwork);
+                    } else {
+                        getSavedNetworkCallback.networkNotFound();
                     }
                 }
                 mWiseFyHandlerThread.quitSafely();
@@ -1186,14 +1080,10 @@ public class WiseFy {
     @Sync
     @CallingThread
     public List<WifiConfiguration> getSavedNetworks() {
-        if (mWifiManager != null) {
-            return mWifiManager.getConfiguredNetworks();
-        } else {
-            if (LogUtil.isLoggable(TAG, Log.ERROR, mLoggingEnabled)) {
-                Log.e(TAG, "No WifiManager to get saved networks");
-            }
+        if (!hasPrerequisites()) {
+            return null;
         }
-        return null;
+        return mWifiManager.getConfiguredNetworks();
     }
 
     /**
@@ -1208,21 +1098,19 @@ public class WiseFy {
      */
     @Async
     @WiseFyThread
-    public void getSavedNetworks(@Nullable final GetSavedNetworksCallbacks getSavedNetworksCallback) {
+    public void getSavedNetworks(final GetSavedNetworksCallbacks getSavedNetworksCallback) {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if (mWifiManager != null) {
+                if (!hasPrerequisites()) {
                     if (getSavedNetworksCallback != null) {
-                        getSavedNetworksCallback.retrievedSavedNetworks(mWifiManager.getConfiguredNetworks());
+                        getSavedNetworksCallback.getSavedNetworksWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
                     }
-                } else {
-                    if (LogUtil.isLoggable(TAG, Log.ERROR, mLoggingEnabled)) {
-                        Log.e(TAG, "No WifiManager to get saved networks");
-                    }
-                    if (getSavedNetworksCallback != null) {
-                        getSavedNetworksCallback.getSavedNetworksWiseFyFailure(WiseFyCodes.NULL_MANAGER);
-                    }
+                    return;
+                }
+
+                if (getSavedNetworksCallback != null) {
+                    getSavedNetworksCallback.retrievedSavedNetworks(mWifiManager.getConfiguredNetworks());
                 }
                 mWiseFyHandlerThread.quitSafely();
             }
@@ -1241,16 +1129,14 @@ public class WiseFy {
     @Sync
     @CallingThread
     public boolean isDeviceConnectedToMobileNetwork() {
-        if (mConnectivityManager != null) {
-            NetworkInfo networkInfo = mConnectivityManager.getActiveNetworkInfo();
-            if (networkInfo != null && networkInfo.getTypeName() != null && networkInfo.getTypeName().equalsIgnoreCase(NetworkTypes.MOBILE)) {
-                if (networkInfo.isConnected() && networkInfo.isAvailable()) {
-                    return true;
-                }
-            }
-        } else {
-            if (LogUtil.isLoggable(TAG, Log.ERROR, mLoggingEnabled)) {
-                Log.e(TAG, "No ConnectivityManager check if device is connected to mobile network");
+        if (!hasPrerequisites()) {
+            return false;
+        }
+
+        NetworkInfo networkInfo = mConnectivityManager.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.getTypeName() != null && networkInfo.getTypeName().equalsIgnoreCase(NetworkTypes.MOBILE)) {
+            if (networkInfo.isConnected() && networkInfo.isAvailable()) {
+                return true;
             }
         }
         return false;
@@ -1264,17 +1150,12 @@ public class WiseFy {
     @Sync
     @CallingThread
     public boolean isDeviceConnectedToMobileOrWifiNetwork() {
-        if (mConnectivityManager != null) {
-            NetworkInfo networkInfo = mConnectivityManager.getActiveNetworkInfo();
-            if (networkInfo != null && networkInfo.isConnected() && networkInfo.isAvailable()) {
-                return true;
-            }
-        } else {
-            if (LogUtil.isLoggable(TAG, Log.ERROR, mLoggingEnabled)) {
-                Log.e(TAG, "No ConnectivityManager check if device is connected to mobile or wifi network");
-            }
+        if (!hasPrerequisites()) {
+            return false;
         }
-        return false;
+
+        NetworkInfo networkInfo = mConnectivityManager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnected() && networkInfo.isAvailable();
     }
 
     /**
@@ -1288,36 +1169,27 @@ public class WiseFy {
      */
     @Sync
     @CallingThread
-    public boolean isDeviceConnectedToSSID(@Nullable String ssid) {
-        if (TextUtils.isEmpty(ssid)) {
+    public boolean isDeviceConnectedToSSID(String ssid) {
+        if (TextUtils.isEmpty(ssid) || !hasPrerequisites()) {
             return false;
         }
-        if (mWifiManager != null) {
-            WifiInfo connectionInfo = mWifiManager.getConnectionInfo();
-            if (connectionInfo != null && connectionInfo.getSSID() != null) {
-                String currentSSID = connectionInfo.getSSID().replaceAll("\"", "");
-                if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
-                    Log.d(TAG, String.format("Current SSID: %s", currentSSID));
-                }
 
-                if (currentSSID.equals(ssid)) {
-                    if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
-                        Log.d(TAG, "Correct SSID");
-                    }
-                    if (mConnectivityManager != null
-                            && mConnectivityManager.getActiveNetworkInfo() != null
-                            && mConnectivityManager.getActiveNetworkInfo().isAvailable()
-                            && mConnectivityManager.getActiveNetworkInfo().isConnected()) {
-                        if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
-                            Log.d(TAG, "Network is connected");
-                        }
-                        return true;
-                    }
-                }
+        WifiInfo connectionInfo = mWifiManager.getConnectionInfo();
+        if (connectionInfo != null && connectionInfo.getSSID() != null) {
+            String currentSSID = connectionInfo.getSSID().replaceAll("\"", "");
+            if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
+                Log.d(TAG, String.format("Current SSID: %s, Desired SSID: %s", currentSSID, ssid));
             }
-        } else {
-            if (LogUtil.isLoggable(TAG, Log.ERROR, mLoggingEnabled)) {
-                Log.e(TAG, String.format("No WifiManager check if device is connected to SSID: %s", ssid));
+            if (currentSSID.equals(ssid)) {
+                if (mConnectivityManager != null
+                        && mConnectivityManager.getActiveNetworkInfo() != null
+                        && mConnectivityManager.getActiveNetworkInfo().isAvailable()
+                        && mConnectivityManager.getActiveNetworkInfo().isConnected()) {
+                    if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
+                        Log.d(TAG, "Network is connected");
+                    }
+                    return true;
+                }
             }
         }
         return false;
@@ -1334,16 +1206,14 @@ public class WiseFy {
     @Sync
     @CallingThread
     public boolean isDeviceConnectedToWifiNetwork() {
-        if (mConnectivityManager != null) {
-            NetworkInfo networkInfo = mConnectivityManager.getActiveNetworkInfo();
-            if (networkInfo != null && networkInfo.getTypeName() != null && networkInfo.getTypeName().equalsIgnoreCase(NetworkTypes.WIFI)) {
-                if (networkInfo.isConnected() && networkInfo.isAvailable()) {
-                    return true;
-                }
-            }
-        } else {
-            if (LogUtil.isLoggable(TAG, Log.ERROR, mLoggingEnabled)) {
-                Log.e(TAG, "No ConnectivityManager check if device is connected to wifi network");
+        if (!hasPrerequisites()) {
+            return false;
+        }
+
+        NetworkInfo networkInfo = mConnectivityManager.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.getTypeName() != null && networkInfo.getTypeName().equalsIgnoreCase(NetworkTypes.WIFI)) {
+            if (networkInfo.isConnected() && networkInfo.isAvailable()) {
+                return true;
             }
         }
         return false;
@@ -1387,7 +1257,7 @@ public class WiseFy {
      */
     @Sync
     @CallingThread
-    public boolean isNetwork5gHz(@NonNull WifiInfo network) {
+    public boolean isNetwork5gHz(WifiInfo network) {
         int frequency = getFrequency(network);
         return frequency > MIN_FREQUENCY_5GHZ && frequency < MAX_FREQUENCY_5GHZ;
     }
@@ -1404,15 +1274,8 @@ public class WiseFy {
      */
     @Sync
     @CallingThread
-    public boolean isNetworkInConfigurationList(@NonNull String ssid) {
-        if (mWifiManager != null) {
-            return checkIfNetworkInConfigurationList(ssid);
-        } else {
-            if (LogUtil.isLoggable(TAG, Log.ERROR, mLoggingEnabled)) {
-                Log.e(TAG, "No WifiManager to check if network is in the configuration list");
-            }
-        }
-        return false;
+    public boolean isNetworkInConfigurationList(String ssid) {
+        return hasPrerequisites() && checkIfNetworkInConfigurationList(ssid);
     }
 
     /**
@@ -1427,14 +1290,13 @@ public class WiseFy {
      */
     @Sync
     @CallingThread
-    public boolean isNetworkSecure(@Nullable ScanResult scanResult) {
-        boolean isSecure = false;
+    public boolean isNetworkSecure(ScanResult scanResult) {
         if (scanResult != null && scanResult.capabilities != null) {
             if (scanResult.capabilities.contains(Capabilities.WEP) || scanResult.capabilities.contains(Capabilities.PSK) || scanResult.capabilities.contains(Capabilities.EAP)) {
-                isSecure = true;
+                return true;
             }
         }
-        return isSecure;
+        return false;
     }
 
     /**
@@ -1445,14 +1307,7 @@ public class WiseFy {
     @Sync
     @CallingThread
     public boolean isWifiEnabled() {
-        if (mWifiManager != null) {
-            return mWifiManager.isWifiEnabled();
-        } else {
-            if (LogUtil.isLoggable(TAG, Log.ERROR, mLoggingEnabled)) {
-                Log.e(TAG, "No WifiManager to check if wifi is enabled");
-            }
-        }
-        return false;
+        return hasPrerequisites() && mWifiManager.isWifiEnabled();
     }
 
     /**
@@ -1467,37 +1322,23 @@ public class WiseFy {
      */
     @Sync
     @CallingThread
-    public boolean removeNetwork(@Nullable String ssidToRemove) {
-        if (TextUtils.isEmpty(ssidToRemove)) {
+    public boolean removeNetwork(String ssidToRemove) {
+        if (TextUtils.isEmpty(ssidToRemove) || !hasPrerequisites()) {
             return false;
         }
-        if (mWifiManager != null) {
-            WifiConfiguration wifiConfiguration = findNetworkInConfigurationList(ssidToRemove);
-            if (wifiConfiguration != null) {
-                if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
-                    Log.d(TAG, String.format("Removing network: %s", ssidToRemove));
-                }
-                mWifiManager.disconnect();
-                boolean result = mWifiManager.removeNetwork(wifiConfiguration.networkId);
-                if (result) {
-                    if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
-                        Log.d(TAG, "Successfully removed network");
-                    }
-                } else {
-                    if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
-                        Log.d(TAG, "Failed to remove network");
-                    }
-                }
-                mWifiManager.reconnect();
-                return result;
-            } else {
-                if (LogUtil.isLoggable(TAG, Log.WARN, mLoggingEnabled)) {
-                    Log.w(TAG, String.format("SSID to remove: %s was not found in list to remove network", ssidToRemove));
-                }
+
+        WifiConfiguration wifiConfiguration = findNetworkInConfigurationList(ssidToRemove);
+        if (wifiConfiguration != null) {
+            mWifiManager.disconnect();
+            boolean result = mWifiManager.removeNetwork(wifiConfiguration.networkId);
+            if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
+                Log.d(TAG, String.format("Removing network: %s had result: %b", ssidToRemove, result));
             }
+            mWifiManager.reconnect();
+            return result;
         } else {
-            if (LogUtil.isLoggable(TAG, Log.ERROR, mLoggingEnabled)) {
-                Log.e(TAG, String.format("No WifiManager to remove network. SSID: %s", ssidToRemove));
+            if (LogUtil.isLoggable(TAG, Log.WARN, mLoggingEnabled)) {
+                Log.w(TAG, String.format("SSID to remove: %s was not found in list to remove network", ssidToRemove));
             }
         }
         return false;
@@ -1517,7 +1358,7 @@ public class WiseFy {
      */
     @Async
     @WiseFyThread
-    public void removeNetwork(@Nullable final String ssidToRemove, @Nullable final RemoveNetworkCallbacks removeNetworkCallback) {
+    public void removeNetwork(final String ssidToRemove, final RemoveNetworkCallbacks removeNetworkCallback) {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -1527,44 +1368,37 @@ public class WiseFy {
                     }
                     return;
                 }
-                if (mWifiManager != null) {
-                    WifiConfiguration wifiConfiguration = findNetworkInConfigurationList(ssidToRemove);
-                    if (wifiConfiguration != null) {
-                        if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
-                            Log.d(TAG, String.format("Removing network: %s", ssidToRemove));
-                        }
-                        mWifiManager.disconnect();
-                        boolean result = mWifiManager.removeNetwork(wifiConfiguration.networkId);
-                        if (result) {
-                            if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
-                                Log.d(TAG, "Successfully removed network");
-                            }
-                            if (removeNetworkCallback != null) {
-                                removeNetworkCallback.networkRemoved();
-                            }
-                        } else {
-                            if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
-                                Log.d(TAG, "Failed to remove network");
-                            }
-                            if (removeNetworkCallback != null) {
-                                removeNetworkCallback.failureRemovingNetwork();
-                            }
-                        }
-                        mWifiManager.reconnect();
-                    } else {
-                        if (LogUtil.isLoggable(TAG, Log.WARN, mLoggingEnabled)) {
-                            Log.w(TAG, String.format("SSID to remove: %s was not found in list to remove network", ssidToRemove));
-                        }
+
+                if (!hasPrerequisites()) {
+                    if (removeNetworkCallback != null) {
+                        removeNetworkCallback.removeNetworkWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+                    }
+                    return;
+                }
+
+                WifiConfiguration wifiConfiguration = findNetworkInConfigurationList(ssidToRemove);
+                if (wifiConfiguration != null) {
+                    mWifiManager.disconnect();
+                    boolean result = mWifiManager.removeNetwork(wifiConfiguration.networkId);
+                    if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
+                        Log.d(TAG, String.format("Removing network: %s had result: %b", ssidToRemove, result));
+                    }
+                    mWifiManager.reconnect();
+                    if (result) {
                         if (removeNetworkCallback != null) {
-                            removeNetworkCallback.networkNotFoundToRemove();
+                            removeNetworkCallback.networkRemoved();
+                        }
+                    } else {
+                        if (removeNetworkCallback != null) {
+                            removeNetworkCallback.failureRemovingNetwork();
                         }
                     }
                 } else {
-                    if (LogUtil.isLoggable(TAG, Log.ERROR, mLoggingEnabled)) {
-                        Log.e(TAG, String.format("No WifiManager to remove network. SSID: %s", ssidToRemove));
+                    if (LogUtil.isLoggable(TAG, Log.WARN, mLoggingEnabled)) {
+                        Log.w(TAG, String.format("SSID to remove: %s was not found in list to remove network", ssidToRemove));
                     }
                     if (removeNetworkCallback != null) {
-                        removeNetworkCallback.removeNetworkWiseFyFailure(WiseFyCodes.NULL_MANAGER);
+                        removeNetworkCallback.networkNotFoundToRemove();
                     }
                 }
                 mWiseFyHandlerThread.quitSafely();
@@ -1576,8 +1410,6 @@ public class WiseFy {
     /**
      * To search local networks and return the first one that contains a given ssid
      *
-     * *NOTE* Case insensitive
-     *
      * @param regexForSSID - The regex to be used to search for the ssid
      * @param timeoutInMillis - The number of milliseconds to keep searching for the SSID
      *
@@ -1586,58 +1418,42 @@ public class WiseFy {
     @Sync
     @CallingThread
     @WaitsForTimeout
-    public String searchForSSID(@Nullable String regexForSSID, int timeoutInMillis) {
-        if (TextUtils.isEmpty(regexForSSID)) {
+    public String searchForSSID(String regexForSSID, int timeoutInMillis) {
+        if (TextUtils.isEmpty(regexForSSID) || !hasPrerequisites()) {
             return null;
         }
-        if (mWifiManager != null) {
-            int scanPass = 1;
-            long currentTime;
-            long endTime = System.currentTimeMillis() + timeoutInMillis;
-            if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
-                Log.d(TAG, String.format("End time (searchForSSID): %d", endTime));
-            }
-            do {
-                if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
-                    Log.d(TAG, String.format("Scanning SSIDs, pass %d", scanPass));
-                }
-                mWifiManager.startScan();
-                List<ScanResult> networks = mWifiManager.getScanResults();
-                for (ScanResult scanResult : networks) {
-                    if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
-                        Log.d(TAG, String.format("scanResult.SSID: %s", scanResult.SSID));
-                    }
-                    if (scanResult.SSID != null && (scanResult.SSID).matches(regexForSSID)) {
-                        if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
-                            Log.d(TAG, String.format("Found match, SSID: %s", scanResult.SSID));
-                        }
-                        return scanResult.SSID;
-                    }
-                }
 
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException ie) {
-                    // Do nothing
-                }
-                currentTime = System.currentTimeMillis();
-                if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
-                    Log.d(TAG, String.format("Current time (searchForSSID): %d", endTime));
-                }
-                scanPass++;
-            } while (currentTime < endTime);
-        } else {
-            if (LogUtil.isLoggable(TAG, Log.ERROR, mLoggingEnabled)) {
-                Log.e(TAG, String.format("No WifiManager to search for network. SSID: %s", regexForSSID));
+        int scanPass = 1;
+        long currentTime;
+        long endTime = System.currentTimeMillis() + timeoutInMillis;
+        do {
+            if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
+                Log.d(TAG, String.format("Scanning SSIDs, pass %d", scanPass));
             }
-        }
+            mWifiManager.startScan();
+            List<ScanResult> networks = mWifiManager.getScanResults();
+            for (ScanResult scanResult : networks) {
+                if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
+                    Log.d(TAG, String.format("scanResult.SSID: %s, regex for SSID: %s", scanResult.SSID, regexForSSID));
+                }
+                if (scanResult.SSID != null && (scanResult.SSID).matches(regexForSSID)) {
+                    return scanResult.SSID;
+                }
+            }
+
+            sleep(1000);
+
+            currentTime = System.currentTimeMillis();
+            if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
+                Log.d(TAG, String.format("Current time: %d / End time: %d (searchForSSID)", currentTime, endTime));
+            }
+            scanPass++;
+        } while (currentTime < endTime);
         return null;
     }
 
     /**
      * To search local networks and return the first one that contains a given ssid
-     *
-     * *NOTE* Case insensitive
      *
      * @param regexForSSID - The regex to be used to search for the ssid
      * @param timeoutInMillis - The number of milliseconds to keep searching for the SSID
@@ -1651,7 +1467,7 @@ public class WiseFy {
     @Async
     @WiseFyThread
     @WaitsForTimeout
-    public void searchForSSID(@Nullable final String regexForSSID, final int timeoutInMillis, @Nullable final SearchForSSIDCallbacks searchForSSIDCallback) {
+    public void searchForSSID(final String regexForSSID, final int timeoutInMillis, final SearchForSSIDCallbacks searchForSSIDCallback) {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -1661,55 +1477,45 @@ public class WiseFy {
                     }
                     return;
                 }
-                if (mWifiManager != null) {
-                    int scanPass = 1;
-                    long currentTime;
-                    long endTime = System.currentTimeMillis() + timeoutInMillis;
-                    if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
-                        Log.d(TAG, String.format("End time (searchForSSID): %d", endTime));
-                    }
-                    do {
-                        if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
-                            Log.d(TAG, String.format("Scanning SSIDs, pass %d", scanPass));
-                        }
-                        mWifiManager.startScan();
-                        List<ScanResult> networks = mWifiManager.getScanResults();
-                        for (ScanResult scanResult : networks) {
-                            if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
-                                Log.d(TAG, String.format("scanResult.SSID: %s", scanResult.SSID));
-                            }
-                            if (scanResult.SSID != null && (scanResult.SSID).matches(regexForSSID)) {
-                                if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
-                                    Log.d(TAG, String.format("Found match, SSID: %s", scanResult.SSID));
-                                }
-                                if (searchForSSIDCallback != null) {
-                                    searchForSSIDCallback.ssidFound(scanResult.SSID);
-                                }
-                                return;
-                            }
-                        }
 
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException ie) {
-                            // Do nothing
-                        }
-                        currentTime = System.currentTimeMillis();
+                if (!hasPrerequisites()) {
+                    if (searchForSSIDCallback != null) {
+                        searchForSSIDCallback.searchForSSIDWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+                    }
+                    return;
+                }
+
+                int scanPass = 1;
+                long currentTime;
+                long endTime = System.currentTimeMillis() + timeoutInMillis;
+                do {
+                    if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
+                        Log.d(TAG, String.format("Scanning SSIDs, pass %d", scanPass));
+                    }
+                    mWifiManager.startScan();
+                    List<ScanResult> networks = mWifiManager.getScanResults();
+                    for (ScanResult scanResult : networks) {
                         if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
-                            Log.d(TAG, String.format("Current time (searchForSSID): %d", endTime));
+                            Log.d(TAG, String.format("scanResult.SSID: %s, regex for SSID: %s", scanResult.SSID, regexForSSID));
                         }
-                        scanPass++;
-                    } while (currentTime < endTime);
-                    if (searchForSSIDCallback != null) {
-                        searchForSSIDCallback.ssidNotFound();
+                        if (scanResult.SSID != null && (scanResult.SSID).matches(regexForSSID)) {
+                            if (searchForSSIDCallback != null) {
+                                searchForSSIDCallback.ssidFound(scanResult.SSID);
+                            }
+                            return;
+                        }
                     }
-                } else {
-                    if (LogUtil.isLoggable(TAG, Log.ERROR, mLoggingEnabled)) {
-                        Log.e(TAG, String.format("No WifiManager to search for network. SSID: %s", regexForSSID));
+
+                    sleep(1000);
+
+                    currentTime = System.currentTimeMillis();
+                    if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
+                        Log.d(TAG, String.format("Current time: %d / End time: %d (searchForSSID)", currentTime, endTime));
                     }
-                    if (searchForSSIDCallback != null) {
-                        searchForSSIDCallback.searchForSSIDWiseFyFailure(WiseFyCodes.NULL_MANAGER);
-                    }
+                    scanPass++;
+                } while (currentTime < endTime);
+                if (searchForSSIDCallback != null) {
+                    searchForSSIDCallback.ssidNotFound();
                 }
                 mWiseFyHandlerThread.quitSafely();
             }
@@ -1736,18 +1542,30 @@ public class WiseFy {
      *
      * @return int - The return code from WifiManager for network creation (-1 for failure)
      */
-    private int addNetwork(@NonNull WifiConfiguration wifiConfiguration) {
+    private int addNetwork(WifiConfiguration wifiConfiguration) {
         int result = mWifiManager.addNetwork(wifiConfiguration);
-        if (result != WIFI_MANAGER_FAILURE) {
-            if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
-                Log.d(TAG, "Successfully added network");
-            }
-        } else {
+        if (result == WIFI_MANAGER_FAILURE) {
             if (LogUtil.isLoggable(TAG, Log.ERROR, mLoggingEnabled)) {
                 Log.e(TAG, "Failed to add network");
             }
         }
         return result;
+    }
+
+    private boolean hasPrerequisites() {
+        if (mWifiManager == null) {
+            if (LogUtil.isLoggable(TAG, Log.ERROR, mLoggingEnabled)) {
+                Log.e(TAG, "Missing mWifiManager");
+            }
+            return false;
+        }
+        if (mConnectivityManager == null) {
+            if (LogUtil.isLoggable(TAG, Log.ERROR, mLoggingEnabled)) {
+                Log.e(TAG, "Missing mConnectivityManager");
+            }
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -1766,15 +1584,20 @@ public class WiseFy {
      *   {@link #addWPA2Network(String, String, AddWPA2NetworkCallbacks)}
      *   {@link #isNetworkInConfigurationList(String)}
      *
+     * Uses
+     *   {@link #findNetworkInConfigurationList(String)}
+     *
      * @return boolean - If the ssid was found in the configuration list
      */
-    private boolean checkIfNetworkInConfigurationList(@NonNull String ssid) {
+    private boolean checkIfNetworkInConfigurationList(String ssid) {
         WifiConfiguration wifiConfiguration = findNetworkInConfigurationList(ssid);
         return wifiConfiguration != null;
     }
 
     /**
      * A method to execute logic on a background thread
+     *
+     * @param runnable - The block of code to execute in the background
      *
      * Used by
      *   {@link #addOpenNetwork(String, AddOpenNetworkCallbacks)}
@@ -1793,7 +1616,8 @@ public class WiseFy {
      *   {@link #removeNetwork(String, RemoveNetworkCallbacks)}
      *   {@link #searchForSSID(String, int, SearchForSSIDCallbacks)}
      *
-     * @param runnable - The block of code to execute in the background
+     * Uses
+     *   {@link #setupWiseFyThread()}
      */
     private void execute(Runnable runnable) {
         if (mWiseFyHandler == null) {
@@ -1816,9 +1640,10 @@ public class WiseFy {
      *   {@link #removeNetwork(String)}
      *   {@link #removeNetwork(String, RemoveNetworkCallbacks)}
      *
-     * @return WiFiConfiguration|null - A matching configured network in the list or null if no matching ones found
+     * @return WiFiConfiguration|null - A matching configured network in the list
+     * or null if no matching ones found
      */
-    private WifiConfiguration findNetworkInConfigurationList(@NonNull String ssid) {
+    private WifiConfiguration findNetworkInConfigurationList(String ssid) {
         List<WifiConfiguration> list = mWifiManager.getConfiguredNetworks();
         if (list != null && list.size() > 0) {
             for (int i = 0; i < list.size(); i++) {
@@ -1835,6 +1660,9 @@ public class WiseFy {
                         return wifiConfiguration;
                     }
                 }
+            }
+            if (LogUtil.isLoggable(TAG, Log.WARN, mLoggingEnabled)) {
+                Log.w(TAG, String.format("Found 0 configured networks matching SSID %s", ssid));
             }
         } else {
             if (LogUtil.isLoggable(TAG, Log.WARN, mLoggingEnabled)) {
@@ -1858,8 +1686,21 @@ public class WiseFy {
     }
 
     /**
-     * Used internally to check if the device connects to a given SSID
-     * within a specified time (timeout is in millis)
+     *
+     */
+    private void sleep(long timeToSleepInMillis) {
+        try {
+            Thread.sleep(timeToSleepInMillis);
+        } catch (InterruptedException ie) {
+            // Do nothing
+        }
+    }
+
+    /**
+     * Used internally to check if the device connects to a given SSID within a specified time
+     *
+     * *Notes*
+     *   - Timeout is in millis
      *
      * @param ssid - The ssid to wait for the device to connect to
      * @param timeoutInMillis - The number of milliseconds to wait
@@ -1868,28 +1709,24 @@ public class WiseFy {
      *   {@link #connectToNetwork(String, int)}
      *   {@link #connectToNetwork(String, int, ConnectToNetworkCallbacks)}
      *
+     * Uses
+     *   {@link #isDeviceConnectedToSSID(String)}
+     *
      * @return boolean - If the device is connected to the ssid in the given time
      */
     @WaitsForTimeout
-    private boolean waitToConnectToSSID(@NonNull String ssid, int timeoutInMillis) {
+    private boolean waitToConnectToSSID(String ssid, int timeoutInMillis) {
         long currentTime;
         long endTime = System.currentTimeMillis() + timeoutInMillis;
-        if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
-            Log.d(TAG, String.format("End time (waitToConnectToSSID): %d", endTime));
-        }
         do {
             boolean result = isDeviceConnectedToSSID(ssid);
             if (result) {
                 return true;
             }
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException ie) {
-                // Do nothing
-            }
+            sleep(1000);
             currentTime = System.currentTimeMillis();
             if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
-                Log.d(TAG, String.format("Current time (waitToConnectToSSID): %d", endTime));
+                Log.d(TAG, String.format("Current time: %d / End time: %d (waitToConnectToSSID)", currentTime, endTime));
             }
         } while (currentTime < endTime);
         return false;

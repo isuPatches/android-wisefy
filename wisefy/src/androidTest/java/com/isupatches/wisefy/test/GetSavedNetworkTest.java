@@ -115,7 +115,7 @@ public class GetSavedNetworkTest extends BaseTestClass<TestActivity> {
         setManagersToNull();
         GetSavedNetworkCallbacks getSavedNetworkCallbacks = mock(GetSavedNetworkCallbacks.class);
         mWiseFy.getSavedNetwork(TEST_SSID, getSavedNetworkCallbacks);
-        verify(getSavedNetworkCallbacks, timeout(2000)).getSavedNetworkWiseFyFailure(WiseFyCodes.NULL_MANAGER);
+        verify(getSavedNetworkCallbacks, timeout(2000)).getSavedNetworkWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
     }
 
     @Test
@@ -123,7 +123,7 @@ public class GetSavedNetworkTest extends BaseTestClass<TestActivity> {
         setManagersToNull();
         GetSavedNetworkCallbacks getSavedNetworkCallbacks = mock(GetSavedNetworkCallbacks.class);
         mWiseFy.getSavedNetwork(TEST_SSID, null);
-        verify(getSavedNetworkCallbacks, never()).getSavedNetworkWiseFyFailure(WiseFyCodes.NULL_MANAGER);
+        verify(getSavedNetworkCallbacks, never()).getSavedNetworkWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
     }
 
     @Test

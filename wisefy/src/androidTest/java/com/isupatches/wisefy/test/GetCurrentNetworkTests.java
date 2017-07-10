@@ -43,7 +43,7 @@ public class GetCurrentNetworkTests extends BaseTestClass<TestActivity> {
         setManagersToNull();
         GetCurrentNetworkCallbacks getCurrentNetworkCallbacks = mock(GetCurrentNetworkCallbacks.class);
         mWiseFy.getCurrentNetwork(getCurrentNetworkCallbacks);
-        verify(getCurrentNetworkCallbacks, timeout(2000)).getCurrentNetworkWiseFyFailure(WiseFyCodes.NULL_MANAGER);
+        verify(getCurrentNetworkCallbacks, timeout(2000)).getCurrentNetworkWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
     }
 
     @Test
@@ -51,7 +51,7 @@ public class GetCurrentNetworkTests extends BaseTestClass<TestActivity> {
         setManagersToNull();
         GetCurrentNetworkCallbacks getCurrentNetworkCallbacks = mock(GetCurrentNetworkCallbacks.class);
         mWiseFy.getCurrentNetwork(null);
-        verify(getCurrentNetworkCallbacks, never()).getCurrentNetworkWiseFyFailure(WiseFyCodes.NULL_MANAGER);
+        verify(getCurrentNetworkCallbacks, never()).getCurrentNetworkWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
     }
 
     @Test

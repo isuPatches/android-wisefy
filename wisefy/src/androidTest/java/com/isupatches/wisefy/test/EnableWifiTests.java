@@ -72,7 +72,7 @@ public class EnableWifiTests extends BaseTestClass<TestActivity> {
         EnableWifiCallbacks enableWifiCallbacks = mock(EnableWifiCallbacks.class);
         mWiseFy.enableWifi(enableWifiCallbacks);
         verify(mMockWiFiManager, never()).setWifiEnabled(true);
-        verify(enableWifiCallbacks, timeout(2000)).enableWifiWiseFyFailure(WiseFyCodes.NULL_MANAGER);
+        verify(enableWifiCallbacks, timeout(2000)).enableWifiWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
     }
 
     @Test
@@ -81,7 +81,7 @@ public class EnableWifiTests extends BaseTestClass<TestActivity> {
         EnableWifiCallbacks enableWifiCallbacks = mock(EnableWifiCallbacks.class);
         mWiseFy.enableWifi(null);
         verify(mMockWiFiManager, never()).setWifiEnabled(true);
-        verify(enableWifiCallbacks, never()).enableWifiWiseFyFailure(WiseFyCodes.NULL_MANAGER);
+        verify(enableWifiCallbacks, never()).enableWifiWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
     }
 
     @Test
