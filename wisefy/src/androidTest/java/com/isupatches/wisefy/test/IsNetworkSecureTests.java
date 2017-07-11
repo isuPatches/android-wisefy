@@ -35,16 +35,16 @@ public class IsNetworkSecureTests extends BaseTestClass<TestActivity> {
     }
 
     @Test
-    public void success_withEAP() {
+    public void success_withWPA() {
         ScanResult scanResult = mock(ScanResult.class);
-        scanResult.capabilities = Capabilities.EAP;
+        scanResult.capabilities = Capabilities.WPA;
         assertEquals(true, mWiseFy.isNetworkSecure(scanResult));
     }
 
     @Test
-    public void success_withPSK() {
+    public void success_withWPA2() {
         ScanResult scanResult = mock(ScanResult.class);
-        scanResult.capabilities = Capabilities.PSK;
+        scanResult.capabilities = Capabilities.WPA2;
         assertEquals(true, mWiseFy.isNetworkSecure(scanResult));
     }
 
