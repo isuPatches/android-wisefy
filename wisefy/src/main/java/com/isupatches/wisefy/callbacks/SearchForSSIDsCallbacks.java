@@ -16,11 +16,11 @@
 package com.isupatches.wisefy.callbacks;
 
 
-import android.net.wifi.WifiConfiguration;
+import java.util.List;
 
 
-public interface GetSavedNetworkCallbacks {
-    void getSavedNetworkWiseFyFailure(Integer wisefyReturnCode);
-    void savedNetworkNotFound();
-    void retrievedSavedNetwork(WifiConfiguration savedNetwork);
+public interface SearchForSSIDsCallbacks {
+    void searchForSSIDsWiseFyFailure(Integer wisefyReturnCode);
+    void retrievedSSIDs(List<String> ssids);
+    void noSSIDsFound();
 }

@@ -19,9 +19,13 @@ package com.isupatches.wisefy.util;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
-import com.isupatches.wisefy.WiseFy;
 
 
+/**
+ * Manager helper class
+ *
+ * @author Patches
+ */
 public class ManagerUtil {
 
     private static final ManagerUtil MANAGER_UTIL = new ManagerUtil();
@@ -42,34 +46,32 @@ public class ManagerUtil {
     /**
      * To get a Connectivity manger instance from an activity's context.
      *
-     * @see ConnectivityManager
-     * @see WiseFy
+     * @param context The context to use to retrieve a connectivity manager via getSystemService
      *
-     * @param context - The context to use to retrieve a connectivity manager via getSystemService
+     * @see ConnectivityManager
+     *
      * @return ConnectivityManager|null
      */
     public ConnectivityManager getConnectivityManager(Context context) {
-        if(context != null) {
+        if (context != null) {
             return (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        } else {
-            return null;
         }
+        return null;
     }
 
     /**
      * To get a WiFi manger instance from an activity's context.
      *
-     * @see WifiManager
-     * @see WiseFy
+     * @param context The context to use to retrieve a wifi manager via getSystemService
      *
-     * @param context - The context to use to retrieve a wifi manager via getSystemService
+     * @see WifiManager
+     *
      * @return WifiManager|null
      */
     public WifiManager getWiFiManager(Context context) {
-        if(context != null) {
+        if (context != null) {
             return (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        } else {
-            return null;
         }
+        return null;
     }
 }

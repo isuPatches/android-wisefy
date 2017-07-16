@@ -16,11 +16,12 @@
 package com.isupatches.wisefy.callbacks;
 
 
-import android.net.wifi.WifiConfiguration;
+import android.net.wifi.ScanResult;
+import java.util.List;
 
 
-public interface GetSavedNetworkCallbacks {
-    void getSavedNetworkWiseFyFailure(Integer wisefyReturnCode);
-    void savedNetworkNotFound();
-    void retrievedSavedNetwork(WifiConfiguration savedNetwork);
+public interface SearchForAccessPointsCallbacks {
+    void searchForAccessPointsWiseFyFailure(Integer wisefyReturnCode);
+    void foundNetworks(List<ScanResult> networks);
+    void noNetworksFound();
 }

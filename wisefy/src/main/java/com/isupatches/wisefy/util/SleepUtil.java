@@ -13,14 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.wisefy.callbacks;
+package com.isupatches.wisefy.util;
 
 
-import android.net.wifi.WifiConfiguration;
+public class SleepUtil {
 
-
-public interface GetSavedNetworkCallbacks {
-    void getSavedNetworkWiseFyFailure(Integer wisefyReturnCode);
-    void savedNetworkNotFound();
-    void retrievedSavedNetwork(WifiConfiguration savedNetwork);
+    /**
+     * Used to wait for a given amount of time (in milliseconds)
+     */
+    public static void sleep(long timeToSleepInMillis) {
+        try {
+            Thread.sleep(timeToSleepInMillis);
+        } catch (InterruptedException ie) {
+            // Do nothing
+        }
+    }
 }

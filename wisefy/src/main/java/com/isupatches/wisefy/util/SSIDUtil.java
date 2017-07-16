@@ -19,6 +19,11 @@ package com.isupatches.wisefy.util;
 import android.os.Build;
 
 
+/**
+ * A helper class to manipulate the string value for SSIDs
+ *
+ * @author Patches
+ */
 public class SSIDUtil {
 
     private static final SSIDUtil SSID_UTIL = new SSIDUtil();
@@ -36,6 +41,13 @@ public class SSIDUtil {
         return SSID_UTIL;
     }
 
+    /**
+     * Used internally to convert an SSID into a format for KitKat and below if needed
+     *
+     * @param ssid The SSID to alter
+     *
+     * @return String - The converted SSID value
+     */
     String convertSSIDForConfig(String ssid) {
         // On devices with version Kitkat and below, We need to send SSID name
         // with double quotes. On devices with version Lollipop, We need to send

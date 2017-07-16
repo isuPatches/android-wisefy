@@ -10,7 +10,7 @@
 
     <application android:allowBackup="true">
 
-        <activity android:name=".test.base.TestActivity" android:exported="false"/>
+        <activity android:name=".base.TestActivity" android:exported="false"/>
 
     </application>
 

@@ -17,6 +17,8 @@ package com.isupatches.wisefy.constants;
 
 
 public class Capabilities {
+    public static final String EAP = "EAP";
+    public static final String PSK = "PSK";
     public static final String WEP = "WEP";
     public static final String WPA = "WPA";
     public static final String WPA2 = "WPA2";

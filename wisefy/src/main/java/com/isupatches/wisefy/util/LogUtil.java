@@ -21,19 +21,21 @@ import android.util.Log;
 
 /**
  * Logging helper class
+ *
+ * @author Patches
  */
 public class LogUtil {
 
     /**
      * Checks to see given a TAG, log level, and if logging is enabled if logging should occur
      *
-     * @param tag - The tag to be used for the log
-     * @param level - The level of logging (i.e Log.DEBUG, Log.WARN, Log.ERROR, etc)
-     * @param loggingEnabled - If the instances of WiseFy has logging set to always be enabled
+     * @param tag The tag to be used for the log
+     * @param level The level of logging (i.e Log.DEBUG, Log.WARN, Log.ERROR, etc)
+     * @param loggingEnabled If the instances of WiseFy has logging set to always be enabled
      *
-     * {@link Log}
+     * @see Log
      *
-     * @return boolean - if logging is enabled
+     * @return boolean - True if logging should occur based off level and other factors
      */
     public static boolean isLoggable(String tag, int level, boolean loggingEnabled) {
         boolean isLoggable;
