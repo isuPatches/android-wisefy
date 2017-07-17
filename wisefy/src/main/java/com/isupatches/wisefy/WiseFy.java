@@ -1165,7 +1165,7 @@ public class WiseFy {
      * @see NetworkTypes
      * @see WiseFyConnection#isNetworkConnectedAndMatchesType(NetworkInfo, String)
      * @see WiseFyPrerequisites#hasPrerequisites()
-     * @see WiseFyPrerequisites#getConnectivityManager() 
+     * @see WiseFyPrerequisites#getConnectivityManager()
      *
      * @return bool - If the device is currently connected to a mobile network
      */

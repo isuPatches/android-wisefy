@@ -86,7 +86,7 @@ For the sake of transparency and because you're probably curious as to what perm
 
 If access points or SSIDs are not being returned on >= 6.x devices but there are visible networks, it's most likely because you haven't asked in your application for the `Manifest.permission.ACCESS_COARSE_LOCATION` permission which is what allows us to see the access points nearby. This permission request will not be added to the WiseFy library to reduce package bloat and so users can determine their own UI/UX.
 
-Please check [the documentation markdown directory](/documentation/permissions_example.md) for an example of requesting permissions for WiseFy.
+Please check [the permssions example](/documentation/permissions_example.md) for a sample of how to request permissions for WiseFy.
 
 ## Usage
 
