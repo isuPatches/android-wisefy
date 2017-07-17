@@ -49,10 +49,10 @@ public class WiseFyHandlerThread extends HandlerThread {
     }
 
     @Override
-    public boolean quitSafely() {
+    public boolean quit() {
         if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
-            Log.d(TAG, "quitSafely called on WiseFyHandlerThread");
+            Log.d(TAG, "quit called on WiseFyHandlerThread");
         }
-        return super.quitSafely();
+        return super.quit();
     }
 }

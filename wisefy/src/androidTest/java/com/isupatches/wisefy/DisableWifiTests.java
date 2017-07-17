@@ -24,24 +24,22 @@ public class DisableWifiTests extends BaseTestClass<TestActivity> {
     @Test
     public void noCallbacks_failure() {
         when(mMockWiFiManager.setWifiEnabled(anyBoolean())).thenReturn(false);
-        boolean result = mWiseFy.disableWifi();
-        verify(mMockWiFiManager, timeout(2000)).setWifiEnabled(false);
-        assertEquals(false, result);
+        assertEquals(false, mWiseFy.disableWifi());
+        verify(mMockWiFiManager, timeout(VERIFICATION_TIMEOUT)).setWifiEnabled(false);
     }
 
     @Test
     public void noCallbacks_failure_missingPrerequisite() {
         missingPrerequisite();
-        boolean result = mWiseFy.disableWifi();
-        assertEquals(false, result);
+        assertEquals(false, mWiseFy.disableWifi());
+        verify(mMockWiFiManager, never()).setWifiEnabled(false);
     }
 
     @Test
     public void noCallbacks_success() {
         when(mMockWiFiManager.setWifiEnabled(anyBoolean())).thenReturn(true);
-        boolean result = mWiseFy.disableWifi();
-        verify(mMockWiFiManager, timeout(2000)).setWifiEnabled(false);
-        assertEquals(true, result);
+        assertEquals(true, mWiseFy.disableWifi());
+        verify(mMockWiFiManager, timeout(VERIFICATION_TIMEOUT)).setWifiEnabled(false);
     }
 
     @Test
@@ -49,8 +47,8 @@ public class DisableWifiTests extends BaseTestClass<TestActivity> {
         when(mMockWiFiManager.setWifiEnabled(anyBoolean())).thenReturn(false);
         DisableWifiCallbacks mockCallbacks = mock(DisableWifiCallbacks.class);
         mWiseFy.disableWifi(mockCallbacks);
-        verify(mMockWiFiManager, timeout(2000)).setWifiEnabled(false);
-        verify(mockCallbacks, timeout(2000)).failureDisablingWifi();
+        verify(mMockWiFiManager, timeout(VERIFICATION_TIMEOUT)).setWifiEnabled(false);
+        verify(mockCallbacks, timeout(VERIFICATION_TIMEOUT)).failureDisablingWifi();
     }
 
     @Test
@@ -58,6 +56,7 @@ public class DisableWifiTests extends BaseTestClass<TestActivity> {
         when(mMockWiFiManager.setWifiEnabled(anyBoolean())).thenReturn(false);
         try {
             mWiseFy.disableWifi(null);
+            verify(mMockWiFiManager, never()).setWifiEnabled(false);
         } catch (NullPointerException npe) {
             fail();
         }
@@ -69,7 +68,7 @@ public class DisableWifiTests extends BaseTestClass<TestActivity> {
         DisableWifiCallbacks mockCallbacks = mock(DisableWifiCallbacks.class);
         mWiseFy.disableWifi(mockCallbacks);
         verify(mMockWiFiManager, never()).setWifiEnabled(false);
-        verify(mockCallbacks, timeout(2000)).disableWifiWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+        verify(mockCallbacks, timeout(VERIFICATION_TIMEOUT)).disableWifiWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
     }
 
     @Test
@@ -77,6 +76,7 @@ public class DisableWifiTests extends BaseTestClass<TestActivity> {
         missingPrerequisite();
         try {
             mWiseFy.disableWifi(null);
+            verify(mMockWiFiManager, never()).setWifiEnabled(false);
         } catch (NullPointerException npe) {
             fail();
         }
@@ -87,8 +87,8 @@ public class DisableWifiTests extends BaseTestClass<TestActivity> {
         when(mMockWiFiManager.setWifiEnabled(anyBoolean())).thenReturn(true);
         DisableWifiCallbacks mockCallbacks = mock(DisableWifiCallbacks.class);
         mWiseFy.disableWifi(mockCallbacks);
-        verify(mMockWiFiManager, timeout(2000)).setWifiEnabled(false);
-        verify(mockCallbacks, timeout(2000)).wifiDisabled();
+        verify(mMockWiFiManager, timeout(VERIFICATION_TIMEOUT)).setWifiEnabled(false);
+        verify(mockCallbacks, timeout(VERIFICATION_TIMEOUT)).wifiDisabled();
     }
 
     @Test
@@ -96,6 +96,7 @@ public class DisableWifiTests extends BaseTestClass<TestActivity> {
         when(mMockWiFiManager.setWifiEnabled(anyBoolean())).thenReturn(true);
         try {
             mWiseFy.disableWifi(null);
+            verify(mMockWiFiManager, never()).setWifiEnabled(false);
         } catch (NullPointerException npe) {
             fail();
         }

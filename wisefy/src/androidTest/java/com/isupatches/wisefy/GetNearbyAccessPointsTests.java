@@ -14,6 +14,7 @@ import static com.isupatches.wisefy.base.TestUtils.TEST_SSID2;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.fail;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -28,13 +29,15 @@ public class GetNearbyAccessPointsTests extends BaseTestClass<TestActivity> {
     @Test
     public void noCallbacks_failure_missingPrerequisite_filterDuplicates_false() {
         missingPrerequisite();
-        mWiseFy.getNearbyAccessPoints(false);
+        assertEquals(null, mWiseFy.getNearbyAccessPoints(false));
+        verify(mMockWiFiManager, never()).getScanResults();
     }
 
     @Test
     public void noCallbacks_failure_missingPrerequisite_filterDuplicates_true() {
         missingPrerequisite();
-        mWiseFy.getNearbyAccessPoints(true);
+        assertEquals(null, mWiseFy.getNearbyAccessPoints(true));
+        verify(mMockWiFiManager, never()).getScanResults();
     }
 
     @Test
@@ -53,6 +56,7 @@ public class GetNearbyAccessPointsTests extends BaseTestClass<TestActivity> {
 
         List<ScanResult> accessPoints = mWiseFy.getNearbyAccessPoints(false);
         assertEquals(accessPoints, scanResults);
+        verify(mMockWiFiManager, timeout(VERIFICATION_TIMEOUT)).getScanResults();
     }
 
     @Test
@@ -73,6 +77,7 @@ public class GetNearbyAccessPointsTests extends BaseTestClass<TestActivity> {
 
         List<ScanResult> accessPoints = mWiseFy.getNearbyAccessPoints(true);
         assertEquals(accessPoints, scanResults);
+        verify(mMockWiFiManager, timeout(VERIFICATION_TIMEOUT)).getScanResults();
     }
 
     @Test
@@ -80,7 +85,8 @@ public class GetNearbyAccessPointsTests extends BaseTestClass<TestActivity> {
         missingPrerequisite();
         GetNearbyAccessPointsCallbacks mockCallbacks = mock(GetNearbyAccessPointsCallbacks.class);
         mWiseFy.getNearbyAccessPoints(false, mockCallbacks);
-        verify(mockCallbacks, timeout(3000)).getNearbyAccessPointsWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+        verify(mockCallbacks, timeout(VERIFICATION_TIMEOUT)).getNearbyAccessPointsWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+        verify(mMockWiFiManager, never()).getScanResults();
     }
 
     @Test
@@ -88,6 +94,7 @@ public class GetNearbyAccessPointsTests extends BaseTestClass<TestActivity> {
         missingPrerequisite();
         try {
             mWiseFy.getNearbyAccessPoints(false, null);
+            verify(mMockWiFiManager, never()).getScanResults();
         } catch (NullPointerException npe) {
             fail();
         }
@@ -99,6 +106,7 @@ public class GetNearbyAccessPointsTests extends BaseTestClass<TestActivity> {
         GetNearbyAccessPointsCallbacks mockCallbacks = mock(GetNearbyAccessPointsCallbacks.class);
         mWiseFy.getNearbyAccessPoints(true, mockCallbacks);
         verify(mockCallbacks, timeout(3000)).getNearbyAccessPointsWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+        verify(mMockWiFiManager, never()).getScanResults();
     }
 
     @Test
@@ -106,6 +114,7 @@ public class GetNearbyAccessPointsTests extends BaseTestClass<TestActivity> {
         missingPrerequisite();
         try {
             mWiseFy.getNearbyAccessPoints(true, null);
+            verify(mMockWiFiManager, never()).getScanResults();
         } catch (NullPointerException npe) {
             fail();
         }
@@ -127,7 +136,8 @@ public class GetNearbyAccessPointsTests extends BaseTestClass<TestActivity> {
 
         GetNearbyAccessPointsCallbacks mockCallbacks = mock(GetNearbyAccessPointsCallbacks.class);
         mWiseFy.getNearbyAccessPoints(false, mockCallbacks);
-        verify(mockCallbacks, timeout(3000)).retrievedNearbyAccessPoints(scanResults);
+        verify(mockCallbacks, timeout(VERIFICATION_TIMEOUT)).retrievedNearbyAccessPoints(scanResults);
+        verify(mMockWiFiManager, timeout(VERIFICATION_TIMEOUT)).getScanResults();
     }
 
     @Test
@@ -146,6 +156,7 @@ public class GetNearbyAccessPointsTests extends BaseTestClass<TestActivity> {
 
         try {
             mWiseFy.getNearbyAccessPoints(false, null);
+            verify(mMockWiFiManager, never()).getScanResults();
         } catch (NullPointerException npe) {
             fail();
         }
@@ -169,7 +180,8 @@ public class GetNearbyAccessPointsTests extends BaseTestClass<TestActivity> {
 
         GetNearbyAccessPointsCallbacks mockCallbacks = mock(GetNearbyAccessPointsCallbacks.class);
         mWiseFy.getNearbyAccessPoints(true, mockCallbacks);
-        verify(mockCallbacks, timeout(3000)).retrievedNearbyAccessPoints(scanResults);
+        verify(mockCallbacks, timeout(VERIFICATION_TIMEOUT)).retrievedNearbyAccessPoints(scanResults);
+        verify(mMockWiFiManager, timeout(VERIFICATION_TIMEOUT)).getScanResults();
     }
 
     @Test
@@ -190,6 +202,7 @@ public class GetNearbyAccessPointsTests extends BaseTestClass<TestActivity> {
 
         try {
             mWiseFy.getNearbyAccessPoints(true, null);
+            verify(mMockWiFiManager, never()).getScanResults();
         } catch (NullPointerException npe) {
             fail();
         }

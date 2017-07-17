@@ -12,6 +12,7 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -26,36 +27,35 @@ public class AddOpenNetworkTests extends BaseTestClass<TestActivity> {
     @Test
     public void noCallbacks_failure() {
         when(mMockWiFiManager.addNetwork(any(WifiConfiguration.class))).thenReturn(WiseFy.WIFI_MANAGER_FAILURE);
-        int result = mWiseFy.addOpenNetwork(OPEN_NETWORK_SSID);
-        assertEquals(WiseFy.WIFI_MANAGER_FAILURE, result);
+        assertEquals(WiseFy.WIFI_MANAGER_FAILURE,  mWiseFy.addOpenNetwork(OPEN_NETWORK_SSID));
+        verify(mMockWiFiManager, timeout(VERIFICATION_TIMEOUT)).addNetwork(any(WifiConfiguration.class));
     }
 
     @Test
     public void noCallbacks_failure_nullSSIDParam() {
-        int result = mWiseFy.addOpenNetwork(null);
-        assertEquals(WiseFyCodes.MISSING_PARAMETER, result);
+        assertEquals(WiseFyCodes.MISSING_PARAMETER, mWiseFy.addOpenNetwork(null));
+        verify(mMockWiFiManager, never()).addNetwork(any(WifiConfiguration.class));
     }
 
     @Test
     public void noCallbacks_failure_missingPrerequisite() {
         missingPrerequisite();
-        int result = mWiseFy.addOpenNetwork(OPEN_NETWORK_SSID);
-        assertEquals(WiseFyCodes.MISSING_PREREQUISITE, result);
+        assertEquals(WiseFyCodes.MISSING_PREREQUISITE, mWiseFy.addOpenNetwork(OPEN_NETWORK_SSID));
+        verify(mMockWiFiManager, never()).addNetwork(any(WifiConfiguration.class));
     }
 
     @Test
     public void noCallbacks_success() {
         when(mMockWiFiManager.addNetwork(any(WifiConfiguration.class))).thenReturn(0);
-        int result = mWiseFy.addOpenNetwork(OPEN_NETWORK_SSID);
-        assertNotEquals(WiseFy.WIFI_MANAGER_FAILURE, result);
+        assertNotEquals(WiseFy.WIFI_MANAGER_FAILURE, mWiseFy.addOpenNetwork(OPEN_NETWORK_SSID));
+        verify(mMockWiFiManager, timeout(VERIFICATION_TIMEOUT)).addNetwork(any(WifiConfiguration.class));
     }
 
     @Test
     public void noCallbacks_success_alreadyConfigured() {
         networkAlreadyInConfigurationList();
-
-        int result = mWiseFy.addOpenNetwork(OPEN_NETWORK_SSID);
-        assertEquals(WiseFyCodes.NETWORK_ALREADY_CONFIGURED, result);
+        assertEquals(WiseFyCodes.NETWORK_ALREADY_CONFIGURED, mWiseFy.addOpenNetwork(OPEN_NETWORK_SSID));
+        verify(mMockWiFiManager, never()).addNetwork(any(WifiConfiguration.class));
     }
 
     @Test
@@ -63,7 +63,8 @@ public class AddOpenNetworkTests extends BaseTestClass<TestActivity> {
         when(mMockWiFiManager.addNetwork(any(WifiConfiguration.class))).thenReturn(WiseFy.WIFI_MANAGER_FAILURE);
         AddOpenNetworkCallbacks mockCallbacks = mock(AddOpenNetworkCallbacks.class);
         mWiseFy.addOpenNetwork(OPEN_NETWORK_SSID, mockCallbacks);
-        verify(mockCallbacks, timeout(3000)).failureAddingOpenNetwork(WiseFy.WIFI_MANAGER_FAILURE);
+        verify(mockCallbacks, timeout(VERIFICATION_TIMEOUT)).failureAddingOpenNetwork(WiseFy.WIFI_MANAGER_FAILURE);
+        verify(mMockWiFiManager, timeout(VERIFICATION_TIMEOUT)).addNetwork(any(WifiConfiguration.class));
     }
 
     @Test
@@ -71,6 +72,7 @@ public class AddOpenNetworkTests extends BaseTestClass<TestActivity> {
         when(mMockWiFiManager.addNetwork(any(WifiConfiguration.class))).thenReturn(WiseFy.WIFI_MANAGER_FAILURE);
         try {
             mWiseFy.addOpenNetwork(OPEN_NETWORK_SSID, null);
+            verify(mMockWiFiManager, never()).addNetwork(any(WifiConfiguration.class));
         } catch (NullPointerException npe) {
             fail();
         }
@@ -80,13 +82,15 @@ public class AddOpenNetworkTests extends BaseTestClass<TestActivity> {
     public void callbacks_failure_nullSSIDParam() {
         AddOpenNetworkCallbacks mockCallbacks = mock(AddOpenNetworkCallbacks.class);
         mWiseFy.addOpenNetwork(null, mockCallbacks);
-        verify(mockCallbacks, timeout(3000)).addOpenNetworkWiseFyFailure(WiseFyCodes.MISSING_PARAMETER);
+        verify(mockCallbacks, timeout(VERIFICATION_TIMEOUT)).addOpenNetworkWiseFyFailure(WiseFyCodes.MISSING_PARAMETER);
+        verify(mMockWiFiManager, never()).addNetwork(any(WifiConfiguration.class));
     }
 
     @Test
     public void callbacks_failure_nullSSIDParam_nullCallback() {
         try {
             mWiseFy.addOpenNetwork(null, null);
+            verify(mMockWiFiManager, never()).addNetwork(any(WifiConfiguration.class));
         } catch (NullPointerException npe) {
             fail();
         }
@@ -97,7 +101,8 @@ public class AddOpenNetworkTests extends BaseTestClass<TestActivity> {
         missingPrerequisite();
         AddOpenNetworkCallbacks mockCallbacks = mock(AddOpenNetworkCallbacks.class);
         mWiseFy.addOpenNetwork(OPEN_NETWORK_SSID, mockCallbacks);
-        verify(mockCallbacks, timeout(3000)).addOpenNetworkWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+        verify(mockCallbacks, timeout(VERIFICATION_TIMEOUT)).addOpenNetworkWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+        verify(mMockWiFiManager, never()).addNetwork(any(WifiConfiguration.class));
     }
 
     @Test
@@ -105,6 +110,7 @@ public class AddOpenNetworkTests extends BaseTestClass<TestActivity> {
         missingPrerequisite();
         try {
             mWiseFy.addOpenNetwork(OPEN_NETWORK_SSID, null);
+            verify(mMockWiFiManager, never()).addNetwork(any(WifiConfiguration.class));
         } catch (NullPointerException npe) {
             fail();
         }
@@ -115,7 +121,8 @@ public class AddOpenNetworkTests extends BaseTestClass<TestActivity> {
         when(mMockWiFiManager.addNetwork(any(WifiConfiguration.class))).thenReturn(0);
         AddOpenNetworkCallbacks mockCallbacks = mock(AddOpenNetworkCallbacks.class);
         mWiseFy.addOpenNetwork(OPEN_NETWORK_SSID, mockCallbacks);
-        verify(mockCallbacks, timeout(3000)).openNetworkAdded(any(WifiConfiguration.class));
+        verify(mockCallbacks, timeout(VERIFICATION_TIMEOUT)).openNetworkAdded(any(WifiConfiguration.class));
+        verify(mMockWiFiManager, timeout(VERIFICATION_TIMEOUT)).addNetwork(any(WifiConfiguration.class));
     }
 
     @Test
@@ -123,6 +130,7 @@ public class AddOpenNetworkTests extends BaseTestClass<TestActivity> {
         when(mMockWiFiManager.addNetwork(any(WifiConfiguration.class))).thenReturn(0);
         try {
             mWiseFy.addOpenNetwork(OPEN_NETWORK_SSID, null);
+            verify(mMockWiFiManager, never()).addNetwork(any(WifiConfiguration.class));
         } catch (NullPointerException npe) {
             fail();
         }
@@ -134,7 +142,8 @@ public class AddOpenNetworkTests extends BaseTestClass<TestActivity> {
 
         AddOpenNetworkCallbacks mockCallbacks = mock(AddOpenNetworkCallbacks.class);
         mWiseFy.addOpenNetwork(OPEN_NETWORK_SSID, mockCallbacks);
-        verify(mockCallbacks, timeout(3000)).addOpenNetworkWiseFyFailure(WiseFyCodes.NETWORK_ALREADY_CONFIGURED);
+        verify(mockCallbacks, timeout(VERIFICATION_TIMEOUT)).addOpenNetworkWiseFyFailure(WiseFyCodes.NETWORK_ALREADY_CONFIGURED);
+        verify(mMockWiFiManager, never()).addNetwork(any(WifiConfiguration.class));
     }
 
     @Test
@@ -143,6 +152,7 @@ public class AddOpenNetworkTests extends BaseTestClass<TestActivity> {
 
         try {
             mWiseFy.addOpenNetwork(OPEN_NETWORK_SSID, null);
+            verify(mMockWiFiManager, never()).addNetwork(any(WifiConfiguration.class));
         } catch (NullPointerException npe) {
             fail();
         }

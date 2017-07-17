@@ -24,6 +24,12 @@ import com.isupatches.wisefy.util.LogUtil;
 import com.isupatches.wisefy.util.SleepUtil;
 
 
+/**
+ * A class used internally to query and determine different parts of the connection state for a
+ * device.
+ *
+ * @author Patches
+ */
 class WiseFyConnection {
 
     private static final String TAG = WiseFyConnection.class.getSimpleName();
@@ -50,19 +56,14 @@ class WiseFyConnection {
     }
 
     /**
-     * Used internally to check to see if a given network matches a specified type (i.e. Mobile or Wifi)
+     * Used internally to see if the current network is connected to and matches a given ssid
      *
      * *NOTE* Case insensitive
      *
-     * @param networkInfo The network to check
-     * @param type The type of network
+     * @param ssid The ssid to check if the device is connected to
      *
-     * @return boolean - True if the network matches the given type
+     * @return boolean - True if the device is connected to a network
      */
-    boolean doesNetworkMatchType(NetworkInfo networkInfo, String type) {
-        return networkInfo != null && networkInfo.getTypeName() != null && networkInfo.getTypeName().equalsIgnoreCase(type);
-    }
-
     boolean isCurrentNetworkConnectedToSSID(String ssid) {
         WifiInfo connectionInfo = mWiseFyPrerequisites.getWifiManager().getConnectionInfo();
         if (connectionInfo != null && connectionInfo.getSSID() != null) {
@@ -134,5 +135,19 @@ class WiseFyConnection {
             }
         } while (currentTime < endTime);
         return false;
+    }
+
+    /**
+     * Used internally to check to see if a given network matches a specified type (i.e. Mobile or Wifi)
+     *
+     * *NOTE* Case insensitive
+     *
+     * @param networkInfo The network to check
+     * @param type The type of network
+     *
+     * @return boolean - True if the network matches the given type
+     */
+    private boolean doesNetworkMatchType(NetworkInfo networkInfo, String type) {
+        return networkInfo != null && networkInfo.getTypeName() != null && networkInfo.getTypeName().equalsIgnoreCase(type);
     }
 }

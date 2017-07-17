@@ -9,9 +9,11 @@ import org.junit.Test;
 import static com.isupatches.wisefy.base.TestUtils.TEST_SSID;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
+import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -25,15 +27,15 @@ public class ConnectToNetworkTests extends BaseTestClass<TestActivity> {
 
     @Test
     public void noCallbacks_failure_nullSSIDParam() {
-        boolean result = mWiseFy.connectToNetwork(null, 1);
-        assertEquals(false, result);
+        assertEquals(false, mWiseFy.connectToNetwork(null, 1));
+        verify(mMockWiFiManager, never()).enableNetwork(anyInt(), anyBoolean());
     }
 
     @Test
     public void noCallbacks_failure_missingPrerequisites() {
         missingPrerequisite();
-        boolean result = mWiseFy.connectToNetwork(TEST_SSID, 1);
-        assertEquals(false, result);
+        assertEquals(false, mWiseFy.connectToNetwork(TEST_SSID, 1));
+        verify(mMockWiFiManager, never()).enableNetwork(anyInt(), anyBoolean());
     }
 
     @Test
@@ -42,8 +44,8 @@ public class ConnectToNetworkTests extends BaseTestClass<TestActivity> {
         mWiseFy.mWiseFySearch = mockWiseFySearch;
         when(mockWiseFySearch.findSavedNetworkByRegex(anyString())).thenReturn(null);
 
-        boolean result = mWiseFy.connectToNetwork(TEST_SSID, 1);
-        assertEquals(false, result);
+        assertEquals(false, mWiseFy.connectToNetwork(TEST_SSID, 1));
+        verify(mMockWiFiManager, never()).enableNetwork(anyInt(), anyBoolean());
     }
 
     @Test
@@ -58,8 +60,8 @@ public class ConnectToNetworkTests extends BaseTestClass<TestActivity> {
         mWiseFy.mWiseFyConnection = mockWiseFyConnection;
         when(mockWiseFyConnection.waitToConnectToSSID(anyString(), anyInt())).thenReturn(false);
 
-        boolean result = mWiseFy.connectToNetwork(TEST_SSID, 1);
-        assertEquals(false, result);
+        assertEquals(false, mWiseFy.connectToNetwork(TEST_SSID, 1));
+        verify(mMockWiFiManager, timeout(VERIFICATION_TIMEOUT)).enableNetwork(anyInt(), anyBoolean());
     }
 
     @Test
@@ -74,8 +76,8 @@ public class ConnectToNetworkTests extends BaseTestClass<TestActivity> {
         mWiseFy.mWiseFyConnection = mockWiseFyConnection;
         when(mockWiseFyConnection.waitToConnectToSSID(anyString(), anyInt())).thenReturn(true);
 
-        boolean result = mWiseFy.connectToNetwork(TEST_SSID, 1);
-        assertEquals(true, result);
+        assertEquals(true, mWiseFy.connectToNetwork(TEST_SSID, 1));
+        verify(mMockWiFiManager, timeout(VERIFICATION_TIMEOUT)).enableNetwork(anyInt(), anyBoolean());
     }
 
     @Test
@@ -83,12 +85,14 @@ public class ConnectToNetworkTests extends BaseTestClass<TestActivity> {
         ConnectToNetworkCallbacks mockCallbacks = mock(ConnectToNetworkCallbacks.class);
         mWiseFy.connectToNetwork(null, 1, mockCallbacks);
         verify(mockCallbacks, timeout(3000)).connectToNetworkWiseFyFailure(WiseFyCodes.MISSING_PARAMETER);
+        verify(mMockWiFiManager, never()).enableNetwork(anyInt(), anyBoolean());
     }
 
     @Test
     public void callbacks_failure_nullSSIDParam_nullCallback() {
         try {
             mWiseFy.connectToNetwork(null, 1, null);
+            verify(mMockWiFiManager, never()).enableNetwork(anyInt(), anyBoolean());
         } catch (NullPointerException npe) {
             fail();
         }
@@ -100,6 +104,7 @@ public class ConnectToNetworkTests extends BaseTestClass<TestActivity> {
         ConnectToNetworkCallbacks mockCallbacks = mock(ConnectToNetworkCallbacks.class);
         mWiseFy.connectToNetwork(TEST_SSID, 1, mockCallbacks);
         verify(mockCallbacks, timeout(3000)).connectToNetworkWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+        verify(mMockWiFiManager, never()).enableNetwork(anyInt(), anyBoolean());
     }
 
     @Test
@@ -107,6 +112,7 @@ public class ConnectToNetworkTests extends BaseTestClass<TestActivity> {
         missingPrerequisite();
         try {
             mWiseFy.connectToNetwork(TEST_SSID, 1, null);
+            verify(mMockWiFiManager, never()).enableNetwork(anyInt(), anyBoolean());
         } catch (NullPointerException npe) {
             fail();
         }
@@ -120,7 +126,8 @@ public class ConnectToNetworkTests extends BaseTestClass<TestActivity> {
 
         ConnectToNetworkCallbacks mockCallbacks = mock(ConnectToNetworkCallbacks.class);
         mWiseFy.connectToNetwork(TEST_SSID, 1, mockCallbacks);
-        verify(mockCallbacks, timeout(3000)).networkNotFoundToConnectTo();
+        verify(mockCallbacks, timeout(VERIFICATION_TIMEOUT)).networkNotFoundToConnectTo();
+        verify(mMockWiFiManager, never()).enableNetwork(anyInt(), anyBoolean());
     }
 
     @Test
@@ -131,6 +138,7 @@ public class ConnectToNetworkTests extends BaseTestClass<TestActivity> {
 
         try {
             mWiseFy.connectToNetwork(TEST_SSID, 1, null);
+            verify(mMockWiFiManager, never()).enableNetwork(anyInt(), anyBoolean());
         } catch (NullPointerException npe) {
             fail();
         }
@@ -150,7 +158,8 @@ public class ConnectToNetworkTests extends BaseTestClass<TestActivity> {
 
         ConnectToNetworkCallbacks mockCallbacks = mock(ConnectToNetworkCallbacks.class);
         mWiseFy.connectToNetwork(TEST_SSID, 1, mockCallbacks);
-        verify(mockCallbacks, timeout(3000)).failureConnectingToNetwork();
+        verify(mockCallbacks, timeout(VERIFICATION_TIMEOUT)).failureConnectingToNetwork();
+        verify(mMockWiFiManager, timeout(VERIFICATION_TIMEOUT)).enableNetwork(anyInt(), anyBoolean());
     }
 
     @Test
@@ -167,6 +176,7 @@ public class ConnectToNetworkTests extends BaseTestClass<TestActivity> {
 
         try {
             mWiseFy.connectToNetwork(TEST_SSID, 1, null);
+            verify(mMockWiFiManager, never()).enableNetwork(anyInt(), anyBoolean());
         } catch (NullPointerException npe) {
             fail();
         }
@@ -186,7 +196,8 @@ public class ConnectToNetworkTests extends BaseTestClass<TestActivity> {
 
         ConnectToNetworkCallbacks mockCallbacks = mock(ConnectToNetworkCallbacks.class);
         mWiseFy.connectToNetwork(TEST_SSID, 1, mockCallbacks);
-        verify(mockCallbacks, timeout(3000)).connectedToNetwork();
+        verify(mockCallbacks, timeout(VERIFICATION_TIMEOUT)).connectedToNetwork();
+        verify(mMockWiFiManager, timeout(VERIFICATION_TIMEOUT)).enableNetwork(anyInt(), anyBoolean());
     }
 
     @Test
@@ -203,6 +214,7 @@ public class ConnectToNetworkTests extends BaseTestClass<TestActivity> {
 
         try {
             mWiseFy.connectToNetwork(TEST_SSID, 1, null);
+            verify(mMockWiFiManager, never()).enableNetwork(anyInt(), anyBoolean());
         } catch (NullPointerException npe) {
             fail();
         }

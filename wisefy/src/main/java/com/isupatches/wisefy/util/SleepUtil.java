@@ -16,10 +16,17 @@
 package com.isupatches.wisefy.util;
 
 
+/**
+ * A helper class for shared wait logic
+ *
+ * @author Patches
+ */
 public class SleepUtil {
 
     /**
      * Used to wait for a given amount of time (in milliseconds)
+     *
+     * @param timeToSleepInMillis The number of milliseconds to sleep
      */
     public static void sleep(long timeToSleepInMillis) {
         try {

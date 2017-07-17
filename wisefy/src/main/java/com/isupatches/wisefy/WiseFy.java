@@ -56,13 +56,13 @@ import com.isupatches.wisefy.constants.WiseFyCodes;
 import com.isupatches.wisefy.threads.WiseFyHandlerThread;
 import com.isupatches.wisefy.util.LogUtil;
 import com.isupatches.wisefy.util.ManagerUtil;
-import com.isupatches.wisefy.util.SleepUtil;
 import com.isupatches.wisefy.util.WifiConfigurationUtil;
 import java.util.List;
 
 
 /**
- * Main class to manipulate and query network settings on an Android device
+ * Main class for WiseFy that provides a synchronous and asynchronous API to manipulate and query
+ * for different parts of a device's wifi configuration and status.
  *
  * @author Patches
  * @version 2.0
@@ -177,7 +177,7 @@ public class WiseFy {
      * @see WiseFyCodes
      * @see WiseFyConfiguration#isLoggingEnabled()
      * @see WiseFyPrerequisites#hasPrerequisites()
-     * @see WiseFySearch#checkIfNetworkInConfigurationList(String)
+     * @see WiseFySearch#isNetworkASavedConfiguration(String)
      *
      * @return int - The return code from WifiManager for network creation (-1 for failure)
      */
@@ -192,7 +192,7 @@ public class WiseFy {
             return WiseFyCodes.MISSING_PREREQUISITE;
         }
 
-        if (mWiseFySearch.checkIfNetworkInConfigurationList(ssid)) {
+        if (mWiseFySearch.isNetworkASavedConfiguration(ssid)) {
             return WiseFyCodes.NETWORK_ALREADY_CONFIGURED;
         }
 
@@ -216,7 +216,7 @@ public class WiseFy {
      * @see WiseFyCodes
      * @see WiseFyConfiguration#isLoggingEnabled()
      * @see WiseFyPrerequisites#hasPrerequisites()
-     * @see WiseFySearch#checkIfNetworkInConfigurationList(String)
+     * @see WiseFySearch#isNetworkASavedConfiguration(String)
      */
     @Async
     @WiseFyThread
@@ -238,7 +238,7 @@ public class WiseFy {
                     return;
                 }
 
-                if (mWiseFySearch.checkIfNetworkInConfigurationList(ssid)) {
+                if (mWiseFySearch.isNetworkASavedConfiguration(ssid)) {
                     if (callbacks != null) {
                         callbacks.addOpenNetworkWiseFyFailure(WiseFyCodes.NETWORK_ALREADY_CONFIGURED);
                     }
@@ -273,7 +273,7 @@ public class WiseFy {
      * @see WiseFyCodes
      * @see WiseFyConfiguration#isLoggingEnabled()
      * @see WiseFyPrerequisites#hasPrerequisites()
-     * @see WiseFySearch#checkIfNetworkInConfigurationList(String)
+     * @see WiseFySearch#isNetworkASavedConfiguration(String)
      *
      * @return int - The return code from WifiManager for network creation (-1 for failure)
      */
@@ -288,7 +288,7 @@ public class WiseFy {
             return WiseFyCodes.MISSING_PREREQUISITE;
         }
 
-        if (mWiseFySearch.checkIfNetworkInConfigurationList(ssid)) {
+        if (mWiseFySearch.isNetworkASavedConfiguration(ssid)) {
             return WiseFyCodes.NETWORK_ALREADY_CONFIGURED;
         }
 
@@ -313,7 +313,7 @@ public class WiseFy {
      * @see WiseFyCodes
      * @see WiseFyConfiguration#isLoggingEnabled()
      * @see WiseFyPrerequisites#hasPrerequisites()
-     * @see WiseFySearch#checkIfNetworkInConfigurationList(String)
+     * @see WiseFySearch#isNetworkASavedConfiguration(String)
      */
     @Async
     @WiseFyThread
@@ -335,7 +335,7 @@ public class WiseFy {
                     return;
                 }
 
-                if (mWiseFySearch.checkIfNetworkInConfigurationList(ssid)) {
+                if (mWiseFySearch.isNetworkASavedConfiguration(ssid)) {
                     if (callbacks != null) {
                         callbacks.addWEPNetworkWiseFyFailure(WiseFyCodes.NETWORK_ALREADY_CONFIGURED);
                     }
@@ -370,7 +370,7 @@ public class WiseFy {
      * @see WiseFyCodes
      * @see WiseFyConfiguration#isLoggingEnabled()
      * @see WiseFyPrerequisites#hasPrerequisites()
-     * @see WiseFySearch#checkIfNetworkInConfigurationList(String)
+     * @see WiseFySearch#isNetworkASavedConfiguration(String)
      *
      * @return int - The return code from WifiManager for network creation (-1 for failure)
      */
@@ -385,7 +385,7 @@ public class WiseFy {
             return WiseFyCodes.MISSING_PREREQUISITE;
         }
 
-        if (mWiseFySearch.checkIfNetworkInConfigurationList(ssid)) {
+        if (mWiseFySearch.isNetworkASavedConfiguration(ssid)) {
             return WiseFyCodes.NETWORK_ALREADY_CONFIGURED;
         }
 
@@ -410,7 +410,7 @@ public class WiseFy {
      * @see WiseFyCodes
      * @see WiseFyConfiguration#isLoggingEnabled()
      * @see WiseFyPrerequisites#hasPrerequisites()
-     * @see WiseFySearch#checkIfNetworkInConfigurationList(String)
+     * @see WiseFySearch#isNetworkASavedConfiguration(String)
      */
     @Async
     @WiseFyThread
@@ -432,7 +432,7 @@ public class WiseFy {
                     return;
                 }
 
-                if (mWiseFySearch.checkIfNetworkInConfigurationList(ssid)) {
+                if (mWiseFySearch.isNetworkASavedConfiguration(ssid)) {
                     if (callbacks != null) {
                         callbacks.addWPA2NetworkWiseFyFailure(WiseFyCodes.NETWORK_ALREADY_CONFIGURED);
                     }
@@ -686,18 +686,18 @@ public class WiseFy {
     }
 
     /**
-     * To cleanup the thread started by WiseFy
-     *
-     * @return boolean - If the command succeeded in cleaning up the WiseFyHandlerThread
+     * Used to cleanup the thread started by WiseFy
      */
     public void dump() {
-        boolean result = false;
         if (mWiseFyHandlerThread != null) {
             mWiseFyHandlerThread.interrupt();
+            mWiseFyHandlerThread.quit();
+            mWiseFyHandlerThread = null;
             if (LogUtil.isLoggable(TAG, Log.DEBUG, mWiseFyConfiguration.isLoggingEnabled())) {
-                Log.d(TAG, String.format("Cleaning up WiseFy Thread.  Result: %b, Thread value: %s, Handler value: %s", result, mWiseFyHandlerThread, mWiseFyHandler));
+                Log.d(TAG, String.format("Cleaning up WiseFy Thread. Thread value: %s, Handler value: %s", mWiseFyHandlerThread, mWiseFyHandler));
             }
         }
+        mWiseFyHandler = null;
     }
 
     /**
@@ -1069,83 +1069,83 @@ public class WiseFy {
         };
         execute(runnable);
     }
-//
-//    /**
-//     * To retrieve a list of saved networks on a user's device
-//     *
-//     * @see #hasPrerequisites()
-//     *
-//     * @return List of WifiConfiguration|null - List of saved networks on a users device
-//     */
-//    @Sync
-//    @CallingThread
-//    public List<WifiConfiguration> getSavedNetworks() {
-//        if (!mWiseFyPrerequisites.hasPrerequisites()) {
-//            return null;
-//        }
-//        return mWiseFyPrerequisites.getWifiManager().getConfiguredNetworks();
-//    }
-//
-//    /**
-//     * To retrieve a list of saved networks on a user's device
-//     *
-//     * @param callbacks The listener to return results to
-//     *
-//     * @see #execute(Runnable)
-//     * @see #hasPrerequisites()
-//     * @see GetSavedNetworksCallbacks
-//     * @see WiseFyCodes
-//     */
-//    @Async
-//    @WiseFyThread
-//    public void getSavedNetworks(final GetSavedNetworksCallbacks callbacks) {
-//        Runnable runnable = new Runnable() {
-//            @Override
-//            public void run() {
-//                if (!mWiseFyPrerequisites.hasPrerequisites()) {
-//                    if (callbacks != null) {
-//                        callbacks.getSavedNetworksWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
-//                    }
-//                    return;
-//                }
-//
-//                if (callbacks != null) {
-//                    callbacks.retrievedSavedNetworks(mWiseFyPrerequisites.getWifiManager().getConfiguredNetworks());
-//                }
-//            }
-//        };
-//        execute(runnable);
-//    }
-//
-//    @Sync
-//    @CallingThread
-//    public List<WifiConfiguration> getSavedNetworks(String regexForSSID) {
-//        if (!mWiseFyPrerequisites.hasPrerequisites()) {
-//            return null;
-//        }
-//        return mWiseFySearch.findSavedNetworksMatchingRegex(regexForSSID);
-//    }
-//
-//    @Async
-//    @WiseFyThread
-//    public void getSavedNetworks(final String regexForSSID, final GetSavedNetworksCallbacks callbacks) {
-//        Runnable runnable = new Runnable() {
-//            @Override
-//            public void run() {
-//                if (!mWiseFyPrerequisites.hasPrerequisites()) {
-//                    if (callbacks != null) {
-//                        callbacks.getSavedNetworksWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
-//                    }
-//                    return;
-//                }
-//
-//                if (callbacks != null) {
-//                    callbacks.retrievedSavedNetworks(mWiseFySearch.findSavedNetworksMatchingRegex(regexForSSID));
-//                }
-//            }
-//        };
-//        execute(runnable);
-//    }
+
+    /**
+     * To retrieve a list of saved networks on a user's device
+     *
+     * @see WiseFyPrerequisites#hasPrerequisites()
+     *
+     * @return List of WifiConfiguration|null - List of saved networks on a users device
+     */
+    @Sync
+    @CallingThread
+    public List<WifiConfiguration> getSavedNetworks() {
+        if (!mWiseFyPrerequisites.hasPrerequisites()) {
+            return null;
+        }
+        return mWiseFyPrerequisites.getWifiManager().getConfiguredNetworks();
+    }
+
+    /**
+     * To retrieve a list of saved networks on a user's device
+     *
+     * @param callbacks The listener to return results to
+     *
+     * @see #execute(Runnable)
+     * @see GetSavedNetworksCallbacks
+     * @see WiseFyCodes
+     * @see WiseFyPrerequisites#hasPrerequisites()
+     */
+    @Async
+    @WiseFyThread
+    public void getSavedNetworks(final GetSavedNetworksCallbacks callbacks) {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                if (!mWiseFyPrerequisites.hasPrerequisites()) {
+                    if (callbacks != null) {
+                        callbacks.getSavedNetworksWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+                    }
+                    return;
+                }
+
+                if (callbacks != null) {
+                    callbacks.retrievedSavedNetworks(mWiseFyPrerequisites.getWifiManager().getConfiguredNetworks());
+                }
+            }
+        };
+        execute(runnable);
+    }
+
+    @Sync
+    @CallingThread
+    public List<WifiConfiguration> getSavedNetworks(String regexForSSID) {
+        if (!mWiseFyPrerequisites.hasPrerequisites()) {
+            return null;
+        }
+        return mWiseFySearch.findSavedNetworksMatchingRegex(regexForSSID);
+    }
+
+    @Async
+    @WiseFyThread
+    public void getSavedNetworks(final String regexForSSID, final GetSavedNetworksCallbacks callbacks) {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                if (!mWiseFyPrerequisites.hasPrerequisites()) {
+                    if (callbacks != null) {
+                        callbacks.getSavedNetworksWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+                    }
+                    return;
+                }
+
+                if (callbacks != null) {
+                    callbacks.retrievedSavedNetworks(mWiseFySearch.findSavedNetworksMatchingRegex(regexForSSID));
+                }
+            }
+        };
+        execute(runnable);
+    }
 
     /**
      * To check if the device is connected to a mobile network
@@ -1222,68 +1222,67 @@ public class WiseFy {
         NetworkInfo networkInfo = mWiseFyPrerequisites.getConnectivityManager().getActiveNetworkInfo();
         return mWiseFyConnection.isNetworkConnectedAndMatchesType(networkInfo, NetworkTypes.WIFI);
     }
-//
-//    /**
-//     * To query if logging is enabled or disabled for a WiseFy instance
-//     *
-//     * @return boolean - If logging is enabled for the WiseFy instance
-//     */
-//    @Sync
-//    @CallingThread
-//    public boolean isLoggingEnabled() {
-//        return mWiseFyConfiguration.isLoggingEnabled();
-//    }
-//
-//    /**
-//     * To check if the device's current network is 5gHz
-//     *
-//     * @see #getFrequency()
-//     * @see #MIN_FREQUENCY_5GHZ
-//     * @see #MAX_FREQUENCY_5GHZ
-//     *
-//     * @return boolean - If the network is 5gHz
-//     */
-//    @Sync
-//    @CallingThread
-//    public boolean isNetwork5gHz() {
-//        Integer frequency = getFrequency();
-//        return frequency != null && frequency > MIN_FREQUENCY_5GHZ && frequency < MAX_FREQUENCY_5GHZ;
-//    }
-//
-//    /**
-//     * To check if a given network is 5gHz
-//     *
-//     * @param network The network to check if it's 5gHz
-//     *
-//     * @see #getFrequency(WifiInfo)
-//     * @see #MIN_FREQUENCY_5GHZ
-//     * @see #MAX_FREQUENCY_5GHZ
-//     *
-//     * @return boolean - If the network is 5gHz
-//     */
-//    @Sync
-//    @CallingThread
-//    public boolean isNetwork5gHz(WifiInfo network) {
-//        Integer frequency = getFrequency(network);
-//        return frequency != null && frequency > MIN_FREQUENCY_5GHZ && frequency < MAX_FREQUENCY_5GHZ;
-//    }
-//
-//    /**
-//     * To check if an SSID is in the list of configured networks
-//     *
-//     * @param ssid The SSID to check and see if it's in the list of configured networks
-//     *
-//     * @see #checkIfNetworkInConfigurationList(String)
-//     * @see WiseFyPrerequisites#hasPrerequisites()
-//     *
-//     * @return boolean - If the SSID is in the list of configured networks
-//     */
-//    @Sync
-//    @CallingThread
-//    public boolean isNetworkInConfigurationList(String ssid) {
-//        return mWiseFyPrerequisites.hasPrerequisites() && checkIfNetworkInConfigurationList(ssid);
-//    }
-//
+
+    /**
+     * To query if logging is enabled or disabled for a WiseFy instance
+     *
+     * @return boolean - If logging is enabled for the WiseFy instance
+     */
+    @Sync
+    @CallingThread
+    public boolean isLoggingEnabled() {
+        return mWiseFyConfiguration.isLoggingEnabled();
+    }
+
+    /**
+     * To check if the device's current network is 5gHz
+     *
+     * @see #getFrequency()
+     * @see #MIN_FREQUENCY_5GHZ
+     * @see #MAX_FREQUENCY_5GHZ
+     *
+     * @return boolean - If the network is 5gHz
+     */
+    @Sync
+    @CallingThread
+    public boolean isNetwork5gHz() {
+        Integer frequency = getFrequency();
+        return frequency != null && frequency > MIN_FREQUENCY_5GHZ && frequency < MAX_FREQUENCY_5GHZ;
+    }
+
+    /**
+     * To check if a given network is 5gHz
+     *
+     * @param network The network to check if it's 5gHz
+     *
+     * @see #getFrequency(WifiInfo)
+     * @see #MIN_FREQUENCY_5GHZ
+     * @see #MAX_FREQUENCY_5GHZ
+     *
+     * @return boolean - If the network is 5gHz
+     */
+    @Sync
+    @CallingThread
+    public boolean isNetwork5gHz(WifiInfo network) {
+        Integer frequency = getFrequency(network);
+        return frequency != null && frequency > MIN_FREQUENCY_5GHZ && frequency < MAX_FREQUENCY_5GHZ;
+    }
+
+    /**
+     * To check if an SSID is in the list of configured networks
+     *
+     * @param ssid The SSID to check and see if it's in the list of configured networks
+     *
+     * @see WiseFyPrerequisites#hasPrerequisites()
+     * @see WiseFySearch#isNetworkASavedConfiguration(String)
+     *
+     * @return boolean - If the SSID is in the list of configured networks
+     */
+    @Sync
+    @CallingThread
+    public boolean isNetworkInConfigurationList(String ssid) {
+        return mWiseFyPrerequisites.hasPrerequisites() && mWiseFySearch.isNetworkASavedConfiguration(ssid);
+    }
 
     /**
      * To check and return if a network is a EAP network
@@ -1490,221 +1489,221 @@ public class WiseFy {
         };
         execute(runnable);
     }
-//
-//    public ScanResult searchForAccessPoint(String regexForSSID, int timeoutInMillis, boolean filterDuplicates) {
-//        if (TextUtils.isEmpty(regexForSSID) || !mWiseFyPrerequisites.hasPrerequisites()) {
-//            return null;
-//        }
-//
-//        ScanResult scanResult = mWiseFySearch.findAccessPointByRegex(regexForSSID, timeoutInMillis, filterDuplicates);
-//        if (scanResult != null) {
-//            return scanResult;
-//        }
-//        return null;
-//    }
-//
-//    public void searchForAccessPoint(final String regexForSSID, final int timeoutInMillis, final boolean filterDuplicates, final SearchForAccessPointCallbacks callbacks) {
-//        Runnable runnable = new Runnable() {
-//            @Override
-//            public void run() {
-//                if (TextUtils.isEmpty(regexForSSID)) {
-//                    if (callbacks != null) {
-//                        callbacks.searchForAccessPointWiseFyFailure(WiseFyCodes.MISSING_PARAMETER);
-//                    }
-//                    return;
-//                }
-//
-//                if (!mWiseFyPrerequisites.hasPrerequisites()) {
-//                    if (callbacks != null) {
-//                        callbacks.searchForAccessPointWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
-//                    }
-//                    return;
-//                }
-//
-//                ScanResult scanResult = mWiseFySearch.findAccessPointByRegex(regexForSSID, timeoutInMillis, filterDuplicates);
-//                if (callbacks != null) {
-//                    if (scanResult != null) {
-//                        callbacks.accessPointFound(scanResult);
-//                    } else {
-//                        callbacks.accessPointNotFound();
-//                    }
-//                }
-//            }
-//        };
-//        execute(runnable);
-//    }
-//
-//    public List<ScanResult> searchForAccessPoints(String regexForSSID, boolean filterDuplicates) {
-//        if (TextUtils.isEmpty(regexForSSID) || !mWiseFyPrerequisites.hasPrerequisites()) {
-//            return null;
-//        }
-//
-//        return mWiseFySearch.findAccessPointsMatchingRegex(regexForSSID, filterDuplicates);
-//    }
-//
-//    public void searchForAccessPoints(final String regexForSSID, final boolean filterDuplicates, final SearchForAccessPointsCallbacks callbacks) {
-//        Runnable runnable = new Runnable() {
-//            @Override
-//            public void run() {
-//                if (TextUtils.isEmpty(regexForSSID)) {
-//                    if (callbacks != null) {
-//                        callbacks.searchForAccessPointsWiseFyFailure(WiseFyCodes.MISSING_PARAMETER);
-//                    }
-//                    return;
-//                }
-//
-//                if (!mWiseFyPrerequisites.hasPrerequisites()) {
-//                    if (callbacks != null) {
-//                        callbacks.searchForAccessPointsWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
-//                    }
-//                    return;
-//                }
-//
-//                List<ScanResult> networks = mWiseFySearch.findAccessPointsMatchingRegex(regexForSSID, filterDuplicates);
-//                if (callbacks != null) {
-//                    if (networks != null && networks.size() > 0) {
-//                        callbacks.foundNetworks(networks);
-//                    } else {
-//                        callbacks.noNetworksFound();
-//                    }
-//                }
-//            }
-//        };
-//        execute(runnable);
-//    }
-//
-//    /**
-//     * To search local networks and return the first one that contains a given ssid
-//     *
-//     * @param regexForSSID The regex to be used to search for the ssid
-//     * @param timeoutInMillis The number of milliseconds to keep searching for the SSID
-//     *
-//     * @return String|null - The first SSID that contains the search ssid (if any, else null)
-//     */
-//    @Sync
-//    @CallingThread
-//    @WaitsForTimeout
-//    public String searchForSSID(String regexForSSID, int timeoutInMillis) {
-//        if (TextUtils.isEmpty(regexForSSID) || !mWiseFyPrerequisites.hasPrerequisites()) {
-//            return null;
-//        }
-//
-//        ScanResult scanResult = mWiseFySearch.findAccessPointByRegex(regexForSSID, timeoutInMillis, false);
-//        if (scanResult != null) {
-//            return scanResult.SSID;
-//        }
-//        return null;
-//    }
-//
-//    /**
-//     * To search local networks and return the first one that contains a given ssid
-//     *
-//     * @param regexForSSID The regex to be used to search for the ssid
-//     * @param timeoutInMillis The number of milliseconds to keep searching for the SSID
-//     * @param callbacks The listener to return results to
-//     *
-//     * @see #execute(Runnable)
-//     * @see SearchForSSIDCallbacks
-//     * @see WiseFyCodes
-//     * @see WiseFySearch#findAccessPointByRegex(String, Integer, boolean)
-//     */
-//    @Async
-//    @WiseFyThread
-//    @WaitsForTimeout
-//    public void searchForSSID(final String regexForSSID, final int timeoutInMillis, final SearchForSSIDCallbacks callbacks) {
-//        Runnable runnable = new Runnable() {
-//            @Override
-//            public void run() {
-//                if (TextUtils.isEmpty(regexForSSID)) {
-//                    if (callbacks != null) {
-//                        callbacks.searchForSSIDWiseFyFailure(WiseFyCodes.MISSING_PARAMETER);
-//                    }
-//                    return;
-//                }
-//
-//                if (!mWiseFyPrerequisites.hasPrerequisites()) {
-//                    if (callbacks != null) {
-//                        callbacks.searchForSSIDWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
-//                    }
-//                    return;
-//                }
-//
-//                ScanResult scanResult = mWiseFySearch.findAccessPointByRegex(regexForSSID, timeoutInMillis, false);
-//                if (callbacks != null) {
-//                    if (scanResult != null) {
-//                        callbacks.ssidFound(scanResult.SSID);
-//                    } else {
-//                        callbacks.ssidNotFound();
-//                    }
-//                }
-//            }
-//        };
-//        execute(runnable);
-//    }
-//
-//    /**
-//     * To search local networks and return the first one that contains a given ssid
-//     *
-//     * @param regexForSSID The regex to be used to search for the ssid
-//     *
-//     * @return List<String>|null - The first SSID that contains the search ssid (if any, else null)
-//     */
-//    @Sync
-//    @CallingThread
-//    @WaitsForTimeout
-//    public List<String> searchForSSIDs(String regexForSSID) {
-//        if (TextUtils.isEmpty(regexForSSID) || !mWiseFyPrerequisites.hasPrerequisites()) {
-//            return null;
-//        }
-//
-//        return mWiseFySearch.findSSIDsMatchingRegex(regexForSSID);
-//    }
-//
-//    /**
-//     * To search local networks and return the first one that contains a given ssid
-//     *
-//     * @param regexForSSID The regex to be used to search for the ssid
-//     * @param callbacks
-//     *
-//     * @see #execute(Runnable)
-//     * @see SearchForSSIDCallbacks
-//     * @see WiseFyCodes
-//     * @see WiseFySearch#findSSIDsMatchingRegex(String)
-//     */
-//    @Async
-//    @WiseFyThread
-//    @WaitsForTimeout
-//    public void searchForSSIDs(final String regexForSSID, final SearchForSSIDsCallbacks callbacks) {
-//        Runnable runnable = new Runnable() {
-//            @Override
-//            public void run() {
-//                if (TextUtils.isEmpty(regexForSSID)) {
-//                    if (callbacks != null) {
-//                        callbacks.searchForSSIDsWiseFyFailure(WiseFyCodes.MISSING_PARAMETER);
-//                    }
-//                    return;
-//                }
-//
-//                if (!mWiseFyPrerequisites.hasPrerequisites()) {
-//                    if (callbacks != null) {
-//                        callbacks.searchForSSIDsWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
-//                    }
-//                    return;
-//                }
-//
-//                List<String> ssids = mWiseFySearch.findSSIDsMatchingRegex(regexForSSID);
-//                if (callbacks != null) {
-//                    if (ssids != null) {
-//                        callbacks.retrievedSSIDs(ssids);
-//                    } else {
-//                        callbacks.noSSIDsFound();
-//                    }
-//                }
-//            }
-//        };
-//        execute(runnable);
-//    }
-//
+
+    public ScanResult searchForAccessPoint(String regexForSSID, int timeoutInMillis, boolean filterDuplicates) {
+        if (TextUtils.isEmpty(regexForSSID) || !mWiseFyPrerequisites.hasPrerequisites()) {
+            return null;
+        }
+
+        ScanResult scanResult = mWiseFySearch.findAccessPointByRegex(regexForSSID, timeoutInMillis, filterDuplicates);
+        if (scanResult != null) {
+            return scanResult;
+        }
+        return null;
+    }
+
+    public void searchForAccessPoint(final String regexForSSID, final int timeoutInMillis, final boolean filterDuplicates, final SearchForAccessPointCallbacks callbacks) {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                if (TextUtils.isEmpty(regexForSSID)) {
+                    if (callbacks != null) {
+                        callbacks.searchForAccessPointWiseFyFailure(WiseFyCodes.MISSING_PARAMETER);
+                    }
+                    return;
+                }
+
+                if (!mWiseFyPrerequisites.hasPrerequisites()) {
+                    if (callbacks != null) {
+                        callbacks.searchForAccessPointWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+                    }
+                    return;
+                }
+
+                ScanResult scanResult = mWiseFySearch.findAccessPointByRegex(regexForSSID, timeoutInMillis, filterDuplicates);
+                if (callbacks != null) {
+                    if (scanResult != null) {
+                        callbacks.accessPointFound(scanResult);
+                    } else {
+                        callbacks.accessPointNotFound();
+                    }
+                }
+            }
+        };
+        execute(runnable);
+    }
+
+    public List<ScanResult> searchForAccessPoints(String regexForSSID, boolean filterDuplicates) {
+        if (TextUtils.isEmpty(regexForSSID) || !mWiseFyPrerequisites.hasPrerequisites()) {
+            return null;
+        }
+
+        return mWiseFySearch.findAccessPointsMatchingRegex(regexForSSID, filterDuplicates);
+    }
+
+    public void searchForAccessPoints(final String regexForSSID, final boolean filterDuplicates, final SearchForAccessPointsCallbacks callbacks) {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                if (TextUtils.isEmpty(regexForSSID)) {
+                    if (callbacks != null) {
+                        callbacks.searchForAccessPointsWiseFyFailure(WiseFyCodes.MISSING_PARAMETER);
+                    }
+                    return;
+                }
+
+                if (!mWiseFyPrerequisites.hasPrerequisites()) {
+                    if (callbacks != null) {
+                        callbacks.searchForAccessPointsWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+                    }
+                    return;
+                }
+
+                List<ScanResult> networks = mWiseFySearch.findAccessPointsMatchingRegex(regexForSSID, filterDuplicates);
+                if (callbacks != null) {
+                    if (networks != null && networks.size() > 0) {
+                        callbacks.foundNetworks(networks);
+                    } else {
+                        callbacks.noNetworksFound();
+                    }
+                }
+            }
+        };
+        execute(runnable);
+    }
+
+    /**
+     * To search local networks and return the first one that contains a given ssid
+     *
+     * @param regexForSSID The regex to be used to search for the ssid
+     * @param timeoutInMillis The number of milliseconds to keep searching for the SSID
+     *
+     * @return String|null - The first SSID that contains the search ssid (if any, else null)
+     */
+    @Sync
+    @CallingThread
+    @WaitsForTimeout
+    public String searchForSSID(String regexForSSID, int timeoutInMillis) {
+        if (TextUtils.isEmpty(regexForSSID) || !mWiseFyPrerequisites.hasPrerequisites()) {
+            return null;
+        }
+
+        ScanResult scanResult = mWiseFySearch.findAccessPointByRegex(regexForSSID, timeoutInMillis, false);
+        if (scanResult != null) {
+            return scanResult.SSID;
+        }
+        return null;
+    }
+
+    /**
+     * To search local networks and return the first one that contains a given ssid
+     *
+     * @param regexForSSID The regex to be used to search for the ssid
+     * @param timeoutInMillis The number of milliseconds to keep searching for the SSID
+     * @param callbacks The listener to return results to
+     *
+     * @see #execute(Runnable)
+     * @see SearchForSSIDCallbacks
+     * @see WiseFyCodes
+     * @see WiseFySearch#findAccessPointByRegex(String, Integer, boolean)
+     */
+    @Async
+    @WiseFyThread
+    @WaitsForTimeout
+    public void searchForSSID(final String regexForSSID, final int timeoutInMillis, final SearchForSSIDCallbacks callbacks) {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                if (TextUtils.isEmpty(regexForSSID)) {
+                    if (callbacks != null) {
+                        callbacks.searchForSSIDWiseFyFailure(WiseFyCodes.MISSING_PARAMETER);
+                    }
+                    return;
+                }
+
+                if (!mWiseFyPrerequisites.hasPrerequisites()) {
+                    if (callbacks != null) {
+                        callbacks.searchForSSIDWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+                    }
+                    return;
+                }
+
+                ScanResult scanResult = mWiseFySearch.findAccessPointByRegex(regexForSSID, timeoutInMillis, false);
+                if (callbacks != null) {
+                    if (scanResult != null) {
+                        callbacks.ssidFound(scanResult.SSID);
+                    } else {
+                        callbacks.ssidNotFound();
+                    }
+                }
+            }
+        };
+        execute(runnable);
+    }
+
+    /**
+     * To search local networks and return the first one that contains a given ssid
+     *
+     * @param regexForSSID The regex to be used to search for the ssid
+     *
+     * @return String|null - The first SSID that contains the search ssid (if any, else null)
+     */
+    @Sync
+    @CallingThread
+    @WaitsForTimeout
+    public List<String> searchForSSIDs(String regexForSSID) {
+        if (TextUtils.isEmpty(regexForSSID) || !mWiseFyPrerequisites.hasPrerequisites()) {
+            return null;
+        }
+
+        return mWiseFySearch.findSSIDsMatchingRegex(regexForSSID);
+    }
+
+    /**
+     * To search local networks and return the first one that contains a given ssid
+     *
+     * @param regexForSSID The regex to be used to search for the ssid
+     * @param callbacks The listener to return results to
+     *
+     * @see #execute(Runnable)
+     * @see SearchForSSIDCallbacks
+     * @see WiseFyCodes
+     * @see WiseFySearch#findSSIDsMatchingRegex(String)
+     */
+    @Async
+    @WiseFyThread
+    @WaitsForTimeout
+    public void searchForSSIDs(final String regexForSSID, final SearchForSSIDsCallbacks callbacks) {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                if (TextUtils.isEmpty(regexForSSID)) {
+                    if (callbacks != null) {
+                        callbacks.searchForSSIDsWiseFyFailure(WiseFyCodes.MISSING_PARAMETER);
+                    }
+                    return;
+                }
+
+                if (!mWiseFyPrerequisites.hasPrerequisites()) {
+                    if (callbacks != null) {
+                        callbacks.searchForSSIDsWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+                    }
+                    return;
+                }
+
+                List<String> ssids = mWiseFySearch.findSSIDsMatchingRegex(regexForSSID);
+                if (callbacks != null) {
+                    if (ssids != null) {
+                        callbacks.retrievedSSIDs(ssids);
+                    } else {
+                        callbacks.noSSIDsFound();
+                    }
+                }
+            }
+        };
+        execute(runnable);
+    }
+
     /*
      * HELPERS
      */

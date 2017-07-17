@@ -22,6 +22,13 @@ import android.util.Log;
 import com.isupatches.wisefy.util.LogUtil;
 
 
+/**
+ * A class used internally as a bridge for other parts of the library to use a shared set of
+ * prerequisite instances.  This contains the WifiManager and ConnectivityManger used throughout
+ * the library.
+ *
+ * @author Patches
+ */
 class WiseFyPrerequisites {
 
     private static final String TAG = WiseFyPrerequisites.class.getSimpleName();
@@ -69,18 +76,39 @@ class WiseFyPrerequisites {
         return true;
     }
 
+    /**
+     * Used internally to return a shared ConnectivityManager instance to the rest of the library
+     *
+     * @return ConnectivityManager|null - The shared ConnectivityManager instance if any or null
+     */
     ConnectivityManager getConnectivityManager() {
         return mConnectivityManager;
     }
 
+    /**
+     * Used internally to return a shared WifiManager instance to the rest of the library
+     *
+     * @return WifiManager|null - The shared WifiManager instance if any or null
+     */
     WifiManager getWifiManager() {
         return mWifiManager;
     }
 
+
+    /**
+     * Used internally to set the shared ConnectivityManager instance for the rest of the library
+     *
+     * *NOTE* Called upon initialization or in test
+     */
     void setConnectivityManager(ConnectivityManager mConnectivityManager) {
         this.mConnectivityManager = mConnectivityManager;
     }
 
+    /**
+     * Used internally to set the shared WifiManager instance for the rest of the library
+     *
+     * *NOTE* Called upon initialization or in test
+     */
     void setWifiManager(WifiManager mWifiManager) {
         this.mWifiManager = mWifiManager;
     }

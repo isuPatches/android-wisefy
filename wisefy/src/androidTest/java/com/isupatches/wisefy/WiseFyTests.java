@@ -17,12 +17,14 @@ public class WiseFyTests extends BaseTestClass<TestActivity> {
     public void builder_loggingFalse() {
         WiseFy wiseFy = new WiseFy.brains(mActivityTestRule.getActivity()).logging(false).getSmarts();
         assertEquals(false, wiseFy.mWiseFyConfiguration.isLoggingEnabled());
+        assertEquals(false, wiseFy.isLoggingEnabled());
     }
 
     @Test
     public void builder_loggingTrue() {
         WiseFy wiseFy = new WiseFy.brains(mActivityTestRule.getActivity()).logging(true).getSmarts();
         assertEquals(true, wiseFy.mWiseFyConfiguration.isLoggingEnabled());
+        assertEquals(true, wiseFy.isLoggingEnabled());
     }
 
     @Test

@@ -84,7 +84,9 @@ For the sake of transparency and because you're probably curious as to what perm
 
 <strong> * NOTE * </strong>
 
-If a search for an SSID is failing (returning false or NULL depending on the method) on >= 6.x devices but the network is visible, it's most likely because you haven't asked in your application for the `Manifest.permission.ACCESS_COARSE_LOCATION` permission which is what allows us to see the access points nearby. It has been up for debate on if it would be beneficial to move permission requests to the WiseFy library, but at this time, it remains as-is so users can determine their own UI/UX and to not add additional package bloat.
+If access points or SSIDs are not being returned on >= 6.x devices but there are visible networks, it's most likely because you haven't asked in your application for the `Manifest.permission.ACCESS_COARSE_LOCATION` permission which is what allows us to see the access points nearby. This permission request will not be added to the WiseFy library to reduce package bloat and so users can determine their own UI/UX.
+
+Please check [the documentation markdown directory](/documentation/permissions_example.md) for an example of requesting permissions for WiseFy.
 
 ## Usage
 

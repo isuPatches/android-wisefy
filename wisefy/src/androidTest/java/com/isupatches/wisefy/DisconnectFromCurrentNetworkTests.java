@@ -23,24 +23,22 @@ public class DisconnectFromCurrentNetworkTests extends BaseTestClass<TestActivit
     @Test
     public void noCallbacks_failure() {
         when(mMockWiFiManager.disconnect()).thenReturn(false);
-        boolean result = mWiseFy.disconnectFromCurrentNetwork();
-        verify(mMockWiFiManager, timeout(2000)).disconnect();
-        assertEquals(false, result);
+        assertEquals(false, mWiseFy.disconnectFromCurrentNetwork());
+        verify(mMockWiFiManager, timeout(VERIFICATION_TIMEOUT)).disconnect();
     }
 
     @Test
     public void noCallbacks_failure_missingPrerequisite() {
         missingPrerequisite();
-        boolean result = mWiseFy.disconnectFromCurrentNetwork();
-        assertEquals(false, result);
+        assertEquals(false, mWiseFy.disconnectFromCurrentNetwork());
+        verify(mMockWiFiManager, never()).disconnect();
     }
 
     @Test
     public void noCallbacks_success() {
         when(mMockWiFiManager.disconnect()).thenReturn(true);
-        boolean result = mWiseFy.disconnectFromCurrentNetwork();
-        verify(mMockWiFiManager, timeout(2000)).disconnect();
-        assertEquals(true, result);
+        assertEquals(true, mWiseFy.disconnectFromCurrentNetwork());
+        verify(mMockWiFiManager, timeout(VERIFICATION_TIMEOUT)).disconnect();
     }
 
     @Test
@@ -48,8 +46,8 @@ public class DisconnectFromCurrentNetworkTests extends BaseTestClass<TestActivit
         when(mMockWiFiManager.disconnect()).thenReturn(false);
         DisconnectFromCurrentNetworkCallbacks mockCallbacks = mock(DisconnectFromCurrentNetworkCallbacks.class);
         mWiseFy.disconnectFromCurrentNetwork(mockCallbacks);
-        verify(mMockWiFiManager, timeout(2000)).disconnect();
-        verify(mockCallbacks, timeout(2000)).failureDisconnectingFromCurrentNetwork();
+        verify(mMockWiFiManager, timeout(VERIFICATION_TIMEOUT)).disconnect();
+        verify(mockCallbacks, timeout(VERIFICATION_TIMEOUT)).failureDisconnectingFromCurrentNetwork();
     }
 
     @Test
@@ -57,6 +55,7 @@ public class DisconnectFromCurrentNetworkTests extends BaseTestClass<TestActivit
         when(mMockWiFiManager.disconnect()).thenReturn(false);
         try {
             mWiseFy.disconnectFromCurrentNetwork(null);
+            verify(mMockWiFiManager, never()).disconnect();
         } catch (NullPointerException npe) {
             fail();
         }
@@ -68,7 +67,7 @@ public class DisconnectFromCurrentNetworkTests extends BaseTestClass<TestActivit
         DisconnectFromCurrentNetworkCallbacks mockCallbacks = mock(DisconnectFromCurrentNetworkCallbacks.class);
         mWiseFy.disconnectFromCurrentNetwork(mockCallbacks);
         verify(mMockWiFiManager, never()).disconnect();
-        verify(mockCallbacks, timeout(2000)).disconnectFromCurrentNetworkWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+        verify(mockCallbacks, timeout(VERIFICATION_TIMEOUT)).disconnectFromCurrentNetworkWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
     }
 
     @Test
@@ -76,6 +75,7 @@ public class DisconnectFromCurrentNetworkTests extends BaseTestClass<TestActivit
         missingPrerequisite();
         try {
             mWiseFy.disconnectFromCurrentNetwork(null);
+            verify(mMockWiFiManager, never()).disconnect();
         } catch (NullPointerException npe) {
             fail();
         }
@@ -86,8 +86,8 @@ public class DisconnectFromCurrentNetworkTests extends BaseTestClass<TestActivit
         when(mMockWiFiManager.disconnect()).thenReturn(true);
         DisconnectFromCurrentNetworkCallbacks mockCallbacks = mock(DisconnectFromCurrentNetworkCallbacks.class);
         mWiseFy.disconnectFromCurrentNetwork(mockCallbacks);
-        verify(mMockWiFiManager, timeout(2000)).disconnect();
-        verify(mockCallbacks, timeout(2000)).disconnectedFromCurrentNetwork();
+        verify(mMockWiFiManager, timeout(VERIFICATION_TIMEOUT)).disconnect();
+        verify(mockCallbacks, timeout(VERIFICATION_TIMEOUT)).disconnectedFromCurrentNetwork();
     }
 
     @Test
@@ -95,6 +95,7 @@ public class DisconnectFromCurrentNetworkTests extends BaseTestClass<TestActivit
         when(mMockWiFiManager.disconnect()).thenReturn(true);
         try {
             mWiseFy.disconnectFromCurrentNetwork(null);
+            verify(mMockWiFiManager, never()).disconnect();
         } catch (NullPointerException npe) {
             fail();
         }

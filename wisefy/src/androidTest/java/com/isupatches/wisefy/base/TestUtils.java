@@ -1,10 +1,7 @@
 package com.isupatches.wisefy.base;
 
 
-import android.net.wifi.WifiConfiguration;
 import com.isupatches.wisefy.WiseFy;
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class TestUtils {
@@ -34,12 +31,4 @@ public class TestUtils {
     public static final int TEST_NETWORK_FREQUENCY_5GHZ = 5000;
 
     public static final int TEST_RSSI_LEVEL = -60;
-
-    public static List<WifiConfiguration> getTestWifiConfiguration() {
-        List<WifiConfiguration> wifiList = new ArrayList<>();
-        WifiConfiguration mWiFiConfiguration = new WifiConfiguration();
-        mWiFiConfiguration.SSID = TEST_SSID;
-        wifiList.add(mWiFiConfiguration);
-        return wifiList;
-    }
 }

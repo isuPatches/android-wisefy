@@ -26,6 +26,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+/**
+ * A class used internally for the purposes of shared query logic. This handles saved networks and
+ * nearby access points. There is also filtering by regex functionality and some RSSI logic that
+ * are tied into these queries.
+ *
+ * @author Patches
+ */
 class WiseFySearch {
 
     private static final String TAG = WiseFySearch.class.getSimpleName();
@@ -52,28 +59,17 @@ class WiseFySearch {
     }
 
     /**
-     * Used internally to see if an ssid is already saved
-     *
-     * *NOTE* CASE SENSITIVE!
-     *
-     * @param ssid The ssid to check for in the configured network list
-     * @return boolean - True if the ssid was found in the configuration list
-     * @see WiseFySearch#findSavedNetworkByRegex(String)
-     */
-    boolean checkIfNetworkInConfigurationList(String ssid) {
-        WifiConfiguration wifiConfiguration = findSavedNetworkByRegex(ssid);
-        return wifiConfiguration != null;
-    }
-
-    /**
      * Used internally to wait for a given time and return the first ScanResult whose SSID matches a given regex
      *
-     * @param regexForSSID    The regex to check the SSID of the network against
+     * @param regexForSSID The regex to check the SSID of the network against
      * @param timeoutInMillis The amount of time to wait for a match
+     * @param takeHighest If the method should iterate through and return only the access point with the highest RSSI
+     *
+     * @see #hasHighestSignalStrength(List, ScanResult)
      *
      * @return ScanResult|null - The first network whose SSID matches a given regex
      */
-    ScanResult findAccessPointByRegex(String regexForSSID, Integer timeoutInMillis, boolean filterDuplicates) {
+    ScanResult findAccessPointByRegex(String regexForSSID, Integer timeoutInMillis, boolean takeHighest) {
         int scanPass = 1;
         long currentTime;
         long endTime = System.currentTimeMillis() + timeoutInMillis;
@@ -85,11 +81,11 @@ class WiseFySearch {
             List<ScanResult> accessPoints = mWiseFyPrerequisites.getWifiManager().getScanResults();
             if (accessPoints != null && accessPoints.size() > 0) {
                 for (ScanResult accessPoint : accessPoints) {
-                    if (LogUtil.isLoggable(TAG, Log.DEBUG, mWiseFyConfiguration.isLoggingEnabled())) {
-                        Log.d(TAG, String.format("scanResult.SSID: %s, regex for SSID: %s", accessPoint.SSID, regexForSSID));
-                    }
-                    if (accessPoint.SSID != null && (accessPoint.SSID).matches(regexForSSID)) {
-                        if (filterDuplicates) {
+                    if (accessPoint != null && accessPoint.SSID != null && (accessPoint.SSID).matches(regexForSSID)) {
+                        if (LogUtil.isLoggable(TAG, Log.DEBUG, mWiseFyConfiguration.isLoggingEnabled())) {
+                            Log.d(TAG, String.format("scanResult.SSID: %s, regex for SSID: %s", accessPoint.SSID, regexForSSID));
+                        }
+                        if (takeHighest) {
                             if (hasHighestSignalStrength(accessPoints, accessPoint)) {
                                 return accessPoint;
                             }
@@ -115,20 +111,23 @@ class WiseFySearch {
      * Used internally to return a list of networks whose SSID match the given regex
      *
      * @param regexForSSID The regex to check the SSID of the network against
+     * @param takeHighest If the method should iterate through and return only the access point with the highest RSSI
+     *
+     * @see #hasHighestSignalStrength(List, ScanResult)
      *
      * @return List<ScanResult>|null - The list of networks that have an SSID that matches the given regex
      */
-    List<ScanResult> findAccessPointsMatchingRegex(String regexForSSID, boolean filterDuplicates) {
+    List<ScanResult> findAccessPointsMatchingRegex(String regexForSSID, boolean takeHighest) {
         mWiseFyPrerequisites.getWifiManager().startScan();
         List<ScanResult> matchingAccessPoints = new ArrayList<>();
         List<ScanResult> accessPoints = mWiseFyPrerequisites.getWifiManager().getScanResults();
         if (accessPoints != null && accessPoints.size() > 0) {
             for (ScanResult accessPoint : accessPoints) {
-                if (LogUtil.isLoggable(TAG, Log.DEBUG, mWiseFyConfiguration.isLoggingEnabled())) {
-                    Log.d(TAG, String.format("accessPoint.SSID: %s, regex for SSID: %s", accessPoint.SSID, regexForSSID));
-                }
-                if (accessPoint.SSID != null && accessPoint.SSID.matches(regexForSSID)) {
-                    if (filterDuplicates) {
+                if (accessPoint != null && accessPoint.SSID != null && accessPoint.SSID.matches(regexForSSID)) {
+                    if (LogUtil.isLoggable(TAG, Log.DEBUG, mWiseFyConfiguration.isLoggingEnabled())) {
+                        Log.d(TAG, String.format("accessPoint.SSID: %s, regex for SSID: %s", accessPoint.SSID, regexForSSID));
+                    }
+                    if (takeHighest) {
                         if (hasHighestSignalStrength(accessPoints, accessPoint)) {
                             matchingAccessPoints.add(accessPoint);
                         }
@@ -234,7 +233,21 @@ class WiseFySearch {
     }
 
     /**
-     * Used internally to build a list of ScanResults (Removes duplicates by taking access point with higher RSSI)
+     * Used internally to determine if a network exists as a saved network configuration
+     *
+     * @param ssid The ssid to check for in the configured network list
+     *
+     * @see WiseFySearch#findSavedNetworkByRegex(String)
+     *
+     * @return boolean - True if the ssid was found in the configuration list
+     */
+    boolean isNetworkASavedConfiguration(String ssid) {
+        WifiConfiguration wifiConfiguration = findSavedNetworkByRegex(ssid);
+        return wifiConfiguration != null;
+    }
+
+    /**
+     * Used internally to build a list of ScanResults (removes duplicates by taking access point with higher RSSI)
      *
      * *NOTE* Case insensitive
      *
@@ -259,7 +272,7 @@ class WiseFySearch {
                     }
                     if (WifiManager.compareSignalLevel(accessPoint.level, scanResult.level) > 0) {
                         if (LogUtil.isLoggable(TAG, Log.DEBUG, mWiseFyConfiguration.isLoggingEnabled())) {
-                            Log.d(TAG, "New result has a higher signal strength, swapping");
+                            Log.d(TAG, "New result has a higher or same signal strength, swapping");
                         }
                         accessPointsToReturn.set(i, accessPoint);
                     }
@@ -281,9 +294,13 @@ class WiseFySearch {
      */
 
     /**
-     * @param accessPoints
-     * @param currentAccessPoint
-     * @return
+     * Used internally to determine if the current access point has the highest signal strength
+     * compared to others that have the same SSID
+     *
+     * @param accessPoints A list of access points to compare the current access point to
+     * @param currentAccessPoint The access point to see if it has the highest signal strength
+     *
+     * @return boolean - True if the current access point has the highest signal strength
      */
     private boolean hasHighestSignalStrength(List<ScanResult> accessPoints, ScanResult currentAccessPoint) {
         for (ScanResult accessPoint : accessPoints) {
@@ -293,7 +310,7 @@ class WiseFySearch {
                     Log.d(TAG, String.format("RSSI level of access point in list: %d", accessPoint.level));
                     Log.d(TAG, String.format("comparison result: %d", WifiManager.compareSignalLevel(accessPoint.level, currentAccessPoint.level)));
                 }
-                if (WifiManager.compareSignalLevel(accessPoint.level, currentAccessPoint.level) < 0) {
+                if (WifiManager.compareSignalLevel(accessPoint.level, currentAccessPoint.level) > 0) {
                     if (LogUtil.isLoggable(TAG, Log.DEBUG, mWiseFyConfiguration.isLoggingEnabled())) {
                         Log.d(TAG, "Stronger signal strength found");
                     }

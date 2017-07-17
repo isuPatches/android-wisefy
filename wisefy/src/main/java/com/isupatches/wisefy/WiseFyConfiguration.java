@@ -16,6 +16,13 @@
 package com.isupatches.wisefy;
 
 
+/**
+ * A class used internally to hold a shared reference to the configuration provided with the
+ * builder pattern.  Right now logging is the only configurable option, but this could potentially
+ * be expanded.
+ *
+ * @author Patches
+ */
 class WiseFyConfiguration {
 
     private static final WiseFyConfiguration WISEFY_CONFIGURATION = new WiseFyConfiguration();
@@ -35,10 +42,20 @@ class WiseFyConfiguration {
         return WISEFY_CONFIGURATION;
     }
 
+    /**
+     * Used internally to query for if logging has been enabled on this instance of WiseFy
+     *
+     * @return boolean - True if logging has been enabled
+     */
     boolean isLoggingEnabled() {
         return mLoggingEnabled;
     }
 
+    /**
+     * Used internally to set the logging configuration
+     *
+     * *NOTE* Called upon initialization
+     */
     void setLoggingEnabled(boolean mLoggingEnabled) {
         this.mLoggingEnabled = mLoggingEnabled;
     }

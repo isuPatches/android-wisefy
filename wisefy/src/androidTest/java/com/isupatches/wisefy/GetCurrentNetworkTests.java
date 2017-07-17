@@ -10,6 +10,7 @@ import static com.isupatches.wisefy.base.TestUtils.TEST_SSID;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.fail;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -25,6 +26,7 @@ public class GetCurrentNetworkTests extends BaseTestClass<TestActivity> {
     public void noCallbacks_failure_missingPrerequisite() {
         missingPrerequisite();
         assertEquals(null, mWiseFy.getCurrentNetwork());
+        verify(mMockWiFiManager, never()).getConnectionInfo();
     }
 
     @Test
@@ -34,6 +36,7 @@ public class GetCurrentNetworkTests extends BaseTestClass<TestActivity> {
         when(mMockWiFiManager.getConnectionInfo()).thenReturn(mockWifiInfo);
 
         assertEquals(TEST_SSID, mWiseFy.getCurrentNetwork().getSSID());
+        verify(mMockWiFiManager, timeout(VERIFICATION_TIMEOUT)).getConnectionInfo();
     }
 
     @Test
@@ -41,7 +44,8 @@ public class GetCurrentNetworkTests extends BaseTestClass<TestActivity> {
         missingPrerequisite();
         GetCurrentNetworkCallbacks mockCallbacks = mock(GetCurrentNetworkCallbacks.class);
         mWiseFy.getCurrentNetwork(mockCallbacks);
-        verify(mockCallbacks, timeout(2000)).getCurrentNetworkWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+        verify(mockCallbacks, timeout(VERIFICATION_TIMEOUT)).getCurrentNetworkWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+        verify(mMockWiFiManager, never()).getConnectionInfo();
     }
 
     @Test
@@ -49,6 +53,7 @@ public class GetCurrentNetworkTests extends BaseTestClass<TestActivity> {
         missingPrerequisite();
         try {
             mWiseFy.getCurrentNetwork(null);
+            verify(mMockWiFiManager, never()).getConnectionInfo();
         } catch (NullPointerException npe) {
             fail();
         }
@@ -63,6 +68,7 @@ public class GetCurrentNetworkTests extends BaseTestClass<TestActivity> {
         GetCurrentNetworkCallbacks mockCallbacks = mock(GetCurrentNetworkCallbacks.class);
         mWiseFy.getCurrentNetwork(mockCallbacks);
         verify(mockCallbacks, timeout(2000)).retrievedCurrentNetwork(mockWifiInfo);
+        verify(mMockWiFiManager, timeout(VERIFICATION_TIMEOUT)).getConnectionInfo();
     }
 
     @Test
@@ -73,6 +79,7 @@ public class GetCurrentNetworkTests extends BaseTestClass<TestActivity> {
 
         try {
             mWiseFy.getCurrentNetwork(null);
+            verify(mMockWiFiManager, never()).getConnectionInfo();
         } catch (NullPointerException npe) {
             fail();
         }

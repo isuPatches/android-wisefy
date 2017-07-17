@@ -37,6 +37,7 @@ public class GetFrequencyTests extends BaseTestClass<TestActivity> {
             when(mockWifiInfo.getFrequency()).thenReturn(TEST_NETWORK_FREQUENCY_24GHZ);
             when(mMockWiFiManager.getConnectionInfo()).thenReturn(mockWifiInfo);
             assertEquals(TEST_NETWORK_FREQUENCY_24GHZ, (int) mWiseFy.getFrequency());
+            verify(mockWifiInfo, timeout(VERIFICATION_TIMEOUT)).getFrequency();
         }
     }
 
@@ -70,7 +71,8 @@ public class GetFrequencyTests extends BaseTestClass<TestActivity> {
             when(mMockWiFiManager.getConnectionInfo()).thenReturn(mockWifiInfo);
             GetFrequencyCallbacks mockCallbacks = mock(GetFrequencyCallbacks.class);
             mWiseFy.getFrequency(mockCallbacks);
-            verify(mockCallbacks, timeout(2000)).retrievedFrequency(TEST_NETWORK_FREQUENCY_24GHZ);
+            verify(mockCallbacks, timeout(VERIFICATION_TIMEOUT)).retrievedFrequency(TEST_NETWORK_FREQUENCY_24GHZ);
+            verify(mockWifiInfo, timeout(VERIFICATION_TIMEOUT)).getFrequency();
         }
     }
 
