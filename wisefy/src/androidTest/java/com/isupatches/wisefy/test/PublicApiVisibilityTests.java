@@ -30,7 +30,6 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import java.util.List;
-
 import static junit.framework.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
@@ -372,6 +371,11 @@ public class PublicApiVisibilityTests extends ActivityTestRule<TestActivity> {
             }
 
             @Override
+            public void noSavedNetworksFound() {
+
+            }
+
+            @Override
             public void retrievedSavedNetworks(List<WifiConfiguration> savedNetworks) {
 
             }
@@ -383,6 +387,11 @@ public class PublicApiVisibilityTests extends ActivityTestRule<TestActivity> {
         mWiseFy.getSavedNetworks("SSID", new GetSavedNetworksCallbacks() {
             @Override
             public void getSavedNetworksWiseFyFailure(Integer wisefyReturnCode) {
+
+            }
+
+            @Override
+            public void noSavedNetworksFound() {
 
             }
 

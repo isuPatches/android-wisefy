@@ -20,6 +20,28 @@ Integer rssi = mWiseFy.getRSSI("regex for SSID", true, 3000);
 
 #### Via The Asynchronous API
 
-```java
+To get the RSSI of the first SSID matching a given regex:
 
+```java
+mWiseFy.getRSSI("regex for SSID", true, 3000, new GetRSSICallbacks() {
+    @Override
+    public void retrievedRSSI(Integer rssi) {
+
+    }
+
+    @Override
+    public void networkNotFoundToRetrieveRSSI() {
+
+    }
+
+    @Override
+    public void getRSSIWiseFyFailure(Integer wisefyReturnCode) {
+
+    }
+});
 ```
+
+***Notes***
+
+- Will return a WiseFy error code if parameter is missing
+- Will return a WiseFy error code if the instance has a missing prerequisite

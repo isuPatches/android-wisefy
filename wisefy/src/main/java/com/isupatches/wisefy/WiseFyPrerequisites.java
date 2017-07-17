@@ -56,10 +56,12 @@ class WiseFyPrerequisites {
     }
 
     /**
-    * Used internally to verify if the WiseFy instances has the necessary criteria to work
-    *
-    * @return boolean - True if all prerequisites are met
-    */
+     * Used internally to verify if the WiseFy instances has the necessary criteria to work
+     *
+     * @see WiseFyConfiguration#isLoggingEnabled()
+     *
+     * @return boolean - True if all prerequisites are met
+     */
     boolean hasPrerequisites() {
         if (mWifiManager == null) {
             if (LogUtil.isLoggable(TAG, Log.ERROR, mWiseFyConfiguration.isLoggingEnabled())) {

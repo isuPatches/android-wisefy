@@ -66,6 +66,8 @@ class WiseFySearch {
      * @param takeHighest If the method should iterate through and return only the access point with the highest RSSI
      *
      * @see #hasHighestSignalStrength(List, ScanResult)
+     * @see WiseFyConfiguration#isLoggingEnabled()
+     * @see WiseFyPrerequisites#getWifiManager() ()
      *
      * @return ScanResult|null - The first network whose SSID matches a given regex
      */
@@ -114,6 +116,8 @@ class WiseFySearch {
      * @param takeHighest If the method should iterate through and return only the access point with the highest RSSI
      *
      * @see #hasHighestSignalStrength(List, ScanResult)
+     * @see WiseFyConfiguration#isLoggingEnabled()
+     * @see WiseFyPrerequisites#getWifiManager()
      *
      * @return List<ScanResult>|null - The list of networks that have an SSID that matches the given regex
      */
@@ -149,6 +153,9 @@ class WiseFySearch {
      *
      * @param regexForSSID The regex for the SSID to find in the configured network list
      *
+     * @see WiseFyConfiguration#isLoggingEnabled()
+     * @see WiseFyPrerequisites#getWifiManager()
+     *
      * @return WiFiConfiguration|null - The first saved configuration matching the given regex
      * or null if none meet the criteria
      */
@@ -174,6 +181,9 @@ class WiseFySearch {
      * Used internally to return a list of saved networks matching a given regex
      *
      * @param regexForSSID The regex for the SSIDs to find in the configured network list
+     *
+     * @see WiseFyConfiguration#isLoggingEnabled()
+     * @see WiseFyPrerequisites#getWifiManager()
      *
      * @return List<WifiConfiguration>|null - The list of saved network configurations matching
      * the given regex or null if none meet the criteria
@@ -205,6 +215,9 @@ class WiseFySearch {
      * Used internally to return a list of SSIDs from saved networks matching a given regex
      *
      * @param regexForSSID The regex for the SSIDs to find in the configured network list
+     *
+     * @see WiseFyConfiguration#isLoggingEnabled()
+     * @see WiseFyPrerequisites#getWifiManager()
      *
      * @return List<String>|null - The list of SSIDs of saved network configurations matching
      * the given regex or null if none meet the criteria
@@ -250,6 +263,10 @@ class WiseFySearch {
      * Used internally to build a list of ScanResults (removes duplicates by taking access point with higher RSSI)
      *
      * *NOTE* Case insensitive
+     *
+     * @param accessPoints The list of access points to remove entries with lower signal strength from
+     *
+     * @see WiseFyConfiguration#isLoggingEnabled()
      *
      * @return List<ScanResult> - The filtered list of networks
      */
@@ -299,6 +316,8 @@ class WiseFySearch {
      *
      * @param accessPoints A list of access points to compare the current access point to
      * @param currentAccessPoint The access point to see if it has the highest signal strength
+     *
+     * @see WiseFyConfiguration#isLoggingEnabled()
      *
      * @return boolean - True if the current access point has the highest signal strength
      */

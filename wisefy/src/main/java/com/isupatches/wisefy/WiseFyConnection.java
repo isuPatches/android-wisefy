@@ -62,6 +62,10 @@ class WiseFyConnection {
      *
      * @param ssid The ssid to check if the device is connected to
      *
+     * @see WiseFyConfiguration#isLoggingEnabled()
+     * @see WiseFyPrerequisites#getConnectivityManager() ()
+     * @see WiseFyPrerequisites#getWifiManager()
+     *
      * @return boolean - True if the device is connected to a network
      */
     boolean isCurrentNetworkConnectedToSSID(String ssid) {
@@ -116,6 +120,7 @@ class WiseFyConnection {
      * @param timeoutInMillis The number of milliseconds to wait
      *
      * @see #isCurrentNetworkConnectedToSSID(String)}
+     * @see WiseFyConfiguration#isLoggingEnabled()
      *
      * @return boolean - If the device is connected to the ssid in the given time
      */
