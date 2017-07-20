@@ -22,5 +22,6 @@ import java.util.List;
 
 public interface GetSavedNetworksCallbacks {
     void getSavedNetworksWiseFyFailure(Integer wisefyReturnCode);
+    void noSavedNetworksFound();
     void retrievedSavedNetworks(List<WifiConfiguration> savedNetworks);
 }

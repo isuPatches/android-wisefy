@@ -19,6 +19,11 @@ package com.isupatches.wisefy.util;
 import android.net.wifi.WifiConfiguration;
 
 
+/**
+ * A helper class to generate WifiConfigurations
+ *
+ * @author Patches
+ */
 public class WifiConfigurationUtil {
 
     private static final WifiConfigurationUtil WIFI_CONFIGURATION_UTIL = new WifiConfigurationUtil();
@@ -38,6 +43,13 @@ public class WifiConfigurationUtil {
         return WIFI_CONFIGURATION_UTIL;
     }
 
+    /**
+     * To generate a configuration for an open network
+     *
+     * @param ssid The ssid for the open network's configuration
+     *
+     * @return WifiConfiguration - The open network configuration
+     */
     public WifiConfiguration generateOpenNetworkConfiguration(String ssid) {
         WifiConfiguration wifiConfiguration = new WifiConfiguration();
         wifiConfiguration.SSID = mSSIDUtil.convertSSIDForConfig(ssid);
@@ -54,6 +66,14 @@ public class WifiConfigurationUtil {
         return wifiConfiguration;
     }
 
+    /**
+     * To generate a configuration for a WEP network
+     *
+     * @param ssid The ssid for the WEP network's configuration
+     * @param password The password for the WEP networks configuration
+     *
+     * @return WifiConfiguration - The WEP network configuration
+     */
     public WifiConfiguration generateWEPNetworkConfiguration(String ssid, String password) {
         WifiConfiguration wifiConfiguration = new WifiConfiguration();
         wifiConfiguration.SSID = mSSIDUtil.convertSSIDForConfig(ssid);
@@ -70,6 +90,14 @@ public class WifiConfigurationUtil {
         return wifiConfiguration;
     }
 
+    /**
+     * To generate a configuration for a WPA2 network
+     *
+     * @param ssid The ssid for the WPA2 network's configuration
+     * @param password The password for the WPA2 networks configuration
+     *
+     * @return WifiConfiguration - The WPA2 network configuration
+     */
     public WifiConfiguration generateWPA2NetworkConfiguration(String ssid, String password) {
         WifiConfiguration wifiConfiguration = new WifiConfiguration();
         wifiConfiguration.SSID = mSSIDUtil.convertSSIDForConfig(ssid);

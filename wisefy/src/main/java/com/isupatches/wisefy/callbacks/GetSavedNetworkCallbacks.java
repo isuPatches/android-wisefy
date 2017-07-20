@@ -21,6 +21,6 @@ import android.net.wifi.WifiConfiguration;
 
 public interface GetSavedNetworkCallbacks {
     void getSavedNetworkWiseFyFailure(Integer wisefyReturnCode);
-    void networkNotFound();
+    void savedNetworkNotFound();
     void retrievedSavedNetwork(WifiConfiguration savedNetwork);
 }

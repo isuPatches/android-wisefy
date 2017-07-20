@@ -18,6 +18,6 @@ package com.isupatches.wisefy.constants;
 
 public class WiseFyCodes {
     public static final int MISSING_PARAMETER = -1000;
-    public static final int NETWORK_ALREADY_CONFIGURED = -1001;
-    public static final int NULL_MANAGER = -1002;
+    public static final int MISSING_PREREQUISITE = -1001;
+    public static final int NETWORK_ALREADY_CONFIGURED = -1002;
 }
