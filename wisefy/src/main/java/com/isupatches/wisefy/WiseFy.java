@@ -1523,6 +1523,8 @@ public class WiseFy {
      *
      * @see WiseFyPrerequisites#hasPrerequisites()
      * @see WiseFySearch#findAccessPointByRegex(String, Integer, boolean)
+     *
+     * @return ScanResult|null - The first access point or access point with the highest signal strength matching the regex
      */
     public ScanResult searchForAccessPoint(String regexForSSID, int timeoutInMillis, boolean filterDuplicates) {
         if (TextUtils.isEmpty(regexForSSID) || !mWiseFyPrerequisites.hasPrerequisites()) {
@@ -1593,7 +1595,7 @@ public class WiseFy {
      * @see WiseFyPrerequisites#hasPrerequisites()
      * @see WiseFySearch#findAccessPointsMatchingRegex(String, boolean)
      *
-     * @return List<ScanResults>|null - The list of matching access points or null if none match the given regex
+     * @return List of ScanResult|null - The list of matching access points or null if none match the given regex
      */
     public List<ScanResult> searchForAccessPoints(String regexForSSID, boolean filterDuplicates) {
         if (TextUtils.isEmpty(regexForSSID) || !mWiseFyPrerequisites.hasPrerequisites()) {
