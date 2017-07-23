@@ -14,9 +14,7 @@ cache:
     - $HOME/.gradle/wrapper
 
 env:
-  - ANDROID_NDK_HOME=
   matrix:
-    - EMULATOR_SDK_LEVEL=16 ABI=armeabi-v7a
     - EMULATOR_SDK_LEVEL=22 ABI=armeabi-v7a
   global:
     - ADB_INSTALL_TIMEOUT=20
