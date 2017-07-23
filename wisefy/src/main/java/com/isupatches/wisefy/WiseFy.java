@@ -29,6 +29,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import com.isupatches.wisefy.annotations.CallingThread;
 import com.isupatches.wisefy.annotations.Async;
+import com.isupatches.wisefy.annotations.PublicAPI;
 import com.isupatches.wisefy.annotations.Sync;
 import com.isupatches.wisefy.annotations.WaitsForTimeout;
 import com.isupatches.wisefy.annotations.WiseFyThread;
@@ -69,6 +70,7 @@ import java.util.List;
  *
  * Uses the builder pattern for creation - {@link brains}
  */
+@PublicAPI
 public class WiseFy {
 
     private static final String TAG = WiseFy.class.getSimpleName();
@@ -170,7 +172,7 @@ public class WiseFy {
     }
 
     /**
-     * To add an open network to the user's configured network list (synchronously)
+     * To add an open network to the user's configured network list
      *
      * @param ssid The ssid of the open network you want to add
      *
@@ -206,7 +208,7 @@ public class WiseFy {
     }
 
     /**
-     * To add an open network to the user's configured network list (asynchronously)
+     * To add an open network to the user's configured network list
      *
      * @param ssid The ssid of the open network you want to add
      * @param callbacks The listener to return results to
@@ -265,7 +267,7 @@ public class WiseFy {
     }
 
     /**
-     * To add a WEP network to the user's configured network list (synchronously)
+     * To add a WEP network to the user's configured network list
      *
      * @param ssid The ssid of the WEP network you want to add
      * @param password The password for the WEP network being added
@@ -302,7 +304,7 @@ public class WiseFy {
     }
 
     /**
-     * To add a WEP network to the user's configured network list (asynchronously)
+     * To add a WEP network to the user's configured network list
      *
      * @param ssid The ssid of the WEP network you want to add
      * @param password The password for the WEP network being added
@@ -362,7 +364,7 @@ public class WiseFy {
     }
 
     /**
-     * To add a WPA2 network to the user's configured network list (synchronously)
+     * To add a WPA2 network to the user's configured network list
      *
      * @param ssid The ssid of the WPA2 network you want to add
      * @param password The password for the WPA2 network being added
@@ -399,7 +401,7 @@ public class WiseFy {
     }
 
     /**
-     * To add a WPA2 network to the user's configured network list (asynchronously)
+     * To add a WPA2 network to the user's configured network list
      *
      * @param ssid The ssid of the WPA2 network you want to add
      * @param password The password for the WPA2 network being added
@@ -488,14 +490,16 @@ public class WiseFy {
     }
 
     /**
-     * Used to connect to a network (synchronously)
+     * Used to connect to a network
      *
      * Gets a list of saved networks, connects to the given ssid if found, and verifies connectivity
      *
      * @param ssidToConnectTo The ssid to connect/reconnect to
      * @param timeoutInMillis The number of milliseconds to continue waiting for the device to connect to the given SSID
      *
+     * @see WiseFyConfiguration#isLoggingEnabled()
      * @see WiseFyConnection#waitToConnectToSSID(String, int)
+     * @see WiseFyPrerequisites#getWifiManager()
      * @see WiseFyPrerequisites#hasPrerequisites()
      * @see WiseFySearch#findSavedNetworkByRegex(String)
      *
@@ -525,7 +529,7 @@ public class WiseFy {
     }
 
     /**
-     * Used to connect to a network (asynchronously)
+     * Used to connect to a network
      *
      * Gets a list of saved networks, connects to the given ssid if found, and verifies connectivity
      *
@@ -537,6 +541,8 @@ public class WiseFy {
      * @see ConnectToNetworkCallbacks
      * @see WiseFyCodes
      * @see WiseFyConnection#waitToConnectToSSID(String, int)
+     * @see WiseFyConfiguration#isLoggingEnabled()
+     * @see WiseFyPrerequisites#getWifiManager()
      * @see WiseFyPrerequisites#hasPrerequisites()
      * @see WiseFySearch#findSavedNetworkByRegex(String)
      */
@@ -590,8 +596,9 @@ public class WiseFy {
     }
 
     /**
-     * To disable Wifi on a user's device (synchronously)
+     * To disable Wifi on a user's device
      *
+     * @see WiseFyPrerequisites#getWifiManager()
      * @see WiseFyPrerequisites#hasPrerequisites()
      *
      * @return boolean - True if the command succeeded in disabling wifi
@@ -603,13 +610,14 @@ public class WiseFy {
     }
 
     /**
-     * To disable Wifi on a user's device (asynchronously)
+     * To disable Wifi on a user's device
      *
      * @param callbacks The listener to return results to
      *
      * @see #execute(Runnable)
      * @see DisableWifiCallbacks
      * @see WiseFyCodes
+     * @see WiseFyPrerequisites#getWifiManager()
      * @see WiseFyPrerequisites#hasPrerequisites()
      */
     @Async
@@ -639,8 +647,9 @@ public class WiseFy {
     }
 
     /**
-     * To disconnect the user from their current network (synchronously)
+     * To disconnect the user from their current network
      *
+     * @see WiseFyPrerequisites#getWifiManager()
      * @see WiseFyPrerequisites#hasPrerequisites()
      *
      * @return boolean - If the command succeeded in disconnecting the device from the current network
@@ -652,13 +661,14 @@ public class WiseFy {
     }
 
     /**
-     * To disconnect the user from their current network (asynchronously)
+     * To disconnect the user from their current network
      *
      * @param callbacks The listener to return results to
      *
      * @see #execute(Runnable)
      * @see DisconnectFromCurrentNetworkCallbacks
      * @see WiseFyCodes
+     * @see WiseFyPrerequisites#getWifiManager()
      * @see WiseFyPrerequisites#hasPrerequisites()
      */
     @Async
@@ -689,6 +699,8 @@ public class WiseFy {
 
     /**
      * Used to cleanup the thread started by WiseFy
+     *
+     * @see WiseFyConfiguration#isLoggingEnabled()
      */
     public void dump() {
         if (mWiseFyHandlerThread != null) {
@@ -705,6 +717,7 @@ public class WiseFy {
     /**
      * To enable Wifi on a user's device
      *
+     * @see WiseFyPrerequisites#getWifiManager()
      * @see WiseFyPrerequisites#hasPrerequisites()
      *
      * @return boolean - If the command succeeded in enabling wifi
@@ -723,6 +736,7 @@ public class WiseFy {
      * @see #execute(Runnable)
      * @see EnableWifiCallbacks
      * @see WiseFyCodes
+     * @see WiseFyPrerequisites#getWifiManager()
      * @see WiseFyPrerequisites#hasPrerequisites()
      */
     @Async
@@ -754,6 +768,7 @@ public class WiseFy {
     /**
      * To retrieve the user's current network
      *
+     * @see WiseFyPrerequisites#getWifiManager()
      * @see WiseFyPrerequisites#hasPrerequisites()
      *
      * @return WifiInfo|null - The user's current network information
@@ -775,6 +790,7 @@ public class WiseFy {
      * @see #execute(Runnable)
      * @see GetCurrentNetworkCallbacks
      * @see WiseFyCodes
+     * @see WiseFyPrerequisites#getWifiManager()
      * @see WiseFyPrerequisites#hasPrerequisites()
      */
     @Async
@@ -822,7 +838,7 @@ public class WiseFy {
      * @param callbacks The listener to return results to
      *
      * @see #execute(Runnable)
-     * @see #getCurrentNetwork(GetCurrentNetworkCallbacks)
+     * @see #getCurrentNetwork()
      * @see GetFrequencyCallbacks
      */
     @Async
@@ -895,10 +911,11 @@ public class WiseFy {
     /**
      * To retrieve a list of nearby access points
      *
-     * *NOTE* Setting filterDuplicates to true will not return SSIDs with a weaker signal strength (will always take the highest)
+     * *NOTE* Setting filterDuplicates to true will exclude access points for an SSID that have a weaker RSSI (will always take the highest signal strength)
      *
      * @param filterDuplicates If you want to exclude SSIDs with that same name that have a weaker signal strength
      *
+     * @see WiseFyPrerequisites#getWifiManager()
      * @see WiseFyPrerequisites#hasPrerequisites()
      * @see WiseFySearch#removeEntriesWithLowerSignalStrength(List)
      *
@@ -930,6 +947,7 @@ public class WiseFy {
      * @see #execute(Runnable)
      * @see GetNearbyAccessPointsCallbacks
      * @see WiseFyCodes
+     * @see WiseFyPrerequisites#getWifiManager()
      * @see WiseFyPrerequisites#hasPrerequisites()
      * @see WiseFySearch#removeEntriesWithLowerSignalStrength(List)
      */
@@ -959,6 +977,20 @@ public class WiseFy {
         execute(runnable);
     }
 
+    /**
+     * To retrieve the RSSI of the first network matching a given regex
+     *
+     * *NOTE* Setting takeHighest to true will return the access point with the highest RSSI for the given SSID
+     *
+     * @param regexForSSID The regex to be used to search for the ssid
+     * @param takeHighest Whether to return the access point with the highest RSSI for the given SSID
+     * @param timeoutInMillis The amount of time to search for a matching SSID
+     *
+     * @see WiseFyPrerequisites#hasPrerequisites()
+     * @see WiseFySearch#findAccessPointByRegex(String, Integer, boolean)
+     *
+     * @return Integer - The RSSI value for the found SSID or null if no matching network found
+     */
     @Sync
     @CallingThread
     @WaitsForTimeout
@@ -974,6 +1006,22 @@ public class WiseFy {
         return null;
     }
 
+    /**
+     * To retrieve the RSSI of the first network matching a given regex
+     *
+     * *NOTE* Setting takeHighest to true will return the access point with the highest RSSI for the given SSID
+     *
+     * @param regexForSSID The regex to be used to search for the ssid
+     * @param takeHighest Whether to return the access point with the highest RSSI for the given SSID
+     * @param timeoutInMillis The amount of time to search for a matching SSID
+     * @param callbacks The listener to return results to
+     *
+     * @see #execute(Runnable)
+     * @see GetRSSICallbacks
+     * @see WiseFyCodes
+     * @see WiseFyPrerequisites#hasPrerequisites()
+     * @see WiseFySearch#findAccessPointByRegex(String, Integer, boolean)
+     */
     @Async
     @WiseFyThread
     @WaitsForTimeout
@@ -1075,6 +1123,7 @@ public class WiseFy {
     /**
      * To retrieve a list of saved networks on a user's device
      *
+     * @see WiseFyPrerequisites#getWifiManager()
      * @see WiseFyPrerequisites#hasPrerequisites()
      *
      * @return List of WifiConfiguration|null - List of saved networks on a users device
@@ -1096,6 +1145,7 @@ public class WiseFy {
      * @see #execute(Runnable)
      * @see GetSavedNetworksCallbacks
      * @see WiseFyCodes
+     * @see WiseFyPrerequisites#getWifiManager()
      * @see WiseFyPrerequisites#hasPrerequisites()
      */
     @Async
@@ -1124,6 +1174,16 @@ public class WiseFy {
         execute(runnable);
     }
 
+    /**
+     * To retrieve a list of saved networks on a user's device that match a given regex
+     *
+     * @param regexForSSID The ssid to use while searching for saved configurations
+     *
+     * @see WiseFyPrerequisites#hasPrerequisites()
+     * @see WiseFySearch#findSavedNetworkByRegex(String)
+     *
+     * @return List of WifiConfigurations|null - The list of saved network configurations that match the given regex
+     */
     @Sync
     @CallingThread
     public List<WifiConfiguration> getSavedNetworks(String regexForSSID) {
@@ -1133,6 +1193,15 @@ public class WiseFy {
         return mWiseFySearch.findSavedNetworksMatchingRegex(regexForSSID);
     }
 
+    /**
+     * To retrieve a list of saved networks on a user's device that match a given regex
+     *
+     * @param regexForSSID The ssid to use while searching for saved configurations
+     * @param callbacks The listener to return results to
+     *
+     * @see WiseFyPrerequisites#hasPrerequisites()
+     * @see WiseFySearch#findSavedNetworkByRegex(String)
+     */
     @Async
     @WiseFyThread
     public void getSavedNetworks(final String regexForSSID, final GetSavedNetworksCallbacks callbacks) {
@@ -1164,8 +1233,8 @@ public class WiseFy {
      *
      * @see NetworkTypes
      * @see WiseFyConnection#isNetworkConnectedAndMatchesType(NetworkInfo, String)
-     * @see WiseFyPrerequisites#hasPrerequisites()
      * @see WiseFyPrerequisites#getConnectivityManager()
+     * @see WiseFyPrerequisites#hasPrerequisites()
      *
      * @return bool - If the device is currently connected to a mobile network
      */
@@ -1184,8 +1253,8 @@ public class WiseFy {
      * To check if the device is connected to a mobile or wifi network
      *
      * @see WiseFyConnection#isNetworkConnected(NetworkInfo)
-     * @see WiseFyPrerequisites#hasPrerequisites()
      * @see WiseFyPrerequisites#getConnectivityManager()
+     * @see WiseFyPrerequisites#hasPrerequisites()
      *
      * @return bool - If the device is currently connected to a mobile or wifi network
      */
@@ -1202,8 +1271,6 @@ public class WiseFy {
 
     /**
      * To check if the device is connected to a given SSID
-     *
-     * Used by connectToNetwork
      *
      * @param ssid The SSID to check if the device is attached to
      *
@@ -1222,9 +1289,9 @@ public class WiseFy {
      * To check if the device is connected to a wifi network
      *
      * @see NetworkTypes
-     * @see WiseFyPrerequisites#hasPrerequisites()
-     * @see WiseFyPrerequisites#getConnectivityManager()
      * @see WiseFyConnection#isNetworkConnectedAndMatchesType(NetworkInfo, String)
+     * @see WiseFyPrerequisites#getConnectivityManager()
+     * @see WiseFyPrerequisites#hasPrerequisites()
      *
      * @return bool - If the device is currently connected to a wifi network
      */
@@ -1240,9 +1307,28 @@ public class WiseFy {
     }
 
     /**
+     * To query if the device is roaming
+     *
+     * @see WiseFyPrerequisites#getConnectivityManager()
+     * @see WiseFyPrerequisites#hasPrerequisites()
+     *
+     * @return boolean - If the current network is roaming
+     */
+    @Sync
+    @CallingThread
+    public boolean isDeviceRoaming() {
+        if (!mWiseFyPrerequisites.hasPrerequisites()) {
+            return false;
+        }
+
+        NetworkInfo networkInfo = mWiseFyPrerequisites.getConnectivityManager().getActiveNetworkInfo();
+        return  networkInfo != null && networkInfo.isRoaming();
+    }
+
+    /**
      * To query if logging is enabled or disabled for a WiseFy instance
      *
-     * @see WiseFyConfiguration
+     * @see WiseFyConfiguration#isLoggingEnabled()
      *
      * @return boolean - If logging is enabled for the WiseFy instance
      */
@@ -1308,6 +1394,7 @@ public class WiseFy {
      * @param scanResult The network to check
      *
      * @see Capabilities
+     * @see #containsCapability(ScanResult, String)
      *
      * @return boolean - Whether the network has EAP capabilities listed
      */
@@ -1323,6 +1410,7 @@ public class WiseFy {
      * @param scanResult The network to check
      *
      * @see Capabilities
+     * @see #containsCapability(ScanResult, String)
      *
      * @return boolean - Whether the network has PSK capabilities listed
      */
@@ -1362,6 +1450,7 @@ public class WiseFy {
      * @param scanResult The network to check
      *
      * @see Capabilities
+     * @see #containsCapability(ScanResult, String)
      *
      * @return boolean - Whether the network has WEP capabilities listed
      */
@@ -1377,6 +1466,7 @@ public class WiseFy {
      * @param scanResult The network to check
      *
      * @see Capabilities
+     * @see #containsCapability(ScanResult, String)
      *
      * @return boolean - Whether the network has WPA capabilities listed
      */
@@ -1392,6 +1482,7 @@ public class WiseFy {
      * @param scanResult The network to check
      *
      * @see Capabilities
+     * @see #containsCapability(ScanResult, String)
      *
      * @return boolean - Whether the network has WPA2 capabilities listed
      */
@@ -1404,8 +1495,8 @@ public class WiseFy {
     /**
      * To check if Wifi is enabled on the device or not
      *
-     * @see WiseFyPrerequisites#hasPrerequisites()
      * @see WiseFyPrerequisites#getWifiManager()
+     * @see WiseFyPrerequisites#hasPrerequisites()
      *
      * @return boolean - if Wifi is enabled on device
      */
@@ -1526,6 +1617,8 @@ public class WiseFy {
      *
      * @return ScanResult|null - The first access point or access point with the highest signal strength matching the regex
      */
+    @Sync
+    @CallingThread
     public ScanResult searchForAccessPoint(String regexForSSID, int timeoutInMillis, boolean filterDuplicates) {
         if (TextUtils.isEmpty(regexForSSID) || !mWiseFyPrerequisites.hasPrerequisites()) {
             return null;
@@ -1553,6 +1646,8 @@ public class WiseFy {
      * @see WiseFyPrerequisites#hasPrerequisites()
      * @see WiseFySearch#findAccessPointByRegex(String, Integer, boolean)
      */
+    @Async
+    @WiseFyThread
     public void searchForAccessPoint(final String regexForSSID, final int timeoutInMillis, final boolean filterDuplicates, final SearchForAccessPointCallbacks callbacks) {
         Runnable runnable = new Runnable() {
             @Override
@@ -1597,6 +1692,8 @@ public class WiseFy {
      *
      * @return List of ScanResult|null - The list of matching access points or null if none match the given regex
      */
+    @Sync
+    @CallingThread
     public List<ScanResult> searchForAccessPoints(String regexForSSID, boolean filterDuplicates) {
         if (TextUtils.isEmpty(regexForSSID) || !mWiseFyPrerequisites.hasPrerequisites()) {
             return null;
@@ -1620,6 +1717,8 @@ public class WiseFy {
      * @see WiseFyPrerequisites#hasPrerequisites()
      * @see WiseFySearch#findAccessPointsMatchingRegex(String, boolean)
      */
+    @Async
+    @WiseFyThread
     public void searchForAccessPoints(final String regexForSSID, final boolean filterDuplicates, final SearchForAccessPointsCallbacks callbacks) {
         Runnable runnable = new Runnable() {
             @Override
@@ -1641,9 +1740,9 @@ public class WiseFy {
                 List<ScanResult> networks = mWiseFySearch.findAccessPointsMatchingRegex(regexForSSID, filterDuplicates);
                 if (callbacks != null) {
                     if (networks != null) {
-                        callbacks.foundNetworks(networks);
+                        callbacks.foundAccessPoints(networks);
                     } else {
-                        callbacks.noNetworksFound();
+                        callbacks.noAccessPointsFound();
                     }
                 }
             }
@@ -1735,7 +1834,6 @@ public class WiseFy {
      */
     @Sync
     @CallingThread
-    @WaitsForTimeout
     public List<String> searchForSSIDs(String regexForSSID) {
         if (TextUtils.isEmpty(regexForSSID) || !mWiseFyPrerequisites.hasPrerequisites()) {
             return null;
@@ -1758,7 +1856,6 @@ public class WiseFy {
      */
     @Async
     @WiseFyThread
-    @WaitsForTimeout
     public void searchForSSIDs(final String regexForSSID, final SearchForSSIDsCallbacks callbacks) {
         Runnable runnable = new Runnable() {
             @Override

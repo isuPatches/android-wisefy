@@ -73,7 +73,7 @@ public class PublicApiVisibilityTests extends ActivityTestRule<TestActivity> {
             }
 
             @Override
-            public void openNetworkAdded(WifiConfiguration wifiConfiguration) {
+            public void openNetworkAdded(WifiConfiguration openNetwork) {
 
             }
         });
@@ -96,7 +96,7 @@ public class PublicApiVisibilityTests extends ActivityTestRule<TestActivity> {
             }
 
             @Override
-            public void wepNetworkAdded(WifiConfiguration wifiConfiguration) {
+            public void wepNetworkAdded(WifiConfiguration wepNetwork) {
 
             }
         });
@@ -119,7 +119,7 @@ public class PublicApiVisibilityTests extends ActivityTestRule<TestActivity> {
             }
 
             @Override
-            public void wpa2NetworkAdded(WifiConfiguration wifiConfiguration) {
+            public void wpa2NetworkAdded(WifiConfiguration wpa2Network) {
 
             }
         });
@@ -428,6 +428,12 @@ public class PublicApiVisibilityTests extends ActivityTestRule<TestActivity> {
     }
 
     @Test
+    public void isDeviceRoaming_apis() {
+        mWiseFy.isDeviceRoaming();
+        verify(mWiseFy).isDeviceRoaming();
+    }
+
+    @Test
     public void isNetwork5gHz_apis() {
         mWiseFy.isNetwork5gHz();
         verify(mWiseFy).isNetwork5gHz();
@@ -526,7 +532,7 @@ public class PublicApiVisibilityTests extends ActivityTestRule<TestActivity> {
             }
 
             @Override
-            public void accessPointFound(ScanResult network) {
+            public void accessPointFound(ScanResult accessPoint) {
 
             }
 
@@ -550,12 +556,12 @@ public class PublicApiVisibilityTests extends ActivityTestRule<TestActivity> {
             }
 
             @Override
-            public void foundNetworks(List<ScanResult> networks) {
+            public void foundAccessPoints(List<ScanResult> accessPoints) {
 
             }
 
             @Override
-            public void noNetworksFound() {
+            public void noAccessPointsFound() {
 
             }
         });

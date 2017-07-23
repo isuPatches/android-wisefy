@@ -17,6 +17,7 @@ package com.isupatches.wisefy.util;
 
 
 import android.util.Log;
+import com.isupatches.wisefy.annotations.Internal;
 
 
 /**
@@ -24,6 +25,7 @@ import android.util.Log;
  *
  * @author Patches
  */
+@Internal
 public class LogUtil {
 
     /**

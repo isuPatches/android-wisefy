@@ -19,6 +19,7 @@ package com.isupatches.wisefy;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.util.Log;
+import com.isupatches.wisefy.annotations.Internal;
 import com.isupatches.wisefy.annotations.WaitsForTimeout;
 import com.isupatches.wisefy.util.LogUtil;
 import com.isupatches.wisefy.util.SleepUtil;
@@ -30,6 +31,7 @@ import com.isupatches.wisefy.util.SleepUtil;
  *
  * @author Patches
  */
+@Internal
 class WiseFyConnection {
 
     private static final String TAG = WiseFyConnection.class.getSimpleName();
@@ -38,7 +40,7 @@ class WiseFyConnection {
 
     private WiseFyConfiguration mWiseFyConfiguration;
 
-    private WiseFyPrerequisites mWiseFyPrerequisites;
+    WiseFyPrerequisites mWiseFyPrerequisites;
 
     /**
      * Private constructor with no setup
@@ -69,6 +71,10 @@ class WiseFyConnection {
      * @return boolean - True if the device is connected to a network
      */
     boolean isCurrentNetworkConnectedToSSID(String ssid) {
+        if (ssid == null) {
+            return false;
+        }
+
         WifiInfo connectionInfo = mWiseFyPrerequisites.getWifiManager().getConnectionInfo();
         if (connectionInfo != null && connectionInfo.getSSID() != null) {
             String currentSSID = connectionInfo.getSSID().replaceAll("\"", "");
@@ -92,7 +98,7 @@ class WiseFyConnection {
      *
      * @param networkInfo The network to check
      *
-     * @return boolean - True if the network is available and connected
+     * @return boolean - True if the network is both available and connected
      */
     boolean isNetworkConnected(NetworkInfo networkInfo) {
         return networkInfo != null && networkInfo.isConnected() && networkInfo.isAvailable();
@@ -122,7 +128,7 @@ class WiseFyConnection {
      * @see #isCurrentNetworkConnectedToSSID(String)}
      * @see WiseFyConfiguration#isLoggingEnabled()
      *
-     * @return boolean - If the device is connected to the ssid in the given time
+     * @return boolean - Ture if the device is connected to the ssid within the given time
      */
     @WaitsForTimeout
     boolean waitToConnectToSSID(String ssid, int timeoutInMillis) {

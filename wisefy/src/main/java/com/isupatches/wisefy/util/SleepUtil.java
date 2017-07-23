@@ -16,11 +16,15 @@
 package com.isupatches.wisefy.util;
 
 
+import com.isupatches.wisefy.annotations.Internal;
+
+
 /**
  * A helper class for shared wait logic
  *
  * @author Patches
  */
+@Internal
 public class SleepUtil {
 
     /**

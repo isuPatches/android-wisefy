@@ -21,6 +21,6 @@ import android.net.wifi.ScanResult;
 
 public interface SearchForAccessPointCallbacks {
     void searchForAccessPointWiseFyFailure(Integer wisefyReturnCode);
-    void accessPointFound(ScanResult network);
+    void accessPointFound(ScanResult accessPoint);
     void accessPointNotFound();
 }

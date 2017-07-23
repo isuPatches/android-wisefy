@@ -17,6 +17,7 @@ package com.isupatches.wisefy.util;
 
 
 import android.net.wifi.WifiConfiguration;
+import com.isupatches.wisefy.annotations.Internal;
 
 
 /**
@@ -24,6 +25,7 @@ import android.net.wifi.WifiConfiguration;
  *
  * @author Patches
  */
+@Internal
 public class WifiConfigurationUtil {
 
     private static final WifiConfigurationUtil WIFI_CONFIGURATION_UTIL = new WifiConfigurationUtil();
@@ -70,7 +72,7 @@ public class WifiConfigurationUtil {
      * To generate a configuration for a WEP network
      *
      * @param ssid The ssid for the WEP network's configuration
-     * @param password The password for the WEP networks configuration
+     * @param password The password for the WEP network's configuration
      *
      * @return WifiConfiguration - The WEP network configuration
      */
@@ -94,7 +96,7 @@ public class WifiConfigurationUtil {
      * To generate a configuration for a WPA2 network
      *
      * @param ssid The ssid for the WPA2 network's configuration
-     * @param password The password for the WPA2 networks configuration
+     * @param password The password for the WPA2 network's configuration
      *
      * @return WifiConfiguration - The WPA2 network configuration
      */

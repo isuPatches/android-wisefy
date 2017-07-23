@@ -22,6 +22,6 @@ import java.util.List;
 
 public interface SearchForAccessPointsCallbacks {
     void searchForAccessPointsWiseFyFailure(Integer wisefyReturnCode);
-    void foundNetworks(List<ScanResult> networks);
-    void noNetworksFound();
+    void foundAccessPoints(List<ScanResult> accessPoints);
+    void noAccessPointsFound();
 }

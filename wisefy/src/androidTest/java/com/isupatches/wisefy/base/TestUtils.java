@@ -31,4 +31,8 @@ public class TestUtils {
     public static final int TEST_NETWORK_FREQUENCY_5GHZ = 5000;
 
     public static final int TEST_RSSI_LEVEL = -60;
+
+    public static final String TEST_TYPE1 = "TYPE 1";
+
+    public static final String TEST_TYPE2 = "TYPE 2";
 }

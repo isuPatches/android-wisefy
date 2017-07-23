@@ -24,6 +24,12 @@ To check and see if the device is connected to a wifi network:
 boolean isConnected = mWiseFy.isDeviceConnectedToWifiNetwork();
 ```
 
+To check and see if the device is roaming:
+
+```java
+mWiseFy.isDeviceRoaming();
+```
+
 To check and see if Wifi is enabled on a device:
 
 ```java

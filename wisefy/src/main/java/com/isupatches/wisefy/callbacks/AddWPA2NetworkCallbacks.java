@@ -22,5 +22,5 @@ import android.net.wifi.WifiConfiguration;
 public interface AddWPA2NetworkCallbacks {
     void addWPA2NetworkWiseFyFailure(Integer wisefyReturnCode);
     void failureAddingWPA2Network(Integer wifiManagerReturnCode);
-    void wpa2NetworkAdded(WifiConfiguration wifiConfiguration);
+    void wpa2NetworkAdded(WifiConfiguration wpa2Network);
 }
