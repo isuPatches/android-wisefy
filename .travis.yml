@@ -25,7 +25,6 @@ android:
     - android-EMULATOR_SDK_LEVEL
     - android-TARGET_SDK_LEVEL
     - sys-img-$ABI-addon-google_apis-google-$EMULATOR_SDK_LEVEL
-    - sys-img-$ABI-addon-google_apis-google-$TARGET_SDK_LEVEL
     - extra-android-m2repository
     - extra-android-support
     - extra-google-m2repository
