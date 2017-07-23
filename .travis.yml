@@ -14,8 +14,8 @@ env:
     - SDK_LEVEL_MAX=26
     - SDK_LEVEL_MIN=16
   matrix:
-    - API=android-16 ABI=armeabi-v7a
-    - API=android-25 ABI=armeabi-v7a
+    - API=android-16 ABI=x86
+    - API=android-25 ABI=x86
 
 android:
   components:
@@ -31,7 +31,7 @@ android:
     - extra-google-m2repository
 
 before_script:
-  - android-update-sdk --components=sys-img-$ABI-$API --accept-licenses='android-sdk-license-[0-9a-f]{8}'
+  - android-update-sdk --components=sys-img-$ABI-google_apis-$API --accept-licenses='android-sdk-license-[0-9a-f]{8}'
   - echo no | android create avd --force -n test -t $API --abi $ABI
   - emulator -avd test -no-audio -no-window
   - android-wait-for-emulator
