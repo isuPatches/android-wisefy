@@ -35,7 +35,7 @@ android:
     - extra-google-m2repository
 
 before_script:
-  - echo no | android create avd --force --name test --target $EMULATOR_SDK_LEVEL --abi $ABI
+  - echo no | android create avd --force --name test --target android-$EMULATOR_SDK_LEVEL --abi $ABI
   - emulator -avd test -no-audio -no-window &amp;
   - ./gradlew check -PdisablePreDex --continue --stacktrace
   - android-wait-for-emulator
