@@ -19,7 +19,8 @@ env:
 
 android:
   components:
-    - tools
+    - tools # to get the new `repository-11.xml`
+    - tools # to install Android SDK tools 25.1.x (x = 6 right now)
     - platform-tools
     - build-tools-$BUILD_TOOLS_VERSION
     - android-$EMULATOR_SDK_LEVEL
@@ -31,7 +32,7 @@ android:
 
 before_script:
   - echo no | android create avd --force -n test -t android-$EMULATOR_SDK_LEVEL --abi $ABI --tag $TAG
-  - emulator -avd test -no-audio -no-window &
+  - emulator -avd test -no-skin -no-audio -no-window -gpu off -no-boot-anim &
   - android-wait-for-emulator
   - adb shell input keyevent 82 &
 
