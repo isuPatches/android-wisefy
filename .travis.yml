@@ -21,7 +21,7 @@ android:
 
 env:
   matrix:
-    - $SDK_LEVEL=android-25 ABI=x86_64
+    - $SDK_LEVEL=android-25 ABI=google_apis/x86_64
 #    - API=android-17 ABI=armeabi-v7a
 #    - API=android-18 ABI=armeabi-v7a
 #    - API=android-19 ABI=armeabi-v7a
