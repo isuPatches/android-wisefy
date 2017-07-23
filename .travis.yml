@@ -3,7 +3,7 @@ jdk: oraclejdk8
 sudo: required
 dist: trusty
 
-group: edge 
+group: edge
 
 cache:
   directories:
@@ -18,11 +18,10 @@ cache:
 env:
   matrix:
     - EMULATOR_SDK_LEVEL=16 ABI=armeabi-v7a
-    - EMULATOR_SDK_LEVEL=25 ABI=armeabi-v7a
+    - EMULATOR_SDK_LEVEL=24 ABI=armeabi-v7a
   global:
     - ADB_INSTALL_TIMEOUT=20
     - BUILD_TOOLS_VERSION=26.0.0
-    - TAG=google_apis
     - TARGET_SDK_LEVEL=26
 
 android:
@@ -33,7 +32,7 @@ android:
     - build-tools-$BUILD_TOOLS_VERSION
     - android-$EMULATOR_SDK_LEVEL
     - android-$TARGET_SDK_LEVEL
-    - sys-img-$ABI-google_apis-android-$EMULATOR_SDK_LEVEL
+    - sys-img-$ABI-android-$EMULATOR_SDK_LEVEL
     - extra-android-m2repository
     - extra-android-support
     - extra-google-m2repository
