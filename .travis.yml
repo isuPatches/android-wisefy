@@ -8,11 +8,12 @@ cache:
     - ${TRAVIS_BUILD_DIR}/gradle/wrapper/dists/
 
 env:
+  matrix:
+    - EMULATOR_SDK_LEVEL=16 ABI=armeabi-v7a
+    - EMULATOR_SDK_LEVEL=25 ABI=armeabi-v7a
   global:
-    - ABI=armeabi-v7a
     - ADB_INSTALL_TIMEOUT=20
     - BUILD_TOOLS_VERSION=26.0.0
-    - EMULATOR_SDK_LEVEL=25
     - TAG=google_apis
     - TARGET_SDK_LEVEL=26
 
@@ -20,7 +21,6 @@ android:
   components:
     - tools
     - platform-tools
-    - tools
     - build-tools-$BUILD_TOOLS_VERSION
     - android-$EMULATOR_SDK_LEVEL
     - android-$TARGET_SDK_LEVEL
@@ -31,9 +31,12 @@ android:
 
 before_script:
   - echo no | android create avd --force -n test -t android-$EMULATOR_SDK_LEVEL --abi $ABI --tag $TAG
-  - emulator -avd test -no-audio -no-window &
+  - emulator -avd test -no-skin -no-audio -no-window &
   - android-wait-for-emulator
   - adb shell input keyevent 82 &
 
 script:
-  - travis_wait 60 ./gradlew clean connectedAndroidTest -PdisablePreDex --stacktrace
+  - travis_wait 60 ./gradlew clean jacocoDebugTestReport -PdisablePreDex --stacktrace
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
