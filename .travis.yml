@@ -21,13 +21,13 @@ android:
   components:
     - tools
     - platform-tools
-    - build-tools-${BUILD_TOOLS_VERSION}
-    - android-${EMULATOR_SDK_LEVEL}
-    - android-${TARGET_SDK_LEVEL}
+    - build-tools-$BUILD_TOOLS_VERSION
+    - android-$EMULATOR_SDK_LEVEL
+    - android-$TARGET_SDK_LEVEL
     - extra-android-m2repository
     - extra-android-support
     - extra-google-m2repository
-    - sys-img-${ABI}-${EMULATOR_SDK_LEVEL}
+    - sys-img-$ABI-$EMULATOR_SDK_LEVEL
 
 before_script:
   - echo no | android create avd --force --name test --target android-$EMULATOR_SDK_LEVEL --abi $ABI
@@ -38,6 +38,7 @@ before_script:
 
 script:
   - travis_wait 60 ./gradlew connectedAndroidTest --stacktrace
+  - ./gradlew jacocoDebugReport
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
