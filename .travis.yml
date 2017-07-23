@@ -12,6 +12,7 @@ cache:
 
 android:
   components:
+    - tools
     - platform-tools
     - tools
     - build-tools-26.0.0
@@ -19,11 +20,11 @@ android:
     - extra-android-m2repository
     - extra-android-support
     - extra-google-m2repository
-    - sys-img-armeabi-v7a-google_apis-android-16
+    - sys-img-x86_64-google_apis-25
 
 env:
   matrix:
-    - $SDK_LEVEL=android-16 ABI=armeabi-v7a
+    - $SDK_LEVEL=android-25 ABI=x86_64
 #    - API=android-17 ABI=armeabi-v7a
 #    - API=android-18 ABI=armeabi-v7a
 #    - API=android-19 ABI=armeabi-v7a
@@ -43,7 +44,7 @@ before_script:
 
 script:
   - ./gradlew clean assembleDebug assembleDebugAndroidTest
-  - travis_wait 60 ./gradlew clean connectedDebugAndroidTest --stacktrace
+  - travis_wait 60 ./gradlew connectedDebugAndroidTest --stacktrace
   - ./gradlew jacocoDebugReport
 
 after_success:
