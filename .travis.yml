@@ -19,11 +19,11 @@ android:
     - extra-android-m2repository
     - extra-android-support
     - extra-google-m2repository
-    - sys-img-arm64-v8a-google_apis-24
+    - sys-img-armeabi-v7a-android-24
 
 env:
   matrix:
-    - $TARGET=android-24 ABI=google_apis/arm64-v8a
+    - $TARGET=android-24 ABI=armeabi-v7a
 
 before_script:
   - echo $JAVA_OPTS
