@@ -12,7 +12,8 @@ To compare the signal strength of two networks:
 int result = mWiseFy.compareSignalLevel(-35, -70);
 ```
 
-To get the RSSI of the first SSID matching a given regex:
+To get the RSSI of the first SSID matching a given regex:<br/><br/>
+<strong>Setting takeHighest to true will return the access point with the highest RSSI for the given SSID</strong>
 
 ```java
 Integer rssi = mWiseFy.getRSSI("regex for SSID", true, 3000);

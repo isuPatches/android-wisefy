@@ -16,6 +16,9 @@
 package com.isupatches.wisefy;
 
 
+import com.isupatches.wisefy.annotations.Internal;
+
+
 /**
  * A class used internally to hold a shared reference to the configuration provided with the
  * builder pattern.  Right now logging is the only configurable option, but this could potentially
@@ -23,6 +26,7 @@ package com.isupatches.wisefy;
  *
  * @author Patches
  */
+@Internal
 class WiseFyConfiguration {
 
     private static final WiseFyConfiguration WISEFY_CONFIGURATION = new WiseFyConfiguration();

@@ -17,6 +17,7 @@ package com.isupatches.wisefy.util;
 
 
 import android.os.Build;
+import com.isupatches.wisefy.annotations.Internal;
 
 
 /**
@@ -24,6 +25,7 @@ import android.os.Build;
  *
  * @author Patches
  */
+@Internal
 public class SSIDUtil {
 
     private static final SSIDUtil SSID_UTIL = new SSIDUtil();

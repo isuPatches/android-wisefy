@@ -19,6 +19,7 @@ package com.isupatches.wisefy;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
 import android.util.Log;
+import com.isupatches.wisefy.annotations.Internal;
 import com.isupatches.wisefy.util.LogUtil;
 
 
@@ -29,6 +30,7 @@ import com.isupatches.wisefy.util.LogUtil;
  *
  * @author Patches
  */
+@Internal
 class WiseFyPrerequisites {
 
     private static final String TAG = WiseFyPrerequisites.class.getSimpleName();

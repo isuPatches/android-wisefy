@@ -22,5 +22,5 @@ import android.net.wifi.WifiConfiguration;
 public interface AddWEPNetworkCallbacks {
     void addWEPNetworkWiseFyFailure(Integer wisefyReturnCode);
     void failureAddingWEPNetwork(Integer wifiManagerReturnCode);
-    void wepNetworkAdded(WifiConfiguration wifiConfiguration);
+    void wepNetworkAdded(WifiConfiguration wepNetwork);
 }

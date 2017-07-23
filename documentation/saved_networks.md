@@ -46,6 +46,7 @@ To get the first saved network that matches a given regex:
     }
 });
 ```
+
 To retrieve all of the saved networks:
 
 ```java
@@ -66,6 +67,7 @@ mWiseFy.getSavedNetworks(new GetSavedNetworksCallbacks() {
     }
 });
 ```
+
 To return all saved networks that match a given regex:
 
 ```java
@@ -86,6 +88,7 @@ mWiseFy.getSavedNetwork("regex for SSID", new GetSavedNetworkCallbacks() {
     }
 });
 ```
+
 ***Notes***
 
 - Will return a WiseFy error code if parameter is missing

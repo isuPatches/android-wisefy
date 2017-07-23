@@ -54,10 +54,51 @@ public class GetSavedNetworksTests extends BaseTestClass<TestActivity> {
 
     @Test
     public void callbacks_failure_missingPrerequisite_nullCallback() {
+        missingPrerequisite();
+        try {
+            mWiseFy.getSavedNetworks((GetSavedNetworksCallbacks) null);
+            verify(mMockWiFiManager, never()).getConfiguredNetworks();
+        } catch (NullPointerException npe) {
+            fail();
+        }
+    }
+
+    @Test
+    public void callbacks_failure_nullSavedNetworks() {
+        when(mMockWiFiManager.getConfiguredNetworks()).thenReturn(null);
         GetSavedNetworksCallbacks mockCallbacks = mock(GetSavedNetworksCallbacks.class);
-        mWiseFy.getSavedNetworks((GetSavedNetworksCallbacks) null);
-        verify(mockCallbacks, never()).getSavedNetworksWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
-        verify(mMockWiFiManager, never()).getConfiguredNetworks();
+        mWiseFy.getSavedNetworks(mockCallbacks);
+        verify(mockCallbacks, timeout(VERIFICATION_TIMEOUT)).noSavedNetworksFound();
+    }
+
+    @Test
+    public void callbacks_failure_nullSavedNetworks_nullCallback() {
+        when(mMockWiFiManager.getConfiguredNetworks()).thenReturn(null);
+        try {
+            mWiseFy.getSavedNetworks((GetSavedNetworksCallbacks) null);
+            verify(mMockWiFiManager, never()).getConfiguredNetworks();
+        } catch (NullPointerException npe) {
+            fail();
+        }
+    }
+
+    @Test
+    public void callbacks_failure_emptyConfiguredNetworks() {
+        when(mMockWiFiManager.getConfiguredNetworks()).thenReturn(new ArrayList<WifiConfiguration>());
+        GetSavedNetworksCallbacks mockCallbacks = mock(GetSavedNetworksCallbacks.class);
+        mWiseFy.getSavedNetworks(mockCallbacks);
+        verify(mockCallbacks, timeout(VERIFICATION_TIMEOUT)).noSavedNetworksFound();
+    }
+
+    @Test
+    public void callbacks_failure_emptyConfiguredNetworks_nullCallback() {
+        when(mMockWiFiManager.getConfiguredNetworks()).thenReturn(new ArrayList<WifiConfiguration>());
+        try {
+            mWiseFy.getSavedNetworks((GetSavedNetworksCallbacks) null);
+            verify(mMockWiFiManager, never()).getConfiguredNetworks();
+        } catch (NullPointerException npe) {
+            fail();
+        }
     }
 
     @Test
@@ -82,10 +123,12 @@ public class GetSavedNetworksTests extends BaseTestClass<TestActivity> {
         wifiList.add(mWiFiConfiguration);
         when(mMockWiFiManager.getConfiguredNetworks()).thenReturn(wifiList);
 
-        GetSavedNetworksCallbacks mockCallbacks = mock(GetSavedNetworksCallbacks.class);
-        mWiseFy.getSavedNetworks((GetSavedNetworksCallbacks)null);
-        verify(mockCallbacks, never()).retrievedSavedNetworks(wifiList);
-        verify(mMockWiFiManager, never()).getConfiguredNetworks();
+        try {
+            mWiseFy.getSavedNetworks((GetSavedNetworksCallbacks) null);
+            verify(mMockWiFiManager, never()).getConfiguredNetworks();
+        } catch (NullPointerException npe) {
+            fail();
+        }
     }
 
     @Test
@@ -122,6 +165,45 @@ public class GetSavedNetworksTests extends BaseTestClass<TestActivity> {
         missingPrerequisite();
 
         try{
+            mWiseFy.getSavedNetworks(TEST_SSID, null);
+            verify(mMockWiFiManager, never()).getConfiguredNetworks();
+        } catch (NullPointerException npe) {
+            fail();
+        }
+    }
+
+    @Test
+    public void callbacks_failure_withRegex_nullSavedNetworks() {
+        when(mMockWiFiManager.getConfiguredNetworks()).thenReturn(null);
+        GetSavedNetworksCallbacks mockCallbacks = mock(GetSavedNetworksCallbacks.class);
+        mWiseFy.getSavedNetworks(TEST_SSID, mockCallbacks);
+        verify(mockCallbacks, timeout(VERIFICATION_TIMEOUT)).noSavedNetworksFound();
+    }
+
+    @Test
+    public void callbacks_failure_withRegex_nullSavedNetworks_nullCallback() {
+        when(mMockWiFiManager.getConfiguredNetworks()).thenReturn(null);
+        try {
+            mWiseFy.getSavedNetworks(TEST_SSID, null);
+            verify(mMockWiFiManager, never()).getConfiguredNetworks();
+        } catch (NullPointerException npe) {
+            fail();
+        }
+    }
+
+    @Test
+    public void callbacks_failure_withRegex_emptyConfiguredNetworks() {
+        when(mMockWiFiManager.getConfiguredNetworks()).thenReturn(new ArrayList<WifiConfiguration>());
+        GetSavedNetworksCallbacks mockCallbacks = mock(GetSavedNetworksCallbacks.class);
+        mWiseFy.getSavedNetworks(TEST_SSID, mockCallbacks);
+        verify(mockCallbacks, timeout(VERIFICATION_TIMEOUT)).noSavedNetworksFound();
+        verify(mMockWiFiManager, timeout(VERIFICATION_TIMEOUT)).getConfiguredNetworks();
+    }
+
+    @Test
+    public void callbacks_failure_withRegex_emptyConfiguredNetworks_nullCallback() {
+        when(mMockWiFiManager.getConfiguredNetworks()).thenReturn(new ArrayList<WifiConfiguration>());
+        try {
             mWiseFy.getSavedNetworks(TEST_SSID, null);
             verify(mMockWiFiManager, never()).getConfiguredNetworks();
         } catch (NullPointerException npe) {

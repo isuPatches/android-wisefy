@@ -41,7 +41,7 @@ mWiseFy.addOpenNetwork("Open Network", new AddOpenNetworkCallbacks() {
     }
 
     @Override
-    public void openNetworkAdded(WifiConfiguration wifiConfiguration) {
+    public void openNetworkAdded(WifiConfiguration openNetwork) {
 
     }
 });
@@ -62,7 +62,7 @@ mWiseFy.addWEPNetwork("WEP Network", "123456", new AddWEPNetworkCallbacks() {
     }
 
     @Override
-    public void wepNetworkAdded(WifiConfiguration wifiConfiguration) {
+    public void wepNetworkAdded(WifiConfiguration wepNetwork) {
 
     }
 });
@@ -83,7 +83,7 @@ mWiseFy.addWPA2Network("WPA2 Network", "12345678", new AddWPA2NetworkCallbacks()
     }
 
     @Override
-    public void wpa2NetworkAdded(WifiConfiguration wifiConfiguration) {
+    public void wpa2NetworkAdded(WifiConfiguration wpa2Network) {
 
     }
 });

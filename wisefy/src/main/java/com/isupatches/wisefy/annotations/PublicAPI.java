@@ -13,14 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.wisefy.callbacks;
+package com.isupatches.wisefy.annotations;
 
 
-import android.net.wifi.WifiConfiguration;
+import java.lang.annotation.Documented;
+import java.lang.annotation.Inherited;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 
-public interface AddOpenNetworkCallbacks {
-    void addOpenNetworkWiseFyFailure(Integer wisefyReturnCode);
-    void failureAddingOpenNetwork(Integer wifiManagerReturnCode);
-    void openNetworkAdded(WifiConfiguration openNetwork);
+@Documented
+@Inherited
+@Retention(RetentionPolicy.RUNTIME)
+public @interface PublicAPI {
+
 }

@@ -8,6 +8,20 @@ Wifi configuration and util library built for Android.
 
 [![Android Weekly](https://img.shields.io/badge/Android%20Weekly-%23230-blue.svg)](http://androidweekly.net/issues/issue-230) [![Build Status](https://travis-ci.org/isuPatches/WiseFy.svg?branch=master)](https://travis-ci.org/isuPatches/WiseFy) [ ![Download](https://api.bintray.com/packages/isupatches/Maven/wisefy/images/download.svg) ](https://bintray.com/isupatches/Maven/wisefy/_latestVersion) <a href="http://www.methodscount.com/?lib=com.isupatches%3Awisefy%3A1.0.10"><img src="https://img.shields.io/badge/Methods and size-108 | 13 KB-e91e63.svg"/></a>
 
+## What's New in 2.x
+
+- Asynchronous API
+    - Certain methods have callbacks and are run on background thread
+- Ability search by regex
+    - Nearby access points
+    - Saved Configurations
+    - SSIDs
+- Ability to query for RSSI
+- Ability to query for if device is roaming
+- Additional methods to query for network security
+- Full fledged documentation directory
+- Tested against Android O
+
 ## Adding to your project
 
 Make sure you have one of the following repositories accessible:

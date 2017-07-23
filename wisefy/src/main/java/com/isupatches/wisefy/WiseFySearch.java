@@ -20,6 +20,8 @@ import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.util.Log;
+import com.isupatches.wisefy.annotations.Internal;
+import com.isupatches.wisefy.annotations.WaitsForTimeout;
 import com.isupatches.wisefy.util.LogUtil;
 import com.isupatches.wisefy.util.SleepUtil;
 import java.util.ArrayList;
@@ -33,6 +35,7 @@ import java.util.List;
  *
  * @author Patches
  */
+@Internal
 class WiseFySearch {
 
     private static final String TAG = WiseFySearch.class.getSimpleName();
@@ -66,11 +69,14 @@ class WiseFySearch {
      * @param takeHighest If the method should iterate through and return only the access point with the highest RSSI
      *
      * @see #hasHighestSignalStrength(List, ScanResult)
+     * @see SleepUtil#sleep(long)
      * @see WiseFyConfiguration#isLoggingEnabled()
      * @see WiseFyPrerequisites#getWifiManager() ()
      *
-     * @return ScanResult|null - The first network whose SSID matches a given regex
+     * @return ScanResult|null - The first network whose SSID matches a given regex or a network that matches
+     * the given regex and has the highest RSSI.  Returns null if no matching network found.
      */
+    @WaitsForTimeout
     ScanResult findAccessPointByRegex(String regexForSSID, Integer timeoutInMillis, boolean takeHighest) {
         int scanPass = 1;
         long currentTime;
@@ -157,7 +163,7 @@ class WiseFySearch {
      * @see WiseFyPrerequisites#getWifiManager()
      *
      * @return WiFiConfiguration|null - The first saved configuration matching the given regex
-     * or null if none meet the criteria
+     * or null if no matching network found
      */
     WifiConfiguration findSavedNetworkByRegex(String regexForSSID) {
         List<WifiConfiguration> savedNetworks = mWiseFyPrerequisites.getWifiManager().getConfiguredNetworks();
@@ -186,7 +192,7 @@ class WiseFySearch {
      * @see WiseFyPrerequisites#getWifiManager()
      *
      * @return List<WifiConfiguration>|null - The list of saved network configurations matching
-     * the given regex or null if none meet the criteria
+     * the given regex or null if no matching networks found
      */
     List<WifiConfiguration> findSavedNetworksMatchingRegex(String regexForSSID) {
         List<WifiConfiguration> savedNetworks = mWiseFyPrerequisites.getWifiManager().getConfiguredNetworks();
@@ -220,7 +226,7 @@ class WiseFySearch {
      * @see WiseFyPrerequisites#getWifiManager()
      *
      * @return List<String>|null - The list of SSIDs of saved network configurations matching
-     * the given regex or null if none meet the criteria
+     * the given regex or null if no matching networks found
      */
     List<String> findSSIDsMatchingRegex(String regexForSSID) {
         mWiseFyPrerequisites.getWifiManager().startScan();

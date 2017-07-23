@@ -19,6 +19,7 @@ package com.isupatches.wisefy.util;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
+import com.isupatches.wisefy.annotations.Internal;
 
 
 /**
@@ -26,6 +27,7 @@ import android.net.wifi.WifiManager;
  *
  * @author Patches
  */
+@Internal
 public class ManagerUtil {
 
     private static final ManagerUtil MANAGER_UTIL = new ManagerUtil();
