@@ -1,19 +1,10 @@
 language: android
 jdk: oraclejdk8
-sudo: false
-dist: trusty
-
-cache:
-  directories:
-    - ${TRAVIS_BUILD_DIR}/gradle/caches/
-    - ${TRAVIS_BUILD_DIR}/gradle/wrapper/dists/
 
 env:
-  matrix:
-    - EMULATOR_SDK_LEVEL=16 ABI=armeabi-v7a
-    - EMULATOR_SDK_LEVEL=24 ABI=armeabi-v7a
   global:
-    - ADB_INSTALL_TIMEOUT=20
+    - ANDROID_TARGET=android-23
+    - ANDROID_ABI=armeabi-v7a
     - BUILD_TOOLS_VERSION=26.0.0
     - TARGET_SDK_LEVEL=26
 
@@ -21,24 +12,19 @@ android:
   components:
     - tools
     - platform-tools
-    - build-tools-$BUILD_TOOLS_VERSION
-    - android-$EMULATOR_SDK_LEVEL
-    - android-$TARGET_SDK_LEVEL
+    - build-tools-${BUILD_TOOLS_VERSION}
+    - android-23
+    - android-${TARGET_SDK_LEVEL}
     - extra-android-m2repository
-    - extra-android-support
-    - extra-google-m2repository
-    - sys-img-$ABI-$EMULATOR_SDK_LEVEL
-
-before_script:
-  - echo no | android create avd --force --name test --target android-$EMULATOR_SDK_LEVEL --abi $ABI
-  - emulator -avd test -no-audio -no-window &
-  - android-wait-for-emulator
-  - adb devices
-  - adb shell input keyevent 82 &
+    - sys-img-${ANDROID_ABI}-${ANDROID_TARGET}
 
 script:
-  - travis_wait 60 ./gradlew connectedAndroidTest --stacktrace
-  - ./gradlew jacocoDebugReport
+  - ./gradlew build jacocoDebugTestReport assembleAndroidTest
+  - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
+  - emulator -avd test -no-skin -no-audio -no-window &
+  - android-wait-for-emulator
+  - adb shell setprop dalvik.vm.dexopt-flags v=n,o=v
+  - ./gradlew connectedCheck
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
