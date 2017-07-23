@@ -9,21 +9,23 @@ cache:
 
 env:
   global:
-#    - ANDROID_MIN_API_LEVEL=16
-#    - ANDROID_MAX_API_LEVEL=26
-    - ANDROID_BUILD_TOOLS_VERSION=26.0.0
-    - ADB_INSTALL_TIMEOUT=20 # minutes (2 minutes by default)
+    - ADB_INSTALL_TIMEOUT=20
+    - BUILD_TOOLS_VERSION=26.0.0
+    - SDK_LEVEL_MAX=26
+    - SDK_LEVEL_MIN=16
   matrix:
     - API=android-16 ABI=armeabi-v7a
-    - API=android-26 ABI=armeabi-v7a
+    - API=android-25 ABI=armeabi-v7a
 
 android:
   components:
     - tools
     - platform-tools
-    - build-tools-$ANDROID_BUILD_TOOLS_VERSION
-    - android-16
-    - android-26
+    - tools
+    - build-tools-$BUILD_TOOLS_VERSION
+    - android-SDK_LEVEL_MIN
+    - android-25
+    - android-SDK_LEVEL_MAX
     - extra-android-m2repository
     - extra-android-support
     - extra-google-m2repository
