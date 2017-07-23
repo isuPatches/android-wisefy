@@ -3,9 +3,6 @@ jdk: oraclejdk8
 
 sudo: required
 
-os:
-  - osx
-
 cache:
   directories:
     - $HOME/.gradle/caches/
@@ -23,11 +20,11 @@ android:
     - extra-android-m2repository
     - extra-android-support
     - extra-google-m2repository
-    - sys-img-x86-google_apis-24
+    - sys-img-arm64-v8a-google_apis-24
 
 env:
   matrix:
-    - $TARGET=android-24 ABI=google_apis/x86
+    - $TARGET=android-24 ABI=google_apis/arm64-v8a
 
 before_script:
   - echo $JAVA_OPTS
