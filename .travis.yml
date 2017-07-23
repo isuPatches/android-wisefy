@@ -14,14 +14,13 @@ env:
   global:
     - ADB_INSTALL_TIMEOUT=20
     - BUILD_TOOLS_VERSION=26.0.0
-    - TAG=google_apis
     - TARGET_SDK_LEVEL=26
 
 android:
   components:
-    - tools # to get the new `repository-11.xml`
-    - tools # to install Android SDK tools 25.1.x (x = 6 right now)
+    - tools
     - platform-tools
+    - tools # (Not a typo.  See https://docs.travis-ci.com/user/languages/android/, this is supposed to appear twice)
     - build-tools-$BUILD_TOOLS_VERSION
     - android-$EMULATOR_SDK_LEVEL
     - android-$TARGET_SDK_LEVEL
@@ -31,8 +30,8 @@ android:
     - extra-google-m2repository
 
 before_script:
-  - echo no | android create avd --force -n test -t $EMULATOR_SDK_LEVEL --abi $ABI
-  - emulator -avd test -no-audio -no-window
+  - echo no | android create avd --force -n test -t android-$EMULATOR_SDK_LEVEL --abi $ABI
+  - emulator -avd test -no-audio -no-window &
   - android-wait-for-emulator
   - adb shell input keyevent 82 &
 
