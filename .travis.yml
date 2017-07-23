@@ -9,31 +9,26 @@ cache:
 
 env:
   global:
+    - ABI=armeabi-v7a
     - ADB_INSTALL_TIMEOUT=20
     - BUILD_TOOLS_VERSION=26.0.0
-    - SDK_LEVEL_MAX=26
-    - SDK_LEVEL_MIN=16
-  matrix:
-    - API=android-16 ABI=x86
-    - API=android-25 ABI=x86
+    - EMULATOR_SDK_LEVEL=25
+    - TARGET_SDK_LEVEL=26
 
 android:
   components:
     - tools
     - platform-tools
-    - tools
     - build-tools-$BUILD_TOOLS_VERSION
-    - android-SDK_LEVEL_MIN
-    - android-25
-    - android-SDK_LEVEL_MAX
+    - android-EMULATOR_SDK_LEVEL
+    - android-TARGET_SDK_LEVEL
     - extra-android-m2repository
     - extra-android-support
     - extra-google-m2repository
 
 before_script:
-  - android-update-sdk --components=sys-img-$ABI-google_apis-$API --accept-licenses='android-sdk-license-[0-9a-f]{8}'
-  - echo no | android create avd --force -n test -t $API --abi $ABI
-  - emulator -avd test -no-audio -no-window
+  - echo no | android create avd --force -n test -t android-$EMULATOR_SDK_LEVEL --abi $ABI
+  - emulator -avd test -no-audio -no-window &
   - android-wait-for-emulator
   - adb shell input keyevent 82 &
 
