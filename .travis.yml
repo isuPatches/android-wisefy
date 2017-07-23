@@ -28,6 +28,7 @@ env:
 before_script:
   - echo $JAVA_OPTS
   - export JAVA_OPTS=-Xmx2048m
+  - android list targets
   - echo no | android create avd --force -n test -t $TARGET --abi $ABI
   - emulator -avd test -no-skin -no-audio -no-window &
   - android-wait-for-emulator
