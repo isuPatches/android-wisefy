@@ -19,6 +19,7 @@ android:
     - extra-android-m2repository
     - extra-android-support
     - extra-google-m2repository
+    - sys-img-armeabi-v7a-google_apis-android-16
 
 env:
   matrix:
@@ -34,7 +35,6 @@ env:
 #    - API=android-26 ABI=armeabi-v7a
 
 before_script:
-  - android-update-sdk --components=sys-img-$ABI-google_apis-$API --accept-licenses='android-sdk-license-[0-9a-f]{8}'
   - echo no | android create avd --force -n test -t $API --abi $ABI
   - emulator -avd test -no-audio -no-window
   - android-wait-for-emulator
