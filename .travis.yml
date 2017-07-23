@@ -19,6 +19,7 @@ env:
   global:
     - ADB_INSTALL_TIMEOUT=20
     - BUILD_TOOLS_VERSION=26.0.0
+    - TAG=google_apis
     - TARGET_SDK_LEVEL=26
 
 android:
@@ -35,7 +36,7 @@ android:
     - extra-google-m2repository
 
 before_script:
-  - echo no | android create avd --force --name test --target android-$EMULATOR_SDK_LEVEL --abi $ABI
+  - echo no | android create avd --force --name test --target android-$EMULATOR_SDK_LEVEL --abi $ABI --tag $TAG
   - emulator -avd test -no-audio -no-window &amp;
   - ./gradlew check -PdisablePreDex --continue --stacktrace
   - android-wait-for-emulator
