@@ -25,12 +25,12 @@ android:
     - build-tools-$BUILD_TOOLS_VERSION
     - android-$EMULATOR_SDK_LEVEL
     - android-$TARGET_SDK_LEVEL
+    - sys-img-$ABI-google_apis-$EMULATOR_SDK_LEVEL
     - extra-android-m2repository
     - extra-android-support
     - extra-google-m2repository
 
 before_script:
-  - android-update-sdk --components=sys-img-$ABI-google_apis-$EMULATOR_SDK_LEVEL --accept-licenses='android-sdk-license-[0-9a-f]{8}'
   - echo no | android create avd --force -n test -t $EMULATOR_SDK_LEVEL --abi $ABI
   - emulator -avd test -no-audio -no-window
   - android-wait-for-emulator
