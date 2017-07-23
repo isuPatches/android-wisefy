@@ -17,11 +17,11 @@ android:
     - extra-android-m2repository
     - extra-android-support
     - extra-google-m2repository
-    - sys-img-arm64-v8a-google_apis-25
+    - sys-img-arm64-v8a-google_apis-24
 
 env:
   matrix:
-    - $TARGET=android-25 ABI=google_apis/arm64-v8a
+    - $TARGET=android-24 ABI=google_apis/arm64-v8a
 #    - API=android-17 ABI=armeabi-v7a
 #    - API=android-18 ABI=armeabi-v7a
 #    - API=android-19 ABI=armeabi-v7a
@@ -33,6 +33,8 @@ env:
 #    - API=android-26 ABI=armeabi-v7a
 
 before_script:
+  - echo $JAVA_OPTS
+  - export JAVA_OPTS=-Xmx2048m
   - echo no | android create avd --force -name test -target $TARGET --abi $ABI
   - emulator -avd test -no-skin -no-audio -no-window &
   - android-wait-for-emulator
