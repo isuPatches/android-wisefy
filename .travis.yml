@@ -3,6 +3,9 @@ jdk: oraclejdk8
 
 sudo: required
 
+os:
+  - osx
+
 cache:
   directories:
     - $HOME/.gradle/caches/
@@ -20,18 +23,18 @@ android:
     - extra-android-m2repository
     - extra-android-support
     - extra-google-m2repository
-    - sys-img-arm64-v8a-google_apis-24
+    - sys-img-x86-google_apis-24
 
 env:
   matrix:
-    - $TARGET=android-24 ABI=google_apis/arm64-v8a
+    - $TARGET=android-24 ABI=google_apis/x86
 
 before_script:
   - echo $JAVA_OPTS
   - export JAVA_OPTS=-Xmx2048m
   - android list targets
   - echo no | android create avd --force -n test -t $TARGET --abi $ABI
-  - emulator -avd test -no-skin -no-audio -no-window &
+  - emulator -avd test -no-audio -no-window &
   - android-wait-for-emulator
   - adb shell setprop dalvik.vm.dexopt-flags v=n,o=v
   - adb shell input keyevent 82 &
