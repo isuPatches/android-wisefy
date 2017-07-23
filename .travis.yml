@@ -17,11 +17,11 @@ android:
     - extra-android-m2repository
     - extra-android-support
     - extra-google-m2repository
-    - sys-img-x86_64-google_apis-25
+    - sys-img-arm64-v8a-google_apis-25
 
 env:
   matrix:
-    - $SDK_LEVEL=android-25 ABI=google_apis/x86_64
+    - $TARGET=android-25 ABI=google_apis/arm64-v8a
 #    - API=android-17 ABI=armeabi-v7a
 #    - API=android-18 ABI=armeabi-v7a
 #    - API=android-19 ABI=armeabi-v7a
@@ -33,7 +33,7 @@ env:
 #    - API=android-26 ABI=armeabi-v7a
 
 before_script:
-  - echo no | android create avd --force -n test -t $SDK_LEVEL --abi $ABI
+  - echo no | android create avd --force -name test -target $TARGET --abi $ABI
   - emulator -avd test -no-skin -no-audio -no-window &
   - android-wait-for-emulator
   - adb shell setprop dalvik.vm.dexopt-flags v=n,o=v
