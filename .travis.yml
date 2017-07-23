@@ -1,21 +1,17 @@
 language: android
 jdk: oraclejdk8
-sudo: required
+sudo: false
 dist: trusty
 
 cache:
   directories:
     - ${TRAVIS_BUILD_DIR}/gradle/caches/
     - ${TRAVIS_BUILD_DIR}/gradle/wrapper/dists/
-    - $HOME/.gradle/caches/3.5
-    - $HOME/.gradle/caches/jars-1
-    - $HOME/.gradle/daemon
-    - $HOME/.gradle/native
-    - $HOME/.gradle/wrapper
 
 env:
   matrix:
-    - EMULATOR_SDK_LEVEL=22 ABI=armeabi-v7a
+    - EMULATOR_SDK_LEVEL=16 ABI=armeabi-v7a
+    - EMULATOR_SDK_LEVEL=24 ABI=armeabi-v7a
   global:
     - ADB_INSTALL_TIMEOUT=20
     - BUILD_TOOLS_VERSION=26.0.0
