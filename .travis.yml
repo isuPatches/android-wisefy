@@ -1,8 +1,6 @@
 language: android
 jdk: oraclejdk8
 
-sudo: true
-
 cache:
   directories:
     - $HOME/.gradle/caches/
