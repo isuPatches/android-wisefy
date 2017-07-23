@@ -22,7 +22,7 @@ android:
 
 env:
   matrix:
-    - API=android-16 ABI=x86_x64
+    - API=android-16 ABI=armeabi-v7a
 #    - API=android-17 ABI=armeabi-v7a
 #    - API=android-18 ABI=armeabi-v7a
 #    - API=android-19 ABI=armeabi-v7a
