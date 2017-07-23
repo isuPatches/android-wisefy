@@ -1,6 +1,8 @@
 language: android
 jdk: oraclejdk8
 
+sudo: true
+
 cache:
   directories:
     - $HOME/.gradle/caches/
@@ -22,20 +24,11 @@ android:
 env:
   matrix:
     - $TARGET=android-24 ABI=google_apis/arm64-v8a
-#    - API=android-17 ABI=armeabi-v7a
-#    - API=android-18 ABI=armeabi-v7a
-#    - API=android-19 ABI=armeabi-v7a
-#    - API=android-20 ABI=armeabi-v7a
-#    - API=android-21 ABI=armeabi-v7a
-#    - API=android-22 ABI=armeabi-v7a
-#    - API=android-24 ABI=armeabi-v7a
-#    - API=android-25 ABI=armeabi-v7a
-#    - API=android-26 ABI=armeabi-v7a
 
 before_script:
   - echo $JAVA_OPTS
   - export JAVA_OPTS=-Xmx2048m
-  - echo no | android create avd --force -name test -target $TARGET --abi $ABI
+  - echo no | android create avd --force -n test -t $TARGET --abi $ABI
   - emulator -avd test -no-skin -no-audio -no-window &
   - android-wait-for-emulator
   - adb shell setprop dalvik.vm.dexopt-flags v=n,o=v
