@@ -3,8 +3,6 @@ jdk: oraclejdk8
 sudo: required
 dist: trusty
 
-group: edge
-
 cache:
   directories:
     - ${TRAVIS_BUILD_DIR}/gradle/caches/
@@ -26,9 +24,6 @@ env:
 
 android:
   components:
-    - tools
-    - platform-tools
-    - tools # (Not a typo.  See https://docs.travis-ci.com/user/languages/android/, this is supposed to appear twice)
     - build-tools-$BUILD_TOOLS_VERSION
     - android-$EMULATOR_SDK_LEVEL
     - android-$TARGET_SDK_LEVEL
@@ -40,13 +35,13 @@ android:
 before_script:
   - echo no | android create avd --force --name test --target android-$EMULATOR_SDK_LEVEL --abi $ABI
   - emulator -avd test -no-audio -no-window &
-  - ./gradlew check -PdisablePreDex --continue --stacktrace
+  - ./gradlew check --continue --stacktrace
   - android-wait-for-emulator
   - adb devices
   - adb shell input keyevent 82 &
 
 script:
-  - travis_wait 60 ./gradlew connectedAndroidTest -PdisablePreDex --stacktrace
+  - travis_wait 60 ./gradlew connectedAndroidTest --stacktrace
 
 after_success:
   - ./gradlew jacocoDebugReport
