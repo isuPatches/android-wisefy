@@ -3,7 +3,6 @@ package com.isupatches.wisefy;
 
 import android.net.wifi.WifiInfo;
 import android.os.Build;
-import com.isupatches.wisefy.base.TestActivity;
 import org.junit.Test;
 import static com.isupatches.wisefy.base.TestUtils.TEST_NETWORK_FREQUENCY_5GHZ;
 import static com.isupatches.wisefy.base.TestUtils.TEST_NETWORK_FREQUENCY_ABOVE_5GHZ;
@@ -13,11 +12,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 
-public class IsNetwork5gHzTests extends BaseTestClass<TestActivity> {
-
-    public IsNetwork5gHzTests() {
-        super(TestActivity.class);
-    }
+public class IsNetwork5gHzTests extends BaseAndroidJUnit4TestClass {
 
     @Test
     public void currentNetwork_failure_above5ghz() {

@@ -1,17 +1,12 @@
 package com.isupatches.wisefy;
 
 
-import com.isupatches.wisefy.base.TestActivity;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
 
-public class IsWifiEnabledTests extends BaseTestClass<TestActivity> {
-
-    public IsWifiEnabledTests() {
-        super(TestActivity.class);
-    }
+public class IsWifiEnabledTests extends BaseAndroidJUnit4TestClass {
 
     @Test
     public void failure() {

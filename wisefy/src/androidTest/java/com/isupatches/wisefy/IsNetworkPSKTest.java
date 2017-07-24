@@ -2,18 +2,13 @@ package com.isupatches.wisefy;
 
 
 import android.net.wifi.ScanResult;
-import com.isupatches.wisefy.base.TestActivity;
 import com.isupatches.wisefy.constants.Capabilities;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 
 
-public class IsNetworkPSKTest extends BaseTestClass<TestActivity> {
-
-    public IsNetworkPSKTest() {
-        super(TestActivity.class);
-    }
+public class IsNetworkPSKTest extends BaseAndroidJUnit4TestClass {
 
     @Test
     public void failure_differentCapability() {

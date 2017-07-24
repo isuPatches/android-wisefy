@@ -2,7 +2,6 @@ package com.isupatches.wisefy;
 
 
 import android.net.NetworkInfo;
-import com.isupatches.wisefy.base.TestActivity;
 import org.junit.Test;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
@@ -12,11 +11,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 
-public class IsDeviceConnectedToWifiNetworkTests extends BaseTestClass<TestActivity> {
-
-    public IsDeviceConnectedToWifiNetworkTests() {
-        super(TestActivity.class);
-    }
+public class IsDeviceConnectedToWifiNetworkTests extends BaseAndroidJUnit4TestClass {
 
     @Test
     public void failure_missingPrerequisite() {

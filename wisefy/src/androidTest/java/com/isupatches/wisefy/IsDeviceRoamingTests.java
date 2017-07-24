@@ -2,7 +2,6 @@ package com.isupatches.wisefy;
 
 
 import android.net.NetworkInfo;
-import com.isupatches.wisefy.base.TestActivity;
 import org.junit.Test;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
@@ -10,11 +9,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 
-public class IsDeviceRoamingTests extends BaseTestClass<TestActivity> {
-
-    public IsDeviceRoamingTests() {
-        super(TestActivity.class);
-    }
+public class IsDeviceRoamingTests extends BaseAndroidJUnit4TestClass {
 
     @Test
     public void failure_missingPrerequisite() {

@@ -3,7 +3,6 @@ package com.isupatches.wisefy;
 
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
-import com.isupatches.wisefy.base.TestActivity;
 import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,11 +14,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 
-public class WiseFySearchTests extends BaseTestClass<TestActivity> {
+public class WiseFySearchTests extends BaseAndroidJUnit4TestClass {
 
-    public WiseFySearchTests() {
-        super(TestActivity.class);
-    }
 
     /*
      * findAccessPointByRegex tests

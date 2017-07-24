@@ -1,24 +1,20 @@
 package com.isupatches.wisefy;
 
 
-import android.app.Activity;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
-import android.support.test.rule.ActivityTestRule;
-import com.isupatches.wisefy.base.TestActivity;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
+import org.junit.runner.RunWith;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 
-public abstract class BaseTestClass<T extends Activity> extends ActivityTestRule<T> {
-
-    @Rule
-    public ActivityTestRule<TestActivity> mActivityTestRule = new ActivityTestRule<>(TestActivity.class);
+@RunWith(AndroidJUnit4.class)
+public abstract class BaseAndroidJUnit4TestClass {
 
     ConnectivityManager mMockConnectivityManager;
 
@@ -28,10 +24,6 @@ public abstract class BaseTestClass<T extends Activity> extends ActivityTestRule
 
     protected static final Integer VERIFICATION_TIMEOUT = 2000;
 
-    public BaseTestClass(Class<T> activityClass) {
-        super(activityClass);
-    }
-
     @Before
     public void setUp() {
         mMockWiFiManager = mock(WifiManager.class);
@@ -40,9 +32,7 @@ public abstract class BaseTestClass<T extends Activity> extends ActivityTestRule
         mMockWiFiManager = mock(WifiManager.class);
         mMockConnectivityManager = mock(ConnectivityManager.class);
 
-        mActivityTestRule.launchActivity(new Intent());
-
-        mWiseFy = new WiseFy.brains(mActivityTestRule.getActivity()).logging(true).getSmarts();
+        mWiseFy = new WiseFy.brains(InstrumentationRegistry.getContext()).logging(true).getSmarts();
         setManagers();
     }
 

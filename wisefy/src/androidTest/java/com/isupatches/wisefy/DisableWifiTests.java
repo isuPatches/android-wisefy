@@ -1,7 +1,6 @@
 package com.isupatches.wisefy;
 
 
-import com.isupatches.wisefy.base.TestActivity;
 import com.isupatches.wisefy.callbacks.DisableWifiCallbacks;
 import com.isupatches.wisefy.constants.WiseFyCodes;
 import org.junit.Test;
@@ -15,11 +14,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
-public class DisableWifiTests extends BaseTestClass<TestActivity> {
-
-    public DisableWifiTests() {
-        super(TestActivity.class);
-    }
+public class DisableWifiTests extends BaseAndroidJUnit4TestClass {
 
     @Test
     public void noCallbacks_failure() {

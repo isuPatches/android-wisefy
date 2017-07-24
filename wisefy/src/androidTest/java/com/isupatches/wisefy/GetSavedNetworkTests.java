@@ -2,7 +2,6 @@ package com.isupatches.wisefy;
 
 
 import android.net.wifi.WifiConfiguration;
-import com.isupatches.wisefy.base.TestActivity;
 import com.isupatches.wisefy.callbacks.GetSavedNetworkCallbacks;
 import com.isupatches.wisefy.constants.WiseFyCodes;
 import org.junit.Test;
@@ -16,11 +15,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
-public class GetSavedNetworkTests extends BaseTestClass<TestActivity> {
-
-    public GetSavedNetworkTests() {
-        super(TestActivity.class);
-    }
+public class GetSavedNetworkTests extends BaseAndroidJUnit4TestClass {
 
     @Test
     public void noCallbacks_failure_nullSSIDParam() {

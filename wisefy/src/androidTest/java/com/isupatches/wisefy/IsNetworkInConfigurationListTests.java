@@ -2,7 +2,6 @@ package com.isupatches.wisefy;
 
 
 import android.net.wifi.WifiConfiguration;
-import com.isupatches.wisefy.base.TestActivity;
 import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,11 +12,7 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
 
-public class IsNetworkInConfigurationListTests extends BaseTestClass<TestActivity> {
-
-    public IsNetworkInConfigurationListTests() {
-        super(TestActivity.class);
-    }
+public class IsNetworkInConfigurationListTests extends BaseAndroidJUnit4TestClass {
 
     @Test
     public void failure() {

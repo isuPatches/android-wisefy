@@ -15,6 +15,11 @@ dexcount {
 
 android {
 
+    dexOptions {
+        // Skip pre-dexing when running on Travis CI or when disabled via -Dpre-dex=false.
+        preDexLibraries = preDexEnabled && !travisBuild
+    }
+
     adbOptions {
         timeOutInMs 15 * 60 * 1000  // 15 minutes
         installOptions "-d","-t"

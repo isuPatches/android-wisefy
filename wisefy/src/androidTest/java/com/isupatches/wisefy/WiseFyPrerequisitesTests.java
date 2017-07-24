@@ -1,16 +1,11 @@
 package com.isupatches.wisefy;
 
 
-import com.isupatches.wisefy.base.TestActivity;
 import org.junit.Test;
 import static junit.framework.Assert.*;
 
 
-public class WiseFyPrerequisitesTests extends BaseTestClass<TestActivity> {
-
-    public WiseFyPrerequisitesTests() {
-        super(TestActivity.class);
-    }
+public class WiseFyPrerequisitesTests extends BaseAndroidJUnit4TestClass {
 
     @Test
     public void hasPrerequisites_nullWifiManager() {

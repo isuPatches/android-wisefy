@@ -1,28 +1,25 @@
 package com.isupatches.wisefy;
 
 
+import android.support.test.InstrumentationRegistry;
+
 import com.google.android.gms.iid.InstanceID;
-import com.isupatches.wisefy.base.TestActivity;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 
-public class WiseFyTests extends BaseTestClass<TestActivity> {
-
-    public WiseFyTests() {
-        super(TestActivity.class);
-    }
+public class WiseFyTests extends BaseAndroidJUnit4TestClass {
 
     @Test
     public void builder_loggingFalse() {
-        WiseFy wiseFy = new WiseFy.brains(mActivityTestRule.getActivity()).logging(false).getSmarts();
+        WiseFy wiseFy = new WiseFy.brains(InstrumentationRegistry.getContext()).logging(false).getSmarts();
         assertEquals(false, wiseFy.mWiseFyConfiguration.isLoggingEnabled());
         assertEquals(false, wiseFy.isLoggingEnabled());
     }
 
     @Test
     public void builder_loggingTrue() {
-        WiseFy wiseFy = new WiseFy.brains(mActivityTestRule.getActivity()).logging(true).getSmarts();
+        WiseFy wiseFy = new WiseFy.brains(InstrumentationRegistry.getContext()).logging(true).getSmarts();
         assertEquals(true, wiseFy.mWiseFyConfiguration.isLoggingEnabled());
         assertEquals(true, wiseFy.isLoggingEnabled());
     }
@@ -41,7 +38,7 @@ public class WiseFyTests extends BaseTestClass<TestActivity> {
 
     @Test
     public void olderGcm_IllegalAccessError_notThrown() {
-        InstanceID instanceID = InstanceID.getInstance(mActivityTestRule.getActivity());
+        InstanceID instanceID = InstanceID.getInstance(InstrumentationRegistry.getContext());
         assertNotNull(instanceID);
     }
 }

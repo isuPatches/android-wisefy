@@ -1,7 +1,6 @@
 package com.isupatches.wisefy;
 
 
-import com.isupatches.wisefy.base.TestActivity;
 import com.isupatches.wisefy.callbacks.DisconnectFromCurrentNetworkCallbacks;
 import com.isupatches.wisefy.constants.WiseFyCodes;
 import org.junit.Test;
@@ -14,11 +13,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
-public class DisconnectFromCurrentNetworkTests extends BaseTestClass<TestActivity> {
-
-    public DisconnectFromCurrentNetworkTests() {
-        super(TestActivity.class);
-    }
+public class DisconnectFromCurrentNetworkTests extends BaseAndroidJUnit4TestClass {
 
     @Test
     public void noCallbacks_failure() {

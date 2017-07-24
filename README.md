@@ -6,7 +6,7 @@ Wifi configuration and util library built for Android.
 > 
 > <br/>Supports Android SDK levels 16-26<br/><br/>
 
-[![Android Weekly](https://img.shields.io/badge/Android%20Weekly-%23230-blue.svg)](http://androidweekly.net/issues/issue-230) [![Build Status](https://travis-ci.org/isuPatches/WiseFy.svg?branch=master)](https://travis-ci.org/isuPatches/WiseFy) [ ![Download](https://api.bintray.com/packages/isupatches/Maven/wisefy/images/download.svg) ](https://bintray.com/isupatches/Maven/wisefy/_latestVersion) <a href="http://www.methodscount.com/?lib=com.isupatches%3Awisefy%3A2.0.0"><img src="https://img.shields.io/badge/Methods and size-291 | 49 KB-e91e63.svg"/></a>
+[![Android Weekly](https://img.shields.io/badge/Android%20Weekly-%23230-blue.svg)](http://androidweekly.net/issues/issue-230) [![Build Status](https://travis-ci.org/isuPatches/WiseFy.svg?branch=master)](https://travis-ci.org/isuPatches/WiseFy) [ ![Download](https://api.bintray.com/packages/isupatches/Maven/wisefy/images/download.svg) ](https://bintray.com/isupatches/Maven/wisefy/_latestVersion) <a href="http://www.methodscount.com/?lib=com.isupatches%3Awisefy%3A2.0.0"><img src="https://img.shields.io/badge/Methods and size-291 | 49 KB-e91e63.svg"/></a> [![codecov.io](https://codecov.io/github/codecov/wisefy/branch/2.x/graph/badge.svg)](https://codecov.io/github/codecov/wisefy)
 
 ## What's New in 2.x
 

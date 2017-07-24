@@ -4,11 +4,11 @@ package com.isupatches.wisefy;
 import android.net.wifi.WifiConfiguration;
 import com.isupatches.wisefy.callbacks.AddOpenNetworkCallbacks;
 import com.isupatches.wisefy.constants.WiseFyCodes;
-import com.isupatches.wisefy.base.TestActivity;
+import org.junit.Assert;
 import org.junit.Test;
 import static com.isupatches.wisefy.base.TestUtils.OPEN_NETWORK_SSID;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.*;
 import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -18,11 +18,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
-public class AddOpenNetworkTests extends BaseTestClass<TestActivity> {
-
-    public AddOpenNetworkTests() {
-        super(TestActivity.class);
-    }
+public class AddOpenNetworkTests extends BaseAndroidJUnit4TestClass {
 
     @Test
     public void noCallbacks_failure() {
@@ -33,7 +29,7 @@ public class AddOpenNetworkTests extends BaseTestClass<TestActivity> {
 
     @Test
     public void noCallbacks_failure_nullSSIDParam() {
-        assertEquals(WiseFyCodes.MISSING_PARAMETER, mWiseFy.addOpenNetwork(null));
+        Assert.assertEquals(WiseFyCodes.MISSING_PARAMETER, mWiseFy.addOpenNetwork(null));
         verify(mMockWiFiManager, never()).addNetwork(any(WifiConfiguration.class));
     }
 

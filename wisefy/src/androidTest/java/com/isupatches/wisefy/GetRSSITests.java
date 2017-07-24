@@ -2,7 +2,6 @@ package com.isupatches.wisefy;
 
 
 import android.net.wifi.ScanResult;
-import com.isupatches.wisefy.base.TestActivity;
 import com.isupatches.wisefy.callbacks.GetRSSICallbacks;
 import com.isupatches.wisefy.constants.WiseFyCodes;
 import org.junit.Test;
@@ -19,11 +18,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
-public class GetRSSITests extends BaseTestClass<TestActivity> {
-
-    public GetRSSITests() {
-        super(TestActivity.class);
-    }
+public class GetRSSITests extends BaseAndroidJUnit4TestClass {
 
     @Test
     public void noCallbacks_failure_takeHighest_false_nullSSIDParam() {

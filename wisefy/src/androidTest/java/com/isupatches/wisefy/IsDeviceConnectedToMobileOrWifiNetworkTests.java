@@ -11,11 +11,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 
-public class IsDeviceConnectedToMobileOrWifiNetworkTests extends BaseTestClass<TestActivity> {
-
-    public IsDeviceConnectedToMobileOrWifiNetworkTests() {
-        super(TestActivity.class);
-    }
+public class IsDeviceConnectedToMobileOrWifiNetworkTests extends BaseAndroidJUnit4TestClass {
 
     @Test
     public void failure_missingPrerequisite() {

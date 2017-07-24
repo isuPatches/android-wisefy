@@ -3,7 +3,6 @@ package com.isupatches.wisefy;
 
 import android.net.wifi.WifiInfo;
 import android.os.Build;
-import com.isupatches.wisefy.base.TestActivity;
 import com.isupatches.wisefy.callbacks.GetFrequencyCallbacks;
 import com.isupatches.wisefy.constants.WiseFyCodes;
 import org.junit.Test;
@@ -16,11 +15,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
-public class GetFrequencyTests extends BaseTestClass<TestActivity> {
-
-    public GetFrequencyTests() {
-        super(TestActivity.class);
-    }
+public class GetFrequencyTests extends BaseAndroidJUnit4TestClass {
 
     @Test
     public void noCallbacks_getFrequency_currentNetwork_failure() {

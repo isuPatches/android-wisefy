@@ -3,7 +3,6 @@ package com.isupatches.wisefy;
 
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
-import com.isupatches.wisefy.base.TestActivity;
 import org.junit.Before;
 import org.junit.Test;
 import static com.isupatches.wisefy.base.TestUtils.TEST_SSID;
@@ -16,11 +15,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 
-public class WiseFyConnectionTests extends BaseTestClass<TestActivity> {
-
-    public WiseFyConnectionTests() {
-        super(TestActivity.class);
-    }
+public class WiseFyConnectionTests extends BaseAndroidJUnit4TestClass {
 
     @Before
     public void setUp() {

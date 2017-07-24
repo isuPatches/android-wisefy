@@ -19,11 +19,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
-public class SearchForAccessPointsTests extends BaseTestClass<TestActivity> {
-
-    public SearchForAccessPointsTests() {
-        super(TestActivity.class);
-    }
+public class SearchForAccessPointsTests extends BaseAndroidJUnit4TestClass {
 
     @Test
     public void noCallbacks_failure_filterDuplicates_false_nullSSIDParam() {

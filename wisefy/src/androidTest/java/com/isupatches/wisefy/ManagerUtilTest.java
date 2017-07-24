@@ -3,26 +3,17 @@ package com.isupatches.wisefy;
 
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
-import android.support.test.rule.ActivityTestRule;
-import com.isupatches.wisefy.base.TestActivity;
+import android.support.test.InstrumentationRegistry;
 import com.isupatches.wisefy.util.ManagerUtil;
-import org.junit.Rule;
 import org.junit.Test;
 import static junit.framework.Assert.*;
 
 
-public class ManagerUtilTest extends BaseTestClass<TestActivity> {
-
-    public ManagerUtilTest() {
-        super(TestActivity.class);
-    }
-
-    @Rule
-    public ActivityTestRule<TestActivity> mActivityTestRule = new ActivityTestRule<>(TestActivity.class);
+public class ManagerUtilTest extends BaseAndroidJUnit4TestClass {
 
     @Test
     public void getConnectivityManager_returnsNotNull() {
-        ConnectivityManager connectivityManager = ManagerUtil.getInstance().getConnectivityManager(mActivityTestRule.getActivity());
+        ConnectivityManager connectivityManager = ManagerUtil.getInstance().getConnectivityManager(InstrumentationRegistry.getContext());
         assertNotNull(connectivityManager);
     }
 
@@ -34,7 +25,7 @@ public class ManagerUtilTest extends BaseTestClass<TestActivity> {
 
     @Test
     public void getWiFiManager_returnsNotNull() {
-        WifiManager wifiManager = ManagerUtil.getInstance().getWiFiManager(mActivityTestRule.getActivity());
+        WifiManager wifiManager = ManagerUtil.getInstance().getWiFiManager(InstrumentationRegistry.getContext());
         assertNotNull(wifiManager);
     }
 

@@ -1,7 +1,6 @@
 package com.isupatches.wisefy;
 
 
-import com.isupatches.wisefy.base.TestActivity;
 import com.isupatches.wisefy.callbacks.SearchForSSIDsCallbacks;
 import com.isupatches.wisefy.constants.WiseFyCodes;
 import org.junit.Test;
@@ -17,11 +16,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
-public class SearchForSSIDsTests extends BaseTestClass<TestActivity> {
-
-    public SearchForSSIDsTests() {
-        super(TestActivity.class);
-    }
+public class SearchForSSIDsTests extends BaseAndroidJUnit4TestClass {
 
     @Test
     public void noCallbacks_failure_nullSSIDParam() {

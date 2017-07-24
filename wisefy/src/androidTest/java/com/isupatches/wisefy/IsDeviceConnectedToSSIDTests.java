@@ -1,7 +1,6 @@
 package com.isupatches.wisefy;
 
 
-import com.isupatches.wisefy.base.TestActivity;
 import org.junit.Test;
 import static com.isupatches.wisefy.base.TestUtils.TEST_SSID;
 import static junit.framework.Assert.assertFalse;
@@ -11,11 +10,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 
-public class IsDeviceConnectedToSSIDTests extends BaseTestClass<TestActivity> {
-
-    public IsDeviceConnectedToSSIDTests() {
-        super(TestActivity.class);
-    }
+public class IsDeviceConnectedToSSIDTests extends BaseAndroidJUnit4TestClass {
 
     @Test
     public void noCallbacks_failure_nullSSIDParams() {
