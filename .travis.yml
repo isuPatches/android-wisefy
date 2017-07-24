@@ -14,9 +14,9 @@ android:
     - platform-tools
     - tools
     - build-tools-26.0.0
-    - android-22
+    - android-16
     - android-26
-    - sys-img-armeabi-v7a-android-22
+    - sys-img-armeabi-v7a-android-16
     - extra-android-m2repository
     - extra-android-support
     - extra-google-m2repository
