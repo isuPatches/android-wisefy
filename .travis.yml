@@ -23,7 +23,7 @@ android:
 
 env:
   matrix:
-    - $TARGET=android-22 ABI=armeabi-v7a
+    - $TARGET=android-16 ABI=armeabi-v7a
 
 before_script:
   - echo no | android create avd --force -n test -t $TARGET --abi $ABI
