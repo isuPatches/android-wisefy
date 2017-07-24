@@ -1,13 +1,10 @@
 package com.isupatches.wisefy.test;
 
 
-import android.content.Intent;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
-import android.support.test.rule.ActivityTestRule;
 import com.isupatches.wisefy.WiseFy;
-import com.isupatches.wisefy.base.TestActivity;
 import com.isupatches.wisefy.callbacks.AddOpenNetworkCallbacks;
 import com.isupatches.wisefy.callbacks.AddWEPNetworkCallbacks;
 import com.isupatches.wisefy.callbacks.AddWPA2NetworkCallbacks;
@@ -27,7 +24,6 @@ import com.isupatches.wisefy.callbacks.SearchForAccessPointsCallbacks;
 import com.isupatches.wisefy.callbacks.SearchForSSIDCallbacks;
 import com.isupatches.wisefy.callbacks.SearchForSSIDsCallbacks;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import java.util.List;
 import static junit.framework.Assert.assertEquals;
@@ -39,21 +35,12 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 
-public class PublicApiVisibilityTests extends ActivityTestRule<TestActivity> {
-
-    @Rule
-    public ActivityTestRule<TestActivity> mActivityTestRule = new ActivityTestRule<>(TestActivity.class);
+public class PublicApiVisibilityTests {
 
     private WiseFy mWiseFy;
 
-    public PublicApiVisibilityTests() {
-        super(TestActivity.class);
-    }
-
     @Before
     public void setUp() {
-        mActivityTestRule.launchActivity(new Intent());
-
         mWiseFy = mock(WiseFy.class);
     }
 
