@@ -6,7 +6,7 @@ jdk:
   - oraclejdk8
 
 env:
- global:
+  global:
     - TARGET_SDK_VERSION=26
     - BUILD_TOOLS_VERSION=26.0.0
   matrix:
@@ -38,4 +38,3 @@ before_script:
 
 script:
   - ./gradlew clean assembleDebug assembleDebugAndroidTest
-#  - ./gradlew
