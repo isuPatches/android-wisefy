@@ -1,40 +1,39 @@
-language: android
-jdk: oraclejdk8
-
 sudo: required
+dist: precise
+language: android
 
-cache:
-  directories:
-    - $HOME/.gradle/caches/
-    - $HOME/.gradle/wrapper/
-    - $HOME/.android/build-cache
+jdk:
+  - oraclejdk8
 
 android:
   components:
-    - platform-tools
     - tools
-    - build-tools-26.0.0
-    - android-16
-    - android-26
-    - sys-img-armeabi-v7a-android-16
+    - platform-tools
+    - android-22
+    - android-24
+    - android-25
+    - build-tools-25.0.2
     - extra-android-m2repository
-    - extra-android-support
-    - extra-google-m2repository
 
 env:
   matrix:
-    - $TARGET=android-16 ABI=armeabi-v7a
+    - API=android-15 ABI=armeabi-v7a
+    - API=android-16 ABI=armeabi-v7a
+    - API=android-17 ABI=armeabi-v7a
+    - API=android-18 ABI=armeabi-v7a
+    - API=android-19 ABI=armeabi-v7a
+    - API=android-21 ABI=armeabi-v7a
+    - API=android-22 ABI=armeabi-v7a
+    - API=android-24 ABI=armeabi-v7a
+    - API=android-24 ABI=arm64-v8a
 
+# Emulator Management: Create, Start and Wait
 before_script:
-  - echo no | android create avd --force -n test -t $TARGET --abi $ABI
-  - emulator -avd test -no-skin -no-audio -no-window &
+  - android-update-sdk --components=sys-img-$ABI-$API --accept-licenses='android-sdk-license-[0-9a-f]{8}'
+  - echo no | android create avd --force -n test -t $API --abi $ABI
+  - emulator -avd test -no-audio -no-window
   - android-wait-for-emulator
   - adb shell input keyevent 82 &
 
 script:
-  - ./gradlew clean assembleDebug assembleDebugAndroidTest
-  - travis_wait 60 ./gradlew connectedDebugAndroidTest --stacktrace
-  - ./gradlew jacocoDebugReport
-
-after_success:
-  - bash <(curl -s https://codecov.io/bash)
+  - ./gradlew clean assemble
