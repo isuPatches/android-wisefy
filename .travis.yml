@@ -9,10 +9,9 @@ android:
   components:
     - tools
     - platform-tools
-    - android-22
-    - android-24
-    - android-25
-    - build-tools-25.0.2
+    - tools
+    - android-26
+    - build-tools-26.0.0
     - extra-android-m2repository
 
 env:
