@@ -10,7 +10,7 @@ env:
     - TARGET_SDK=26
     - BUILD_TOOLS_VERSION=26.0.0
   matrix:
-    - EMULATOR_SDK=android-19 ABI=armeabi-v7a
+    - EMULATOR_SDK=android-22 ABI=armeabi-v7a
 
 android:
   components:
