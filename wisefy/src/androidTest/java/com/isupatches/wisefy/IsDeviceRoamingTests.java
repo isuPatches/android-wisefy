@@ -18,11 +18,16 @@ public class IsDeviceRoamingTests extends BaseAndroidJUnit4TestClass {
     }
 
     @Test
+    public void failure_nullActiveNetworkInfo() {
+        when(mMockConnectivityManager.getActiveNetworkInfo()).thenReturn(null);
+        assertFalse(mWiseFy.isDeviceRoaming());
+    }
+
+    @Test
     public void failure() {
         NetworkInfo networkInfo = mock(NetworkInfo.class);
         when(networkInfo.isRoaming()).thenReturn(false);
         when(mMockConnectivityManager.getActiveNetworkInfo()).thenReturn(networkInfo);
-
         assertFalse(mWiseFy.isDeviceRoaming());
     }
 
@@ -31,7 +36,6 @@ public class IsDeviceRoamingTests extends BaseAndroidJUnit4TestClass {
         NetworkInfo networkInfo = mock(NetworkInfo.class);
         when(networkInfo.isRoaming()).thenReturn(true);
         when(mMockConnectivityManager.getActiveNetworkInfo()).thenReturn(networkInfo);
-
         assertTrue(mWiseFy.isDeviceRoaming());
     }
 }

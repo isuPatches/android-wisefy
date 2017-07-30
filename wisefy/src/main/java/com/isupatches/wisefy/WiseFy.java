@@ -23,6 +23,7 @@ import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
@@ -92,6 +93,8 @@ public class WiseFy {
     WiseFyPrerequisites mWiseFyPrerequisites;
 
     WiseFySearch mWiseFySearch;
+
+    private final WiseFyLock mWiseFyLock = new WiseFyLock();
 
     /**
      * Private constructor that accepts builder input
@@ -228,37 +231,39 @@ public class WiseFy {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if (TextUtils.isEmpty(ssid)) {
-                    if (callbacks != null) {
-                        callbacks.addOpenNetworkWiseFyFailure(WiseFyCodes.MISSING_PARAMETER);
+                synchronized (mWiseFyLock) {
+                    if (TextUtils.isEmpty(ssid)) {
+                        if (callbacks != null) {
+                            callbacks.addOpenNetworkWiseFyFailure(WiseFyCodes.MISSING_PARAMETER);
+                        }
+                        return;
                     }
-                    return;
-                }
 
-                if (!mWiseFyPrerequisites.hasPrerequisites()) {
-                    if (callbacks != null) {
-                        callbacks.addOpenNetworkWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+                    if (!mWiseFyPrerequisites.hasPrerequisites()) {
+                        if (callbacks != null) {
+                            callbacks.addOpenNetworkWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+                        }
+                        return;
                     }
-                    return;
-                }
 
-                if (mWiseFySearch.isNetworkASavedConfiguration(ssid)) {
-                    if (callbacks != null) {
-                        callbacks.addOpenNetworkWiseFyFailure(WiseFyCodes.NETWORK_ALREADY_CONFIGURED);
+                    if (mWiseFySearch.isNetworkASavedConfiguration(ssid)) {
+                        if (callbacks != null) {
+                            callbacks.addOpenNetworkWiseFyFailure(WiseFyCodes.NETWORK_ALREADY_CONFIGURED);
+                        }
+                        return;
                     }
-                    return;
-                }
 
-                if (LogUtil.isLoggable(TAG, Log.DEBUG, mWiseFyConfiguration.isLoggingEnabled())) {
-                    Log.d(TAG, String.format("Adding open network with SSID %s", ssid));
-                }
-                WifiConfiguration wifiConfiguration = WifiConfigurationUtil.getInstance().generateOpenNetworkConfiguration(ssid);
-                if (callbacks != null) {
+                    if (LogUtil.isLoggable(TAG, Log.DEBUG, mWiseFyConfiguration.isLoggingEnabled())) {
+                        Log.d(TAG, String.format("Adding open network with SSID %s", ssid));
+                    }
+                    WifiConfiguration wifiConfiguration = WifiConfigurationUtil.getInstance().generateOpenNetworkConfiguration(ssid);
                     int result = addNetworkConfiguration(wifiConfiguration);
-                    if (result != WIFI_MANAGER_FAILURE) {
-                        callbacks.openNetworkAdded(wifiConfiguration);
-                    } else {
-                        callbacks.failureAddingOpenNetwork(result);
+                    if (callbacks != null) {
+                        if (result != WIFI_MANAGER_FAILURE) {
+                            callbacks.openNetworkAdded(wifiConfiguration);
+                        } else {
+                            callbacks.failureAddingOpenNetwork(result);
+                        }
                     }
                 }
             }
@@ -325,37 +330,40 @@ public class WiseFy {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if (TextUtils.isEmpty(ssid) || TextUtils.isEmpty(password)) {
-                    if (callbacks != null) {
-                        callbacks.addWEPNetworkWiseFyFailure(WiseFyCodes.MISSING_PARAMETER);
-                    }
-                    return;
-                }
+                synchronized (mWiseFyLock) {
 
-                if (!mWiseFyPrerequisites.hasPrerequisites()) {
-                    if (callbacks != null) {
-                        callbacks.addWEPNetworkWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+                    if (TextUtils.isEmpty(ssid) || TextUtils.isEmpty(password)) {
+                        if (callbacks != null) {
+                            callbacks.addWEPNetworkWiseFyFailure(WiseFyCodes.MISSING_PARAMETER);
+                        }
+                        return;
                     }
-                    return;
-                }
 
-                if (mWiseFySearch.isNetworkASavedConfiguration(ssid)) {
-                    if (callbacks != null) {
-                        callbacks.addWEPNetworkWiseFyFailure(WiseFyCodes.NETWORK_ALREADY_CONFIGURED);
+                    if (!mWiseFyPrerequisites.hasPrerequisites()) {
+                        if (callbacks != null) {
+                            callbacks.addWEPNetworkWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+                        }
+                        return;
                     }
-                    return;
-                }
 
-                if (LogUtil.isLoggable(TAG, Log.DEBUG, mWiseFyConfiguration.isLoggingEnabled())) {
-                    Log.d(TAG, String.format("Adding WEP network with SSID %s", ssid));
-                }
-                WifiConfiguration wifiConfiguration = WifiConfigurationUtil.getInstance().generateWEPNetworkConfiguration(ssid, password);
-                if (callbacks != null) {
+                    if (mWiseFySearch.isNetworkASavedConfiguration(ssid)) {
+                        if (callbacks != null) {
+                            callbacks.addWEPNetworkWiseFyFailure(WiseFyCodes.NETWORK_ALREADY_CONFIGURED);
+                        }
+                        return;
+                    }
+
+                    if (LogUtil.isLoggable(TAG, Log.DEBUG, mWiseFyConfiguration.isLoggingEnabled())) {
+                        Log.d(TAG, String.format("Adding WEP network with SSID %s", ssid));
+                    }
+                    WifiConfiguration wifiConfiguration = WifiConfigurationUtil.getInstance().generateWEPNetworkConfiguration(ssid, password);
                     int result = addNetworkConfiguration(wifiConfiguration);
-                    if (result != WIFI_MANAGER_FAILURE) {
-                        callbacks.wepNetworkAdded(wifiConfiguration);
-                    } else {
-                        callbacks.failureAddingWEPNetwork(result);
+                    if (callbacks != null) {
+                        if (result != WIFI_MANAGER_FAILURE) {
+                            callbacks.wepNetworkAdded(wifiConfiguration);
+                        } else {
+                            callbacks.failureAddingWEPNetwork(result);
+                        }
                     }
                 }
             }
@@ -422,37 +430,39 @@ public class WiseFy {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if (TextUtils.isEmpty(ssid) || TextUtils.isEmpty(password)) {
-                    if (callbacks != null) {
-                        callbacks.addWPA2NetworkWiseFyFailure(WiseFyCodes.MISSING_PARAMETER);
+                synchronized (mWiseFyLock) {
+                    if (TextUtils.isEmpty(ssid) || TextUtils.isEmpty(password)) {
+                        if (callbacks != null) {
+                            callbacks.addWPA2NetworkWiseFyFailure(WiseFyCodes.MISSING_PARAMETER);
+                        }
+                        return;
                     }
-                    return;
-                }
 
-                if (!mWiseFyPrerequisites.hasPrerequisites()) {
-                    if (callbacks != null) {
-                        callbacks.addWPA2NetworkWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+                    if (!mWiseFyPrerequisites.hasPrerequisites()) {
+                        if (callbacks != null) {
+                            callbacks.addWPA2NetworkWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+                        }
+                        return;
                     }
-                    return;
-                }
 
-                if (mWiseFySearch.isNetworkASavedConfiguration(ssid)) {
-                    if (callbacks != null) {
-                        callbacks.addWPA2NetworkWiseFyFailure(WiseFyCodes.NETWORK_ALREADY_CONFIGURED);
+                    if (mWiseFySearch.isNetworkASavedConfiguration(ssid)) {
+                        if (callbacks != null) {
+                            callbacks.addWPA2NetworkWiseFyFailure(WiseFyCodes.NETWORK_ALREADY_CONFIGURED);
+                        }
+                        return;
                     }
-                    return;
-                }
 
-                if (LogUtil.isLoggable(TAG, Log.DEBUG, mWiseFyConfiguration.isLoggingEnabled())) {
-                    Log.d(TAG, String.format("Adding WPA2 network with SSID %s", ssid));
-                }
-                WifiConfiguration wifiConfiguration = WifiConfigurationUtil.getInstance().generateWPA2NetworkConfiguration(ssid, password);
-                if (callbacks != null) {
+                    if (LogUtil.isLoggable(TAG, Log.DEBUG, mWiseFyConfiguration.isLoggingEnabled())) {
+                        Log.d(TAG, String.format("Adding WPA2 network with SSID %s", ssid));
+                    }
+                    WifiConfiguration wifiConfiguration = WifiConfigurationUtil.getInstance().generateWPA2NetworkConfiguration(ssid, password);
                     int result = addNetworkConfiguration(wifiConfiguration);
-                    if (result != WIFI_MANAGER_FAILURE) {
-                        callbacks.wpa2NetworkAdded(wifiConfiguration);
-                    } else {
-                        callbacks.failureAddingWPA2Network(result);
+                    if (callbacks != null) {
+                        if (result != WIFI_MANAGER_FAILURE) {
+                            callbacks.wpa2NetworkAdded(wifiConfiguration);
+                        } else {
+                            callbacks.failureAddingWPA2Network(result);
+                        }
                     }
                 }
             }
@@ -553,42 +563,44 @@ public class WiseFy {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if (TextUtils.isEmpty(ssidToConnectTo)) {
-                    if (callbacks != null) {
-                        callbacks.connectToNetworkWiseFyFailure(WiseFyCodes.MISSING_PARAMETER);
-                    }
-                    return;
-                }
-
-                if (!mWiseFyPrerequisites.hasPrerequisites()) {
-                    if (callbacks != null) {
-                        callbacks.connectToNetworkWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
-                    }
-                    return;
-                }
-
-                if (LogUtil.isLoggable(TAG, Log.DEBUG, mWiseFyConfiguration.isLoggingEnabled())) {
-                    Log.d(TAG, String.format("Waiting %d to connect to network with ssid %s", timeoutInMillis, ssidToConnectTo));
-                }
-
-                WifiConfiguration wifiConfiguration = mWiseFySearch.findSavedNetworkByRegex(ssidToConnectTo);
-                if (wifiConfiguration != null) {
-                    mWiseFyPrerequisites.getWifiManager().disconnect();
-                    mWiseFyPrerequisites.getWifiManager().enableNetwork(wifiConfiguration.networkId, true);
-                    mWiseFyPrerequisites.getWifiManager().reconnect();
-                    boolean connected = mWiseFyConnection.waitToConnectToSSID(ssidToConnectTo, timeoutInMillis);
-                    if (callbacks != null) {
-                        if (connected) {
-                            callbacks.connectedToNetwork();
-                        } else {
-                            callbacks.failureConnectingToNetwork();
+                synchronized (mWiseFyLock) {
+                    if (TextUtils.isEmpty(ssidToConnectTo)) {
+                        if (callbacks != null) {
+                            callbacks.connectToNetworkWiseFyFailure(WiseFyCodes.MISSING_PARAMETER);
                         }
+                        return;
                     }
-                    return;
-                }
 
-                if (callbacks != null) {
-                    callbacks.networkNotFoundToConnectTo();
+                    if (!mWiseFyPrerequisites.hasPrerequisites()) {
+                        if (callbacks != null) {
+                            callbacks.connectToNetworkWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+                        }
+                        return;
+                    }
+
+                    if (LogUtil.isLoggable(TAG, Log.DEBUG, mWiseFyConfiguration.isLoggingEnabled())) {
+                        Log.d(TAG, String.format("Waiting %d to connect to network with ssid %s", timeoutInMillis, ssidToConnectTo));
+                    }
+
+                    WifiConfiguration wifiConfiguration = mWiseFySearch.findSavedNetworkByRegex(ssidToConnectTo);
+                    if (wifiConfiguration != null) {
+                        mWiseFyPrerequisites.getWifiManager().disconnect();
+                        mWiseFyPrerequisites.getWifiManager().enableNetwork(wifiConfiguration.networkId, true);
+                        mWiseFyPrerequisites.getWifiManager().reconnect();
+                        boolean connected = mWiseFyConnection.waitToConnectToSSID(ssidToConnectTo, timeoutInMillis);
+                        if (callbacks != null) {
+                            if (connected) {
+                                callbacks.connectedToNetwork();
+                            } else {
+                                callbacks.failureConnectingToNetwork();
+                            }
+                        }
+                        return;
+                    }
+
+                    if (callbacks != null) {
+                        callbacks.networkNotFoundToConnectTo();
+                    }
                 }
             }
         };
@@ -626,19 +638,21 @@ public class WiseFy {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if (!mWiseFyPrerequisites.hasPrerequisites()) {
-                    if (callbacks != null) {
-                        callbacks.disableWifiWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+                synchronized (mWiseFyLock) {
+                    if (!mWiseFyPrerequisites.hasPrerequisites()) {
+                        if (callbacks != null) {
+                            callbacks.disableWifiWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+                        }
+                        return;
                     }
-                    return;
-                }
 
-                boolean result = mWiseFyPrerequisites.getWifiManager().setWifiEnabled(false);
-                if (callbacks != null) {
-                    if (result) {
-                        callbacks.wifiDisabled();
-                    } else {
-                        callbacks.failureDisablingWifi();
+                    boolean result = mWiseFyPrerequisites.getWifiManager().setWifiEnabled(false);
+                    if (callbacks != null) {
+                        if (result) {
+                            callbacks.wifiDisabled();
+                        } else {
+                            callbacks.failureDisablingWifi();
+                        }
                     }
                 }
             }
@@ -677,19 +691,21 @@ public class WiseFy {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if (!mWiseFyPrerequisites.hasPrerequisites()) {
-                    if (callbacks != null) {
-                        callbacks.disconnectFromCurrentNetworkWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+                synchronized (mWiseFyLock) {
+                    if (!mWiseFyPrerequisites.hasPrerequisites()) {
+                        if (callbacks != null) {
+                            callbacks.disconnectFromCurrentNetworkWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+                        }
+                        return;
                     }
-                    return;
-                }
 
-                boolean result = mWiseFyPrerequisites.getWifiManager().disconnect();
-                if (callbacks != null) {
-                    if (result) {
-                        callbacks.disconnectedFromCurrentNetwork();
-                    } else {
-                        callbacks.failureDisconnectingFromCurrentNetwork();
+                    boolean result = mWiseFyPrerequisites.getWifiManager().disconnect();
+                    if (callbacks != null) {
+                        if (result) {
+                            callbacks.disconnectedFromCurrentNetwork();
+                        } else {
+                            callbacks.failureDisconnectingFromCurrentNetwork();
+                        }
                     }
                 }
             }
@@ -704,14 +720,26 @@ public class WiseFy {
      */
     public void dump() {
         if (mWiseFyHandlerThread != null) {
-            mWiseFyHandlerThread.interrupt();
-            mWiseFyHandlerThread.quit();
-            mWiseFyHandlerThread = null;
-            if (LogUtil.isLoggable(TAG, Log.DEBUG, mWiseFyConfiguration.isLoggingEnabled())) {
-                Log.d(TAG, String.format("Cleaning up WiseFy Thread. Thread value: %s, Handler value: %s", mWiseFyHandlerThread, mWiseFyHandler));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                mWiseFyHandlerThread.quitSafely();
+            } else {
+                mWiseFyHandlerThread.quit();
             }
+            if (mWiseFyHandlerThread.isAlive()) {
+                if (LogUtil.isLoggable(TAG, Log.WARN, mWiseFyConfiguration.isLoggingEnabled())) {
+                    Log.w(TAG, String.format("WiseFy Thread is still alive.  Current status: isAlive(): %b, getState(): %s", mWiseFyHandlerThread.isAlive(), mWiseFyHandlerThread.getState()));
+                }
+                mWiseFyHandlerThread.interrupt();
+            }
+            if (LogUtil.isLoggable(TAG, Log.DEBUG, mWiseFyConfiguration.isLoggingEnabled())) {
+                Log.d(TAG, String.format("WiseFy Thread isAlive(): %b, getState(): %s", mWiseFyHandlerThread.isAlive(), mWiseFyHandlerThread.getState()));
+            }
+            mWiseFyHandlerThread = null;
         }
         mWiseFyHandler = null;
+        if (LogUtil.isLoggable(TAG, Log.DEBUG, mWiseFyConfiguration.isLoggingEnabled())) {
+            Log.d(TAG, String.format("Cleaned up WiseFy Thread. Thread value: %s, Handler value: %s", mWiseFyHandlerThread, mWiseFyHandler));
+        }
     }
 
     /**
@@ -745,19 +773,21 @@ public class WiseFy {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if (!mWiseFyPrerequisites.hasPrerequisites()) {
-                    if (callbacks != null) {
-                        callbacks.enableWifiWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+                synchronized (mWiseFyLock) {
+                    if (!mWiseFyPrerequisites.hasPrerequisites()) {
+                        if (callbacks != null) {
+                            callbacks.enableWifiWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+                        }
+                        return;
                     }
-                    return;
-                }
 
-                boolean result = mWiseFyPrerequisites.getWifiManager().setWifiEnabled(true);
-                if (callbacks != null) {
-                    if (result) {
-                        callbacks.wifiEnabled();
-                    } else {
-                        callbacks.failureEnablingWifi();
+                    boolean result = mWiseFyPrerequisites.getWifiManager().setWifiEnabled(true);
+                    if (callbacks != null) {
+                        if (result) {
+                            callbacks.wifiEnabled();
+                        } else {
+                            callbacks.failureEnablingWifi();
+                        }
                     }
                 }
             }
@@ -799,15 +829,17 @@ public class WiseFy {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if (!mWiseFyPrerequisites.hasPrerequisites()) {
-                    if (callbacks != null) {
-                        callbacks.getCurrentNetworkWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+                synchronized (mWiseFyLock) {
+                    if (!mWiseFyPrerequisites.hasPrerequisites()) {
+                        if (callbacks != null) {
+                            callbacks.getCurrentNetworkWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+                        }
+                        return;
                     }
-                    return;
-                }
 
-                if (callbacks != null) {
-                    callbacks.retrievedCurrentNetwork(mWiseFyPrerequisites.getWifiManager().getConnectionInfo());
+                    if (callbacks != null) {
+                        callbacks.retrievedCurrentNetwork(mWiseFyPrerequisites.getWifiManager().getConnectionInfo());
+                    }
                 }
             }
         };
@@ -848,12 +880,14 @@ public class WiseFy {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                WifiInfo currentNetwork = getCurrentNetwork();
-                if (callbacks != null) {
-                    if (currentNetwork != null) {
-                        callbacks.retrievedFrequency(currentNetwork.getFrequency());
-                    } else {
-                        callbacks.failureGettingFrequency();
+                synchronized (mWiseFyLock) {
+                    WifiInfo currentNetwork = getCurrentNetwork();
+                    if (callbacks != null) {
+                        if (currentNetwork != null) {
+                            callbacks.retrievedFrequency(currentNetwork.getFrequency());
+                        } else {
+                            callbacks.failureGettingFrequency();
+                        }
                     }
                 }
             }
@@ -895,13 +929,15 @@ public class WiseFy {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if (network != null) {
-                    if (callbacks != null) {
-                        callbacks.retrievedFrequency(network.getFrequency());
+                synchronized (mWiseFyLock) {
+                    if (network != null) {
+                        if (callbacks != null) {
+                            callbacks.retrievedFrequency(network.getFrequency());
+                        }
                     }
-                }
-                if (callbacks != null) {
-                    callbacks.getFrequencyWiseFyFailure(WiseFyCodes.MISSING_PARAMETER);
+                    if (callbacks != null) {
+                        callbacks.getFrequencyWiseFyFailure(WiseFyCodes.MISSING_PARAMETER);
+                    }
                 }
             }
         };
@@ -957,19 +993,21 @@ public class WiseFy {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if (!mWiseFyPrerequisites.hasPrerequisites()) {
-                    if (callbacks != null) {
-                        callbacks.getNearbyAccessPointsWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+                synchronized (mWiseFyLock) {
+                    if (!mWiseFyPrerequisites.hasPrerequisites()) {
+                        if (callbacks != null) {
+                            callbacks.getNearbyAccessPointsWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+                        }
+                        return;
                     }
-                    return;
-                }
 
-                mWiseFyPrerequisites.getWifiManager().startScan();
-                if (callbacks != null) {
-                    if (filterDuplicates) {
-                        callbacks.retrievedNearbyAccessPoints(mWiseFySearch.removeEntriesWithLowerSignalStrength(mWiseFyPrerequisites.getWifiManager().getScanResults()));
-                    } else {
-                        callbacks.retrievedNearbyAccessPoints(mWiseFyPrerequisites.getWifiManager().getScanResults());
+                    mWiseFyPrerequisites.getWifiManager().startScan();
+                    if (callbacks != null) {
+                        if (filterDuplicates) {
+                            callbacks.retrievedNearbyAccessPoints(mWiseFySearch.removeEntriesWithLowerSignalStrength(mWiseFyPrerequisites.getWifiManager().getScanResults()));
+                        } else {
+                            callbacks.retrievedNearbyAccessPoints(mWiseFyPrerequisites.getWifiManager().getScanResults());
+                        }
                     }
                 }
             }
@@ -1029,26 +1067,28 @@ public class WiseFy {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if (TextUtils.isEmpty(regexForSSID)) {
-                    if (callbacks != null) {
-                        callbacks.getRSSIWiseFyFailure(WiseFyCodes.MISSING_PARAMETER);
+                synchronized (mWiseFyLock) {
+                    if (TextUtils.isEmpty(regexForSSID)) {
+                        if (callbacks != null) {
+                            callbacks.getRSSIWiseFyFailure(WiseFyCodes.MISSING_PARAMETER);
+                        }
+                        return;
                     }
-                    return;
-                }
 
-                if (!mWiseFyPrerequisites.hasPrerequisites()) {
-                    if (callbacks != null) {
-                        callbacks.getRSSIWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+                    if (!mWiseFyPrerequisites.hasPrerequisites()) {
+                        if (callbacks != null) {
+                            callbacks.getRSSIWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+                        }
+                        return;
                     }
-                    return;
-                }
 
-                ScanResult accessPoint = mWiseFySearch.findAccessPointByRegex(regexForSSID, timeoutInMillis, takeHighest);
-                if (callbacks != null) {
-                    if (accessPoint != null) {
-                        callbacks.retrievedRSSI(accessPoint.level);
-                    } else {
-                        callbacks.networkNotFoundToRetrieveRSSI();
+                    ScanResult accessPoint = mWiseFySearch.findAccessPointByRegex(regexForSSID, timeoutInMillis, takeHighest);
+                    if (callbacks != null) {
+                        if (accessPoint != null) {
+                            callbacks.retrievedRSSI(accessPoint.level);
+                        } else {
+                            callbacks.networkNotFoundToRetrieveRSSI();
+                        }
                     }
                 }
             }
@@ -1093,26 +1133,28 @@ public class WiseFy {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if (TextUtils.isEmpty(regexForSSID)) {
-                    if (callbacks != null) {
-                        callbacks.getSavedNetworkWiseFyFailure(WiseFyCodes.MISSING_PARAMETER);
+                synchronized (mWiseFyLock) {
+                    if (TextUtils.isEmpty(regexForSSID)) {
+                        if (callbacks != null) {
+                            callbacks.getSavedNetworkWiseFyFailure(WiseFyCodes.MISSING_PARAMETER);
+                        }
+                        return;
                     }
-                    return;
-                }
 
-                if (!mWiseFyPrerequisites.hasPrerequisites()) {
-                    if (callbacks != null) {
-                        callbacks.getSavedNetworkWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+                    if (!mWiseFyPrerequisites.hasPrerequisites()) {
+                        if (callbacks != null) {
+                            callbacks.getSavedNetworkWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+                        }
+                        return;
                     }
-                    return;
-                }
 
-                WifiConfiguration savedNetwork = mWiseFySearch.findSavedNetworkByRegex(regexForSSID);
-                if (callbacks != null) {
-                    if (savedNetwork != null) {
-                        callbacks.retrievedSavedNetwork(savedNetwork);
-                    } else {
-                        callbacks.savedNetworkNotFound();
+                    WifiConfiguration savedNetwork = mWiseFySearch.findSavedNetworkByRegex(regexForSSID);
+                    if (callbacks != null) {
+                        if (savedNetwork != null) {
+                            callbacks.retrievedSavedNetwork(savedNetwork);
+                        } else {
+                            callbacks.savedNetworkNotFound();
+                        }
                     }
                 }
             }
@@ -1154,19 +1196,21 @@ public class WiseFy {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if (!mWiseFyPrerequisites.hasPrerequisites()) {
-                    if (callbacks != null) {
-                        callbacks.getSavedNetworksWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+                synchronized (mWiseFyLock) {
+                    if (!mWiseFyPrerequisites.hasPrerequisites()) {
+                        if (callbacks != null) {
+                            callbacks.getSavedNetworksWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+                        }
+                        return;
                     }
-                    return;
-                }
 
-                if (callbacks != null) {
                     List<WifiConfiguration> savedNetworks = mWiseFyPrerequisites.getWifiManager().getConfiguredNetworks();
-                    if (savedNetworks != null && savedNetworks.size() > 0) {
-                        callbacks.retrievedSavedNetworks(savedNetworks);
-                    } else {
-                        callbacks.noSavedNetworksFound();
+                    if (callbacks != null) {
+                        if (savedNetworks != null && savedNetworks.size() > 0) {
+                            callbacks.retrievedSavedNetworks(savedNetworks);
+                        } else {
+                            callbacks.noSavedNetworksFound();
+                        }
                     }
                 }
             }
@@ -1208,24 +1252,37 @@ public class WiseFy {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if (!mWiseFyPrerequisites.hasPrerequisites()) {
-                    if (callbacks != null) {
-                        callbacks.getSavedNetworksWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+                synchronized (mWiseFyLock) {
+                    if (!mWiseFyPrerequisites.hasPrerequisites()) {
+                        if (callbacks != null) {
+                            callbacks.getSavedNetworksWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+                        }
+                        return;
                     }
-                    return;
-                }
 
-                if (callbacks != null) {
-                    List<WifiConfiguration> savedNetworks = mWiseFySearch.findSavedNetworksMatchingRegex(regexForSSID);
-                    if (savedNetworks != null && savedNetworks.size() > 0) {
-                        callbacks.retrievedSavedNetworks(savedNetworks);
-                    } else {
-                        callbacks.noSavedNetworksFound();
+                    if (callbacks != null) {
+                        List<WifiConfiguration> savedNetworks = mWiseFySearch.findSavedNetworksMatchingRegex(regexForSSID);
+                        if (savedNetworks != null && savedNetworks.size() > 0) {
+                            callbacks.retrievedSavedNetworks(savedNetworks);
+                        } else {
+                            callbacks.noSavedNetworksFound();
+                        }
                     }
                 }
             }
         };
         execute(runnable);
+    }
+
+    /**
+     * To retrieve the lock in use by WiseFy for synchronization
+     *
+     * @see WiseFyLock
+     *
+     * @return WiseFyLock - The instance of the lock in use by WiseFy
+     */
+    public WiseFyLock getWiseFyLock() {
+        return mWiseFyLock;
     }
 
     /**
@@ -1561,41 +1618,43 @@ public class WiseFy {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if (TextUtils.isEmpty(ssidToRemove)) {
-                    if (callbacks != null) {
-                        callbacks.removeNetworkWiseFyFailure(WiseFyCodes.MISSING_PARAMETER);
-                    }
-                    return;
-                }
-
-                if (!mWiseFyPrerequisites.hasPrerequisites()) {
-                    if (callbacks != null) {
-                        callbacks.removeNetworkWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
-                    }
-                    return;
-                }
-
-                WifiConfiguration wifiConfiguration = mWiseFySearch.findSavedNetworkByRegex(ssidToRemove);
-                if (wifiConfiguration != null) {
-                    mWiseFyPrerequisites.getWifiManager().disconnect();
-                    boolean result = mWiseFyPrerequisites.getWifiManager().removeNetwork(wifiConfiguration.networkId);
-                    if (LogUtil.isLoggable(TAG, Log.DEBUG, mWiseFyConfiguration.isLoggingEnabled())) {
-                        Log.d(TAG, String.format("Removing network: %s had result: %b", ssidToRemove, result));
-                    }
-                    mWiseFyPrerequisites.getWifiManager().reconnect();
-                    if (callbacks != null) {
-                        if (result) {
-                            callbacks.networkRemoved();
-                        } else {
-                            callbacks.failureRemovingNetwork();
+                synchronized (mWiseFyLock) {
+                    if (TextUtils.isEmpty(ssidToRemove)) {
+                        if (callbacks != null) {
+                            callbacks.removeNetworkWiseFyFailure(WiseFyCodes.MISSING_PARAMETER);
                         }
+                        return;
                     }
-                } else {
-                    if (LogUtil.isLoggable(TAG, Log.WARN, mWiseFyConfiguration.isLoggingEnabled())) {
-                        Log.w(TAG, String.format("SSID to remove: %s was not found in list to remove network", ssidToRemove));
+
+                    if (!mWiseFyPrerequisites.hasPrerequisites()) {
+                        if (callbacks != null) {
+                            callbacks.removeNetworkWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+                        }
+                        return;
                     }
-                    if (callbacks != null) {
-                        callbacks.networkNotFoundToRemove();
+
+                    WifiConfiguration wifiConfiguration = mWiseFySearch.findSavedNetworkByRegex(ssidToRemove);
+                    if (wifiConfiguration != null) {
+                        mWiseFyPrerequisites.getWifiManager().disconnect();
+                        boolean result = mWiseFyPrerequisites.getWifiManager().removeNetwork(wifiConfiguration.networkId);
+                        if (LogUtil.isLoggable(TAG, Log.DEBUG, mWiseFyConfiguration.isLoggingEnabled())) {
+                            Log.d(TAG, String.format("Removing network: %s had result: %b", ssidToRemove, result));
+                        }
+                        mWiseFyPrerequisites.getWifiManager().reconnect();
+                        if (callbacks != null) {
+                            if (result) {
+                                callbacks.networkRemoved();
+                            } else {
+                                callbacks.failureRemovingNetwork();
+                            }
+                        }
+                    } else {
+                        if (LogUtil.isLoggable(TAG, Log.WARN, mWiseFyConfiguration.isLoggingEnabled())) {
+                            Log.w(TAG, String.format("SSID to remove: %s was not found in list to remove network", ssidToRemove));
+                        }
+                        if (callbacks != null) {
+                            callbacks.networkNotFoundToRemove();
+                        }
                     }
                 }
             }
@@ -1652,26 +1711,28 @@ public class WiseFy {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if (TextUtils.isEmpty(regexForSSID)) {
-                    if (callbacks != null) {
-                        callbacks.searchForAccessPointWiseFyFailure(WiseFyCodes.MISSING_PARAMETER);
+                synchronized (mWiseFyLock) {
+                    if (TextUtils.isEmpty(regexForSSID)) {
+                        if (callbacks != null) {
+                            callbacks.searchForAccessPointWiseFyFailure(WiseFyCodes.MISSING_PARAMETER);
+                        }
+                        return;
                     }
-                    return;
-                }
 
-                if (!mWiseFyPrerequisites.hasPrerequisites()) {
-                    if (callbacks != null) {
-                        callbacks.searchForAccessPointWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+                    if (!mWiseFyPrerequisites.hasPrerequisites()) {
+                        if (callbacks != null) {
+                            callbacks.searchForAccessPointWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+                        }
+                        return;
                     }
-                    return;
-                }
 
-                ScanResult scanResult = mWiseFySearch.findAccessPointByRegex(regexForSSID, timeoutInMillis, filterDuplicates);
-                if (callbacks != null) {
-                    if (scanResult != null) {
-                        callbacks.accessPointFound(scanResult);
-                    } else {
-                        callbacks.accessPointNotFound();
+                    ScanResult scanResult = mWiseFySearch.findAccessPointByRegex(regexForSSID, timeoutInMillis, filterDuplicates);
+                    if (callbacks != null) {
+                        if (scanResult != null) {
+                            callbacks.accessPointFound(scanResult);
+                        } else {
+                            callbacks.accessPointNotFound();
+                        }
                     }
                 }
             }
@@ -1723,26 +1784,28 @@ public class WiseFy {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if (TextUtils.isEmpty(regexForSSID)) {
-                    if (callbacks != null) {
-                        callbacks.searchForAccessPointsWiseFyFailure(WiseFyCodes.MISSING_PARAMETER);
+                synchronized (mWiseFyLock) {
+                    if (TextUtils.isEmpty(regexForSSID)) {
+                        if (callbacks != null) {
+                            callbacks.searchForAccessPointsWiseFyFailure(WiseFyCodes.MISSING_PARAMETER);
+                        }
+                        return;
                     }
-                    return;
-                }
 
-                if (!mWiseFyPrerequisites.hasPrerequisites()) {
-                    if (callbacks != null) {
-                        callbacks.searchForAccessPointsWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+                    if (!mWiseFyPrerequisites.hasPrerequisites()) {
+                        if (callbacks != null) {
+                            callbacks.searchForAccessPointsWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+                        }
+                        return;
                     }
-                    return;
-                }
 
-                List<ScanResult> networks = mWiseFySearch.findAccessPointsMatchingRegex(regexForSSID, filterDuplicates);
-                if (callbacks != null) {
-                    if (networks != null) {
-                        callbacks.foundAccessPoints(networks);
-                    } else {
-                        callbacks.noAccessPointsFound();
+                    List<ScanResult> networks = mWiseFySearch.findAccessPointsMatchingRegex(regexForSSID, filterDuplicates);
+                    if (callbacks != null) {
+                        if (networks != null) {
+                            callbacks.foundAccessPoints(networks);
+                        } else {
+                            callbacks.noAccessPointsFound();
+                        }
                     }
                 }
             }
@@ -1795,26 +1858,28 @@ public class WiseFy {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if (TextUtils.isEmpty(regexForSSID)) {
-                    if (callbacks != null) {
-                        callbacks.searchForSSIDWiseFyFailure(WiseFyCodes.MISSING_PARAMETER);
+                synchronized (mWiseFyLock) {
+                    if (TextUtils.isEmpty(regexForSSID)) {
+                        if (callbacks != null) {
+                            callbacks.searchForSSIDWiseFyFailure(WiseFyCodes.MISSING_PARAMETER);
+                        }
+                        return;
                     }
-                    return;
-                }
 
-                if (!mWiseFyPrerequisites.hasPrerequisites()) {
-                    if (callbacks != null) {
-                        callbacks.searchForSSIDWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+                    if (!mWiseFyPrerequisites.hasPrerequisites()) {
+                        if (callbacks != null) {
+                            callbacks.searchForSSIDWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+                        }
+                        return;
                     }
-                    return;
-                }
 
-                ScanResult scanResult = mWiseFySearch.findAccessPointByRegex(regexForSSID, timeoutInMillis, false);
-                if (callbacks != null) {
-                    if (scanResult != null) {
-                        callbacks.ssidFound(scanResult.SSID);
-                    } else {
-                        callbacks.ssidNotFound();
+                    ScanResult scanResult = mWiseFySearch.findAccessPointByRegex(regexForSSID, timeoutInMillis, false);
+                    if (callbacks != null) {
+                        if (scanResult != null) {
+                            callbacks.ssidFound(scanResult.SSID);
+                        } else {
+                            callbacks.ssidNotFound();
+                        }
                     }
                 }
             }
@@ -1860,26 +1925,28 @@ public class WiseFy {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if (TextUtils.isEmpty(regexForSSID)) {
-                    if (callbacks != null) {
-                        callbacks.searchForSSIDsWiseFyFailure(WiseFyCodes.MISSING_PARAMETER);
+                synchronized (mWiseFyLock) {
+                    if (TextUtils.isEmpty(regexForSSID)) {
+                        if (callbacks != null) {
+                            callbacks.searchForSSIDsWiseFyFailure(WiseFyCodes.MISSING_PARAMETER);
+                        }
+                        return;
                     }
-                    return;
-                }
 
-                if (!mWiseFyPrerequisites.hasPrerequisites()) {
-                    if (callbacks != null) {
-                        callbacks.searchForSSIDsWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+                    if (!mWiseFyPrerequisites.hasPrerequisites()) {
+                        if (callbacks != null) {
+                            callbacks.searchForSSIDsWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+                        }
+                        return;
                     }
-                    return;
-                }
 
-                List<String> ssids = mWiseFySearch.findSSIDsMatchingRegex(regexForSSID);
-                if (callbacks != null) {
-                    if (ssids != null) {
-                        callbacks.retrievedSSIDs(ssids);
-                    } else {
-                        callbacks.noSSIDsFound();
+                    List<String> ssids = mWiseFySearch.findSSIDsMatchingRegex(regexForSSID);
+                    if (callbacks != null) {
+                        if (ssids != null) {
+                            callbacks.retrievedSSIDs(ssids);
+                        } else {
+                            callbacks.noSSIDsFound();
+                        }
                     }
                 }
             }

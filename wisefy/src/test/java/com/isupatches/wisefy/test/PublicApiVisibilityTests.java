@@ -391,6 +391,12 @@ public class PublicApiVisibilityTests {
     }
 
     @Test
+    public void getWiseFyLock_api() {
+        mWiseFy.getWiseFyLock();
+        verify(mWiseFy).getWiseFyLock();
+    }
+
+    @Test
     public void isDeviceConnectedToMobileNetwork_apis() {
         mWiseFy.isDeviceConnectedToMobileNetwork();
         verify(mWiseFy).isDeviceConnectedToMobileNetwork();

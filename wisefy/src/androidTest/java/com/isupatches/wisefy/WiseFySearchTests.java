@@ -9,6 +9,7 @@ import java.util.List;
 import static com.isupatches.wisefy.base.TestUtils.TEST_SSID;
 import static com.isupatches.wisefy.base.TestUtils.TEST_SSID2;
 import static com.isupatches.wisefy.base.TestUtils.TEST_SSID3;
+import static com.isupatches.wisefy.base.TestUtils.TEST_TIMEOUT;
 import static junit.framework.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -24,25 +25,25 @@ public class WiseFySearchTests extends BaseAndroidJUnit4TestClass {
     @Test
     public void findAccessPointByRegex_failure_nullAccessPoints_takeHighest_false() {
         when(mMockWiFiManager.getScanResults()).thenReturn(null);
-        assertEquals(null, mWiseFy.mWiseFySearch.findAccessPointByRegex(TEST_SSID, 1000, false));
+        assertEquals(null, mWiseFy.mWiseFySearch.findAccessPointByRegex(TEST_SSID, TEST_TIMEOUT, false));
     }
 
     @Test
     public void findAccessPointByRegex_failure_nullAccessPoints_takeHighest_true() {
         when(mMockWiFiManager.getScanResults()).thenReturn(null);
-        assertEquals(null, mWiseFy.mWiseFySearch.findAccessPointByRegex(TEST_SSID, 1000, true));
+        assertEquals(null, mWiseFy.mWiseFySearch.findAccessPointByRegex(TEST_SSID, TEST_TIMEOUT, true));
     }
 
     @Test
     public void findAccessPointByRegex_failure_emptyAccessPointList_takeHighest_false() {
         when(mMockWiFiManager.getScanResults()).thenReturn(new ArrayList<ScanResult>());
-        assertEquals(null, mWiseFy.mWiseFySearch.findAccessPointByRegex(TEST_SSID, 1000, false));
+        assertEquals(null, mWiseFy.mWiseFySearch.findAccessPointByRegex(TEST_SSID, TEST_TIMEOUT, false));
     }
 
     @Test
     public void findAccessPointByRegex_failure_emptyAccessPointList_takeHighest_true() {
         when(mMockWiFiManager.getScanResults()).thenReturn(new ArrayList<ScanResult>());
-        assertEquals(null, mWiseFy.mWiseFySearch.findAccessPointByRegex(TEST_SSID, 1000, true));
+        assertEquals(null, mWiseFy.mWiseFySearch.findAccessPointByRegex(TEST_SSID, TEST_TIMEOUT, true));
     }
 
     @Test
@@ -51,7 +52,7 @@ public class WiseFySearchTests extends BaseAndroidJUnit4TestClass {
         accessPoints.add(null);
 
         when(mMockWiFiManager.getScanResults()).thenReturn(accessPoints);
-        assertEquals(null, mWiseFy.mWiseFySearch.findAccessPointByRegex(TEST_SSID, 1000, false));
+        assertEquals(null, mWiseFy.mWiseFySearch.findAccessPointByRegex(TEST_SSID, TEST_TIMEOUT, false));
     }
 
     @Test
@@ -60,7 +61,7 @@ public class WiseFySearchTests extends BaseAndroidJUnit4TestClass {
         accessPoints.add(null);
 
         when(mMockWiFiManager.getScanResults()).thenReturn(accessPoints);
-        assertEquals(null, mWiseFy.mWiseFySearch.findAccessPointByRegex(TEST_SSID, 1000, true));
+        assertEquals(null, mWiseFy.mWiseFySearch.findAccessPointByRegex(TEST_SSID, TEST_TIMEOUT, true));
     }
 
     @Test
@@ -72,7 +73,7 @@ public class WiseFySearchTests extends BaseAndroidJUnit4TestClass {
         accessPoints.add(accessPoint);
 
         when(mMockWiFiManager.getScanResults()).thenReturn(accessPoints);
-        assertEquals(null, mWiseFy.mWiseFySearch.findAccessPointByRegex(TEST_SSID, 1000, false));
+        assertEquals(null, mWiseFy.mWiseFySearch.findAccessPointByRegex(TEST_SSID, TEST_TIMEOUT, false));
     }
 
     @Test
@@ -84,7 +85,7 @@ public class WiseFySearchTests extends BaseAndroidJUnit4TestClass {
         accessPoints.add(accessPoint);
 
         when(mMockWiFiManager.getScanResults()).thenReturn(accessPoints);
-        assertEquals(null, mWiseFy.mWiseFySearch.findAccessPointByRegex(TEST_SSID, 1000, true));
+        assertEquals(null, mWiseFy.mWiseFySearch.findAccessPointByRegex(TEST_SSID, TEST_TIMEOUT, true));
     }
 
     @Test
@@ -96,7 +97,7 @@ public class WiseFySearchTests extends BaseAndroidJUnit4TestClass {
         accessPoints.add(accessPoint);
 
         when(mMockWiFiManager.getScanResults()).thenReturn(accessPoints);
-        assertEquals(null, mWiseFy.mWiseFySearch.findAccessPointByRegex(TEST_SSID, 1000, false));
+        assertEquals(null, mWiseFy.mWiseFySearch.findAccessPointByRegex(TEST_SSID, TEST_TIMEOUT, false));
     }
 
     @Test
@@ -108,7 +109,7 @@ public class WiseFySearchTests extends BaseAndroidJUnit4TestClass {
         accessPoints.add(accessPoint);
 
         when(mMockWiFiManager.getScanResults()).thenReturn(accessPoints);
-        assertEquals(null, mWiseFy.mWiseFySearch.findAccessPointByRegex(TEST_SSID, 1000, true));
+        assertEquals(null, mWiseFy.mWiseFySearch.findAccessPointByRegex(TEST_SSID, TEST_TIMEOUT, true));
     }
 
     @Test
@@ -124,7 +125,7 @@ public class WiseFySearchTests extends BaseAndroidJUnit4TestClass {
         accessPoints.add(accessPoint2);
 
         when(mMockWiFiManager.getScanResults()).thenReturn(accessPoints);
-        assertEquals(null, mWiseFy.mWiseFySearch.findAccessPointByRegex(TEST_SSID, 1000, false));
+        assertEquals(null, mWiseFy.mWiseFySearch.findAccessPointByRegex(TEST_SSID, TEST_TIMEOUT, false));
     }
 
     @Test
@@ -140,7 +141,7 @@ public class WiseFySearchTests extends BaseAndroidJUnit4TestClass {
         accessPoints.add(accessPoint2);
 
         when(mMockWiFiManager.getScanResults()).thenReturn(accessPoints);
-        assertEquals(null, mWiseFy.mWiseFySearch.findAccessPointByRegex(TEST_SSID, 1000, true));
+        assertEquals(null, mWiseFy.mWiseFySearch.findAccessPointByRegex(TEST_SSID, TEST_TIMEOUT, true));
     }
 
     @Test
@@ -152,7 +153,7 @@ public class WiseFySearchTests extends BaseAndroidJUnit4TestClass {
         accessPoints.add(accessPoint);
 
         when(mMockWiFiManager.getScanResults()).thenReturn(accessPoints);
-        assertEquals(accessPoint, mWiseFy.mWiseFySearch.findAccessPointByRegex(TEST_SSID, 1000, false));
+        assertEquals(accessPoint, mWiseFy.mWiseFySearch.findAccessPointByRegex(TEST_SSID, TEST_TIMEOUT, false));
     }
 
     @Test
@@ -164,7 +165,7 @@ public class WiseFySearchTests extends BaseAndroidJUnit4TestClass {
         accessPoints.add(accessPoint);
 
         when(mMockWiFiManager.getScanResults()).thenReturn(accessPoints);
-        assertEquals(accessPoint, mWiseFy.mWiseFySearch.findAccessPointByRegex(TEST_SSID, 1000, true));
+        assertEquals(accessPoint, mWiseFy.mWiseFySearch.findAccessPointByRegex(TEST_SSID, TEST_TIMEOUT, true));
     }
 
     @Test
@@ -182,7 +183,7 @@ public class WiseFySearchTests extends BaseAndroidJUnit4TestClass {
         accessPoints.add(accessPoint2);
 
         when(mMockWiFiManager.getScanResults()).thenReturn(accessPoints);
-        assertEquals(accessPoint1, mWiseFy.mWiseFySearch.findAccessPointByRegex(TEST_SSID, 1000, false));
+        assertEquals(accessPoint1, mWiseFy.mWiseFySearch.findAccessPointByRegex(TEST_SSID, TEST_TIMEOUT, false));
     }
 
     @Test
@@ -200,7 +201,7 @@ public class WiseFySearchTests extends BaseAndroidJUnit4TestClass {
         accessPoints.add(accessPoint2);
 
         when(mMockWiFiManager.getScanResults()).thenReturn(accessPoints);
-        assertEquals(accessPoint1, mWiseFy.mWiseFySearch.findAccessPointByRegex(TEST_SSID, 1000, true));
+        assertEquals(accessPoint1, mWiseFy.mWiseFySearch.findAccessPointByRegex(TEST_SSID, TEST_TIMEOUT, true));
     }
 
     @Test
@@ -218,7 +219,7 @@ public class WiseFySearchTests extends BaseAndroidJUnit4TestClass {
         accessPoints.add(accessPoint2);
 
         when(mMockWiFiManager.getScanResults()).thenReturn(accessPoints);
-        assertEquals(accessPoint1, mWiseFy.mWiseFySearch.findAccessPointByRegex(TEST_SSID, 1000, false));
+        assertEquals(accessPoint1, mWiseFy.mWiseFySearch.findAccessPointByRegex(TEST_SSID, TEST_TIMEOUT, false));
     }
 
     @Test
@@ -236,7 +237,7 @@ public class WiseFySearchTests extends BaseAndroidJUnit4TestClass {
         accessPoints.add(accessPoint2);
 
         when(mMockWiFiManager.getScanResults()).thenReturn(accessPoints);
-        assertEquals(accessPoint2, mWiseFy.mWiseFySearch.findAccessPointByRegex(TEST_SSID, 1000, true));
+        assertEquals(accessPoint2, mWiseFy.mWiseFySearch.findAccessPointByRegex(TEST_SSID, TEST_TIMEOUT, true));
     }
 
     /*

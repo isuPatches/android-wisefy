@@ -11,13 +11,13 @@ Wifi configuration and util library built for Android.
 ## What's New in 2.x
 
 - Asynchronous API
-    - Certain methods have callbacks and are run on background thread
-- Ability search by regex
+    - Certain methods have callbacks and are run on a WiseFy specific background thread
+- Ability to search by regex for:
     - Nearby access points
     - Saved Configurations
     - SSIDs
 - Ability to query for RSSI
-- Ability to query for if device is roaming
+- Ability to query for if the device is roaming
 - Additional methods to query for network security
 - Full fledged documentation directory
 - Tested against Android O
@@ -81,6 +81,16 @@ To grab an instance with logging enabled:
 
 ```java
 WiseFy mWiseFy = new WiseFy.brains(getActivity()).logging(true).getSmarts();
+```
+
+## Cleanup
+
+Since the Async API of WiseFy is run on a background thread, it is necessary to make sure it is exited and cleanup up properly.
+
+To stop the WiseFy thread and nullify it along with it's handler please call:
+
+```java
+mWiseFy.dump();
 ```
 
 ## Permissions

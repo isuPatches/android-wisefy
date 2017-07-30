@@ -26,7 +26,7 @@ import com.isupatches.wisefy.annotations.Internal;
  * @author Patches
  */
 @Internal
-public class SSIDUtil {
+class SSIDUtil {
 
     private static final SSIDUtil SSID_UTIL = new SSIDUtil();
 

@@ -12,8 +12,8 @@ import static com.isupatches.wisefy.base.TestUtils.TEST_SSID;
 import static com.isupatches.wisefy.base.TestUtils.TEST_SSID2;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.fail;
+import static org.mockito.Mockito.after;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -22,21 +22,21 @@ import static org.mockito.Mockito.when;
 public class GetNearbyAccessPointsTests extends BaseAndroidJUnit4TestClass {
 
     @Test
-    public void noCallbacks_failure_missingPrerequisite_filterDuplicates_false() {
+    public void sync_failure_missingPrerequisite_filterDuplicates_false() {
         missingPrerequisite();
         assertEquals(null, mWiseFy.getNearbyAccessPoints(false));
-        verify(mMockWiFiManager, never()).getScanResults();
+        verify(mMockWiFiManager, after(VERIFICATION_FAILURE_TIMEOUT).times(0)).getScanResults();
     }
 
     @Test
-    public void noCallbacks_failure_missingPrerequisite_filterDuplicates_true() {
+    public void sync_failure_missingPrerequisite_filterDuplicates_true() {
         missingPrerequisite();
         assertEquals(null, mWiseFy.getNearbyAccessPoints(true));
-        verify(mMockWiFiManager, never()).getScanResults();
+        verify(mMockWiFiManager, after(VERIFICATION_FAILURE_TIMEOUT).times(0)).getScanResults();
     }
 
     @Test
-    public void noCallbacks_success_filterDuplicates_false() {
+    public void sync_success_filterDuplicates_false() {
         List<ScanResult> scanResults = new ArrayList<>();
         ScanResult scanResult1 = mock(ScanResult.class);
         scanResult1.SSID = TEST_SSID;
@@ -51,11 +51,11 @@ public class GetNearbyAccessPointsTests extends BaseAndroidJUnit4TestClass {
 
         List<ScanResult> accessPoints = mWiseFy.getNearbyAccessPoints(false);
         assertEquals(accessPoints, scanResults);
-        verify(mMockWiFiManager, timeout(VERIFICATION_TIMEOUT)).getScanResults();
+        verify(mMockWiFiManager, timeout(VERIFICATION_SUCCESS_TIMEOUT)).getScanResults();
     }
 
     @Test
-    public void noCallbacks_success_filterDuplicates_true() {
+    public void sync_success_filterDuplicates_true() {
         List<ScanResult> scanResults = new ArrayList<>();
         ScanResult scanResult1 = mock(ScanResult.class);
         scanResult1.SSID = TEST_SSID;
@@ -72,51 +72,51 @@ public class GetNearbyAccessPointsTests extends BaseAndroidJUnit4TestClass {
 
         List<ScanResult> accessPoints = mWiseFy.getNearbyAccessPoints(true);
         assertEquals(accessPoints, scanResults);
-        verify(mMockWiFiManager, timeout(VERIFICATION_TIMEOUT)).getScanResults();
+        verify(mMockWiFiManager, timeout(VERIFICATION_SUCCESS_TIMEOUT)).getScanResults();
     }
 
     @Test
-    public void callbacks_failure_missingPrerequisite_filterDuplicates_false() {
+    public void async_failure_missingPrerequisite_filterDuplicates_false() {
         missingPrerequisite();
         GetNearbyAccessPointsCallbacks mockCallbacks = mock(GetNearbyAccessPointsCallbacks.class);
         mWiseFy.getNearbyAccessPoints(false, mockCallbacks);
-        verify(mockCallbacks, timeout(VERIFICATION_TIMEOUT)).getNearbyAccessPointsWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
-        verify(mMockWiFiManager, never()).getScanResults();
+        verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).getNearbyAccessPointsWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+        verify(mMockWiFiManager, after(VERIFICATION_FAILURE_TIMEOUT).times(0)).getScanResults();
     }
 
     @Test
-    public void callbacks_failure_missingPrerequisite_filterDuplicates_false_nullCallback() {
+    public void async_failure_missingPrerequisite_filterDuplicates_false_nullCallback() {
         missingPrerequisite();
         try {
             mWiseFy.getNearbyAccessPoints(false, null);
-            verify(mMockWiFiManager, never()).getScanResults();
+            verify(mMockWiFiManager, after(VERIFICATION_FAILURE_TIMEOUT).times(0)).getScanResults();
         } catch (NullPointerException npe) {
             fail();
         }
     }
 
     @Test
-    public void callbacks_failure_missingPrerequisite_filterDuplicates_true() {
+    public void async_failure_missingPrerequisite_filterDuplicates_true() {
         missingPrerequisite();
         GetNearbyAccessPointsCallbacks mockCallbacks = mock(GetNearbyAccessPointsCallbacks.class);
         mWiseFy.getNearbyAccessPoints(true, mockCallbacks);
-        verify(mockCallbacks, timeout(3000)).getNearbyAccessPointsWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
-        verify(mMockWiFiManager, never()).getScanResults();
+        verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).getNearbyAccessPointsWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+        verify(mMockWiFiManager, after(VERIFICATION_FAILURE_TIMEOUT).times(0)).getScanResults();
     }
 
     @Test
-    public void callbacks_failure_missingPrerequisite_filterDuplicates_true_nullCallback() {
+    public void async_failure_missingPrerequisite_filterDuplicates_true_nullCallback() {
         missingPrerequisite();
         try {
             mWiseFy.getNearbyAccessPoints(true, null);
-            verify(mMockWiFiManager, never()).getScanResults();
+            verify(mMockWiFiManager, after(VERIFICATION_FAILURE_TIMEOUT).times(0)).getScanResults();
         } catch (NullPointerException npe) {
             fail();
         }
     }
 
     @Test
-    public void callbacks_success_filterDuplicates_false() {
+    public void async_success_filterDuplicates_false() {
         List<ScanResult> scanResults = new ArrayList<>();
         ScanResult scanResult1 = mock(ScanResult.class);
         scanResult1.SSID = TEST_SSID;
@@ -131,12 +131,12 @@ public class GetNearbyAccessPointsTests extends BaseAndroidJUnit4TestClass {
 
         GetNearbyAccessPointsCallbacks mockCallbacks = mock(GetNearbyAccessPointsCallbacks.class);
         mWiseFy.getNearbyAccessPoints(false, mockCallbacks);
-        verify(mockCallbacks, timeout(VERIFICATION_TIMEOUT)).retrievedNearbyAccessPoints(scanResults);
-        verify(mMockWiFiManager, timeout(VERIFICATION_TIMEOUT)).getScanResults();
+        verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).retrievedNearbyAccessPoints(scanResults);
+        verify(mMockWiFiManager, timeout(VERIFICATION_SUCCESS_TIMEOUT)).getScanResults();
     }
 
     @Test
-    public void callbacks_success_filterDuplicates_false_nullCallback() {
+    public void async_success_filterDuplicates_false_nullCallback() {
         List<ScanResult> scanResults = new ArrayList<>();
         ScanResult scanResult1 = mock(ScanResult.class);
         scanResult1.SSID = TEST_SSID;
@@ -151,14 +151,14 @@ public class GetNearbyAccessPointsTests extends BaseAndroidJUnit4TestClass {
 
         try {
             mWiseFy.getNearbyAccessPoints(false, null);
-            verify(mMockWiFiManager, never()).getScanResults();
+            verify(mMockWiFiManager, after(VERIFICATION_FAILURE_TIMEOUT).times(0)).getScanResults();
         } catch (NullPointerException npe) {
             fail();
         }
     }
 
     @Test
-    public void callbacks_success_filterDuplicates_true() {
+    public void async_success_filterDuplicates_true() {
         List<ScanResult> scanResults = new ArrayList<>();
         ScanResult scanResult1 = mock(ScanResult.class);
         scanResult1.SSID = TEST_SSID;
@@ -175,12 +175,12 @@ public class GetNearbyAccessPointsTests extends BaseAndroidJUnit4TestClass {
 
         GetNearbyAccessPointsCallbacks mockCallbacks = mock(GetNearbyAccessPointsCallbacks.class);
         mWiseFy.getNearbyAccessPoints(true, mockCallbacks);
-        verify(mockCallbacks, timeout(VERIFICATION_TIMEOUT)).retrievedNearbyAccessPoints(scanResults);
-        verify(mMockWiFiManager, timeout(VERIFICATION_TIMEOUT)).getScanResults();
+        verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).retrievedNearbyAccessPoints(scanResults);
+        verify(mMockWiFiManager, timeout(VERIFICATION_SUCCESS_TIMEOUT)).getScanResults();
     }
 
     @Test
-    public void callbacks_success_filterDuplicates_true_nullCallback() {
+    public void async_success_filterDuplicates_true_nullCallback() {
         List<ScanResult> scanResults = new ArrayList<>();
         ScanResult scanResult1 = mock(ScanResult.class);
         scanResult1.SSID = TEST_SSID;
@@ -197,7 +197,7 @@ public class GetNearbyAccessPointsTests extends BaseAndroidJUnit4TestClass {
 
         try {
             mWiseFy.getNearbyAccessPoints(true, null);
-            verify(mMockWiFiManager, never()).getScanResults();
+            verify(mMockWiFiManager, after(VERIFICATION_FAILURE_TIMEOUT).times(0)).getScanResults();
         } catch (NullPointerException npe) {
             fail();
         }

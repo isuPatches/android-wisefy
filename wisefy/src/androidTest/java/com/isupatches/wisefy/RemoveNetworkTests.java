@@ -10,8 +10,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.after;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -20,30 +20,30 @@ import static org.mockito.Mockito.when;
 public class RemoveNetworkTests extends BaseAndroidJUnit4TestClass {
 
     @Test
-    public void noCallbacks_failure_nullSSIDParam() {
+    public void sync_failure_nullSSIDParam() {
         assertEquals(false, mWiseFy.removeNetwork(null));
-        verify(mMockWiFiManager, never()).removeNetwork(anyInt());
+        verify(mMockWiFiManager, after(VERIFICATION_FAILURE_TIMEOUT).times(0)).removeNetwork(anyInt());
     }
 
     @Test
-    public void noCallbacks_failure_missingPrerequisites() {
+    public void sync_failure_missingPrerequisites() {
         missingPrerequisite();
         assertEquals(false, mWiseFy.removeNetwork(TEST_SSID));
-        verify(mMockWiFiManager, never()).removeNetwork(anyInt());
+        verify(mMockWiFiManager, after(VERIFICATION_FAILURE_TIMEOUT).times(0)).removeNetwork(anyInt());
     }
 
     @Test
-    public void noCallbacks_failure_noSavedNetwork() {
+    public void sync_failure_noSavedNetwork() {
         WiseFySearch mockWiseFySearch = mock(WiseFySearch.class);
         mWiseFy.mWiseFySearch = mockWiseFySearch;
         when(mockWiseFySearch.findSavedNetworkByRegex(anyString())).thenReturn(null);
 
         assertEquals(false, mWiseFy.removeNetwork(TEST_SSID));
-        verify(mMockWiFiManager, never()).removeNetwork(anyInt());
+        verify(mMockWiFiManager, after(VERIFICATION_FAILURE_TIMEOUT).times(0)).removeNetwork(anyInt());
     }
 
     @Test
-    public void noCallbacks_failure() {
+    public void sync_failure() {
         WifiConfiguration wiFiConfiguration = new WifiConfiguration();
         wiFiConfiguration.SSID = TEST_SSID;
         WiseFySearch mockWiseFySearch = mock(WiseFySearch.class);
@@ -53,12 +53,12 @@ public class RemoveNetworkTests extends BaseAndroidJUnit4TestClass {
         when(mMockWiFiManager.removeNetwork(anyInt())).thenReturn(false);
 
         assertEquals(false, mWiseFy.removeNetwork(TEST_SSID));
-        verify(mMockWiFiManager, timeout(VERIFICATION_TIMEOUT)).removeNetwork(anyInt());
+        verify(mMockWiFiManager, timeout(VERIFICATION_SUCCESS_TIMEOUT)).removeNetwork(anyInt());
 
     }
 
     @Test
-    public void noCallbacks_success() {
+    public void sync_success() {
         WifiConfiguration wiFiConfiguration = new WifiConfiguration();
         wiFiConfiguration.SSID = TEST_SSID;
         WiseFySearch mockWiseFySearch = mock(WiseFySearch.class);
@@ -68,75 +68,75 @@ public class RemoveNetworkTests extends BaseAndroidJUnit4TestClass {
         when(mMockWiFiManager.removeNetwork(anyInt())).thenReturn(true);
 
         assertEquals(true, mWiseFy.removeNetwork(TEST_SSID));
-        verify(mMockWiFiManager, timeout(VERIFICATION_TIMEOUT)).removeNetwork(anyInt());
+        verify(mMockWiFiManager, timeout(VERIFICATION_SUCCESS_TIMEOUT)).removeNetwork(anyInt());
     }
 
     @Test
-    public void callbacks_failure_nullSSIDParam() {
+    public void async_failure_nullSSIDParam() {
         RemoveNetworkCallbacks mockCallbacks = mock(RemoveNetworkCallbacks.class);
         mWiseFy.removeNetwork(null, mockCallbacks);
-        verify(mockCallbacks, timeout(3000)).removeNetworkWiseFyFailure(WiseFyCodes.MISSING_PARAMETER);
-        verify(mMockWiFiManager, never()).removeNetwork(anyInt());
+        verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).removeNetworkWiseFyFailure(WiseFyCodes.MISSING_PARAMETER);
+        verify(mMockWiFiManager, after(VERIFICATION_FAILURE_TIMEOUT).times(0)).removeNetwork(anyInt());
     }
 
     @Test
-    public void callbacks_failure_nullSSIDParam_nullCallback() {
+    public void async_failure_nullSSIDParam_nullCallback() {
         try {
             mWiseFy.removeNetwork(null, null);
-            verify(mMockWiFiManager, never()).removeNetwork(anyInt());
+            verify(mMockWiFiManager, after(VERIFICATION_FAILURE_TIMEOUT).times(0)).removeNetwork(anyInt());
         } catch (NullPointerException npe) {
             fail();
         }
     }
 
     @Test
-    public void callbacks_failure_missingPrerequisites() {
+    public void async_failure_missingPrerequisites() {
         missingPrerequisite();
         RemoveNetworkCallbacks mockCallbacks = mock(RemoveNetworkCallbacks.class);
         mWiseFy.removeNetwork(TEST_SSID, mockCallbacks);
-        verify(mockCallbacks, timeout(VERIFICATION_TIMEOUT)).removeNetworkWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
-        verify(mMockWiFiManager, never()).removeNetwork(anyInt());
+        verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).removeNetworkWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+        verify(mMockWiFiManager, after(VERIFICATION_FAILURE_TIMEOUT).times(0)).removeNetwork(anyInt());
     }
 
     @Test
-    public void callbacks_failure_missingPrerequisites_nullCallback() {
+    public void async_failure_missingPrerequisites_nullCallback() {
         missingPrerequisite();
         try {
             mWiseFy.removeNetwork(TEST_SSID, null);
-            verify(mMockWiFiManager, never()).removeNetwork(anyInt());
+            verify(mMockWiFiManager, after(VERIFICATION_FAILURE_TIMEOUT).times(0)).removeNetwork(anyInt());
         } catch (NullPointerException npe) {
             fail();
         }
     }
 
     @Test
-    public void callbacks_failure_noSavedNetwork() {
+    public void async_failure_noSavedNetwork() {
         WiseFySearch mockWiseFySearch = mock(WiseFySearch.class);
         mWiseFy.mWiseFySearch = mockWiseFySearch;
         when(mockWiseFySearch.findSavedNetworkByRegex(anyString())).thenReturn(null);
 
         RemoveNetworkCallbacks mockCallbacks = mock(RemoveNetworkCallbacks.class);
         mWiseFy.removeNetwork(TEST_SSID, mockCallbacks);
-        verify(mockCallbacks, timeout(VERIFICATION_TIMEOUT)).networkNotFoundToRemove();
-        verify(mMockWiFiManager, never()).removeNetwork(anyInt());
+        verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).networkNotFoundToRemove();
+        verify(mMockWiFiManager, after(VERIFICATION_FAILURE_TIMEOUT).times(0)).removeNetwork(anyInt());
     }
 
     @Test
-    public void callbacks_failure_noSavedNetwork_nullCallback() {
+    public void async_failure_noSavedNetwork_nullCallback() {
         WiseFySearch mockWiseFySearch = mock(WiseFySearch.class);
         mWiseFy.mWiseFySearch = mockWiseFySearch;
         when(mockWiseFySearch.findSavedNetworkByRegex(anyString())).thenReturn(null);
 
         try {
             mWiseFy.removeNetwork(TEST_SSID, null);
-            verify(mMockWiFiManager, never()).removeNetwork(anyInt());
+            verify(mMockWiFiManager, after(VERIFICATION_FAILURE_TIMEOUT).times(0)).removeNetwork(anyInt());
         } catch (NullPointerException npe) {
             fail();
         }
     }
 
     @Test
-    public void callbacks_failure() {
+    public void async_failure() {
         WifiConfiguration wiFiConfiguration = new WifiConfiguration();
         wiFiConfiguration.SSID = TEST_SSID;
         WiseFySearch mockWiseFySearch = mock(WiseFySearch.class);
@@ -147,12 +147,12 @@ public class RemoveNetworkTests extends BaseAndroidJUnit4TestClass {
 
         RemoveNetworkCallbacks mockCallbacks = mock(RemoveNetworkCallbacks.class);
         mWiseFy.removeNetwork(TEST_SSID, mockCallbacks);
-        verify(mockCallbacks, timeout(VERIFICATION_TIMEOUT)).failureRemovingNetwork();
-        verify(mMockWiFiManager, timeout(VERIFICATION_TIMEOUT)).removeNetwork(anyInt());
+        verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).failureRemovingNetwork();
+        verify(mMockWiFiManager, timeout(VERIFICATION_SUCCESS_TIMEOUT)).removeNetwork(anyInt());
     }
 
     @Test
-    public void callbacks_failure_nullCallback() {
+    public void async_failure_nullCallback() {
         WifiConfiguration wiFiConfiguration = new WifiConfiguration();
         wiFiConfiguration.SSID = TEST_SSID;
         WiseFySearch mockWiseFySearch = mock(WiseFySearch.class);
@@ -163,14 +163,14 @@ public class RemoveNetworkTests extends BaseAndroidJUnit4TestClass {
 
         try {
             mWiseFy.removeNetwork(TEST_SSID, null);
-            verify(mMockWiFiManager, never()).removeNetwork(anyInt());
+            verify(mMockWiFiManager, timeout(VERIFICATION_SUCCESS_TIMEOUT)).removeNetwork(anyInt());
         } catch (NullPointerException npe) {
             fail();
         }
     }
 
     @Test
-    public void callbacks_success() {
+    public void async_success() {
         WifiConfiguration wiFiConfiguration = new WifiConfiguration();
         wiFiConfiguration.SSID = TEST_SSID;
         WiseFySearch mockWiseFySearch = mock(WiseFySearch.class);
@@ -181,12 +181,12 @@ public class RemoveNetworkTests extends BaseAndroidJUnit4TestClass {
 
         RemoveNetworkCallbacks mockCallbacks = mock(RemoveNetworkCallbacks.class);
         mWiseFy.removeNetwork(TEST_SSID, mockCallbacks);
-        verify(mockCallbacks, timeout(VERIFICATION_TIMEOUT)).networkRemoved();
-        verify(mMockWiFiManager, timeout(VERIFICATION_TIMEOUT)).removeNetwork(anyInt());
+        verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).networkRemoved();
+        verify(mMockWiFiManager, timeout(VERIFICATION_SUCCESS_TIMEOUT)).removeNetwork(anyInt());
     }
 
     @Test
-    public void callbacks_success_nullCallback() {
+    public void async_success_nullCallback() {
         WifiConfiguration wiFiConfiguration = new WifiConfiguration();
         wiFiConfiguration.SSID = TEST_SSID;
         WiseFySearch mockWiseFySearch = mock(WiseFySearch.class);
@@ -197,7 +197,7 @@ public class RemoveNetworkTests extends BaseAndroidJUnit4TestClass {
 
         try {
             mWiseFy.removeNetwork(TEST_SSID, null);
-            verify(mMockWiFiManager, never()).removeNetwork(anyInt());
+            verify(mMockWiFiManager, timeout(VERIFICATION_SUCCESS_TIMEOUT)).removeNetwork(anyInt());
         } catch (NullPointerException npe) {
             fail();
         }

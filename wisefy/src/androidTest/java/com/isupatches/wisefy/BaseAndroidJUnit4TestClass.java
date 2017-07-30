@@ -22,7 +22,9 @@ public abstract class BaseAndroidJUnit4TestClass {
 
     protected WiseFy mWiseFy;
 
-    protected static final Integer VERIFICATION_TIMEOUT = 2000;
+    protected static final Integer VERIFICATION_SUCCESS_TIMEOUT = 5000;
+
+    static final Integer VERIFICATION_FAILURE_TIMEOUT = 3000;
 
     @Before
     public void setUp() {
