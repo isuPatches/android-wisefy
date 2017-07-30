@@ -6,8 +6,8 @@ import com.isupatches.wisefy.constants.WiseFyCodes;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
+import static org.mockito.Mockito.after;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -16,81 +16,81 @@ import static org.mockito.Mockito.when;
 public class DisconnectFromCurrentNetworkTests extends BaseAndroidJUnit4TestClass {
 
     @Test
-    public void noCallbacks_failure() {
+    public void sync_failure() {
         when(mMockWiFiManager.disconnect()).thenReturn(false);
         assertEquals(false, mWiseFy.disconnectFromCurrentNetwork());
-        verify(mMockWiFiManager, timeout(VERIFICATION_TIMEOUT)).disconnect();
+        verify(mMockWiFiManager, timeout(VERIFICATION_SUCCESS_TIMEOUT)).disconnect();
     }
 
     @Test
-    public void noCallbacks_failure_missingPrerequisite() {
+    public void sync_failure_missingPrerequisite() {
         missingPrerequisite();
         assertEquals(false, mWiseFy.disconnectFromCurrentNetwork());
-        verify(mMockWiFiManager, never()).disconnect();
+        verify(mMockWiFiManager, after(VERIFICATION_FAILURE_TIMEOUT).times(0)).disconnect();
     }
 
     @Test
-    public void noCallbacks_success() {
+    public void sync_success() {
         when(mMockWiFiManager.disconnect()).thenReturn(true);
         assertEquals(true, mWiseFy.disconnectFromCurrentNetwork());
-        verify(mMockWiFiManager, timeout(VERIFICATION_TIMEOUT)).disconnect();
+        verify(mMockWiFiManager, timeout(VERIFICATION_SUCCESS_TIMEOUT)).disconnect();
     }
 
     @Test
-    public void callbacks_failure() {
+    public void async_failure() {
         when(mMockWiFiManager.disconnect()).thenReturn(false);
         DisconnectFromCurrentNetworkCallbacks mockCallbacks = mock(DisconnectFromCurrentNetworkCallbacks.class);
         mWiseFy.disconnectFromCurrentNetwork(mockCallbacks);
-        verify(mMockWiFiManager, timeout(VERIFICATION_TIMEOUT)).disconnect();
-        verify(mockCallbacks, timeout(VERIFICATION_TIMEOUT)).failureDisconnectingFromCurrentNetwork();
+        verify(mMockWiFiManager, timeout(VERIFICATION_SUCCESS_TIMEOUT)).disconnect();
+        verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).failureDisconnectingFromCurrentNetwork();
     }
 
     @Test
-    public void callbacks_failure_nullCallback() {
+    public void async_failure_nullCallback() {
         when(mMockWiFiManager.disconnect()).thenReturn(false);
         try {
             mWiseFy.disconnectFromCurrentNetwork(null);
-            verify(mMockWiFiManager, never()).disconnect();
+            verify(mMockWiFiManager, timeout(VERIFICATION_SUCCESS_TIMEOUT)).disconnect();
         } catch (NullPointerException npe) {
             fail();
         }
     }
 
     @Test
-    public void callbacks_failure_missingPrerequisite() {
+    public void async_failure_missingPrerequisite() {
         missingPrerequisite();
         DisconnectFromCurrentNetworkCallbacks mockCallbacks = mock(DisconnectFromCurrentNetworkCallbacks.class);
         mWiseFy.disconnectFromCurrentNetwork(mockCallbacks);
-        verify(mMockWiFiManager, never()).disconnect();
-        verify(mockCallbacks, timeout(VERIFICATION_TIMEOUT)).disconnectFromCurrentNetworkWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+        verify(mMockWiFiManager, after(VERIFICATION_FAILURE_TIMEOUT).times(0)).disconnect();
+        verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).disconnectFromCurrentNetworkWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
     }
 
     @Test
-    public void callbacks_failure_missingPrerequisite_nullCallback() {
+    public void async_failure_missingPrerequisite_nullCallback() {
         missingPrerequisite();
         try {
             mWiseFy.disconnectFromCurrentNetwork(null);
-            verify(mMockWiFiManager, never()).disconnect();
+            verify(mMockWiFiManager, after(VERIFICATION_FAILURE_TIMEOUT).times(0)).disconnect();
         } catch (NullPointerException npe) {
             fail();
         }
     }
 
     @Test
-    public void callbacks_success() {
+    public void async_success() {
         when(mMockWiFiManager.disconnect()).thenReturn(true);
         DisconnectFromCurrentNetworkCallbacks mockCallbacks = mock(DisconnectFromCurrentNetworkCallbacks.class);
         mWiseFy.disconnectFromCurrentNetwork(mockCallbacks);
-        verify(mMockWiFiManager, timeout(VERIFICATION_TIMEOUT)).disconnect();
-        verify(mockCallbacks, timeout(VERIFICATION_TIMEOUT)).disconnectedFromCurrentNetwork();
+        verify(mMockWiFiManager, timeout(VERIFICATION_SUCCESS_TIMEOUT)).disconnect();
+        verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).disconnectedFromCurrentNetwork();
     }
 
     @Test
-    public void callbacks_success_nullCallback() {
+    public void async_success_nullCallback() {
         when(mMockWiFiManager.disconnect()).thenReturn(true);
         try {
             mWiseFy.disconnectFromCurrentNetwork(null);
-            verify(mMockWiFiManager, never()).disconnect();
+            verify(mMockWiFiManager, timeout(VERIFICATION_SUCCESS_TIMEOUT)).disconnect();
         } catch (NullPointerException npe) {
             fail();
         }

@@ -18,18 +18,18 @@ import static org.mockito.Mockito.when;
 public class GetSavedNetworkTests extends BaseAndroidJUnit4TestClass {
 
     @Test
-    public void noCallbacks_failure_nullSSIDParam() {
+    public void sync_failure_nullSSIDParam() {
         assertEquals(null, mWiseFy.getSavedNetwork(null));
     }
 
     @Test
-    public void noCallbacks_failure_missingPrerequisite() {
+    public void sync_failure_missingPrerequisite() {
         missingPrerequisite();
         assertEquals(null, mWiseFy.getSavedNetwork(TEST_SSID));
     }
 
     @Test
-    public void noCallbacks_failure() {
+    public void sync_failure() {
         WiseFySearch mockWiseFySearch = mock(WiseFySearch.class);
         mWiseFy.mWiseFySearch = mockWiseFySearch;
         when(mockWiseFySearch.findSavedNetworkByRegex(anyString())).thenReturn(null);
@@ -38,7 +38,7 @@ public class GetSavedNetworkTests extends BaseAndroidJUnit4TestClass {
     }
 
     @Test
-    public void noCallbacks_success() {
+    public void sync_success() {
         WifiConfiguration wiFiConfiguration = new WifiConfiguration();
         wiFiConfiguration.SSID = TEST_SSID;
 
@@ -50,14 +50,14 @@ public class GetSavedNetworkTests extends BaseAndroidJUnit4TestClass {
     }
 
     @Test
-    public void callbacks_failure_nullSSIDParam() {
+    public void async_failure_nullSSIDParam() {
         GetSavedNetworkCallbacks mockCallbacks = mock(GetSavedNetworkCallbacks.class);
         mWiseFy.getSavedNetwork(null, mockCallbacks);
-        verify(mockCallbacks, timeout(2000)).getSavedNetworkWiseFyFailure(WiseFyCodes.MISSING_PARAMETER);
+        verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).getSavedNetworkWiseFyFailure(WiseFyCodes.MISSING_PARAMETER);
     }
 
     @Test
-    public void callbacks_failure_nullSSIDParam_nullCallback() {
+    public void async_failure_nullSSIDParam_nullCallback() {
         try {
             mWiseFy.getSavedNetwork(null, null);
         } catch (NullPointerException npe) {
@@ -66,15 +66,15 @@ public class GetSavedNetworkTests extends BaseAndroidJUnit4TestClass {
     }
 
     @Test
-    public void callbacks_failure_missingPrerequisite() {
+    public void async_failure_missingPrerequisite() {
         missingPrerequisite();
         GetSavedNetworkCallbacks mockCallbacks = mock(GetSavedNetworkCallbacks.class);
         mWiseFy.getSavedNetwork(TEST_SSID, mockCallbacks);
-        verify(mockCallbacks, timeout(2000)).getSavedNetworkWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+        verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).getSavedNetworkWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
     }
 
     @Test
-    public void callbacks_failure_missingPrerequisite_nullCallback() {
+    public void async_failure_missingPrerequisite_nullCallback() {
         missingPrerequisite();
         try {
             mWiseFy.getSavedNetwork(TEST_SSID, null);
@@ -84,18 +84,18 @@ public class GetSavedNetworkTests extends BaseAndroidJUnit4TestClass {
     }
 
     @Test
-    public void callbacks_failure() {
+    public void async_failure() {
         WiseFySearch mockWiseFySearch = mock(WiseFySearch.class);
         mWiseFy.mWiseFySearch = mockWiseFySearch;
         when(mockWiseFySearch.findSavedNetworkByRegex(anyString())).thenReturn(null);
 
         GetSavedNetworkCallbacks mockCallbacks = mock(GetSavedNetworkCallbacks.class);
         mWiseFy.getSavedNetwork(TEST_SSID, mockCallbacks);
-        verify(mockCallbacks, timeout(2000)).savedNetworkNotFound();
+        verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).savedNetworkNotFound();
     }
 
     @Test
-    public void callbacks_failure_nullCallback() {
+    public void async_failure_nullCallback() {
         WiseFySearch mockWiseFySearch = mock(WiseFySearch.class);
         mWiseFy.mWiseFySearch = mockWiseFySearch;
         when(mockWiseFySearch.findSavedNetworkByRegex(anyString())).thenReturn(null);
@@ -108,7 +108,7 @@ public class GetSavedNetworkTests extends BaseAndroidJUnit4TestClass {
     }
 
     @Test
-    public void callbacks_success() {
+    public void async_success() {
         WifiConfiguration wiFiConfiguration = new WifiConfiguration();
         wiFiConfiguration.SSID = TEST_SSID;
 
@@ -118,11 +118,11 @@ public class GetSavedNetworkTests extends BaseAndroidJUnit4TestClass {
 
         GetSavedNetworkCallbacks mockCallbacks = mock(GetSavedNetworkCallbacks.class);
         mWiseFy.getSavedNetwork(TEST_SSID, mockCallbacks);
-        verify(mockCallbacks, timeout(2000)).retrievedSavedNetwork(wiFiConfiguration);
+        verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).retrievedSavedNetwork(wiFiConfiguration);
     }
 
     @Test
-    public void callbacks_success_nullCallback() {
+    public void async_success_nullCallback() {
         WifiConfiguration wiFiConfiguration = new WifiConfiguration();
         wiFiConfiguration.SSID = TEST_SSID;
 

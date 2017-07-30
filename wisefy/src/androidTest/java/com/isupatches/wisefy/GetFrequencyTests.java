@@ -18,7 +18,7 @@ import static org.mockito.Mockito.when;
 public class GetFrequencyTests extends BaseAndroidJUnit4TestClass {
 
     @Test
-    public void noCallbacks_getFrequency_currentNetwork_failure() {
+    public void sync_getFrequency_currentNetwork_failure() {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             when(mMockWiFiManager.getConnectionInfo()).thenReturn(null);
             assertEquals(null, mWiseFy.getFrequency());
@@ -26,28 +26,28 @@ public class GetFrequencyTests extends BaseAndroidJUnit4TestClass {
     }
 
     @Test
-    public void noCallbacks_getFrequency_currentNetwork_success() {
+    public void sync_getFrequency_currentNetwork_success() {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             WifiInfo mockWifiInfo = mock(WifiInfo.class);
             when(mockWifiInfo.getFrequency()).thenReturn(TEST_NETWORK_FREQUENCY_24GHZ);
             when(mMockWiFiManager.getConnectionInfo()).thenReturn(mockWifiInfo);
             assertEquals(TEST_NETWORK_FREQUENCY_24GHZ, (int) mWiseFy.getFrequency());
-            verify(mockWifiInfo, timeout(VERIFICATION_TIMEOUT)).getFrequency();
+            verify(mockWifiInfo, timeout(VERIFICATION_SUCCESS_TIMEOUT)).getFrequency();
         }
     }
 
     @Test
-    public void callbacks_getFrequency_currentNetwork_failure() {
+    public void async_getFrequency_currentNetwork_failure() {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             when(mMockWiFiManager.getConnectionInfo()).thenReturn(null);
             GetFrequencyCallbacks mockCallbacks = mock(GetFrequencyCallbacks.class);
             mWiseFy.getFrequency(mockCallbacks);
-            verify(mockCallbacks, timeout(2000)).failureGettingFrequency();
+            verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).failureGettingFrequency();
         }
     }
 
     @Test
-    public void callbacks_getFrequency_currentNetwork_failure_nullCallback() {
+    public void async_getFrequency_currentNetwork_failure_nullCallback() {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             when(mMockWiFiManager.getConnectionInfo()).thenReturn(null);
             try {
@@ -59,20 +59,20 @@ public class GetFrequencyTests extends BaseAndroidJUnit4TestClass {
     }
 
     @Test
-    public void callbacks_getFrequency_currentNetwork_success() {
+    public void async_getFrequency_currentNetwork_success() {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             WifiInfo mockWifiInfo = mock(WifiInfo.class);
             when(mockWifiInfo.getFrequency()).thenReturn(TEST_NETWORK_FREQUENCY_24GHZ);
             when(mMockWiFiManager.getConnectionInfo()).thenReturn(mockWifiInfo);
             GetFrequencyCallbacks mockCallbacks = mock(GetFrequencyCallbacks.class);
             mWiseFy.getFrequency(mockCallbacks);
-            verify(mockCallbacks, timeout(VERIFICATION_TIMEOUT)).retrievedFrequency(TEST_NETWORK_FREQUENCY_24GHZ);
-            verify(mockWifiInfo, timeout(VERIFICATION_TIMEOUT)).getFrequency();
+            verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).retrievedFrequency(TEST_NETWORK_FREQUENCY_24GHZ);
+            verify(mockWifiInfo, timeout(VERIFICATION_SUCCESS_TIMEOUT)).getFrequency();
         }
     }
 
     @Test
-    public void callbacks_getFrequency_currentNetwork_success_nullCallback() {
+    public void async_getFrequency_currentNetwork_success_nullCallback() {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             WifiInfo mockWifiInfo = mock(WifiInfo.class);
             when(mockWifiInfo.getFrequency()).thenReturn(TEST_NETWORK_FREQUENCY_24GHZ);
@@ -86,7 +86,7 @@ public class GetFrequencyTests extends BaseAndroidJUnit4TestClass {
     }
 
     @Test
-    public void noCallbacks_getFrequency_provideWifiInfo_failure() {
+    public void sync_getFrequency_provideWifiInfo_failure() {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             when(mMockWiFiManager.getConnectionInfo()).thenReturn(null);
             assertEquals(null, mWiseFy.getFrequency((WifiInfo) null));
@@ -94,7 +94,7 @@ public class GetFrequencyTests extends BaseAndroidJUnit4TestClass {
     }
 
     @Test
-    public void noCallbacks_getFrequency_provideWifiInfo_success() {
+    public void sync_getFrequency_provideWifiInfo_success() {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             WifiInfo mockWifiInfo = mock(WifiInfo.class);
             when(mockWifiInfo.getFrequency()).thenReturn(TEST_NETWORK_FREQUENCY_24GHZ);
@@ -104,17 +104,17 @@ public class GetFrequencyTests extends BaseAndroidJUnit4TestClass {
     }
 
     @Test
-    public void callbacks_getFrequency_provideWifiInfo_failure() {
+    public void async_getFrequency_provideWifiInfo_failure() {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             when(mMockWiFiManager.getConnectionInfo()).thenReturn(null);
             GetFrequencyCallbacks mockCallbacks = mock(GetFrequencyCallbacks.class);
             mWiseFy.getFrequency(null, mockCallbacks);
-            verify(mockCallbacks, timeout(2000)).getFrequencyWiseFyFailure(WiseFyCodes.MISSING_PARAMETER);
+            verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).getFrequencyWiseFyFailure(WiseFyCodes.MISSING_PARAMETER);
         }
     }
 
     @Test
-    public void callbacks_getFrequency_provideWifiInfo_failure_nullCallback() {
+    public void async_getFrequency_provideWifiInfo_failure_nullCallback() {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             when(mMockWiFiManager.getConnectionInfo()).thenReturn(null);
             try {
@@ -126,19 +126,19 @@ public class GetFrequencyTests extends BaseAndroidJUnit4TestClass {
     }
 
     @Test
-    public void callbacks_getFrequency_provideWifiInfo_success() {
+    public void async_getFrequency_provideWifiInfo_success() {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             WifiInfo mockWifiInfo = mock(WifiInfo.class);
             when(mockWifiInfo.getFrequency()).thenReturn(TEST_NETWORK_FREQUENCY_24GHZ);
             when(mMockWiFiManager.getConnectionInfo()).thenReturn(mockWifiInfo);
             GetFrequencyCallbacks mockCallbacks = mock(GetFrequencyCallbacks.class);
             mWiseFy.getFrequency(mockWifiInfo, mockCallbacks);
-            verify(mockCallbacks, timeout(2000)).retrievedFrequency(TEST_NETWORK_FREQUENCY_24GHZ);
+            verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).retrievedFrequency(TEST_NETWORK_FREQUENCY_24GHZ);
         }
     }
 
     @Test
-    public void callbacks_getFrequency_provideWifiInfo_success_nullCallback() {
+    public void async_getFrequency_provideWifiInfo_success_nullCallback() {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             WifiInfo mockWifiInfo = mock(WifiInfo.class);
             when(mockWifiInfo.getFrequency()).thenReturn(TEST_NETWORK_FREQUENCY_24GHZ);

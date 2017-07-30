@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 import static com.isupatches.wisefy.base.TestUtils.TEST_SSID;
 import static com.isupatches.wisefy.base.TestUtils.TEST_SSID2;
+import static com.isupatches.wisefy.base.TestUtils.TEST_TIMEOUT;
 import static com.isupatches.wisefy.base.TestUtils.TEST_TYPE1;
 import static com.isupatches.wisefy.base.TestUtils.TEST_TYPE2;
 import static junit.framework.Assert.assertFalse;
@@ -276,13 +277,13 @@ public class WiseFyConnectionTests extends BaseAndroidJUnit4TestClass {
 
     @Test
     public void waitToConnectToSSID_failure_nullSSIDParam() {
-        assertFalse(WiseFyConnection.getInstance().waitToConnectToSSID(null, 1000));
+        assertFalse(WiseFyConnection.getInstance().waitToConnectToSSID(null, TEST_TIMEOUT));
     }
 
     @Test
     public void waitToConnectToSSID_failure_nullConnectionInfo() {
         when(mMockWiFiManager.getConnectionInfo()).thenReturn(null);
-        assertFalse(WiseFyConnection.getInstance().waitToConnectToSSID(TEST_SSID, 1000));
+        assertFalse(WiseFyConnection.getInstance().waitToConnectToSSID(TEST_SSID, TEST_TIMEOUT));
     }
 
     @Test
@@ -290,7 +291,7 @@ public class WiseFyConnectionTests extends BaseAndroidJUnit4TestClass {
         WifiInfo currentNetwork = mock(WifiInfo.class);
         when(currentNetwork.getSSID()).thenReturn(null);
         when(mMockWiFiManager.getConnectionInfo()).thenReturn(currentNetwork);
-        assertFalse(WiseFyConnection.getInstance().waitToConnectToSSID(null, 1000));
+        assertFalse(WiseFyConnection.getInstance().waitToConnectToSSID(null, TEST_TIMEOUT));
     }
 
     @Test
@@ -298,7 +299,7 @@ public class WiseFyConnectionTests extends BaseAndroidJUnit4TestClass {
         WifiInfo currentNetwork = mock(WifiInfo.class);
         when(currentNetwork.getSSID()).thenReturn(TEST_SSID2);
         when(mMockWiFiManager.getConnectionInfo()).thenReturn(currentNetwork);
-        assertFalse(WiseFyConnection.getInstance().waitToConnectToSSID(TEST_SSID, 1000));
+        assertFalse(WiseFyConnection.getInstance().waitToConnectToSSID(TEST_SSID, TEST_TIMEOUT));
     }
 
     @Test
@@ -312,7 +313,7 @@ public class WiseFyConnectionTests extends BaseAndroidJUnit4TestClass {
         when(networkInfo.isConnected()).thenReturn(true);
         when(mMockConnectivityManager.getActiveNetworkInfo()).thenReturn(networkInfo);
 
-        assertFalse(WiseFyConnection.getInstance().waitToConnectToSSID(TEST_SSID, 1000));
+        assertFalse(WiseFyConnection.getInstance().waitToConnectToSSID(TEST_SSID, TEST_TIMEOUT));
     }
 
     @Test
@@ -326,7 +327,7 @@ public class WiseFyConnectionTests extends BaseAndroidJUnit4TestClass {
         when(networkInfo.isConnected()).thenReturn(false);
         when(mMockConnectivityManager.getActiveNetworkInfo()).thenReturn(networkInfo);
 
-        assertFalse(WiseFyConnection.getInstance().waitToConnectToSSID(TEST_SSID, 1000));
+        assertFalse(WiseFyConnection.getInstance().waitToConnectToSSID(TEST_SSID, TEST_TIMEOUT));
     }
 
     @Test
@@ -340,7 +341,7 @@ public class WiseFyConnectionTests extends BaseAndroidJUnit4TestClass {
         when(networkInfo.isConnected()).thenReturn(false);
         when(mMockConnectivityManager.getActiveNetworkInfo()).thenReturn(networkInfo);
 
-        assertFalse(WiseFyConnection.getInstance().waitToConnectToSSID(TEST_SSID, 1000));
+        assertFalse(WiseFyConnection.getInstance().waitToConnectToSSID(TEST_SSID, TEST_TIMEOUT));
     }
 
     @Test
@@ -354,6 +355,6 @@ public class WiseFyConnectionTests extends BaseAndroidJUnit4TestClass {
         when(networkInfo.isConnected()).thenReturn(true);
         when(mMockConnectivityManager.getActiveNetworkInfo()).thenReturn(networkInfo);
 
-        assertTrue(WiseFyConnection.getInstance().waitToConnectToSSID(TEST_SSID, 1000));
+        assertTrue(WiseFyConnection.getInstance().waitToConnectToSSID(TEST_SSID, TEST_TIMEOUT));
     }
 }

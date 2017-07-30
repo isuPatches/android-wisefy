@@ -2,7 +2,6 @@ package com.isupatches.wisefy;
 
 
 import android.net.wifi.ScanResult;
-import com.isupatches.wisefy.base.TestActivity;
 import com.isupatches.wisefy.callbacks.SearchForAccessPointsCallbacks;
 import com.isupatches.wisefy.constants.WiseFyCodes;
 import org.junit.Test;
@@ -22,29 +21,29 @@ import static org.mockito.Mockito.when;
 public class SearchForAccessPointsTests extends BaseAndroidJUnit4TestClass {
 
     @Test
-    public void noCallbacks_failure_filterDuplicates_false_nullSSIDParam() {
+    public void sync_failure_filterDuplicates_false_nullSSIDParam() {
         assertEquals(null, mWiseFy.searchForAccessPoints(null, false));
     }
 
     @Test
-    public void noCallbacks_failure_filterDuplicates_true_nullSSIDParam() {
+    public void sync_failure_filterDuplicates_true_nullSSIDParam() {
         assertEquals(null, mWiseFy.searchForAccessPoints(null, true));
     }
 
     @Test
-    public void noCallbacks_failure_filterDuplicates_false_missingPrerequisite() {
+    public void sync_failure_filterDuplicates_false_missingPrerequisite() {
         missingPrerequisite();
         assertEquals(null, mWiseFy.searchForAccessPoints(TEST_SSID, false));
     }
 
     @Test
-    public void noCallbacks_failure_filterDuplicates_true_missingPrerequisite() {
+    public void sync_failure_filterDuplicates_true_missingPrerequisite() {
         missingPrerequisite();
         assertEquals(null, mWiseFy.searchForAccessPoints(TEST_SSID, true));
     }
 
     @Test
-    public void noCallbacks_failure_filterDuplicates_false() {
+    public void sync_failure_filterDuplicates_false() {
         WiseFySearch mockWiseFySearch = mock(WiseFySearch.class);
         mWiseFy.mWiseFySearch = mockWiseFySearch;
         when(mockWiseFySearch.findAccessPointsMatchingRegex(anyString(), anyBoolean())).thenReturn(null);
@@ -53,7 +52,7 @@ public class SearchForAccessPointsTests extends BaseAndroidJUnit4TestClass {
     }
 
     @Test
-    public void noCallbacks_failure_filterDuplicates_true() {
+    public void sync_failure_filterDuplicates_true() {
         WiseFySearch mockWiseFySearch = mock(WiseFySearch.class);
         mWiseFy.mWiseFySearch = mockWiseFySearch;
         when(mockWiseFySearch.findAccessPointsMatchingRegex(anyString(), anyBoolean())).thenReturn(null);
@@ -62,7 +61,7 @@ public class SearchForAccessPointsTests extends BaseAndroidJUnit4TestClass {
     }
 
     @Test
-    public void noCallbacks_success_filterDuplicates_false() {
+    public void sync_success_filterDuplicates_false() {
         List<ScanResult> accessPoints = new ArrayList<>();
         ScanResult accessPoint = mock(ScanResult.class);
         accessPoint.SSID = TEST_SSID;
@@ -77,7 +76,7 @@ public class SearchForAccessPointsTests extends BaseAndroidJUnit4TestClass {
     }
 
     @Test
-    public void noCallbacks_success_filterDuplicates_true() {
+    public void sync_success_filterDuplicates_true() {
         List<ScanResult> accessPoints = new ArrayList<>();
         ScanResult accessPoint = mock(ScanResult.class);
         accessPoint.SSID = TEST_SSID;
@@ -92,14 +91,14 @@ public class SearchForAccessPointsTests extends BaseAndroidJUnit4TestClass {
     }
 
     @Test
-    public void callbacks_failure_filterDuplicates_false_nullSSIDParam() {
+    public void async_failure_filterDuplicates_false_nullSSIDParam() {
         SearchForAccessPointsCallbacks mockCallbacks = mock(SearchForAccessPointsCallbacks.class);
         mWiseFy.searchForAccessPoints(null, false, mockCallbacks);
-        verify(mockCallbacks, timeout(VERIFICATION_TIMEOUT)).searchForAccessPointsWiseFyFailure(WiseFyCodes.MISSING_PARAMETER);
+        verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).searchForAccessPointsWiseFyFailure(WiseFyCodes.MISSING_PARAMETER);
     }
 
     @Test
-    public void callbacks_failure_filterDuplicates_false_nullSSIDParam_nullCallback() {
+    public void async_failure_filterDuplicates_false_nullSSIDParam_nullCallback() {
         try {
             mWiseFy.searchForAccessPoints(null, false, null);
         } catch (NullPointerException npe) {
@@ -108,14 +107,14 @@ public class SearchForAccessPointsTests extends BaseAndroidJUnit4TestClass {
     }
 
     @Test
-    public void callbacks_failure_filterDuplicates_true_nullSSIDParam() {
+    public void async_failure_filterDuplicates_true_nullSSIDParam() {
         SearchForAccessPointsCallbacks mockCallbacks = mock(SearchForAccessPointsCallbacks.class);
         mWiseFy.searchForAccessPoints(null, true, mockCallbacks);
-        verify(mockCallbacks, timeout(VERIFICATION_TIMEOUT)).searchForAccessPointsWiseFyFailure(WiseFyCodes.MISSING_PARAMETER);
+        verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).searchForAccessPointsWiseFyFailure(WiseFyCodes.MISSING_PARAMETER);
     }
 
     @Test
-    public void callbacks_failure_filterDuplicates_true_nullSSIDParam_nullCallback() {
+    public void async_failure_filterDuplicates_true_nullSSIDParam_nullCallback() {
         try {
             mWiseFy.searchForAccessPoints(null, true, null);
         } catch (NullPointerException npe) {
@@ -124,15 +123,15 @@ public class SearchForAccessPointsTests extends BaseAndroidJUnit4TestClass {
     }
 
     @Test
-    public void callbacks_failure_filterDuplicates_false_missingPrerequisite() {
+    public void async_failure_filterDuplicates_false_missingPrerequisite() {
         missingPrerequisite();
         SearchForAccessPointsCallbacks mockCallbacks = mock(SearchForAccessPointsCallbacks.class);
         mWiseFy.searchForAccessPoints(TEST_SSID, false, mockCallbacks);
-        verify(mockCallbacks, timeout(VERIFICATION_TIMEOUT)).searchForAccessPointsWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+        verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).searchForAccessPointsWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
     }
 
     @Test
-    public void callbacks_failure_filterDuplicates_false_missingPrerequisite_nullCallback() {
+    public void async_failure_filterDuplicates_false_missingPrerequisite_nullCallback() {
         missingPrerequisite();
         try {
             mWiseFy.searchForAccessPoints(TEST_SSID, false, null);
@@ -142,15 +141,15 @@ public class SearchForAccessPointsTests extends BaseAndroidJUnit4TestClass {
     }
 
     @Test
-    public void callbacks_failure_filterDuplicates_true_missingPrerequisite() {
+    public void async_failure_filterDuplicates_true_missingPrerequisite() {
         missingPrerequisite();
         SearchForAccessPointsCallbacks mockCallbacks = mock(SearchForAccessPointsCallbacks.class);
         mWiseFy.searchForAccessPoints(TEST_SSID, true, mockCallbacks);
-        verify(mockCallbacks, timeout(VERIFICATION_TIMEOUT)).searchForAccessPointsWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+        verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).searchForAccessPointsWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
     }
 
     @Test
-    public void callbacks_failure_filterDuplicates_true_missingPrerequisite_nullCallback() {
+    public void async_failure_filterDuplicates_true_missingPrerequisite_nullCallback() {
         missingPrerequisite();
         try {
             mWiseFy.searchForAccessPoints(TEST_SSID, true, null);
@@ -160,18 +159,18 @@ public class SearchForAccessPointsTests extends BaseAndroidJUnit4TestClass {
     }
 
     @Test
-    public void callbacks_failure_filterDuplicates_false() {
+    public void async_failure_filterDuplicates_false() {
         WiseFySearch mockWiseFySearch = mock(WiseFySearch.class);
         mWiseFy.mWiseFySearch = mockWiseFySearch;
         when(mockWiseFySearch.findAccessPointsMatchingRegex(anyString(), anyBoolean())).thenReturn(null);
 
         SearchForAccessPointsCallbacks mockCallbacks = mock(SearchForAccessPointsCallbacks.class);
         mWiseFy.searchForAccessPoints(TEST_SSID, false, mockCallbacks);
-        verify(mockCallbacks, timeout(VERIFICATION_TIMEOUT)).noAccessPointsFound();
+        verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).noAccessPointsFound();
     }
 
     @Test
-    public void callbacks_failure_filterDuplicates_false_nullCallback() {
+    public void async_failure_filterDuplicates_false_nullCallback() {
         WiseFySearch mockWiseFySearch = mock(WiseFySearch.class);
         mWiseFy.mWiseFySearch = mockWiseFySearch;
         when(mockWiseFySearch.findAccessPointsMatchingRegex(anyString(), anyBoolean())).thenReturn(null);
@@ -184,19 +183,19 @@ public class SearchForAccessPointsTests extends BaseAndroidJUnit4TestClass {
     }
 
     @Test
-    public void callbacks_failure_filterDuplicates_true() {
+    public void async_failure_filterDuplicates_true() {
         WiseFySearch mockWiseFySearch = mock(WiseFySearch.class);
         mWiseFy.mWiseFySearch = mockWiseFySearch;
         when(mockWiseFySearch.findAccessPointsMatchingRegex(anyString(), anyBoolean())).thenReturn(null);
 
         SearchForAccessPointsCallbacks mockCallbacks = mock(SearchForAccessPointsCallbacks.class);
         mWiseFy.searchForAccessPoints(TEST_SSID, true, mockCallbacks);
-        verify(mockCallbacks, timeout(VERIFICATION_TIMEOUT)).noAccessPointsFound();
+        verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).noAccessPointsFound();
     }
 
 
     @Test
-    public void callbacks_failure_filterDuplicates_true_nullCallback() {
+    public void async_failure_filterDuplicates_true_nullCallback() {
         WiseFySearch mockWiseFySearch = mock(WiseFySearch.class);
         mWiseFy.mWiseFySearch = mockWiseFySearch;
         when(mockWiseFySearch.findAccessPointsMatchingRegex(anyString(), anyBoolean())).thenReturn(null);
@@ -209,7 +208,7 @@ public class SearchForAccessPointsTests extends BaseAndroidJUnit4TestClass {
     }
 
     @Test
-    public void callbacks_success_filterDuplicates_false() {
+    public void async_success_filterDuplicates_false() {
         List<ScanResult> accessPoints = new ArrayList<>();
         ScanResult accessPoint = mock(ScanResult.class);
         accessPoint.SSID = TEST_SSID;
@@ -222,11 +221,11 @@ public class SearchForAccessPointsTests extends BaseAndroidJUnit4TestClass {
 
         SearchForAccessPointsCallbacks mockCallbacks = mock(SearchForAccessPointsCallbacks.class);
         mWiseFy.searchForAccessPoints(TEST_SSID, true, mockCallbacks);
-        verify(mockCallbacks, timeout(VERIFICATION_TIMEOUT)).foundAccessPoints(accessPoints);
+        verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).foundAccessPoints(accessPoints);
     }
 
     @Test
-    public void callbacks_success_filterDuplicates_false_nullCallback() {
+    public void async_success_filterDuplicates_false_nullCallback() {
         List<ScanResult> accessPoints = new ArrayList<>();
         ScanResult accessPoint = mock(ScanResult.class);
         accessPoint.SSID = TEST_SSID;
@@ -245,7 +244,7 @@ public class SearchForAccessPointsTests extends BaseAndroidJUnit4TestClass {
     }
 
     @Test
-    public void callbacks_success_filterDuplicates_true() {
+    public void async_success_filterDuplicates_true() {
         List<ScanResult> accessPoints = new ArrayList<>();
         ScanResult accessPoint = mock(ScanResult.class);
         accessPoint.SSID = TEST_SSID;
@@ -258,11 +257,11 @@ public class SearchForAccessPointsTests extends BaseAndroidJUnit4TestClass {
 
         SearchForAccessPointsCallbacks mockCallbacks = mock(SearchForAccessPointsCallbacks.class);
         mWiseFy.searchForAccessPoints(TEST_SSID, true, mockCallbacks);
-        verify(mockCallbacks, timeout(VERIFICATION_TIMEOUT)).foundAccessPoints(accessPoints);
+        verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).foundAccessPoints(accessPoints);
     }
 
     @Test
-    public void callbacks_success_filterDuplicates_true_nullCallback() {
+    public void async_success_filterDuplicates_true_nullCallback() {
         List<ScanResult> accessPoints = new ArrayList<>();
         ScanResult accessPoint = mock(ScanResult.class);
         accessPoint.SSID = TEST_SSID;

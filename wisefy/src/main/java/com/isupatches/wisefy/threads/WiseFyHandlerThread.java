@@ -41,9 +41,9 @@ public class WiseFyHandlerThread extends HandlerThread {
     }
 
     @Override
-    public synchronized void start() {
+    public void start() {
         if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
-            Log.d(TAG, "WiseFyHandlerThread starting");
+            Log.d(TAG, "start() called on WiseFyHandlerThread");
         }
         super.start();
     }
@@ -51,8 +51,16 @@ public class WiseFyHandlerThread extends HandlerThread {
     @Override
     public boolean quit() {
         if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
-            Log.d(TAG, "quit called on WiseFyHandlerThread");
+            Log.d(TAG, "quit() called on WiseFyHandlerThread");
         }
         return super.quit();
+    }
+
+    @Override
+    public boolean quitSafely() {
+        if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
+            Log.d(TAG, "quitSafely() called on WiseFyHandlerThread");
+        }
+        return super.quitSafely();
     }
 }

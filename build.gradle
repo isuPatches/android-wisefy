@@ -35,9 +35,9 @@ project.ext.preDexLibs = !project.hasProperty('disablePreDex')
 subprojects {
     project.plugins.whenPluginAdded { plugin ->
         if (rootProject.ext.has('preDexLibs')) {
-            if ("com.android.build.gradle.AppPlugin".equals(plugin.class.name)) {
+            if ("com.android.build.gradle.AppPlugin" == plugin.class.name) {
                 project.android.dexOptions.preDexLibraries = rootProject.ext.preDexLibs
-            } else if ("com.android.build.gradle.LibraryPlugin".equals(plugin.class.name)) {
+            } else if ("com.android.build.gradle.LibraryPlugin" == plugin.class.name) {
                 project.android.dexOptions.preDexLibraries = rootProject.ext.preDexLibs
             }
         }
@@ -47,10 +47,10 @@ subprojects {
 ext {
     travisBuild = System.getenv("TRAVIS") == "true"
     // allows for -Dpre-dex=false to be set
-    preDexEnabled = "true".equals(System.getProperty("pre-dex", "true"))
+    preDexEnabled = "true" == System.getProperty("pre-dex", "true")
 
     GROUP = "com.isupatches"
-    VERSION_NAME = "2.0.0"
+    VERSION_NAME = "2.0.1"
 
     BINTRAY_REPO = "Maven"
     BINTRAY_NAME = "wisefy"

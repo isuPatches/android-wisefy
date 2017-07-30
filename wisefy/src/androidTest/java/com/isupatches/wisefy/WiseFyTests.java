@@ -2,7 +2,6 @@ package com.isupatches.wisefy;
 
 
 import android.support.test.InstrumentationRegistry;
-
 import com.google.android.gms.iid.InstanceID;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -34,6 +33,11 @@ public class WiseFyTests extends BaseAndroidJUnit4TestClass {
     public void compareSignalLevel() {
         int result = mWiseFy.compareSignalLevel(-35, -70);
         assertEquals(35, result);
+    }
+
+    @Test
+    public void getWiseFyLock() {
+        assertNotNull(mWiseFy.getWiseFyLock());
     }
 
     @Test

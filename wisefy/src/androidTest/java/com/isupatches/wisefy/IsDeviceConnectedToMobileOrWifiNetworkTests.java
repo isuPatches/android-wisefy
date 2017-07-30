@@ -2,7 +2,6 @@ package com.isupatches.wisefy;
 
 
 import android.net.NetworkInfo;
-import com.isupatches.wisefy.base.TestActivity;
 import org.junit.Test;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;

@@ -1,5 +1,4 @@
 sudo: required
-dist: precise
 language: android
 
 jdk:
@@ -11,6 +10,7 @@ env:
     - BUILD_TOOLS_VERSION=26.0.0
   matrix:
     - EMULATOR_SDK=android-19 ABI=armeabi-v7a
+    - EMULATOR_SDK=android-22 ABI=armeabi-v7a
 
 android:
   components:
@@ -18,6 +18,8 @@ android:
     - platform-tools
     - tools
     - android-${TARGET_SDK}
+    - android-19
+    - android-22
     - build-tools-${BUILD_TOOLS_VERSION}
     - extra-android-m2repository
 

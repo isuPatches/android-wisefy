@@ -19,18 +19,18 @@ import static org.mockito.Mockito.when;
 public class SearchForSSIDsTests extends BaseAndroidJUnit4TestClass {
 
     @Test
-    public void noCallbacks_failure_nullSSIDParam() {
+    public void sync_failure_nullSSIDParam() {
         assertEquals(null, mWiseFy.searchForSSIDs(null));
     }
 
     @Test
-    public void noCallbacks_failure_missingPrerequisite() {
+    public void sync_failure_missingPrerequisite() {
         missingPrerequisite();
         assertEquals(null, mWiseFy.searchForSSIDs(TEST_SSID));
     }
 
     @Test
-    public void noCallbacks_failure() {
+    public void sync_failure() {
         WiseFySearch mockWiseFySearch = mock(WiseFySearch.class);
         mWiseFy.mWiseFySearch = mockWiseFySearch;
         when(mockWiseFySearch.findSSIDsMatchingRegex(anyString())).thenReturn(null);
@@ -39,7 +39,7 @@ public class SearchForSSIDsTests extends BaseAndroidJUnit4TestClass {
     }
 
     @Test
-    public void noCallbacks_success() {
+    public void sync_success() {
         List<String> ssids = new ArrayList<>();
         ssids.add(TEST_SSID);
 
@@ -51,14 +51,14 @@ public class SearchForSSIDsTests extends BaseAndroidJUnit4TestClass {
     }
 
     @Test
-    public void callbacks_failure_nullSSIDParam() {
+    public void async_failure_nullSSIDParam() {
         SearchForSSIDsCallbacks mockCallbacks = mock(SearchForSSIDsCallbacks.class);
         mWiseFy.searchForSSIDs(null, mockCallbacks);
-        verify(mockCallbacks, timeout(VERIFICATION_TIMEOUT)).searchForSSIDsWiseFyFailure(WiseFyCodes.MISSING_PARAMETER);
+        verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).searchForSSIDsWiseFyFailure(WiseFyCodes.MISSING_PARAMETER);
     }
 
     @Test
-    public void callbacks_failure_nullSSIDParam_nullCallback() {
+    public void async_failure_nullSSIDParam_nullCallback() {
         try {
             mWiseFy.searchForSSIDs(null, null);
         } catch (NullPointerException npe) {
@@ -67,15 +67,15 @@ public class SearchForSSIDsTests extends BaseAndroidJUnit4TestClass {
     }
 
     @Test
-    public void callbacks_failure_missingPrerequisite() {
+    public void async_failure_missingPrerequisite() {
         missingPrerequisite();
         SearchForSSIDsCallbacks mockCallbacks = mock(SearchForSSIDsCallbacks.class);
         mWiseFy.searchForSSIDs(TEST_SSID, mockCallbacks);
-        verify(mockCallbacks, timeout(VERIFICATION_TIMEOUT)).searchForSSIDsWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
+        verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).searchForSSIDsWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
     }
 
     @Test
-    public void callbacks_failure_missingPrerequisite_nullCallback() {
+    public void async_failure_missingPrerequisite_nullCallback() {
         missingPrerequisite();
         try {
             mWiseFy.searchForSSIDs(TEST_SSID, null);
@@ -85,19 +85,19 @@ public class SearchForSSIDsTests extends BaseAndroidJUnit4TestClass {
     }
 
     @Test
-    public void callbacks_failure() {
+    public void async_failure() {
         WiseFySearch mockWiseFySearch = mock(WiseFySearch.class);
         mWiseFy.mWiseFySearch = mockWiseFySearch;
         when(mockWiseFySearch.findSSIDsMatchingRegex(anyString())).thenReturn(null);
 
         SearchForSSIDsCallbacks mockCallbacks = mock(SearchForSSIDsCallbacks.class);
         mWiseFy.searchForSSIDs(TEST_SSID, mockCallbacks);
-        verify(mockCallbacks, timeout(VERIFICATION_TIMEOUT)).noSSIDsFound();
+        verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).noSSIDsFound();
     }
 
 
     @Test
-    public void callbacks_failure_nullCallback() {
+    public void async_failure_nullCallback() {
         WiseFySearch mockWiseFySearch = mock(WiseFySearch.class);
         mWiseFy.mWiseFySearch = mockWiseFySearch;
         when(mockWiseFySearch.findSSIDsMatchingRegex(anyString())).thenReturn(null);
@@ -110,7 +110,7 @@ public class SearchForSSIDsTests extends BaseAndroidJUnit4TestClass {
     }
 
     @Test
-    public void callbacks_success() {
+    public void async_success() {
         List<String> ssids = new ArrayList<>();
         ssids.add(TEST_SSID);
 
@@ -120,11 +120,11 @@ public class SearchForSSIDsTests extends BaseAndroidJUnit4TestClass {
 
         SearchForSSIDsCallbacks mockCallbacks = mock(SearchForSSIDsCallbacks.class);
         mWiseFy.searchForSSIDs(TEST_SSID, mockCallbacks);
-        verify(mockCallbacks, timeout(VERIFICATION_TIMEOUT)).retrievedSSIDs(ssids);
+        verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).retrievedSSIDs(ssids);
     }
 
     @Test
-    public void callbacks_success_nullCallback() {
+    public void async_success_nullCallback() {
         List<String> ssids = new ArrayList<>();
         ssids.add(TEST_SSID);
 

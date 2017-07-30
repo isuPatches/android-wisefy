@@ -13,18 +13,18 @@ import static org.mockito.Mockito.when;
 public class IsDeviceConnectedToSSIDTests extends BaseAndroidJUnit4TestClass {
 
     @Test
-    public void noCallbacks_failure_nullSSIDParams() {
+    public void failure_nullSSIDParams() {
         assertFalse(mWiseFy.isDeviceConnectedToSSID(null));
     }
 
     @Test
-    public void noCallbacks_failure_missingPrerequisite() {
+    public void failure_missingPrerequisite() {
         missingPrerequisite();
         assertFalse(mWiseFy.isDeviceConnectedToSSID(TEST_SSID));
     }
 
     @Test
-    public void noCallbacks_failure() {
+    public void failure() {
         WiseFyConnection mockWiseFyConnection = mock(WiseFyConnection.class);
         mWiseFy.mWiseFyConnection = mockWiseFyConnection;
         when(mockWiseFyConnection.isCurrentNetworkConnectedToSSID(anyString())).thenReturn(false);
@@ -33,7 +33,7 @@ public class IsDeviceConnectedToSSIDTests extends BaseAndroidJUnit4TestClass {
     }
 
     @Test
-    public void noCallbacks_success() {
+    public void success() {
         WiseFyConnection mockWiseFyConnection = mock(WiseFyConnection.class);
         mWiseFy.mWiseFyConnection = mockWiseFyConnection;
         when(mockWiseFyConnection.isCurrentNetworkConnectedToSSID(anyString())).thenReturn(true);
