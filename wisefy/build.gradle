@@ -74,12 +74,12 @@ android {
     }
 }
 
-apply from: rootProject.file('/wisefy/gradle/dependencies.gradle')
-apply from: rootProject.file('/wisefy/gradle/findbugs.gradle')
-apply from: rootProject.file('/wisefy/gradle/pmd.gradle')
-apply from: rootProject.file('/wisefy/gradle/cpd.gradle')
-apply from: rootProject.file('/wisefy/gradle/checkstyle.gradle')
-apply from: rootProject.file('/wisefy/gradle/jacoco.gradle')
+apply from: rootProject.file('wisefy/gradle/dependencies.gradle')
+apply from: rootProject.file('wisefy/gradle/findbugs.gradle')
+apply from: rootProject.file('wisefy/gradle/pmd.gradle')
+apply from: rootProject.file('wisefy/gradle/cpd.gradle')
+apply from: rootProject.file('wisefy/gradle/checkstyle.gradle')
+apply from: rootProject.file('wisefy/gradle/jacoco.gradle')
 apply from: rootProject.file('gradle/gradle-bintray-install.gradle')
 apply from: rootProject.file('gradle/gradle-bintray-upload.gradle')
 
