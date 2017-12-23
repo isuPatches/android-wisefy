@@ -86,10 +86,22 @@ apply from: rootProject.file('gradle/gradle-bintray-upload.gradle')
 task makeGoodChoices {
     group = "verification"
 
+    dependsOn 'androidFindbugs', 'pmd', 'lintDebug', 'cpdCheck', 'checkstyle', 'jacocoDebugTestReport'
+    doLast {
+        println "\n#############################################" +
+                "\n# All checks passed! You are doing so good! #" +
+                "\n# You may now push the awesome to origin :) #" +
+                "\n#############################################"
+    }
+}
+
+task staticAnalysisSanityCheck {
+    group = "verification"
+
     dependsOn 'androidFindbugs', 'pmd', 'lintDebug', 'cpdCheck', 'checkstyle'
     doLast {
-        println "\n#####################################################" +
-                "\n# Sanity check success! You may now push to origin. #" +
-                "\n#####################################################"
+        println "\n##################################################" +
+                "\n# Static analysis passed! You are doing so good! #" +
+                "\n##################################################"
     }
 }
