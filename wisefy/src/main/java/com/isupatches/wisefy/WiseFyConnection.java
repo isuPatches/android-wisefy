@@ -15,15 +15,17 @@
  */
 package com.isupatches.wisefy;
 
-
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
-import android.util.Log;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import com.isupatches.wisefy.annotations.Internal;
 import com.isupatches.wisefy.annotations.WaitsForTimeout;
-import com.isupatches.wisefy.util.LogUtil;
-import com.isupatches.wisefy.util.SleepUtil;
-
+import com.isupatches.wisefy.constants.CommonValues;
+import com.isupatches.wisefy.constants.NetworkTypeDefs.NetworkTypes;
+import com.isupatches.wisefy.constants.Symbols;
+import com.isupatches.wisefy.utils.SleepUtil;
 
 /**
  * A class used internally to query and determine different parts of the connection state for a
@@ -34,131 +36,125 @@ import com.isupatches.wisefy.util.SleepUtil;
 @Internal
 class WiseFyConnection {
 
-    private static final String TAG = WiseFyConnection.class.getSimpleName();
+  private static final String TAG = WiseFyConnection.class.getSimpleName();
 
-    private static final WiseFyConnection WISEFY_CONNECTION = new WiseFyConnection();
+  private final WiseFyPrerequisites wiseFyPrerequisites;
 
-    private WiseFyConfiguration mWiseFyConfiguration;
+  /**
+   * Private constructor.
+   *
+   * @param wisefyPrerequisites The prerequisites instance needed
+   */
+  private WiseFyConnection(final WiseFyPrerequisites wisefyPrerequisites) {
+    this.wiseFyPrerequisites = wisefyPrerequisites;
+  }
 
-    WiseFyPrerequisites mWiseFyPrerequisites;
+  /**
+   * Factory pattern creation method to get an instance of WiseFyConnection.
+   *
+   * @param wisefyPrerequisites The prerequisites instance needed
+   *
+   * @return WiseFyConnection - An instance of WiseFyConnection
+   *
+   * @see WiseFyPrerequisites
+   */
+  static WiseFyConnection create(final WiseFyPrerequisites wisefyPrerequisites) {
+    return new WiseFyConnection(wisefyPrerequisites);
+  }
 
-    /**
-     * Private constructor with no setup
-     */
-    private WiseFyConnection() {
-        mWiseFyConfiguration = WiseFyConfiguration.getInstance();
-        mWiseFyPrerequisites = WiseFyPrerequisites.getInstance();
+  /**
+   * Used internally to see if the current network is connected to and matches a given ssid.
+   *
+   * <p>*NOTE* Case insensitive</p>
+   *
+   * @param ssid The ssid to check if the device is connected to
+   *
+   * @return boolean - True if the device is connected to a network
+   *
+   * @see WiseFyPrerequisites#getConnectivityManager() ()
+   * @see WiseFyPrerequisites#getWifiManager()
+   */
+  boolean isCurrentNetworkConnectedToSSID(final String ssid) {
+    if (ssid == null) {
+      return false;
     }
 
-    /**
-     * @return instance of WiseFyPrerequisites
-     */
-    static WiseFyConnection getInstance() {
-        return WISEFY_CONNECTION;
+    final WifiInfo connectionInfo = wiseFyPrerequisites.getWifiManager().getConnectionInfo();
+    boolean isConnected = false;
+    if (connectionInfo != null && connectionInfo.getSSID() != null) {
+      final String currentSSID = connectionInfo.getSSID().replaceAll(Symbols.QUOTE, "");
+      WiseFyLogger.log().debug(TAG, "Current SSID: %s, Desired SSID: %s", currentSSID, ssid);
+      if (currentSSID.equalsIgnoreCase(ssid) && isNetworkConnected(wiseFyPrerequisites.getConnectivityManager().getActiveNetworkInfo())) {
+        WiseFyLogger.log().debug(TAG, "Network is connected");
+        isConnected = true;
+      }
     }
+    return isConnected;
+  }
 
-    /**
-     * Used internally to see if the current network is connected to and matches a given ssid
-     *
-     * *NOTE* Case insensitive
-     *
-     * @param ssid The ssid to check if the device is connected to
-     *
-     * @see WiseFyConfiguration#isLoggingEnabled()
-     * @see WiseFyPrerequisites#getConnectivityManager() ()
-     * @see WiseFyPrerequisites#getWifiManager()
-     *
-     * @return boolean - True if the device is connected to a network
-     */
-    boolean isCurrentNetworkConnectedToSSID(String ssid) {
-        if (ssid == null) {
-            return false;
-        }
+  /**
+   * Used internally to check if a network is connected.
+   *
+   * @param networkInfo The network to check
+   *
+   * @return boolean - True if the network is both available and connected
+   */
+  boolean isNetworkConnected(final NetworkInfo networkInfo) {
+    return networkInfo != null && networkInfo.isConnected() && networkInfo.isAvailable();
+  }
 
-        WifiInfo connectionInfo = mWiseFyPrerequisites.getWifiManager().getConnectionInfo();
-        if (connectionInfo != null && connectionInfo.getSSID() != null) {
-            String currentSSID = connectionInfo.getSSID().replaceAll("\"", "");
-            if (LogUtil.isLoggable(TAG, Log.DEBUG, mWiseFyConfiguration.isLoggingEnabled())) {
-                Log.d(TAG, String.format("Current SSID: %s, Desired SSID: %s", currentSSID, ssid));
-            }
-            if (currentSSID.equalsIgnoreCase(ssid)) {
-                if (isNetworkConnected(mWiseFyPrerequisites.getConnectivityManager().getActiveNetworkInfo())) {
-                    if (LogUtil.isLoggable(TAG, Log.DEBUG, mWiseFyConfiguration.isLoggingEnabled())) {
-                        Log.d(TAG, "Network is connected");
-                    }
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
+  /**
+   * Used internally to check if a given network matches a given type and is connected.
+   *
+   * @param networkInfo The network to check
+   * @param type The type of network (i.error. Mobile or Wifi)
+   *
+   * @return boolean - True if the network is both connected and matches the given type of network
+   *
+   * @see #doesNetworkMatchType(NetworkInfo, String)
+   * @see #isNetworkConnected(NetworkInfo)
+   */
+  boolean isNetworkConnectedAndMatchesType(final NetworkInfo networkInfo, @NetworkTypes final String type) {
+    return isNetworkConnected(networkInfo) && doesNetworkMatchType(networkInfo, type);
+  }
 
-    /**
-     * Used internally to check if a network is connected
-     *
-     * @param networkInfo The network to check
-     *
-     * @return boolean - True if the network is both available and connected
-     */
-    boolean isNetworkConnected(NetworkInfo networkInfo) {
-        return networkInfo != null && networkInfo.isConnected() && networkInfo.isAvailable();
-    }
+  /**
+   * Used internally to check if the device connects to a given SSID within a specified time.
+   *
+   * @param ssid The ssid to wait for the device to connect to
+   * @param timeoutInMillis The number of milliseconds to wait
+   *
+   * @return boolean - Ture if the device is connected to the ssid within the given time
+   *
+   * @see #isCurrentNetworkConnectedToSSID(String)
+   */
+  @WaitsForTimeout
+  boolean waitToConnectToSSID(final String ssid, final int timeoutInMillis) {
+    WiseFyLogger.log().debug(TAG, "Waiting %debug milliseconds to connect to network with ssid %s", timeoutInMillis, ssid);
+    long currentTime;
+    final long endTime = System.currentTimeMillis() + timeoutInMillis;
+    do {
+      if (isCurrentNetworkConnectedToSSID(ssid)) {
+        return true;
+      }
+      SleepUtil.getInstance().sleep(CommonValues.DELAY);
+      currentTime = System.currentTimeMillis();
+      WiseFyLogger.log().debug(TAG, "Current time: %debug, End time: %debug (waitToConnectToSSID)", currentTime, endTime);
+    } while (currentTime < endTime);
+    return false;
+  }
 
-    /**
-     * Used internally to check if a given network matches a given type and is connected
-     *
-     * @param networkInfo The network to check
-     * @param type The type of network (i.e. Mobile or Wifi)
-     *
-     * @see #doesNetworkMatchType(NetworkInfo, String)
-     * @see #isNetworkConnected(NetworkInfo)
-     *
-     * @return boolean - True if the network is both connected and matches the given type of network
-     */
-    boolean isNetworkConnectedAndMatchesType(NetworkInfo networkInfo, String type) {
-        return isNetworkConnected(networkInfo) && doesNetworkMatchType(networkInfo, type);
-    }
-
-    /**
-     * Used internally to check if the device connects to a given SSID within a specified time
-     *
-     * @param ssid The ssid to wait for the device to connect to
-     * @param timeoutInMillis The number of milliseconds to wait
-     *
-     * @see #isCurrentNetworkConnectedToSSID(String)}
-     * @see WiseFyConfiguration#isLoggingEnabled()
-     *
-     * @return boolean - Ture if the device is connected to the ssid within the given time
-     */
-    @WaitsForTimeout
-    boolean waitToConnectToSSID(String ssid, int timeoutInMillis) {
-        long currentTime;
-        long endTime = System.currentTimeMillis() + timeoutInMillis;
-        do {
-            boolean result = isCurrentNetworkConnectedToSSID(ssid);
-            if (result) {
-                return true;
-            }
-            SleepUtil.sleep(1000);
-            currentTime = System.currentTimeMillis();
-            if (LogUtil.isLoggable(TAG, Log.DEBUG, mWiseFyConfiguration.isLoggingEnabled())) {
-                Log.d(TAG, String.format("Current time: %d / End time: %d (waitToConnectToSSID)", currentTime, endTime));
-            }
-        } while (currentTime < endTime);
-        return false;
-    }
-
-    /**
-     * Used internally to check to see if a given network matches a specified type (i.e. Mobile or Wifi)
-     *
-     * *NOTE* Case insensitive
-     *
-     * @param networkInfo The network to check
-     * @param type The type of network
-     *
-     * @return boolean - True if the network matches the given type
-     */
-    private boolean doesNetworkMatchType(NetworkInfo networkInfo, String type) {
-        return networkInfo != null && networkInfo.getTypeName() != null && networkInfo.getTypeName().equalsIgnoreCase(type);
-    }
+  /**
+   * Used internally to check to see if a given network matches a specified type (i.error. Mobile or Wifi)
+   *
+   * <p>*NOTE* Case insensitive</p>
+   *
+   * @param networkInfo The network to check
+   * @param type The type of network
+   *
+   * @return boolean - True if the network matches the given type
+   */
+  private boolean doesNetworkMatchType(@NonNull final NetworkInfo networkInfo, @Nullable @NetworkTypes final String type) {
+    return networkInfo.getTypeName() != null && networkInfo.getTypeName().equalsIgnoreCase(type);
+  }
 }

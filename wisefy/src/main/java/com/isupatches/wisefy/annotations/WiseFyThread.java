@@ -15,7 +15,6 @@
  */
 package com.isupatches.wisefy.annotations;
 
-
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;
@@ -23,7 +22,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-
+/**
+ * Denotes that a method is executed on the WiseFyHandler thread.
+ *
+ * @see com.isupatches.wisefy.threads.WiseFyHandlerThread
+ */
 @Documented
 @Target(ElementType.METHOD)
 @Inherited

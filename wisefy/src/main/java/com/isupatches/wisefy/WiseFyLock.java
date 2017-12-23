@@ -16,12 +16,14 @@
 package com.isupatches.wisefy;
 
 /**
- *  A class used to synchronize logic
+ * A class used to synchronize logic.
  *
- *  @see WiseFy#getWiseFyLock()
+ * @author Patches
  *
- *  @author Patches
+ * @see WiseFy#getWiseFyLock()
  */
-class WiseFyLock {
-
+public final class WiseFyLock {
+  public WiseFyLock() {
+    // No-op
+  }
 }

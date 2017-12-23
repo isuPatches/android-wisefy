@@ -1,0 +1,20 @@
+apply plugin: 'cpd'
+
+cpd {
+    language = 'java'
+}
+
+cpdCheck {
+    ignoreFailures false
+
+    def classes = fileTree('src/main/java')
+    classes += fileTree('src/androidTest/java')
+    classes += fileTree('src/commonTest/java')
+    classes += fileTree('src/test/java')
+    source = classes
+
+    reports {
+        text.enabled = false
+        xml.enabled = true
+    }
+}

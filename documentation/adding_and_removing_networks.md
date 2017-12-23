@@ -3,25 +3,25 @@
 To add an open network:
 
 ```java
-int addedSuccessfully = mWiseFy.addOpenNetwork("Open Network");
+int newNetworkId = wisefy.addOpenNetwork("Open Network");
 ```
 
 To add a WEP network:
 
 ```java
-int addedSuccessfully = mWiseFy.addWEPNetwork("WEP Network", "123456");
+int newNetworkId = wisefy.addWEPNetwork("WEP Network", "123456");
 ```
 
 To add a WPA2 network:
 
 ```java
-int addedSuccessfully = mWiseFy.addWPA2Network("WPA2 Network", "12345678");
+int newNetworkId = wisefy.addWPA2Network("WPA2 Network", "12345678");
 ```
 
 To remove a configured network:
 
 ```java
-boolean removedSuccessfully = mWiseFy.removeNetwork("SSID to remove");
+boolean removedSuccessfully = wisefy.removeNetwork("SSID to remove");
 ```
 
 #### Via The Asynchronous API
@@ -29,20 +29,20 @@ boolean removedSuccessfully = mWiseFy.removeNetwork("SSID to remove");
 To add an open network:
 
 ```java
-mWiseFy.addOpenNetwork("Open Network", new AddOpenNetworkCallbacks() {
+wisefy.addOpenNetwork("Open Network", new AddOpenNetworkCallbacks() {
     @Override
-    public void addOpenNetworkWiseFyFailure(Integer wisefyReturnCode) {
-
+    public void addOpenNetworkWiseFyFailure(int wisefyReturnCode) {
+      
     }
-
+    
     @Override
-    public void failureAddingOpenNetwork(Integer wifiManagerReturnCode) {
-
+    public void failureAddingOpenNetwork(int wifiManagerReturn) {
+    
     }
-
+    
     @Override
-    public void openNetworkAdded(WifiConfiguration openNetwork) {
-
+    public void openNetworkAdded(int newNetworkId, WifiConfiguration openNetworkConfig) {
+    
     }
 });
 ```
@@ -50,20 +50,20 @@ mWiseFy.addOpenNetwork("Open Network", new AddOpenNetworkCallbacks() {
 To add a WEP network:
 
 ```java
-mWiseFy.addWEPNetwork("WEP Network", "123456", new AddWEPNetworkCallbacks() {
+wisefy.addWEPNetwork("WEP Network", "123456", new AddWEPNetworkCallbacks() {
     @Override
-    public void addWEPNetworkWiseFyFailure(Integer wisefyReturnCode) {
-
+    public void addWEPNetworkWiseFyFailure(int wisefyReturnCode) {
+      
     }
-
+    
     @Override
-    public void failureAddingWEPNetwork(Integer wifiManagerReturnCode) {
-
+    public void failureAddingWEPNetwork(int wifiManagerReturn) {
+    
     }
-
+    
     @Override
-    public void wepNetworkAdded(WifiConfiguration wepNetwork) {
-
+    public void wepNetworkAdded(int newNetworkId, WifiConfiguration wepNetworkConfig) {
+    
     }
 });
 ```
@@ -71,20 +71,20 @@ mWiseFy.addWEPNetwork("WEP Network", "123456", new AddWEPNetworkCallbacks() {
 To add a WPA2 network:
 
 ```java
-mWiseFy.addWPA2Network("WPA2 Network", "12345678", new AddWPA2NetworkCallbacks() {
+wisefy.addWPA2Network("WPA2 Network", "12345678", new AddWPA2NetworkCallbacks() {
     @Override
-    public void addWPA2NetworkWiseFyFailure(Integer wisefyReturnCode) {
-
+    public void addWPA2NetworkWiseFyFailure(int wisefyReturnCode) {
+    
     }
-
+    
     @Override
-    public void failureAddingWPA2Network(Integer wifiManagerReturnCode) {
-
+    public void failureAddingWPA2Network(int wifiManagerReturn) {
+    
     }
-
+    
     @Override
-    public void wpa2NetworkAdded(WifiConfiguration wpa2Network) {
-
+    public void wpa2NetworkAdded(int newNetworkId, WifiConfiguration wpa2Network) {
+    
     }
 });
 ```
@@ -92,25 +92,25 @@ mWiseFy.addWPA2Network("WPA2 Network", "12345678", new AddWPA2NetworkCallbacks()
 To remove a configured network:
 
 ```java
-mWiseFy.removeNetwork("SSID to remove", new RemoveNetworkCallbacks() {
+wisefy.removeNetwork("SSID to remove", new RemoveNetworkCallbacks() {
     @Override
     public void failureRemovingNetwork() {
-
+    
     }
-
+    
     @Override
     public void networkNotFoundToRemove() {
-
+    
     }
-
+    
     @Override
     public void networkRemoved() {
-
+    
     }
-
+    
     @Override
-    public void removeNetworkWiseFyFailure(Integer wisefyReturnCode) {
-
+    public void removeNetworkWiseFyFailure(int wisefyReturnCode) {
+    
     }
 });
 ```

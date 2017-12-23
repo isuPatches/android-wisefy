@@ -15,12 +15,17 @@
  */
 package com.isupatches.wisefy.callbacks;
 
-
 import android.net.wifi.WifiConfiguration;
 
-
+/**
+ * Callbacks for adding a WPA2 network.
+ *
+ * @see com.isupatches.wisefy.WiseFy#addWPA2Network(String, String, AddWPA2NetworkCallbacks)
+ */
 public interface AddWPA2NetworkCallbacks {
-    void addWPA2NetworkWiseFyFailure(Integer wisefyReturnCode);
-    void failureAddingWPA2Network(Integer wifiManagerReturnCode);
-    void wpa2NetworkAdded(WifiConfiguration wpa2Network);
+  void addWPA2NetworkWiseFyFailure(int wisefyReturnCode);
+
+  void failureAddingWPA2Network(int wifiManagerReturn);
+
+  void wpa2NetworkAdded(int newNetworkId, WifiConfiguration wpa2Network);
 }

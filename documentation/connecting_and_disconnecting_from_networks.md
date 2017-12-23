@@ -3,13 +3,13 @@
 To connect to a network given an SSID:
 
 ```java
-boolean connectedSuccessfully = mWiseFy.connectToNetwork("SSID to connect to", 30000);
+boolean connectedSuccessfully = wisefy.connectToNetwork("SSID to connect to", 30000);
 ```
 
 To disconnect from current network:
 
 ```java
-boolean disconnectedSuccessfully = mWiseFy.disconnectFromCurrentNetwork();
+boolean disconnectedSuccessfully = wisefy.disconnectFromCurrentNetwork();
 ```
 
 #### Via The Asynchronous API
@@ -17,25 +17,25 @@ boolean disconnectedSuccessfully = mWiseFy.disconnectFromCurrentNetwork();
 To connect to a network given an SSID:
 
 ```java
-mWiseFy.connectToNetwork("SSID to connect to", 30000, new ConnectToNetworkCallbacks() {
+wisefy.connectToNetwork("SSID to connect to", 30000, new ConnectToNetworkCallbacks() {
     @Override
     public void connectedToNetwork() {
-
+     
     }
-
+    
     @Override
-    public void connectToNetworkWiseFyFailure(Integer wisefyReturnCode) {
-
+    public void connectToNetworkWiseFyFailure(int wisefyReturnCode) {
+    
     }
-
+    
     @Override
     public void failureConnectingToNetwork() {
-
+    
     }
-
+    
     @Override
     public void networkNotFoundToConnectTo() {
-
+    
     }
 });
 ```
@@ -43,21 +43,21 @@ mWiseFy.connectToNetwork("SSID to connect to", 30000, new ConnectToNetworkCallba
 To disconnect from current network:
 
 ```java
-mWiseFy.disconnectFromCurrentNetwork(new DisconnectFromCurrentNetworkCallbacks() {
-    @Override
-    public void disconnectedFromCurrentNetwork() {
-
-    }
-
-    @Override
-    public void disconnectFromCurrentNetworkWiseFyFailure(Integer wisefyReturnCode) {
-
-    }
-
-    @Override
-    public void failureDisconnectingFromCurrentNetwork() {
-
-    }
+wisefy.disconnectFromCurrentNetwork(new DisconnectFromCurrentNetworkCallbacks() {
+  @Override
+  public void disconnectedFromCurrentNetwork() {
+    
+  }
+  
+  @Override
+  public void disconnectFromCurrentNetworkWiseFyFailure(int wisefyReturnCode) {
+  
+  }
+  
+  @Override
+  public void failureDisconnectingFromCurrentNetwork() {
+  
+  }
 });
 ```
 

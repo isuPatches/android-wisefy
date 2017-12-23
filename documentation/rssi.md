@@ -3,20 +3,20 @@
 To calculate number of bars given a networks signal strength and total number of bars:
 
 ```java
-int bars = mWiseFy.calculateBars(-35, 5);
+int bars = wisefy.calculateBars(-35, 5);
 ```
 
 To compare the signal strength of two networks:
 
 ```java
-int result = mWiseFy.compareSignalLevel(-35, -70);
+int result = wisefy.compareSignalLevel(-35, -70);
 ```
 
 To get the RSSI of the first SSID matching a given regex:<br/><br/>
 <strong>Setting takeHighest to true will return the access point with the highest RSSI for the given SSID</strong>
 
 ```java
-Integer rssi = mWiseFy.getRSSI("regex for SSID", true, 3000);
+Integer rssi = wisefy.getRSSI("regex for SSID", true, 3000);
 ```
 
 #### Via The Asynchronous API
@@ -24,20 +24,20 @@ Integer rssi = mWiseFy.getRSSI("regex for SSID", true, 3000);
 To get the RSSI of the first SSID matching a given regex:
 
 ```java
-mWiseFy.getRSSI("regex for SSID", true, 3000, new GetRSSICallbacks() {
+wisefy.getRSSI("regex for SSID", true, 3000, new GetRSSICallbacks() {
     @Override
-    public void retrievedRSSI(Integer rssi) {
-
+    public void retrievedRSSI(int rssi) {
+    
     }
-
+    
     @Override
     public void networkNotFoundToRetrieveRSSI() {
-
+    
     }
-
+    
     @Override
-    public void getRSSIWiseFyFailure(Integer wisefyReturnCode) {
-
+    public void getRSSIWiseFyFailure(int wisefyReturnCode) {
+    
     }
 });
 ```

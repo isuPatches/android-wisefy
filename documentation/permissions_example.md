@@ -36,9 +36,9 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    private WiseFy mWiseFy;
+    private WiseFy wisefy;
 
-    private PermissionUtil mPermissionUtil = PermissionUtil.getInstance();
+    private PermissionUtil permissionUtil = PermissionUtil.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mWiseFy.dump();
+        wisefy.dump();
     }
 
     private boolean checkForPermissions() {
@@ -61,11 +61,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public boolean isPermissionGranted(String permission, int rationaleResId, int requestCode) {
-        if (mPermissionUtil.permissionNotGranted(this, permission)) {
-            if (mPermissionUtil.shouldShowPermissionRationale(this, permission)) {
+        if (permissionUtil.permissionNotGranted(this, permission)) {
+            if (permissionUtil.shouldShowPermissionRationale(this, permission)) {
                 // Display dialog or rationale for requesting permission here
             } else {
-                mPermissionUtil.requestPermissions(this, new String[]{permission}, requestCode);
+                permissionUtil.requestPermissions(this, new String[]{permission}, requestCode);
             }
             return false;
         } else {
@@ -93,9 +93,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getNearbyAccessPoints() {
-        mWiseFy = new WiseFy.brains(this).logging(true).getSmarts();
+        wisefy = new WiseFy.brains(this).logging(true).getSmarts();
 
-        mWiseFy.getNearbyAccessPoints(true, new GetNearbyAccessPointsCallbacks() {
+        wisefy.getNearbyAccessPoints(true, new GetNearbyAccessPointsCallbacks() {
             @Override
             public void getNearbyAccessPointsWiseFyFailure(Integer integer) {
 

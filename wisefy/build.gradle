@@ -1,7 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.getkeepsafe.dexcount'
 
-group = rootProject.ext.GROUP
 version = rootProject.ext.VERSION_NAME
 
 dexcount {
@@ -22,50 +21,75 @@ android {
 
     adbOptions {
         timeOutInMs 15 * 60 * 1000  // 15 minutes
-        installOptions "-d","-t"
+        installOptions "-d", "-t"
     }
 
-    compileSdkVersion 26
-    buildToolsVersion "26.0.0"
+    compileSdkVersion 27
+    buildToolsVersion "27.0.2"
 
     defaultConfig {
         minSdkVersion 16
-        targetSdkVersion 26
-        versionCode 12
+        targetSdkVersion 27
+        versionCode 13
         versionName version
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     buildTypes {
         debug {
             testCoverageEnabled true
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
-            testProguardFile file("proguard-test-rules.txt")
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            testProguardFile file("proguard-test-rules.pro")
         }
 
         release {
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    sourceSets {
+        main {
+            jni.srcDirs = [] //disable automatic ndk-build call
+        }
+
+        // This lets us write test utility code that can be used by both unit tests and android tests
+        commonTest {
+            java
+        }
+
+        test {
+            java.srcDirs += commonTest.java.srcDirs
+        }
+
+        androidTest {
+            java.srcDirs += commonTest.java.srcDirs
         }
     }
 }
 
-dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-
-    androidTestCompile 'com.android.support:support-annotations:26.0.0-alpha1'
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
-    androidTestCompile 'org.mockito:mockito-android:2.8.47'
-    androidTestCompile 'com.android.support.test:runner:0.5'
-    // For issue #55 / IllegalAccessError conflict test
-    androidTestCompile 'com.google.android.gms:play-services-gcm:8.3.0'
-
-    testCompile 'org.mockito:mockito-core:2.8.47'
-    testCompile 'junit:junit:4.12'
-}
-
-
+apply from: rootProject.file('/wisefy/gradle/dependencies.gradle')
+apply from: rootProject.file('/wisefy/gradle/findbugs.gradle')
+apply from: rootProject.file('/wisefy/gradle/pmd.gradle')
+apply from: rootProject.file('/wisefy/gradle/cpd.gradle')
+apply from: rootProject.file('/wisefy/gradle/checkstyle.gradle')
+apply from: rootProject.file('/wisefy/gradle/jacoco.gradle')
 apply from: rootProject.file('gradle/gradle-bintray-install.gradle')
 apply from: rootProject.file('gradle/gradle-bintray-upload.gradle')
-apply from: rootProject.file('gradle/jacoco.gradle')
+
+task makeGoodChoices {
+    group = "verification"
+
+    dependsOn 'androidFindbugs', 'pmd', 'lintDebug', 'cpdCheck', 'checkstyle'
+    doLast {
+        println "\n#####################################################" +
+                "\n# Sanity check success! You may now push to origin. #" +
+                "\n#####################################################"
+    }
+}
