@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE import-control PUBLIC
+    "-//Puppy Crawl//DTD Import Control 1.2//EN"
+    "http://www.puppycrawl.com/dtds/import_control_1_1.dtd">
+<import-control pkg="com.isupatches.wisefy">
+
+    <allow pkg="com.isupatches.wisefy"/>
+
+    <!-- Android -->
+    <allow pkg="android.annotation"/>
+    <allow pkg="android.content"/>
+    <allow pkg="android.net"/>
+    <allow pkg="android.os"/>
+    <allow pkg="android.support"/>
+    <allow pkg="android.util"/>
+
+    <!-- Google -->
+    <allow pkg="com.google.android.gms"/>
+
+    <!-- Java -->
+    <allow pkg="java.lang.annotation"/>
+    <allow pkg="java.math"/>
+    <allow pkg="java.net"/>
+    <allow pkg="java.util"/>
+
+    <!-- Junit -->
+    <allow pkg="org.junit"/>
+
+    <!-- Mockito -->
+    <allow pkg="org.mockito"/>
+</import-control>

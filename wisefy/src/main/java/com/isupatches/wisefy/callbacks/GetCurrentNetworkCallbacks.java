@@ -15,11 +15,15 @@
  */
 package com.isupatches.wisefy.callbacks;
 
-
 import android.net.wifi.WifiInfo;
 
-
+/**
+ * Callbacks for retrieving a device's current network.
+ *
+ * @see com.isupatches.wisefy.WiseFy#getCurrentNetwork(GetCurrentNetworkCallbacks)
+ */
 public interface GetCurrentNetworkCallbacks {
-    void getCurrentNetworkWiseFyFailure(Integer wisefyReturnCode);
-    void retrievedCurrentNetwork(WifiInfo currentNetwork);
+  void getCurrentNetworkWiseFyFailure(int wisefyReturnCode);
+
+  void retrievedCurrentNetwork(WifiInfo currentNetwork);
 }

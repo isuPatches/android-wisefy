@@ -3,25 +3,25 @@
 To get the first saved network that matches a given regex:
 
 ```java
-WifiConfiguration savedNetwork = mWiseFy.getSavedNetwork("regex for SSID");
+WifiConfiguration savedNetwork = wisefy.getSavedNetwork("regex for SSID");
 ```
 
 To retrieve all of the saved networks:
 
 ```java
-List<WifiConfiguration> savedNetworks = mWiseFy.getSavedNetworks();
+List<WifiConfiguration> savedNetworks = wisefy.getSavedNetworks();
 ```
 
 To return all saved networks that match a given regex:
 
 ```java
-List<WifiConfiguration> savedNetworks = mWiseFy.getSavedNetworks("regex for SSID");
+List<WifiConfiguration> savedNetworks = wisefy.getSavedNetworks("regex for SSID");
 ```
 
 To check and see if a given SSID is in the devices set of configured networks:
 
 ```java
-boolean isConfigured = mWiseFy.isNetworkInConfigurationList("regex for SSID");
+boolean isConfigured = wisefy.isNetworkSaved("regex for SSID");
 ```
 
 #### Via The Asynchronous API
@@ -29,20 +29,20 @@ boolean isConfigured = mWiseFy.isNetworkInConfigurationList("regex for SSID");
 To get the first saved network that matches a given regex:
 
 ```java
-  mWiseFy.getSavedNetwork("regex for SSID", new GetSavedNetworkCallbacks() {
+wisefy.getSavedNetwork("regex for SSID", new GetSavedNetworksCallbacks() {
     @Override
-    public void getSavedNetworkWiseFyFailure(Integer wisefyReturnCode) {
-
+    public void getSavedNetworksWiseFyFailure(int wisefyReturnCode) {
+    
     }
-
+    
     @Override
-    public void savedNetworkNotFound() {
-
+    public void noSavedNetworksFound() {
+    
     }
-
+    
     @Override
-    public void retrievedSavedNetwork(WifiConfiguration savedNetwork) {
-
+    public void retrievedSavedNetworks(List<WifiConfiguration> savedNetworks) {
+    
     }
 });
 ```
@@ -50,20 +50,20 @@ To get the first saved network that matches a given regex:
 To retrieve all of the saved networks:
 
 ```java
-mWiseFy.getSavedNetworks(new GetSavedNetworksCallbacks() {
+wisefy.getSavedNetworks(new GetSavedNetworksCallbacks() {
     @Override
-    public void getSavedNetworksWiseFyFailure(Integer wisefyReturnCode) {
-
+    public void getSavedNetworksWiseFyFailure(int wisefyReturnCode) {
+    
     }
-
+    
     @Override
     public void noSavedNetworksFound() {
-
+    
     }
-
+    
     @Override
     public void retrievedSavedNetworks(List<WifiConfiguration> savedNetworks) {
-
+    
     }
 });
 ```
@@ -71,20 +71,20 @@ mWiseFy.getSavedNetworks(new GetSavedNetworksCallbacks() {
 To return all saved networks that match a given regex:
 
 ```java
-mWiseFy.getSavedNetwork("regex for SSID", new GetSavedNetworkCallbacks() {
+wisefy.getSavedNetwork("regex for SSID", new GetSavedNetworkCallbacks() {
     @Override
-    public void getSavedNetworkWiseFyFailure(Integer wisefyReturnCode) {
-
+    public void getSavedNetworkWiseFyFailure(int wisefyReturnCode) {
+     
     }
-
+    
     @Override
     public void savedNetworkNotFound() {
-
+    
     }
-
+    
     @Override
     public void retrievedSavedNetwork(WifiConfiguration savedNetwork) {
-
+    
     }
 });
 ```

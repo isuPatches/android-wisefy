@@ -15,9 +15,18 @@
  */
 package com.isupatches.wisefy.callbacks;
 
+import android.net.wifi.WifiInfo;
 
+/**
+ * Callbacks for retrieving the frequency of a network.
+ *
+ * @see com.isupatches.wisefy.WiseFy#getFrequency(GetFrequencyCallbacks)
+ * @see com.isupatches.wisefy.WiseFy#getFrequency(WifiInfo, GetFrequencyCallbacks)
+ */
 public interface GetFrequencyCallbacks {
-    void failureGettingFrequency();
-    void getFrequencyWiseFyFailure(Integer wisefyReturnCode);
-    void retrievedFrequency(int frequency);
+  void failureGettingFrequency();
+
+  void getFrequencyWiseFyFailure(int wisefyReturnCode);
+
+  void retrievedFrequency(int frequency);
 }

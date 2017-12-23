@@ -15,9 +15,15 @@
  */
 package com.isupatches.wisefy.callbacks;
 
-
+/**
+ * Callbacks for disconnecting a device from it's current network.
+ *
+ * @see com.isupatches.wisefy.WiseFy#disconnectFromCurrentNetwork(DisconnectFromCurrentNetworkCallbacks)
+ */
 public interface DisconnectFromCurrentNetworkCallbacks {
-    void disconnectedFromCurrentNetwork();
-    void disconnectFromCurrentNetworkWiseFyFailure(Integer wisefyReturnCode);
-    void failureDisconnectingFromCurrentNetwork();
+  void disconnectedFromCurrentNetwork();
+
+  void disconnectFromCurrentNetworkWiseFyFailure(int wisefyReturnCode);
+
+  void failureDisconnectingFromCurrentNetwork();
 }

@@ -15,13 +15,14 @@
  */
 package com.isupatches.wisefy.annotations;
 
-
 import java.lang.annotation.Documented;
 import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-
+/**
+ * Denotes that a class contains methods exposed to end users.
+ */
 @Documented
 @Inherited
 @Retention(RetentionPolicy.RUNTIME)

@@ -1,857 +1,631 @@
 package com.isupatches.wisefy;
 
+import static com.isupatches.wisefy.TestUtils.TEST_REGEX;
+import static com.isupatches.wisefy.TestUtils.TEST_SSID;
+import static com.isupatches.wisefy.TestUtils.TEST_TIMEOUT;
+
+import static org.junit.Assert.assertEquals;
 
 import android.net.wifi.ScanResult;
-import android.net.wifi.WifiConfiguration;
-import org.junit.Test;
-import java.util.ArrayList;
+
 import java.util.List;
-import static com.isupatches.wisefy.base.TestUtils.TEST_SSID;
-import static com.isupatches.wisefy.base.TestUtils.TEST_SSID2;
-import static com.isupatches.wisefy.base.TestUtils.TEST_SSID3;
-import static com.isupatches.wisefy.base.TestUtils.TEST_TIMEOUT;
-import static junit.framework.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-
-public class WiseFySearchTests extends BaseAndroidJUnit4TestClass {
-
-
-    /*
-     * findAccessPointByRegex tests
-     */
-
-    @Test
-    public void findAccessPointByRegex_failure_nullAccessPoints_takeHighest_false() {
-        when(mMockWiFiManager.getScanResults()).thenReturn(null);
-        assertEquals(null, mWiseFy.mWiseFySearch.findAccessPointByRegex(TEST_SSID, TEST_TIMEOUT, false));
-    }
-
-    @Test
-    public void findAccessPointByRegex_failure_nullAccessPoints_takeHighest_true() {
-        when(mMockWiFiManager.getScanResults()).thenReturn(null);
-        assertEquals(null, mWiseFy.mWiseFySearch.findAccessPointByRegex(TEST_SSID, TEST_TIMEOUT, true));
-    }
-
-    @Test
-    public void findAccessPointByRegex_failure_emptyAccessPointList_takeHighest_false() {
-        when(mMockWiFiManager.getScanResults()).thenReturn(new ArrayList<ScanResult>());
-        assertEquals(null, mWiseFy.mWiseFySearch.findAccessPointByRegex(TEST_SSID, TEST_TIMEOUT, false));
-    }
-
-    @Test
-    public void findAccessPointByRegex_failure_emptyAccessPointList_takeHighest_true() {
-        when(mMockWiFiManager.getScanResults()).thenReturn(new ArrayList<ScanResult>());
-        assertEquals(null, mWiseFy.mWiseFySearch.findAccessPointByRegex(TEST_SSID, TEST_TIMEOUT, true));
-    }
-
-    @Test
-    public void findAccessPointByRegex_failure_nullAccessPoint_takeHighest_false() {
-        List<ScanResult> accessPoints = new ArrayList<>();
-        accessPoints.add(null);
-
-        when(mMockWiFiManager.getScanResults()).thenReturn(accessPoints);
-        assertEquals(null, mWiseFy.mWiseFySearch.findAccessPointByRegex(TEST_SSID, TEST_TIMEOUT, false));
-    }
-
-    @Test
-    public void findAccessPointByRegex_failure_nullAccessPoint_takeHighest_true() {
-        List<ScanResult> accessPoints = new ArrayList<>();
-        accessPoints.add(null);
-
-        when(mMockWiFiManager.getScanResults()).thenReturn(accessPoints);
-        assertEquals(null, mWiseFy.mWiseFySearch.findAccessPointByRegex(TEST_SSID, TEST_TIMEOUT, true));
-    }
-
-    @Test
-    public void findAccessPointByRegex_failure_nullSSID_takeHighest_false() {
-        List<ScanResult> accessPoints = new ArrayList<>();
-
-        ScanResult accessPoint= mock(ScanResult.class);
-        accessPoint.SSID = null;
-        accessPoints.add(accessPoint);
-
-        when(mMockWiFiManager.getScanResults()).thenReturn(accessPoints);
-        assertEquals(null, mWiseFy.mWiseFySearch.findAccessPointByRegex(TEST_SSID, TEST_TIMEOUT, false));
-    }
-
-    @Test
-    public void findAccessPointByRegex_failure_nullSSID_takeHighest_true() {
-        List<ScanResult> accessPoints = new ArrayList<>();
-
-        ScanResult accessPoint= mock(ScanResult.class);
-        accessPoint.SSID = null;
-        accessPoints.add(accessPoint);
-
-        when(mMockWiFiManager.getScanResults()).thenReturn(accessPoints);
-        assertEquals(null, mWiseFy.mWiseFySearch.findAccessPointByRegex(TEST_SSID, TEST_TIMEOUT, true));
-    }
-
-    @Test
-    public void findAccessPointByRegex_failure_nonMatchingSSID_takeHighest_false() {
-        List<ScanResult> accessPoints = new ArrayList<>();
-
-        ScanResult accessPoint= mock(ScanResult.class);
-        accessPoint.SSID = TEST_SSID2;
-        accessPoints.add(accessPoint);
-
-        when(mMockWiFiManager.getScanResults()).thenReturn(accessPoints);
-        assertEquals(null, mWiseFy.mWiseFySearch.findAccessPointByRegex(TEST_SSID, TEST_TIMEOUT, false));
-    }
-
-    @Test
-    public void findAccessPointByRegex_failure_nonMatchingSSID_takeHighest_true() {
-        List<ScanResult> accessPoints = new ArrayList<>();
-
-        ScanResult accessPoint= mock(ScanResult.class);
-        accessPoint.SSID = TEST_SSID2;
-        accessPoints.add(accessPoint);
-
-        when(mMockWiFiManager.getScanResults()).thenReturn(accessPoints);
-        assertEquals(null, mWiseFy.mWiseFySearch.findAccessPointByRegex(TEST_SSID, TEST_TIMEOUT, true));
-    }
-
-    @Test
-    public void findAccessPointByRegex_failure_multipleNonMatchingSSIDs_takeHighest_false() {
-        List<ScanResult> accessPoints = new ArrayList<>();
-
-        ScanResult accessPoint1 = mock(ScanResult.class);
-        accessPoint1.SSID = TEST_SSID2;
-        accessPoints.add(accessPoint1);
-
-        ScanResult accessPoint2 = mock(ScanResult.class);
-        accessPoint2.SSID = TEST_SSID3;
-        accessPoints.add(accessPoint2);
-
-        when(mMockWiFiManager.getScanResults()).thenReturn(accessPoints);
-        assertEquals(null, mWiseFy.mWiseFySearch.findAccessPointByRegex(TEST_SSID, TEST_TIMEOUT, false));
-    }
-
-    @Test
-    public void findAccessPointByRegex_failure_multipleNnonMatchingSSIDs_takeHighest_true() {
-        List<ScanResult> accessPoints = new ArrayList<>();
-
-        ScanResult accessPoint1= mock(ScanResult.class);
-        accessPoint1.SSID = TEST_SSID2;
-        accessPoints.add(accessPoint1);
-
-        ScanResult accessPoint2 = mock(ScanResult.class);
-        accessPoint2.SSID = TEST_SSID3;
-        accessPoints.add(accessPoint2);
-
-        when(mMockWiFiManager.getScanResults()).thenReturn(accessPoints);
-        assertEquals(null, mWiseFy.mWiseFySearch.findAccessPointByRegex(TEST_SSID, TEST_TIMEOUT, true));
-    }
-
-    @Test
-    public void findAccessPointByRegex_success_takeHighest_false() {
-        List<ScanResult> accessPoints = new ArrayList<>();
-
-        ScanResult accessPoint = mock(ScanResult.class);
-        accessPoint.SSID = TEST_SSID;
-        accessPoints.add(accessPoint);
-
-        when(mMockWiFiManager.getScanResults()).thenReturn(accessPoints);
-        assertEquals(accessPoint, mWiseFy.mWiseFySearch.findAccessPointByRegex(TEST_SSID, TEST_TIMEOUT, false));
-    }
-
-    @Test
-    public void findAccessPointByRegex_success_takeHighest_true() {
-        List<ScanResult> accessPoints = new ArrayList<>();
-
-        ScanResult accessPoint = mock(ScanResult.class);
-        accessPoint.SSID = TEST_SSID;
-        accessPoints.add(accessPoint);
-
-        when(mMockWiFiManager.getScanResults()).thenReturn(accessPoints);
-        assertEquals(accessPoint, mWiseFy.mWiseFySearch.findAccessPointByRegex(TEST_SSID, TEST_TIMEOUT, true));
-    }
-
-    @Test
-    public void findAccessPointByRegex_success_multipleSSIDs_takeHighest_false() {
-        List<ScanResult> accessPoints = new ArrayList<>();
-
-        ScanResult accessPoint1 = mock(ScanResult.class);
-        accessPoint1.SSID = TEST_SSID;
-        accessPoint1.level = -70;
-        accessPoints.add(accessPoint1);
-
-        ScanResult accessPoint2 = mock(ScanResult.class);
-        accessPoint2.SSID = TEST_SSID2;
-        accessPoint2.level = -50;
-        accessPoints.add(accessPoint2);
-
-        when(mMockWiFiManager.getScanResults()).thenReturn(accessPoints);
-        assertEquals(accessPoint1, mWiseFy.mWiseFySearch.findAccessPointByRegex(TEST_SSID, TEST_TIMEOUT, false));
-    }
-
-    @Test
-    public void findAccessPointByRegex_success_multipleSSIDs_takeHighest_true() {
-        List<ScanResult> accessPoints = new ArrayList<>();
-
-        ScanResult accessPoint1 = mock(ScanResult.class);
-        accessPoint1.SSID = TEST_SSID;
-        accessPoint1.level = -70;
-        accessPoints.add(accessPoint1);
-
-        ScanResult accessPoint2 = mock(ScanResult.class);
-        accessPoint2.SSID = TEST_SSID2;
-        accessPoint2.level = -50;
-        accessPoints.add(accessPoint2);
-
-        when(mMockWiFiManager.getScanResults()).thenReturn(accessPoints);
-        assertEquals(accessPoint1, mWiseFy.mWiseFySearch.findAccessPointByRegex(TEST_SSID, TEST_TIMEOUT, true));
-    }
-
-    @Test
-    public void findAccessPointByRegex_success_multipleSameSSIDs_takeHighest_false() {
-        List<ScanResult> accessPoints = new ArrayList<>();
-
-        ScanResult accessPoint1 = mock(ScanResult.class);
-        accessPoint1.SSID = TEST_SSID;
-        accessPoint1.level = -70;
-        accessPoints.add(accessPoint1);
-
-        ScanResult accessPoint2 = mock(ScanResult.class);
-        accessPoint2.SSID = TEST_SSID;
-        accessPoint2.level = -50;
-        accessPoints.add(accessPoint2);
-
-        when(mMockWiFiManager.getScanResults()).thenReturn(accessPoints);
-        assertEquals(accessPoint1, mWiseFy.mWiseFySearch.findAccessPointByRegex(TEST_SSID, TEST_TIMEOUT, false));
-    }
-
-    @Test
-    public void findAccessPointByRegex_success_multipleSameSSIDs_takeHighest_true() {
-        List<ScanResult> accessPoints = new ArrayList<>();
-
-        ScanResult accessPoint1 = mock(ScanResult.class);
-        accessPoint1.SSID = TEST_SSID;
-        accessPoint1.level = -70;
-        accessPoints.add(accessPoint1);
-
-        ScanResult accessPoint2 = mock(ScanResult.class);
-        accessPoint2.SSID = TEST_SSID;
-        accessPoint2.level = -50;
-        accessPoints.add(accessPoint2);
-
-        when(mMockWiFiManager.getScanResults()).thenReturn(accessPoints);
-        assertEquals(accessPoint2, mWiseFy.mWiseFySearch.findAccessPointByRegex(TEST_SSID, TEST_TIMEOUT, true));
-    }
-
-    /*
-     * findAccessPointsMatchingRegex tests
-     */
-
-    @Test
-    public void findAccessPointsMatchingRegex_failure_nullAccessPoints_takeHighest_false() {
-        when(mMockWiFiManager.getScanResults()).thenReturn(null);
-        assertEquals(null, mWiseFy.mWiseFySearch.findAccessPointsMatchingRegex(TEST_SSID, false));
-    }
-
-    @Test
-    public void findAccessPointsMatchingRegex_failure_nullAccessPoints_takeHighest_true() {
-        when(mMockWiFiManager.getScanResults()).thenReturn(null);
-        assertEquals(null, mWiseFy.mWiseFySearch.findAccessPointsMatchingRegex(TEST_SSID, true));
-    }
-
-    @Test
-    public void findAccessPointsMatchingRegex_failure_emptyAccessPointList_takeHighest_false() {
-        when(mMockWiFiManager.getScanResults()).thenReturn(new ArrayList<ScanResult>());
-        assertEquals(null, mWiseFy.mWiseFySearch.findAccessPointsMatchingRegex(TEST_SSID, false));
-    }
-
-    @Test
-    public void findAccessPointsMatchingRegex_failure_emptyAccessPointList_takeHighest_true() {
-        when(mMockWiFiManager.getScanResults()).thenReturn(new ArrayList<ScanResult>());
-        assertEquals(null, mWiseFy.mWiseFySearch.findAccessPointsMatchingRegex(TEST_SSID, true));
-    }
-
-    @Test
-    public void findAccessPointsMatchingRegex_failure_nullAccessPoint_takeHighest_false() {
-        List<ScanResult> accessPoints = new ArrayList<>();
-        accessPoints.add(null);
-
-        when(mMockWiFiManager.getScanResults()).thenReturn(accessPoints);
-        assertEquals(null, mWiseFy.mWiseFySearch.findAccessPointsMatchingRegex(TEST_SSID, false));
-    }
-
-    @Test
-    public void findAccessPointsMatchingRegex_failure_nullAccessPoint_takeHighest_true() {
-        List<ScanResult> accessPoints = new ArrayList<>();
-        accessPoints.add(null);
-
-        when(mMockWiFiManager.getScanResults()).thenReturn(accessPoints);
-        assertEquals(null, mWiseFy.mWiseFySearch.findAccessPointsMatchingRegex(TEST_SSID, true));
-    }
-
-    @Test
-    public void findAccessPointsMatchingRegex_failure_nullSSID_takeHighest_false() {
-        List<ScanResult> accessPoints = new ArrayList<>();
-
-        ScanResult accessPoint= mock(ScanResult.class);
-        accessPoint.SSID = null;
-        accessPoints.add(accessPoint);
-
-        when(mMockWiFiManager.getScanResults()).thenReturn(accessPoints);
-        assertEquals(null, mWiseFy.mWiseFySearch.findAccessPointsMatchingRegex(TEST_SSID, false));
-    }
-
-    @Test
-    public void findAccessPointsMatchingRegex_failure_nullSSID_takeHighest_true() {
-        List<ScanResult> accessPoints = new ArrayList<>();
-
-        ScanResult accessPoint= mock(ScanResult.class);
-        accessPoint.SSID = null;
-        accessPoints.add(accessPoint);
-
-        when(mMockWiFiManager.getScanResults()).thenReturn(accessPoints);
-        assertEquals(null, mWiseFy.mWiseFySearch.findAccessPointsMatchingRegex(TEST_SSID, true));
-    }
-
-    @Test
-    public void findAccessPointsMatchingRegex_failure_nonMatchingSSID_takeHighest_false() {
-        List<ScanResult> accessPoints = new ArrayList<>();
-
-        ScanResult accessPoint= mock(ScanResult.class);
-        accessPoint.SSID = TEST_SSID2;
-        accessPoints.add(accessPoint);
-
-        when(mMockWiFiManager.getScanResults()).thenReturn(accessPoints);
-        assertEquals(null, mWiseFy.mWiseFySearch.findAccessPointsMatchingRegex(TEST_SSID, false));
-    }
-
-    @Test
-    public void findAccessPointsMatchingRegex_failure_nonMatchingSSID_takeHighest_true() {
-        List<ScanResult> accessPoints = new ArrayList<>();
-
-        ScanResult accessPoint= mock(ScanResult.class);
-        accessPoint.SSID = TEST_SSID2;
-        accessPoints.add(accessPoint);
-
-        when(mMockWiFiManager.getScanResults()).thenReturn(accessPoints);
-        assertEquals(null, mWiseFy.mWiseFySearch.findAccessPointsMatchingRegex(TEST_SSID, true));
-    }
-
-    @Test
-    public void findAccessPointsMatchingRegex_failure_multipleNonMatchingSSIDs_takeHighest_false() {
-        List<ScanResult> accessPoints = new ArrayList<>();
-
-        ScanResult accessPoint1 = mock(ScanResult.class);
-        accessPoint1.SSID = TEST_SSID2;
-        accessPoints.add(accessPoint1);
-
-        ScanResult accessPoint2 = mock(ScanResult.class);
-        accessPoint2.SSID = TEST_SSID3;
-        accessPoints.add(accessPoint2);
-
-        when(mMockWiFiManager.getScanResults()).thenReturn(accessPoints);
-        assertEquals(null, mWiseFy.mWiseFySearch.findAccessPointsMatchingRegex(TEST_SSID, false));
-    }
-
-    @Test
-    public void findAccessPointsMatchingRegex_failure_multipleNnonMatchingSSIDs_takeHighest_true() {
-        List<ScanResult> accessPoints = new ArrayList<>();
-
-        ScanResult accessPoint1= mock(ScanResult.class);
-        accessPoint1.SSID = TEST_SSID2;
-        accessPoints.add(accessPoint1);
-
-        ScanResult accessPoint2 = mock(ScanResult.class);
-        accessPoint2.SSID = TEST_SSID3;
-        accessPoints.add(accessPoint2);
-
-        when(mMockWiFiManager.getScanResults()).thenReturn(accessPoints);
-        assertEquals(null, mWiseFy.mWiseFySearch.findAccessPointsMatchingRegex(TEST_SSID, true));
-    }
-
-    @Test
-    public void findAccessPointsMatchingRegex_success_takeHighest_false() {
-        List<ScanResult> accessPoints = new ArrayList<>();
-
-        ScanResult accessPoint = mock(ScanResult.class);
-        accessPoint.SSID = TEST_SSID;
-        accessPoints.add(accessPoint);
-
-        when(mMockWiFiManager.getScanResults()).thenReturn(accessPoints);
-        assertEquals(accessPoints, mWiseFy.mWiseFySearch.findAccessPointsMatchingRegex(TEST_SSID, false));
-    }
-
-    @Test
-    public void findAccessPointsMatchingRegex_success_takeHighest_true() {
-        List<ScanResult> accessPoints = new ArrayList<>();
-
-        ScanResult accessPoint = mock(ScanResult.class);
-        accessPoint.SSID = TEST_SSID;
-        accessPoints.add(accessPoint);
-
-        when(mMockWiFiManager.getScanResults()).thenReturn(accessPoints);
-        assertEquals(accessPoints, mWiseFy.mWiseFySearch.findAccessPointsMatchingRegex(TEST_SSID, true));
-    }
-
-    @Test
-    public void findAccessPointsMatchingRegex_success_multipleSSIDs_takeHighest_false() {
-        List<ScanResult> accessPoints = new ArrayList<>();
-        List<ScanResult> expectedResults = new ArrayList<>();
-
-        ScanResult accessPoint1 = mock(ScanResult.class);
-        accessPoint1.SSID = TEST_SSID;
-        accessPoint1.level = -70;
-        accessPoints.add(accessPoint1);
-        expectedResults.add(accessPoint1);
-
-        ScanResult accessPoint2 = mock(ScanResult.class);
-        accessPoint2.SSID = TEST_SSID2;
-        accessPoint2.level = -50;
-        accessPoints.add(accessPoint2);
-
-        when(mMockWiFiManager.getScanResults()).thenReturn(accessPoints);
-        assertEquals(expectedResults, mWiseFy.mWiseFySearch.findAccessPointsMatchingRegex(TEST_SSID, false));
-    }
-
-    @Test
-    public void findAccessPointsMatchingRegex_success_multipleSSIDs_takeHighest_true() {
-        List<ScanResult> accessPoints = new ArrayList<>();
-        List<ScanResult> expectedResults = new ArrayList<>();
-
-        ScanResult accessPoint1 = mock(ScanResult.class);
-        accessPoint1.SSID = TEST_SSID;
-        accessPoint1.level = -70;
-        accessPoints.add(accessPoint1);
-        expectedResults.add(accessPoint1);
-
-        ScanResult accessPoint2 = mock(ScanResult.class);
-        accessPoint2.SSID = TEST_SSID2;
-        accessPoint2.level = -50;
-        accessPoints.add(accessPoint2);
-
-        when(mMockWiFiManager.getScanResults()).thenReturn(accessPoints);
-        assertEquals(expectedResults, mWiseFy.mWiseFySearch.findAccessPointsMatchingRegex(TEST_SSID, true));
-    }
-
-    @Test
-    public void findAccessPointsMatchingRegex_success_multipleSameSSIDs_takeHighest_false() {
-        List<ScanResult> accessPoints = new ArrayList<>();
-        List<ScanResult> expectedResults = new ArrayList<>();
-
-        ScanResult accessPoint1 = mock(ScanResult.class);
-        accessPoint1.SSID = TEST_SSID;
-        accessPoint1.level = -70;
-        accessPoints.add(accessPoint1);
-        expectedResults.add(accessPoint1);
-
-        ScanResult accessPoint2 = mock(ScanResult.class);
-        accessPoint2.SSID = TEST_SSID;
-        accessPoint2.level = -50;
-        accessPoints.add(accessPoint2);
-        expectedResults.add(accessPoint2);
-
-        when(mMockWiFiManager.getScanResults()).thenReturn(accessPoints);
-        assertEquals(expectedResults, mWiseFy.mWiseFySearch.findAccessPointsMatchingRegex(TEST_SSID, false));
-    }
-
-    @Test
-    public void findAccessPointsMatchingRegex_success_multipleSameSSIDs_takeHighest_true() {
-        List<ScanResult> accessPoints = new ArrayList<>();
-        List<ScanResult> expectedResults = new ArrayList<>();
-
-        ScanResult accessPoint1 = mock(ScanResult.class);
-        accessPoint1.SSID = TEST_SSID;
-        accessPoint1.level = -70;
-        accessPoints.add(accessPoint1);
-
-        ScanResult accessPoint2 = mock(ScanResult.class);
-        accessPoint2.SSID = TEST_SSID;
-        accessPoint2.level = -50;
-        accessPoints.add(accessPoint2);
-        expectedResults.add(accessPoint2);
-
-        when(mMockWiFiManager.getScanResults()).thenReturn(accessPoints);
-        assertEquals(expectedResults, mWiseFy.mWiseFySearch.findAccessPointsMatchingRegex(TEST_SSID, true));
-    }
-
-    /*
-     * findSavedNetworkByRegex tests
-     */
-
-    @Test
-    public void findSavedNetworkByRegex_failure_nullSavedNetworkList() {
-        when(mMockWiFiManager.getConfiguredNetworks()).thenReturn(null);
-        assertEquals(null, mWiseFy.mWiseFySearch.findSavedNetworkByRegex(TEST_SSID));
-    }
-
-    @Test
-    public void findSavedNetworkByRegex_failure_emptySavedNetworkList() {
-        when(mMockWiFiManager.getConfiguredNetworks()).thenReturn(new ArrayList<WifiConfiguration>());
-        assertEquals(null, mWiseFy.mWiseFySearch.findSavedNetworkByRegex(TEST_SSID));
-    }
-
-    @Test
-    public void findSavedNetworkByRegex_failure_nullWifiConfiguration() {
-        List<WifiConfiguration> wifiList = new ArrayList<>();
-        wifiList.add(null);
-
-        when(mMockWiFiManager.getConfiguredNetworks()).thenReturn(wifiList);
-        assertEquals(null, mWiseFy.mWiseFySearch.findSavedNetworkByRegex(TEST_SSID));
-    }
-
-    @Test
-    public void findSavedNetworkByRegex_failure_nullSSID() {
-        List<WifiConfiguration> wifiList = new ArrayList<>();
-        WifiConfiguration mWiFiConfiguration = new WifiConfiguration();
-        mWiFiConfiguration.SSID = null;
-        wifiList.add(mWiFiConfiguration);
-
-        when(mMockWiFiManager.getConfiguredNetworks()).thenReturn(wifiList);
-        assertEquals(null, mWiseFy.mWiseFySearch.findSavedNetworkByRegex(TEST_SSID));
-    }
-
-    @Test
-    public void findSavedNetworkByRegex_failure_nonMatchingSSID() {
-        List<WifiConfiguration> wifiList = new ArrayList<>();
-
-        WifiConfiguration mWiFiConfiguration = new WifiConfiguration();
-        mWiFiConfiguration.SSID = TEST_SSID2;
-        wifiList.add(mWiFiConfiguration);
-
-        when(mMockWiFiManager.getConfiguredNetworks()).thenReturn(wifiList);
-        assertEquals(null, mWiseFy.mWiseFySearch.findSavedNetworkByRegex(TEST_SSID));
-    }
-
-    @Test
-    public void findSavedNetworkByRegex_failure_multipleNonMatchingSSIDs() {
-        List<WifiConfiguration> wifiList = new ArrayList<>();
-
-        WifiConfiguration mWiFiConfiguration1 = new WifiConfiguration();
-        mWiFiConfiguration1.SSID = TEST_SSID2;
-        wifiList.add(mWiFiConfiguration1);
-
-        WifiConfiguration mWiFiConfiguration2 = new WifiConfiguration();
-        mWiFiConfiguration2.SSID = TEST_SSID3;
-        wifiList.add(mWiFiConfiguration2);
-
-        when(mMockWiFiManager.getConfiguredNetworks()).thenReturn(wifiList);
-        assertEquals(null, mWiseFy.mWiseFySearch.findSavedNetworkByRegex(TEST_SSID));
-    }
-
-    @Test
-    public void findSavedNetworkByRegex_success() {
-        List<WifiConfiguration> wifiList = new ArrayList<>();
-
-        WifiConfiguration mWiFiConfiguration = new WifiConfiguration();
-        mWiFiConfiguration.SSID = TEST_SSID;
-        wifiList.add(mWiFiConfiguration);
-
-        when(mMockWiFiManager.getConfiguredNetworks()).thenReturn(wifiList);
-        assertEquals(mWiFiConfiguration, mWiseFy.mWiseFySearch.findSavedNetworkByRegex(TEST_SSID));
-    }
-
-    @Test
-    public void findSavedNetworkByRegex_success_multipleSSIDs() {
-        List<WifiConfiguration> wifiList = new ArrayList<>();
-
-        WifiConfiguration mWiFiConfiguration1 = new WifiConfiguration();
-        mWiFiConfiguration1.SSID = TEST_SSID;
-        wifiList.add(mWiFiConfiguration1);
-
-        WifiConfiguration mWiFiConfiguration2 = new WifiConfiguration();
-        mWiFiConfiguration2.SSID = TEST_SSID2;
-        wifiList.add(mWiFiConfiguration2);
-
-        when(mMockWiFiManager.getConfiguredNetworks()).thenReturn(wifiList);
-        assertEquals(mWiFiConfiguration1, mWiseFy.mWiseFySearch.findSavedNetworkByRegex(TEST_SSID));
-    }
-
-    /*
-     * findSavedNetworksMatchingRegex tests
-     */
-
-    @Test
-    public void findSavedNetworksMatchingRegex_failure_nullSavedNetworkList() {
-        when(mMockWiFiManager.getConfiguredNetworks()).thenReturn(null);
-        assertEquals(null, mWiseFy.mWiseFySearch.findSavedNetworksMatchingRegex(TEST_SSID));
-    }
-
-    @Test
-    public void findSavedNetworksMatchingRegex_failure_emptySavedNetworkList() {
-        when(mMockWiFiManager.getConfiguredNetworks()).thenReturn(new ArrayList<WifiConfiguration>());
-        assertEquals(null, mWiseFy.mWiseFySearch.findSavedNetworksMatchingRegex(TEST_SSID));
-    }
-
-    @Test
-    public void findSavedNetworksMatchingRegex_failure_nullWifiConfiguration() {
-        List<WifiConfiguration> wifiList = new ArrayList<>();
-        wifiList.add(null);
-
-        when(mMockWiFiManager.getConfiguredNetworks()).thenReturn(wifiList);
-        assertEquals(null, mWiseFy.mWiseFySearch.findSavedNetworksMatchingRegex(TEST_SSID));
-    }
-
-    @Test
-    public void findSavedNetworksMatchingRegex_failure_nullSSID() {
-        List<WifiConfiguration> wifiList = new ArrayList<>();
-        WifiConfiguration mWiFiConfiguration = new WifiConfiguration();
-        mWiFiConfiguration.SSID = null;
-        wifiList.add(mWiFiConfiguration);
-
-        when(mMockWiFiManager.getConfiguredNetworks()).thenReturn(wifiList);
-        assertEquals(null, mWiseFy.mWiseFySearch.findSavedNetworksMatchingRegex(TEST_SSID));
-    }
-
-    @Test
-    public void findSavedNetworksMatchingRegex_failure_nonMatchingSSID() {
-        List<WifiConfiguration> wifiList = new ArrayList<>();
-        WifiConfiguration mWiFiConfiguration = new WifiConfiguration();
-        mWiFiConfiguration.SSID = TEST_SSID2;
-        wifiList.add(mWiFiConfiguration);
-
-        when(mMockWiFiManager.getConfiguredNetworks()).thenReturn(wifiList);
-        assertEquals(null, mWiseFy.mWiseFySearch.findSavedNetworksMatchingRegex(TEST_SSID));
-    }
-
-    @Test
-    public void findSavedNetworksMatchingRegex_failure_multipleNonMatchingSSIDs() {
-        List<WifiConfiguration> wifiList = new ArrayList<>();
-
-        WifiConfiguration mWiFiConfiguration1 = new WifiConfiguration();
-        mWiFiConfiguration1.SSID = TEST_SSID2;
-        wifiList.add(mWiFiConfiguration1);
-
-        WifiConfiguration mWiFiConfiguration2 = new WifiConfiguration();
-        mWiFiConfiguration2.SSID = TEST_SSID3;
-        wifiList.add(mWiFiConfiguration2);
-
-        when(mMockWiFiManager.getConfiguredNetworks()).thenReturn(wifiList);
-        assertEquals(null, mWiseFy.mWiseFySearch.findSavedNetworksMatchingRegex(TEST_SSID));
-    }
-
-    @Test
-    public void findSavedNetworksMatchingRegex_success() {
-        List<WifiConfiguration> wifiList = new ArrayList<>();
-
-        WifiConfiguration mWiFiConfiguration = new WifiConfiguration();
-        mWiFiConfiguration.SSID = TEST_SSID;
-        wifiList.add(mWiFiConfiguration);
-
-        when(mMockWiFiManager.getConfiguredNetworks()).thenReturn(wifiList);
-        assertEquals(wifiList, mWiseFy.mWiseFySearch.findSavedNetworksMatchingRegex(TEST_SSID));
-    }
-
-    @Test
-    public void findSavedNetworksMatchingRegex_success_multipleSSIDs() {
-        List<WifiConfiguration> wifiList = new ArrayList<>();
-
-        WifiConfiguration mWiFiConfiguration1 = new WifiConfiguration();
-        mWiFiConfiguration1.SSID = TEST_SSID;
-        wifiList.add(mWiFiConfiguration1);
-
-        WifiConfiguration mWiFiConfiguration2 = new WifiConfiguration();
-        mWiFiConfiguration2.SSID = TEST_SSID2;
-        wifiList.add(mWiFiConfiguration2);
-
-        when(mMockWiFiManager.getConfiguredNetworks()).thenReturn(wifiList);
-        assertEquals(wifiList, mWiseFy.mWiseFySearch.findSavedNetworksMatchingRegex(".*Test.*"));
-    }
-
-    /*
-     * findSSIDsMatchingRegex tests
-     */
-
-    @Test
-    public void findSSIDsMatchingRegex_failure_nullAccessPoints() {
-        when(mMockWiFiManager.getScanResults()).thenReturn(null);
-        assertEquals(null, mWiseFy.mWiseFySearch.findSSIDsMatchingRegex(TEST_SSID));
-    }
-
-    @Test
-    public void findSSIDsMatchingRegex_failure_emptySavedNetworkList() {
-        when(mMockWiFiManager.getScanResults()).thenReturn(new ArrayList<ScanResult>());
-        assertEquals(null, mWiseFy.mWiseFySearch.findSSIDsMatchingRegex(TEST_SSID));
-    }
-
-    @Test
-    public void findSSIDsMatchingRegex_failure_nullWifiConfiguration() {
-        List<ScanResult> accessPoints = new ArrayList<>();
-        accessPoints.add(null);
-
-        when(mMockWiFiManager.getScanResults()).thenReturn(accessPoints);
-        assertEquals(null, mWiseFy.mWiseFySearch.findSSIDsMatchingRegex(TEST_SSID));
-    }
-
-    @Test
-    public void findSSIDsMatchingRegex_failure_nullSSID() {
-        List<ScanResult> accessPoints = new ArrayList<>();
-
-        ScanResult accessPoint = mock(ScanResult.class);
-        accessPoint.SSID = null;
-        accessPoints.add(accessPoint);
-
-        when(mMockWiFiManager.getScanResults()).thenReturn(accessPoints);
-        assertEquals(null, mWiseFy.mWiseFySearch.findSSIDsMatchingRegex(TEST_SSID));
-    }
-
-    @Test
-    public void findSSIDsMatchingRegex_failure_nonMatchingSSID() {
-        List<ScanResult> accessPoints = new ArrayList<>();
-
-        ScanResult accessPoint = mock(ScanResult.class);
-        accessPoint.SSID = TEST_SSID2;
-        accessPoints.add(accessPoint);
-
-        when(mMockWiFiManager.getScanResults()).thenReturn(accessPoints);
-        assertEquals(null, mWiseFy.mWiseFySearch.findSSIDsMatchingRegex(TEST_SSID));
-    }
-
-    @Test
-    public void findSSIDsMatchingRegex_failure_multipleNonMatchingSSIDs() {
-        List<ScanResult> accessPoints = new ArrayList<>();
-
-        ScanResult accessPoint1 = mock(ScanResult.class);
-        accessPoint1.SSID = TEST_SSID2;
-        accessPoints.add(accessPoint1);
-
-        ScanResult accessPoint2 = mock(ScanResult.class);
-        accessPoint2.SSID = TEST_SSID3;
-        accessPoints.add(accessPoint2);
-
-        when(mMockWiFiManager.getScanResults()).thenReturn(accessPoints);
-        assertEquals(null, mWiseFy.mWiseFySearch.findSSIDsMatchingRegex(TEST_SSID));
-    }
-
-    @Test
-    public void findSSIDsMatchingRegex_success() {
-        List<ScanResult> accessPoints = new ArrayList<>();
-        List<String> expectedResults = new ArrayList<>();
-
-        ScanResult accessPoint = mock(ScanResult.class);
-        accessPoint.SSID = TEST_SSID;
-        accessPoints.add(accessPoint);
-        expectedResults.add(TEST_SSID);
-
-        when(mMockWiFiManager.getScanResults()).thenReturn(accessPoints);
-        assertEquals(expectedResults, mWiseFy.mWiseFySearch.findSSIDsMatchingRegex(TEST_SSID));
-    }
-
-    @Test
-    public void findSSIDsMatchingRegex_success_multipleSSIDs() {
-        List<ScanResult> accessPoints = new ArrayList<>();
-        List<String> expectedResults = new ArrayList<>();
-
-        ScanResult accessPoint1 = mock(ScanResult.class);
-        accessPoint1.SSID = TEST_SSID;
-        accessPoints.add(accessPoint1);
-        expectedResults.add(TEST_SSID);
-
-        ScanResult accessPoint2 = mock(ScanResult.class);
-        accessPoint2.SSID = TEST_SSID;
-        accessPoints.add(accessPoint2);
-        expectedResults.add(TEST_SSID);
-
-        when(mMockWiFiManager.getScanResults()).thenReturn(accessPoints);
-        assertEquals(expectedResults, mWiseFy.mWiseFySearch.findSSIDsMatchingRegex(".*Test.*"));
-    }
-
-    /*
-     *  isNetworkASavedConfiguration tests
-     */
-
-    @Test
-    public void isNetworkASavedConfiguration_failure() {
-        when(mMockWiFiManager.getConfiguredNetworks()).thenReturn(new ArrayList<WifiConfiguration>());
-        assertEquals(false, mWiseFy.mWiseFySearch.isNetworkASavedConfiguration(TEST_SSID));
-    }
-
-    @Test
-    public void isNetworkASavedConfiguration_success() {
-        List<WifiConfiguration> wifiList = new ArrayList<>();
-
-        WifiConfiguration mWiFiConfiguration = new WifiConfiguration();
-        mWiFiConfiguration.SSID = TEST_SSID;
-        wifiList.add(mWiFiConfiguration);
-
-        when(mMockWiFiManager.getConfiguredNetworks()).thenReturn(wifiList);
-        assertEquals(true, mWiseFy.mWiseFySearch.isNetworkASavedConfiguration(TEST_SSID));
-    }
-
-    /*
-     *  removeEntriesWithLowerSignalStrength tests
-     */
-
-    @Test
-    public void removeEntriesWithLowerSignalStrength_differentSSIDs() {
-        List<ScanResult> accessPoints = new ArrayList<>();
-        List<ScanResult> expectedResults = new ArrayList<>();
-
-        ScanResult accessPoint1 = mock(ScanResult.class);
-        accessPoint1.SSID = TEST_SSID;
-        accessPoint1.level = -70;
-        accessPoints.add(accessPoint1);
-        expectedResults.add(accessPoint1);
-
-        ScanResult accessPoint2 = mock(ScanResult.class);
-        accessPoint2.SSID = TEST_SSID2;
-        accessPoint2.level = -50;
-        accessPoints.add(accessPoint2);
-        expectedResults.add(accessPoint2);
-
-        assertEquals(expectedResults, mWiseFy.mWiseFySearch.removeEntriesWithLowerSignalStrength(accessPoints));
-    }
-
-    @Test
-    public void removeEntriesWithLowerSignalStrength_sameSignalLevels() {
-        List<ScanResult> accessPoints = new ArrayList<>();
-        List<ScanResult> expectedResults = new ArrayList<>();
-
-        ScanResult accessPoint1 = mock(ScanResult.class);
-        accessPoint1.SSID = TEST_SSID;
-        accessPoint1.level = -70;
-        accessPoints.add(accessPoint1);
-        expectedResults.add(accessPoint1);
-
-        ScanResult accessPoint2 = mock(ScanResult.class);
-        accessPoint2.SSID = TEST_SSID;
-        accessPoint2.level = -70;
-        accessPoints.add(accessPoint2);
-
-        assertEquals(expectedResults, mWiseFy.mWiseFySearch.removeEntriesWithLowerSignalStrength(accessPoints));
-    }
-
-    @Test
-    public void removeEntriesWithLowerSignalStrength_accessPoint1Higher() {
-        List<ScanResult> accessPoints = new ArrayList<>();
-        List<ScanResult> expectedResults = new ArrayList<>();
-
-        ScanResult accessPoint1 = mock(ScanResult.class);
-        accessPoint1.SSID = TEST_SSID;
-        accessPoint1.level = -50;
-        accessPoints.add(accessPoint1);
-        expectedResults.add(accessPoint1);
-
-        ScanResult accessPoint2 = mock(ScanResult.class);
-        accessPoint2.SSID = TEST_SSID;
-        accessPoint2.level = -70;
-        accessPoints.add(accessPoint2);
-
-        assertEquals(expectedResults , mWiseFy.mWiseFySearch.removeEntriesWithLowerSignalStrength(accessPoints));
-    }
-
-    @Test
-    public void removeEntriesWithLowerSignalStrength_accessPoint2Higher() {
-        List<ScanResult> accessPoints = new ArrayList<>();
-        List<ScanResult> expectedResults = new ArrayList<>();
-
-        ScanResult accessPoint1 = mock(ScanResult.class);
-        accessPoint1.SSID = TEST_SSID;
-        accessPoints.add(accessPoint1);
-        accessPoint1.level = -70;
-
-        ScanResult accessPoint2 = mock(ScanResult.class);
-        accessPoint2.SSID = TEST_SSID;
-        accessPoint2.level = -50;
-        accessPoints.add(accessPoint2);
-        expectedResults.add(accessPoint2);
-
-        assertEquals(expectedResults , mWiseFy.mWiseFySearch.removeEntriesWithLowerSignalStrength(accessPoints));
-    }
+
+import org.junit.Before;
+import org.junit.Test;
+
+/**
+ * Used to test the WiseFySearch class and search capabilities.
+ *
+ * @see WiseFySearch
+ *
+ * @author Patches
+ */
+public class WiseFySearchTests extends AbstractBaseAndroidJUnit4TestClass {
+
+  private WiseFySearch wisefySearch;
+
+  public WiseFySearchTests() {
+    // No-op
+  }
+
+  @Before
+  public void setUp() {
+    wisefySearch = WiseFySearch.create(getMockWiseFyPrerequisites());
+  }
+
+  /*
+   * findAccessPointByRegex tests
+   */
+
+  @Test
+  public void findAccessPointByRegex_failure_nullAccessPoints_takeHighest_false() {
+    getMockNetworkUtil().nearbyAccessPoints_nullList();
+    assertEquals(null, wisefySearch.findAccessPointByRegex(TEST_SSID, TEST_TIMEOUT, false));
+  }
+
+  @Test
+  public void findAccessPointByRegex_failure_nullAccessPoints_takeHighest_true() {
+    getMockNetworkUtil().nearbyAccessPoints_nullList();
+    assertEquals(null, wisefySearch.findAccessPointByRegex(TEST_SSID, TEST_TIMEOUT, true));
+  }
+
+  @Test
+  public void findAccessPointByRegex_failure_emptyAccessPointList_takeHighest_false() {
+    getMockNetworkUtil().nearbyAccessPoints_emptyList();
+    assertEquals(null, wisefySearch.findAccessPointByRegex(TEST_SSID, TEST_TIMEOUT, false));
+  }
+
+  @Test
+  public void findAccessPointByRegex_failure_emptyAccessPointList_takeHighest_true() {
+    getMockNetworkUtil().nearbyAccessPoints_emptyList();
+    assertEquals(null, wisefySearch.findAccessPointByRegex(TEST_SSID, TEST_TIMEOUT, true));
+  }
+
+  @Test
+  public void findAccessPointByRegex_failure_nullAccessPoint_takeHighest_false() {
+    getMockNetworkUtil().nearbyAccessPoints_nullAccessPoint();
+    assertEquals(null, wisefySearch.findAccessPointByRegex(TEST_SSID, TEST_TIMEOUT, false));
+  }
+
+  @Test
+  public void findAccessPointByRegex_failure_nullAccessPoint_takeHighest_true() {
+    getMockNetworkUtil().nearbyAccessPoints_nullAccessPoint();
+    assertEquals(null, wisefySearch.findAccessPointByRegex(TEST_SSID, TEST_TIMEOUT, true));
+  }
+
+  @Test
+  public void findAccessPointByRegex_failure_nullSSID_takeHighest_false() {
+    getMockNetworkUtil().nearbyAccessPoints_nullSSID();
+    assertEquals(null, wisefySearch.findAccessPointByRegex(TEST_SSID, TEST_TIMEOUT, false));
+  }
+
+  @Test
+  public void findAccessPointByRegex_failure_nullSSID_takeHighest_true() {
+    getMockNetworkUtil().nearbyAccessPoints_nullSSID();
+    assertEquals(null, wisefySearch.findAccessPointByRegex(TEST_SSID, TEST_TIMEOUT, true));
+  }
+
+  @Test
+  public void findAccessPointByRegex_failure_nonMatchingSSID_takeHighest_false() {
+    getMockNetworkUtil().nearbyAccessPoints_nonMatchingSSID();
+    assertEquals(null, wisefySearch.findAccessPointByRegex(TEST_SSID, TEST_TIMEOUT, false));
+  }
+
+  @Test
+  public void findAccessPointByRegex_failure_nonMatchingSSID_takeHighest_true() {
+    getMockNetworkUtil().nearbyAccessPoints_nonMatchingSSID();
+    assertEquals(null, wisefySearch.findAccessPointByRegex(TEST_SSID, TEST_TIMEOUT, true));
+  }
+
+  @Test
+  public void findAccessPointByRegex_failure_multipleNonMatchingSSIDs_takeHighest_false() {
+    getMockNetworkUtil().nearbyAccessPoints_multipleNonMatchingSSIDs();
+    assertEquals(null, wisefySearch.findAccessPointByRegex(TEST_SSID, TEST_TIMEOUT, false));
+  }
+
+  @Test
+  public void findAccessPointByRegex_failure_multipleNonMatchingSSIDs_takeHighest_true() {
+    getMockNetworkUtil().nearbyAccessPoints_multipleNonMatchingSSIDs();
+    assertEquals(null, wisefySearch.findAccessPointByRegex(TEST_SSID, TEST_TIMEOUT, true));
+  }
+
+  @Test
+  public void findAccessPointByRegex_success_takeHighest_false() {
+    getMockNetworkUtil().nearbyAccessPoints_matchingSSID();
+    assertEquals(getMockNetworkUtil().getExpectedNearbyAccessPoint(), wisefySearch.findAccessPointByRegex(TEST_SSID, TEST_TIMEOUT, false));
+  }
+
+  @Test
+  public void findAccessPointByRegex_success_takeHighest_true() {
+    getMockNetworkUtil().nearbyAccessPoints_matchingSSID();
+    assertEquals(getMockNetworkUtil().getExpectedNearbyAccessPoint(), wisefySearch.findAccessPointByRegex(TEST_SSID, TEST_TIMEOUT, true));
+  }
+
+  @Test
+  public void findAccessPointByRegex_success_multipleSSIDs_sameRSSI_nonRegex_takeHighest_false() {
+    getMockNetworkUtil().nearbyAccessPoints_multipleSSIDs_sameRSSI(false);
+    assertEquals(getMockNetworkUtil().getExpectedNearbyAccessPoint(), wisefySearch.findAccessPointByRegex(TEST_SSID, TEST_TIMEOUT, false));
+  }
+
+  @Test
+  public void findAccessPointByRegex_success_multipleSSIDs_sameRSSI_nonRegex_takeHighest_true() {
+    getMockNetworkUtil().nearbyAccessPoints_multipleSSIDs_sameRSSI(false);
+    assertEquals(getMockNetworkUtil().getExpectedNearbyAccessPoint(), wisefySearch.findAccessPointByRegex(TEST_SSID, TEST_TIMEOUT, true));
+  }
+
+  @Test
+  public void findAccessPointByRegex_success_multipleSSIDs_sameRSSI_regex_takeHighest_false() {
+    getMockNetworkUtil().nearbyAccessPoints_multipleSSIDs_sameRSSI(true);
+    assertEquals(getMockNetworkUtil().getExpectedNearbyAccessPoint(), wisefySearch.findAccessPointByRegex(TEST_REGEX, TEST_TIMEOUT, false));
+  }
+
+  @Test
+  public void findAccessPointByRegex_success_multipleSSIDs_sameRSSI_regex_takeHighest_true() {
+    getMockNetworkUtil().nearbyAccessPoints_multipleSSIDs_sameRSSI(true);
+    assertEquals(getMockNetworkUtil().getExpectedNearbyAccessPoint(), wisefySearch.findAccessPointByRegex(TEST_REGEX, TEST_TIMEOUT, true));
+  }
+
+  @Test
+  public void findAccessPointByRegex_success_multipleMatchingSSIDs_accessPoint1HasHigherRSSI_takeHighest_false() {
+    getMockNetworkUtil().nearbyAccessPoints_multipleMatchingSSIDs_accessPoint1HasHigherRSSI(false);
+    assertEquals(getMockNetworkUtil().getExpectedNearbyAccessPoint(), wisefySearch.findAccessPointByRegex(TEST_SSID, TEST_TIMEOUT, false));
+  }
+
+  @Test
+  public void findAccessPointByRegex_success_multipleMatchesSSIDs_accessPoint1HasHigherRSSI_takeHighest_true() {
+    getMockNetworkUtil().nearbyAccessPoints_multipleMatchingSSIDs_accessPoint1HasHigherRSSI(true);
+    assertEquals(getMockNetworkUtil().getExpectedNearbyAccessPoint(), wisefySearch.findAccessPointByRegex(TEST_SSID, TEST_TIMEOUT, true));
+  }
+
+  @Test
+  public void findAccessPointByRegex_success_multipleMatchingSSIDs_accessPoint2HasHigherRSSI_takeHighest_false() {
+    final boolean takeHighest = false;
+    getMockNetworkUtil().nearbyAccessPoints_multipleMatchingSSIDs_accessPoint2HasHigherRSSI(takeHighest);
+    assertEquals(getMockNetworkUtil().getExpectedNearbyAccessPoint(), wisefySearch.findAccessPointByRegex(TEST_SSID, TEST_TIMEOUT, takeHighest));
+  }
+
+  @Test
+  public void findAccessPointByRegex_success_multipleMatchesSSIDs_accessPoint2HasHigherRSSI_takeHighest_true() {
+    final boolean takeHighest = true;
+    getMockNetworkUtil().nearbyAccessPoints_multipleMatchingSSIDs_accessPoint2HasHigherRSSI(takeHighest);
+    assertEquals(getMockNetworkUtil().getExpectedNearbyAccessPoint(), wisefySearch.findAccessPointByRegex(TEST_SSID, TEST_TIMEOUT, takeHighest));
+  }
+
+  @Test
+  public void findAccessPointByRegex_success_multipleMatchingSSIDs_sameRSSI_takeHighest_false() {
+    getMockNetworkUtil().nearbyAccessPoints_multipleMatchingSSIDs_sameRSSI(false);
+    assertEquals(getMockNetworkUtil().getExpectedNearbyAccessPoint(), wisefySearch.findAccessPointByRegex(TEST_SSID, TEST_TIMEOUT, false));
+  }
+
+  @Test
+  public void findAccessPointByRegex_success_multipleMatchesSSIDs_sameRSSI_takeHighest_true() {
+    getMockNetworkUtil().nearbyAccessPoints_multipleMatchingSSIDs_sameRSSI(false);
+    assertEquals(getMockNetworkUtil().getExpectedNearbyAccessPoint(), wisefySearch.findAccessPointByRegex(TEST_SSID, TEST_TIMEOUT, true));
+  }
+
+  /*
+   * findAccessPointsMatchingRegex tests
+   */
+
+  @Test
+  public void findAccessPointsMatchingRegex_failure_nullAccessPoints_takeHighest_false() {
+    getMockNetworkUtil().nearbyAccessPoints_nullList();
+    assertEquals(null, wisefySearch.findAccessPointsMatchingRegex(TEST_SSID, false));
+  }
+
+  @Test
+  public void findAccessPointsMatchingRegex_failure_nullAccessPoints_takeHighest_true() {
+    getMockNetworkUtil().nearbyAccessPoints_nullList();
+    assertEquals(null, wisefySearch.findAccessPointsMatchingRegex(TEST_SSID, true));
+  }
+
+  @Test
+  public void findAccessPointsMatchingRegex_failure_emptyAccessPointList_takeHighest_false() {
+    getMockNetworkUtil().nearbyAccessPoints_emptyList();
+    assertEquals(null, wisefySearch.findAccessPointsMatchingRegex(TEST_SSID, false));
+  }
+
+  @Test
+  public void findAccessPointsMatchingRegex_failure_emptyAccessPointList_takeHighest_true() {
+    getMockNetworkUtil().nearbyAccessPoints_emptyList();
+    assertEquals(null, wisefySearch.findAccessPointsMatchingRegex(TEST_SSID, true));
+  }
+
+  @Test
+  public void findAccessPointsMatchingRegex_failure_nullAccessPoint_takeHighest_false() {
+    getMockNetworkUtil().nearbyAccessPoints_nullAccessPoint();
+    assertEquals(null, wisefySearch.findAccessPointsMatchingRegex(TEST_SSID, false));
+  }
+
+  @Test
+  public void findAccessPointsMatchingRegex_failure_nullAccessPoint_takeHighest_true() {
+    getMockNetworkUtil().nearbyAccessPoints_nullAccessPoint();
+    assertEquals(null, wisefySearch.findAccessPointsMatchingRegex(TEST_SSID, true));
+  }
+
+  @Test
+  public void findAccessPointsMatchingRegex_failure_nullSSID_takeHighest_false() {
+    getMockNetworkUtil().nearbyAccessPoints_nullSSID();
+    assertEquals(null, wisefySearch.findAccessPointsMatchingRegex(TEST_SSID, false));
+  }
+
+  @Test
+  public void findAccessPointsMatchingRegex_failure_nullSSID_takeHighest_true() {
+    getMockNetworkUtil().nearbyAccessPoints_nullSSID();
+    assertEquals(null, wisefySearch.findAccessPointsMatchingRegex(TEST_SSID, true));
+  }
+
+  @Test
+  public void findAccessPointsMatchingRegex_failure_nonMatchingSSID_takeHighest_false() {
+    getMockNetworkUtil().nearbyAccessPoints_nonMatchingSSID();
+    assertEquals(null, wisefySearch.findAccessPointsMatchingRegex(TEST_SSID, false));
+  }
+
+  @Test
+  public void findAccessPointsMatchingRegex_failure_nonMatchingSSID_takeHighest_true() {
+    getMockNetworkUtil().nearbyAccessPoints_nonMatchingSSID();
+    assertEquals(null, wisefySearch.findAccessPointsMatchingRegex(TEST_SSID, true));
+  }
+
+  @Test
+  public void findAccessPointsMatchingRegex_failure_multipleNonMatchingSSIDs_takeHighest_false() {
+    getMockNetworkUtil().nearbyAccessPoints_multipleNonMatchingSSIDs();
+    assertEquals(null, wisefySearch.findAccessPointsMatchingRegex(TEST_SSID, false));
+  }
+
+  @Test
+  public void findAccessPointsMatchingRegex_failure_multipleNonMatchingSSIDs_takeHighest_true() {
+    getMockNetworkUtil().nearbyAccessPoints_multipleNonMatchingSSIDs();
+    assertEquals(null, wisefySearch.findAccessPointsMatchingRegex(TEST_SSID, true));
+  }
+
+  @Test
+  public void findAccessPointsMatchingRegex_success_takeHighest_false() {
+    getMockNetworkUtil().nearbyAccessPoints_matchingSSID();
+    assertEquals(getMockNetworkUtil().getExpectedNearbyAccessPoints(), wisefySearch.findAccessPointsMatchingRegex(TEST_SSID, false));
+  }
+
+  @Test
+  public void findAccessPointsMatchingRegex_success_takeHighest_true() {
+    getMockNetworkUtil().nearbyAccessPoints_matchingSSID();
+    assertEquals(getMockNetworkUtil().getExpectedNearbyAccessPoints(), wisefySearch.findAccessPointsMatchingRegex(TEST_SSID, true));
+  }
+
+  @Test
+  public void findAccessPointsMatchingRegex_success_multipleSSIDs_nonRegex_takeHighest_false() {
+    getMockNetworkUtil().nearbyAccessPoints_multipleSSIDs_sameRSSI(false);
+    assertEquals(getMockNetworkUtil().getExpectedNearbyAccessPoints(), wisefySearch.findAccessPointsMatchingRegex(TEST_SSID, false));
+  }
+
+  @Test
+  public void findAccessPointsMatchingRegex_success_multipleSSIDs_nonRegex_takeHighest_true() {
+    getMockNetworkUtil().nearbyAccessPoints_multipleSSIDs_sameRSSI(false);
+    assertEquals(getMockNetworkUtil().getExpectedNearbyAccessPoints(), wisefySearch.findAccessPointsMatchingRegex(TEST_SSID, true));
+  }
+
+  @Test
+  public void findAccessPointsMatchingRegex_success_multipleSSIDs_regex_takeHighest_false() {
+    getMockNetworkUtil().nearbyAccessPoints_multipleSSIDs_sameRSSI(true);
+    assertEquals(getMockNetworkUtil().getExpectedNearbyAccessPoints(), wisefySearch.findAccessPointsMatchingRegex(TEST_REGEX, false));
+  }
+
+  @Test
+  public void findAccessPointsMatchingRegex_success_multipleSSIDs_regex_takeHighest_true() {
+    getMockNetworkUtil().nearbyAccessPoints_multipleSSIDs_sameRSSI(true);
+    assertEquals(getMockNetworkUtil().getExpectedNearbyAccessPoints(), wisefySearch.findAccessPointsMatchingRegex(TEST_REGEX, true));
+  }
+
+  @Test
+  public void findAccessPointsMatchingRegex_success_multipleMatchingSSIDs_accessPoint1HasHigherRSSI_takeHighest_false() {
+    final boolean takeHighest = false;
+    getMockNetworkUtil().nearbyAccessPoints_multipleMatchingSSIDs_accessPoint1HasHigherRSSI(takeHighest);
+    assertEquals(getMockNetworkUtil().getExpectedNearbyAccessPoints(), wisefySearch.findAccessPointsMatchingRegex(TEST_SSID, takeHighest));
+  }
+
+  @Test
+  public void findAccessPointsMatchingRegex_success_multipleMatchingSSIDs_accessPoint1HasHigherRSSI_takeHighest_true() {
+    final boolean takeHighest = true;
+    getMockNetworkUtil().nearbyAccessPoints_multipleMatchingSSIDs_accessPoint1HasHigherRSSI(takeHighest);
+    assertEquals(getMockNetworkUtil().getExpectedNearbyAccessPoints(), wisefySearch.findAccessPointsMatchingRegex(TEST_SSID, takeHighest));
+  }
+
+  @Test
+  public void findAccessPointsMatchingRegex_success_multipleMatchingSSIDs_accessPoint2HasHigherRSSI_takeHighest_false() {
+    getMockNetworkUtil().nearbyAccessPoints_multipleMatchingSSIDs_accessPoint2HasHigherRSSI(false);
+    assertEquals(getMockNetworkUtil().getExpectedNearbyAccessPoints(), wisefySearch.findAccessPointsMatchingRegex(TEST_SSID, false));
+  }
+
+  @Test
+  public void findAccessPointsMatchingRegex_success_multipleMatchingSSIDs_accessPoint2HasHigherRSSI_takeHighest_true() {
+    getMockNetworkUtil().nearbyAccessPoints_multipleMatchingSSIDs_accessPoint2HasHigherRSSI(true);
+    assertEquals(getMockNetworkUtil().getExpectedNearbyAccessPoints(), wisefySearch.findAccessPointsMatchingRegex(TEST_SSID, true));
+  }
+
+  @Test
+  public void findAccessPointsMatchingRegex_success_multipleMatchingSSIDs_sameRSSI_takeHighest_false() {
+    getMockNetworkUtil().nearbyAccessPoints_multipleMatchingSSIDs_sameRSSI(true);
+    assertEquals(getMockNetworkUtil().getExpectedNearbyAccessPoints(), wisefySearch.findAccessPointsMatchingRegex(TEST_SSID, false));
+  }
+
+  @Test
+  public void findAccessPointsMatchingRegex_success_multipleMatchingSSIDs_sameRSSI_takeHighest_true() {
+    getMockNetworkUtil().nearbyAccessPoints_multipleMatchingSSIDs_sameRSSI(true);
+    assertEquals(getMockNetworkUtil().getExpectedNearbyAccessPoints(), wisefySearch.findAccessPointsMatchingRegex(TEST_SSID, true));
+  }
+
+  /*
+   * findSavedNetworkByRegex tests
+   */
+
+  @Test
+  public void findSavedNetworkByRegex_failure_nullSavedNetworkList() {
+    getMockNetworkUtil().savedNetworks_nullList();
+    assertEquals(null, wisefySearch.findSavedNetworkByRegex(TEST_SSID));
+  }
+
+  @Test
+  public void findSavedNetworkByRegex_failure_emptySavedNetworkList() {
+    getMockNetworkUtil().savedNetworks_emptyList();
+    assertEquals(null, wisefySearch.findSavedNetworkByRegex(TEST_SSID));
+  }
+
+  @Test
+  public void findSavedNetworkByRegex_failure_nullWifiConfiguration() {
+    getMockNetworkUtil().savedNetworks_nullSavedNetwork();
+    assertEquals(null, wisefySearch.findSavedNetworkByRegex(TEST_SSID));
+  }
+
+  @Test
+  public void findSavedNetworkByRegex_failure_nullSSID() {
+    getMockNetworkUtil().savedNetworks_nullSSID();
+    assertEquals(null, wisefySearch.findSavedNetworkByRegex(TEST_SSID));
+  }
+
+  @Test
+  public void findSavedNetworkByRegex_failure_nonMatchingSSID() {
+    getMockNetworkUtil().savedNetworks_nonMatchingSSID();
+    assertEquals(null, wisefySearch.findSavedNetworkByRegex(TEST_SSID));
+  }
+
+  @Test
+  public void findSavedNetworkByRegex_failure_multipleNonMatchingSSIDs() {
+    getMockNetworkUtil().savedNetworks_multipleNonMatchingSSIDs();
+    assertEquals(null, wisefySearch.findSavedNetworkByRegex(TEST_SSID));
+  }
+
+  @Test
+  public void findSavedNetworkByRegex_success() {
+    getMockNetworkUtil().savedNetworks_matchingSSID();
+    assertEquals(getMockNetworkUtil().getExpectedSavedNetwork(), wisefySearch.findSavedNetworkByRegex(TEST_SSID));
+  }
+
+  @Test
+  public void findSavedNetworkByRegex_success_multipleMatchingSSIDs() {
+    getMockNetworkUtil().savedNetworks_multipleMatchingSSIDs();
+    assertEquals(getMockNetworkUtil().getExpectedSavedNetwork(), wisefySearch.findSavedNetworkByRegex(TEST_SSID));
+  }
+
+  @Test
+  public void findSavedNetworkByRegex_success_multipleSSIDs_nonRegex() {
+    getMockNetworkUtil().savedNetworks_multipleSSIDs(false);
+    assertEquals(getMockNetworkUtil().getExpectedSavedNetwork(), wisefySearch.findSavedNetworkByRegex(TEST_SSID));
+  }
+
+  @Test
+  public void findSavedNetworkByRegex_success_multipleSSIDs_regex() {
+    getMockNetworkUtil().savedNetworks_multipleSSIDs(true);
+    assertEquals(getMockNetworkUtil().getExpectedSavedNetwork(), wisefySearch.findSavedNetworkByRegex(TEST_REGEX));
+  }
+
+  /*
+   * findSavedNetworksMatchingRegex tests
+   */
+
+  @Test
+  public void findSavedNetworksMatchingRegex_failure_nullSavedNetworkList() {
+    getMockNetworkUtil().savedNetworks_nullList();
+    assertEquals(null, wisefySearch.findSavedNetworksMatchingRegex(TEST_SSID));
+  }
+
+  @Test
+  public void findSavedNetworksMatchingRegex_failure_emptySavedNetworkList() {
+    getMockNetworkUtil().savedNetworks_emptyList();
+    assertEquals(null, wisefySearch.findSavedNetworksMatchingRegex(TEST_SSID));
+  }
+
+  @Test
+  public void findSavedNetworksMatchingRegex_failure_nullWifiConfiguration() {
+    getMockNetworkUtil().savedNetworks_nullSavedNetwork();
+    assertEquals(null, wisefySearch.findSavedNetworksMatchingRegex(TEST_SSID));
+  }
+
+  @Test
+  public void findSavedNetworksMatchingRegex_failure_nullSSID() {
+    getMockNetworkUtil().savedNetworks_nullSSID();
+    assertEquals(null, wisefySearch.findSavedNetworksMatchingRegex(TEST_SSID));
+  }
+
+  @Test
+  public void findSavedNetworksMatchingRegex_failure_nonMatchingSSID() {
+    getMockNetworkUtil().savedNetworks_nonMatchingSSID();
+    assertEquals(null, wisefySearch.findSavedNetworksMatchingRegex(TEST_SSID));
+  }
+
+  @Test
+  public void findSavedNetworksMatchingRegex_failure_multipleNonMatchingSSIDs() {
+    getMockNetworkUtil().savedNetworks_multipleNonMatchingSSIDs();
+    assertEquals(null, wisefySearch.findSavedNetworksMatchingRegex(TEST_SSID));
+  }
+
+  @Test
+  public void findSavedNetworksMatchingRegex_success() {
+    getMockNetworkUtil().savedNetworks_matchingSSID();
+    assertEquals(getMockNetworkUtil().getExpectedSavedNetworks(), wisefySearch.findSavedNetworksMatchingRegex(TEST_SSID));
+  }
+
+  @Test
+  public void findSavedNetworksMatchingRegex_success_multipleMatchingSSIDs() {
+    getMockNetworkUtil().savedNetworks_multipleMatchingSSIDs();
+    assertEquals(getMockNetworkUtil().getExpectedSavedNetworks(), wisefySearch.findSavedNetworksMatchingRegex(TEST_SSID));
+  }
+
+  @Test
+  public void findSavedNetworksMatchingRegex_success_multipleSSIDs_nonRegex() {
+    getMockNetworkUtil().savedNetworks_multipleSSIDs(false);
+    assertEquals(getMockNetworkUtil().getExpectedSavedNetworks(), wisefySearch.findSavedNetworksMatchingRegex(TEST_SSID));
+  }
+
+  @Test
+  public void findSavedNetworksMatchingRegex_success_multipleSSIDs_regex() {
+    getMockNetworkUtil().savedNetworks_multipleSSIDs(true);
+    assertEquals(getMockNetworkUtil().getExpectedSavedNetworks(), wisefySearch.findSavedNetworksMatchingRegex(TEST_REGEX));
+  }
+
+  /*
+   * findSSIDsMatchingRegex tests
+   */
+
+  @Test
+  public void findSSIDsMatchingRegex_failure_nullAccessPoints() {
+    getMockNetworkUtil().nearbyAccessPoints_nullList();
+    assertEquals(null, wisefySearch.findSSIDsMatchingRegex(TEST_SSID));
+  }
+
+  @Test
+  public void findSSIDsMatchingRegex_failure_emptySavedNetworkList() {
+    getMockNetworkUtil().nearbyAccessPoints_emptyList();
+    assertEquals(null, wisefySearch.findSSIDsMatchingRegex(TEST_SSID));
+  }
+
+  @Test
+  public void findSSIDsMatchingRegex_failure_nullAccessPoint() {
+    getMockNetworkUtil().nearbyAccessPoints_nullAccessPoint();
+    assertEquals(null, wisefySearch.findSSIDsMatchingRegex(TEST_SSID));
+  }
+
+  @Test
+  public void findSSIDsMatchingRegex_failure_nullSSID() {
+    getMockNetworkUtil().nearbyAccessPoints_nullSSID();
+    assertEquals(null, wisefySearch.findSSIDsMatchingRegex(TEST_SSID));
+  }
+
+  @Test
+  public void findSSIDsMatchingRegex_failure_nonMatchingSSID() {
+    getMockNetworkUtil().nearbyAccessPoints_nonMatchingSSID();
+    assertEquals(null, wisefySearch.findSSIDsMatchingRegex(TEST_SSID));
+  }
+
+  @Test
+  public void findSSIDsMatchingRegex_failure_multipleNonMatchingSSIDs() {
+    getMockNetworkUtil().nearbyAccessPoints_multipleNonMatchingSSIDs();
+    assertEquals(null, wisefySearch.findSSIDsMatchingRegex(TEST_SSID));
+  }
+
+  @Test
+  public void findSSIDsMatchingRegex_success() {
+    getMockNetworkUtil().nearbyAccessPoints_matchingSSID();
+    assertEquals(getMockNetworkUtil().getExpectedSSIDs(), wisefySearch.findSSIDsMatchingRegex(TEST_SSID));
+  }
+
+  @Test
+  public void findSSIDsMatchingRegex_success_multipleMatchingSSIDs_sameRSSI() {
+    getMockNetworkUtil().nearbyAccessPoints_multipleMatchingSSIDs_sameRSSI(true);
+    assertEquals(getMockNetworkUtil().getExpectedSSIDs(), wisefySearch.findSSIDsMatchingRegex(TEST_SSID));
+  }
+
+  @Test
+  public void findSSIDsMatchingRegex_success_multipleMatchingSSIDs_accessPoint1HasHigherRSSI() {
+    getMockNetworkUtil().nearbyAccessPoints_multipleMatchingSSIDs_accessPoint1HasHigherRSSI(true);
+    assertEquals(getMockNetworkUtil().getExpectedSSIDs(), wisefySearch.findSSIDsMatchingRegex(TEST_SSID));
+  }
+
+  @Test
+  public void findSSIDsMatchingRegex_success_multipleMatchingSSIDs_accessPoint2HasHigherRSSI() {
+    getMockNetworkUtil().nearbyAccessPoints_multipleMatchingSSIDs_accessPoint2HasHigherRSSI(true);
+    assertEquals(getMockNetworkUtil().getExpectedSSIDs(), wisefySearch.findSSIDsMatchingRegex(TEST_SSID));
+  }
+
+  @Test
+  public void findSSIDsMatchingRegex_success_multipleSSIDs_nonRegex() {
+    getMockNetworkUtil().nearbyAccessPoints_multipleSSIDs_sameRSSI(false);
+    assertEquals(getMockNetworkUtil().getExpectedSSIDs(), wisefySearch.findSSIDsMatchingRegex(TEST_SSID));
+  }
+
+  @Test
+  public void findSSIDsMatchingRegex_success_multipleSSIDs_regex() {
+    getMockNetworkUtil().nearbyAccessPoints_multipleSSIDs_sameRSSI(true);
+    assertEquals(getMockNetworkUtil().getExpectedSSIDs(), wisefySearch.findSSIDsMatchingRegex(TEST_REGEX));
+  }
+
+  /*
+   *  isNetworkASavedConfiguration tests
+   */
+
+  @Test
+  public void isNetworkASavedConfiguration_failure_nullSavedNetworkList() {
+    getMockNetworkUtil().savedNetworks_nullList();
+    assertEquals(false, wisefySearch.isNetworkASavedConfiguration(TEST_SSID));
+  }
+
+  @Test
+  public void isNetworkASavedConfiguration_failure_emptySavedNetworkList() {
+    getMockNetworkUtil().savedNetworks_emptyList();
+    assertEquals(false, wisefySearch.isNetworkASavedConfiguration(TEST_SSID));
+  }
+
+  @Test
+  public void isNetworkASavedConfiguration_failure_nullWifiConfiguration() {
+    getMockNetworkUtil().savedNetworks_nullSavedNetwork();
+    assertEquals(false, wisefySearch.isNetworkASavedConfiguration(TEST_SSID));
+  }
+
+  @Test
+  public void isNetworkASavedConfiguration_failure_nullSSID() {
+    getMockNetworkUtil().savedNetworks_nullSSID();
+    assertEquals(false, wisefySearch.isNetworkASavedConfiguration(TEST_SSID));
+  }
+
+  @Test
+  public void isNetworkASavedConfiguration_failure_nonMatchingSSID() {
+    getMockNetworkUtil().savedNetworks_nonMatchingSSID();
+    assertEquals(false, wisefySearch.isNetworkASavedConfiguration(TEST_SSID));
+  }
+
+  @Test
+  public void isNetworkASavedConfiguration_failure_multipleNonMatchingSSIDs() {
+    getMockNetworkUtil().savedNetworks_multipleNonMatchingSSIDs();
+    assertEquals(false, wisefySearch.isNetworkASavedConfiguration(TEST_SSID));
+  }
+
+  @Test
+  public void isNetworkASavedConfiguration_success() {
+    getMockNetworkUtil().savedNetworks_matchingSSID();
+    assertEquals(true, wisefySearch.isNetworkASavedConfiguration(TEST_SSID));
+  }
+
+  @Test
+  public void isNetworkASavedConfiguration_success_multipleMatchingSSIDs() {
+    getMockNetworkUtil().savedNetworks_multipleMatchingSSIDs();
+    assertEquals(true, wisefySearch.isNetworkASavedConfiguration(TEST_SSID));
+  }
+
+  @Test
+  public void isNetworkASavedConfiguration_success_multipleSSIDs_nonRegex() {
+    getMockNetworkUtil().savedNetworks_multipleSSIDs(false);
+    assertEquals(true, wisefySearch.isNetworkASavedConfiguration(TEST_SSID));
+  }
+
+  @Test
+  public void isNetworkASavedConfiguration_success_multipleSSIDs_regex() {
+    getMockNetworkUtil().savedNetworks_multipleSSIDs(true);
+    assertEquals(true, wisefySearch.isNetworkASavedConfiguration(TEST_REGEX));
+  }
+
+  /*
+   *  removeEntriesWithLowerSignalStrength tests
+   */
+
+  @Test
+  public void removeEntriesWithLowerSignalStrength_differentSSIDs() {
+    final List<ScanResult> accessPoints = getMockNetworkUtil().nearbyAccessPoints_multipleSSIDs_sameRSSI(true);
+    assertEquals(getMockNetworkUtil().getExpectedNearbyAccessPoints(), wisefySearch.removeEntriesWithLowerSignalStrength(accessPoints));
+  }
+
+  @Test
+  public void removeEntriesWithLowerSignalStrength_sameSignalLevels() {
+    final List<ScanResult> accessPoints = getMockNetworkUtil().nearbyAccessPoints_multipleMatchingSSIDs_sameRSSI(false);
+    assertEquals(getMockNetworkUtil().getExpectedNearbyAccessPoints(), wisefySearch.removeEntriesWithLowerSignalStrength(accessPoints));
+  }
+
+  @Test
+  public void removeEntriesWithLowerSignalStrength_accessPoint1Higher() {
+    final List<ScanResult> accessPoints = getMockNetworkUtil().nearbyAccessPoints_multipleMatchingSSIDs_accessPoint1HasHigherRSSI(true);
+    assertEquals(getMockNetworkUtil().getExpectedNearbyAccessPoints(), wisefySearch.removeEntriesWithLowerSignalStrength(accessPoints));
+  }
+
+  @Test
+  public void removeEntriesWithLowerSignalStrength_accessPoint2Higher() {
+    final List<ScanResult> accessPoints = getMockNetworkUtil().nearbyAccessPoints_multipleMatchingSSIDs_accessPoint2HasHigherRSSI(true);
+    assertEquals(getMockNetworkUtil().getExpectedNearbyAccessPoints(), wisefySearch.removeEntriesWithLowerSignalStrength(accessPoints));
+  }
 }

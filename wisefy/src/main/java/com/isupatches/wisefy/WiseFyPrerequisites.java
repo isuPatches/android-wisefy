@@ -15,105 +15,104 @@
  */
 package com.isupatches.wisefy;
 
-
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
-import android.util.Log;
-import com.isupatches.wisefy.annotations.Internal;
-import com.isupatches.wisefy.util.LogUtil;
 
+import com.isupatches.wisefy.annotations.Internal;
 
 /**
- * A class used internally as a bridge for other parts of the library to use a shared set of
- * prerequisite instances.  This contains the WifiManager and ConnectivityManger used throughout
- * the library.
+ * A class used internally to hold references and methods related to the prerequisites required
+ * throughout the library.
  *
  * @author Patches
  */
 @Internal
 class WiseFyPrerequisites {
 
-    private static final String TAG = WiseFyPrerequisites.class.getSimpleName();
+  private static final String TAG = WiseFyPrerequisites.class.getSimpleName();
 
-    private static final WiseFyPrerequisites WISEFY_PREREQUISITES = new WiseFyPrerequisites();
+  private final ConnectivityManager connectivityManager;
+  private final WifiManager wifiManager;
 
-    private WiseFyConfiguration mWiseFyConfiguration;
+  /**
+   * Private constructor.
+   *
+   * @param connectivityManager The connectivity manager instance needed
+   * @param wifiManager The wifi manager instance needed
+   *
+   * @see ConnectivityManager
+   * @see WifiManager
+   */
+  private WiseFyPrerequisites(final ConnectivityManager connectivityManager,
+                              final WifiManager wifiManager) {
+    this.connectivityManager = connectivityManager;
+    this.wifiManager = wifiManager;
+  }
 
-    private ConnectivityManager mConnectivityManager;
+  /**
+   * Factory pattern creation method to get an instance of WiseFyPrerequisites.
+   *
+   * @param connectivityManager The connectivity manager instance needed
+   * @param wifiManager The wifi manager instance needed
+   *
+   * @return - An instance of WiseFyPrerequisites
+   *
+   * @see ConnectivityManager
+   * @see WifiManager
+   */
+  static WiseFyPrerequisites create(final ConnectivityManager connectivityManager,
+                                    final WifiManager wifiManager) {
+    return new WiseFyPrerequisites(connectivityManager, wifiManager);
+  }
 
-    private  WifiManager mWifiManager;
-
-    /**
-     * Private constructor with no setup
-     */
-    private WiseFyPrerequisites() {
-        mWiseFyConfiguration = WiseFyConfiguration.getInstance();
+  /**
+   * Used internally to verify if the WiseFy instances has the necessary criteria to work.
+   *
+   * @return boolean - True if all prerequisites are met
+   */
+  boolean hasPrerequisites() {
+    boolean hasPrerequisites = true;
+    if (wifiManager == null) {
+      WiseFyLogger.log().error(TAG, "Missing WifiManager");
+      hasPrerequisites = false;
     }
-
-    /**
-     * @return instance of WiseFyPrerequisites
-     */
-    static WiseFyPrerequisites getInstance() {
-        return WISEFY_PREREQUISITES;
+    if (connectivityManager == null) {
+      WiseFyLogger.log().error(TAG, "Missing ConnectivityManager");
+      hasPrerequisites = false;
     }
+    return hasPrerequisites;
+  }
 
-    /**
-     * Used internally to verify if the WiseFy instances has the necessary criteria to work
-     *
-     * @see WiseFyConfiguration#isLoggingEnabled()
-     *
-     * @return boolean - True if all prerequisites are met
-     */
-    boolean hasPrerequisites() {
-        if (mWifiManager == null) {
-            if (LogUtil.isLoggable(TAG, Log.ERROR, mWiseFyConfiguration.isLoggingEnabled())) {
-                Log.e(TAG, "Missing WifiManager");
-            }
-            return false;
-        }
-        if (mConnectivityManager == null) {
-            if (LogUtil.isLoggable(TAG, Log.ERROR, mWiseFyConfiguration.isLoggingEnabled())) {
-                Log.e(TAG, "Missing ConnectivityManager");
-            }
-            return false;
-        }
-        return true;
-    }
+  /**
+   * Used internally to return a shared ConnectivityManager instance.
+   *
+   * @return ConnectivityManager|null - The shared ConnectivityManager instance if any or null
+   *
+   * @see ConnectivityManager
+   */
+  ConnectivityManager getConnectivityManager() {
+    return connectivityManager;
+  }
 
-    /**
-     * Used internally to return a shared ConnectivityManager instance to the rest of the library
-     *
-     * @return ConnectivityManager|null - The shared ConnectivityManager instance if any or null
-     */
-    ConnectivityManager getConnectivityManager() {
-        return mConnectivityManager;
-    }
+  /**
+   * Used internally to return a shared WifiManager instance.
+   *
+   * @return WifiManager|null - The shared WifiManager instance if any or null
+   *
+   * @see WifiManager
+   */
+  WifiManager getWifiManager() {
+    return wifiManager;
+  }
 
-    /**
-     * Used internally to return a shared WifiManager instance to the rest of the library
-     *
-     * @return WifiManager|null - The shared WifiManager instance if any or null
-     */
-    WifiManager getWifiManager() {
-        return mWifiManager;
-    }
-
-
-    /**
-     * Used internally to set the shared ConnectivityManager instance for the rest of the library
-     *
-     * *NOTE* Called upon initialization or in test
-     */
-    void setConnectivityManager(ConnectivityManager mConnectivityManager) {
-        this.mConnectivityManager = mConnectivityManager;
-    }
-
-    /**
-     * Used internally to set the shared WifiManager instance for the rest of the library
-     *
-     * *NOTE* Called upon initialization or in test
-     */
-    void setWifiManager(WifiManager mWifiManager) {
-        this.mWifiManager = mWifiManager;
-    }
+  /**
+   * Used internal to check if a prerequisite is missing.
+   *
+   * @return bool - true if ConnectivityManager or WifiManager are null
+   *
+   * @see #hasPrerequisites()
+   */
+  boolean missingPrerequisites() {
+    return !hasPrerequisites();
+  }
 }

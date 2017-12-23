@@ -15,12 +15,17 @@
  */
 package com.isupatches.wisefy.callbacks;
 
-
 import android.net.wifi.WifiConfiguration;
 
-
+/**
+ * Callbacks for adding an open network.
+ *
+ * @see com.isupatches.wisefy.WiseFy#addOpenNetwork(String, AddOpenNetworkCallbacks)
+ */
 public interface AddOpenNetworkCallbacks {
-    void addOpenNetworkWiseFyFailure(Integer wisefyReturnCode);
-    void failureAddingOpenNetwork(Integer wifiManagerReturnCode);
-    void openNetworkAdded(WifiConfiguration openNetwork);
+  void addOpenNetworkWiseFyFailure(int wisefyReturnCode);
+
+  void failureAddingOpenNetwork(int wifiManagerReturn);
+
+  void openNetworkAdded(int newNetworkId, WifiConfiguration openNetworkConfig);
 }

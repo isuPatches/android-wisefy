@@ -15,10 +15,17 @@
  */
 package com.isupatches.wisefy.callbacks;
 
-
+/**
+ * Callbacks for attempting to connect to a network.
+ *
+ * @see com.isupatches.wisefy.WiseFy#connectToNetwork(String, int, ConnectToNetworkCallbacks)
+ */
 public interface ConnectToNetworkCallbacks {
-    void connectedToNetwork();
-    void connectToNetworkWiseFyFailure(Integer wisefyReturnCode);
-    void failureConnectingToNetwork();
-    void networkNotFoundToConnectTo();
+  void connectedToNetwork();
+
+  void connectToNetworkWiseFyFailure(int wisefyReturnCode);
+
+  void failureConnectingToNetwork();
+
+  void networkNotFoundToConnectTo();
 }

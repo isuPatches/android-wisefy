@@ -15,12 +15,17 @@
  */
 package com.isupatches.wisefy.callbacks;
 
-
 import android.net.wifi.ScanResult;
 
-
+/**
+ * Callbacks for finding a nearby access point on a device.
+ *
+ * @see com.isupatches.wisefy.WiseFy#searchForAccessPoint(String, int, boolean, SearchForAccessPointCallbacks)
+ */
 public interface SearchForAccessPointCallbacks {
-    void searchForAccessPointWiseFyFailure(Integer wisefyReturnCode);
-    void accessPointFound(ScanResult accessPoint);
-    void accessPointNotFound();
+  void searchForAccessPointWiseFyFailure(int wisefyReturnCode);
+
+  void accessPointFound(ScanResult accessPoint);
+
+  void accessPointNotFound();
 }

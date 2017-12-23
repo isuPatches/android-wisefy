@@ -3,7 +3,7 @@
 To get current network:
 
 ```java
-WifiInfo currentNetwork = mWiseFy.getCurrentNetwork();
+WifiInfo currentNetwork = wisefy.getCurrentNetwork();
 ```
 
 #### Via The Asynchronous API
@@ -11,15 +11,15 @@ WifiInfo currentNetwork = mWiseFy.getCurrentNetwork();
 To get current network:
 
 ```java
-mWiseFy.getCurrentNetwork(new GetCurrentNetworkCallbacks() {
+wisefy.getCurrentNetwork(new GetCurrentNetworkCallbacks() {
     @Override
-    public void getCurrentNetworkWiseFyFailure(Integer wisefyReturnCode) {
-
+    public void getCurrentNetworkWiseFyFailure(int wisefyReturnCode) {
+    
     }
-
+    
     @Override
     public void retrievedCurrentNetwork(WifiInfo currentNetwork) {
-
+    
     }
 });
 ```

@@ -15,9 +15,15 @@
  */
 package com.isupatches.wisefy.callbacks;
 
-
+/**
+ * Callbacks for retrieving RSSI level of a nearby access point.
+ *
+ * @see com.isupatches.wisefy.WiseFy#getRSSI(String, boolean, int, GetRSSICallbacks)
+ */
 public interface GetRSSICallbacks {
-    void retrievedRSSI(Integer rssi);
-    void networkNotFoundToRetrieveRSSI();
-    void getRSSIWiseFyFailure(Integer wisefyReturnCode);
+  void retrievedRSSI(int rssi);
+
+  void networkNotFoundToRetrieveRSSI();
+
+  void getRSSIWiseFyFailure(int wisefyReturnCode);
 }
