@@ -15,9 +15,15 @@
  */
 package com.isupatches.wisefy.callbacks;
 
-
+/**
+ * Callbacks for disabling a device's wifi.
+ *
+ * @see com.isupatches.wisefy.WiseFy#disableWifi(DisableWifiCallbacks)
+ */
 public interface DisableWifiCallbacks {
-    void disableWifiWiseFyFailure(Integer wisefyReturnCode);
-    void failureDisablingWifi();
-    void wifiDisabled();
+  void disableWifiWiseFyFailure(int wisefyReturnCode);
+
+  void failureDisablingWifi();
+
+  void wifiDisabled();
 }

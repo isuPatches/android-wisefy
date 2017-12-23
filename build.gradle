@@ -1,24 +1,35 @@
 buildscript {
+    project.ext {
+        bintrayVersion = '1.7.3'
+        cpdVersion = '1.0'
+        dexcountVersion = '0.8.1'
+        gradlePluginVersion = '3.0.0'
+        jacocoVersion = '0.7.9'
+        mavenPlugin = '2.0'
+    }
+
     repositories {
         jcenter()
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
+        google()
+        maven { url "https://plugins.gradle.org/m2/" }
     }
+
     dependencies {
-        classpath "com.android.tools.build:gradle:2.3.3"
-        classpath "com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.7.1"
-        classpath "com.github.dcendents:android-maven-gradle-plugin:1.5"
-        classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3"
-        classpath "org.jacoco:org.jacoco.core:0.7.9"
-        classpath "org.jacoco:org.jacoco.agent:0.7.9"
-        classpath "org.jacoco:org.jacoco.report:0.7.9"
+        classpath "com.android.tools.build:gradle:${gradlePluginVersion}"
+        classpath "com.getkeepsafe.dexcount:dexcount-gradle-plugin:${dexcountVersion}"
+        classpath "com.github.dcendents:android-maven-gradle-plugin:${mavenPlugin}"
+        classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:${bintrayVersion}"
+        classpath "de.aaschmid:gradle-cpd-plugin:${cpdVersion}"
+        classpath "org.jacoco:org.jacoco.core:${jacocoVersion}"
+        classpath "org.jacoco:org.jacoco.agent:${jacocoVersion}"
+        classpath "org.jacoco:org.jacoco.report:${jacocoVersion}"
     }
 }
 
 allprojects {
     repositories {
         jcenter()
+        google()
     }
 }
 
@@ -50,7 +61,7 @@ ext {
     preDexEnabled = "true" == System.getProperty("pre-dex", "true")
 
     GROUP = "com.isupatches"
-    VERSION_NAME = "2.0.1"
+    VERSION_NAME = "2.1.0"
 
     BINTRAY_REPO = "Maven"
     BINTRAY_NAME = "wisefy"

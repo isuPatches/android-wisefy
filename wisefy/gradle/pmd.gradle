@@ -1,0 +1,15 @@
+apply plugin: 'pmd'
+
+task pmd(type: Pmd) {
+    description 'Analyze code with pmd'
+    group 'verification'
+
+    ignoreFailures = false
+
+    source = fileTree('src/main/java')
+
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
+}

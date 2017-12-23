@@ -15,12 +15,17 @@
  */
 package com.isupatches.wisefy.callbacks;
 
-
 import android.net.wifi.WifiConfiguration;
 
-
+/**
+ * Callbacks for retrieving a saved network on a device.
+ *
+ * @see com.isupatches.wisefy.WiseFy#getSavedNetwork(String, GetSavedNetworkCallbacks)
+ */
 public interface GetSavedNetworkCallbacks {
-    void getSavedNetworkWiseFyFailure(Integer wisefyReturnCode);
-    void savedNetworkNotFound();
-    void retrievedSavedNetwork(WifiConfiguration savedNetwork);
+  void getSavedNetworkWiseFyFailure(int wisefyReturnCode);
+
+  void savedNetworkNotFound();
+
+  void retrievedSavedNetwork(WifiConfiguration savedNetwork);
 }

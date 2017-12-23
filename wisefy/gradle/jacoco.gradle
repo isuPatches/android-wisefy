@@ -1,0 +1,46 @@
+apply plugin: 'jacoco'
+
+def coverageSourceDirs = [
+        '../wisefy/src/main/java'
+]
+
+def classDirs = fileTree(
+        dir: '../wisefy/build/intermediates/classes/debug/com/',
+        excludes: ['**/R.class',
+                   '**/R$*.class',
+                   '**/*$ViewBinder*.*',
+                   '**/*MembersInjector*.*',
+                   '**/BuildConfig.*',
+                   '**/Manifest*.*',
+                   '**/*$Lambda$*.class',
+                   '**/*Factory*.class',
+                   '**/*$Builder*'])
+
+task jacocoDebugTestReport(type: JacocoReport) {
+    dependsOn = ["connectedDebugAndroidTest", "testDebugUnitTest"]
+    group = "Reporting"
+    description = "Run tests and generate Jacoco coverage report for debug"
+    classDirectories = classDirs
+    additionalSourceDirs = files(coverageSourceDirs)
+    sourceDirectories = files(coverageSourceDirs)
+    executionData = files([fileTree(dir: 'build/outputs/code-coverage/connected', include: '**/*.ec'), fileTree(dir: 'build/jacoco', include: '**/*.exec')])
+
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
+}
+
+task jacocoDebugReport(type: JacocoReport) {
+    group = "Reporting"
+    description = "Generate Jacoco coverage report for debug"
+    classDirectories = classDirs
+    additionalSourceDirs = files(coverageSourceDirs)
+    sourceDirectories = files(coverageSourceDirs)
+    executionData = files([fileTree(dir: 'build/outputs/code-coverage/connected', include: '**/*.ec'), fileTree(dir: 'build/jacoco', include: '**/*.exec')])
+
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
+}

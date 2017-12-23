@@ -3,13 +3,13 @@
 To disable wifi:
 
 ```java
-boolean disabledWifiSuccessfully = mWiseFy.disableWifi();
+boolean disabledWifiSuccessfully = wisefy.disableWifi();
 ```
 
 To enable wifi:
 
 ```java
-boolean wifiEnabled = mWiseFy.enableWiFi();
+boolean wifiEnabled = wisefy.enableWiFi();
 ```
 
 #### Via The Asynchronous API
@@ -17,20 +17,20 @@ boolean wifiEnabled = mWiseFy.enableWiFi();
 To disable wifi:
 
 ```java
-mWiseFy.disableWifi(new DisableWifiCallbacks() {
+wisefy.disableWifi(new DisableWifiCallbacks() {
     @Override
-    public void disableWifiWiseFyFailure(Integer wisefyReturnCode) {
-
+    public void disableWifiWiseFyFailure(int wisefyReturnCode) {
+    
     }
-
+    
     @Override
     public void failureDisablingWifi() {
-
+    
     }
-
+    
     @Override
     public void wifiDisabled() {
-
+    
     }
 });
 ```
@@ -38,20 +38,20 @@ mWiseFy.disableWifi(new DisableWifiCallbacks() {
 To enable wifi:
 
 ```java
-mWiseFy.enableWifi(new EnableWifiCallbacks() {
+wisefy.enableWifi(new EnableWifiCallbacks() {
     @Override
-    public void enableWifiWiseFyFailure(Integer wisefyReturnCode) {
-
+    public void enableWifiWiseFyFailure(int wisefyReturnCode) {
+      
     }
-
+    
     @Override
     public void failureEnablingWifi() {
-
+    
     }
-
+    
     @Override
     public void wifiEnabled() {
-
+    
     }
 });
 ```

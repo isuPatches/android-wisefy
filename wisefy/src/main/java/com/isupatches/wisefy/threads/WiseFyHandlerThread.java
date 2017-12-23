@@ -15,52 +15,37 @@
  */
 package com.isupatches.wisefy.threads;
 
-
 import android.os.HandlerThread;
-import android.util.Log;
-import com.isupatches.wisefy.WiseFy;
-import com.isupatches.wisefy.util.LogUtil;
 
+import com.isupatches.wisefy.WiseFy;
 
 /**
- * A Thread to use for all WiseFy background processing
+ * A Thread to use for all WiseFy background processing.
  *
- * *NOTE* Must be cleaned!! {@link WiseFy#dump()}
+ * <p>*NOTE* Must be cleaned!! {@link WiseFy#dump()}</p>
  *
  * @author Patches
  */
-public class WiseFyHandlerThread extends HandlerThread {
+public final class WiseFyHandlerThread extends HandlerThread {
 
-    public static final String TAG = WiseFyHandlerThread.class.getSimpleName();
+  public static final String TAG = WiseFyHandlerThread.class.getSimpleName();
 
-    private boolean mLoggingEnabled;
+  public WiseFyHandlerThread(final String name) {
+    super(name);
+  }
 
-    public WiseFyHandlerThread(String name, boolean loggingEnabled) {
-        super(name);
-        this.mLoggingEnabled = loggingEnabled;
-    }
+  @Override
+  public void start() {
+    super.start();
+  }
 
-    @Override
-    public void start() {
-        if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
-            Log.d(TAG, "start() called on WiseFyHandlerThread");
-        }
-        super.start();
-    }
+  @Override
+  public boolean quit() {
+    return super.quit();
+  }
 
-    @Override
-    public boolean quit() {
-        if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
-            Log.d(TAG, "quit() called on WiseFyHandlerThread");
-        }
-        return super.quit();
-    }
-
-    @Override
-    public boolean quitSafely() {
-        if (LogUtil.isLoggable(TAG, Log.DEBUG, mLoggingEnabled)) {
-            Log.d(TAG, "quitSafely() called on WiseFyHandlerThread");
-        }
-        return super.quitSafely();
-    }
+  @Override
+  public boolean quitSafely() {
+    return super.quitSafely();
+  }
 }

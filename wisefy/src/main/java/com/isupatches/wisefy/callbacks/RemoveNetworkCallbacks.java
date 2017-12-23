@@ -15,10 +15,17 @@
  */
 package com.isupatches.wisefy.callbacks;
 
-
+/**
+ * Callbacks for removing a saved network on a device.
+ *
+ * @see com.isupatches.wisefy.WiseFy#removeNetwork(String, RemoveNetworkCallbacks)
+ */
 public interface RemoveNetworkCallbacks {
-    void failureRemovingNetwork();
-    void networkNotFoundToRemove();
-    void networkRemoved();
-    void removeNetworkWiseFyFailure(Integer wisefyReturnCode);
+  void failureRemovingNetwork();
+
+  void networkNotFoundToRemove();
+
+  void networkRemoved();
+
+  void removeNetworkWiseFyFailure(int wisefyReturnCode);
 }
