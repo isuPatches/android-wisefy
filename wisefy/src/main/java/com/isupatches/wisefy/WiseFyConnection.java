@@ -74,7 +74,7 @@ class WiseFyConnection {
    * @see WiseFyPrerequisites#getConnectivityManager() ()
    * @see WiseFyPrerequisites#getWifiManager()
    */
-  boolean isCurrentNetworkConnectedToSSID(final String ssid) {
+  boolean isCurrentNetworkConnectedToSSID(@Nullable final String ssid) {
     if (ssid == null) {
       return false;
     }
@@ -99,7 +99,7 @@ class WiseFyConnection {
    *
    * @return boolean - True if the network is both available and connected
    */
-  boolean isNetworkConnected(final NetworkInfo networkInfo) {
+  boolean isNetworkConnected(@Nullable final NetworkInfo networkInfo) {
     return networkInfo != null && networkInfo.isConnected() && networkInfo.isAvailable();
   }
 
@@ -114,7 +114,7 @@ class WiseFyConnection {
    * @see #doesNetworkMatchType(NetworkInfo, String)
    * @see #isNetworkConnected(NetworkInfo)
    */
-  boolean isNetworkConnectedAndMatchesType(final NetworkInfo networkInfo, @NetworkTypes final String type) {
+  boolean isNetworkConnectedAndMatchesType(@NonNull final NetworkInfo networkInfo, @NetworkTypes final String type) {
     return isNetworkConnected(networkInfo) && doesNetworkMatchType(networkInfo, type);
   }
 

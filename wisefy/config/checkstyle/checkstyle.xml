@@ -36,7 +36,9 @@
 
     <!-- Checks for Size Violations.                    -->
     <!-- See http://checkstyle.sourceforge.net/config_sizes.html -->
-    <module name="FileLength" />
+    <module name="FileLength">
+        <property name="max" value="2500"/>
+    </module>
 
     <!-- Miscellaneous other checks.                   -->
     <!-- See http://checkstyle.sourceforge.net/config_misc.html -->

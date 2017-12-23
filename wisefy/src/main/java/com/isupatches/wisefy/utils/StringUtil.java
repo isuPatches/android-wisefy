@@ -16,6 +16,7 @@
 package com.isupatches.wisefy.utils;
 
 import android.os.Build;
+import android.support.annotation.Nullable;
 
 import com.isupatches.wisefy.annotations.Internal;
 import com.isupatches.wisefy.constants.Symbols;
@@ -52,7 +53,7 @@ public final class StringUtil {
     }
   }
 
-  public static boolean isEmpty(final String string) {
+  public static boolean isEmpty(@Nullable final String string) {
     return string == null || string.trim().length() == 0;
   }
 }

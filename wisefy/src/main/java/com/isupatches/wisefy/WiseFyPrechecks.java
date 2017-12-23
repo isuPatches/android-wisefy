@@ -15,6 +15,8 @@
  */
 package com.isupatches.wisefy;
 
+import android.support.annotation.NonNull;
+
 import com.isupatches.wisefy.annotations.Internal;
 import com.isupatches.wisefy.constants.CommonValues;
 import com.isupatches.wisefy.constants.WiseFyCodeDefs;
@@ -74,7 +76,7 @@ class WiseFyPrechecks {
    * @see WiseFySearch#isNetworkASavedConfiguration(String)
    */
   @WiseFyCodes
-  int addNetworkPrechecks(final String ssid) {
+  int addNetworkPrechecks(@NonNull final String ssid) {
     int precheckResult = CommonValues.DEFAULT_PRECHECK_RETURN;
     if (StringUtil.isEmpty(ssid)) {
       precheckResult = WiseFyCodeDefs.MISSING_PARAMETER;
@@ -102,7 +104,7 @@ class WiseFyPrechecks {
    * @see WiseFySearch#isNetworkASavedConfiguration(String)
    */
   @WiseFyCodes
-  int addNetworkPrechecks(final String ssid, final String password) {
+  int addNetworkPrechecks(@NonNull final String ssid, final String password) {
     int precheckResult = CommonValues.DEFAULT_PRECHECK_RETURN;
     if (StringUtil.isEmpty(ssid) || StringUtil.isEmpty(password)) {
       precheckResult = WiseFyCodeDefs.MISSING_PARAMETER;

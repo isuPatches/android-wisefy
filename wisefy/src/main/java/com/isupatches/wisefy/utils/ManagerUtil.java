@@ -18,6 +18,7 @@ package com.isupatches.wisefy.utils;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
+import android.support.annotation.Nullable;
 
 import com.isupatches.wisefy.annotations.Internal;
 
@@ -30,7 +31,6 @@ import com.isupatches.wisefy.annotations.Internal;
 public final class ManagerUtil {
 
   private final ConnectivityManager connectivityManager;
-
   private final WifiManager wifiManager;
 
   /**
@@ -38,7 +38,7 @@ public final class ManagerUtil {
    *
    * @param context The context to retrieve a connectivity manager and wifi manager.
    */
-  private ManagerUtil(final Context context) {
+  private ManagerUtil(@Nullable final Context context) {
     if (context != null) {
       this.connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
       this.wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
@@ -68,6 +68,7 @@ public final class ManagerUtil {
    *
    * @see ConnectivityManager
    */
+  @Nullable
   public ConnectivityManager getConnectivityManager() {
     return connectivityManager;
   }
@@ -79,6 +80,7 @@ public final class ManagerUtil {
    *
    * @see WifiManager
    */
+  @Nullable
   public WifiManager getWiFiManager() {
     return wifiManager;
   }

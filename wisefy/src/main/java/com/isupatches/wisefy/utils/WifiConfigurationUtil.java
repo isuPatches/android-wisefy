@@ -16,6 +16,7 @@
 package com.isupatches.wisefy.utils;
 
 import android.net.wifi.WifiConfiguration;
+import android.support.annotation.NonNull;
 
 import com.isupatches.wisefy.annotations.Internal;
 import com.isupatches.wisefy.constants.Symbols;
@@ -41,6 +42,7 @@ public final class WifiConfigurationUtil {
    *
    * @return instance of WifiConfigurationUtil
    */
+  @NonNull
   public static WifiConfigurationUtil getInstance() {
     return WIFI_CONFIGURATION_UTIL;
   }
@@ -52,6 +54,7 @@ public final class WifiConfigurationUtil {
    *
    * @return WifiConfiguration - The open network configuration
    */
+  @NonNull
   public WifiConfiguration generateOpenNetworkConfiguration(final String ssid) {
     final WifiConfiguration wifiConfiguration = new WifiConfiguration();
     wifiConfiguration.SSID = StringUtil.convertSSIDForConfig(ssid);
@@ -76,6 +79,7 @@ public final class WifiConfigurationUtil {
    *
    * @return WifiConfiguration - The WEP network configuration
    */
+  @NonNull
   public WifiConfiguration generateWEPNetworkConfiguration(final String ssid, final String password) {
     final WifiConfiguration wifiConfiguration = new WifiConfiguration();
     wifiConfiguration.SSID = StringUtil.convertSSIDForConfig(ssid);
@@ -100,6 +104,7 @@ public final class WifiConfigurationUtil {
    *
    * @return WifiConfiguration - The WPA2 network configuration
    */
+  @NonNull
   public WifiConfiguration generateWPA2NetworkConfiguration(final String ssid, final String password) {
     final WifiConfiguration wifiConfiguration = new WifiConfiguration();
     wifiConfiguration.SSID = StringUtil.convertSSIDForConfig(ssid);

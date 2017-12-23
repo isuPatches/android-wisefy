@@ -15,6 +15,8 @@
  */
 package com.isupatches.wisefy.utils;
 
+import android.support.annotation.NonNull;
+
 import com.isupatches.wisefy.annotations.Internal;
 
 /**
@@ -38,6 +40,7 @@ public final class SleepUtil {
    *
    * @return instance of SleepUtil
    */
+  @NonNull
   public static SleepUtil getInstance() {
     return SLEEP_UTIL;
   }

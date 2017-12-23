@@ -15,6 +15,7 @@
  */
 package com.isupatches.wisefy;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.isupatches.wisefy.annotations.Internal;
@@ -44,6 +45,7 @@ final class WiseFyLogger {
    *
    * @return instance of WiseFyLogger
    */
+  @NonNull
   public static WiseFyLogger log() {
     return WISEFY_LOGGER;
   }
@@ -57,7 +59,7 @@ final class WiseFyLogger {
    *
    * @see #isLoggable(String, int)
    */
-  public void debug(final String tag, final String message, final Object...args) {
+  public void debug(@NonNull final String tag, @NonNull final String message, final Object...args) {
     if (isLoggable(tag, Log.DEBUG)) {
       Log.d(tag, String.format(message, args));
     }
@@ -72,7 +74,7 @@ final class WiseFyLogger {
    *
    * @see #isLoggable(String, int)
    */
-  void warn(final String tag, final String message, final Object...args) {
+  void warn(@NonNull final String tag, @NonNull final String message, final Object...args) {
     if (isLoggable(tag, Log.WARN)) {
       Log.w(tag, String.format(message, args));
     }
@@ -87,7 +89,7 @@ final class WiseFyLogger {
    *
    * @see #isLoggable(String, int)
    */
-  void error(final String tag, final String message, final Object...args) {
+  void error(@NonNull final String tag, @NonNull final String message, final Object...args) {
     if (isLoggable(tag, Log.ERROR)) {
       Log.e(tag, String.format(message, args));
     }
@@ -103,7 +105,7 @@ final class WiseFyLogger {
    *
    * @see #isLoggable(String, int)
    */
-  void error(final String tag, final Throwable throwable, final String message, final Object...args) {
+  void error(@NonNull final String tag, final Throwable throwable, @NonNull final String message, final Object...args) {
     if (isLoggable(tag, Log.ERROR)) {
       Log.e(tag, String.format(message, args), throwable);
     }
@@ -137,7 +139,7 @@ final class WiseFyLogger {
    *
    * @see Log
    */
-  private boolean isLoggable(final String tag, final int level) {
+  private boolean isLoggable(@NonNull final String tag, final int level) {
     final boolean loggable;
     String tagToUse = tag;
     if (loggingEnabled) {

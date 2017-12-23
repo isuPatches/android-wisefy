@@ -6,6 +6,7 @@ import static org.mockito.Mockito.when;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -75,6 +76,7 @@ public abstract class AbstractBaseAndroidJUnit4TestClass {
     wisefy.dump();
   }
 
+  @NonNull
   public final WiseFy getWiseFy() {
     return wisefy;
   }
@@ -95,30 +97,37 @@ public abstract class AbstractBaseAndroidJUnit4TestClass {
     return mockWifiManager;
   }
 
+  @NonNull
   public final MockNetworkUtil getMockNetworkUtil() {
     return mockNetworkUtil;
   }
 
+  @NonNull
   public final MockWiseFyConnectionUtil getMockWiseFyConnectionUtil() {
     return mockWiseFyConnectionUtil;
   }
 
+  @NonNull
   public final MockWiseFyPrechecksUtil getMockWiseFyPrechecksUtil() {
     return mockWiseFyPrechecksUtil;
   }
 
+  @NonNull
   public final MockWiseFyPrerequisitesUtil getMockWiseFyPrerequisitesUtil() {
     return mockWiseFyPrerequisitesUtil;
   }
 
+  @NonNull
   public final MockWiseFySearchUtil getMockWiseFySearchUtil() {
     return mockWiseFySearchUtil;
   }
 
+  @NonNull
   public final NullCallbackUtil getNullCallbackUtil() {
     return nullCallbackUtil;
   }
 
+  @NonNull
   public final VerificationUtil getVerificationUtil() {
     return verificationUtil;
   }

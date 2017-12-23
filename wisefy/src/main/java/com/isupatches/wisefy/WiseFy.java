@@ -24,6 +24,8 @@ import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 
 import com.isupatches.wisefy.annotations.Async;
@@ -99,7 +101,7 @@ public class WiseFy {
    *
    * @param brains The builder to use when creating the instance
    */
-  private WiseFy(final brains brains) {
+  private WiseFy(@NonNull final brains brains) {
     final ManagerUtil managerUtil = ManagerUtil.create(brains.context);
 
     if (brains.wisefyPrerequisites != null) {
@@ -171,7 +173,7 @@ public class WiseFy {
    */
   @Async
   @WiseFyThread
-  public void addOpenNetwork(final String ssid, final AddOpenNetworkCallbacks callbacks) {
+  public void addOpenNetwork(final String ssid, @Nullable final AddOpenNetworkCallbacks callbacks) {
     runOnWiseFyThread(() -> {
       synchronized (wisefyLock) {
         final int precheckResult = wiseFyPrechecks.addNetworkPrechecks(ssid);
@@ -239,7 +241,7 @@ public class WiseFy {
    */
   @Async
   @WiseFyThread
-  public void addWEPNetwork(final String ssid, final String password, final AddWEPNetworkCallbacks callbacks) {
+  public void addWEPNetwork(final String ssid, final String password, @Nullable final AddWEPNetworkCallbacks callbacks) {
     runOnWiseFyThread(() -> {
       synchronized (wisefyLock) {
         final int precheckResult = wiseFyPrechecks.addNetworkPrechecks(ssid, password);
@@ -303,7 +305,7 @@ public class WiseFy {
    */
   @Async
   @WiseFyThread
-  public void addWPA2Network(final String ssid, final String password, final AddWPA2NetworkCallbacks callbacks) {
+  public void addWPA2Network(final String ssid, final String password, @Nullable final AddWPA2NetworkCallbacks callbacks) {
     runOnWiseFyThread(() -> {
       synchronized (wisefyLock) {
         final int precheckResult = wiseFyPrechecks.addNetworkPrechecks(ssid, password);
@@ -415,7 +417,7 @@ public class WiseFy {
   @Async
   @WiseFyThread
   @WaitsForTimeout
-  public void connectToNetwork(final String ssidToConnectTo, final int timeoutInMillis, final ConnectToNetworkCallbacks callbacks) {
+  public void connectToNetwork(final String ssidToConnectTo, final int timeoutInMillis, @Nullable final ConnectToNetworkCallbacks callbacks) {
     runOnWiseFyThread(() -> {
       synchronized (wisefyLock) {
         final int precheckResult = wiseFyPrechecks.connectToNetworkPrechecks(ssidToConnectTo);
@@ -473,7 +475,7 @@ public class WiseFy {
    */
   @Async
   @WiseFyThread
-  public void disableWifi(final DisableWifiCallbacks callbacks) {
+  public void disableWifi(@Nullable final DisableWifiCallbacks callbacks) {
     runOnWiseFyThread(() -> {
       synchronized (wisefyLock) {
         final int precheckResult = wiseFyPrechecks.disableWifiChecks();
@@ -524,7 +526,7 @@ public class WiseFy {
    */
   @Async
   @WiseFyThread
-  public void disconnectFromCurrentNetwork(final DisconnectFromCurrentNetworkCallbacks callbacks) {
+  public void disconnectFromCurrentNetwork(@Nullable final DisconnectFromCurrentNetworkCallbacks callbacks) {
     runOnWiseFyThread(() -> {
       synchronized (wisefyLock) {
         final int precheckResult = wiseFyPrechecks.disconnectFromCurrentNetworkChecks();
@@ -600,7 +602,7 @@ public class WiseFy {
    */
   @Async
   @WiseFyThread
-  public void enableWifi(final EnableWifiCallbacks callbacks) {
+  public void enableWifi(@Nullable final EnableWifiCallbacks callbacks) {
     runOnWiseFyThread(() -> {
       synchronized (wisefyLock) {
         final int precheckResult = wiseFyPrechecks.enableWifiChecks();
@@ -632,6 +634,7 @@ public class WiseFy {
    * @see WiseFyPrerequisites#getWifiManager()
    * @see WiseFyPrerequisites#hasPrerequisites()
    */
+  @Nullable
   @Sync
   @CallingThread
   public WifiInfo getCurrentNetwork() {
@@ -654,7 +657,7 @@ public class WiseFy {
    */
   @Async
   @WiseFyThread
-  public void getCurrentNetwork(final GetCurrentNetworkCallbacks callbacks) {
+  public void getCurrentNetwork(@Nullable final GetCurrentNetworkCallbacks callbacks) {
     runOnWiseFyThread(() -> {
       synchronized (wisefyLock) {
         final int precheckResult = wiseFyPrechecks.getCurrentNetworkChecks();
@@ -679,6 +682,7 @@ public class WiseFy {
    *
    * @see #getCurrentNetwork()
    */
+  @Nullable
   @Sync
   @CallingThread
   @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
@@ -702,7 +706,7 @@ public class WiseFy {
   @Async
   @WiseFyThread
   @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-  public void getFrequency(final GetFrequencyCallbacks callbacks) {
+  public void getFrequency(@Nullable final GetFrequencyCallbacks callbacks) {
     runOnWiseFyThread(() -> {
       synchronized (wisefyLock) {
         final WifiInfo currentNetwork = WiseFy.this.getCurrentNetwork();
@@ -724,10 +728,11 @@ public class WiseFy {
    *
    * @return Integer - The frequency of the devices current network or null if no network
    */
+  @Nullable
   @Sync
   @CallingThread
   @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-  public Integer getFrequency(final WifiInfo network) {
+  public Integer getFrequency(@Nullable final WifiInfo network) {
     if (network != null) {
       return network.getFrequency();
     }
@@ -747,7 +752,7 @@ public class WiseFy {
   @Async
   @WiseFyThread
   @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-  public void getFrequency(final WifiInfo network, final GetFrequencyCallbacks callbacks) {
+  public void getFrequency(@Nullable final WifiInfo network, @Nullable final GetFrequencyCallbacks callbacks) {
     runOnWiseFyThread(() -> {
       synchronized (wisefyLock) {
         if (network != null && callbacks != null) {
@@ -769,6 +774,7 @@ public class WiseFy {
    * @see WiseFyPrerequisites#hasPrerequisites()
    * @see WiseFyPrerequisites#getWifiManager()
    */
+  @Nullable
   public String getIP() {
     if (WiseFyPrechecks.checksFailed(wiseFyPrechecks.getIPChecks())) {
       return null;
@@ -794,7 +800,7 @@ public class WiseFy {
    * @see WiseFyPrerequisites#hasPrerequisites()
    * @see WiseFyPrerequisites#getWifiManager()
    */
-  public void getIP(final GetIPCallbacks callbacks) {
+  public void getIP(@Nullable final GetIPCallbacks callbacks) {
     runOnWiseFyThread(() -> {
       synchronized (wisefyLock) {
         final int precheckResult = wiseFyPrechecks.getIPChecks();
@@ -832,6 +838,7 @@ public class WiseFy {
    * @see WiseFyPrerequisites#hasPrerequisites()
    * @see WiseFySearch#removeEntriesWithLowerSignalStrength(List)
    */
+  @Nullable
   @Sync
   @CallingThread
   public List<ScanResult> getNearbyAccessPoints(final boolean filterDuplicates) {
@@ -866,7 +873,7 @@ public class WiseFy {
    */
   @Async
   @WiseFyThread
-  public void getNearbyAccessPoints(final boolean filterDuplicates, final GetNearbyAccessPointsCallbacks callbacks) {
+  public void getNearbyAccessPoints(final boolean filterDuplicates, @Nullable final GetNearbyAccessPointsCallbacks callbacks) {
     runOnWiseFyThread(() -> {
       synchronized (wisefyLock) {
         final int precheckResult = wiseFyPrechecks.getNearbyAccessPointsChecks();
@@ -905,6 +912,7 @@ public class WiseFy {
    * @see WiseFyPrerequisites#hasPrerequisites()
    * @see WiseFySearch#findAccessPointByRegex(String, Integer, boolean)
    */
+  @Nullable
   @Sync
   @CallingThread
   @WaitsForTimeout
@@ -936,7 +944,7 @@ public class WiseFy {
   @Async
   @WiseFyThread
   @WaitsForTimeout
-  public void getRSSI(final String regexForSSID, final boolean takeHighest, final int timeoutInMillis, final GetRSSICallbacks callbacks) {
+  public void getRSSI(final String regexForSSID, final boolean takeHighest, final int timeoutInMillis, @Nullable final GetRSSICallbacks callbacks) {
     runOnWiseFyThread(() -> {
       synchronized (wisefyLock) {
         final int precheckResult = wiseFyPrechecks.getRSSIChecks(regexForSSID);
@@ -969,6 +977,7 @@ public class WiseFy {
    * @see WiseFyPrerequisites#hasPrerequisites()
    * @see WiseFySearch#findSavedNetworkByRegex(String)
    */
+  @Nullable
   @Sync
   @CallingThread
   public WifiConfiguration getSavedNetwork(final String regexForSSID) {
@@ -992,7 +1001,7 @@ public class WiseFy {
    */
   @Async
   @WiseFyThread
-  public void getSavedNetwork(final String regexForSSID, final GetSavedNetworkCallbacks callbacks) {
+  public void getSavedNetwork(final String regexForSSID, @Nullable final GetSavedNetworkCallbacks callbacks) {
     runOnWiseFyThread(() -> {
       synchronized (wisefyLock) {
         final int precheckResult = wiseFyPrechecks.getSavedNetworkChecks(regexForSSID);
@@ -1023,6 +1032,7 @@ public class WiseFy {
    * @see WiseFyPrerequisites#getWifiManager()
    * @see WiseFyPrerequisites#hasPrerequisites()
    */
+  @Nullable
   @Sync
   @CallingThread
   public List<WifiConfiguration> getSavedNetworks() {
@@ -1045,7 +1055,7 @@ public class WiseFy {
    */
   @Async
   @WiseFyThread
-  public void getSavedNetworks(final GetSavedNetworksCallbacks callbacks) {
+  public void getSavedNetworks(@Nullable final GetSavedNetworksCallbacks callbacks) {
     runOnWiseFyThread(() -> {
       synchronized (wisefyLock) {
         final int precheckResult = wiseFyPrechecks.getSavedNetworksChecks();
@@ -1078,6 +1088,7 @@ public class WiseFy {
    * @see WiseFyPrerequisites#hasPrerequisites()
    * @see WiseFySearch#findSavedNetworkByRegex(String)
    */
+  @Nullable
   @Sync
   @CallingThread
   public List<WifiConfiguration> getSavedNetworks(final String regexForSSID) {
@@ -1099,7 +1110,7 @@ public class WiseFy {
    */
   @Async
   @WiseFyThread
-  public void getSavedNetworks(final String regexForSSID, final GetSavedNetworksCallbacks callbacks) {
+  public void getSavedNetworks(final String regexForSSID, @Nullable final GetSavedNetworksCallbacks callbacks) {
     runOnWiseFyThread(() -> {
       synchronized (wisefyLock) {
         final int precheckResult = wiseFyPrechecks.getSavedNetworksChecks(regexForSSID);
@@ -1129,6 +1140,7 @@ public class WiseFy {
    *
    * @see WiseFyLock
    */
+  @NonNull
   public WiseFyLock getWiseFyLock() {
     return wisefyLock;
   }
@@ -1327,7 +1339,7 @@ public class WiseFy {
    */
   @Sync
   @CallingThread
-  public boolean isNetworkSecure(final ScanResult scanResult) {
+  public boolean isNetworkSecure(@Nullable final ScanResult scanResult) {
     if (scanResult != null && scanResult.capabilities != null) {
       final String networkCapabilities = scanResult.capabilities;
       final String[] securityModes = {CapabilityDefs.EAP, CapabilityDefs.PSK, CapabilityDefs.WEP, CapabilityDefs.WPA, CapabilityDefs.WPA2};
@@ -1444,7 +1456,7 @@ public class WiseFy {
    */
   @Async
   @WiseFyThread
-  public void removeNetwork(final String ssidToRemove, final RemoveNetworkCallbacks callbacks) {
+  public void removeNetwork(final String ssidToRemove, @Nullable final RemoveNetworkCallbacks callbacks) {
     runOnWiseFyThread(() -> {
       synchronized (wisefyLock) {
         final int precheckResult = wiseFyPrechecks.removeNetworkCheck(ssidToRemove);
@@ -1489,6 +1501,7 @@ public class WiseFy {
    * @see WiseFyPrerequisites#hasPrerequisites()
    * @see WiseFySearch#findAccessPointByRegex(String, Integer, boolean)
    */
+  @Nullable
   @Sync
   @CallingThread
   public ScanResult searchForAccessPoint(final String regexForSSID, final int timeoutInMillis, final boolean filterDuplicates) {
@@ -1517,7 +1530,7 @@ public class WiseFy {
   @Async
   @WiseFyThread
   public void searchForAccessPoint(final String regexForSSID, final int timeoutInMillis, final boolean filterDuplicates,
-                                   final SearchForAccessPointCallbacks callbacks) {
+                                   @Nullable final SearchForAccessPointCallbacks callbacks) {
     runOnWiseFyThread(() -> {
       synchronized (wisefyLock) {
         final int precheckResult = wiseFyPrechecks.searchForAccessPointChecks(regexForSSID);
@@ -1553,6 +1566,7 @@ public class WiseFy {
    * @see WiseFyPrerequisites#hasPrerequisites()
    * @see WiseFySearch#findAccessPointsMatchingRegex(String, boolean)
    */
+  @Nullable
   @Sync
   @CallingThread
   public List<ScanResult> searchForAccessPoints(final String regexForSSID, final boolean filterDuplicates) {
@@ -1580,7 +1594,8 @@ public class WiseFy {
    */
   @Async
   @WiseFyThread
-  public void searchForAccessPoints(final String regexForSSID, final boolean filterDuplicates, final SearchForAccessPointsCallbacks callbacks) {
+  public void searchForAccessPoints(final String regexForSSID, final boolean filterDuplicates,
+                                    @Nullable final SearchForAccessPointsCallbacks callbacks) {
     runOnWiseFyThread(() -> {
       synchronized (wisefyLock) {
         final int precheckResult = wiseFyPrechecks.searchForAccessPointsChecks(regexForSSID);
@@ -1614,6 +1629,7 @@ public class WiseFy {
    * @see WiseFyPrerequisites#hasPrerequisites()
    * @see WiseFySearch#findAccessPointByRegex(String, Integer, boolean)
    */
+  @Nullable
   @Sync
   @CallingThread
   @WaitsForTimeout
@@ -1645,7 +1661,7 @@ public class WiseFy {
   @Async
   @WiseFyThread
   @WaitsForTimeout
-  public void searchForSSID(final String regexForSSID, final int timeoutInMillis, final SearchForSSIDCallbacks callbacks) {
+  public void searchForSSID(final String regexForSSID, final int timeoutInMillis, @Nullable final SearchForSSIDCallbacks callbacks) {
     runOnWiseFyThread(() -> {
       synchronized (wisefyLock) {
         final int precheckResult = wiseFyPrechecks.searchForSSIDChecks(regexForSSID);
@@ -1678,6 +1694,7 @@ public class WiseFy {
    * @see WiseFyPrerequisites#hasPrerequisites()
    * @see WiseFySearch#findSSIDsMatchingRegex(String)
    */
+  @Nullable
   @Sync
   @CallingThread
   public List<String> searchForSSIDs(final String regexForSSID) {
@@ -1702,7 +1719,7 @@ public class WiseFy {
    */
   @Async
   @WiseFyThread
-  public void searchForSSIDs(final String regexForSSID, final SearchForSSIDsCallbacks callbacks) {
+  public void searchForSSIDs(final String regexForSSID, @Nullable final SearchForSSIDsCallbacks callbacks) {
     runOnWiseFyThread(() -> {
       synchronized (wisefyLock) {
         final int precheckResult = wiseFyPrechecks.searchForSSIDsChecks(regexForSSID);
@@ -1736,7 +1753,7 @@ public class WiseFy {
    *
    * @return boolean - If the network was successfully added
    */
-  private int addNetworkConfiguration(final WifiConfiguration wifiConfiguration) {
+  private int addNetworkConfiguration(@NonNull final WifiConfiguration wifiConfiguration) {
     WiseFyLogger.log().debug(TAG, "Adding network with SSID %s", wifiConfiguration.SSID);
     final int result = wisefyPrerequisites.getWifiManager().addNetwork(wifiConfiguration);
     WiseFyLogger.log().debug(TAG, "Adding network: %s had result: %debug", wifiConfiguration.SSID, result);
@@ -1751,7 +1768,7 @@ public class WiseFy {
    *
    * @return boolean - True if the network contains the capability
    */
-  private boolean containsCapability(final ScanResult scanResult, @Capabilities final String capability) {
+  private boolean containsCapability(@Nullable final ScanResult scanResult, @NonNull @Capabilities final String capability) {
     return scanResult != null && scanResult.capabilities != null && scanResult.capabilities.contains(capability);
   }
 
@@ -1787,7 +1804,7 @@ public class WiseFy {
    *
    * @return bool - true if the network was successfully removed
    */
-  private boolean removeNetworkConfiguration(final WifiConfiguration wifiConfiguration) {
+  private boolean removeNetworkConfiguration(@NonNull final WifiConfiguration wifiConfiguration) {
     wisefyPrerequisites.getWifiManager().disconnect();
     final boolean result = wisefyPrerequisites.getWifiManager().removeNetwork(wifiConfiguration.networkId);
     WiseFyLogger.log().debug(TAG, "Removing network: %s had result: %b", wifiConfiguration.SSID, result);
@@ -1848,6 +1865,7 @@ public class WiseFy {
      *
      * @see brains
      */
+    @NonNull
     @Override
     public WiseFy getSmarts() {
       return new WiseFy(this);
@@ -1862,6 +1880,7 @@ public class WiseFy {
      *
      * @see Logging
      */
+    @NonNull
     @Override
     public brains logging(final boolean enableLogging) {
       this.loggingEnabled = enableLogging;
@@ -1877,6 +1896,7 @@ public class WiseFy {
      *
      * @see WiseFyConnection
      */
+    @NonNull
     @Override
     public brains setCustomWiseFyConnection(final WiseFyConnection customWisefyConnection) {
       this.wisefyConnection = customWisefyConnection;
@@ -1893,6 +1913,7 @@ public class WiseFy {
      *
      * @see WiseFyPrechecks
      */
+    @NonNull
     @Override
     public brains setCustomWiseFyPrechecks(final WiseFyPrechecks customWiseFyPrechecks) {
       this.wiseFyPrechecks = customWiseFyPrechecks;
@@ -1908,6 +1929,7 @@ public class WiseFy {
      *
      * @see WiseFyConnection
      */
+    @NonNull
     @Override
     public brains setCustomWiseFyPrerequisites(final WiseFyPrerequisites customWiseFyPrerequisites) {
       this.wisefyPrerequisites = customWiseFyPrerequisites;
@@ -1923,6 +1945,7 @@ public class WiseFy {
      *
      * @see WiseFyConnection
      */
+    @NonNull
     @Override
     public brains setCustomWiseFySearch(final WiseFySearch customWiseFySearch) {
       this.wisefySearch = customWiseFySearch;
@@ -1934,6 +1957,7 @@ public class WiseFy {
    * An interface that enables/disables logging for a WiseFy instance.
    */
   interface Logging {
+    @NonNull
     brains logging(boolean enableLogging);
   }
 
@@ -1943,6 +1967,7 @@ public class WiseFy {
    * @see WiseFyPrerequisites
    */
   interface SetCustomWiseFyConnection {
+    @NonNull
     brains setCustomWiseFyConnection(WiseFyConnection customWisefyConnection);
   }
 
@@ -1952,6 +1977,7 @@ public class WiseFy {
    * @see WiseFyPrechecks
    */
   interface SetCustomWiseFyPrechecks {
+    @NonNull
     brains setCustomWiseFyPrechecks(WiseFyPrechecks wiseFyPrechecks);
   }
 
@@ -1961,6 +1987,7 @@ public class WiseFy {
    * @see WiseFyPrerequisites
    */
   interface SetCustomWiseFyPrerequisites {
+    @NonNull
     brains setCustomWiseFyPrerequisites(WiseFyPrerequisites customWisefyPrerequisites);
   }
 
@@ -1970,6 +1997,7 @@ public class WiseFy {
    * @see WiseFySearch
    */
   interface SetCustomWiseFySearch {
+    @NonNull
     brains setCustomWiseFySearch(WiseFySearch customWisefySearch);
   }
 
@@ -1977,6 +2005,7 @@ public class WiseFy {
    * An interface that builds a WiseFy instance.
    */
   interface GetSmarts {
+    @NonNull
     WiseFy getSmarts();
   }
 }

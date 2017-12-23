@@ -13,6 +13,7 @@ import static org.mockito.Mockito.when;
 
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
+import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,6 +70,7 @@ public final class MockWiseFySearchUtil {
    *
    * @return List of type ScanResult - The mocked access points.
    */
+  @NonNull
   public List<ScanResult> findAccessPointsMatchingRegex_success() {
     final List<ScanResult> accessPoints = new ArrayList<>();
     final ScanResult accessPoint = GeneratorUtil.createMockAccessPointWithSSIDAndRSSI(TEST_SSID, TEST_RSSI_LEVEL);
@@ -89,6 +91,7 @@ public final class MockWiseFySearchUtil {
    *
    * @return WifiConfiguration - The mocked saved network
    */
+  @NonNull
   public WifiConfiguration findSavedNetworkByRegex_success() {
     final WifiConfiguration savedNetwork = GeneratorUtil.createSavedNetwork(TEST_SSID);
     when(mockWiseFySearch.findSavedNetworkByRegex(anyString())).thenReturn(savedNetwork);
@@ -114,6 +117,7 @@ public final class MockWiseFySearchUtil {
    *
    * @return List of type WifiConfiguration - The mocked saved network list
    */
+  @NonNull
   public List<WifiConfiguration> findSavedNetworksMatchingRegex_success() {
     final List<WifiConfiguration> savedNetworks = new ArrayList<>();
     final WifiConfiguration wiFiConfiguration = GeneratorUtil.createSavedNetwork(TEST_SSID);
@@ -128,6 +132,7 @@ public final class MockWiseFySearchUtil {
    *
    * @return List of type String - The mocked list of SSIDs.
    */
+  @NonNull
   public List<String> findSSIDsMatchingRegex_success() {
     final List<String> ssids = new ArrayList<>();
     ssids.add(TEST_SSID);
@@ -160,6 +165,7 @@ public final class MockWiseFySearchUtil {
    *
    * @return List of type ScanResult - The mocked networks that will be returned
    */
+  @NonNull
   public List<ScanResult> removeEntriesWithLowerSignalStrength() {
     final List<ScanResult> accessPoints = GeneratorUtil.createMockAccessPointList(TEST_SSID, TEST_RSSI_LEVEL_HIGH, TEST_SSID2, TEST_RSSI_LEVEL_LOW);
     when(mockWiseFySearch.removeEntriesWithLowerSignalStrength(ArgumentMatchers.anyList())).thenReturn(accessPoints);

@@ -18,6 +18,8 @@ import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,7 +93,7 @@ public final class MockNetworkUtil {
    *
    * @return NetworkInfo - The mocked network the device is connected to
    */
-  NetworkInfo currentNetworkConnectionStatus(final boolean isAvailable, final boolean isConnected, final String type) {
+  NetworkInfo currentNetworkConnectionStatus(final boolean isAvailable, final boolean isConnected, @Nullable final String type) {
     final NetworkInfo networkInfo = mock(NetworkInfo.class);
     when(networkInfo.isAvailable()).thenReturn(isAvailable);
     when(networkInfo.isConnected()).thenReturn(isConnected);
@@ -221,6 +223,7 @@ public final class MockNetworkUtil {
    *
    * @return List of type ScanResult - The mocked nearby access points
    */
+  @NonNull
   public List<ScanResult> nearbyAccessPoints() {
     final List<ScanResult> accessPoints = GeneratorUtil.createMockAccessPointList(TEST_SSID, TEST_RSSI_LEVEL_HIGH, TEST_SSID2, TEST_RSSI_LEVEL_LOW);
     when(mockWifiManager.getScanResults()).thenReturn(accessPoints);
@@ -255,6 +258,7 @@ public final class MockNetworkUtil {
    *
    * @return List of type WifiConfiguration - The mocked saved network list
    */
+  @NonNull
   public List<WifiConfiguration> savedNetworks() {
     final List<WifiConfiguration> savedNetworks = new ArrayList<>();
     final WifiConfiguration wiFiConfiguration = GeneratorUtil.createSavedNetwork(TEST_SSID);
@@ -318,6 +322,7 @@ public final class MockNetworkUtil {
    *
    * @return List of type ScanResult - The mocked nearby access points
    */
+  @NonNull
   List<ScanResult> nearbyAccessPoints_multipleMatchingSSIDs_accessPoint1HasHigherRSSI(final boolean takeHighest) {
     final ScanResult accessPoint1 = GeneratorUtil.createMockAccessPointWithSSIDAndRSSI(TEST_SSID, TEST_RSSI_LEVEL_HIGH);
     final ScanResult accessPoint2 = GeneratorUtil.createMockAccessPointWithSSIDAndRSSI(TEST_SSID, TEST_RSSI_LEVEL_LOW);
@@ -345,6 +350,7 @@ public final class MockNetworkUtil {
    *
    * @return List of type ScanResult - The mocked nearby access points
    */
+  @NonNull
   List<ScanResult> nearbyAccessPoints_multipleMatchingSSIDs_accessPoint2HasHigherRSSI(final boolean takeHighest) {
     final ScanResult accessPoint1 = GeneratorUtil.createMockAccessPointWithSSIDAndRSSI(TEST_SSID, TEST_RSSI_LEVEL_LOW);
     final ScanResult accessPoint2 = GeneratorUtil.createMockAccessPointWithSSIDAndRSSI(TEST_SSID, TEST_RSSI_LEVEL_HIGH);
@@ -372,6 +378,7 @@ public final class MockNetworkUtil {
    *
    * @return List of type ScanResult - The mocked nearby access points
    */
+  @NonNull
   List<ScanResult> nearbyAccessPoints_multipleSSIDs_sameRSSI(final boolean addSecondNetwork) {
     final ScanResult accessPoint1 = GeneratorUtil.createMockAccessPointWithSSIDAndRSSI(TEST_SSID, TEST_RSSI_LEVEL);
     final ScanResult accessPoint2 = GeneratorUtil.createMockAccessPointWithSSIDAndRSSI(TEST_SSID2, TEST_RSSI_LEVEL);
@@ -404,6 +411,7 @@ public final class MockNetworkUtil {
    *
    * @return List of type ScanResult - The mocked nearby access points
    */
+  @NonNull
   List<ScanResult> nearbyAccessPoints_multipleMatchingSSIDs_sameRSSI(final boolean addSecondNetwork) {
     final ScanResult accessPoint1 = GeneratorUtil.createMockAccessPointWithSSIDAndRSSI(TEST_SSID, TEST_RSSI_LEVEL);
     final ScanResult accessPoint2 = GeneratorUtil.createMockAccessPointWithSSIDAndRSSI(TEST_SSID, TEST_RSSI_LEVEL);
@@ -661,7 +669,7 @@ public final class MockNetworkUtil {
    *
    * @param accessPoint The access point to add SSID of
    */
-  private void addToExpectedSSIDs(final ScanResult accessPoint) {
+  private void addToExpectedSSIDs(@NonNull final ScanResult accessPoint) {
     expectedSSIDs = new ArrayList<>();
 
     expectedSSIDs.add(accessPoint.SSID);
@@ -673,7 +681,7 @@ public final class MockNetworkUtil {
    * @param accessPoint1 The first access point to add SSID of
    * @param accessPoint2 The second access point to add SSID of
    */
-  private void addToExpectedSSIDs(final ScanResult accessPoint1, final ScanResult accessPoint2) {
+  private void addToExpectedSSIDs(@NonNull final ScanResult accessPoint1, @NonNull final ScanResult accessPoint2) {
     expectedSSIDs = new ArrayList<>();
     expectedSSIDs.add(accessPoint1.SSID);
     expectedSSIDs.add(accessPoint2.SSID);

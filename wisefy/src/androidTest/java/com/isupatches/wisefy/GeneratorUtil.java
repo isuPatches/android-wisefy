@@ -4,6 +4,7 @@ import static org.mockito.Mockito.mock;
 
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
+import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +36,7 @@ public final class GeneratorUtil {
    *
    * @return List of type ScanResult - The mocked access points
    */
+  @NonNull
   static List<ScanResult> createMockAccessPointList(final String ssid1, final int rssi1, final String ssid2, final int rssi2) {
     final List<ScanResult> accessPoints = new ArrayList<>();
     accessPoints.add(createMockAccessPointWithSSIDAndRSSI(ssid1, rssi1));
@@ -90,6 +92,7 @@ public final class GeneratorUtil {
    *
    * @return WifiConfiguration - Saved network
    */
+  @NonNull
   static WifiConfiguration createSavedNetwork(final String ssid) {
     final WifiConfiguration wiFiConfiguration = new WifiConfiguration();
     wiFiConfiguration.SSID = ssid;
