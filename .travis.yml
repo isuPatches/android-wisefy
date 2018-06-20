@@ -7,7 +7,7 @@ jdk:
 env:
   global:
     - TARGET_SDK=27
-    - BUILD_TOOLS_VERSION=27.0.2
+    - BUILD_TOOLS_VERSION=27.0.3
   matrix:
     - EMULATOR_SDK=android-19 ABI=armeabi-v7a
     - EMULATOR_SDK=android-22 ABI=armeabi-v7a
