@@ -13,7 +13,7 @@ import android.net.wifi.WifiConfiguration;
 import com.isupatches.wisefy.AbstractBaseAndroidJUnit4TestClass;
 import com.isupatches.wisefy.WiseFy;
 import com.isupatches.wisefy.callbacks.GetSavedNetworkCallbacks;
-import com.isupatches.wisefy.constants.WiseFyCodeDefs;
+import com.isupatches.wisefy.constants.WiseFyCodes;
 
 import org.junit.Test;
 
@@ -22,6 +22,8 @@ import org.junit.Test;
  *
  * @see WiseFy#getSavedNetwork(String)
  * @see WiseFy#getSavedNetwork(String, GetSavedNetworkCallbacks)
+ *
+ * @author Patches
  */
 public class GetSavedNetworkTests extends AbstractBaseAndroidJUnit4TestClass {
 
@@ -52,7 +54,7 @@ public class GetSavedNetworkTests extends AbstractBaseAndroidJUnit4TestClass {
     getMockWiseFyPrechecksUtil().getSavedNetwork_failure();
     final GetSavedNetworkCallbacks mockCallbacks = mock(GetSavedNetworkCallbacks.class);
     getWiseFy().getSavedNetwork(TEST_SSID, mockCallbacks);
-    verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).getSavedNetworkWiseFyFailure(WiseFyCodeDefs.MISSING_PREREQUISITE);
+    verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).getSavedNetworkWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
   }
 
   @Test

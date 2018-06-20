@@ -14,6 +14,8 @@ import org.junit.Test;
  * Tests the ability to determine if a device is connected to an SSID.
  *
  * @see WiseFy#isDeviceConnectedToSSID(String)
+ *
+ * @author Patches
  */
 public class IsDeviceConnectedToSSIDTests extends AbstractBaseAndroidJUnit4TestClass {
 

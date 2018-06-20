@@ -13,17 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.wisefy.constants;
+package com.isupatches.wisefy.callbacks;
+
+import android.net.NetworkInfo;
 
 /**
- * Constants that are generic and used throughout the WiseFy library.
+ * Callbacks for retrieving a device's current network.
+ *
+ * @see com.isupatches.wisefy.WiseFy#getCurrentNetworkInfo(GetCurrentNetworkInfoCallbacks)
+ *
+ * @author Patches
  */
-public final class CommonValues {
+public interface GetCurrentNetworkInfoCallbacks {
+  void getCurrentNetworkInfoWiseFyFailure(int wisefyReturnCode);
 
-  public static final int DEFAULT_PRECHECK_RETURN = 0;
-  public static final int DELAY = 1000;
-
-  private CommonValues() {
-    // No-op
-  }
+  void retrievedCurrentNetworkInfo(NetworkInfo currentNetworkDetails);
 }

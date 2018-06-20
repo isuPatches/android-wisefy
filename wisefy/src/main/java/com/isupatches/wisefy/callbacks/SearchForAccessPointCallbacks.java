@@ -21,6 +21,8 @@ import android.net.wifi.ScanResult;
  * Callbacks for finding a nearby access point on a device.
  *
  * @see com.isupatches.wisefy.WiseFy#searchForAccessPoint(String, int, boolean, SearchForAccessPointCallbacks)
+ *
+ * @author Patches
  */
 public interface SearchForAccessPointCallbacks {
   void searchForAccessPointWiseFyFailure(int wisefyReturnCode);

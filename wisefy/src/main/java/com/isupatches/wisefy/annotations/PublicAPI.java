@@ -22,6 +22,8 @@ import java.lang.annotation.RetentionPolicy;
 
 /**
  * Denotes that a class contains methods exposed to end users.
+ *
+ * @author Patches
  */
 @Documented
 @Inherited

@@ -9,8 +9,23 @@ import android.net.wifi.WifiInfo;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.isupatches.wisefy.callbacks.AddOpenNetworkCallbacks;
+import com.isupatches.wisefy.callbacks.AddWEPNetworkCallbacks;
+import com.isupatches.wisefy.callbacks.AddWPA2NetworkCallbacks;
+import com.isupatches.wisefy.callbacks.ConnectToNetworkCallbacks;
+import com.isupatches.wisefy.callbacks.DisableWifiCallbacks;
+import com.isupatches.wisefy.callbacks.DisconnectFromCurrentNetworkCallbacks;
+import com.isupatches.wisefy.callbacks.EnableWifiCallbacks;
+import com.isupatches.wisefy.callbacks.GetCurrentNetworkCallbacks;
 import com.isupatches.wisefy.callbacks.GetFrequencyCallbacks;
+import com.isupatches.wisefy.callbacks.GetRSSICallbacks;
+import com.isupatches.wisefy.callbacks.GetSavedNetworkCallbacks;
 import com.isupatches.wisefy.callbacks.GetSavedNetworksCallbacks;
+import com.isupatches.wisefy.callbacks.RemoveNetworkCallbacks;
+import com.isupatches.wisefy.callbacks.SearchForAccessPointCallbacks;
+import com.isupatches.wisefy.callbacks.SearchForAccessPointsCallbacks;
+import com.isupatches.wisefy.callbacks.SearchForSSIDCallbacks;
+import com.isupatches.wisefy.callbacks.SearchForSSIDsCallbacks;
 
 /**
  * A helper class to call methods in WiseFy with no callbacks.
@@ -26,7 +41,7 @@ public final class NullCallbackUtil {
    *
    * @param wisefy The WiseFy instance to use.
    */
-  NullCallbackUtil(final WiseFy wisefy) {
+  NullCallbackUtil(@NonNull final WiseFy wisefy) {
     this.wisefy = wisefy;
   }
 
@@ -34,6 +49,8 @@ public final class NullCallbackUtil {
    * To try to adding an open network with null callbacks.
    *
    * @param ssid The ssid to use when adding
+   *
+   * @see WiseFy#addOpenNetwork(String, AddOpenNetworkCallbacks)
    */
   public void callAddOpenNetwork(@Nullable final String ssid) {
     try {
@@ -48,6 +65,8 @@ public final class NullCallbackUtil {
    *
    * @param ssid The ssid to use when adding
    * @param password The password to use when adding
+   *
+   * @see WiseFy#addWEPNetwork(String, String, AddWEPNetworkCallbacks)
    */
   public void callAddWEPNetwork(@Nullable final String ssid, @Nullable final String password) {
     try {
@@ -62,6 +81,8 @@ public final class NullCallbackUtil {
    *
    * @param ssid The ssid to use when adding
    * @param password The password to use when adding
+   *
+   * @see WiseFy#addWPA2Network(String, String, AddWPA2NetworkCallbacks)
    */
   public void callAddWPA2Network(@Nullable final String ssid, @Nullable final String password) {
     try {
@@ -75,6 +96,8 @@ public final class NullCallbackUtil {
    * To try to connect to a network with null callbacks.
    *
    * @param ssid The ssid to use when connecting
+   *
+   * @see WiseFy#connectToNetwork(String, int, ConnectToNetworkCallbacks)
    */
   public void callConnectToNetwork(@Nullable final String ssid) {
     try {
@@ -86,6 +109,8 @@ public final class NullCallbackUtil {
 
   /**
    * To try disable wifi with null callbacks.
+   *
+   * @see WiseFy#disableWifi(DisableWifiCallbacks)
    */
   public void callDisableWifi() {
     try {
@@ -97,6 +122,8 @@ public final class NullCallbackUtil {
 
   /**
    * To try to disconnect from the current network with null callbacks.
+   *
+   * @see WiseFy#disconnectFromCurrentNetwork(DisconnectFromCurrentNetworkCallbacks)
    */
   public void callDisconnectFromCurrentNetwork() {
     try {
@@ -108,6 +135,8 @@ public final class NullCallbackUtil {
 
   /**
    * To try to enable wifi with null callbacks.
+   *
+   * @see WiseFy#enableWifi(EnableWifiCallbacks)
    */
   public void callEnableWifi() {
     try {
@@ -119,6 +148,8 @@ public final class NullCallbackUtil {
 
   /**
    * To try to get the current network with null callbacks.
+   *
+   * @see WiseFy#getCurrentNetwork(GetCurrentNetworkCallbacks)
    */
   public void callGetCurrentNetwork() {
     try {
@@ -130,6 +161,8 @@ public final class NullCallbackUtil {
 
   /**
    * To try and get the frequency of a network with null callbacks.
+   *
+   * @see WiseFy#getFrequency(GetFrequencyCallbacks)
    */
   public void callGetFrequency() {
     try {
@@ -143,6 +176,8 @@ public final class NullCallbackUtil {
    * To try and get the frequency of a network with null callbacks.
    *
    * @param network The network to use when trying
+   *
+   * @see WiseFy#getFrequency(WifiInfo, GetFrequencyCallbacks)
    */
   public void callGetFrequency_networkProvided(@Nullable final WifiInfo network) {
     try {
@@ -156,6 +191,8 @@ public final class NullCallbackUtil {
    * To try to get nearby access points with null callbacks.
    *
    * @param filterDuplicates The filterDuplicates param to use when trying.
+   *
+   * @see WiseFy#getCurrentNetwork(GetCurrentNetworkCallbacks)
    */
   public void callGetNearbyAccessPoints(final boolean filterDuplicates) {
     try {
@@ -169,6 +206,8 @@ public final class NullCallbackUtil {
    * To try to get the RSSI level of a nearby access point with null callbacks.
    *
    * @param takeHighest The takeHighest param to use when trying
+   *
+   * @see WiseFy#getRSSI(String, boolean, int, GetRSSICallbacks)
    */
   public void callGetRSSI(final boolean takeHighest) {
     try {
@@ -181,11 +220,13 @@ public final class NullCallbackUtil {
   /**
    * To try to retrieve a saved network with a given regex.
    *
-   * @param ssid The ssid to use while trying
+   * @param regexForSSID The regex to use while trying
+   *
+   * @see WiseFy#getSavedNetwork(String, GetSavedNetworkCallbacks)
    */
-  public void callGetSavedNetwork(@Nullable final String ssid) {
+  public void callGetSavedNetwork(@Nullable final String regexForSSID) {
     try {
-      wisefy.getSavedNetwork(ssid, null);
+      wisefy.getSavedNetwork(regexForSSID, null);
     } catch (NullPointerException npe) {
       fail();
     }
@@ -193,6 +234,8 @@ public final class NullCallbackUtil {
 
   /**
    * To try getting all nearby access points with a null callback.
+   *
+   * @see WiseFy#getSavedNetworks(GetSavedNetworksCallbacks)
    */
   public void callGetSavedNetworks() {
     try {
@@ -206,8 +249,10 @@ public final class NullCallbackUtil {
    * To try to get all nearby access points matching a given regex with null callbacks.
    *
    * @param regexForSSID The ssid to use while trying
+   *
+   * @see WiseFy#getSavedNetwork(String, GetSavedNetworkCallbacks)
    */
-  public void callGetSavedNetworks_withRegex(final String regexForSSID) {
+  public void callGetSavedNetworks_withRegex(@Nullable final String regexForSSID) {
     try {
       wisefy.getSavedNetworks(regexForSSID, null);
     } catch (NullPointerException npe) {
@@ -219,6 +264,8 @@ public final class NullCallbackUtil {
    * To try to remove a network with null callbacks.
    *
    * @param ssid The ssid to use while trying.
+   *
+   * @see WiseFy#removeNetwork(String, RemoveNetworkCallbacks)
    */
   public void callRemoveNetwork(@Nullable final String ssid) {
     try {
@@ -233,6 +280,8 @@ public final class NullCallbackUtil {
    *
    * @param ssid The ssid to use when trying
    * @param filterDuplicates The filter duplicate param to use when trying
+   *
+   * @see WiseFy#searchForAccessPoint(String, int, boolean, SearchForAccessPointCallbacks)
    */
   public void callSearchForAccessPoint(@Nullable final String ssid, final boolean filterDuplicates) {
     try {
@@ -245,12 +294,14 @@ public final class NullCallbackUtil {
   /**
    * To try and search for nearby access points with null callbacks.
    *
-   * @param ssid The ssid to use when trying
+   * @param regexForSSID The regex to use when trying
    * @param filterDuplicates The filter duplicates param to use when trying
+   *
+   * @see WiseFy#searchForAccessPoints(String, boolean, SearchForAccessPointsCallbacks)
    */
-  public void callSearchForAccessPoints(@NonNull final String ssid, final boolean filterDuplicates) {
+  public void callSearchForAccessPoints(@NonNull final String regexForSSID, final boolean filterDuplicates) {
     try {
-      wisefy.searchForAccessPoints(ssid, filterDuplicates, null);
+      wisefy.searchForAccessPoints(regexForSSID, filterDuplicates, null);
     } catch (NullPointerException npe) {
       fail();
     }
@@ -259,7 +310,9 @@ public final class NullCallbackUtil {
   /**
    * To try and search for a nearby SSID given a regex with null callbacks.
    *
-   * @param regexForSSID The regex to use while trying
+   * @param regexForSSID The regex to use when trying
+   *
+   * @see WiseFy#searchForSSID(String, int, SearchForSSIDCallbacks)
    */
   public void callSearchForSSID(@Nullable final String regexForSSID) {
     try {
@@ -272,7 +325,9 @@ public final class NullCallbackUtil {
   /**
    * To try and search for nearby SSIDs that match a given regex with null callbacks.
    *
-   * @param regexForSSID The regex to use while trying
+   * @param regexForSSID The regex to use when trying
+   *
+   * @see WiseFy#searchForSSIDs(String, SearchForSSIDsCallbacks)
    */
   public void callSearchForSSIDs(@Nullable final String regexForSSID) {
     try {

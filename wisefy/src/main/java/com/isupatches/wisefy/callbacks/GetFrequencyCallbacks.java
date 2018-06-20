@@ -22,6 +22,8 @@ import android.net.wifi.WifiInfo;
  *
  * @see com.isupatches.wisefy.WiseFy#getFrequency(GetFrequencyCallbacks)
  * @see com.isupatches.wisefy.WiseFy#getFrequency(WifiInfo, GetFrequencyCallbacks)
+ *
+ * @author Patches
  */
 public interface GetFrequencyCallbacks {
   void failureGettingFrequency();

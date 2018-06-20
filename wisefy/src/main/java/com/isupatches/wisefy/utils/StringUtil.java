@@ -15,14 +15,14 @@
  */
 package com.isupatches.wisefy.utils;
 
-import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.isupatches.wisefy.annotations.Internal;
 import com.isupatches.wisefy.constants.Symbols;
 
 /**
- * A helper class to manipulate the string value for SSIDs.
+ * A helper class with methods pertaining to String manipulations and null checks.
  *
  * @author Patches
  */
@@ -33,27 +33,41 @@ public final class StringUtil {
    * Private constructor.
    */
   private StringUtil() {
+    // No-op
   }
 
   /**
-   * Used internally to convert an SSID into a format for KitKat and below if needed.
+   * Used internally to convert an SSID into an acceptable format to create a WifiConfiguration.
    *
-   * @param ssid The SSID to alter
+   * @param ssid The SSID to format
    *
-   * @return String - The converted SSID value
+   * @return String - The formatted SSID value
    */
-  static String convertSSIDForConfig(final String ssid) {
-    // On devices with version Kitkat and below, We need to send SSID name
-    // with double quotes. On devices with version Lollipop, We need to send
-    // SSID name without double quotes
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-      return ssid;
-    } else {
-      return Symbols.QUOTE + ssid + Symbols.QUOTE;
-    }
+  static String convertSSIDForConfig(@NonNull final String ssid) {
+    return String.format("%s%s%s", Symbols.QUOTE, ssid, Symbols.QUOTE);
   }
 
+  /**
+   * Checks if a string is empty.
+   *
+   * @param string The string to check.
+   *
+   * @return boolean - Whether the string is empty (true if null or 0 characters)
+   */
   public static boolean isEmpty(@Nullable final String string) {
     return string == null || string.trim().length() == 0;
+  }
+
+  /**
+   * Checks if a string is not empty.
+   *
+   * @param string The string to check.
+   *
+   * @see #isEmpty(String)
+   *
+   * @return boolean - Returns the opposite of #isEmpty
+   */
+  public static boolean isNotEmpty(@Nullable final String string) {
+    return !isEmpty(string);
   }
 }

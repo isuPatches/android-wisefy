@@ -19,6 +19,8 @@ package com.isupatches.wisefy.callbacks;
  * Callbacks for attempting to connect to a network.
  *
  * @see com.isupatches.wisefy.WiseFy#connectToNetwork(String, int, ConnectToNetworkCallbacks)
+ *
+ * @author Patches
  */
 public interface ConnectToNetworkCallbacks {
   void connectedToNetwork();

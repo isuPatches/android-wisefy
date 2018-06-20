@@ -3,7 +3,9 @@ package com.isupatches.wisefy;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.annotation.NonNull;
 
 /**
  * A class to mock returns from the WiseFyPrerequisites class.
@@ -19,14 +21,19 @@ public final class MockWiseFyPrerequisitesUtil {
   /**
    * Constructor.
    *
-   * @param mockWiseFyPrerequisites The mock WiseFyPrerequisites instance to use.
+   * @param mockWiseFyPrerequisites The mock WiseFyPrerequisites instance to use
+   *
+   * @see WiseFyPrerequisites
    */
-  MockWiseFyPrerequisitesUtil(final WiseFyPrerequisites mockWiseFyPrerequisites) {
+  MockWiseFyPrerequisitesUtil(@NonNull final WiseFyPrerequisites mockWiseFyPrerequisites) {
     this.mockWiseFyPrerequisites = mockWiseFyPrerequisites;
   }
 
   /**
    * Mocks an active network return.
+   *
+   * @see ConnectivityManager#getActiveNetworkInfo()
+   * @see WiseFyPrerequisites#getConnectivityManager()
    */
   public void activeNetwork() {
     when(mockWiseFyPrerequisites.getConnectivityManager().getActiveNetworkInfo()).thenReturn(mock(NetworkInfo.class));
@@ -34,6 +41,9 @@ public final class MockWiseFyPrerequisitesUtil {
 
   /**
    * Mocks having all required prerequisites.
+   *
+   * @see WiseFyPrerequisites#hasPrerequisites()
+   * @see WiseFyPrerequisites#missingPrerequisites()
    */
   void hasPrerequisites() {
     when(mockWiseFyPrerequisites.hasPrerequisites()).thenReturn(true);
@@ -42,6 +52,9 @@ public final class MockWiseFyPrerequisitesUtil {
 
   /**
    * Mocks missing one of the required prerequisites.
+   *
+   * @see WiseFyPrerequisites#hasPrerequisites()
+   * @see WiseFyPrerequisites#missingPrerequisites()
    */
   void missingPrerequisites() {
     when(mockWiseFyPrerequisites.hasPrerequisites()).thenReturn(false);

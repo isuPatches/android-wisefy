@@ -16,7 +16,6 @@
 package com.isupatches.wisefy;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.isupatches.wisefy.annotations.Internal;
 
@@ -28,26 +27,24 @@ import com.isupatches.wisefy.annotations.Internal;
 @Internal
 final class WiseFyLogger {
 
-  private static final WiseFyLogger WISEFY_LOGGER = new WiseFyLogger();
-
-  private static final int MAX_TAG_LENGTH = 23;
-
-  private boolean loggingEnabled;
+  private static WiseFyLoggerImplementation wisefyLoggerImplementation;
 
   /**
    * Private constructor.
    */
   private WiseFyLogger() {
+    // No-op
   }
 
   /**
-   * Used internally to retrieve the instance of WiseFyLogger.
+   * Creates and sets the WiseFyLoggerImplementation to use when logging.
    *
-   * @return instance of WiseFyLogger
+   * @param loggingEnabled - Whether logging should be enabled for the WiseFyLoggerImplementation
+   *
+   * @see WiseFyLoggerImplementation
    */
-  @NonNull
-  public static WiseFyLogger log() {
-    return WISEFY_LOGGER;
+  static void configureWiseFyLoggerImplementation(final boolean loggingEnabled) {
+    wisefyLoggerImplementation = new WiseFyLoggerImplementation(loggingEnabled);
   }
 
   /**
@@ -57,27 +54,25 @@ final class WiseFyLogger {
    * @param message The message to log (can include placeholders)
    * @param args The formatting arguments for the log message
    *
-   * @see #isLoggable(String, int)
+   * @see #ensureWiseFyLoggerImplementationExists()
+   * @see WiseFyLoggerImplementation#debug(String, String, Object...)
    */
-  public void debug(@NonNull final String tag, @NonNull final String message, final Object...args) {
-    if (isLoggable(tag, Log.DEBUG)) {
-      Log.d(tag, String.format(message, args));
-    }
+  static void debug(@NonNull final String tag, @NonNull final String message, @NonNull final Object...args) {
+    ensureWiseFyLoggerImplementationExists();
+    wisefyLoggerImplementation.debug(tag, message, args);
   }
 
   /**
-   * Logs a warning message.
+   * To return if logging is enabled for the WiseFyLoggerImplementation.
    *
-   * @param tag The tag for the log message
-   * @param message The message to log (can include placeholders)
-   * @param args The formatting arguments for the log message
+   * @return bool - If logging is enabled for the instance of WiseFy
    *
-   * @see #isLoggable(String, int)
+   * @see #ensureWiseFyLoggerImplementationExists()
+   * @see WiseFyLoggerImplementation#isLoggingEnabled()
    */
-  void warn(@NonNull final String tag, @NonNull final String message, final Object...args) {
-    if (isLoggable(tag, Log.WARN)) {
-      Log.w(tag, String.format(message, args));
-    }
+  static boolean isLoggingEnabled() {
+    ensureWiseFyLoggerImplementationExists();
+    return wisefyLoggerImplementation.isLoggingEnabled();
   }
 
   /**
@@ -87,12 +82,12 @@ final class WiseFyLogger {
    * @param message The message to log (can include placeholders)
    * @param args The formatting arguments for the log message
    *
-   * @see #isLoggable(String, int)
+   * @see #ensureWiseFyLoggerImplementationExists()
+   * @see WiseFyLoggerImplementation#error(String, String, Object...)
    */
-  void error(@NonNull final String tag, @NonNull final String message, final Object...args) {
-    if (isLoggable(tag, Log.ERROR)) {
-      Log.e(tag, String.format(message, args));
-    }
+  static void error(@NonNull final String tag, @NonNull final String message, @NonNull final Object...args) {
+    ensureWiseFyLoggerImplementationExists();
+    wisefyLoggerImplementation.error(tag, message, args);
   }
 
   /**
@@ -103,53 +98,42 @@ final class WiseFyLogger {
    * @param message The message to log (can include placeholders)
    * @param args The formatting arguments for the log message
    *
-   * @see #isLoggable(String, int)
+   * @see #ensureWiseFyLoggerImplementationExists()
+   * @see WiseFyLoggerImplementation#error(String, Throwable, String, Object...)
    */
-  void error(@NonNull final String tag, final Throwable throwable, @NonNull final String message, final Object...args) {
-    if (isLoggable(tag, Log.ERROR)) {
-      Log.e(tag, String.format(message, args), throwable);
+  static void error(@NonNull final String tag, @NonNull final Throwable throwable, @NonNull final String message, @NonNull final Object...args) {
+    ensureWiseFyLoggerImplementationExists();
+    wisefyLoggerImplementation.error(tag, throwable, message, args);
+  }
+
+  /**
+   * Logs a warning message.
+   *
+   * @param tag The tag for the log message
+   * @param message The message to log (can include placeholders)
+   * @param args The formatting arguments for the log message
+   *
+   * @see #ensureWiseFyLoggerImplementationExists()
+   * @see WiseFyLoggerImplementation#warn(String, String, Object...)
+   */
+  static void warn(@NonNull final String tag, @NonNull final String message, @NonNull final Object...args) {
+    ensureWiseFyLoggerImplementationExists();
+    wisefyLoggerImplementation.warn(tag, message, args);
+  }
+
+  /*
+   * HELPERS
+   */
+
+  /**
+   * If a WiseFyLoggerImplementation is not already configured or set, it will create set one
+   * with the default value of false for logging enabled.
+   *
+   * @see #configureWiseFyLoggerImplementation(boolean)
+   */
+  private static void ensureWiseFyLoggerImplementationExists() {
+    if (wisefyLoggerImplementation == null) {
+      configureWiseFyLoggerImplementation(false);
     }
-  }
-
-  /**
-   * To set if logging is enabled for the entire WiseFy library.
-   *
-   * @param loggingEnabled Whether logging is enabled or disabled
-   */
-  void setLoggingEnabled(final boolean loggingEnabled) {
-    this.loggingEnabled = loggingEnabled;
-  }
-
-  /**
-   * To return if logging is enabled for the entire WiseFy library.
-   *
-   * @return bool - If logging is enabled for the instance of WiseFy
-   */
-  boolean isLoggingEnabled() {
-    return loggingEnabled;
-  }
-
-  /**
-   * Checks to see given a TAG, log level, and if logging is enabled if logging should occur.
-   *
-   * @param tag The tag to be used for the log
-   * @param level The level of logging (i.error Log.DEBUG, Log.WARN, Log.ERROR, etc)
-   *
-   * @return boolean - True if logging should occur based off level and other factors
-   *
-   * @see Log
-   */
-  private boolean isLoggable(@NonNull final String tag, final int level) {
-    final boolean loggable;
-    String tagToUse = tag;
-    if (loggingEnabled) {
-      loggable = true;
-    } else {
-      if (tag.length() > MAX_TAG_LENGTH) {
-        tagToUse = tag.substring(0, MAX_TAG_LENGTH - 1);
-      }
-      loggable = Log.isLoggable(tagToUse, level);
-    }
-    return loggable;
   }
 }

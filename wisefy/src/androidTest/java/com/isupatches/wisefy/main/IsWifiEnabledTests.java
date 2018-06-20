@@ -11,6 +11,8 @@ import org.junit.Test;
  * Tests the ability to determine if wifi is enabled on a device.
  *
  * @see WiseFy#isWifiEnabled()
+ *
+ * @author Patches
  */
 public class IsWifiEnabledTests extends AbstractBaseAndroidJUnit4TestClass {
 

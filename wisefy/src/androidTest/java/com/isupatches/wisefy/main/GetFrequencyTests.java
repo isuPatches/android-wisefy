@@ -17,7 +17,7 @@ import android.net.wifi.WifiInfo;
 import com.isupatches.wisefy.AbstractBaseAndroidJUnit4TestClass;
 import com.isupatches.wisefy.WiseFy;
 import com.isupatches.wisefy.callbacks.GetFrequencyCallbacks;
-import com.isupatches.wisefy.constants.WiseFyCodeDefs;
+import com.isupatches.wisefy.constants.WiseFyCodes;
 
 import org.junit.Test;
 
@@ -130,7 +130,12 @@ public class GetFrequencyTests extends AbstractBaseAndroidJUnit4TestClass {
     }
 
     final WifiInfo mockWifiInfo = getMockNetworkUtil().networkWithFrequency(TEST_NETWORK_FREQUENCY_24GHZ);
-    assertEquals(TEST_NETWORK_FREQUENCY_24GHZ, (int) getWiseFy().getFrequency(mockWifiInfo));
+    final Integer frequency = getWiseFy().getFrequency(mockWifiInfo);
+    if (frequency != null) {
+      assertEquals(TEST_NETWORK_FREQUENCY_24GHZ, (int) frequency);
+    } else {
+      fail();
+    }
   }
 
   @Test
@@ -142,7 +147,7 @@ public class GetFrequencyTests extends AbstractBaseAndroidJUnit4TestClass {
     getMockNetworkUtil().currentNetwork_null();
     final GetFrequencyCallbacks mockCallbacks = mock(GetFrequencyCallbacks.class);
     getWiseFy().getFrequency(null, mockCallbacks);
-    verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).getFrequencyWiseFyFailure(WiseFyCodeDefs.MISSING_PARAMETER);
+    verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).getFrequencyWiseFyFailure(WiseFyCodes.MISSING_PARAMETER);
   }
 
   @Test

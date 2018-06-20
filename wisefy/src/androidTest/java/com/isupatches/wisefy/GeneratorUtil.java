@@ -5,15 +5,13 @@ import static org.mockito.Mockito.mock;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A class that has helpers to create mock objects for test classes.
- *
- * @see ScanResult
- * @see WifiConfiguration
+ * A class that has helpers to create mocks and objects for test classes.
  *
  * @author Patches
  */
@@ -27,6 +25,22 @@ public final class GeneratorUtil {
   }
 
   /**
+   * Creates a mock of a nearby access point for tests with specified security capabilities.
+   *
+   * @param capabilities The security attributes you want the access point to have
+   *
+   * @return ScanResult - A mock access point with the given capabilities
+   *
+   * @see ScanResult
+   */
+  @NonNull
+  public static ScanResult createMockAccessPointWithCapabilities(@Nullable final String capabilities) {
+    final ScanResult scanResult = mock(ScanResult.class);
+    scanResult.capabilities = capabilities;
+    return scanResult;
+  }
+
+  /**
    * Mocks two nearby access points given ssids and rssi levels.
    *
    * @param ssid1 - SSID of access points 1
@@ -34,27 +48,17 @@ public final class GeneratorUtil {
    * @param ssid2 - SSID of access point 2
    * @param rssi2 - RSSI level of access point 2
    *
-   * @return List of type ScanResult - The mocked access points
+   * @return List of ScanResults - The mocked access points
+   *
+   * @see ScanResult
    */
   @NonNull
-  static List<ScanResult> createMockAccessPointList(final String ssid1, final int rssi1, final String ssid2, final int rssi2) {
+  static List<ScanResult> createMockAccessPointList(@NonNull final String ssid1, final int rssi1,
+                                                    @NonNull final String ssid2, final int rssi2) {
     final List<ScanResult> accessPoints = new ArrayList<>();
     accessPoints.add(createMockAccessPointWithSSIDAndRSSI(ssid1, rssi1));
     accessPoints.add(createMockAccessPointWithSSIDAndRSSI(ssid2, rssi2));
     return accessPoints;
-  }
-
-  /**
-   * Creates a mock of a nearby access point for tests with specified security capabilities.
-   *
-   * @param capabilities The security attributes you want the access point to have
-   *
-   * @return ScanResult - A mock access point with the given capabilities
-   */
-  public static ScanResult createMockAccessPointWithCapabilities(final String capabilities) {
-    final ScanResult scanResult = mock(ScanResult.class);
-    scanResult.capabilities = capabilities;
-    return scanResult;
   }
 
   /**
@@ -63,22 +67,28 @@ public final class GeneratorUtil {
    * @param ssid Tne ssid for the access point
    *
    * @return ScanResult - A mock object representing a nearby access point
+   *
+   * @see ScanResult
    */
-  static ScanResult createMockAccessPointWithSSID(final String ssid) {
+  @NonNull
+  static ScanResult createMockAccessPointWithSSID(@Nullable final String ssid) {
     final ScanResult scanResult = mock(ScanResult.class);
     scanResult.SSID = ssid;
     return scanResult;
   }
 
   /**
-   * Creates a mock of a nearby access point for tests.
+   * Creates a mock of a nearby access point.
    *
    * @param ssid Tne ssid for the access point
    * @param rssi The rssi level for the access point
    *
    * @return ScanResult - A mock object representing a nearby access point
+   *
+   * @see ScanResult
    */
-  static ScanResult createMockAccessPointWithSSIDAndRSSI(final String ssid, final int rssi) {
+  @NonNull
+  static ScanResult createMockAccessPointWithSSIDAndRSSI(@NonNull final String ssid, final int rssi) {
     final ScanResult scanResult = mock(ScanResult.class);
     scanResult.SSID = ssid;
     scanResult.level = rssi;
@@ -86,14 +96,16 @@ public final class GeneratorUtil {
   }
 
   /**
-   * Creates a saved network configuration for tests.
+   * Creates a saved network configuration.
    *
    * @param ssid The ssid for the saved network
    *
    * @return WifiConfiguration - Saved network
+   *
+   * @see WifiConfiguration
    */
   @NonNull
-  static WifiConfiguration createSavedNetwork(final String ssid) {
+  static WifiConfiguration createSavedNetwork(@Nullable final String ssid) {
     final WifiConfiguration wiFiConfiguration = new WifiConfiguration();
     wiFiConfiguration.SSID = ssid;
     return wiFiConfiguration;

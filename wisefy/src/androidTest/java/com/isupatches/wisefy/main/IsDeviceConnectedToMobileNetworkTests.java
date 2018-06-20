@@ -12,6 +12,8 @@ import org.junit.Test;
  * Tests the ability to determine if a device is connected to a mobile network.
  *
  * @see WiseFy#isDeviceConnectedToMobileNetwork()
+ *
+ * @author Patches
  */
 public class IsDeviceConnectedToMobileNetworkTests extends AbstractBaseAndroidJUnit4TestClass {
 

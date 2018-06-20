@@ -35,6 +35,7 @@ public final class WifiConfigurationUtil {
    * Private constructor.
    */
   private WifiConfigurationUtil() {
+    // No-op
   }
 
   /**
@@ -55,7 +56,7 @@ public final class WifiConfigurationUtil {
    * @return WifiConfiguration - The open network configuration
    */
   @NonNull
-  public WifiConfiguration generateOpenNetworkConfiguration(final String ssid) {
+  public WifiConfiguration generateOpenNetworkConfiguration(@NonNull final String ssid) {
     final WifiConfiguration wifiConfiguration = new WifiConfiguration();
     wifiConfiguration.SSID = StringUtil.convertSSIDForConfig(ssid);
     wifiConfiguration.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
@@ -80,7 +81,7 @@ public final class WifiConfigurationUtil {
    * @return WifiConfiguration - The WEP network configuration
    */
   @NonNull
-  public WifiConfiguration generateWEPNetworkConfiguration(final String ssid, final String password) {
+  public WifiConfiguration generateWEPNetworkConfiguration(@NonNull final String ssid, @NonNull final String password) {
     final WifiConfiguration wifiConfiguration = new WifiConfiguration();
     wifiConfiguration.SSID = StringUtil.convertSSIDForConfig(ssid);
     wifiConfiguration.wepKeys[0] = Symbols.QUOTE + password + Symbols.QUOTE;
@@ -105,7 +106,7 @@ public final class WifiConfigurationUtil {
    * @return WifiConfiguration - The WPA2 network configuration
    */
   @NonNull
-  public WifiConfiguration generateWPA2NetworkConfiguration(final String ssid, final String password) {
+  public WifiConfiguration generateWPA2NetworkConfiguration(@NonNull final String ssid, @NonNull final String password) {
     final WifiConfiguration wifiConfiguration = new WifiConfiguration();
     wifiConfiguration.SSID = StringUtil.convertSSIDForConfig(ssid);
     wifiConfiguration.preSharedKey = Symbols.QUOTE + password + Symbols.QUOTE;

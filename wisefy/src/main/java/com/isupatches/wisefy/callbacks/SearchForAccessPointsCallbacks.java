@@ -23,6 +23,8 @@ import java.util.List;
  * Callbacks for finding a list of nearby access points on a device.
  *
  * @see com.isupatches.wisefy.WiseFy#searchForAccessPoints(String, boolean, SearchForAccessPointsCallbacks)
+ *
+ * @author Patches
  */
 public interface SearchForAccessPointsCallbacks {
   void searchForAccessPointsWiseFyFailure(int wisefyReturnCode);

@@ -18,7 +18,7 @@ import android.net.wifi.WifiConfiguration;
 import com.isupatches.wisefy.AbstractBaseAndroidJUnit4TestClass;
 import com.isupatches.wisefy.WiseFy;
 import com.isupatches.wisefy.callbacks.AddWPA2NetworkCallbacks;
-import com.isupatches.wisefy.constants.WiseFyCodeDefs;
+import com.isupatches.wisefy.constants.WiseFyCodes;
 
 import org.junit.Test;
 
@@ -39,7 +39,7 @@ public class AddWPA2NetworkTests extends AbstractBaseAndroidJUnit4TestClass {
   @Test
   public void sync_failure_prechecks() {
     getMockWiseFyPrechecksUtil().addNetwork_failure();
-    assertEquals(WiseFyCodeDefs.MISSING_PREREQUISITE, getWiseFy().addWPA2Network(WPA2_NETWORK_SSID, WPA2_NETWORK_PASSWORD));
+    assertEquals(WiseFyCodes.MISSING_PREREQUISITE, getWiseFy().addWPA2Network(WPA2_NETWORK_SSID, WPA2_NETWORK_PASSWORD));
     getVerificationUtil().didNoTryToAddNetwork();
   }
 
@@ -62,7 +62,7 @@ public class AddWPA2NetworkTests extends AbstractBaseAndroidJUnit4TestClass {
     getMockWiseFyPrechecksUtil().addNetwork_failure();
     final AddWPA2NetworkCallbacks mockCallbacks = mock(AddWPA2NetworkCallbacks.class);
     getWiseFy().addWPA2Network(WPA2_NETWORK_SSID, WPA2_NETWORK_PASSWORD, mockCallbacks);
-    verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).addWPA2NetworkWiseFyFailure(WiseFyCodeDefs.MISSING_PREREQUISITE);
+    verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).addWPA2NetworkWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
     getVerificationUtil().didNoTryToAddNetwork();
   }
 

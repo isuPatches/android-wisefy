@@ -22,6 +22,8 @@ import java.lang.annotation.RetentionPolicy;
 
 /**
  * Denotes that a class is meant to only be used internally by other WiseFy classes.
+ *
+ * @author Patches
  */
 @Documented
 @Inherited

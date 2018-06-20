@@ -14,7 +14,7 @@ import android.net.wifi.ScanResult;
 import com.isupatches.wisefy.AbstractBaseAndroidJUnit4TestClass;
 import com.isupatches.wisefy.WiseFy;
 import com.isupatches.wisefy.callbacks.SearchForAccessPointsCallbacks;
-import com.isupatches.wisefy.constants.WiseFyCodeDefs;
+import com.isupatches.wisefy.constants.WiseFyCodes;
 
 import java.util.List;
 
@@ -25,6 +25,8 @@ import org.junit.Test;
  *
  * @see WiseFy#searchForAccessPoints(String, boolean)
  * @see WiseFy#searchForAccessPoints(String, boolean, SearchForAccessPointsCallbacks)
+ *
+ * @author Patches
  */
 public class SearchForAccessPointsTests extends AbstractBaseAndroidJUnit4TestClass {
 
@@ -73,7 +75,7 @@ public class SearchForAccessPointsTests extends AbstractBaseAndroidJUnit4TestCla
     getMockWiseFyPrechecksUtil().searchForAccessPoints_failure();
     final SearchForAccessPointsCallbacks mockCallbacks = mock(SearchForAccessPointsCallbacks.class);
     getWiseFy().searchForAccessPoints(TEST_SSID, false, mockCallbacks);
-    verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).searchForAccessPointsWiseFyFailure(WiseFyCodeDefs.MISSING_PREREQUISITE);
+    verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).searchForAccessPointsWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
   }
 
   @Test
@@ -87,7 +89,7 @@ public class SearchForAccessPointsTests extends AbstractBaseAndroidJUnit4TestCla
     getMockWiseFyPrechecksUtil().searchForAccessPoints_failure();
     final SearchForAccessPointsCallbacks mockCallbacks = mock(SearchForAccessPointsCallbacks.class);
     getWiseFy().searchForAccessPoints(TEST_SSID, true, mockCallbacks);
-    verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).searchForAccessPointsWiseFyFailure(WiseFyCodeDefs.MISSING_PREREQUISITE);
+    verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).searchForAccessPointsWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
   }
 
   @Test

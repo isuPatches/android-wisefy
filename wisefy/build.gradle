@@ -1,22 +1,11 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.getkeepsafe.dexcount'
-
-version = rootProject.ext.VERSION_NAME
-
-dexcount {
-    format = "tree"
-    includeClasses = true
-    includeFieldCount = true
-    includeTotalMethodCount = true
-    orderByMethodCount = true
-    verbose = false
-}
 
 android {
 
     dexOptions {
         // Skip pre-dexing when running on Travis CI or when disabled via -Dpre-dex=false.
         preDexLibraries = preDexEnabled && !travisBuild
+        javaMaxHeapSize "2g"
     }
 
     adbOptions {
@@ -24,15 +13,28 @@ android {
         installOptions "-d", "-t"
     }
 
-    compileSdkVersion 27
-    buildToolsVersion "27.0.2"
+    lintOptions {
+        checkAllWarnings true
+        warningsAsErrors true
+        showAll true
+        explainIssues true
+        abortOnError true
+//        enable 'AppLinksAutoVerifyError', 'AppLinksAutoVerifyWarning', 'BackButton',
+//                'EasterEgg', 'FieldGetter', 'GoogleAppIndexingApiWarning', 'IconExpectedSize',
+//                'LogConditional', 'MangledCRLF', 'NegativeMargin', 'NewerVersionAvailable',
+//                'SelectableText', 'StopShip', 'TrulyRandom', 'TypographyQuotes', 'UnusedIds'
+    }
+
+    compileSdkVersion rootProject.ext.MAX_SDK_VERSION
+    buildToolsVersion rootProject.ext.BUILD_TOOLS_VERSION
 
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 27
-        versionCode 13
-        versionName version
+        minSdkVersion rootProject.ext.MIN_SDK_VERSION
+        targetSdkVersion rootProject.ext.MAX_SDK_VERSION
+        versionCode rootProject.ext.VERSION_CODE
+        versionName rootProject.ext.VERSION_NAME
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
+        consumerProguardFiles 'consumer-proguard-rules.pro'
     }
 
     compileOptions {
@@ -75,37 +77,18 @@ android {
 }
 
 apply from: rootProject.file('wisefy/gradle/dependencies.gradle')
+
+// Static analysis tasks
+apply from: rootProject.file('wisefy/gradle/checkstyle.gradle')
+apply from: rootProject.file('wisefy/gradle/cpd.gradle')
+apply from: rootProject.file('wisefy/gradle/dexcount.gradle')
 apply from: rootProject.file('wisefy/gradle/findbugs.gradle')
 apply from: rootProject.file('wisefy/gradle/pmd.gradle')
-apply from: rootProject.file('wisefy/gradle/cpd.gradle')
-apply from: rootProject.file('wisefy/gradle/checkstyle.gradle')
+
+// Verification tasks
+apply from: rootProject.file('wisefy/gradle/custom-tasks.gradle')
 apply from: rootProject.file('wisefy/gradle/jacoco.gradle')
+
+// Release related gradle tasks
 apply from: rootProject.file('gradle/gradle-bintray-install.gradle')
 apply from: rootProject.file('gradle/gradle-bintray-upload.gradle')
-
-task makeGoodChoices {
-    group = "verification"
-
-    dependsOn 'androidFindbugs', 'pmd', 'lintDebug', 'cpdCheck', 'checkstyle', 'jacocoDebugTestReport'
-    doLast {
-        println "\n#############################################" +
-                "\n# All checks passed! You are doing so good! #" +
-                "\n# You may now push the awesome to origin :) #" +
-                "\n#############################################"
-    }
-}
-
-task staticAnalysisSanityCheck {
-    group = "verification"
-
-    dependsOn 'androidFindbugs', 'pmd', 'lintDebug', 'cpdCheck', 'checkstyle'
-    doLast {
-        println "\n##################################################" +
-                "\n# Static analysis passed! You are doing so good! #" +
-                "\n##################################################"
-    }
-}
-
-dependencies {
-    implementation 'com.android.support:support-annotations:27.0.2'
-}

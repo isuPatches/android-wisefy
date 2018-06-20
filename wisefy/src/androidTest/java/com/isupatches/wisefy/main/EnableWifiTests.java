@@ -11,7 +11,7 @@ import static org.mockito.Mockito.verify;
 import com.isupatches.wisefy.AbstractBaseAndroidJUnit4TestClass;
 import com.isupatches.wisefy.WiseFy;
 import com.isupatches.wisefy.callbacks.EnableWifiCallbacks;
-import com.isupatches.wisefy.constants.WiseFyCodeDefs;
+import com.isupatches.wisefy.constants.WiseFyCodes;
 
 import org.junit.Test;
 
@@ -55,7 +55,7 @@ public class EnableWifiTests extends AbstractBaseAndroidJUnit4TestClass {
     getMockWiseFyPrechecksUtil().enableWifi_failure();
     final EnableWifiCallbacks mockCallbacks = mock(EnableWifiCallbacks.class);
     getWiseFy().enableWifi(mockCallbacks);
-    verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).enableWifiWiseFyFailure(WiseFyCodeDefs.MISSING_PREREQUISITE);
+    verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).enableWifiWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
     getVerificationUtil().didNotTryToEnableWifi();
   }
 

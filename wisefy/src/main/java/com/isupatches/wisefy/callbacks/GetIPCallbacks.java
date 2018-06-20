@@ -19,6 +19,8 @@ package com.isupatches.wisefy.callbacks;
  * Callbacks for retrieving a device's IP.
  *
  * @see com.isupatches.wisefy.WiseFy#getIP(GetIPCallbacks)
+ *
+ * @author Patches
  */
 public interface GetIPCallbacks {
   void failureRetrievingIP();

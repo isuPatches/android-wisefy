@@ -27,6 +27,7 @@ import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.support.annotation.RequiresPermission;
 
 import com.isupatches.wisefy.annotations.Async;
 import com.isupatches.wisefy.annotations.CallingThread;
@@ -42,6 +43,7 @@ import com.isupatches.wisefy.callbacks.DisableWifiCallbacks;
 import com.isupatches.wisefy.callbacks.DisconnectFromCurrentNetworkCallbacks;
 import com.isupatches.wisefy.callbacks.EnableWifiCallbacks;
 import com.isupatches.wisefy.callbacks.GetCurrentNetworkCallbacks;
+import com.isupatches.wisefy.callbacks.GetCurrentNetworkInfoCallbacks;
 import com.isupatches.wisefy.callbacks.GetFrequencyCallbacks;
 import com.isupatches.wisefy.callbacks.GetIPCallbacks;
 import com.isupatches.wisefy.callbacks.GetNearbyAccessPointsCallbacks;
@@ -53,11 +55,11 @@ import com.isupatches.wisefy.callbacks.SearchForAccessPointCallbacks;
 import com.isupatches.wisefy.callbacks.SearchForAccessPointsCallbacks;
 import com.isupatches.wisefy.callbacks.SearchForSSIDCallbacks;
 import com.isupatches.wisefy.callbacks.SearchForSSIDsCallbacks;
-import com.isupatches.wisefy.constants.CapabilityDefs;
-import com.isupatches.wisefy.constants.CapabilityDefs.Capabilities;
-import com.isupatches.wisefy.constants.CommonValues;
-import com.isupatches.wisefy.constants.NetworkTypeDefs;
-import com.isupatches.wisefy.constants.WiseFyCodeDefs;
+import com.isupatches.wisefy.constants.Capabilities;
+import com.isupatches.wisefy.constants.Capabilities.Capability;
+import com.isupatches.wisefy.constants.NetworkTypes;
+import com.isupatches.wisefy.constants.WiseFyCodes;
+import com.isupatches.wisefy.constants.WiseFyCodes.WiseFyCode;
 import com.isupatches.wisefy.threads.WiseFyHandlerThread;
 import com.isupatches.wisefy.utils.ManagerUtil;
 import com.isupatches.wisefy.utils.WifiConfigurationUtil;
@@ -130,7 +132,7 @@ public class WiseFy {
       this.wiseFyPrechecks = WiseFyPrechecks.create(wisefyPrerequisites, wisefySearch);
     }
 
-    WiseFyLogger.log().setLoggingEnabled(brains.loggingEnabled);
+    WiseFyLogger.configureWiseFyLoggerImplementation(brains.loggingEnabled);
   }
 
   /**
@@ -142,14 +144,14 @@ public class WiseFy {
    *
    * @see #addNetworkConfiguration(WifiConfiguration)
    * @see WifiConfigurationUtil#generateOpenNetworkConfiguration(String)
-   * @see WiseFyCodeDefs
-   * @see WiseFyPrerequisites#hasPrerequisites()
-   * @see WiseFySearch#isNetworkASavedConfiguration(String)
+   * @see WiseFyPrechecks#addNetworkPrechecks(String)
+   * @see WiseFyPrechecks#checksFailed(int)
    */
   @Sync
   @CallingThread
+  @RequiresPermission(android.Manifest.permission.ACCESS_WIFI_STATE)
   public int addOpenNetwork(final String ssid) {
-    final int precheckResult = wiseFyPrechecks.addNetworkPrechecks(ssid);
+    @WiseFyCode final int precheckResult = wiseFyPrechecks.addNetworkPrechecks(ssid);
     if (WiseFyPrechecks.checksFailed(precheckResult)) {
       return precheckResult;
     }
@@ -167,16 +169,17 @@ public class WiseFy {
    * @see #runOnWiseFyThread(Runnable)
    * @see AddOpenNetworkCallbacks
    * @see WifiConfigurationUtil#generateOpenNetworkConfiguration(String)
-   * @see WiseFyCodeDefs
-   * @see WiseFyPrerequisites#hasPrerequisites()
-   * @see WiseFySearch#isNetworkASavedConfiguration(String)
+   * @see WiseFyCodes
+   * @see WiseFyPrechecks#addNetworkPrechecks(String)
+   * @see WiseFyPrechecks#checksFailed(int)
    */
   @Async
   @WiseFyThread
+  @RequiresPermission(android.Manifest.permission.ACCESS_WIFI_STATE)
   public void addOpenNetwork(final String ssid, @Nullable final AddOpenNetworkCallbacks callbacks) {
     runOnWiseFyThread(() -> {
       synchronized (wisefyLock) {
-        final int precheckResult = wiseFyPrechecks.addNetworkPrechecks(ssid);
+        @WiseFyCode final int precheckResult = wiseFyPrechecks.addNetworkPrechecks(ssid);
         if (WiseFyPrechecks.checksFailed(precheckResult)) {
           if (callbacks != null) {
             callbacks.addOpenNetworkWiseFyFailure(precheckResult);
@@ -185,7 +188,7 @@ public class WiseFy {
         }
 
         final WifiConfiguration openNetworkConfiguration = WifiConfigurationUtil.getInstance().generateOpenNetworkConfiguration(ssid);
-        final int result = WiseFy.this.addNetworkConfiguration(openNetworkConfiguration);
+        final int result = addNetworkConfiguration(openNetworkConfiguration);
         if (callbacks != null) {
           if (result != WIFI_MANAGER_FAILURE) {
             callbacks.openNetworkAdded(result, openNetworkConfiguration);
@@ -207,15 +210,15 @@ public class WiseFy {
    *
    * @see #addNetworkConfiguration(WifiConfiguration)
    * @see WifiConfigurationUtil#generateWEPNetworkConfiguration(String, String)
-   * @see WiseFyCodeDefs
+   * @see WiseFyCodes
    * @see WiseFyPrechecks#addNetworkPrechecks(String, String)
-   * @see WiseFyPrerequisites#hasPrerequisites()
-   * @see WiseFySearch#isNetworkASavedConfiguration(String)
+   * @see WiseFyPrechecks#checksFailed(int)
    */
   @Sync
   @CallingThread
+  @RequiresPermission(android.Manifest.permission.ACCESS_WIFI_STATE)
   public int addWEPNetwork(final String ssid, final String password) {
-    final int precheckResult = wiseFyPrechecks.addNetworkPrechecks(ssid, password);
+    @WiseFyCode final int precheckResult = wiseFyPrechecks.addNetworkPrechecks(ssid, password);
     if (WiseFyPrechecks.checksFailed(precheckResult)) {
       return precheckResult;
     }
@@ -234,17 +237,17 @@ public class WiseFy {
    * @see #runOnWiseFyThread(Runnable)
    * @see AddWEPNetworkCallbacks
    * @see WifiConfigurationUtil#generateWEPNetworkConfiguration(String, String)
-   * @see WiseFyCodeDefs
+   * @see WiseFyCodes
    * @see WiseFyPrechecks#addNetworkPrechecks(String, String)
-   * @see WiseFyPrerequisites#hasPrerequisites()
-   * @see WiseFySearch#isNetworkASavedConfiguration(String)
+   * @see WiseFyPrechecks#checksFailed(int)
    */
   @Async
   @WiseFyThread
+  @RequiresPermission(android.Manifest.permission.ACCESS_WIFI_STATE)
   public void addWEPNetwork(final String ssid, final String password, @Nullable final AddWEPNetworkCallbacks callbacks) {
     runOnWiseFyThread(() -> {
       synchronized (wisefyLock) {
-        final int precheckResult = wiseFyPrechecks.addNetworkPrechecks(ssid, password);
+        @WiseFyCode final int precheckResult = wiseFyPrechecks.addNetworkPrechecks(ssid, password);
         if (WiseFyPrechecks.checksFailed(precheckResult)) {
           if (callbacks != null) {
             callbacks.addWEPNetworkWiseFyFailure(precheckResult);
@@ -253,7 +256,7 @@ public class WiseFy {
         }
 
         final WifiConfiguration wepNetworkConfiguration = WifiConfigurationUtil.getInstance().generateWEPNetworkConfiguration(ssid, password);
-        final int result = WiseFy.this.addNetworkConfiguration(wepNetworkConfiguration);
+        final int result = addNetworkConfiguration(wepNetworkConfiguration);
         if (callbacks != null) {
           if (result != WIFI_MANAGER_FAILURE) {
             callbacks.wepNetworkAdded(result, wepNetworkConfiguration);
@@ -274,13 +277,16 @@ public class WiseFy {
    * @return int - The return code from WifiManager for network creation (-1 for failure)
    *
    * @see #addNetworkConfiguration(WifiConfiguration)
+   * @see WifiConfigurationUtil#generateWPA2NetworkConfiguration(String, String)
+   * @see WiseFyCodes
    * @see WiseFyPrechecks#addNetworkPrechecks(String, String)
-   * @see CommonValues
+   * @see WiseFyPrechecks#checksFailed(int)
    */
   @Sync
   @CallingThread
+  @RequiresPermission(android.Manifest.permission.ACCESS_WIFI_STATE)
   public int addWPA2Network(final String ssid, final String password) {
-    final int precheckResult = wiseFyPrechecks.addNetworkPrechecks(ssid, password);
+    @WiseFyCode final int precheckResult = wiseFyPrechecks.addNetworkPrechecks(ssid, password);
     if (WiseFyPrechecks.checksFailed(precheckResult)) {
       return precheckResult;
     }
@@ -299,16 +305,17 @@ public class WiseFy {
    * @see #runOnWiseFyThread(Runnable)
    * @see AddWPA2NetworkCallbacks
    * @see WifiConfigurationUtil#generateWPA2NetworkConfiguration(String, String)
-   * @see WiseFyCodeDefs
-   * @see WiseFyPrerequisites#hasPrerequisites()
-   * @see WiseFySearch#isNetworkASavedConfiguration(String)
+   * @see WiseFyCodes
+   * @see WiseFyPrechecks#addNetworkPrechecks(String, String)
+   * @see WiseFyPrechecks#checksFailed(int)
    */
   @Async
   @WiseFyThread
+  @RequiresPermission(android.Manifest.permission.ACCESS_WIFI_STATE)
   public void addWPA2Network(final String ssid, final String password, @Nullable final AddWPA2NetworkCallbacks callbacks) {
     runOnWiseFyThread(() -> {
       synchronized (wisefyLock) {
-        final int precheckResult = wiseFyPrechecks.addNetworkPrechecks(ssid, password);
+        @WiseFyCode final int precheckResult = wiseFyPrechecks.addNetworkPrechecks(ssid, password);
         if (WiseFyPrechecks.checksFailed(precheckResult)) {
           if (callbacks != null) {
             callbacks.addWPA2NetworkWiseFyFailure(precheckResult);
@@ -317,7 +324,7 @@ public class WiseFy {
         }
 
         final WifiConfiguration wpa2NetworkConfiguration = WifiConfigurationUtil.getInstance().generateWPA2NetworkConfiguration(ssid, password);
-        final int result = WiseFy.this.addNetworkConfiguration(wpa2NetworkConfiguration);
+        final int result = addNetworkConfiguration(wpa2NetworkConfiguration);
         if (callbacks != null) {
           if (result != WIFI_MANAGER_FAILURE) {
             callbacks.wpa2NetworkAdded(result, wpa2NetworkConfiguration);
@@ -336,6 +343,8 @@ public class WiseFy {
    * @param targetNumberOfBars How many bars or levels there will be total
    *
    * @return int - The number of bars for the given RSSI value
+   *
+   * @see WifiManager#calculateSignalLevel(int, int)
    */
   @Sync
   @CallingThread
@@ -357,6 +366,8 @@ public class WiseFy {
    * @param rssi2 The signal strength of network 2
    *
    * @return int - The result of the comparison
+   *
+   * @see WifiManager#compareSignalLevel(int, int)
    */
   @Sync
   @CallingThread
@@ -374,14 +385,16 @@ public class WiseFy {
    *
    * @return boolean - If the network was successfully reconnected
    *
+   * @see #connectToNetworkWithId(int)
    * @see WiseFyConnection#waitToConnectToSSID(String, int)
-   * @see WiseFyPrerequisites#getWifiManager()
-   * @see WiseFyPrerequisites#hasPrerequisites()
+   * @see WiseFyPrechecks#checksFailed(int)
+   * @see WiseFyPrechecks#connectToNetworkPrechecks(String)
    * @see WiseFySearch#findSavedNetworkByRegex(String)
    */
   @Sync
   @CallingThread
   @WaitsForTimeout
+  @RequiresPermission(android.Manifest.permission.ACCESS_WIFI_STATE)
   public boolean connectToNetwork(final String ssidToConnectTo, final int timeoutInMillis) {
     if (WiseFyPrechecks.checksFailed(wiseFyPrechecks.connectToNetworkPrechecks(ssidToConnectTo))) {
       return false;
@@ -406,21 +419,24 @@ public class WiseFy {
    * @param timeoutInMillis The number of milliseconds to continue waiting for the device to connect to the given SSID
    * @param callbacks The listener to return results to
    *
+   * @see #connectToNetworkWithId(int)
    * @see #runOnWiseFyThread(Runnable)
    * @see ConnectToNetworkCallbacks
-   * @see WiseFyCodeDefs
+   * @see WiseFyCodes
    * @see WiseFyConnection#waitToConnectToSSID(String, int)
-   * @see WiseFyPrerequisites#getWifiManager()
-   * @see WiseFyPrerequisites#hasPrerequisites()
+   * @see WiseFyPrechecks#checksFailed(int)
+   * @see WiseFyPrechecks#connectToNetworkPrechecks(String)
    * @see WiseFySearch#findSavedNetworkByRegex(String)
    */
   @Async
   @WiseFyThread
   @WaitsForTimeout
-  public void connectToNetwork(final String ssidToConnectTo, final int timeoutInMillis, @Nullable final ConnectToNetworkCallbacks callbacks) {
+  @RequiresPermission(android.Manifest.permission.ACCESS_WIFI_STATE)
+  public void connectToNetwork(final String ssidToConnectTo, final int timeoutInMillis,
+                               @Nullable final ConnectToNetworkCallbacks callbacks) {
     runOnWiseFyThread(() -> {
       synchronized (wisefyLock) {
-        final int precheckResult = wiseFyPrechecks.connectToNetworkPrechecks(ssidToConnectTo);
+        @WiseFyCode final int precheckResult = wiseFyPrechecks.connectToNetworkPrechecks(ssidToConnectTo);
         if (WiseFyPrechecks.checksFailed(precheckResult)) {
           if (callbacks != null) {
             callbacks.connectToNetworkWiseFyFailure(precheckResult);
@@ -430,7 +446,7 @@ public class WiseFy {
 
         final WifiConfiguration wifiConfiguration = wisefySearch.findSavedNetworkByRegex(ssidToConnectTo);
         if (wifiConfiguration != null) {
-          WiseFy.this.connectToNetworkWithId(wifiConfiguration.networkId);
+          connectToNetworkWithId(wifiConfiguration.networkId);
           final boolean connected = wisefyConnection.waitToConnectToSSID(ssidToConnectTo, timeoutInMillis);
           if (callbacks != null) {
             if (connected) {
@@ -453,11 +469,14 @@ public class WiseFy {
    *
    * @return boolean - True if the command succeeded in disabling wifi
    *
+   * @see WifiManager#setWifiEnabled(boolean)
+   * @see WiseFyPrechecks#checksPassed(int)
+   * @see WiseFyPrechecks#disableWifiChecks()
    * @see WiseFyPrerequisites#getWifiManager()
-   * @see WiseFyPrerequisites#hasPrerequisites()
    */
   @Sync
   @CallingThread
+  @RequiresPermission(android.Manifest.permission.CHANGE_WIFI_STATE)
   public boolean disableWifi() {
     return WiseFyPrechecks.checksPassed(wiseFyPrechecks.disableWifiChecks()) && wisefyPrerequisites.getWifiManager().setWifiEnabled(false);
   }
@@ -469,16 +488,19 @@ public class WiseFy {
    *
    * @see #runOnWiseFyThread(Runnable)
    * @see DisableWifiCallbacks
-   * @see WiseFyCodeDefs
+   * @see WifiManager#setWifiEnabled(boolean)
+   * @see WiseFyCodes
+   * @see WiseFyPrechecks#checksFailed(int)
+   * @see WiseFyPrechecks#disableWifiChecks()
    * @see WiseFyPrerequisites#getWifiManager()
-   * @see WiseFyPrerequisites#hasPrerequisites()
    */
   @Async
   @WiseFyThread
+  @RequiresPermission(android.Manifest.permission.CHANGE_WIFI_STATE)
   public void disableWifi(@Nullable final DisableWifiCallbacks callbacks) {
     runOnWiseFyThread(() -> {
       synchronized (wisefyLock) {
-        final int precheckResult = wiseFyPrechecks.disableWifiChecks();
+        @WiseFyCode final int precheckResult = wiseFyPrechecks.disableWifiChecks();
         if (WiseFyPrechecks.checksFailed(precheckResult)) {
           if (callbacks != null) {
             callbacks.disableWifiWiseFyFailure(precheckResult);
@@ -504,8 +526,10 @@ public class WiseFy {
    *
    * @return boolean - If the command succeeded in disconnecting the device from the current network
    *
+   * @see WifiManager#disconnect()
+   * @see WiseFyPrechecks#checksPassed(int)
+   * @see WiseFyPrechecks#disconnectFromCurrentNetworkChecks()
    * @see WiseFyPrerequisites#getWifiManager()
-   * @see WiseFyPrerequisites#hasPrerequisites()
    */
   @Sync
   @CallingThread
@@ -520,16 +544,18 @@ public class WiseFy {
    *
    * @see #runOnWiseFyThread(Runnable)
    * @see DisconnectFromCurrentNetworkCallbacks
-   * @see WiseFyCodeDefs
+   * @see WifiManager#disconnect()
+   * @see WiseFyCodes
+   * @see WiseFyPrechecks#checksFailed(int)
+   * @see WiseFyPrechecks#disconnectFromCurrentNetworkChecks()
    * @see WiseFyPrerequisites#getWifiManager()
-   * @see WiseFyPrerequisites#hasPrerequisites()
    */
   @Async
   @WiseFyThread
   public void disconnectFromCurrentNetwork(@Nullable final DisconnectFromCurrentNetworkCallbacks callbacks) {
     runOnWiseFyThread(() -> {
       synchronized (wisefyLock) {
-        final int precheckResult = wiseFyPrechecks.disconnectFromCurrentNetworkChecks();
+        @WiseFyCode final int precheckResult = wiseFyPrechecks.disconnectFromCurrentNetworkChecks();
         if (WiseFyPrechecks.checksFailed(precheckResult)) {
           if (callbacks != null) {
             callbacks.disconnectFromCurrentNetworkWiseFyFailure(precheckResult);
@@ -561,18 +587,18 @@ public class WiseFy {
         wisefyHandlerThread.quit();
       }
       if (wisefyHandlerThread.isAlive()) {
-        WiseFyLogger.log().warn(TAG, "WiseFy Thread is still alive.  Current status: isAlive(): %b, getState(): %s",
+        WiseFyLogger.warn(TAG, "WiseFy Thread is still alive.  Current status: isAlive(): %b, getState(): %s",
                 wisefyHandlerThread.isAlive(),
                 wisefyHandlerThread.getState());
         wisefyHandlerThread.interrupt();
       }
-      WiseFyLogger.log().debug(TAG, "WiseFy Thread isAlive(): %b, getState(): %s",
+      WiseFyLogger.debug(TAG, "WiseFy Thread isAlive(): %b, getState(): %s",
              wisefyHandlerThread.isAlive(),
              wisefyHandlerThread.getState());
       wisefyHandlerThread = null;
     }
     wisefyHandler = null;
-    WiseFyLogger.log().debug(TAG, "Cleaned up WiseFy Thread");
+    WiseFyLogger.debug(TAG, "Cleaned up WiseFy Thread");
   }
 
   /**
@@ -580,11 +606,14 @@ public class WiseFy {
    *
    * @return boolean - If the command succeeded in enabling wifi
    *
+   * @see WifiManager#setWifiEnabled(boolean)
+   * @see WiseFyPrechecks#checksPassed(int)
+   * @see WiseFyPrechecks#enableWifiChecks()
    * @see WiseFyPrerequisites#getWifiManager()
-   * @see WiseFyPrerequisites#hasPrerequisites()
    */
   @Sync
   @CallingThread
+  @RequiresPermission(android.Manifest.permission.CHANGE_WIFI_STATE)
   public boolean enableWifi() {
     return WiseFyPrechecks.checksPassed(wiseFyPrechecks.enableWifiChecks()) && wisefyPrerequisites.getWifiManager().setWifiEnabled(true);
   }
@@ -596,16 +625,19 @@ public class WiseFy {
    *
    * @see #runOnWiseFyThread(Runnable)
    * @see EnableWifiCallbacks
-   * @see WiseFyCodeDefs
+   * @see WifiManager#setWifiEnabled(boolean)
+   * @see WiseFyCodes
+   * @see WiseFyPrechecks#checksFailed(int)
+   * @see WiseFyPrechecks#enableWifiChecks()
    * @see WiseFyPrerequisites#getWifiManager()
-   * @see WiseFyPrerequisites#hasPrerequisites()
    */
   @Async
   @WiseFyThread
+  @RequiresPermission(android.Manifest.permission.CHANGE_WIFI_STATE)
   public void enableWifi(@Nullable final EnableWifiCallbacks callbacks) {
     runOnWiseFyThread(() -> {
       synchronized (wisefyLock) {
-        final int precheckResult = wiseFyPrechecks.enableWifiChecks();
+        @WiseFyCode final int precheckResult = wiseFyPrechecks.enableWifiChecks();
         if (WiseFyPrechecks.checksFailed(precheckResult)) {
           if (callbacks != null) {
             callbacks.enableWifiWiseFyFailure(precheckResult);
@@ -631,13 +663,19 @@ public class WiseFy {
    *
    * @return WifiInfo|null - The user's current network information
    *
+   * @throws SecurityException Without necessary permissions granted
+   *
+   * @see WifiInfo
+   * @see WifiManager#getConnectionInfo()
+   * @see WiseFyPrechecks#checksFailed(int)
+   * @see WiseFyPrechecks#getCurrentNetworkChecks()
    * @see WiseFyPrerequisites#getWifiManager()
-   * @see WiseFyPrerequisites#hasPrerequisites()
    */
   @Nullable
   @Sync
   @CallingThread
-  public WifiInfo getCurrentNetwork() {
+  @RequiresPermission(allOf = { android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_WIFI_STATE })
+  public WifiInfo getCurrentNetwork() throws SecurityException {
     if (WiseFyPrechecks.checksFailed(wiseFyPrechecks.getCurrentNetworkChecks())) {
       return null;
     }
@@ -649,18 +687,23 @@ public class WiseFy {
    *
    * @param callbacks The listener to return results to
    *
+   * @throws SecurityException Without necessary permissions granted
+   *
    * @see #runOnWiseFyThread(Runnable)
    * @see GetCurrentNetworkCallbacks
-   * @see WiseFyCodeDefs
+   * @see WiseFyCodes
+   * @see WifiManager#getConnectionInfo()
+   * @see WiseFyPrechecks#checksFailed(int)
+   * @see WiseFyPrechecks#getCurrentNetworkChecks()
    * @see WiseFyPrerequisites#getWifiManager()
-   * @see WiseFyPrerequisites#hasPrerequisites()
    */
   @Async
   @WiseFyThread
+  @RequiresPermission(allOf = { android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_WIFI_STATE })
   public void getCurrentNetwork(@Nullable final GetCurrentNetworkCallbacks callbacks) {
     runOnWiseFyThread(() -> {
       synchronized (wisefyLock) {
-        final int precheckResult = wiseFyPrechecks.getCurrentNetworkChecks();
+        @WiseFyCode final int precheckResult = wiseFyPrechecks.getCurrentNetworkChecks();
         if (WiseFyPrechecks.checksFailed(precheckResult)) {
           if (callbacks != null) {
             callbacks.getCurrentNetworkWiseFyFailure(precheckResult);
@@ -676,17 +719,65 @@ public class WiseFy {
   }
 
   /**
+   * To retrieve the details of the phones active network.
+   *
+   * @return NetworkInfo
+   */
+  @Nullable
+  @Sync
+  @CallingThread
+  @RequiresPermission(android.Manifest.permission.ACCESS_NETWORK_STATE)
+  public NetworkInfo getCurrentNetworkInfo() {
+    if (WiseFyPrechecks.checksFailed(wiseFyPrechecks.getCurrentNetworkInfoChecks())) {
+      return null;
+    }
+
+    return wisefyPrerequisites.getConnectivityManager().getActiveNetworkInfo();
+  }
+
+  /**
+   * To retrieve the details of the phones active network.
+   *
+   * @param callbacks The listener to return results to
+   */
+  @Async
+  @WiseFyThread
+  @RequiresPermission(android.Manifest.permission.ACCESS_NETWORK_STATE)
+  public void getCurrentNetworkInfo(final GetCurrentNetworkInfoCallbacks callbacks) {
+    runOnWiseFyThread(() -> {
+      synchronized (wisefyLock) {
+        @WiseFyCode final int precheckResult = wiseFyPrechecks.getCurrentNetworkChecks();
+        if (WiseFyPrechecks.checksFailed(precheckResult)) {
+          if (callbacks != null) {
+            callbacks.getCurrentNetworkInfoWiseFyFailure(precheckResult);
+          }
+          return;
+        }
+
+        if (callbacks != null) {
+          callbacks.retrievedCurrentNetworkInfo(wisefyPrerequisites.getConnectivityManager().getActiveNetworkInfo());
+        }
+      }
+    });
+  }
+
+  /**
    * To retrieve the frequency of the device's current network.
    *
    * @return Integer - The frequency of the devices current network or null if no network
    *
+   * @throws SecurityException Without necessary permissions granted
+   *
    * @see #getCurrentNetwork()
+   * @see WifiInfo
+   * @see WifiInfo#getFrequency()
    */
   @Nullable
   @Sync
   @CallingThread
   @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-  public Integer getFrequency() {
+  @RequiresPermission(allOf = { android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_WIFI_STATE })
+  public Integer getFrequency() throws SecurityException {
     final WifiInfo currentNetwork = getCurrentNetwork();
     if (currentNetwork != null) {
       return currentNetwork.getFrequency();
@@ -699,17 +790,22 @@ public class WiseFy {
    *
    * @param callbacks The listener to return results to
    *
+   * @throws SecurityException Without necessary permissions granted
+   *
    * @see #runOnWiseFyThread(Runnable)
    * @see #getCurrentNetwork()
    * @see GetFrequencyCallbacks
+   * @see WifiInfo
+   * @see WifiInfo#getFrequency()
    */
   @Async
   @WiseFyThread
   @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-  public void getFrequency(@Nullable final GetFrequencyCallbacks callbacks) {
+  @RequiresPermission(allOf = { android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_WIFI_STATE })
+  public void getFrequency(@Nullable final GetFrequencyCallbacks callbacks) throws SecurityException {
     runOnWiseFyThread(() -> {
       synchronized (wisefyLock) {
-        final WifiInfo currentNetwork = WiseFy.this.getCurrentNetwork();
+        final WifiInfo currentNetwork = getCurrentNetwork();
         if (callbacks != null) {
           if (currentNetwork != null) {
             callbacks.retrievedFrequency(currentNetwork.getFrequency());
@@ -727,6 +823,8 @@ public class WiseFy {
    * @param network The network to return the frequency of
    *
    * @return Integer - The frequency of the devices current network or null if no network
+   *
+   * @see WifiInfo#getFrequency()
    */
   @Nullable
   @Sync
@@ -747,7 +845,8 @@ public class WiseFy {
    *
    * @see #runOnWiseFyThread(Runnable)
    * @see GetFrequencyCallbacks
-   * @see WiseFyCodeDefs
+   * @see WifiInfo#getFrequency()
+   * @see WiseFyCodes#MISSING_PARAMETER
    */
   @Async
   @WiseFyThread
@@ -755,11 +854,12 @@ public class WiseFy {
   public void getFrequency(@Nullable final WifiInfo network, @Nullable final GetFrequencyCallbacks callbacks) {
     runOnWiseFyThread(() -> {
       synchronized (wisefyLock) {
-        if (network != null && callbacks != null) {
-          callbacks.retrievedFrequency(network.getFrequency());
-        }
         if (callbacks != null) {
-          callbacks.getFrequencyWiseFyFailure(WiseFyCodeDefs.MISSING_PARAMETER);
+          if (network != null) {
+            callbacks.retrievedFrequency(network.getFrequency());
+          } else {
+            callbacks.getFrequencyWiseFyFailure(WiseFyCodes.MISSING_PARAMETER);
+          }
         }
       }
     });
@@ -771,10 +871,16 @@ public class WiseFy {
    * @return String - The IPv4 or IPv6 address
    *
    * @see InetAddress
-   * @see WiseFyPrerequisites#hasPrerequisites()
+   * @see WifiInfo#getIpAddress()
+   * @see WifiManager#getConnectionInfo()
+   * @see WiseFyPrechecks#checksFailed(int)
+   * @see WiseFyPrechecks#getIPChecks()
    * @see WiseFyPrerequisites#getWifiManager()
    */
   @Nullable
+  @Sync
+  @CallingThread
+  @RequiresPermission(android.Manifest.permission.ACCESS_WIFI_STATE)
   public String getIP() {
     if (WiseFyPrechecks.checksFailed(wiseFyPrechecks.getIPChecks())) {
       return null;
@@ -785,7 +891,7 @@ public class WiseFy {
     try {
       ipAddressToReturn = InetAddress.getByAddress(ipAddress).getHostAddress();
     } catch (UnknownHostException uhe) {
-      WiseFyLogger.log().error(TAG, uhe, "UnknownHostException while gathering IP (sync)");
+      WiseFyLogger.error(TAG, uhe, "UnknownHostException while gathering IP (sync)");
     }
     return ipAddressToReturn;
   }
@@ -797,16 +903,22 @@ public class WiseFy {
    *
    * @see GetIPCallbacks
    * @see InetAddress
-   * @see WiseFyPrerequisites#hasPrerequisites()
+   * @see WifiInfo#getIpAddress()
+   * @see WifiManager#getConnectionInfo()
+   * @see WiseFyPrechecks#checksFailed(int)
+   * @see WiseFyPrechecks#getIPChecks()
    * @see WiseFyPrerequisites#getWifiManager()
    */
+  @Async
+  @WiseFyThread
+  @RequiresPermission(android.Manifest.permission.ACCESS_WIFI_STATE)
   public void getIP(@Nullable final GetIPCallbacks callbacks) {
     runOnWiseFyThread(() -> {
       synchronized (wisefyLock) {
-        final int precheckResult = wiseFyPrechecks.getIPChecks();
+        @WiseFyCode final int precheckResult = wiseFyPrechecks.getIPChecks();
         if (WiseFyPrechecks.checksFailed(precheckResult)) {
           if (callbacks != null) {
-            callbacks.getIPWiseFyFailure(WiseFyCodeDefs.MISSING_PREREQUISITE);
+            callbacks.getIPWiseFyFailure(precheckResult);
           }
           return;
         }
@@ -816,7 +928,7 @@ public class WiseFy {
           try {
             callbacks.retrievedIP(InetAddress.getByAddress(ipAddress).getHostAddress());
           } catch (UnknownHostException uhe) {
-            WiseFyLogger.log().error(TAG, uhe, "UnknownHostException while gathering IP (async)");
+            WiseFyLogger.error(TAG, uhe, "UnknownHostException while gathering IP (async)");
             callbacks.failureRetrievingIP();
           }
         }
@@ -834,14 +946,21 @@ public class WiseFy {
    *
    * @return List of ScanResults|null - List of nearby access points
    *
+   * @throws SecurityException Without necessary permissions granted
+   *
+   * @see ScanResult
+   * @see WifiManager#startScan()
+   * @see WifiManager#getScanResults()
+   * @see WiseFyPrechecks#checksFailed(int)
+   * @see WiseFyPrechecks#getNearbyAccessPointsChecks()
    * @see WiseFyPrerequisites#getWifiManager()
-   * @see WiseFyPrerequisites#hasPrerequisites()
    * @see WiseFySearch#removeEntriesWithLowerSignalStrength(List)
    */
   @Nullable
   @Sync
   @CallingThread
-  public List<ScanResult> getNearbyAccessPoints(final boolean filterDuplicates) {
+  @RequiresPermission(allOf = { android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_WIFI_STATE })
+  public List<ScanResult> getNearbyAccessPoints(final boolean filterDuplicates) throws SecurityException {
     if (WiseFyPrechecks.checksFailed(wiseFyPrechecks.getNearbyAccessPointsChecks())) {
       return null;
     }
@@ -866,17 +985,22 @@ public class WiseFy {
    *
    * @see #runOnWiseFyThread(Runnable)
    * @see GetNearbyAccessPointsCallbacks
-   * @see WiseFyCodeDefs
+   * @see ScanResult
+   * @see WiseFyCodes
+   * @see WifiManager#startScan()
+   * @see WifiManager#getScanResults()
+   * @see WiseFyPrechecks#checksFailed(int)
+   * @see WiseFyPrechecks#getNearbyAccessPointsChecks()
    * @see WiseFyPrerequisites#getWifiManager()
-   * @see WiseFyPrerequisites#hasPrerequisites()
    * @see WiseFySearch#removeEntriesWithLowerSignalStrength(List)
    */
   @Async
   @WiseFyThread
+  @RequiresPermission(allOf = { android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_WIFI_STATE })
   public void getNearbyAccessPoints(final boolean filterDuplicates, @Nullable final GetNearbyAccessPointsCallbacks callbacks) {
     runOnWiseFyThread(() -> {
       synchronized (wisefyLock) {
-        final int precheckResult = wiseFyPrechecks.getNearbyAccessPointsChecks();
+        @WiseFyCode final int precheckResult = wiseFyPrechecks.getNearbyAccessPointsChecks();
         if (WiseFyPrechecks.checksFailed(precheckResult)) {
           if (callbacks != null) {
             callbacks.getNearbyAccessPointsWiseFyFailure(precheckResult);
@@ -909,13 +1033,15 @@ public class WiseFy {
    *
    * @return Integer - The RSSI value for the found SSID or null if no matching network found
    *
-   * @see WiseFyPrerequisites#hasPrerequisites()
-   * @see WiseFySearch#findAccessPointByRegex(String, Integer, boolean)
+   * @see WiseFyPrechecks#checksFailed(int)
+   * @see WiseFyPrechecks#getRSSIChecks(String)
+   * @see WiseFySearch#findAccessPointByRegex(String, int, boolean)
    */
   @Nullable
   @Sync
   @CallingThread
   @WaitsForTimeout
+  @RequiresPermission(android.Manifest.permission.ACCESS_WIFI_STATE)
   public Integer getRSSI(final String regexForSSID, final boolean takeHighest, final int timeoutInMillis) {
     if (WiseFyPrechecks.checksFailed(wiseFyPrechecks.getRSSIChecks(regexForSSID))) {
       return null;
@@ -937,17 +1063,20 @@ public class WiseFy {
    *
    * @see #runOnWiseFyThread(Runnable)
    * @see GetRSSICallbacks
-   * @see WiseFyCodeDefs
-   * @see WiseFyPrerequisites#hasPrerequisites()
-   * @see WiseFySearch#findAccessPointByRegex(String, Integer, boolean)
+   * @see WiseFyCodes
+   * @see WiseFyPrechecks#checksFailed(int)
+   * @see WiseFyPrechecks#getRSSIChecks(String)
+   * @see WiseFySearch#findAccessPointByRegex(String, int, boolean)
    */
   @Async
   @WiseFyThread
   @WaitsForTimeout
-  public void getRSSI(final String regexForSSID, final boolean takeHighest, final int timeoutInMillis, @Nullable final GetRSSICallbacks callbacks) {
+  @RequiresPermission(android.Manifest.permission.ACCESS_WIFI_STATE)
+  public void getRSSI(final String regexForSSID, final boolean takeHighest, final int timeoutInMillis,
+                      @Nullable final GetRSSICallbacks callbacks) {
     runOnWiseFyThread(() -> {
       synchronized (wisefyLock) {
-        final int precheckResult = wiseFyPrechecks.getRSSIChecks(regexForSSID);
+        @WiseFyCode final int precheckResult = wiseFyPrechecks.getRSSIChecks(regexForSSID);
         if (WiseFyPrechecks.checksFailed(precheckResult)) {
           if (callbacks != null) {
             callbacks.getRSSIWiseFyFailure(precheckResult);
@@ -974,12 +1103,15 @@ public class WiseFy {
    *
    * @return WifiConfiguration|null - Saved network that matches the ssid
    *
-   * @see WiseFyPrerequisites#hasPrerequisites()
+   * @see WifiConfiguration
+   * @see WiseFyPrechecks#getSavedNetworkChecks(String)
+   * @see WiseFyPrechecks#checksFailed(int)
    * @see WiseFySearch#findSavedNetworkByRegex(String)
    */
   @Nullable
   @Sync
   @CallingThread
+  @RequiresPermission(android.Manifest.permission.ACCESS_WIFI_STATE)
   public WifiConfiguration getSavedNetwork(final String regexForSSID) {
     if (WiseFyPrechecks.checksFailed(wiseFyPrechecks.getSavedNetworkChecks(regexForSSID))) {
       return null;
@@ -995,16 +1127,18 @@ public class WiseFy {
    *
    * @see #runOnWiseFyThread(Runnable)
    * @see GetSavedNetworkCallbacks
-   * @see WiseFyCodeDefs
-   * @see WiseFyPrerequisites#hasPrerequisites()
+   * @see WiseFyCodes
+   * @see WiseFyPrechecks#getSavedNetworkChecks(String)
+   * @see WiseFyPrechecks#checksFailed(int)
    * @see WiseFySearch#findSavedNetworkByRegex(String)
    */
   @Async
   @WiseFyThread
+  @RequiresPermission(android.Manifest.permission.ACCESS_WIFI_STATE)
   public void getSavedNetwork(final String regexForSSID, @Nullable final GetSavedNetworkCallbacks callbacks) {
     runOnWiseFyThread(() -> {
       synchronized (wisefyLock) {
-        final int precheckResult = wiseFyPrechecks.getSavedNetworkChecks(regexForSSID);
+        @WiseFyCode final int precheckResult = wiseFyPrechecks.getSavedNetworkChecks(regexForSSID);
         if (WiseFyPrechecks.checksFailed(precheckResult)) {
           if (callbacks != null) {
             callbacks.getSavedNetworkWiseFyFailure(precheckResult);
@@ -1029,12 +1163,16 @@ public class WiseFy {
    *
    * @return List of WifiConfiguration|null - List of saved networks on a users device
    *
+   * @see WifiConfiguration
+   * @see WifiManager#getConfiguredNetworks()
+   * @see WiseFyPrechecks#getSavedNetworksChecks()
+   * @see WiseFyPrechecks#checksFailed(int)
    * @see WiseFyPrerequisites#getWifiManager()
-   * @see WiseFyPrerequisites#hasPrerequisites()
    */
   @Nullable
   @Sync
   @CallingThread
+  @RequiresPermission(android.Manifest.permission.ACCESS_WIFI_STATE)
   public List<WifiConfiguration> getSavedNetworks() {
     if (WiseFyPrechecks.checksFailed(wiseFyPrechecks.getSavedNetworksChecks())) {
       return null;
@@ -1049,16 +1187,19 @@ public class WiseFy {
    *
    * @see #runOnWiseFyThread(Runnable)
    * @see GetSavedNetworksCallbacks
-   * @see WiseFyCodeDefs
+   * @see WiseFyCodes
+   * @see WifiManager#getConfiguredNetworks()
+   * @see WiseFyPrechecks#getSavedNetworksChecks()
+   * @see WiseFyPrechecks#checksFailed(int)
    * @see WiseFyPrerequisites#getWifiManager()
-   * @see WiseFyPrerequisites#hasPrerequisites()
    */
   @Async
   @WiseFyThread
+  @RequiresPermission(android.Manifest.permission.ACCESS_WIFI_STATE)
   public void getSavedNetworks(@Nullable final GetSavedNetworksCallbacks callbacks) {
     runOnWiseFyThread(() -> {
       synchronized (wisefyLock) {
-        final int precheckResult = wiseFyPrechecks.getSavedNetworksChecks();
+        @WiseFyCode final int precheckResult = wiseFyPrechecks.getSavedNetworksChecks();
         if (WiseFyPrechecks.checksFailed(precheckResult)) {
           if (callbacks != null) {
             callbacks.getSavedNetworksWiseFyFailure(precheckResult);
@@ -1085,12 +1226,15 @@ public class WiseFy {
    *
    * @return List of WifiConfigurations|null - The list of saved network configurations that match the given regex
    *
-   * @see WiseFyPrerequisites#hasPrerequisites()
+   * @see WifiConfiguration
+   * @see WiseFyPrechecks#checksFailed(int)
+   * @see WiseFyPrechecks#getSavedNetworksChecks(String)
    * @see WiseFySearch#findSavedNetworkByRegex(String)
    */
   @Nullable
   @Sync
   @CallingThread
+  @RequiresPermission(android.Manifest.permission.ACCESS_WIFI_STATE)
   public List<WifiConfiguration> getSavedNetworks(final String regexForSSID) {
     if (WiseFyPrechecks.checksFailed(wiseFyPrechecks.getSavedNetworksChecks(regexForSSID))) {
       return null;
@@ -1105,15 +1249,18 @@ public class WiseFy {
    * @param callbacks The listener to return results to
    *
    * @see #runOnWiseFyThread(Runnable)
-   * @see WiseFyPrerequisites#hasPrerequisites()
+   * @see WiseFyCodes
+   * @see WiseFyPrechecks#checksFailed(int)
+   * @see WiseFyPrechecks#getSavedNetworksChecks(String)
    * @see WiseFySearch#findSavedNetworkByRegex(String)
    */
   @Async
   @WiseFyThread
+  @RequiresPermission(android.Manifest.permission.ACCESS_WIFI_STATE)
   public void getSavedNetworks(final String regexForSSID, @Nullable final GetSavedNetworksCallbacks callbacks) {
     runOnWiseFyThread(() -> {
       synchronized (wisefyLock) {
-        final int precheckResult = wiseFyPrechecks.getSavedNetworksChecks(regexForSSID);
+        @WiseFyCode final int precheckResult = wiseFyPrechecks.getSavedNetworksChecks(regexForSSID);
         if (WiseFyPrechecks.checksFailed(precheckResult)) {
           if (callbacks != null) {
             callbacks.getSavedNetworksWiseFyFailure(precheckResult);
@@ -1150,17 +1297,18 @@ public class WiseFy {
    *
    * @return bool - If the device is currently connected to a mobile network
    *
-   * @see NetworkTypeDefs
+   * @see NetworkTypes
    * @see WiseFyConnection#isNetworkConnectedAndMatchesType(NetworkInfo, String)
    * @see WiseFyPrerequisites#getConnectivityManager()
    * @see WiseFyPrerequisites#hasPrerequisites()
    */
   @Sync
   @CallingThread
+  @RequiresPermission(android.Manifest.permission.ACCESS_NETWORK_STATE)
   public boolean isDeviceConnectedToMobileNetwork() {
     return WiseFyPrechecks.checksPassed(wiseFyPrechecks.isDeviceConnectedToMobileNetworkChecks())
             && wisefyConnection.isNetworkConnectedAndMatchesType(wisefyPrerequisites.getConnectivityManager().getActiveNetworkInfo(),
-            NetworkTypeDefs.MOBILE);
+            NetworkTypes.MOBILE);
   }
 
   /**
@@ -1174,6 +1322,7 @@ public class WiseFy {
    */
   @Sync
   @CallingThread
+  @RequiresPermission(android.Manifest.permission.ACCESS_NETWORK_STATE)
   public boolean isDeviceConnectedToMobileOrWifiNetwork() {
     return WiseFyPrechecks.checksPassed(wiseFyPrechecks.isDeviceConnectedToMobileOrWifiNetworkChecks())
             && wisefyConnection.isNetworkConnected(wisefyPrerequisites.getConnectivityManager().getActiveNetworkInfo());
@@ -1191,7 +1340,8 @@ public class WiseFy {
    */
   @Sync
   @CallingThread
-  public boolean isDeviceConnectedToSSID(final String ssid) {
+  @RequiresPermission(allOf = { android.Manifest.permission.ACCESS_NETWORK_STATE, android.Manifest.permission.ACCESS_WIFI_STATE })
+  public boolean isDeviceConnectedToSSID(@Nullable final String ssid) {
     return WiseFyPrechecks.checksPassed(wiseFyPrechecks.isDeviceConnectedToSSIDChecks(ssid))
             && wisefyConnection.isCurrentNetworkConnectedToSSID(ssid);
   }
@@ -1201,17 +1351,18 @@ public class WiseFy {
    *
    * @return bool - If the device is currently connected to a wifi network
    *
-   * @see NetworkTypeDefs
+   * @see NetworkTypes
    * @see WiseFyConnection#isNetworkConnectedAndMatchesType(NetworkInfo, String)
    * @see WiseFyPrerequisites#getConnectivityManager()
    * @see WiseFyPrerequisites#hasPrerequisites()
    */
   @Sync
   @CallingThread
+  @RequiresPermission(android.Manifest.permission.ACCESS_NETWORK_STATE)
   public boolean isDeviceConnectedToWifiNetwork() {
     return WiseFyPrechecks.checksPassed(wiseFyPrechecks.isDeviceConnectedToWifiNetworkChecks())
             && wisefyConnection.isNetworkConnectedAndMatchesType(wisefyPrerequisites.getConnectivityManager().getActiveNetworkInfo(),
-            NetworkTypeDefs.WIFI);
+            NetworkTypes.WIFI);
   }
 
   /**
@@ -1224,6 +1375,7 @@ public class WiseFy {
    */
   @Sync
   @CallingThread
+  @RequiresPermission(android.Manifest.permission.ACCESS_NETWORK_STATE)
   public boolean isDeviceRoaming() {
     if (WiseFyPrechecks.checksFailed(wiseFyPrechecks.isDeviceRoamingChecks())) {
       return false;
@@ -1241,13 +1393,15 @@ public class WiseFy {
   @Sync
   @CallingThread
   public boolean isLoggingEnabled() {
-    return WiseFyLogger.log().isLoggingEnabled();
+    return WiseFyLogger.isLoggingEnabled();
   }
 
   /**
    * To check if the device's current network is 5gHz.
    *
    * @return boolean - If the network is 5gHz
+   *
+   * @throws SecurityException Without necessary permissions granted
    *
    * @see #getFrequency()
    * @see #MIN_FREQUENCY_5GHZ
@@ -1256,7 +1410,8 @@ public class WiseFy {
   @Sync
   @CallingThread
   @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-  public boolean isNetwork5gHz() {
+  @RequiresPermission(allOf = { android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_WIFI_STATE })
+  public boolean isNetwork5gHz() throws SecurityException {
     final Integer frequency = getFrequency();
     return frequency != null && frequency > MIN_FREQUENCY_5GHZ && frequency < MAX_FREQUENCY_5GHZ;
   }
@@ -1287,13 +1442,13 @@ public class WiseFy {
    *
    * @return boolean - Whether the network has EAP capabilities listed
    *
-   * @see CapabilityDefs
+   * @see Capabilities
    * @see #containsCapability(ScanResult, String)
    */
   @Sync
   @CallingThread
   public boolean isNetworkEAP(final ScanResult scanResult) {
-    return containsCapability(scanResult, CapabilityDefs.EAP);
+    return containsCapability(scanResult, Capabilities.EAP);
   }
 
   /**
@@ -1303,13 +1458,13 @@ public class WiseFy {
    *
    * @return boolean - Whether the network has PSK capabilities listed
    *
-   * @see CapabilityDefs
+   * @see Capabilities
    * @see #containsCapability(ScanResult, String)
    */
   @Sync
   @CallingThread
   public boolean isNetworkPSK(final ScanResult scanResult) {
-    return containsCapability(scanResult, CapabilityDefs.PSK);
+    return containsCapability(scanResult, Capabilities.PSK);
   }
 
   /**
@@ -1324,7 +1479,8 @@ public class WiseFy {
    */
   @Sync
   @CallingThread
-  public boolean isNetworkSaved(final String ssid) {
+  @RequiresPermission(android.Manifest.permission.ACCESS_WIFI_STATE)
+  public boolean isNetworkSaved(@Nullable final String ssid) {
     return WiseFyPrechecks.checksPassed(wiseFyPrechecks.isNetworkSavedChecks()) && wisefySearch.isNetworkASavedConfiguration(ssid);
   }
 
@@ -1335,14 +1491,14 @@ public class WiseFy {
    *
    * @return boolean - Whether the network is secure
    *
-   * @see CapabilityDefs
+   * @see Capabilities
    */
   @Sync
   @CallingThread
   public boolean isNetworkSecure(@Nullable final ScanResult scanResult) {
     if (scanResult != null && scanResult.capabilities != null) {
       final String networkCapabilities = scanResult.capabilities;
-      final String[] securityModes = {CapabilityDefs.EAP, CapabilityDefs.PSK, CapabilityDefs.WEP, CapabilityDefs.WPA, CapabilityDefs.WPA2};
+      final String[] securityModes = {Capabilities.EAP, Capabilities.PSK, Capabilities.WEP, Capabilities.WPA, Capabilities.WPA2};
       for (int i = securityModes.length - 1; i >= 0; i--) {
         if (networkCapabilities.contains(securityModes[i])) {
           return true;
@@ -1359,13 +1515,13 @@ public class WiseFy {
    *
    * @return boolean - Whether the network has WEP capabilities listed
    *
-   * @see CapabilityDefs
+   * @see Capabilities
    * @see #containsCapability(ScanResult, String)
    */
   @Sync
   @CallingThread
-  public boolean isNetworkWEP(final ScanResult scanResult) {
-    return containsCapability(scanResult, CapabilityDefs.WEP);
+  public boolean isNetworkWEP(@Nullable final ScanResult scanResult) {
+    return containsCapability(scanResult, Capabilities.WEP);
   }
 
   /**
@@ -1375,13 +1531,13 @@ public class WiseFy {
    *
    * @return boolean - Whether the network has WPA capabilities listed
    *
-   * @see CapabilityDefs
+   * @see Capabilities
    * @see #containsCapability(ScanResult, String)
    */
   @Sync
   @CallingThread
-  public boolean isNetworkWPA(final ScanResult scanResult) {
-    return containsCapability(scanResult, CapabilityDefs.WPA);
+  public boolean isNetworkWPA(@Nullable final ScanResult scanResult) {
+    return containsCapability(scanResult, Capabilities.WPA);
   }
 
   /**
@@ -1391,13 +1547,13 @@ public class WiseFy {
    *
    * @return boolean - Whether the network has WPA2 capabilities listed
    *
-   * @see CapabilityDefs
+   * @see Capabilities
    * @see #containsCapability(ScanResult, String)
    */
   @Sync
   @CallingThread
-  public boolean isNetworkWPA2(final ScanResult scanResult) {
-    return containsCapability(scanResult, CapabilityDefs.WPA2);
+  public boolean isNetworkWPA2(@Nullable final ScanResult scanResult) {
+    return containsCapability(scanResult, Capabilities.WPA2);
   }
 
   /**
@@ -1426,6 +1582,7 @@ public class WiseFy {
    */
   @Sync
   @CallingThread
+  @RequiresPermission(android.Manifest.permission.ACCESS_WIFI_STATE)
   public boolean removeNetwork(final String ssidToRemove) {
     if (WiseFyPrechecks.checksFailed(wiseFyPrechecks.removeNetworkCheck(ssidToRemove))) {
       return false;
@@ -1436,7 +1593,7 @@ public class WiseFy {
     if (wifiConfiguration != null) {
       networkRemoved = removeNetworkConfiguration(wifiConfiguration);
     } else {
-      WiseFyLogger.log().warn(TAG, "SSID to remove: %s was not found in list to remove network", ssidToRemove);
+      WiseFyLogger.warn(TAG, "SSID to remove: %s was not found in list to remove network", ssidToRemove);
     }
     return networkRemoved;
   }
@@ -1449,13 +1606,14 @@ public class WiseFy {
    *
    * @see #runOnWiseFyThread(Runnable)
    * @see RemoveNetworkCallbacks
-   * @see WiseFyCodeDefs
+   * @see WiseFyCodes
    * @see WiseFyPrerequisites#hasPrerequisites()
    * @see WiseFyPrerequisites#getWifiManager()
    * @see WiseFySearch#findSavedNetworkByRegex(String)
    */
   @Async
   @WiseFyThread
+  @RequiresPermission(android.Manifest.permission.ACCESS_WIFI_STATE)
   public void removeNetwork(final String ssidToRemove, @Nullable final RemoveNetworkCallbacks callbacks) {
     runOnWiseFyThread(() -> {
       synchronized (wisefyLock) {
@@ -1469,7 +1627,7 @@ public class WiseFy {
 
         final WifiConfiguration wifiConfiguration = wisefySearch.findSavedNetworkByRegex(ssidToRemove);
         if (wifiConfiguration != null) {
-          if (WiseFy.this.removeNetworkConfiguration(wifiConfiguration)) {
+          if (removeNetworkConfiguration(wifiConfiguration)) {
             if (callbacks != null) {
               callbacks.networkRemoved();
             }
@@ -1499,11 +1657,12 @@ public class WiseFy {
    * @return ScanResult|null - The first access point or access point with the highest signal strength matching the regex
    *
    * @see WiseFyPrerequisites#hasPrerequisites()
-   * @see WiseFySearch#findAccessPointByRegex(String, Integer, boolean)
+   * @see WiseFySearch#findAccessPointByRegex(String, int, boolean)
    */
   @Nullable
   @Sync
   @CallingThread
+  @RequiresPermission(android.Manifest.permission.ACCESS_WIFI_STATE)
   public ScanResult searchForAccessPoint(final String regexForSSID, final int timeoutInMillis, final boolean filterDuplicates) {
     if (WiseFyPrechecks.checksFailed(wiseFyPrechecks.searchForAccessPointChecks(regexForSSID))) {
       return null;
@@ -1525,12 +1684,13 @@ public class WiseFy {
    * @see #runOnWiseFyThread(Runnable)
    * @see SearchForAccessPointCallbacks
    * @see WiseFyPrerequisites#hasPrerequisites()
-   * @see WiseFySearch#findAccessPointByRegex(String, Integer, boolean)
+   * @see WiseFySearch#findAccessPointByRegex(String, int, boolean)
    */
   @Async
   @WiseFyThread
-  public void searchForAccessPoint(final String regexForSSID, final int timeoutInMillis, final boolean filterDuplicates,
-                                   @Nullable final SearchForAccessPointCallbacks callbacks) {
+  @RequiresPermission(android.Manifest.permission.ACCESS_WIFI_STATE)
+  public void searchForAccessPoint(final String regexForSSID, final int timeoutInMillis,
+                                   final boolean filterDuplicates, @Nullable final SearchForAccessPointCallbacks callbacks) {
     runOnWiseFyThread(() -> {
       synchronized (wisefyLock) {
         final int precheckResult = wiseFyPrechecks.searchForAccessPointChecks(regexForSSID);
@@ -1569,6 +1729,7 @@ public class WiseFy {
   @Nullable
   @Sync
   @CallingThread
+  @RequiresPermission(android.Manifest.permission.ACCESS_WIFI_STATE)
   public List<ScanResult> searchForAccessPoints(final String regexForSSID, final boolean filterDuplicates) {
     if (WiseFyPrechecks.checksFailed(wiseFyPrechecks.searchForAccessPointsChecks(regexForSSID))) {
       return null;
@@ -1588,12 +1749,13 @@ public class WiseFy {
    *
    * @see #runOnWiseFyThread(Runnable)
    * @see SearchForAccessPointsCallbacks
-   * @see WiseFyCodeDefs
+   * @see WiseFyCodes
    * @see WiseFyPrerequisites#hasPrerequisites()
    * @see WiseFySearch#findAccessPointsMatchingRegex(String, boolean)
    */
   @Async
   @WiseFyThread
+  @RequiresPermission(android.Manifest.permission.ACCESS_WIFI_STATE)
   public void searchForAccessPoints(final String regexForSSID, final boolean filterDuplicates,
                                     @Nullable final SearchForAccessPointsCallbacks callbacks) {
     runOnWiseFyThread(() -> {
@@ -1627,12 +1789,13 @@ public class WiseFy {
    * @return String|null - The first SSID that contains the search ssid (if any, else null)
    *
    * @see WiseFyPrerequisites#hasPrerequisites()
-   * @see WiseFySearch#findAccessPointByRegex(String, Integer, boolean)
+   * @see WiseFySearch#findAccessPointByRegex(String, int, boolean)
    */
   @Nullable
   @Sync
   @CallingThread
   @WaitsForTimeout
+  @RequiresPermission(android.Manifest.permission.ACCESS_WIFI_STATE)
   public String searchForSSID(final String regexForSSID, final int timeoutInMillis) {
     if (WiseFyPrechecks.checksFailed(wiseFyPrechecks.searchForSSIDChecks(regexForSSID))) {
       return null;
@@ -1655,12 +1818,13 @@ public class WiseFy {
    *
    * @see #runOnWiseFyThread(Runnable)
    * @see SearchForSSIDCallbacks
-   * @see WiseFyCodeDefs
-   * @see WiseFySearch#findAccessPointByRegex(String, Integer, boolean)
+   * @see WiseFyCodes
+   * @see WiseFySearch#findAccessPointByRegex(String, int, boolean)
    */
   @Async
   @WiseFyThread
   @WaitsForTimeout
+  @RequiresPermission(android.Manifest.permission.ACCESS_WIFI_STATE)
   public void searchForSSID(final String regexForSSID, final int timeoutInMillis, @Nullable final SearchForSSIDCallbacks callbacks) {
     runOnWiseFyThread(() -> {
       synchronized (wisefyLock) {
@@ -1697,6 +1861,7 @@ public class WiseFy {
   @Nullable
   @Sync
   @CallingThread
+  @RequiresPermission(android.Manifest.permission.ACCESS_WIFI_STATE)
   public List<String> searchForSSIDs(final String regexForSSID) {
     if (WiseFyPrechecks.checksFailed(wiseFyPrechecks.searchForSSIDsChecks(regexForSSID))) {
       return null;
@@ -1713,12 +1878,13 @@ public class WiseFy {
    *
    * @see #runOnWiseFyThread(Runnable)
    * @see SearchForSSIDCallbacks
-   * @see WiseFyCodeDefs
+   * @see WiseFyCodes
    * @see WiseFyPrerequisites#hasPrerequisites()
    * @see WiseFySearch#findSSIDsMatchingRegex(String)
    */
   @Async
   @WiseFyThread
+  @RequiresPermission(android.Manifest.permission.ACCESS_WIFI_STATE)
   public void searchForSSIDs(final String regexForSSID, @Nullable final SearchForSSIDsCallbacks callbacks) {
     runOnWiseFyThread(() -> {
       synchronized (wisefyLock) {
@@ -1754,9 +1920,8 @@ public class WiseFy {
    * @return boolean - If the network was successfully added
    */
   private int addNetworkConfiguration(@NonNull final WifiConfiguration wifiConfiguration) {
-    WiseFyLogger.log().debug(TAG, "Adding network with SSID %s", wifiConfiguration.SSID);
     final int result = wisefyPrerequisites.getWifiManager().addNetwork(wifiConfiguration);
-    WiseFyLogger.log().debug(TAG, "Adding network: %s had result: %debug", wifiConfiguration.SSID, result);
+    WiseFyLogger.debug(TAG, "Adding network with SSID: %s had result: %d", wifiConfiguration.SSID, result);
     return result;
   }
 
@@ -1768,7 +1933,7 @@ public class WiseFy {
    *
    * @return boolean - True if the network contains the capability
    */
-  private boolean containsCapability(@Nullable final ScanResult scanResult, @NonNull @Capabilities final String capability) {
+  private boolean containsCapability(@Nullable final ScanResult scanResult, @NonNull @Capability final String capability) {
     return scanResult != null && scanResult.capabilities != null && scanResult.capabilities.contains(capability);
   }
 
@@ -1790,7 +1955,7 @@ public class WiseFy {
    *
    * @see #setupWiseFyThread()
    */
-  private void runOnWiseFyThread(final Runnable runnable) {
+  private void runOnWiseFyThread(@NonNull final Runnable runnable) {
     if (wisefyHandler == null) {
       setupWiseFyThread();
     }
@@ -1807,7 +1972,7 @@ public class WiseFy {
   private boolean removeNetworkConfiguration(@NonNull final WifiConfiguration wifiConfiguration) {
     wisefyPrerequisites.getWifiManager().disconnect();
     final boolean result = wisefyPrerequisites.getWifiManager().removeNetwork(wifiConfiguration.networkId);
-    WiseFyLogger.log().debug(TAG, "Removing network: %s had result: %b", wifiConfiguration.SSID, result);
+    WiseFyLogger.debug(TAG, "Removing network with SSID: %s had result: %b", wifiConfiguration.SSID, result);
     wisefyPrerequisites.getWifiManager().reconnect();
     return result;
   }
@@ -1838,7 +2003,7 @@ public class WiseFy {
           SetCustomWiseFyPrerequisites,
           SetCustomWiseFySearch {
 
-    private Context context;
+    private final Context context;
 
     private boolean loggingEnabled;
 
@@ -1852,7 +2017,7 @@ public class WiseFy {
      *
      * @param context The activity or application context to get a WifiConfiguration and a ConnectivityManager instance
      */
-    brains(final Context context) {
+    public brains(@NonNull final Context context) {
       this.context = context;
     }
 
@@ -1898,7 +2063,7 @@ public class WiseFy {
      */
     @NonNull
     @Override
-    public brains setCustomWiseFyConnection(final WiseFyConnection customWisefyConnection) {
+    public brains setCustomWiseFyConnection(@NonNull final WiseFyConnection customWisefyConnection) {
       this.wisefyConnection = customWisefyConnection;
       return this;
     }
@@ -1915,7 +2080,7 @@ public class WiseFy {
      */
     @NonNull
     @Override
-    public brains setCustomWiseFyPrechecks(final WiseFyPrechecks customWiseFyPrechecks) {
+    public brains setCustomWiseFyPrechecks(@NonNull final WiseFyPrechecks customWiseFyPrechecks) {
       this.wiseFyPrechecks = customWiseFyPrechecks;
       return this;
     }
@@ -1931,7 +2096,7 @@ public class WiseFy {
      */
     @NonNull
     @Override
-    public brains setCustomWiseFyPrerequisites(final WiseFyPrerequisites customWiseFyPrerequisites) {
+    public brains setCustomWiseFyPrerequisites(@NonNull final WiseFyPrerequisites customWiseFyPrerequisites) {
       this.wisefyPrerequisites = customWiseFyPrerequisites;
       return this;
     }
@@ -1947,7 +2112,7 @@ public class WiseFy {
      */
     @NonNull
     @Override
-    public brains setCustomWiseFySearch(final WiseFySearch customWiseFySearch) {
+    public brains setCustomWiseFySearch(@NonNull final WiseFySearch customWiseFySearch) {
       this.wisefySearch = customWiseFySearch;
       return this;
     }
@@ -1957,8 +2122,7 @@ public class WiseFy {
    * An interface that enables/disables logging for a WiseFy instance.
    */
   interface Logging {
-    @NonNull
-    brains logging(boolean enableLogging);
+    @NonNull brains logging(boolean enableLogging);
   }
 
   /**
@@ -1967,8 +2131,7 @@ public class WiseFy {
    * @see WiseFyPrerequisites
    */
   interface SetCustomWiseFyConnection {
-    @NonNull
-    brains setCustomWiseFyConnection(WiseFyConnection customWisefyConnection);
+    @NonNull brains setCustomWiseFyConnection(WiseFyConnection customWisefyConnection);
   }
 
   /**
@@ -1977,8 +2140,7 @@ public class WiseFy {
    * @see WiseFyPrechecks
    */
   interface SetCustomWiseFyPrechecks {
-    @NonNull
-    brains setCustomWiseFyPrechecks(WiseFyPrechecks wiseFyPrechecks);
+    @NonNull brains setCustomWiseFyPrechecks(WiseFyPrechecks wiseFyPrechecks);
   }
 
   /**
@@ -1987,8 +2149,7 @@ public class WiseFy {
    * @see WiseFyPrerequisites
    */
   interface SetCustomWiseFyPrerequisites {
-    @NonNull
-    brains setCustomWiseFyPrerequisites(WiseFyPrerequisites customWisefyPrerequisites);
+    @NonNull brains setCustomWiseFyPrerequisites(WiseFyPrerequisites customWisefyPrerequisites);
   }
 
   /**
@@ -1997,15 +2158,13 @@ public class WiseFy {
    * @see WiseFySearch
    */
   interface SetCustomWiseFySearch {
-    @NonNull
-    brains setCustomWiseFySearch(WiseFySearch customWisefySearch);
+    @NonNull brains setCustomWiseFySearch(WiseFySearch customWisefySearch);
   }
 
   /**
    * An interface that builds a WiseFy instance.
    */
   interface GetSmarts {
-    @NonNull
-    WiseFy getSmarts();
+    @NonNull WiseFy getSmarts();
   }
 }

@@ -103,7 +103,8 @@
             <property name="allowEmptyTypes" value="true" />
             <property name="allowEmptyLoops" value="true" />
             <message key="ws.notFollowed"
-                value="WhitespaceAround: ''{0}'' is not followed by whitespace. Empty blocks may only be represented as '{}' when not part of a multi-block statement (4.1.3)" />
+                value="WhitespaceAround: ''{0}'' is not followed by whitespace. Empty blocks may only be represented as '{}'
+                when not part of a multi-block statement (4.1.3)" />
             <message key="ws.notPreceded"
                 value="WhitespaceAround: ''{0}'' is not preceded with whitespace." />
         </module>
@@ -233,7 +234,8 @@
         <module name="OperatorWrap">
             <property name="option" value="NL" />
             <property name="tokens"
-                value="BAND, BOR, BSR, BXOR, DIV, EQUAL, GE, GT, LAND, LE, LITERAL_INSTANCEOF, LOR, LT, MINUS, MOD, NOT_EQUAL, PLUS, QUESTION, SL, SR, STAR, METHOD_REF " />
+                value="BAND, BOR, BSR, BXOR, DIV, EQUAL, GE, GT, LAND, LE, LITERAL_INSTANCEOF, LOR, LT, MINUS, MOD, NOT_EQUAL, PLUS,
+                QUESTION, SL, SR, STAR, METHOD_REF " />
         </module>
         <module name="AnnotationLocation">
             <property name="id" value="AnnotationLocationMostCases" />

@@ -13,6 +13,8 @@ import org.junit.Test;
  * Tests the ability to determine if a network is in a device's list of saved networks.
  *
  * @see WiseFy#isNetworkSaved(String)
+ *
+ * @author Patches
  */
 public class IsNetworkSavedTests extends AbstractBaseAndroidJUnit4TestClass {
 

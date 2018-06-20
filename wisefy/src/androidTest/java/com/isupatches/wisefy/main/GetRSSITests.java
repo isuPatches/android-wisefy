@@ -15,7 +15,7 @@ import static org.mockito.Mockito.verify;
 import com.isupatches.wisefy.AbstractBaseAndroidJUnit4TestClass;
 import com.isupatches.wisefy.WiseFy;
 import com.isupatches.wisefy.callbacks.GetRSSICallbacks;
-import com.isupatches.wisefy.constants.WiseFyCodeDefs;
+import com.isupatches.wisefy.constants.WiseFyCodes;
 
 import org.junit.Test;
 
@@ -86,7 +86,7 @@ public class GetRSSITests extends AbstractBaseAndroidJUnit4TestClass {
     getMockWiseFyPrechecksUtil().getRSSI_failure();
     final GetRSSICallbacks mockCallbacks = mock(GetRSSICallbacks.class);
     getWiseFy().getRSSI(TEST_SSID, false, TEST_TIMEOUT, mockCallbacks);
-    verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).getRSSIWiseFyFailure(WiseFyCodeDefs.MISSING_PREREQUISITE);
+    verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).getRSSIWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
   }
 
   @Test
@@ -100,7 +100,7 @@ public class GetRSSITests extends AbstractBaseAndroidJUnit4TestClass {
     getMockWiseFyPrechecksUtil().getRSSI_failure();
     final GetRSSICallbacks mockCallbacks = mock(GetRSSICallbacks.class);
     getWiseFy().getRSSI(TEST_SSID, true, TEST_TIMEOUT, mockCallbacks);
-    verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).getRSSIWiseFyFailure(WiseFyCodeDefs.MISSING_PREREQUISITE);
+    verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).getRSSIWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
   }
 
   @Test

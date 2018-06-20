@@ -21,6 +21,8 @@ import java.util.List;
  * Callbacks for finding a list of nearby SSIDs on a device.
  *
  * @see com.isupatches.wisefy.WiseFy#searchForSSIDs(String, SearchForSSIDsCallbacks)
+ *
+ * @author Patches
  */
 public interface SearchForSSIDsCallbacks {
   void searchForSSIDsWiseFyFailure(int wisefyReturnCode);

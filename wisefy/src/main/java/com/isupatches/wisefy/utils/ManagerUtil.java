@@ -18,12 +18,13 @@ package com.isupatches.wisefy.utils;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.isupatches.wisefy.annotations.Internal;
 
 /**
- * Manager helper class.
+ * A helper class to create ConnectivityManager and WifiManager instances.
  *
  * @author Patches
  */
@@ -34,7 +35,7 @@ public final class ManagerUtil {
   private final WifiManager wifiManager;
 
   /**
-   * Private constructor.
+   * Private constructor for instance creation.
    *
    * @param context The context to retrieve a connectivity manager and wifi manager.
    */
@@ -57,14 +58,15 @@ public final class ManagerUtil {
    *
    * @see #ManagerUtil(Context)
    */
-  public static ManagerUtil create(final Context context) {
+  @NonNull
+  public static ManagerUtil create(@Nullable final Context context) {
     return new ManagerUtil(context);
   }
 
   /**
-   * To get a Connectivity manger instance from an activity's context.
+   * To get the ConnectivityManager instance for use.
    *
-   * @return ConnectivityManager|null
+   * @return ConnectivityManager|null - The ConnectivityManager instance
    *
    * @see ConnectivityManager
    */
@@ -74,9 +76,9 @@ public final class ManagerUtil {
   }
 
   /**
-   * To get a WiFi manger instance from an activity's context.
+   * To get the WifiManager instance for use.
    *
-   * @return WifiManager|null
+   * @return WifiManager|null - the WifiManager instance
    *
    * @see WifiManager
    */

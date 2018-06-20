@@ -12,6 +12,8 @@ import org.junit.Test;
  * Tests the ability to determine if a device is roaming.
  *
  * @see WiseFy#isDeviceRoaming()
+ *
+ * @author Patches
  */
 public class IsDeviceRoamingTests extends AbstractBaseAndroidJUnit4TestClass {
 

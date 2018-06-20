@@ -13,7 +13,7 @@ import android.net.wifi.ScanResult;
 import com.isupatches.wisefy.AbstractBaseAndroidJUnit4TestClass;
 import com.isupatches.wisefy.WiseFy;
 import com.isupatches.wisefy.callbacks.GetNearbyAccessPointsCallbacks;
-import com.isupatches.wisefy.constants.WiseFyCodeDefs;
+import com.isupatches.wisefy.constants.WiseFyCodes;
 
 import java.util.List;
 
@@ -68,7 +68,7 @@ public class GetNearbyAccessPointsTests extends AbstractBaseAndroidJUnit4TestCla
     getMockWiseFyPrechecksUtil().getNearbyAccessPoints_failure();
     final GetNearbyAccessPointsCallbacks mockCallbacks = mock(GetNearbyAccessPointsCallbacks.class);
     getWiseFy().getNearbyAccessPoints(false, mockCallbacks);
-    verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).getNearbyAccessPointsWiseFyFailure(WiseFyCodeDefs.MISSING_PREREQUISITE);
+    verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).getNearbyAccessPointsWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
     getVerificationUtil().didNotTryToGetNearbyAccessPoints();
   }
 
@@ -84,7 +84,7 @@ public class GetNearbyAccessPointsTests extends AbstractBaseAndroidJUnit4TestCla
     getMockWiseFyPrechecksUtil().getNearbyAccessPoints_failure();
     final GetNearbyAccessPointsCallbacks mockCallbacks = mock(GetNearbyAccessPointsCallbacks.class);
     getWiseFy().getNearbyAccessPoints(true, mockCallbacks);
-    verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).getNearbyAccessPointsWiseFyFailure(WiseFyCodeDefs.MISSING_PREREQUISITE);
+    verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).getNearbyAccessPointsWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
     getVerificationUtil().didNotTryToGetNearbyAccessPoints();
   }
 

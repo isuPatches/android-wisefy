@@ -21,30 +21,26 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
- * Constants for different network security types.
+ * Constants for different network types.
+ *
+ * @author Patches
  */
-public final class CapabilityDefs {
+public final class NetworkTypes {
 
-  public static final String EAP = "EAP";
-  public static final String PSK = "PSK";
-  public static final String WEP = "WEP";
-  public static final String WPA = "WPA";
-  public static final String WPA2 = "WPA2";
+  public static final String MOBILE = "MOBILE";
+  public static final String WIFI = "WIFI";
 
-  private CapabilityDefs() {
+  private NetworkTypes() {
     // No-op
   }
 
   /**
-   * Interface to avoid magic numbers when using capabilities.
+   * Interface to avoid magic numbers when using network types.
    */
   @Retention(RetentionPolicy.SOURCE)
   @StringDef({
-          EAP,
-          PSK,
-          WEP,
-          WPA,
-          WPA2
+          MOBILE,
+          WIFI
   })
-  public @interface Capabilities {}
+  public @interface NetworkType {}
 }

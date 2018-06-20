@@ -39,7 +39,7 @@ public abstract class AbstractBaseAndroidJUnit4TestClass {
   private final VerificationUtil verificationUtil;
 
   /**
-   * Default constructor.
+   * Constructor.
    */
   public AbstractBaseAndroidJUnit4TestClass() {
     final WiseFyConnection mockWiseFyConnection = mock(WiseFyConnection.class);
@@ -81,18 +81,22 @@ public abstract class AbstractBaseAndroidJUnit4TestClass {
     return wisefy;
   }
 
+  @NonNull
   public final WiseFyPrerequisites getMockWiseFyPrerequisites() {
     return mockWiseFyPrerequisites;
   }
 
+  @NonNull
   public final WiseFySearch getMockWiseFySearch() {
     return mockWiseFySearch;
   }
 
+  @NonNull
   public final ConnectivityManager getMockConnectivityManager() {
     return mockConnectivityManager;
   }
 
+  @NonNull
   public final WifiManager getMockWifiManager() {
     return mockWifiManager;
   }
@@ -139,7 +143,9 @@ public abstract class AbstractBaseAndroidJUnit4TestClass {
   /**
    * Checks to see if the device has Lollipop or higher.
    *
-   * @return bool - true if device is at least Lollipop
+   * @return boolean - True if device is at least Lollipop
+   *
+   * @see Build.VERSION_CODES
    */
   protected final boolean preLollipop() {
     return Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP;

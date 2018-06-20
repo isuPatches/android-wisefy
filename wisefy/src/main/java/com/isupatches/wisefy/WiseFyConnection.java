@@ -19,11 +19,11 @@ import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresPermission;
 
 import com.isupatches.wisefy.annotations.Internal;
 import com.isupatches.wisefy.annotations.WaitsForTimeout;
-import com.isupatches.wisefy.constants.CommonValues;
-import com.isupatches.wisefy.constants.NetworkTypeDefs.NetworkTypes;
+import com.isupatches.wisefy.constants.NetworkTypes.NetworkType;
 import com.isupatches.wisefy.constants.Symbols;
 import com.isupatches.wisefy.utils.SleepUtil;
 
@@ -45,7 +45,7 @@ class WiseFyConnection {
    *
    * @param wisefyPrerequisites The prerequisites instance needed
    */
-  private WiseFyConnection(final WiseFyPrerequisites wisefyPrerequisites) {
+  private WiseFyConnection(@NonNull final WiseFyPrerequisites wisefyPrerequisites) {
     this.wiseFyPrerequisites = wisefyPrerequisites;
   }
 
@@ -58,7 +58,8 @@ class WiseFyConnection {
    *
    * @see WiseFyPrerequisites
    */
-  static WiseFyConnection create(final WiseFyPrerequisites wisefyPrerequisites) {
+  @NonNull
+  static WiseFyConnection create(@NonNull final WiseFyPrerequisites wisefyPrerequisites) {
     return new WiseFyConnection(wisefyPrerequisites);
   }
 
@@ -74,6 +75,7 @@ class WiseFyConnection {
    * @see WiseFyPrerequisites#getConnectivityManager() ()
    * @see WiseFyPrerequisites#getWifiManager()
    */
+  @RequiresPermission(allOf = { android.Manifest.permission.ACCESS_NETWORK_STATE, android.Manifest.permission.ACCESS_WIFI_STATE })
   boolean isCurrentNetworkConnectedToSSID(@Nullable final String ssid) {
     if (ssid == null) {
       return false;
@@ -83,9 +85,9 @@ class WiseFyConnection {
     boolean isConnected = false;
     if (connectionInfo != null && connectionInfo.getSSID() != null) {
       final String currentSSID = connectionInfo.getSSID().replaceAll(Symbols.QUOTE, "");
-      WiseFyLogger.log().debug(TAG, "Current SSID: %s, Desired SSID: %s", currentSSID, ssid);
+      WiseFyLogger.debug(TAG, "Current SSID: %s, Desired SSID: %s", currentSSID, ssid);
       if (currentSSID.equalsIgnoreCase(ssid) && isNetworkConnected(wiseFyPrerequisites.getConnectivityManager().getActiveNetworkInfo())) {
-        WiseFyLogger.log().debug(TAG, "Network is connected");
+        WiseFyLogger.debug(TAG, "Network is connected");
         isConnected = true;
       }
     }
@@ -98,8 +100,11 @@ class WiseFyConnection {
    * @param networkInfo The network to check
    *
    * @return boolean - True if the network is both available and connected
+   *
+   * @see NetworkInfo
    */
   boolean isNetworkConnected(@Nullable final NetworkInfo networkInfo) {
+    WiseFyLogger.debug(TAG, "networkInfo: %s", networkInfo);
     return networkInfo != null && networkInfo.isConnected() && networkInfo.isAvailable();
   }
 
@@ -114,7 +119,7 @@ class WiseFyConnection {
    * @see #doesNetworkMatchType(NetworkInfo, String)
    * @see #isNetworkConnected(NetworkInfo)
    */
-  boolean isNetworkConnectedAndMatchesType(@NonNull final NetworkInfo networkInfo, @NetworkTypes final String type) {
+  boolean isNetworkConnectedAndMatchesType(@Nullable final NetworkInfo networkInfo, @NetworkType final String type) {
     return isNetworkConnected(networkInfo) && doesNetworkMatchType(networkInfo, type);
   }
 
@@ -124,22 +129,23 @@ class WiseFyConnection {
    * @param ssid The ssid to wait for the device to connect to
    * @param timeoutInMillis The number of milliseconds to wait
    *
-   * @return boolean - Ture if the device is connected to the ssid within the given time
+   * @return boolean - True if the device is connected to the ssid within the given time
    *
    * @see #isCurrentNetworkConnectedToSSID(String)
    */
   @WaitsForTimeout
-  boolean waitToConnectToSSID(final String ssid, final int timeoutInMillis) {
-    WiseFyLogger.log().debug(TAG, "Waiting %debug milliseconds to connect to network with ssid %s", timeoutInMillis, ssid);
+  @RequiresPermission(allOf = { android.Manifest.permission.ACCESS_NETWORK_STATE, android.Manifest.permission.ACCESS_WIFI_STATE })
+  boolean waitToConnectToSSID(@Nullable final String ssid, final int timeoutInMillis) {
+    WiseFyLogger.debug(TAG, "Waiting %d milliseconds to connect to network with ssid %s", timeoutInMillis, ssid);
     long currentTime;
     final long endTime = System.currentTimeMillis() + timeoutInMillis;
     do {
       if (isCurrentNetworkConnectedToSSID(ssid)) {
         return true;
       }
-      SleepUtil.getInstance().sleep(CommonValues.DELAY);
+      SleepUtil.getInstance().rest();
       currentTime = System.currentTimeMillis();
-      WiseFyLogger.log().debug(TAG, "Current time: %debug, End time: %debug (waitToConnectToSSID)", currentTime, endTime);
+      WiseFyLogger.debug(TAG, "Current time: %d, End time: %d (waitToConnectToSSID)", currentTime, endTime);
     } while (currentTime < endTime);
     return false;
   }
@@ -153,8 +159,10 @@ class WiseFyConnection {
    * @param type The type of network
    *
    * @return boolean - True if the network matches the given type
+   *
+   * @see NetworkInfo
    */
-  private boolean doesNetworkMatchType(@NonNull final NetworkInfo networkInfo, @Nullable @NetworkTypes final String type) {
-    return networkInfo.getTypeName() != null && networkInfo.getTypeName().equalsIgnoreCase(type);
+  private boolean doesNetworkMatchType(@Nullable final NetworkInfo networkInfo, @NonNull @NetworkType final String type) {
+    return networkInfo != null && networkInfo.getTypeName() != null && networkInfo.getTypeName().equalsIgnoreCase(type);
   }
 }

@@ -17,6 +17,8 @@ package com.isupatches.wisefy.constants;
 
 /**
  * Constants for symbols that are used throughout the WiseFy library.
+ *
+ * @author Patches
  */
 public final class Symbols {
 

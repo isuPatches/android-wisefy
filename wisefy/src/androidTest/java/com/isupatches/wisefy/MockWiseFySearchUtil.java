@@ -34,14 +34,18 @@ public final class MockWiseFySearchUtil {
   /**
    * Constructor.
    *
-   * @param mockWiseFySearch The
+   * @param mockWiseFySearch The WiseFySearch instance needed
+   *
+   * @see WiseFySearch
    */
-  MockWiseFySearchUtil(final WiseFySearch mockWiseFySearch) {
+  MockWiseFySearchUtil(@NonNull final WiseFySearch mockWiseFySearch) {
     this.mockWiseFySearch = mockWiseFySearch;
   }
 
   /**
    * Mocks no nearby access point.
+   *
+   * @see WiseFySearch#findAccessPointByRegex(String, int, boolean)
    */
   public void findAccessPointByRegex_null() {
     when(mockWiseFySearch.findAccessPointByRegex(anyString(), anyInt(), anyBoolean())).thenReturn(null);
@@ -51,7 +55,12 @@ public final class MockWiseFySearchUtil {
    * Mocks a nearby access point.
    *
    * @return ScanResult - The mocked nearby access point.
+   *
+   * @see GeneratorUtil#createMockAccessPointWithSSIDAndRSSI(String, int)
+   * @see ScanResult
+   * @see WiseFySearch#findAccessPointByRegex(String, int, boolean)
    */
+  @NonNull
   public ScanResult findAccessPointByRegex_success() {
     final ScanResult accessPoint = GeneratorUtil.createMockAccessPointWithSSIDAndRSSI(TEST_SSID, TEST_RSSI_LEVEL);
     when(mockWiseFySearch.findAccessPointByRegex(anyString(), anyInt(), anyBoolean())).thenReturn(accessPoint);
@@ -60,6 +69,8 @@ public final class MockWiseFySearchUtil {
 
   /**
    * Mocks no nearby access points.
+   *
+   * @see WiseFySearch#findAccessPointsMatchingRegex(String, boolean)
    */
   public void findAccessPointsMatchingRegex_null() {
     when(mockWiseFySearch.findAccessPointsMatchingRegex(anyString(), anyBoolean())).thenReturn(null);
@@ -68,7 +79,11 @@ public final class MockWiseFySearchUtil {
   /**
    * Mocks nearby access point.
    *
-   * @return List of type ScanResult - The mocked access points.
+   * @return List of ScanResults - The mocked access points.
+   *
+   * @see GeneratorUtil#createMockAccessPointWithSSIDAndRSSI(String, int)
+   * @see ScanResult
+   * @see WiseFySearch#findAccessPointsMatchingRegex(String, boolean)
    */
   @NonNull
   public List<ScanResult> findAccessPointsMatchingRegex_success() {
@@ -81,6 +96,8 @@ public final class MockWiseFySearchUtil {
 
   /**
    * Mocks no saved network.
+   *
+   * @see WiseFySearch#findSavedNetworkByRegex(String)
    */
   public void findSavedNetworkByRegex_null() {
     when(mockWiseFySearch.findSavedNetworkByRegex(anyString())).thenReturn(null);
@@ -90,6 +107,10 @@ public final class MockWiseFySearchUtil {
    * Mocks a saved network.
    *
    * @return WifiConfiguration - The mocked saved network
+   *
+   * @see GeneratorUtil#createSavedNetwork(String)
+   * @see WifiConfiguration
+   * @see WiseFySearch#findSavedNetworkByRegex(String)
    */
   @NonNull
   public WifiConfiguration findSavedNetworkByRegex_success() {
@@ -100,6 +121,8 @@ public final class MockWiseFySearchUtil {
 
   /**
    * Mocks an empty saved network list.
+   *
+   * @see WiseFySearch#findSavedNetworksMatchingRegex(String)
    */
   public void findSavedNetworksByRegex_emptyList() {
     when(mockWiseFySearch.findSavedNetworksMatchingRegex(anyString())).thenReturn(new ArrayList<>());
@@ -107,6 +130,8 @@ public final class MockWiseFySearchUtil {
 
   /**
    * Mocks no saved networks.
+   *
+   * @see WiseFySearch#findSavedNetworksMatchingRegex(String)
    */
   public void findSavedNetworksByRegex_null() {
     when(mockWiseFySearch.findSavedNetworksMatchingRegex(anyString())).thenReturn(null);
@@ -115,7 +140,11 @@ public final class MockWiseFySearchUtil {
   /**
    * Mocks a list of saved networks.
    *
-   * @return List of type WifiConfiguration - The mocked saved network list
+   * @return List of WifiConfigurations - The mocked saved network list
+   *
+   * @see GeneratorUtil#createSavedNetwork(String)
+   * @see WifiConfiguration
+   * @see WiseFySearch#findSavedNetworksMatchingRegex(String)
    */
   @NonNull
   public List<WifiConfiguration> findSavedNetworksMatchingRegex_success() {
@@ -130,7 +159,9 @@ public final class MockWiseFySearchUtil {
   /**
    * Mocks a list of nearby SSIDs.
    *
-   * @return List of type String - The mocked list of SSIDs.
+   * @return List of Strings - The mocked list of SSIDs.
+   *
+   * @see WiseFySearch#findSSIDsMatchingRegex(String)
    */
   @NonNull
   public List<String> findSSIDsMatchingRegex_success() {
@@ -142,6 +173,8 @@ public final class MockWiseFySearchUtil {
 
   /**
    * Mocks no matching SSIDs.
+   *
+   * @see WiseFySearch#findSSIDsMatchingRegex(String)
    */
   public void findSSIDsMatchingRegex_null() {
     when(mockWiseFySearch.findSSIDsMatchingRegex(anyString())).thenReturn(null);
@@ -163,7 +196,11 @@ public final class MockWiseFySearchUtil {
    *
    * @see WiseFySearch#removeEntriesWithLowerSignalStrength(List)
    *
-   * @return List of type ScanResult - The mocked networks that will be returned
+   * @return List of ScanResults - The mocked networks that will be returned
+   *
+   * @see GeneratorUtil#createMockAccessPointList(String, int, String, int)
+   * @see ScanResult
+   * @see WiseFySearch#removeEntriesWithLowerSignalStrength(List)
    */
   @NonNull
   public List<ScanResult> removeEntriesWithLowerSignalStrength() {

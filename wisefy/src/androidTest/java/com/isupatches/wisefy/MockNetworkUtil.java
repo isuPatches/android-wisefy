@@ -50,14 +50,19 @@ public final class MockNetworkUtil {
    *
    * @param mockConnectivityManager The mock ConnectivityManager instance to use
    * @param mockWifiManager The mock WifiManager instance to use
+   *
+   * @see ConnectivityManager
+   * @see WifiManager
    */
-  MockNetworkUtil(final ConnectivityManager mockConnectivityManager, final WifiManager mockWifiManager) {
+  MockNetworkUtil(@NonNull final ConnectivityManager mockConnectivityManager, @NonNull final WifiManager mockWifiManager) {
     this.mockConnectivityManager = mockConnectivityManager;
     this.mockWifiManager = mockWifiManager;
   }
 
   /**
    * Mocks a failure to add a network from WifiManager.
+   *
+   * @see WifiManager#addNetwork(WifiConfiguration)
    */
   public void addNetwork_failure() {
     when(mockWifiManager.addNetwork(any(WifiConfiguration.class))).thenReturn(WiseFy.WIFI_MANAGER_FAILURE);
@@ -65,6 +70,8 @@ public final class MockNetworkUtil {
 
   /**
    * Mocks successfully adding a network with WifiManager.
+   *
+   * @see WifiManager#addNetwork(WifiConfiguration)
    */
   public void addNetwork_success() {
     when(mockWifiManager.addNetwork(any(WifiConfiguration.class))).thenReturn(0);
@@ -76,8 +83,12 @@ public final class MockNetworkUtil {
    * @param ssid The ssid for the mocked network to have
    *
    * @return WifiInfo - The mocked current network
+   *
+   * @see WifiInfo
+   * @see WifiManager#getConnectionInfo()
    */
-  public WifiInfo currentNetwork(final String ssid) {
+  @NonNull
+  public WifiInfo currentNetwork(@Nullable final String ssid) {
     final WifiInfo mockCurrentNetwork = mock(WifiInfo.class);
     when(mockCurrentNetwork.getSSID()).thenReturn(ssid);
     when(mockWifiManager.getConnectionInfo()).thenReturn(mockCurrentNetwork);
@@ -92,7 +103,11 @@ public final class MockNetworkUtil {
    * @param type The type of network
    *
    * @return NetworkInfo - The mocked network the device is connected to
+   *
+   * @see ConnectivityManager#getActiveNetworkInfo()
+   * @see NetworkInfo
    */
+  @NonNull
   NetworkInfo currentNetworkConnectionStatus(final boolean isAvailable, final boolean isConnected, @Nullable final String type) {
     final NetworkInfo networkInfo = mock(NetworkInfo.class);
     when(networkInfo.isAvailable()).thenReturn(isAvailable);
@@ -106,6 +121,8 @@ public final class MockNetworkUtil {
 
   /**
    * Mocks an empty/null current network.
+   *
+   * @see WifiManager#getConnectionInfo()
    */
   public void currentNetwork_null() {
     when(mockWifiManager.getConnectionInfo()).thenReturn(null);
@@ -113,6 +130,8 @@ public final class MockNetworkUtil {
 
   /**
    * Mocks a failure disabling wifi.
+   *
+   * @see WifiManager#setWifiEnabled(boolean)
    */
   public void disableWifi_failure() {
     when(mockWifiManager.setWifiEnabled(false)).thenReturn(false);
@@ -120,6 +139,8 @@ public final class MockNetworkUtil {
 
   /**
    * Mocks a success disabling wifi.
+   *
+   * @see WifiManager#setWifiEnabled(boolean)
    */
   public void disableWifi_success() {
     when(mockWifiManager.setWifiEnabled(false)).thenReturn(true);
@@ -127,6 +148,8 @@ public final class MockNetworkUtil {
 
   /**
    * Mocks a failure disconnecting from the current network.
+   *
+   * @see WifiManager#disconnect()
    */
   public void disconnectFromCurrentNetwork_failure() {
     when(mockWifiManager.disconnect()).thenReturn(false);
@@ -134,6 +157,8 @@ public final class MockNetworkUtil {
 
   /**
    * Mocks a success disconnecting from the current network.
+   *
+   * @see WifiManager#disconnect()
    */
   public void disconnectFromCurrentNetwork_success() {
     when(mockWifiManager.disconnect()).thenReturn(true);
@@ -141,6 +166,8 @@ public final class MockNetworkUtil {
 
   /**
    * Mocks a failure enabling wifi.
+   *
+   * @see WifiManager#setWifiEnabled(boolean)
    */
   public void enableWifi_failure() {
     when(mockWifiManager.setWifiEnabled(true)).thenReturn(false);
@@ -148,6 +175,8 @@ public final class MockNetworkUtil {
 
   /**
    * Mocks a success enabling wifi.
+   *
+   * @see WifiManager#setWifiEnabled(boolean)
    */
   public void enableWifi_success() {
     when(mockWifiManager.setWifiEnabled(true)).thenReturn(true);
@@ -157,7 +186,10 @@ public final class MockNetworkUtil {
    * Returns an expected nearby access point.
    *
    * @return ScanResult - The expected nearby access point.
+   *
+   * @see ScanResult
    */
+  @NonNull
   ScanResult getExpectedNearbyAccessPoint() {
     return expectedNearbyAccessPoint;
   }
@@ -165,8 +197,11 @@ public final class MockNetworkUtil {
   /**
    * Returns an expected set of nearby access points.
    *
-   * @return List of type ScanResult - The expected set of nearby access points.
+   * @return List of ScanResults - The expected set of nearby access points.
+   *
+   * @see ScanResult
    */
+  @NonNull
   List<ScanResult> getExpectedNearbyAccessPoints() {
     return expectedNearbyAccessPoints;
   }
@@ -175,7 +210,10 @@ public final class MockNetworkUtil {
    * Returns an expected saved network.
    *
    * @return WifiConfiguration - The expected saved network.
+   *
+   * @see WifiConfiguration
    */
+  @NonNull
   WifiConfiguration getExpectedSavedNetwork() {
     return expectedSavedNetwork;
   }
@@ -183,8 +221,11 @@ public final class MockNetworkUtil {
   /**
    * Returns a list of expected saved networks.
    *
-   * @return List of type WifiConfiguration - The list of expected saved networks.
+   * @return List of WifiConfigurations - The list of expected saved networks.
+   *
+   * @see WifiConfiguration
    */
+  @NonNull
   List<WifiConfiguration> getExpectedSavedNetworks() {
     return expectedSavedNetworks;
   }
@@ -194,6 +235,7 @@ public final class MockNetworkUtil {
    *
    * @return List of Strings - The list of expected SSIDs.
    */
+  @NonNull
   List<String> getExpectedSSIDs() {
     return expectedSSIDs;
   }
@@ -202,6 +244,8 @@ public final class MockNetworkUtil {
    * Mocks if the device is roaming.
    *
    * @param roaming Whether the device is roaming or not
+   *
+   * @see ConnectivityManager#getActiveNetworkInfo()
    */
   public void isDeviceRoaming(final boolean roaming) {
     final NetworkInfo networkInfo = mock(NetworkInfo.class);
@@ -213,6 +257,8 @@ public final class MockNetworkUtil {
    * Mocks if the device has wifi enabled.
    *
    * @param wifiEnabled Whether wifi is enabled on the device or not.
+   *
+   * @see WifiManager#isWifiEnabled()
    */
   public void isWifiEnabled(final boolean wifiEnabled) {
     when(mockWifiManager.isWifiEnabled()).thenReturn(wifiEnabled);
@@ -221,7 +267,11 @@ public final class MockNetworkUtil {
   /**
    * Mocks two nearby access points.
    *
-   * @return List of type ScanResult - The mocked nearby access points
+   * @return List of ScanResults - The mocked nearby access points
+   *
+   * @see GeneratorUtil#createMockAccessPointList(String, int, String, int)
+   * @see ScanResult
+   * @see WifiManager#getScanResults()
    */
   @NonNull
   public List<ScanResult> nearbyAccessPoints() {
@@ -236,7 +286,11 @@ public final class MockNetworkUtil {
    * @param frequency The frequency for the network
    *
    * @return WifiInfo - A network with the given frequency
+   *
+   * @see WifiInfo
+   * @see WifiManager#getConnectionInfo()
    */
+  @NonNull
   public WifiInfo networkWithFrequency(final int frequency) {
     final WifiInfo mockWifiInfo = mock(WifiInfo.class);
     when(mockWifiInfo.getFrequency()).thenReturn(frequency);
@@ -248,6 +302,8 @@ public final class MockNetworkUtil {
    * Mocks if removing a network is successful or not.
    *
    * @param removed Whether the network was removed successfully or not
+   *
+   * @see WifiManager#removeNetwork(int)
    */
   public void removeNetwork(final boolean removed) {
     when(mockWifiManager.removeNetwork(anyInt())).thenReturn(removed);
@@ -256,7 +312,11 @@ public final class MockNetworkUtil {
   /**
    * Mocks a saved network list.
    *
-   * @return List of type WifiConfiguration - The mocked saved network list
+   * @return List of WifiConfigurations - The mocked saved network list
+   *
+   * @see GeneratorUtil#createMockAccessPointWithSSID(String)
+   * @see WifiConfiguration
+   * @see WifiManager#getConfiguredNetworks()
    */
   @NonNull
   public List<WifiConfiguration> savedNetworks() {
@@ -270,6 +330,8 @@ public final class MockNetworkUtil {
 
   /**
    * Mocks a null list of saved networks.
+   *
+   * @see WifiManager#getConfiguredNetworks()
    */
   public void getConfiguredNetworks_null() {
     when(mockWifiManager.getConfiguredNetworks()).thenReturn(null);
@@ -277,6 +339,8 @@ public final class MockNetworkUtil {
 
   /**
    * Mocks an empty list of saved networks.
+   *
+   * @see WifiManager#getConfiguredNetworks()
    */
   public void getConfiguredNetworks_emptyList() {
     when(mockWifiManager.getConfiguredNetworks()).thenReturn(new ArrayList<>());
@@ -284,6 +348,8 @@ public final class MockNetworkUtil {
 
   /**
    * Mocks a failure getting the ip of a device.
+   *
+   * @see WifiManager#getConnectionInfo()
    */
   public void ip_failure() {
     final WifiInfo wifiInfo = mock(WifiInfo.class);
@@ -293,6 +359,8 @@ public final class MockNetworkUtil {
 
   /**
    * Mocks a success getting the ip of a device.
+   *
+   * @see WifiManager#getConnectionInfo()
    */
   public void ip_success() {
     final WifiInfo wifiInfo = mock(WifiInfo.class);
@@ -301,7 +369,21 @@ public final class MockNetworkUtil {
   }
 
   /**
+   * Mocks a null nearby access point list.
+   *
+   * @see WifiManager#getScanResults()
+   */
+  void nearbyAccessPoints_emptyList() {
+    when(mockWifiManager.getScanResults()).thenReturn(new ArrayList<>());
+  }
+
+  /**
    * Mocks a nearby access point with a matching SSID.
+   *
+   * @see #addToExpectedNearbyAccessPoints(ScanResult)
+   * @see #addToExpectedSSIDs(ScanResult)
+   * @see GeneratorUtil#createMockAccessPointWithSSID(String)
+   * @see WifiManager#getScanResults()
    */
   void nearbyAccessPoints_matchingSSID() {
     final ScanResult accessPoint = GeneratorUtil.createMockAccessPointWithSSID(TEST_SSID);
@@ -320,7 +402,14 @@ public final class MockNetworkUtil {
    *
    * @param takeHighest If only the access point with the highest RSSI should be returned (manipulates expected results)
    *
-   * @return List of type ScanResult - The mocked nearby access points
+   * @return List of ScanResults - The mocked nearby access points
+   *
+   * @see #addToExpectedNearbyAccessPoints(ScanResult)
+   * @see #addToExpectedNearbyAccessPoints(ScanResult, ScanResult)
+   * @see #addToExpectedSSIDs(ScanResult)
+   * @see GeneratorUtil#createMockAccessPointWithSSIDAndRSSI(String, int)
+   * @see ScanResult
+   * @see WifiManager#getScanResults()
    */
   @NonNull
   List<ScanResult> nearbyAccessPoints_multipleMatchingSSIDs_accessPoint1HasHigherRSSI(final boolean takeHighest) {
@@ -348,7 +437,14 @@ public final class MockNetworkUtil {
    *
    * @param takeHighest If only the access point with the highest RSSI should be returned (manipulates expected results)
    *
-   * @return List of type ScanResult - The mocked nearby access points
+   * @return List of ScanResults - The mocked nearby access points
+   *
+   * @see #addToExpectedNearbyAccessPoints(ScanResult)
+   * @see #addToExpectedNearbyAccessPoints(ScanResult, ScanResult)
+   * @see #addToExpectedSSIDs(ScanResult)
+   * @see GeneratorUtil#createMockAccessPointWithSSIDAndRSSI(String, int)
+   * @see ScanResult
+   * @see WifiManager#getScanResults()
    */
   @NonNull
   List<ScanResult> nearbyAccessPoints_multipleMatchingSSIDs_accessPoint2HasHigherRSSI(final boolean takeHighest) {
@@ -376,7 +472,15 @@ public final class MockNetworkUtil {
    *
    * @param addSecondNetwork If the second access point should be added to the expected results
    *
-   * @return List of type ScanResult - The mocked nearby access points
+   * @return List of ScanResults - The mocked nearby access points
+   *
+   * @see #addToExpectedNearbyAccessPoints(ScanResult)
+   * @see #addToExpectedNearbyAccessPoints(ScanResult, ScanResult)
+   * @see #addToExpectedSSIDs(ScanResult)
+   * @see #addToExpectedSSIDs(ScanResult, ScanResult)
+   * @see GeneratorUtil#createMockAccessPointWithSSIDAndRSSI(String, int)
+   * @see ScanResult
+   * @see WifiManager#getScanResults()
    */
   @NonNull
   List<ScanResult> nearbyAccessPoints_multipleSSIDs_sameRSSI(final boolean addSecondNetwork) {
@@ -409,7 +513,14 @@ public final class MockNetworkUtil {
    *
    * @param addSecondNetwork If the second access point should be added to the expected results
    *
-   * @return List of type ScanResult - The mocked nearby access points
+   * @return List of ScanResults - The mocked nearby access points
+   *
+   * @see #addToExpectedNearbyAccessPoints(ScanResult)
+   * @see #addToExpectedNearbyAccessPoints(ScanResult, ScanResult)
+   * @see #addToExpectedSSIDs(ScanResult)
+   * @see GeneratorUtil#createMockAccessPointWithSSIDAndRSSI(String, int)
+   * @see ScanResult
+   * @see WifiManager#getScanResults()
    */
   @NonNull
   List<ScanResult> nearbyAccessPoints_multipleMatchingSSIDs_sameRSSI(final boolean addSecondNetwork) {
@@ -434,6 +545,9 @@ public final class MockNetworkUtil {
 
   /**
    * Mocks two nearby access points, both with non-matching SSIDs.
+   *
+   * @see GeneratorUtil#createMockAccessPointWithSSID(String)
+   * @see WifiManager#getScanResults()
    */
   void nearbyAccessPoints_multipleNonMatchingSSIDs() {
     final ScanResult accessPoint1 = GeneratorUtil.createMockAccessPointWithSSID(TEST_SSID2);
@@ -448,6 +562,9 @@ public final class MockNetworkUtil {
 
   /**
    * Mocks a nearby access point list with a non-matching SSID.
+   *
+   * @see GeneratorUtil#createMockAccessPointWithSSID(String)
+   * @see WifiManager#getScanResults()
    */
   void nearbyAccessPoints_nonMatchingSSID() {
     final ScanResult accessPoint = GeneratorUtil.createMockAccessPointWithSSID(TEST_SSID2);
@@ -460,6 +577,8 @@ public final class MockNetworkUtil {
 
   /**
    * Mocks a nearby access point list with a null entry.
+   *
+   * @see WifiManager#getScanResults()
    */
   void nearbyAccessPoints_nullAccessPoint() {
     final List<ScanResult> accessPoints = new ArrayList<>();
@@ -470,20 +589,18 @@ public final class MockNetworkUtil {
 
   /**
    * Mocks a null nearby access point list.
+   *
+   * @see WifiManager#getScanResults()
    */
   void nearbyAccessPoints_nullList() {
     when(mockWifiManager.getScanResults()).thenReturn(null);
   }
 
   /**
-   * Mocks a null nearby access point list.
-   */
-  void nearbyAccessPoints_emptyList() {
-    when(mockWifiManager.getScanResults()).thenReturn(new ArrayList<>());
-  }
-
-  /**
    * Mocks a nearby access point with a null SSID.
+   *
+   * @see GeneratorUtil#createMockAccessPointWithSSID(String)
+   * @see WifiManager#getScanResults()
    */
   void nearbyAccessPoints_nullSSID() {
     final ScanResult accessPoint = GeneratorUtil.createMockAccessPointWithSSID(null);
@@ -496,6 +613,8 @@ public final class MockNetworkUtil {
 
   /**
    * Mocks an empty saved network list.
+   *
+   * @see WifiManager#getConfiguredNetworks()
    */
   void savedNetworks_emptyList() {
     when(mockWifiManager.getConfiguredNetworks()).thenReturn(new ArrayList<>());
@@ -503,6 +622,9 @@ public final class MockNetworkUtil {
 
   /**
    * Mocks a saved network with a matching SSID.
+   *
+   * @see GeneratorUtil#createSavedNetwork(String)
+   * @see WifiManager#getConfiguredNetworks()
    */
   void savedNetworks_matchingSSID() {
     final WifiConfiguration savedNetwork = GeneratorUtil.createSavedNetwork(TEST_SSID);
@@ -517,6 +639,10 @@ public final class MockNetworkUtil {
 
   /**
    * Mocks two saved networks, both with a matching SSID.
+   *
+   * @see #addToExpectedSavedNetworks(WifiConfiguration, WifiConfiguration)
+   * @see GeneratorUtil#createSavedNetwork(String)
+   * @see WifiManager#getConfiguredNetworks()
    */
   void savedNetworks_multipleMatchingSSIDs() {
     final WifiConfiguration savedNetwork1 = GeneratorUtil.createSavedNetwork(TEST_SSID);
@@ -533,6 +659,9 @@ public final class MockNetworkUtil {
 
   /**
    * Mocks two saved networks, both with non-matching SSIDs.
+   *
+   * @see GeneratorUtil#createSavedNetwork(String)
+   * @see WifiManager#getConfiguredNetworks()
    */
   void savedNetworks_multipleNonMatchingSSIDs() {
     final WifiConfiguration savedNetwork1 = GeneratorUtil.createSavedNetwork(TEST_SSID2);
@@ -549,6 +678,11 @@ public final class MockNetworkUtil {
    * Mocks two saved networks, one with a matching and one with a non-matching SSID.
    *
    * @param addSecondNetwork If the second saved ne network should be added to the expected results
+   *
+   * @see #addToExpectedSavedNetworks(WifiConfiguration)
+   * @see #addToExpectedSavedNetworks(WifiConfiguration, WifiConfiguration)
+   * @see GeneratorUtil#createSavedNetwork(String)
+   * @see WifiManager#getConfiguredNetworks()
    */
   void savedNetworks_multipleSSIDs(final boolean addSecondNetwork) {
     final WifiConfiguration savedNetwork1 = GeneratorUtil.createSavedNetwork(TEST_SSID);
@@ -569,6 +703,9 @@ public final class MockNetworkUtil {
 
   /**
    * Mocks a saved network with a non matching SSID.
+   *
+   * @see GeneratorUtil#createSavedNetwork(String)
+   * @see WifiManager#getConfiguredNetworks()
    */
   void savedNetworks_nonMatchingSSID() {
     final WifiConfiguration savedNetwork = GeneratorUtil.createSavedNetwork(TEST_SSID2);
@@ -581,6 +718,8 @@ public final class MockNetworkUtil {
 
   /**
    * Mocks a null saved network list.
+   *
+   * @see WifiManager#getConfiguredNetworks()
    */
   void savedNetworks_nullList() {
     when(mockWifiManager.getConfiguredNetworks()).thenReturn(null);
@@ -588,6 +727,8 @@ public final class MockNetworkUtil {
 
   /**
    * Mocks a saved network list with a null entry.
+   *
+   * @see WifiManager#getConfiguredNetworks()
    */
   void savedNetworks_nullSavedNetwork() {
     final List<WifiConfiguration> wifiList = new ArrayList<>();
@@ -598,6 +739,9 @@ public final class MockNetworkUtil {
 
   /**
    * Mocks a saved network with a null SSID.
+   *
+   * @see GeneratorUtil#createSavedNetwork(String)
+   * @see WifiManager#getConfiguredNetworks()
    */
   void savedNetworks_nullSSID() {
     final WifiConfiguration savedNetwork = GeneratorUtil.createSavedNetwork(null);
@@ -617,7 +761,7 @@ public final class MockNetworkUtil {
    *
    * @param accessPoint The nearby access point to add
    */
-  private void addToExpectedNearbyAccessPoints(final ScanResult accessPoint) {
+  private void addToExpectedNearbyAccessPoints(@NonNull final ScanResult accessPoint) {
     expectedNearbyAccessPoint = accessPoint;
 
     expectedNearbyAccessPoints = new ArrayList<>();
@@ -630,7 +774,7 @@ public final class MockNetworkUtil {
    * @param accessPoint1 The first nearby access point to add
    * @param accessPoint2 The second nearby access point to add
    */
-  private void addToExpectedNearbyAccessPoints(final ScanResult accessPoint1, final ScanResult accessPoint2) {
+  private void addToExpectedNearbyAccessPoints(@NonNull final ScanResult accessPoint1, @NonNull final ScanResult accessPoint2) {
     expectedNearbyAccessPoint = accessPoint1;
 
     expectedNearbyAccessPoints = new ArrayList<>();
@@ -643,7 +787,7 @@ public final class MockNetworkUtil {
    *
    * @param savedNetwork The saved network to add
    */
-  private void addToExpectedSavedNetworks(final WifiConfiguration savedNetwork) {
+  private void addToExpectedSavedNetworks(@NonNull final WifiConfiguration savedNetwork) {
     expectedSavedNetwork = savedNetwork;
 
     expectedSavedNetworks = new ArrayList<>();
@@ -656,7 +800,7 @@ public final class MockNetworkUtil {
    * @param savedNetwork1 The first saved network to add
    * @param savedNetwork2 The second saved network to add
    */
-  private void addToExpectedSavedNetworks(final WifiConfiguration savedNetwork1, final WifiConfiguration savedNetwork2) {
+  private void addToExpectedSavedNetworks(@NonNull final WifiConfiguration savedNetwork1, @NonNull final WifiConfiguration savedNetwork2) {
     expectedSavedNetwork = savedNetwork1;
 
     expectedSavedNetworks = new ArrayList<>();
@@ -671,7 +815,6 @@ public final class MockNetworkUtil {
    */
   private void addToExpectedSSIDs(@NonNull final ScanResult accessPoint) {
     expectedSSIDs = new ArrayList<>();
-
     expectedSSIDs.add(accessPoint.SSID);
   }
 

@@ -6,6 +6,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 import android.net.NetworkInfo;
+import android.support.annotation.NonNull;
 
 /**
  * A class to mock returns from the WiseFyConnection class.
@@ -22,8 +23,10 @@ public final class MockWiseFyConnectionUtil {
    * Constructor.
    *
    * @param mockWiseFyConnection The mock WiseFyConnection class to use
+   *
+   * @see WiseFyConnection
    */
-  MockWiseFyConnectionUtil(final WiseFyConnection mockWiseFyConnection) {
+  MockWiseFyConnectionUtil(@NonNull final WiseFyConnection mockWiseFyConnection) {
     this.mockWiseFyConnection = mockWiseFyConnection;
   }
 

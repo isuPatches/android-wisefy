@@ -18,6 +18,8 @@ import org.junit.Test;
  *
  * @see WiseFy#isNetwork5gHz()
  * @see WiseFy#isNetwork5gHz(WifiInfo)
+ *
+ * @author Patches
  */
 public class IsNetwork5gHzTests extends AbstractBaseAndroidJUnit4TestClass {
 

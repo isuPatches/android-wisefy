@@ -5,6 +5,7 @@ import static com.isupatches.wisefy.TestUtils.VERIFICATION_SUCCESS_TIMEOUT;
 
 import static org.junit.Assert.assertEquals;
 
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.verify;
@@ -14,7 +15,7 @@ import android.net.wifi.WifiInfo;
 import com.isupatches.wisefy.AbstractBaseAndroidJUnit4TestClass;
 import com.isupatches.wisefy.WiseFy;
 import com.isupatches.wisefy.callbacks.GetCurrentNetworkCallbacks;
-import com.isupatches.wisefy.constants.WiseFyCodeDefs;
+import com.isupatches.wisefy.constants.WiseFyCodes;
 
 import org.junit.Test;
 
@@ -42,8 +43,13 @@ public class GetCurrentNetworkTests extends AbstractBaseAndroidJUnit4TestClass {
   @Test
   public void sync_success() {
     getMockNetworkUtil().currentNetwork(TEST_SSID);
-    assertEquals(TEST_SSID, getWiseFy().getCurrentNetwork().getSSID());
-    getVerificationUtil().triedToGetCurrentNetwork();
+    final WifiInfo currentNetwork = getWiseFy().getCurrentNetwork();
+    if (currentNetwork != null) {
+      assertEquals(TEST_SSID, currentNetwork.getSSID());
+      getVerificationUtil().triedToGetCurrentNetwork();
+    } else {
+      fail();
+    }
   }
 
   @Test
@@ -51,7 +57,7 @@ public class GetCurrentNetworkTests extends AbstractBaseAndroidJUnit4TestClass {
     getMockWiseFyPrechecksUtil().getCurrentNetwork_failure();
     final GetCurrentNetworkCallbacks mockCallbacks = mock(GetCurrentNetworkCallbacks.class);
     getWiseFy().getCurrentNetwork(mockCallbacks);
-    verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).getCurrentNetworkWiseFyFailure(WiseFyCodeDefs.MISSING_PREREQUISITE);
+    verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).getCurrentNetworkWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
     getVerificationUtil().didNotTryToGetCurrentNetwork();
   }
 

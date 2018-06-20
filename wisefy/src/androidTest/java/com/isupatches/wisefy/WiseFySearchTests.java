@@ -542,6 +542,12 @@ public class WiseFySearchTests extends AbstractBaseAndroidJUnit4TestClass {
    */
 
   @Test
+  public void isNetworkASavedConfiguration_failure_nullSSIDParam() {
+    getMockNetworkUtil().savedNetworks_nullList();
+    assertEquals(false, wisefySearch.isNetworkASavedConfiguration(null));
+  }
+
+  @Test
   public void isNetworkASavedConfiguration_failure_nullSavedNetworkList() {
     getMockNetworkUtil().savedNetworks_nullList();
     assertEquals(false, wisefySearch.isNetworkASavedConfiguration(TEST_SSID));

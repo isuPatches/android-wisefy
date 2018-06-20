@@ -16,11 +16,12 @@
 package com.isupatches.wisefy;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.RequiresPermission;
 
 import com.isupatches.wisefy.annotations.Internal;
-import com.isupatches.wisefy.constants.CommonValues;
-import com.isupatches.wisefy.constants.WiseFyCodeDefs;
-import com.isupatches.wisefy.constants.WiseFyCodeDefs.WiseFyCodes;
+import com.isupatches.wisefy.constants.WiseFyCodes;
+import com.isupatches.wisefy.constants.WiseFyCodes.WiseFyCode;
 import com.isupatches.wisefy.utils.StringUtil;
 
 /**
@@ -43,7 +44,7 @@ class WiseFyPrechecks {
    * @see WiseFyPrerequisites
    * @see WiseFySearch
    */
-  private WiseFyPrechecks(final WiseFyPrerequisites wisefyPrerequisites, final WiseFySearch wisefySearch) {
+  private WiseFyPrechecks(@NonNull final WiseFyPrerequisites wisefyPrerequisites, @NonNull final WiseFySearch wisefySearch) {
     this.wisefyPrerequisites = wisefyPrerequisites;
     this.wisefySearch = wisefySearch;
   }
@@ -59,7 +60,8 @@ class WiseFyPrechecks {
    * @see WiseFyPrerequisites
    * @see WiseFySearch
    */
-  static WiseFyPrechecks create(final WiseFyPrerequisites wisefyPrerequisites, final WiseFySearch wisefySearch) {
+  @NonNull
+  static WiseFyPrechecks create(@NonNull final WiseFyPrerequisites wisefyPrerequisites, @NonNull final WiseFySearch wisefySearch) {
     return new WiseFyPrechecks(wisefyPrerequisites, wisefySearch);
   }
 
@@ -68,24 +70,25 @@ class WiseFyPrechecks {
    *
    * @param ssid The ssid of the network to add
    *
-   * @return 0 or int - An error code or 0 for successfully passing all prechecks
+   * @return int - An error code or WiseFyCodes.DEFAULT_PRECHECK_RETURN for successfully passing all prechecks
    *
-   * @see CommonValues#DEFAULT_PRECHECK_RETURN
    * @see StringUtil#isEmpty(String)
+   * @see WiseFyCodes
    * @see WiseFyPrerequisites#missingPrerequisites()
    * @see WiseFySearch#isNetworkASavedConfiguration(String)
    */
-  @WiseFyCodes
-  int addNetworkPrechecks(@NonNull final String ssid) {
-    int precheckResult = CommonValues.DEFAULT_PRECHECK_RETURN;
+  @WiseFyCode
+  @RequiresPermission(android.Manifest.permission.ACCESS_WIFI_STATE)
+  int addNetworkPrechecks(@Nullable final String ssid) {
+    int precheckResult = WiseFyCodes.DEFAULT_PRECHECK_RETURN;
     if (StringUtil.isEmpty(ssid)) {
-      precheckResult = WiseFyCodeDefs.MISSING_PARAMETER;
+      precheckResult = WiseFyCodes.MISSING_PARAMETER;
     }
     if (wisefyPrerequisites.missingPrerequisites()) {
-      precheckResult = WiseFyCodeDefs.MISSING_PREREQUISITE;
+      precheckResult = WiseFyCodes.MISSING_PREREQUISITE;
     }
     if (wisefySearch.isNetworkASavedConfiguration(ssid)) {
-      precheckResult = WiseFyCodeDefs.NETWORK_ALREADY_CONFIGURED;
+      precheckResult = WiseFyCodes.NETWORK_ALREADY_CONFIGURED;
     }
     return precheckResult;
   }
@@ -96,24 +99,25 @@ class WiseFyPrechecks {
    * @param ssid The ssid of the network to add
    * @param password The password for the network to add
    *
-   * @return 0 or int - An error code or 0 for successfully passing all prechecks
+   * @return int - An error code or WiseFyCodes.DEFAULT_PRECHECK_RETURN for successfully passing all prechecks
    *
-   * @see CommonValues#DEFAULT_PRECHECK_RETURN
    * @see StringUtil#isEmpty(String)
+   * @see WiseFyCodes
    * @see WiseFyPrerequisites#missingPrerequisites()
    * @see WiseFySearch#isNetworkASavedConfiguration(String)
    */
-  @WiseFyCodes
-  int addNetworkPrechecks(@NonNull final String ssid, final String password) {
-    int precheckResult = CommonValues.DEFAULT_PRECHECK_RETURN;
+  @WiseFyCode
+  @RequiresPermission(android.Manifest.permission.ACCESS_WIFI_STATE)
+  int addNetworkPrechecks(@Nullable final String ssid, @Nullable final String password) {
+    int precheckResult = WiseFyCodes.DEFAULT_PRECHECK_RETURN;
     if (StringUtil.isEmpty(ssid) || StringUtil.isEmpty(password)) {
-      precheckResult = WiseFyCodeDefs.MISSING_PARAMETER;
+      precheckResult = WiseFyCodes.MISSING_PARAMETER;
     }
     if (wisefyPrerequisites.missingPrerequisites()) {
-      precheckResult = WiseFyCodeDefs.MISSING_PREREQUISITE;
+      precheckResult = WiseFyCodes.MISSING_PREREQUISITE;
     }
     if (wisefySearch.isNetworkASavedConfiguration(ssid)) {
-      precheckResult = WiseFyCodeDefs.NETWORK_ALREADY_CONFIGURED;
+      precheckResult = WiseFyCodes.NETWORK_ALREADY_CONFIGURED;
     }
     return precheckResult;
   }
@@ -123,12 +127,12 @@ class WiseFyPrechecks {
    *
    * @param result Whether the precheck failed
    *
-   * @return bool - true if checks failed
+   * @return boolean - True if checks failed
    *
-   * @see CommonValues#DEFAULT_PRECHECK_RETURN
+   * @see WiseFyCodes#DEFAULT_PRECHECK_RETURN
    */
-  static boolean checksFailed(final int result) {
-    return result < CommonValues.DEFAULT_PRECHECK_RETURN;
+  static boolean checksFailed(@WiseFyCode final int result) {
+    return result < WiseFyCodes.DEFAULT_PRECHECK_RETURN;
   }
 
   /**
@@ -136,36 +140,36 @@ class WiseFyPrechecks {
    *
    * @param result Whether the precheck passed
    *
-   * @return bool - true if checks passed
+   * @return boolean - True if checks passed
    *
-   * @see CommonValues#DEFAULT_PRECHECK_RETURN
+   * @see WiseFyCodes#DEFAULT_PRECHECK_RETURN
    */
-  static boolean checksPassed(final int result) {
-    return result >= CommonValues.DEFAULT_PRECHECK_RETURN;
+  static boolean checksPassed(@WiseFyCode final int result) {
+    return result >= WiseFyCodes.DEFAULT_PRECHECK_RETURN;
   }
 
   /**
    * To check for necessary requirements to connect to a network.
    *
-   * @param ssidToConnectTo The network to connect to
+   * @param ssidToConnectTo The SSID of the network to connect to
    *
-   * @return int - 0 or negative error code
+   * @return int - An error code or WiseFyCodes.DEFAULT_PRECHECK_RETURN for successfully passing all prechecks
    *
    * @see #checkForParamAndPrerequisites(String)
    */
-  @WiseFyCodes
-  int connectToNetworkPrechecks(final String ssidToConnectTo) {
+  @WiseFyCode
+  int connectToNetworkPrechecks(@Nullable final String ssidToConnectTo) {
     return checkForParamAndPrerequisites(ssidToConnectTo);
   }
 
   /**
    * To check for necessary requirements to disable wifi.
    *
-   * @return int - 0 or negative error code
+   * @return int - An error code or WiseFyCodes.DEFAULT_PRECHECK_RETURN for successfully passing all prechecks
    *
    * @see #checkForPrerequisites()
    */
-  @WiseFyCodes
+  @WiseFyCode
   int disableWifiChecks() {
     return checkForPrerequisites();
   }
@@ -173,11 +177,11 @@ class WiseFyPrechecks {
   /**
    * To check for necessary requirements to disconnect from the current network.
    *
-   * @return int - 0 or negative error code
+   * @return int - An error code or WiseFyCodes.DEFAULT_PRECHECK_RETURN for successfully passing all prechecks
    *
    * @see #checkForPrerequisites()
    */
-  @WiseFyCodes
+  @WiseFyCode
   int disconnectFromCurrentNetworkChecks() {
     return checkForPrerequisites();
   }
@@ -185,11 +189,11 @@ class WiseFyPrechecks {
   /**
    * To check for necessary requirements to enable wifi.
    *
-   * @return int - 0 or negative error code
+   * @return int - An error code or WiseFyCodes.DEFAULT_PRECHECK_RETURN for successfully passing all prechecks
    *
    * @see #checkForPrerequisites()
    */
-  @WiseFyCodes
+  @WiseFyCode
   int enableWifiChecks() {
     return checkForPrerequisites();
   }
@@ -197,23 +201,35 @@ class WiseFyPrechecks {
   /**
    * To check for necessary requirements to get the device's current network.
    *
-   * @return int - 0 or negative error code
+   * @return int - An error code or WiseFyCodes.DEFAULT_PRECHECK_RETURN for successfully passing all prechecks
    *
    * @see #checkForPrerequisites()
    */
-  @WiseFyCodes
+  @WiseFyCode
   int getCurrentNetworkChecks() {
+    return checkForPrerequisites();
+  }
+
+  /**
+   * To check for necessary requirements to get the device's current network details.
+   *
+   * @return int - An error code or WiseFyCodes.DEFAULT_PRECHECK_RETURN for successfully passing all prechecks
+   *
+   * @see #checkForPrerequisites()
+   */
+  @WiseFyCode
+  int getCurrentNetworkInfoChecks() {
     return checkForPrerequisites();
   }
 
   /**
    * To check for necessary requirements to get the device's IP.
    *
-   * @return int - 0 or negative error code
+   * @return int - An error code or WiseFyCodes.DEFAULT_PRECHECK_RETURN for successfully passing all prechecks
    *
    * @see #checkForPrerequisites()
    */
-  @WiseFyCodes
+  @WiseFyCode
   int getIPChecks() {
     return checkForPrerequisites();
   }
@@ -221,11 +237,11 @@ class WiseFyPrechecks {
   /**
    * To check for necessary requirements to get nearby access points.
    *
-   * @return int - 0 or negative error code
+   * @return int - An error code or WiseFyCodes.DEFAULT_PRECHECK_RETURN for successfully passing all prechecks
    *
    * @see #checkForPrerequisites()
    */
-  @WiseFyCodes
+  @WiseFyCode
   int getNearbyAccessPointsChecks() {
     return checkForPrerequisites();
   }
@@ -235,12 +251,12 @@ class WiseFyPrechecks {
    *
    * @param regexForSSID The regex param to check
    *
-   * @return int - 0 or negative error code
+   * @return int - An error code or WiseFyCodes.DEFAULT_PRECHECK_RETURN for successfully passing all prechecks
    *
    * @see #checkForParamAndPrerequisites(String)
    */
-  @WiseFyCodes
-  int getRSSIChecks(final String regexForSSID) {
+  @WiseFyCode
+  int getRSSIChecks(@Nullable final String regexForSSID) {
     return checkForParamAndPrerequisites(regexForSSID);
   }
 
@@ -249,23 +265,23 @@ class WiseFyPrechecks {
    *
    * @param regexForSSID The regex param to check
    *
-   * @return int - 0 or negative error code
+   * @return int - An error code or WiseFyCodes.DEFAULT_PRECHECK_RETURN for successfully passing all prechecks
    *
    * @see #checkForParamAndPrerequisites(String)
    */
-  @WiseFyCodes
-  int getSavedNetworkChecks(final String regexForSSID) {
+  @WiseFyCode
+  int getSavedNetworkChecks(@Nullable final String regexForSSID) {
     return checkForParamAndPrerequisites(regexForSSID);
   }
 
   /**
    * To check for necessary requirements to get saved networks.
    *
-   * @return int - 0 or negative error code
+   * @return int - An error code or WiseFyCodes.DEFAULT_PRECHECK_RETURN for successfully passing all prechecks
    *
    * @see #checkForPrerequisites()
    */
-  @WiseFyCodes
+  @WiseFyCode
   int getSavedNetworksChecks() {
     return checkForPrerequisites();
   }
@@ -275,23 +291,23 @@ class WiseFyPrechecks {
    *
    * @param regexForSSID The ssid param to check
    *
-   * @return int - 0 or negative error code
+   * @return int - An error code or WiseFyCodes.DEFAULT_PRECHECK_RETURN for successfully passing all prechecks
    *
    * @see #checkForParamAndPrerequisites(String)
    */
-  @WiseFyCodes
-  int getSavedNetworksChecks(final String regexForSSID) {
+  @WiseFyCode
+  int getSavedNetworksChecks(@Nullable final String regexForSSID) {
     return checkForParamAndPrerequisites(regexForSSID);
   }
 
   /**
    * To check for necessary requirements to see if a device is connected to a mobile network.
    *
-   * @return int - 0 or negative error code
+   * @return int - An error code or WiseFyCodes.DEFAULT_PRECHECK_RETURN for successfully passing all prechecks
    *
    * @see #checkForPrerequisites()
    */
-  @WiseFyCodes
+  @WiseFyCode
   int isDeviceConnectedToMobileNetworkChecks() {
     return checkForPrerequisites();
   }
@@ -299,11 +315,11 @@ class WiseFyPrechecks {
   /**
    * To check for necessary requirements to see if a device is connected to a network.
    *
-   * @return int - 0 or negative error code
+   * @return int - An error code or WiseFyCodes.DEFAULT_PRECHECK_RETURN for successfully passing all prechecks
    *
    * @see #checkForPrerequisites()
    */
-  @WiseFyCodes
+  @WiseFyCode
   int isDeviceConnectedToMobileOrWifiNetworkChecks() {
     return checkForPrerequisites();
   }
@@ -313,23 +329,23 @@ class WiseFyPrechecks {
    *
    * @param ssid The ssid param to check
    *
-   * @return int - 0 or negative error code
+   * @return int - An error code or WiseFyCodes.DEFAULT_PRECHECK_RETURN for successfully passing all prechecks
    *
    * @see #checkForParamAndPrerequisites(String)
    */
-  @WiseFyCodes
-  int isDeviceConnectedToSSIDChecks(final String ssid) {
+  @WiseFyCode
+  int isDeviceConnectedToSSIDChecks(@Nullable final String ssid) {
     return checkForParamAndPrerequisites(ssid);
   }
 
   /**
    * To check for necessary requirements to see if a device is connected to a wifi network.
    *
-   * @return int - 0 or negative error code
+   * @return int - An error code or WiseFyCodes.DEFAULT_PRECHECK_RETURN for successfully passing all prechecks
    *
    * @see #checkForPrerequisites()
    */
-  @WiseFyCodes
+  @WiseFyCode
   int isDeviceConnectedToWifiNetworkChecks() {
     return checkForPrerequisites();
   }
@@ -337,11 +353,11 @@ class WiseFyPrechecks {
   /**
    * To check for necessary requirements to see if a device is roaming.
    *
-   * @return int - 0 or negative error code
+   * @return int - An error code or WiseFyCodes.DEFAULT_PRECHECK_RETURN for successfully passing all prechecks
    *
    * @see #checkForPrerequisites()
    */
-  @WiseFyCodes
+  @WiseFyCode
   int isDeviceRoamingChecks() {
     return checkForPrerequisites();
   }
@@ -349,11 +365,11 @@ class WiseFyPrechecks {
   /**
    * To check for necessary requirements to see if a device has a saved network.
    *
-   * @return int - 0 or negative error code
+   * @return int - An error code or WiseFyCodes.DEFAULT_PRECHECK_RETURN for successfully passing all prechecks
    *
    * @see #checkForPrerequisites()
    */
-  @WiseFyCodes
+  @WiseFyCode
   int isNetworkSavedChecks() {
     return checkForPrerequisites();
   }
@@ -361,11 +377,11 @@ class WiseFyPrechecks {
   /**
    * To check for necessary requirements to see if a device has wifi enabled.
    *
-   * @return int - 0 or negative error code
+   * @return int - An error code or WiseFyCodes.DEFAULT_PRECHECK_RETURN for successfully passing all prechecks
    *
    * @see #checkForPrerequisites()
    */
-  @WiseFyCodes
+  @WiseFyCode
   int isWifiEnabledChecks() {
     return checkForPrerequisites();
   }
@@ -375,12 +391,12 @@ class WiseFyPrechecks {
    *
    * @param ssidToRemove The ssid param to check
    *
-   * @return int - 0 or negative error code
+   * @return int - An error code or WiseFyCodes.DEFAULT_PRECHECK_RETURN for successfully passing all prechecks
    *
    * @see #checkForParamAndPrerequisites(String)
    */
-  @WiseFyCodes
-  int removeNetworkCheck(final String ssidToRemove) {
+  @WiseFyCode
+  int removeNetworkCheck(@Nullable final String ssidToRemove) {
     return checkForParamAndPrerequisites(ssidToRemove);
   }
 
@@ -389,12 +405,12 @@ class WiseFyPrechecks {
    *
    * @param regexForSSID The regex param to check
    *
-   * @return int - 0 or negative error code
+   * @return int - An error code or WiseFyCodes.DEFAULT_PRECHECK_RETURN for successfully passing all prechecks
    *
    * @see #checkForParamAndPrerequisites(String)
    */
-  @WiseFyCodes
-  int searchForAccessPointChecks(final String regexForSSID) {
+  @WiseFyCode
+  int searchForAccessPointChecks(@Nullable final String regexForSSID) {
     return checkForParamAndPrerequisites(regexForSSID);
   }
 
@@ -403,12 +419,12 @@ class WiseFyPrechecks {
    *
    * @param regexForSSID The regex param to check
    *
-   * @return int - 0 or negative error code
+   * @return int - An error code or WiseFyCodes.DEFAULT_PRECHECK_RETURN for successfully passing all prechecks
    *
    * @see #checkForParamAndPrerequisites(String)
    */
-  @WiseFyCodes
-  int searchForAccessPointsChecks(final String regexForSSID) {
+  @WiseFyCode
+  int searchForAccessPointsChecks(@Nullable final String regexForSSID) {
     return checkForParamAndPrerequisites(regexForSSID);
   }
 
@@ -417,12 +433,12 @@ class WiseFyPrechecks {
    *
    * @param regexForSSID The regex param to check
    *
-   * @return int - 0 or negative error code
+   * @return int - An error code or WiseFyCodes.DEFAULT_PRECHECK_RETURN for successfully passing all prechecks
    *
    * @see #checkForParamAndPrerequisites(String)
    */
-  @WiseFyCodes
-  int searchForSSIDChecks(final String regexForSSID) {
+  @WiseFyCode
+  int searchForSSIDChecks(@Nullable final String regexForSSID) {
     return checkForParamAndPrerequisites(regexForSSID);
   }
 
@@ -431,12 +447,12 @@ class WiseFyPrechecks {
    *
    * @param regexForSSID The regex param to check
    *
-   * @return int - 0 or negative error code
+   * @return int - An error code or WiseFyCodes.DEFAULT_PRECHECK_RETURN for successfully passing all prechecks
    *
    * @see #checkForParamAndPrerequisites(String)
    */
-  @WiseFyCodes
-  int searchForSSIDsChecks(final String regexForSSID) {
+  @WiseFyCode
+  int searchForSSIDsChecks(@Nullable final String regexForSSID) {
     return checkForParamAndPrerequisites(regexForSSID);
   }
 
@@ -447,16 +463,16 @@ class WiseFyPrechecks {
   /**
    * Internal helper to check for prerequisites.
    *
-   * @return int - 0 or negative error code
+   * @return int - An error code or WiseFyCodes.DEFAULT_PRECHECK_RETURN for successfully having all prerequisites
    *
-   * @see CommonValues#DEFAULT_PRECHECK_RETURN
+   * @see WiseFyCodes
    * @see WiseFyPrerequisites#missingPrerequisites()
    */
-  @WiseFyCodes
+  @WiseFyCode
   private int checkForPrerequisites() {
-    int precheckResult = CommonValues.DEFAULT_PRECHECK_RETURN;
+    int precheckResult = WiseFyCodes.DEFAULT_PRECHECK_RETURN;
     if (wisefyPrerequisites.missingPrerequisites()) {
-      precheckResult = WiseFyCodeDefs.MISSING_PREREQUISITE;
+      precheckResult = WiseFyCodes.MISSING_PREREQUISITE;
     }
     return precheckResult;
   }
@@ -466,20 +482,20 @@ class WiseFyPrechecks {
    *
    * @param param The param to check
    *
-   * @return int - 0 or negative error code
+   * @return int - An error code or WiseFyCodes.DEFAULT_PRECHECK_RETURN for successfully passing all prerequisites and param
    *
-   * @see CommonValues#DEFAULT_PRECHECK_RETURN
    * @see StringUtil#isEmpty(String)
+   * @see WiseFyCodes
    * @see WiseFyPrerequisites#missingPrerequisites()
    */
-  @WiseFyCodes
-  private int checkForParamAndPrerequisites(final String param) {
-    int precheckResult = CommonValues.DEFAULT_PRECHECK_RETURN;
+  @WiseFyCode
+  private int checkForParamAndPrerequisites(@Nullable final String param) {
+    int precheckResult = WiseFyCodes.DEFAULT_PRECHECK_RETURN;
     if (StringUtil.isEmpty(param)) {
-      precheckResult = WiseFyCodeDefs.MISSING_PARAMETER;
+      precheckResult = WiseFyCodes.MISSING_PARAMETER;
     }
     if (wisefyPrerequisites.missingPrerequisites()) {
-      precheckResult = WiseFyCodeDefs.MISSING_PREREQUISITE;
+      precheckResult = WiseFyCodes.MISSING_PREREQUISITE;
     }
     return precheckResult;
   }

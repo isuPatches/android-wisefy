@@ -12,7 +12,7 @@ import static org.mockito.Mockito.verify;
 import com.isupatches.wisefy.AbstractBaseAndroidJUnit4TestClass;
 import com.isupatches.wisefy.WiseFy;
 import com.isupatches.wisefy.callbacks.SearchForSSIDsCallbacks;
-import com.isupatches.wisefy.constants.WiseFyCodeDefs;
+import com.isupatches.wisefy.constants.WiseFyCodes;
 
 import java.util.List;
 
@@ -23,6 +23,8 @@ import org.junit.Test;
  *
  * @see WiseFy#searchForSSIDs(String)
  * @see WiseFy#searchForSSIDs(String, SearchForSSIDsCallbacks)
+ *
+ * @author Patches
  */
 public class SearchForSSIDsTests extends AbstractBaseAndroidJUnit4TestClass {
 
@@ -53,7 +55,7 @@ public class SearchForSSIDsTests extends AbstractBaseAndroidJUnit4TestClass {
     getMockWiseFyPrechecksUtil().searchForSSIDs_failure();
     final SearchForSSIDsCallbacks mockCallbacks = mock(SearchForSSIDsCallbacks.class);
     getWiseFy().searchForSSIDs(TEST_SSID, mockCallbacks);
-    verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).searchForSSIDsWiseFyFailure(WiseFyCodeDefs.MISSING_PREREQUISITE);
+    verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).searchForSSIDsWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
   }
 
   @Test

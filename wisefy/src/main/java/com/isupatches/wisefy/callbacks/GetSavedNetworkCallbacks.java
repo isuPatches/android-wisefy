@@ -21,6 +21,8 @@ import android.net.wifi.WifiConfiguration;
  * Callbacks for retrieving a saved network on a device.
  *
  * @see com.isupatches.wisefy.WiseFy#getSavedNetwork(String, GetSavedNetworkCallbacks)
+ *
+ * @author Patches
  */
 public interface GetSavedNetworkCallbacks {
   void getSavedNetworkWiseFyFailure(int wisefyReturnCode);

@@ -27,12 +27,15 @@ import com.isupatches.wisefy.annotations.Internal;
 @Internal
 public final class SleepUtil {
 
+  private static final int BASE_DELAY = 1000;
+
   private static final SleepUtil SLEEP_UTIL = new SleepUtil();
 
   /**
-   * Private constructor.
+   * Private constructor for instance creation.
    */
   private SleepUtil() {
+    // No-op
   }
 
   /**
@@ -46,11 +49,20 @@ public final class SleepUtil {
   }
 
   /**
+   * To sleep the calling thread for a second.
+   *
+   * @see #sleep(long)
+   */
+  public void rest() {
+    sleep(BASE_DELAY);
+  }
+
+  /**
    * Used to wait for a given amount of time (in milliseconds).
    *
    * @param timeToSleepInMillis The number of milliseconds to sleep
    */
-  public void sleep(final long timeToSleepInMillis) {
+  private void sleep(final long timeToSleepInMillis) {
     try {
       Thread.sleep(timeToSleepInMillis);
     } catch (InterruptedException ie) {

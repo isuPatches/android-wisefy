@@ -15,30 +15,36 @@
  */
 package com.isupatches.wisefy.constants;
 
-import android.support.annotation.StringDef;
+import android.support.annotation.IntDef;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
- * Constants for different network types.
+ * Constants for commons codes returned from the WiseFy library.
+ *
+ * @author Patches
  */
-public final class NetworkTypeDefs {
+public final class WiseFyCodes {
 
-  public static final String MOBILE = "MOBILE";
-  public static final String WIFI = "WIFI";
+  public static final int DEFAULT_PRECHECK_RETURN = 0;
+  public static final int MISSING_PARAMETER = -1000;
+  public static final int MISSING_PREREQUISITE = -1001;
+  public static final int NETWORK_ALREADY_CONFIGURED = -1002;
 
-  private NetworkTypeDefs() {
+  private WiseFyCodes() {
     // No-op
   }
 
   /**
-   * Interface to avoid magic numbers when using network types.
+   * Interface to avoid magic numbers when using WiseFy codes.
    */
   @Retention(RetentionPolicy.SOURCE)
-  @StringDef({
-          MOBILE,
-          WIFI
+  @IntDef({
+          DEFAULT_PRECHECK_RETURN,
+          MISSING_PARAMETER,
+          MISSING_PREREQUISITE,
+          NETWORK_ALREADY_CONFIGURED
   })
-  public @interface NetworkTypes {}
+  public @interface WiseFyCode {}
 }

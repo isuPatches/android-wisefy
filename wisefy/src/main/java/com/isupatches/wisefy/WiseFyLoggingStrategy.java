@@ -13,21 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.wisefy.callbacks;
+package com.isupatches.wisefy;
 
-import android.net.wifi.WifiConfiguration;
+import android.support.annotation.NonNull;
 
 /**
- * Callbacks for adding an open network.
- *
- * @see com.isupatches.wisefy.WiseFy#addOpenNetwork(String, AddOpenNetworkCallbacks)
+ * An interface for different logging options for implementation.
  *
  * @author Patches
  */
-public interface AddOpenNetworkCallbacks {
-  void addOpenNetworkWiseFyFailure(int wisefyReturnCode);
+interface WiseFyLoggingStrategy {
+  void debug(@NonNull String tag, @NonNull String message, @NonNull Object...args);
 
-  void failureAddingOpenNetwork(int wifiManagerReturn);
+  void warn(@NonNull String tag, @NonNull String message, @NonNull Object...args);
 
-  void openNetworkAdded(int newNetworkId, WifiConfiguration openNetworkConfig);
+  void error(@NonNull String tag, @NonNull String message, @NonNull Object...args);
+
+  void error(@NonNull String tag, @NonNull Throwable throwable, @NonNull String message, @NonNull Object...args);
 }

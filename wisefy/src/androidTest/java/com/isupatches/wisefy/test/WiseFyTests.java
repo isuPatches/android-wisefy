@@ -1,4 +1,4 @@
-package com.isupatches.wisefy;
+package com.isupatches.wisefy.test;
 
 import static com.isupatches.wisefy.TestUtils.TEST_NUMBER_OF_BARS;
 import static com.isupatches.wisefy.TestUtils.TEST_RSSI_LEVEL_HIGH;
@@ -11,6 +11,8 @@ import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 
 import com.google.android.gms.iid.InstanceID;
+import com.isupatches.wisefy.AbstractBaseAndroidJUnit4TestClass;
+import com.isupatches.wisefy.WiseFy;
 
 import org.junit.Test;
 
@@ -36,13 +38,13 @@ public class WiseFyTests extends AbstractBaseAndroidJUnit4TestClass {
   }
 
   @Test
-  public void builder_loggingFalse() {
+  public void brains_loggingFalse() {
     final WiseFy wisefy = new WiseFy.brains(InstrumentationRegistry.getContext()).logging(false).getSmarts();
     assertEquals(false, wisefy.isLoggingEnabled());
   }
 
   @Test
-  public void builder_loggingTrue() {
+  public void brains_loggingTrue() {
     final WiseFy wisefy = new WiseFy.brains(InstrumentationRegistry.getContext()).logging(true).getSmarts();
     assertEquals(true, wisefy.isLoggingEnabled());
   }

@@ -10,11 +10,13 @@ import com.isupatches.wisefy.AbstractBaseAndroidJUnit4TestClass;
 import org.junit.Test;
 
 /**
- * Tests the behavior of the WifiManager and Connectivity manager provider.
+ * Tests the behavior of the WifiManager and ConnectivityManager provider.
  *
  * @see ManagerUtil
  * @see ManagerUtil#getConnectivityManager()
  * @see ManagerUtil#getWiFiManager()
+ *
+ * @author Patches
  */
 public class ManagerUtilTests extends AbstractBaseAndroidJUnit4TestClass {
 

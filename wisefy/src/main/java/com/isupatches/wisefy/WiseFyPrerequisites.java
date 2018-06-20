@@ -17,6 +17,8 @@ package com.isupatches.wisefy;
 
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.isupatches.wisefy.annotations.Internal;
 
@@ -43,8 +45,8 @@ class WiseFyPrerequisites {
    * @see ConnectivityManager
    * @see WifiManager
    */
-  private WiseFyPrerequisites(final ConnectivityManager connectivityManager,
-                              final WifiManager wifiManager) {
+  private WiseFyPrerequisites(@Nullable final ConnectivityManager connectivityManager,
+                              @Nullable final WifiManager wifiManager) {
     this.connectivityManager = connectivityManager;
     this.wifiManager = wifiManager;
   }
@@ -60,8 +62,9 @@ class WiseFyPrerequisites {
    * @see ConnectivityManager
    * @see WifiManager
    */
-  static WiseFyPrerequisites create(final ConnectivityManager connectivityManager,
-                                    final WifiManager wifiManager) {
+  @NonNull
+  static WiseFyPrerequisites create(@Nullable final ConnectivityManager connectivityManager,
+                                    @Nullable final WifiManager wifiManager) {
     return new WiseFyPrerequisites(connectivityManager, wifiManager);
   }
 
@@ -73,11 +76,11 @@ class WiseFyPrerequisites {
   boolean hasPrerequisites() {
     boolean hasPrerequisites = true;
     if (wifiManager == null) {
-      WiseFyLogger.log().error(TAG, "Missing WifiManager");
+      WiseFyLogger.error(TAG, "Missing WifiManager");
       hasPrerequisites = false;
     }
     if (connectivityManager == null) {
-      WiseFyLogger.log().error(TAG, "Missing ConnectivityManager");
+      WiseFyLogger.error(TAG, "Missing ConnectivityManager");
       hasPrerequisites = false;
     }
     return hasPrerequisites;
@@ -108,7 +111,7 @@ class WiseFyPrerequisites {
   /**
    * Used internal to check if a prerequisite is missing.
    *
-   * @return bool - true if ConnectivityManager or WifiManager are null
+   * @return boolean - True if ConnectivityManager or WifiManager are null
    *
    * @see #hasPrerequisites()
    */

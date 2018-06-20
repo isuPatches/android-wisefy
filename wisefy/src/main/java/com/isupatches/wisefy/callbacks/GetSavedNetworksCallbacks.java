@@ -24,6 +24,8 @@ import java.util.List;
  *
  * @see com.isupatches.wisefy.WiseFy#getSavedNetworks(GetSavedNetworksCallbacks)
  * @see com.isupatches.wisefy.WiseFy#getSavedNetworks(String, GetSavedNetworksCallbacks)
+ *
+ * @author Patches
  */
 public interface GetSavedNetworksCallbacks {
   void getSavedNetworksWiseFyFailure(int wisefyReturnCode);

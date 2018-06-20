@@ -54,27 +54,14 @@ import org.junit.Test;
 
 /**
  * Used to test the visibility of the public API.
+ *
+ * @author Patches
  */
 public class PublicApiVisibilityTests {
 
   private WiseFy wisefy;
 
-  private GetSavedNetworksCallbacks savedNetworksCallbacks = new GetSavedNetworksCallbacks() {
-    @Override
-    public void getSavedNetworksWiseFyFailure(final int wisefyReturnCode) {
-
-    }
-
-    @Override
-    public void noSavedNetworksFound() {
-
-    }
-
-    @Override
-    public void retrievedSavedNetworks(final List<WifiConfiguration> savedNetworks) {
-
-    }
-  };
+  private final GetSavedNetworksCallbacks savedNetworksCallbacks = new MyGetSavedNetworksCallbacks();
 
   public PublicApiVisibilityTests() {
     // No-op
@@ -654,5 +641,22 @@ public class PublicApiVisibilityTests {
   @Test
   public void wifiManagerFailure_value() {
     assertEquals(WiseFy.WIFI_MANAGER_FAILURE, -1);
+  }
+
+  private static class MyGetSavedNetworksCallbacks implements GetSavedNetworksCallbacks {
+    @Override
+    public void getSavedNetworksWiseFyFailure(final int wisefyReturnCode) {
+
+    }
+
+    @Override
+    public void noSavedNetworksFound() {
+
+    }
+
+    @Override
+    public void retrievedSavedNetworks(final List<WifiConfiguration> savedNetworks) {
+
+    }
   }
 }

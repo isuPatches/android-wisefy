@@ -12,7 +12,7 @@ import static org.mockito.Mockito.verify;
 import com.isupatches.wisefy.AbstractBaseAndroidJUnit4TestClass;
 import com.isupatches.wisefy.WiseFy;
 import com.isupatches.wisefy.callbacks.RemoveNetworkCallbacks;
-import com.isupatches.wisefy.constants.WiseFyCodeDefs;
+import com.isupatches.wisefy.constants.WiseFyCodes;
 
 import org.junit.Test;
 
@@ -21,6 +21,8 @@ import org.junit.Test;
  *
  * @see WiseFy#removeNetwork(String)
  * @see WiseFy#removeNetwork(String, RemoveNetworkCallbacks)
+ *
+ * @author Patches
  */
 public class RemoveNetworkTests extends AbstractBaseAndroidJUnit4TestClass {
 
@@ -63,7 +65,7 @@ public class RemoveNetworkTests extends AbstractBaseAndroidJUnit4TestClass {
     getMockWiseFyPrechecksUtil().removeNetwork_failure();
     final RemoveNetworkCallbacks mockCallbacks = mock(RemoveNetworkCallbacks.class);
     getWiseFy().removeNetwork(TEST_SSID, mockCallbacks);
-    verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).removeNetworkWiseFyFailure(WiseFyCodeDefs.MISSING_PREREQUISITE);
+    verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).removeNetworkWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
     getVerificationUtil().didNotTryToRemoveNetwork();
   }
 

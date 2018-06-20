@@ -19,6 +19,8 @@ package com.isupatches.wisefy.callbacks;
  * Callbacks for finding a nearby SSID on a device.
  *
  * @see com.isupatches.wisefy.WiseFy#searchForSSID(String, int, SearchForSSIDCallbacks)
+ *
+ * @author Patches
  */
 public interface SearchForSSIDCallbacks {
   void searchForSSIDWiseFyFailure(int wisefyReturnCode);

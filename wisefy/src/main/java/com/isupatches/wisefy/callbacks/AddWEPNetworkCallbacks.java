@@ -21,6 +21,8 @@ import android.net.wifi.WifiConfiguration;
  * Callbacks for adding a WEP network.
  *
  * @see com.isupatches.wisefy.WiseFy#addWEPNetwork(String, String, AddWEPNetworkCallbacks)
+ *
+ * @author Patches
  */
 public interface AddWEPNetworkCallbacks {
   void addWEPNetworkWiseFyFailure(int wisefyReturnCode);

@@ -24,6 +24,8 @@ import java.lang.annotation.Target;
 
 /**
  * Denotes that a method has logic to wait for a long term operation to complete.
+ *
+ * @author Patches
  */
 @Documented
 @Target(ElementType.METHOD)

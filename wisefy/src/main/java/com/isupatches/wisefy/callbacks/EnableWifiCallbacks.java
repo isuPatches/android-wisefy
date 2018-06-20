@@ -19,6 +19,8 @@ package com.isupatches.wisefy.callbacks;
  * Callbacks for enabling a device's wifi.
  *
  * @see com.isupatches.wisefy.WiseFy#enableWifi(EnableWifiCallbacks)
+ *
+ * @author Patches
  */
 public interface EnableWifiCallbacks {
   void enableWifiWiseFyFailure(int wisefyReturnCode);

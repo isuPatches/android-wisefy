@@ -20,12 +20,13 @@ import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresPermission;
 
 import com.isupatches.wisefy.annotations.Internal;
 import com.isupatches.wisefy.annotations.WaitsForTimeout;
-import com.isupatches.wisefy.constants.CommonValues;
 import com.isupatches.wisefy.constants.Symbols;
 import com.isupatches.wisefy.utils.SleepUtil;
+import com.isupatches.wisefy.utils.StringUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +52,7 @@ class WiseFySearch {
    *
    * @see WiseFyPrerequisites
    */
-  private WiseFySearch(final WiseFyPrerequisites wisefyPrerequisites) {
+  private WiseFySearch(@NonNull final WiseFyPrerequisites wisefyPrerequisites) {
     this.wisefyPrerequisites = wisefyPrerequisites;
   }
 
@@ -62,9 +63,11 @@ class WiseFySearch {
    *
    * @return WiseFySearch - An instance of WiseFySearch
    *
+   * @see #WiseFySearch(WiseFyPrerequisites)
    * @see WiseFyPrerequisites
    */
-  static WiseFySearch create(final WiseFyPrerequisites wisefyPrerequisites) {
+  @NonNull
+  static WiseFySearch create(@NonNull final WiseFyPrerequisites wisefyPrerequisites) {
     return new WiseFySearch(wisefyPrerequisites);
   }
 
@@ -86,12 +89,15 @@ class WiseFySearch {
    * @see #accessPointMatchesRegex(ScanResult, String)
    * @see #hasHighestSignalStrength(List, ScanResult)
    * @see ScanResult
-   * @see SleepUtil#sleep(long)
+   * @see WifiManager#startScan()
+   * @see WifiManager#getScanResults()
+   * @see SleepUtil#rest()
    * @see WiseFyPrerequisites#getWifiManager()
    */
   @Nullable
   @WaitsForTimeout
-  ScanResult findAccessPointByRegex(@NonNull final String regexForSSID, final Integer timeoutInMillis, final boolean takeHighest) {
+  @RequiresPermission(android.Manifest.permission.ACCESS_WIFI_STATE)
+  ScanResult findAccessPointByRegex(@NonNull final String regexForSSID, final int timeoutInMillis, final boolean takeHighest) {
     int scanPass = 1;
     long currentTime;
     final long endTime = System.currentTimeMillis() + timeoutInMillis;
@@ -99,30 +105,37 @@ class WiseFySearch {
     do {
       currentTime = System.currentTimeMillis();
 
-      WiseFyLogger.log().debug(TAG, "Scanning SSIDs, pass %debug", scanPass);
+      WiseFyLogger.debug(TAG, "Scanning SSIDs, pass %d", scanPass);
       wisefyPrerequisites.getWifiManager().startScan();
       final List<ScanResult> accessPoints = wisefyPrerequisites.getWifiManager().getScanResults();
       if (accessPoints == null || accessPoints.isEmpty()) {
         continue;
       }
 
+      boolean found = false;
       for (ScanResult accessPoint : accessPoints) {
         if (accessPointMatchesRegex(accessPoint, regexForSSID)) {
           if (takeHighest) {
             if (hasHighestSignalStrength(accessPoints, accessPoint)) {
               accessPointToReturn = accessPoint;
+              // Need to continue through rest of the list since we don't know which one will have the highest
               break;
             }
           } else {
             accessPointToReturn = accessPoint;
+            found = true;
             break;
           }
         }
       }
 
-      SleepUtil.getInstance().sleep(CommonValues.DELAY);
+      if (found) {
+        break;
+      }
 
-      WiseFyLogger.log().debug(TAG, "Current time: %debug, end time: %debug (findAccessPointByRegex)", currentTime, endTime);
+      SleepUtil.getInstance().rest();
+
+      WiseFyLogger.debug(TAG, "Current time: %d, end time: %d (findAccessPointByRegex)", currentTime, endTime);
       scanPass++;
     } while (currentTime < endTime);
     return accessPointToReturn;
@@ -139,9 +152,12 @@ class WiseFySearch {
    * @see #accessPointMatchesRegex(ScanResult, String)
    * @see #hasHighestSignalStrength(List, ScanResult)
    * @see ScanResult
+   * @see WifiManager#startScan()
+   * @see WifiManager#getScanResults()
    * @see WiseFyPrerequisites#getWifiManager()
    */
   @Nullable
+  @RequiresPermission(android.Manifest.permission.ACCESS_WIFI_STATE)
   List<ScanResult> findAccessPointsMatchingRegex(@NonNull final String regexForSSID, final boolean takeHighest) {
     wisefyPrerequisites.getWifiManager().startScan();
     final List<ScanResult> matchingAccessPoints = new ArrayList<>();
@@ -175,12 +191,13 @@ class WiseFySearch {
    *
    * @see #savedNetworkMatchesRegex(WifiConfiguration, String)
    * @see WifiConfiguration
+   * @see WifiManager#getConfiguredNetworks()
    * @see WiseFyPrerequisites#getWifiManager()
    */
   @Nullable
+  @RequiresPermission(android.Manifest.permission.ACCESS_WIFI_STATE)
   WifiConfiguration findSavedNetworkByRegex(@NonNull final String regexForSSID) {
     final List<WifiConfiguration> savedNetworks = wisefyPrerequisites.getWifiManager().getConfiguredNetworks();
-
     if (savedNetworks == null || savedNetworks.isEmpty()) {
       return null;
     }
@@ -204,9 +221,11 @@ class WiseFySearch {
    *
    * @see #savedNetworkMatchesRegex(WifiConfiguration, String)
    * @see WifiConfiguration
+   * @see WifiManager#getConfiguredNetworks()
    * @see WiseFyPrerequisites#getWifiManager()
    */
   @Nullable
+  @RequiresPermission(android.Manifest.permission.ACCESS_WIFI_STATE)
   List<WifiConfiguration> findSavedNetworksMatchingRegex(@NonNull final String regexForSSID) {
     final List<WifiConfiguration> savedNetworks = wisefyPrerequisites.getWifiManager().getConfiguredNetworks();
     final List<WifiConfiguration> matchingSavedNetworks = new ArrayList<>();
@@ -232,9 +251,12 @@ class WiseFySearch {
    * @return List of Strings|null - SSIDs of saved network configurations matching the given regex or null if none found
    *
    * @see #accessPointMatchesRegex(ScanResult, String)
+   * @see WifiManager#getScanResults()
+   * @see WifiManager#startScan()
    * @see WiseFyPrerequisites#getWifiManager()
    */
   @Nullable
+  @RequiresPermission(android.Manifest.permission.ACCESS_WIFI_STATE)
   List<String> findSSIDsMatchingRegex(@NonNull final String regexForSSID) {
     wisefyPrerequisites.getWifiManager().startScan();
     final List<String> matchingSSIDs = new ArrayList<>();
@@ -257,10 +279,12 @@ class WiseFySearch {
    *
    * @return boolean - True if the ssid was found in the configuration list
    *
+   * @see StringUtil#isNotEmpty(String)
    * @see #findSavedNetworkByRegex(String)
    */
-  boolean isNetworkASavedConfiguration(@NonNull final String ssid) {
-    return findSavedNetworkByRegex(ssid) != null;
+  @RequiresPermission(android.Manifest.permission.ACCESS_WIFI_STATE)
+  boolean isNetworkASavedConfiguration(@Nullable final String ssid) {
+    return StringUtil.isNotEmpty(ssid) && findSavedNetworkByRegex(ssid) != null;
   }
 
   /**
@@ -273,6 +297,7 @@ class WiseFySearch {
    * @return List of ScanResults - The filtered list of networks
    *
    * @see ScanResult
+   * @see WifiManager#compareSignalLevel(int, int)
    */
   @NonNull
   List<ScanResult> removeEntriesWithLowerSignalStrength(@NonNull final List<ScanResult> accessPoints) {
@@ -282,23 +307,23 @@ class WiseFySearch {
       boolean found = false;
       for (int i = 0; i < accessPointsToReturn.size(); i++) {
         final ScanResult scanResult = accessPointsToReturn.get(i);
-        WiseFyLogger.log().debug(TAG, "SSID 1: %s, SSID 2: %s", accessPoint.SSID, scanResult.SSID);
+        WiseFyLogger.debug(TAG, "SSID 1: %s, SSID 2: %s", accessPoint.SSID, scanResult.SSID);
         if (accessPoint.SSID.equalsIgnoreCase(scanResult.SSID)) {
           found = true;
-          WiseFyLogger.log().debug(TAG, "RSSI level of access point 1: %debug", scanResult.level);
-          WiseFyLogger.log().debug(TAG, "RSSI level of access point 2: %debug", accessPoint.level);
-          WiseFyLogger.log().debug(TAG, "comparison result: %debug (removeEntriesWithLowerSignalStrength)",
+          WiseFyLogger.debug(TAG, "RSSI level of access point 1: %d", scanResult.level);
+          WiseFyLogger.debug(TAG, "RSSI level of access point 2: %d", accessPoint.level);
+          WiseFyLogger.debug(TAG, "comparison result: %d (removeEntriesWithLowerSignalStrength)",
                                     WifiManager.compareSignalLevel(accessPoint.level,
                                     scanResult.level));
           if (WifiManager.compareSignalLevel(accessPoint.level, scanResult.level) > 0) {
-            WiseFyLogger.log().debug(TAG, "New result has a higher or same signal strength, swapping");
+            WiseFyLogger.debug(TAG, "New result has a higher or same signal strength, swapping");
             accessPointsToReturn.set(i, accessPoint);
           }
         }
       }
 
       if (!found) {
-        WiseFyLogger.log().debug(TAG, "Found new wifi network");
+        WiseFyLogger.debug(TAG, "Found new wifi network");
         accessPointsToReturn.add(accessPoint);
       }
     }
@@ -315,11 +340,11 @@ class WiseFySearch {
    * @param accessPoint The access point for comparison
    * @param regexForSSID The regex for comparison
    *
-   * @return bool - true if the access point's SSID matches the given regex
+   * @return boolean - True if the access point's SSID matches the given regex
    */
   private boolean accessPointMatchesRegex(@Nullable final ScanResult accessPoint, @NonNull final String regexForSSID) {
     if (accessPoint != null) {
-      WiseFyLogger.log().debug(TAG, String.format("accessPoint. SSID: %s, regex for SSID: %s", accessPoint.SSID, regexForSSID));
+      WiseFyLogger.debug(TAG, String.format("accessPoint. SSID: %s, regex for SSID: %s", accessPoint.SSID, regexForSSID));
       return accessPoint.SSID != null && (accessPoint.SSID).matches(regexForSSID);
     } else {
       return false;
@@ -336,17 +361,19 @@ class WiseFySearch {
    * @param currentAccessPoint The access point to see if it has the highest signal strength
    *
    * @return boolean - True if the current access point has the highest signal strength
+   *
+   * @see WifiManager#compareSignalLevel(int, int)
    */
   private boolean hasHighestSignalStrength(@NonNull final List<ScanResult> accessPoints, @NonNull final ScanResult currentAccessPoint) {
     for (ScanResult accessPoint : accessPoints) {
       if (accessPoint.SSID.equalsIgnoreCase(currentAccessPoint.SSID)) {
-        WiseFyLogger.log().debug(TAG, "RSSI level of current access point: %debug", currentAccessPoint.level);
-        WiseFyLogger.log().debug(TAG, "RSSI level of access point in list: %debug", accessPoint.level);
-        WiseFyLogger.log().debug(TAG, "comparison result: %debug (hasHighestSignalStrength)",
+        WiseFyLogger.debug(TAG, "RSSI level of current access point: %d", currentAccessPoint.level);
+        WiseFyLogger.debug(TAG, "RSSI level of access point in list: %d", accessPoint.level);
+        WiseFyLogger.debug(TAG, "comparison result: %d (hasHighestSignalStrength)",
                                   WifiManager.compareSignalLevel(accessPoint.level,
                                   currentAccessPoint.level));
         if (WifiManager.compareSignalLevel(accessPoint.level, currentAccessPoint.level) > 0) {
-          WiseFyLogger.log().debug(TAG, "Stronger signal strength found");
+          WiseFyLogger.debug(TAG, "Stronger signal strength found");
           return false;
         }
       }
@@ -360,7 +387,7 @@ class WiseFySearch {
    * @param savedNetwork The saved network for comparison
    * @param regexForSSID The regex for comparison
    *
-   * @return bool - true if the saved network's SSID matches the given regex
+   * @return boolean - True if the saved network's SSID matches the given regex
    */
   private boolean savedNetworkMatchesRegex(@Nullable final WifiConfiguration savedNetwork, @NonNull final String regexForSSID) {
     if (savedNetwork != null && savedNetwork.SSID != null) {

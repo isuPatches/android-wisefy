@@ -12,6 +12,8 @@ import org.junit.Test;
  * Tests the ability to determine if a device is connected to a wifi network.
  *
  * @see WiseFy#isDeviceConnectedToWifiNetwork()
+ *
+ * @author Patches
  */
 public class IsDeviceConnectedToWifiNetworkTests extends AbstractBaseAndroidJUnit4TestClass {
 

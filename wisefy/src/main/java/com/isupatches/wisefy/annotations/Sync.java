@@ -24,6 +24,8 @@ import java.lang.annotation.Target;
 
 /**
  * Denotes that a method is synchronous.
+ *
+ * @author Patches
  */
 @Documented
 @Target(ElementType.METHOD)

@@ -16,6 +16,7 @@
 package com.isupatches.wisefy.threads;
 
 import android.os.HandlerThread;
+import android.support.annotation.NonNull;
 
 import com.isupatches.wisefy.WiseFy;
 
@@ -30,7 +31,7 @@ public final class WiseFyHandlerThread extends HandlerThread {
 
   public static final String TAG = WiseFyHandlerThread.class.getSimpleName();
 
-  public WiseFyHandlerThread(final String name) {
+  public WiseFyHandlerThread(@NonNull final String name) {
     super(name);
   }
 

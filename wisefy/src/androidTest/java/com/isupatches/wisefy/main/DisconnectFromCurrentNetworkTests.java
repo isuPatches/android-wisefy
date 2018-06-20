@@ -11,7 +11,7 @@ import static org.mockito.Mockito.verify;
 import com.isupatches.wisefy.AbstractBaseAndroidJUnit4TestClass;
 import com.isupatches.wisefy.WiseFy;
 import com.isupatches.wisefy.callbacks.DisconnectFromCurrentNetworkCallbacks;
-import com.isupatches.wisefy.constants.WiseFyCodeDefs;
+import com.isupatches.wisefy.constants.WiseFyCodes;
 
 import org.junit.Test;
 
@@ -55,7 +55,7 @@ public class DisconnectFromCurrentNetworkTests extends AbstractBaseAndroidJUnit4
     getMockWiseFyPrechecksUtil().disconnectFromCurrentNetwork_failure();
     final DisconnectFromCurrentNetworkCallbacks mockCallbacks = mock(DisconnectFromCurrentNetworkCallbacks.class);
     getWiseFy().disconnectFromCurrentNetwork(mockCallbacks);
-    verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).disconnectFromCurrentNetworkWiseFyFailure(WiseFyCodeDefs.MISSING_PREREQUISITE);
+    verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).disconnectFromCurrentNetworkWiseFyFailure(WiseFyCodes.MISSING_PREREQUISITE);
     getVerificationUtil().didNotTryToDisconnectFromCurrentNetwork();
   }
 

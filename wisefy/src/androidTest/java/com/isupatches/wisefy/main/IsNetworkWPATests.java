@@ -7,7 +7,7 @@ import android.net.wifi.ScanResult;
 import com.isupatches.wisefy.AbstractBaseAndroidJUnit4TestClass;
 import com.isupatches.wisefy.GeneratorUtil;
 import com.isupatches.wisefy.WiseFy;
-import com.isupatches.wisefy.constants.CapabilityDefs;
+import com.isupatches.wisefy.constants.Capabilities;
 
 import org.junit.Test;
 
@@ -15,6 +15,8 @@ import org.junit.Test;
  * Tests the ability to determine if a network has WPA security.
  *
  * @see WiseFy#isNetworkWPA(ScanResult)
+ *
+ * @author Patches
  */
 public class IsNetworkWPATests extends AbstractBaseAndroidJUnit4TestClass {
 
@@ -47,7 +49,7 @@ public class IsNetworkWPATests extends AbstractBaseAndroidJUnit4TestClass {
 
   @Test
   public void success() {
-    final ScanResult scanResult = GeneratorUtil.createMockAccessPointWithCapabilities(CapabilityDefs.WPA);
+    final ScanResult scanResult = GeneratorUtil.createMockAccessPointWithCapabilities(Capabilities.WPA);
     assertEquals(true, getWiseFy().isNetworkWPA(scanResult));
   }
 }

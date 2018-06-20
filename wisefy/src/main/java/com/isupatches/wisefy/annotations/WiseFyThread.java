@@ -26,6 +26,8 @@ import java.lang.annotation.Target;
  * Denotes that a method is executed on the WiseFyHandler thread.
  *
  * @see com.isupatches.wisefy.threads.WiseFyHandlerThread
+ *
+ * @author Patches
  */
 @Documented
 @Target(ElementType.METHOD)
