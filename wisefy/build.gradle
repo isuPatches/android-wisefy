@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 
 android {
 
@@ -19,10 +20,10 @@ android {
         showAll true
         explainIssues true
         abortOnError true
-//        enable 'AppLinksAutoVerifyError', 'AppLinksAutoVerifyWarning', 'BackButton',
-//                'EasterEgg', 'FieldGetter', 'GoogleAppIndexingApiWarning', 'IconExpectedSize',
-//                'LogConditional', 'MangledCRLF', 'NegativeMargin', 'NewerVersionAvailable',
-//                'SelectableText', 'StopShip', 'TrulyRandom', 'TypographyQuotes', 'UnusedIds'
+        enable 'AppLinksAutoVerifyError', 'AppLinksAutoVerifyWarning', 'BackButton',
+                'EasterEgg', 'FieldGetter', 'GoogleAppIndexingApiWarning', 'IconExpectedSize',
+                'LogConditional', 'MangledCRLF', 'NegativeMargin', 'NewerVersionAvailable',
+                'SelectableText', 'StopShip', 'TrulyRandom', 'TypographyQuotes', 'UnusedIds'
     }
 
     compileSdkVersion rootProject.ext.MAX_SDK_VERSION
@@ -61,34 +62,43 @@ android {
             jni.srcDirs = [] //disable automatic ndk-build call
         }
 
-        // This lets us write test utility code that can be used by both unit tests and android tests
-        commonTest {
-            java
-        }
-
         test {
-            java.srcDirs += commonTest.java.srcDirs
+            java.srcDirs += 'src/commonTest/java'
         }
 
         androidTest {
-            java.srcDirs += commonTest.java.srcDirs
+            java.srcDirs += 'src/commonTest/java'
         }
     }
 }
 
-apply from: rootProject.file('wisefy/gradle/dependencies.gradle')
+ext {
+    espresso_version = '3.0.2'
+    junit_version = '4.12'
+    kluent_version = '1.38'
+    mockito_version = '2.21.0'
+    support_libs_version = '27.1.1'
+    test_runner_version = '1.0.2'
+}
 
-// Static analysis tasks
-apply from: rootProject.file('wisefy/gradle/checkstyle.gradle')
-apply from: rootProject.file('wisefy/gradle/cpd.gradle')
-apply from: rootProject.file('wisefy/gradle/dexcount.gradle')
-apply from: rootProject.file('wisefy/gradle/findbugs.gradle')
-apply from: rootProject.file('wisefy/gradle/pmd.gradle')
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "com.android.support:support-annotations:$support_libs_version"
 
-// Verification tasks
-apply from: rootProject.file('wisefy/gradle/custom-tasks.gradle')
-apply from: rootProject.file('wisefy/gradle/jacoco.gradle')
+    // Kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
-// Release related gradle tasks
-apply from: rootProject.file('gradle/gradle-bintray-install.gradle')
-apply from: rootProject.file('gradle/gradle-bintray-upload.gradle')
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:$espresso_version"
+    androidTestImplementation "org.mockito:mockito-core:$mockito_version"
+    androidTestImplementation "org.mockito:mockito-android:$mockito_version"
+    androidTestImplementation "com.android.support.test:runner:$test_runner_version"
+    // For issue #55 / IllegalAccessError conflict test
+    //noinspection GradleDependency
+    androidTestImplementation 'com.google.android.gms:play-services-gcm:8.3.0'
+
+    testImplementation "org.mockito:mockito-core:$mockito_version"
+    testImplementation "junit:junit:$junit_version"
+}
+
+apply from: rootProject.file("$rootProject.projectDir/gradle/gradle-bintray-install.gradle")
+apply from: rootProject.file("$rootProject.projectDir/gradle/gradle-bintray-upload.gradle")

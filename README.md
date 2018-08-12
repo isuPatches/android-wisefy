@@ -10,19 +10,22 @@ Wifi configuration and util library built for Android.
 
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-WiseFy-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/6011) [![Android Weekly](https://img.shields.io/badge/Android%20Weekly-%23230-blue.svg)](http://androidweekly.net/issues/issue-230) 
 
-## What's New in 2.1.x
+## What's New in 3.x
 
-- Ability to get the IP of the device
+- Rewritten in Kotlin
+    - Static analysis tools added
+- Ability to get the IP of a device
 - Additional details in callback for adding a network:
     - The new id of the network
     - The WifiConfiguration of the network that was added
 - isNetworkInConfigurationList renamed isNetworkSaved
-- Nullability annotations
-- Definitions for NetworkTypes and WiseFyCodes (please see NetworkTypeDefs and WiseFyCodeDefs)
+- brains renamed Brains
+- Nullability issues will be more visible
+- Definitions for NetworkTypes and WiseFyCodes
 - Immutability throughout the library
 - Improved architecture
 - Updated dependencies
-- Updated to Gradle 4.3.x and AGP 3.x
+- Updated to Gradle 4.x and AGP 3.x
 - Target now is set to API 27
 - Less duplicate code
 - Improved testing
@@ -91,16 +94,18 @@ You may also download the @aar from the <a href="https://github.com/isuPatches/W
 
 WiseFy is constructed with the builder pattern that allows you access to the synchronous and asynchronous APIs.
 
+*NOTE* The context passed in must be non-null.
+
 To grab a default instance:
 
 ```java
-WiseFy wiseFy = new WiseFy.brains(getActivity()).getSmarts();
+WiseFy wisefy = new WiseFy.Brains(getActivity()).getSmarts();
 ```
 
 To grab an instance with logging enabled:
 
 ```java
-WiseFy wiseFy = new WiseFy.brains(getActivity()).logging(true).getSmarts();
+WiseFy wisefy = new WiseFy.Brains(getActivity()).logging(true).getSmarts();
 ```
 
 ## Cleanup
@@ -110,7 +115,7 @@ Since the Async API of WiseFy is run on a background thread, it is necessary to 
 To stop the WiseFy thread and nullify it along with it's handler please call:
 
 ```java
-wiseFy.dump();
+wisefy.dump();
 ```
 
 ## Permissions
@@ -137,7 +142,7 @@ Please check [the permssions example](/documentation/permissions_example.md) for
 Please check [the documentation markdown directory](/documentation) for usage examples and details about both the synchronous and asynchronous API.
 
 ## License ##
-Copyright 2017 Patches Klinefelter
+Copyright 2018 Patches Klinefelter
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
 compliance with the License. You may obtain a copy of the License at

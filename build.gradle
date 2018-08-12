@@ -1,11 +1,12 @@
 buildscript {
     project.ext {
-        bintrayVersion = '1.7.3'
-        cpdVersion = '1.0'
-        dexcountVersion = '0.8.2'
-        gradlePluginVersion = '3.0.1'
-        jacocoVersion = '0.7.9'
-        mavenPlugin = '2.0'
+        agp_version = '3.1.0'
+        bintray_version = '1.7.3'
+        cpd_version = '1.1'
+        dexcount_version = '0.8.3'
+        jacoco_version = '0.8.1'
+        kotlin_version = "1.2.60"
+        maven_version = '2.0'
     }
 
     repositories {
@@ -15,15 +16,34 @@ buildscript {
     }
 
     dependencies {
-        classpath "com.android.tools.build:gradle:${gradlePluginVersion}"
-        classpath "com.getkeepsafe.dexcount:dexcount-gradle-plugin:${dexcountVersion}"
-        classpath "com.github.dcendents:android-maven-gradle-plugin:${mavenPlugin}"
-        classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:${bintrayVersion}"
-        classpath "de.aaschmid:gradle-cpd-plugin:${cpdVersion}"
-        classpath "org.jacoco:org.jacoco.core:${jacocoVersion}"
-        classpath "org.jacoco:org.jacoco.agent:${jacocoVersion}"
-        classpath "org.jacoco:org.jacoco.report:${jacocoVersion}"
+        classpath "com.android.tools.build:gradle:$agp_version"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "com.getkeepsafe.dexcount:dexcount-gradle-plugin:$dexcount_version"
+        classpath "com.github.dcendents:android-maven-gradle-plugin:$maven_version"
+        classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:$bintray_version"
+        classpath "de.aaschmid:gradle-cpd-plugin:$cpd_version"
+        classpath "org.jacoco:org.jacoco.core:$jacoco_version"
+        classpath "org.jacoco:org.jacoco.agent:$jacoco_version"
+        classpath "org.jacoco:org.jacoco.report:$jacoco_version"
     }
+}
+
+plugins {
+    id "io.gitlab.arturbosch.detekt" version "1.0.0.RC8"
+    id "org.jlleitschuh.gradle.ktlint" version "5.0.0"
+}
+
+apply from: rootProject.file("$rootProject.projectDir/gradle/detekt.gradle")
+apply from: rootProject.file("$rootProject.projectDir/gradle/ktlint.gradle")
+apply from: rootProject.file("$rootProject.projectDir/gradle/static-analysis.gradle")
+
+subprojects {
+    apply plugin: "org.jlleitschuh.gradle.ktlint"
+
+    apply from: rootProject.file("$rootProject.projectDir/gradle/cpd.gradle")
+    apply from: rootProject.file("$rootProject.projectDir/gradle/pmd.gradle")
+
+    apply from: rootProject.file("$rootProject.projectDir/gradle/jacoco.gradle")
 }
 
 allprojects {
@@ -93,4 +113,16 @@ ext {
     MIN_SDK_VERSION = 16
     VERSION_CODE = 13
     VERSION_NAME = "2.1.0"
+}
+
+task makeGoodChoices {
+    group = "verification"
+
+    dependsOn 'staticAnalysisSanityCheck', 'jacocoAllCombinedTests'
+    doLast {
+        println "\n#############################################" +
+                "\n# All checks passed! You are doing so good! #" +
+                "\n# You may now push the awesome to origin :) #" +
+                "\n#############################################"
+    }
 }
