@@ -51,7 +51,7 @@ import org.junit.Test
  *
  * @author Patches
  */
-@Suppress("LargeClass")
+@Suppress("LargeClass","UndocumentedPublicFunction")
 class PublicApiVisibilityTests {
 
     private val wisefy = mock(WiseFyPublicApi::class.java)

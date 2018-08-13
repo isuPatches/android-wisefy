@@ -75,7 +75,6 @@ android {
 ext {
     espresso_version = '3.0.2'
     junit_version = '4.12'
-    kluent_version = '1.38'
     mockito_version = '2.21.0'
     support_libs_version = '27.1.1'
     test_runner_version = '1.0.2'

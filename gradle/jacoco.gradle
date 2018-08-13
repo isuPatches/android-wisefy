@@ -1,46 +1,144 @@
 apply plugin: 'jacoco'
 
-def coverageSourceDirs = [
-        '../wisefy/src/main/java'
-]
+jacoco {
+    toolVersion = "0.8.1"
+}
 
-def classDirs = fileTree(
-        dir: '../wisefy/build/intermediates/classes/debug/com/',
-        excludes: ['**/R.class',
-                   '**/R$*.class',
-                   '**/*$ViewBinder*.*',
-                   '**/*MembersInjector*.*',
-                   '**/BuildConfig.*',
-                   '**/Manifest*.*',
-                   '**/*$Lambda$*.class',
-                   '**/*Factory*.class',
-                   '**/*$Builder*'])
+def srcDirs = ["src/main/java"]
 
-task jacocoDebugTestReport(type: JacocoReport) {
-    dependsOn = ["connectedDebugAndroidTest", "testDebugUnitTest"]
-    group = "Reporting"
-    description = "Run tests and generate Jacoco coverage report for debug"
-    classDirectories = classDirs
-    additionalSourceDirs = files(coverageSourceDirs)
-    sourceDirectories = files(coverageSourceDirs)
-    executionData = files([fileTree(dir: 'build/outputs/code-coverage/connected', include: '**/*.ec'), fileTree(dir: 'build/jacoco', include: '**/*.exec')])
+def excludes = ['**/R.class',
+                '**/R$*.class',
+                '**/*$ViewBinder*.*',
+                '**/*MembersInjector*.*',
+                '**/BuildConfig.*',
+                '**/Manifest*.*',
+                '**/*$Lambda$*.class',
+                '**/*Factory*.class',
+                '**/*$Builder*']
 
-    reports {
-        xml.enabled = false
-        html.enabled = true
+project.afterEvaluate {
+    def variants = getVariants()
+    if (variants != null) {
+        variants.all { variant ->
+            task("jacoco${variant.name.capitalize()}UnitTest", type: JacocoReport, dependsOn: "test${variant.name.capitalize()}UnitTest") {
+                group = "verification"
+
+                classDirectories = getClassDirs('debug', 'debug', excludes)
+                additionalSourceDirs = files(srcDirs)
+                sourceDirectories = files(srcDirs)
+                executionData = fileTree(dir: "$project.buildDir/jacoco", includes: [
+                    "**/*.exec"
+                ])
+
+                reports {
+                    xml.enabled = false
+                    html.enabled = true
+                }
+            }
+
+            task("jacoco${variant.name.capitalize()}UnitTestReport", type: JacocoReport) {
+                group = "verification"
+
+                classDirectories = getClassDirs('debug', 'debug', excludes)
+                additionalSourceDirs = files(srcDirs)
+                sourceDirectories = files(srcDirs)
+                executionData = fileTree(dir: "$project.buildDir/jacoco", includes: [
+                    "**/*.exec"
+                ])
+
+                reports {
+                    xml.enabled = false
+                    html.enabled = true
+                }
+            }
+
+            task("jacoco${variant.name.capitalize()}AndroidTest", type: JacocoReport, dependsOn: "connected${variant.name.capitalize()}AndroidTest") {
+                group = "verification"
+
+                classDirectories = getClassDirs('debug', 'debug', excludes)
+                additionalSourceDirs = files(srcDirs)
+                sourceDirectories = files(srcDirs)
+                executionData = fileTree(dir: "$project.buildDir/outputs/code-coverage/connected", includes: [
+                    '**/*.ec'
+                ])
+
+                reports {
+                    xml.enabled = false
+                    html.enabled = true
+                }
+            }
+
+            task("jacoco${variant.name.capitalize()}AndroidTestReport", type: JacocoReport) {
+                group = "verification"
+
+                classDirectories = getClassDirs('debug', 'debug', excludes)
+                additionalSourceDirs = files(srcDirs)
+                sourceDirectories = files(srcDirs)
+                executionData = fileTree(dir: "$project.buildDir/outputs/code-coverage/connected", includes: [
+                    '**/*.ec'
+                ])
+
+                reports {
+                    xml.enabled = false
+                    html.enabled = true
+                }
+            }
+
+            task("jacoco${variant.name.capitalize()}CombinedTest", type: JacocoReport, dependsOn: ["test${variant.name.capitalize()}UnitTest", "connected${variant.name.capitalize()}AndroidTest"]) {
+                group = "verification"
+
+                classDirectories = getClassDirs('debug', 'debug', excludes)
+                additionalSourceDirs = files(srcDirs)
+                sourceDirectories = files(srcDirs)
+                executionData = files([
+                    fileTree(dir: "$project.buildDir/outputs/code-coverage/connected", include: '**/*.ec'),
+                    fileTree(dir: "$project.buildDir/jacoco", include: '**/*.exec')
+                ])
+
+                reports {
+                    xml.enabled = false
+                    html.enabled = true
+                }
+            }
+
+            task("jacoco${variant.name.capitalize()}CombinedTestReport", type: JacocoReport) {
+                group = "verification"
+
+                classDirectories = getClassDirs('debug', 'debug', excludes)
+                additionalSourceDirs = files(srcDirs)
+                sourceDirectories = files(srcDirs)
+                executionData = files([
+                    fileTree(dir: "$project.buildDir/outputs/code-coverage/connected", include: '**/*.ec'),
+                    fileTree(dir: "$project.buildDir/jacoco", include: '**/*.exec')
+                ])
+
+                reports {
+                    xml.enabled = false
+                    html.enabled = true
+                }
+            }
+        }
     }
 }
 
-task jacocoDebugReport(type: JacocoReport) {
-    group = "Reporting"
-    description = "Generate Jacoco coverage report for debug"
-    classDirectories = classDirs
-    additionalSourceDirs = files(coverageSourceDirs)
-    sourceDirectories = files(coverageSourceDirs)
-    executionData = files([fileTree(dir: 'build/outputs/code-coverage/connected', include: '**/*.ec'), fileTree(dir: 'build/jacoco', include: '**/*.exec')])
+private def getClassDirs(String javaDirSuffix, String kotlinDirSuffix, excludes) {
+    def java = fileTree(
+        dir: "${buildDir}/intermediates/classes/${javaDirSuffix}",
+        excludes: excludes
+    )
+    def kotlin = fileTree(
+        dir: "${buildDir}/tmp/kotlin-classes/${kotlinDirSuffix}",
+        excludes: excludes
+    )
+    files([java], [kotlin])
+}
 
-    reports {
-        xml.enabled = false
-        html.enabled = true
+private def getVariants() {
+    if (project.hasProperty("android")) {
+        if (project.android.hasProperty('libraryVariants')) {
+            return project.android.libraryVariants
+        } else {
+            return project.android.applicationVariants
+        }
     }
 }

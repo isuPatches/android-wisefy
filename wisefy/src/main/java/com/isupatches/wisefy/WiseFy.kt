@@ -96,10 +96,20 @@ class WiseFy(
     companion object {
         private val TAG = WiseFy::class.java.simpleName
 
-        const val WIFI_MANAGER_FAILURE = -1
+        /**
+         *
+         */
+        const val WIFI_MANAGER_FAILURE: Int = -1
 
-        const val MIN_FREQUENCY_5GHZ = 4900
-        const val MAX_FREQUENCY_5GHZ = 5900
+        /**
+         *
+         */
+        const val MIN_FREQUENCY_5GHZ: Int = 4900
+
+        /**
+         *
+         */
+        const val MAX_FREQUENCY_5GHZ: Int = 5900
     }
 
     private val wisefyLock = WiseFyLock()
@@ -107,6 +117,9 @@ class WiseFy(
     private var wisefyHandlerThread: WiseFyHandlerThread? = null
     private var wisefyHandler: Handler? = null
 
+    /**
+     *
+     */
     class Brains(context: Context) {
 
         private var loggingEnabled: Boolean = false
@@ -124,28 +137,49 @@ class WiseFy(
             wisefyPrechecks = WiseFyPrechecksImpl.create(wisefySearch)
         }
 
-        fun logging(loggingEnabled: Boolean) = apply { this.loggingEnabled = loggingEnabled }
+        /**
+         *
+         */
+        fun logging(loggingEnabled: Boolean): Brains = apply { this.loggingEnabled = loggingEnabled }
 
-        fun customConnectivityManager(connectivityManager: ConnectivityManager) = apply {
+        /**
+         *
+         */
+        fun customConnectivityManager(connectivityManager: ConnectivityManager): Brains = apply {
             this.connectivityManager = connectivityManager
         }
 
-        fun customWifiManager(wifiManager: WifiManager) = apply {
+        /**
+         *
+         */
+        fun customWifiManager(wifiManager: WifiManager): Brains = apply {
             this.wifiManager = wifiManager
         }
 
-        fun customWiseFyConnection(wisefyConnection: WiseFyConnection) = apply {
+        /**
+         *
+         */
+        fun customWiseFyConnection(wisefyConnection: WiseFyConnection): Brains = apply {
             this.wisefyConnection = wisefyConnection
         }
 
-        fun customWiseFyPrechecks(wisefyPrechecks: WiseFyPrechecks) = apply {
+        /**
+         *
+         */
+        fun customWiseFyPrechecks(wisefyPrechecks: WiseFyPrechecks): Brains = apply {
             this.wisefyPrechecks = wisefyPrechecks
         }
 
-        fun customWiseFySearch(wisefySearch: WiseFySearch) = apply {
+        /**
+         *
+         */
+        fun customWiseFySearch(wisefySearch: WiseFySearch): Brains = apply {
             this.wisefySearch = wisefySearch
         }
 
+        /**
+         *
+         */
         fun getSmarts(): WiseFy {
             WiseFyLogger.configureWiseFyLoggerImplementation(loggingEnabled)
             return WiseFy(
@@ -318,13 +352,10 @@ class WiseFy(
     /**
      * To compare the signal strength of two networks.
      *
-     *
-     *
      * This method will return:
      * - Negative value if the first signal is weaker than the second signal
      * - 0 if the two signals have the same strength
      * - Positive value if the first signal is stronger than the second signal
-     *
      *
      * @param rssi1 The signal strength of network 1
      * @param rssi2 The signal strength of network 2

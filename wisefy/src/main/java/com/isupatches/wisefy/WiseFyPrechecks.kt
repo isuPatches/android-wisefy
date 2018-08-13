@@ -36,69 +36,147 @@ internal class WiseFyPrechecksImpl private constructor(
     private val wisefySearch: WiseFySearch
 ) : WiseFyPrechecks {
 
+    /**
+     *
+     */
     @RequiresPermission(ACCESS_WIFI_STATE)
     override fun addNetworkPrechecks(ssid: String?): PrecheckResult =
         checkAddNetworkPrerequisites(ssid)
 
+    /**
+     *
+     */
     @RequiresPermission(ACCESS_WIFI_STATE)
     override fun addNetworkPrechecks(ssid: String?, password: String?): PrecheckResult =
         checkAddNetworkPrerequisites(ssid, password)
 
+    /**
+     *
+     */
     override fun connectToNetworkPrechecks(ssidToConnectTo: String?): PrecheckResult =
         checkForParam(ssidToConnectTo)
 
+    /**
+     *
+     */
     override fun disableWifiChecks() = DEFAULT_PRECHECK_RESULT
 
+    /**
+     *
+     */
     override fun disconnectFromCurrentNetworkChecks() = DEFAULT_PRECHECK_RESULT
 
+    /**
+     *
+     */
     override fun enableWifiChecks() = DEFAULT_PRECHECK_RESULT
 
+    /**
+     *
+     */
     override fun getCurrentNetworkChecks() = DEFAULT_PRECHECK_RESULT
 
+    /**
+     *
+     */
     override fun getCurrentNetworkInfoChecks() = DEFAULT_PRECHECK_RESULT
 
+    /**
+     *
+     */
     override fun getIPChecks() = DEFAULT_PRECHECK_RESULT
 
+    /**
+     *
+     */
     override fun getNearbyAccessPointsChecks() = DEFAULT_PRECHECK_RESULT
 
+    /**
+     *
+     */
     override fun getRSSIChecks(regexForSSID: String?): PrecheckResult =
         checkForParam(regexForSSID)
 
+    /**
+     *
+     */
     override fun getSavedNetworkChecks(regexForSSID: String?): PrecheckResult =
         checkForParam(regexForSSID)
 
+    /**
+     *
+     */
     override fun getSavedNetworksChecks() = DEFAULT_PRECHECK_RESULT
 
+    /**
+     *
+     */
     override fun getSavedNetworksChecks(regexForSSID: String?): PrecheckResult =
         checkForParam(regexForSSID)
 
+    /**
+     *
+     */
     override fun isDeviceConnectedToMobileNetworkChecks() = DEFAULT_PRECHECK_RESULT
 
+    /**
+     *
+     */
     override fun isDeviceConnectedToMobileOrWifiNetworkChecks() = DEFAULT_PRECHECK_RESULT
 
+    /**
+     *
+     */
     override fun isDeviceConnectedToSSIDChecks(ssid: String?): PrecheckResult =
         checkForParam(ssid)
 
+    /**
+     *
+     */
     override fun isDeviceConnectedToWifiNetworkChecks() = DEFAULT_PRECHECK_RESULT
 
+    /**
+     *
+     */
     override fun isDeviceRoamingChecks() = DEFAULT_PRECHECK_RESULT
 
+    /**
+     *
+     */
     override fun isNetworkSavedChecks() = DEFAULT_PRECHECK_RESULT
 
+    /**
+     *
+     */
     override fun isWifiEnabledChecks() = DEFAULT_PRECHECK_RESULT
 
+    /**
+     *
+     */
     override fun removeNetworkCheck(ssidToRemove: String?): PrecheckResult =
         checkForParam(ssidToRemove)
 
+    /**
+     *
+     */
     override fun searchForAccessPointChecks(regexForSSID: String?): PrecheckResult =
         checkForParam(regexForSSID)
 
+    /**
+     *
+     */
     override fun searchForAccessPointsChecks(regexForSSID: String?): PrecheckResult =
         checkForParam(regexForSSID)
 
+    /**
+     *
+     */
     override fun searchForSSIDChecks(regexForSSID: String?): PrecheckResult =
         checkForParam(regexForSSID)
 
+    /**
+     *
+     */
     override fun searchForSSIDsChecks(regexForSSID: String?): PrecheckResult =
         checkForParam(regexForSSID)
 
@@ -106,6 +184,9 @@ internal class WiseFyPrechecksImpl private constructor(
      * HELPERS
      */
 
+    /**
+     *
+     */
     private fun checkForParam(param: String?): PrecheckResult {
         return if (param.isNullOrEmpty()) {
             PrecheckResult(code = MISSING_PARAMETER)
@@ -114,6 +195,9 @@ internal class WiseFyPrechecksImpl private constructor(
         }
     }
 
+    /**
+     *
+     */
     private fun checkAddNetworkPrerequisites(ssid: String?): PrecheckResult =
         when {
             ssid == null -> PrecheckResult(code = MISSING_PARAMETER)
@@ -124,6 +208,9 @@ internal class WiseFyPrechecksImpl private constructor(
             else -> DEFAULT_PRECHECK_RESULT
         }
 
+    /**
+     *
+     */
     private fun checkAddNetworkPrerequisites(ssid: String?, password: String?): PrecheckResult =
         when {
             ssid.isNullOrEmpty() || password.isNullOrEmpty() -> {
@@ -140,41 +227,114 @@ internal class WiseFyPrechecksImpl private constructor(
     }
 }
 
+/**
+ *
+ */
 interface WiseFyPrechecks {
+
+    /**
+     *
+     */
     fun addNetworkPrechecks(ssid: String?): PrecheckResult
+
+    /**
+     *
+     */
     fun addNetworkPrechecks(ssid: String?, password: String?): PrecheckResult
 
+    /**
+     *
+     */
     fun connectToNetworkPrechecks(ssidToConnectTo: String?): PrecheckResult
 
+    /**
+     *
+     */
     fun disableWifiChecks(): PrecheckResult
 
+    /**
+     *
+     */
     fun disconnectFromCurrentNetworkChecks(): PrecheckResult
 
+    /**
+     *
+     */
     fun enableWifiChecks(): PrecheckResult
 
+    /**
+     *
+     */
     fun getCurrentNetworkChecks(): PrecheckResult
 
+    /**
+     *
+     */
     fun getCurrentNetworkInfoChecks(): PrecheckResult
 
+    /**
+     *
+     */
     fun getIPChecks(): PrecheckResult
 
+    /**
+     *
+     */
     fun getNearbyAccessPointsChecks(): PrecheckResult
 
+    /**
+     *
+     */
     fun getRSSIChecks(regexForSSID: String?): PrecheckResult
 
+    /**
+     *
+     */
     fun getSavedNetworkChecks(regexForSSID: String?): PrecheckResult
 
+    /**
+     *
+     */
     fun getSavedNetworksChecks(regexForSSID: String?): PrecheckResult
+
+    /**
+     *
+     */
     fun getSavedNetworksChecks(): PrecheckResult
 
+    /**
+     *
+     */
     fun isDeviceConnectedToMobileNetworkChecks(): PrecheckResult
+
+    /**
+     *
+     */
     fun isDeviceConnectedToMobileOrWifiNetworkChecks(): PrecheckResult
+
+    /**
+     *
+     */
     fun isDeviceConnectedToSSIDChecks(ssid: String?): PrecheckResult
+
+    /**
+     *
+     */
     fun isDeviceConnectedToWifiNetworkChecks(): PrecheckResult
+
+    /**
+     *
+     */
     fun isDeviceRoamingChecks(): PrecheckResult
 
+    /**
+     *
+     */
     fun isNetworkSavedChecks(): PrecheckResult
 
+    /**
+     *
+     */
     fun isWifiEnabledChecks(): PrecheckResult
 
     /**

@@ -148,11 +148,28 @@ internal class WiseFyConnectionImpl private constructor(
         type.equals(networkInfo?.typeName, ignoreCase = true)
 }
 
+/**
+ *
+ */
 interface WiseFyConnection {
+
+    /**
+     *
+     */
     fun isCurrentNetworkConnectedToSSID(ssid: String?): Boolean
 
+    /**
+     *
+     */
     fun isNetworkConnected(networkInfo: NetworkInfo?): Boolean
+
+    /**
+     *
+     */
     fun isNetworkConnectedAndMatchesType(networkInfo: NetworkInfo?, @NetworkType type: String): Boolean
 
+    /**
+     *
+     */
     fun waitToConnectToSSID(ssid: String?, timeoutInMillis: Int): Boolean
 }
