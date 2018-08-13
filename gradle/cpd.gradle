@@ -13,6 +13,8 @@ cpdCheck {
     classes += fileTree('src/test/java')
     source = classes
 
+    skipLexicalErrors true
+
     reports {
         text.enabled = false
         xml.enabled = true

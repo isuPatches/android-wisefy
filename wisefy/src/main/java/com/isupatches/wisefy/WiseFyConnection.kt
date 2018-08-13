@@ -55,7 +55,7 @@ internal class WiseFyConnectionImpl private constructor(
      *
      * @return boolean - True if the device is connected to a network
      */
-    @RequiresPermission(allOf = [ACCESS_NETWORK_STATE, ACCESS_WIFI_STATE])
+    @RequiresPermission(allOf = arrayOf(ACCESS_NETWORK_STATE, ACCESS_WIFI_STATE))
     override fun isCurrentNetworkConnectedToSSID(ssid: String?): Boolean {
         if (ssid.isNullOrEmpty()) {
             return false
@@ -116,7 +116,7 @@ internal class WiseFyConnectionImpl private constructor(
      * @see [isCurrentNetworkConnectedToSSID]
      */
     @WaitsForTimeout
-    @RequiresPermission(allOf = [ACCESS_NETWORK_STATE, ACCESS_WIFI_STATE])
+    @RequiresPermission(allOf = arrayOf(ACCESS_NETWORK_STATE, ACCESS_WIFI_STATE))
     override fun waitToConnectToSSID(ssid: String?, timeoutInMillis: Int): Boolean {
         WiseFyLogger.debug(TAG, "Waiting %d milliseconds to connect to network with ssid %s", timeoutInMillis, ssid ?: "")
         var currentTime: Long

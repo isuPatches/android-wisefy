@@ -589,7 +589,7 @@ class WiseFy(
      */
     @Sync
     @CallingThread
-    @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
+    @RequiresPermission(allOf = arrayOf(ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE))
     @Throws(SecurityException::class)
     override fun getCurrentNetwork(): WifiInfo? {
         return if (wisefyPrechecks.getCurrentNetworkChecks().passed()) {
@@ -606,7 +606,7 @@ class WiseFy(
      */
     @Async
     @WiseFyThread
-    @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
+    @RequiresPermission(allOf = arrayOf(ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE))
     override fun getCurrentNetwork(callbacks: GetCurrentNetworkCallbacks?) {
         runOnWiseFyThread(Runnable {
             synchronized(wisefyLock) {
@@ -667,7 +667,7 @@ class WiseFy(
     @Sync
     @CallingThread
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
+    @RequiresPermission(allOf = arrayOf(ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE))
     @Throws(SecurityException::class)
     override fun getFrequency(): Int? {
         val currentNetwork = getCurrentNetwork()
@@ -684,7 +684,7 @@ class WiseFy(
     @Async
     @WiseFyThread
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
+    @RequiresPermission(allOf = arrayOf(ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE))
     @Throws(SecurityException::class)
     override fun getFrequency(callbacks: GetFrequencyCallbacks?) {
         runOnWiseFyThread(Runnable {
@@ -799,7 +799,7 @@ class WiseFy(
      */
     @Sync
     @CallingThread
-    @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
+    @RequiresPermission(allOf = arrayOf(ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE))
     @Throws(SecurityException::class)
     override fun getNearbyAccessPoints(filterDuplicates: Boolean): List<ScanResult>? {
         if (wisefyPrechecks.getNearbyAccessPointsChecks().failed()) {
@@ -827,7 +827,7 @@ class WiseFy(
      */
     @Async
     @WiseFyThread
-    @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
+    @RequiresPermission(allOf = arrayOf(ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE))
     override fun getNearbyAccessPoints(filterDuplicates: Boolean, callbacks: GetNearbyAccessPointsCallbacks?) {
         runOnWiseFyThread(Runnable {
             synchronized(wisefyLock) {
@@ -1084,7 +1084,7 @@ class WiseFy(
      */
     @Sync
     @CallingThread
-    @RequiresPermission(allOf = [ACCESS_NETWORK_STATE, ACCESS_WIFI_STATE])
+    @RequiresPermission(allOf = arrayOf(ACCESS_NETWORK_STATE, ACCESS_WIFI_STATE))
     override fun isDeviceConnectedToSSID(ssid: String?): Boolean =
         wisefyPrechecks.isDeviceConnectedToSSIDChecks(ssid).passed() &&
             wisefyConnection.isCurrentNetworkConnectedToSSID(ssid)
@@ -1137,7 +1137,7 @@ class WiseFy(
     @Sync
     @CallingThread
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
+    @RequiresPermission(allOf = arrayOf(ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE))
     @Throws(SecurityException::class)
     override fun isNetwork5gHz(): Boolean {
         val frequency = getFrequency()
@@ -1305,10 +1305,10 @@ class WiseFy(
                     if (removeNetworkConfiguration(wifiConfiguration)) {
                         callbacks?.networkRemoved()
                     } else {
-                    callbacks?.failureRemovingNetwork()
+                        callbacks?.failureRemovingNetwork()
                     }
                 } else {
-                callbacks?.networkNotFoundToRemove()
+                    callbacks?.networkNotFoundToRemove()
                 }
             }
         })
