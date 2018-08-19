@@ -16,25 +16,25 @@ internal class IsNetworkEAPTests : BaseAndroidJUnit4TestClass() {
 
     @Test fun failure_differentCapability() {
         val scanResult = createMockAccessPointWithCapabilities("Other")
-        assertEquals(false, wiseFy.isNetworkEAP(scanResult))
+        assertEquals(false, wisefy.isNetworkEAP(scanResult))
     }
 
     @Test fun failure_emptyCapabilities() {
         val scanResult = createMockAccessPointWithCapabilities("")
-        assertEquals(false, wiseFy.isNetworkEAP(scanResult))
+        assertEquals(false, wisefy.isNetworkEAP(scanResult))
     }
 
     @Test fun failure_nullCapabilities() {
         val scanResult = createMockAccessPointWithCapabilities(null)
-        assertEquals(false, wiseFy.isNetworkEAP(scanResult))
+        assertEquals(false, wisefy.isNetworkEAP(scanResult))
     }
 
     @Test fun failure_nullScanResult() {
-        assertEquals(false, wiseFy.isNetworkEAP(null))
+        assertEquals(false, wisefy.isNetworkEAP(null))
     }
 
     @Test fun success() {
         val scanResult = createMockAccessPointWithCapabilities(EAP)
-        assertEquals(true, wiseFy.isNetworkEAP(scanResult))
+        assertEquals(true, wisefy.isNetworkEAP(scanResult))
     }
 }

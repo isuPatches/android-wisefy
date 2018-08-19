@@ -20,25 +20,25 @@ internal class SearchForSSIDsTests : BaseAndroidJUnit4TestClass() {
 
     @Test fun sync_failure_precheck() {
         mockWiseFyPrechecksUtil.searchForSSIDs_failure()
-        assertEquals(null, wiseFy.searchForSSIDs(TEST_SSID))
+        assertEquals(null, wisefy.searchForSSIDs(TEST_SSID))
     }
 
     @Test fun sync_failure() {
         mockWiseFyPrechecksUtil.searchForSSIDs_success()
         mockWiseFySearchUtil.findSSIDsMatchingRegex_null()
-        assertEquals(null, wiseFy.searchForSSIDs(TEST_SSID))
+        assertEquals(null, wisefy.searchForSSIDs(TEST_SSID))
     }
 
     @Test fun sync_success() {
         mockWiseFyPrechecksUtil.searchForSSIDs_success()
         val ssids = mockWiseFySearchUtil.findSSIDsMatchingRegex_success()
-        assertEquals(ssids, wiseFy.searchForSSIDs(TEST_SSID))
+        assertEquals(ssids, wisefy.searchForSSIDs(TEST_SSID))
     }
 
     @Test fun async_failure_prechecks() {
         mockWiseFyPrechecksUtil.searchForSSIDs_failure()
         val mockCallbacks = mock(SearchForSSIDsCallbacks::class.java)
-        wiseFy.searchForSSIDs(TEST_SSID, mockCallbacks)
+        wisefy.searchForSSIDs(TEST_SSID, mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).wisefyFailure(MISSING_PARAMETER)
     }
 
@@ -51,7 +51,7 @@ internal class SearchForSSIDsTests : BaseAndroidJUnit4TestClass() {
         mockWiseFyPrechecksUtil.searchForSSIDs_success()
         mockWiseFySearchUtil.findSSIDsMatchingRegex_null()
         val mockCallbacks = mock(SearchForSSIDsCallbacks::class.java)
-        wiseFy.searchForSSIDs(TEST_SSID, mockCallbacks)
+        wisefy.searchForSSIDs(TEST_SSID, mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).noSSIDsFound()
     }
 
@@ -66,7 +66,7 @@ internal class SearchForSSIDsTests : BaseAndroidJUnit4TestClass() {
         mockWiseFyPrechecksUtil.searchForSSIDs_success()
         val ssids = mockWiseFySearchUtil.findSSIDsMatchingRegex_success()
         val mockCallbacks = mock(SearchForSSIDsCallbacks::class.java)
-        wiseFy.searchForSSIDs(TEST_SSID, mockCallbacks)
+        wisefy.searchForSSIDs(TEST_SSID, mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).retrievedSSIDs(ssids)
     }
 

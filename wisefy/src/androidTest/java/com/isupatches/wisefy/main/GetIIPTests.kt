@@ -20,25 +20,25 @@ internal class GetIIPTests : BaseAndroidJUnit4TestClass() {
 
     @Test fun sync_getIP_failure_missingPrerequisites() {
         mockWiseFyPrechecksUtil.getIP_failure()
-        assertEquals(null, wiseFy.getIP())
+        assertEquals(null, wisefy.getIP())
     }
 
     @Test fun sync_getIP_failure() {
         mockWiseFyPrechecksUtil.getIP_success()
         mockNetworkUtil.ip_failure()
-        assertEquals(null, wiseFy.getIP())
+        assertEquals(null, wisefy.getIP())
     }
 
     @Test fun sync_getIP_success() {
         mockWiseFyPrechecksUtil.getIP_success()
         mockNetworkUtil.ip_success()
-        assertEquals(TEST_IP_ADDRESS_STRING, wiseFy.getIP())
+        assertEquals(TEST_IP_ADDRESS_STRING, wisefy.getIP())
     }
 
     @Test fun async_getIP_failure_missingPrerequisites() {
         mockWiseFyPrechecksUtil.getIP_failure()
         val mockCallbacks = mock(GetIPCallbacks::class.java)
-        wiseFy.getIP(mockCallbacks)
+        wisefy.getIP(mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).wisefyFailure(MISSING_PARAMETER)
     }
 
@@ -46,7 +46,7 @@ internal class GetIIPTests : BaseAndroidJUnit4TestClass() {
         mockWiseFyPrechecksUtil.getIP_success()
         mockNetworkUtil.ip_failure()
         val mockCallbacks = mock(GetIPCallbacks::class.java)
-        wiseFy.getIP(mockCallbacks)
+        wisefy.getIP(mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).failureRetrievingIP()
     }
 
@@ -54,7 +54,7 @@ internal class GetIIPTests : BaseAndroidJUnit4TestClass() {
         mockWiseFyPrechecksUtil.getIP_success()
         mockNetworkUtil.ip_success()
         val mockCallbacks = mock(GetIPCallbacks::class.java)
-        wiseFy.getIP(mockCallbacks)
+        wisefy.getIP(mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).retrievedIP(TEST_IP_ADDRESS_STRING)
     }
 }

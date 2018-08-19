@@ -16,25 +16,25 @@ internal class IsNetworkWepTests : BaseAndroidJUnit4TestClass() {
 
     @Test fun failure_differentCapability() {
         val scanResult = createMockAccessPointWithCapabilities("Other")
-        assertEquals(false, wiseFy.isNetworkWEP(scanResult))
+        assertEquals(false, wisefy.isNetworkWEP(scanResult))
     }
 
     @Test fun failure_emptyCapabilities() {
         val scanResult = createMockAccessPointWithCapabilities("")
-        assertEquals(false, wiseFy.isNetworkWEP(scanResult))
+        assertEquals(false, wisefy.isNetworkWEP(scanResult))
     }
 
     @Test fun failure_nullCapabilities() {
         val scanResult = createMockAccessPointWithCapabilities(null)
-        assertEquals(false, wiseFy.isNetworkWEP(scanResult))
+        assertEquals(false, wisefy.isNetworkWEP(scanResult))
     }
 
     @Test fun failure_nullScanResult() {
-        assertEquals(false, wiseFy.isNetworkWEP(null))
+        assertEquals(false, wisefy.isNetworkWEP(null))
     }
 
     @Test fun success() {
         val scanResult = createMockAccessPointWithCapabilities(WEP)
-        assertEquals(true, wiseFy.isNetworkWEP(scanResult))
+        assertEquals(true, wisefy.isNetworkWEP(scanResult))
     }
 }

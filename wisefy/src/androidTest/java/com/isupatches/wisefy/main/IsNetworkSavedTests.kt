@@ -15,18 +15,18 @@ internal class IsNetworkSavedTests : BaseAndroidJUnit4TestClass() {
 
     @Test fun failure_missingPrerequisite() {
         mockWiseFyPrechecksUtil.isNetworkSaved_failure()
-        assertEquals(false, wiseFy.isNetworkSaved(TEST_SSID))
+        assertEquals(false, wisefy.isNetworkSaved(TEST_SSID))
     }
 
     @Test fun failure() {
         mockWiseFyPrechecksUtil.isNetworkSaved_success()
         mockWiseFySearchUtil.isNetworkASavedConfiguration(false)
-        assertEquals(false, wiseFy.isNetworkSaved(TEST_SSID))
+        assertEquals(false, wisefy.isNetworkSaved(TEST_SSID))
     }
 
     @Test fun success() {
         mockWiseFyPrechecksUtil.isNetworkSaved_success()
         mockWiseFySearchUtil.isNetworkASavedConfiguration(true)
-        assertEquals(true, wiseFy.isNetworkSaved(TEST_SSID))
+        assertEquals(true, wisefy.isNetworkSaved(TEST_SSID))
     }
 }

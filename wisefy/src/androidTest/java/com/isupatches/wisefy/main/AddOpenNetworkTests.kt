@@ -24,28 +24,28 @@ internal class AddOpenNetworkTests : BaseAndroidJUnit4TestClass() {
 
     @Test fun sync_failure_prechecks() {
         mockWiseFyPrechecksUtil.addNetwork_failure()
-        assertEquals(MISSING_PARAMETER, wiseFy.addOpenNetwork(OPEN_NETWORK_SSID))
+        assertEquals(MISSING_PARAMETER, wisefy.addOpenNetwork(OPEN_NETWORK_SSID))
         verificationUtil.didNoTryToAddNetwork()
     }
 
     @Test fun sync_failure() {
         mockWiseFyPrechecksUtil.addNetwork_success()
         mockNetworkUtil.addNetwork_failure()
-        assertEquals(WIFI_MANAGER_FAILURE, wiseFy.addOpenNetwork(OPEN_NETWORK_SSID))
+        assertEquals(WIFI_MANAGER_FAILURE, wisefy.addOpenNetwork(OPEN_NETWORK_SSID))
         verificationUtil.triedToAddNetwork()
     }
 
     @Test fun sync_success() {
         mockWiseFyPrechecksUtil.addNetwork_success()
         mockNetworkUtil.addNetwork_success()
-        assertNotEquals(WIFI_MANAGER_FAILURE, wiseFy.addOpenNetwork(OPEN_NETWORK_SSID))
+        assertNotEquals(WIFI_MANAGER_FAILURE, wisefy.addOpenNetwork(OPEN_NETWORK_SSID))
         verificationUtil.triedToAddNetwork()
     }
 
     @Test fun async_failure_prechecks() {
         mockWiseFyPrechecksUtil.addNetwork_failure()
         val mockCallbacks = mock(AddNetworkCallbacks::class.java)
-        wiseFy.addOpenNetwork(OPEN_NETWORK_SSID, mockCallbacks)
+        wisefy.addOpenNetwork(OPEN_NETWORK_SSID, mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).wisefyFailure(MISSING_PARAMETER)
         verificationUtil.didNoTryToAddNetwork()
     }
@@ -60,7 +60,7 @@ internal class AddOpenNetworkTests : BaseAndroidJUnit4TestClass() {
         mockWiseFyPrechecksUtil.addNetwork_success()
         mockNetworkUtil.addNetwork_failure()
         val mockCallbacks = mock(AddNetworkCallbacks::class.java)
-        wiseFy.addOpenNetwork(OPEN_NETWORK_SSID, mockCallbacks)
+        wisefy.addOpenNetwork(OPEN_NETWORK_SSID, mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).failureAddingNetwork(WIFI_MANAGER_FAILURE)
         verificationUtil.triedToAddNetwork()
     }
@@ -76,7 +76,7 @@ internal class AddOpenNetworkTests : BaseAndroidJUnit4TestClass() {
         mockWiseFyPrechecksUtil.addNetwork_success()
         mockNetworkUtil.addNetwork_success()
         val mockCallbacks = mock(AddNetworkCallbacks::class.java)
-        wiseFy.addOpenNetwork(OPEN_NETWORK_SSID, mockCallbacks)
+        wisefy.addOpenNetwork(OPEN_NETWORK_SSID, mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).networkAdded(anyInt(), any(WifiConfiguration::class.java))
         verificationUtil.triedToAddNetwork()
     }

@@ -19,20 +19,20 @@ internal class GetNearbyAccessPointsTests : BaseAndroidJUnit4TestClass() {
 
     @Test fun sync_failure_prechecks_filterDuplicates_false() {
         mockWiseFyPrechecksUtil.getNearbyAccessPoints_failure()
-        assertEquals(null, wiseFy.getNearbyAccessPoints(false))
+        assertEquals(null, wisefy.getNearbyAccessPoints(false))
         verificationUtil.didNotTryToGetNearbyAccessPoints()
     }
 
     @Test fun sync_failure_prechecks_filterDuplicates_true() {
         mockWiseFyPrechecksUtil.getNearbyAccessPoints_failure()
-        assertEquals(null, wiseFy.getNearbyAccessPoints(true))
+        assertEquals(null, wisefy.getNearbyAccessPoints(true))
         verificationUtil.didNotTryToGetNearbyAccessPoints()
     }
 
     @Test fun sync_success_filterDuplicates_false() {
         mockWiseFyPrechecksUtil.getNearbyAccessPoints_success()
         val accessPoints = mockNetworkUtil.nearbyAccessPoints()
-        val nearbyAccessPoints = wiseFy.getNearbyAccessPoints(false)
+        val nearbyAccessPoints = wisefy.getNearbyAccessPoints(false)
         assertEquals(accessPoints, nearbyAccessPoints)
         verificationUtil.triedToGetNearbyAccessPoints()
     }
@@ -40,7 +40,7 @@ internal class GetNearbyAccessPointsTests : BaseAndroidJUnit4TestClass() {
     @Test fun sync_success_filterDuplicates_true() {
         mockWiseFyPrechecksUtil.getNearbyAccessPoints_success()
         val accessPoints = mockWiseFySearchUtil.removeEntriesWithLowerSignalStrength()
-        val nearbyAccessPoints = wiseFy.getNearbyAccessPoints(true)
+        val nearbyAccessPoints = wisefy.getNearbyAccessPoints(true)
         assertEquals(accessPoints, nearbyAccessPoints)
         verificationUtil.triedToGetNearbyAccessPoints()
     }
@@ -48,7 +48,7 @@ internal class GetNearbyAccessPointsTests : BaseAndroidJUnit4TestClass() {
     @Test fun async_failure_prechecks_filterDuplicates_false() {
         mockWiseFyPrechecksUtil.getNearbyAccessPoints_failure()
         val mockCallbacks = mock(GetNearbyAccessPointsCallbacks::class.java)
-        wiseFy.getNearbyAccessPoints(false, mockCallbacks)
+        wisefy.getNearbyAccessPoints(false, mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).wisefyFailure(MISSING_PARAMETER)
         verificationUtil.didNotTryToGetNearbyAccessPoints()
     }
@@ -62,7 +62,7 @@ internal class GetNearbyAccessPointsTests : BaseAndroidJUnit4TestClass() {
     @Test fun async_failure_prechecks_filterDuplicates_true() {
         mockWiseFyPrechecksUtil.getNearbyAccessPoints_failure()
         val mockCallbacks = mock(GetNearbyAccessPointsCallbacks::class.java)
-        wiseFy.getNearbyAccessPoints(true, mockCallbacks)
+        wisefy.getNearbyAccessPoints(true, mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).wisefyFailure(MISSING_PARAMETER)
         verificationUtil.didNotTryToGetNearbyAccessPoints()
     }
@@ -77,7 +77,7 @@ internal class GetNearbyAccessPointsTests : BaseAndroidJUnit4TestClass() {
         mockWiseFyPrechecksUtil.getNearbyAccessPoints_success()
         val accessPoints = mockNetworkUtil.nearbyAccessPoints()
         val mockCallbacks = mock(GetNearbyAccessPointsCallbacks::class.java)
-        wiseFy.getNearbyAccessPoints(false, mockCallbacks)
+        wisefy.getNearbyAccessPoints(false, mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).retrievedNearbyAccessPoints(accessPoints)
         verificationUtil.triedToGetNearbyAccessPoints()
     }
@@ -93,7 +93,7 @@ internal class GetNearbyAccessPointsTests : BaseAndroidJUnit4TestClass() {
         mockWiseFyPrechecksUtil.getNearbyAccessPoints_success()
         val accessPoints = mockWiseFySearchUtil.removeEntriesWithLowerSignalStrength()
         val mockCallbacks = mock(GetNearbyAccessPointsCallbacks::class.java)
-        wiseFy.getNearbyAccessPoints(true, mockCallbacks)
+        wisefy.getNearbyAccessPoints(true, mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).retrievedNearbyAccessPoints(accessPoints)
         verificationUtil.triedToGetNearbyAccessPoints()
     }

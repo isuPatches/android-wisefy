@@ -20,42 +20,42 @@ internal class SearchForAccessPointsTests : BaseAndroidJUnit4TestClass() {
 
     @Test fun sync_failure_prechecks_filterDuplicates_false() {
         mockWiseFyPrechecksUtil.searchForAccessPoints_failure()
-        assertEquals(null, wiseFy.searchForAccessPoints(TEST_SSID, false))
+        assertEquals(null, wisefy.searchForAccessPoints(TEST_SSID, false))
     }
 
     @Test fun sync_failure_prechecks_filterDuplicates_true() {
         mockWiseFyPrechecksUtil.searchForAccessPoints_failure()
-        assertEquals(null, wiseFy.searchForAccessPoints(TEST_SSID, true))
+        assertEquals(null, wisefy.searchForAccessPoints(TEST_SSID, true))
     }
 
     @Test fun sync_failure_filterDuplicates_false() {
         mockWiseFyPrechecksUtil.searchForAccessPoints_success()
         mockWiseFySearchUtil.findAccessPointsMatchingRegex_null()
-        assertEquals(null, wiseFy.searchForAccessPoints(TEST_SSID, false))
+        assertEquals(null, wisefy.searchForAccessPoints(TEST_SSID, false))
     }
 
     @Test fun sync_failure_filterDuplicates_true() {
         mockWiseFyPrechecksUtil.searchForAccessPoints_success()
         mockWiseFySearchUtil.findAccessPointsMatchingRegex_null()
-        assertEquals(null, wiseFy.searchForAccessPoints(TEST_SSID, true))
+        assertEquals(null, wisefy.searchForAccessPoints(TEST_SSID, true))
     }
 
     @Test fun sync_success_filterDuplicates_false() {
         mockWiseFyPrechecksUtil.searchForAccessPoints_success()
         val accessPoints = mockWiseFySearchUtil.findAccessPointsMatchingRegex_success()
-        assertEquals(accessPoints, wiseFy.searchForAccessPoints(TEST_SSID, false))
+        assertEquals(accessPoints, wisefy.searchForAccessPoints(TEST_SSID, false))
     }
 
     @Test fun sync_success_filterDuplicates_true() {
         mockWiseFyPrechecksUtil.searchForAccessPoints_success()
         val accessPoints = mockWiseFySearchUtil.findAccessPointsMatchingRegex_success()
-        assertEquals(accessPoints, wiseFy.searchForAccessPoints(TEST_SSID, true))
+        assertEquals(accessPoints, wisefy.searchForAccessPoints(TEST_SSID, true))
     }
 
     @Test fun async_failure_prechecks_filterDuplicates_false() {
         mockWiseFyPrechecksUtil.searchForAccessPoints_failure()
         val mockCallbacks = mock(SearchForAccessPointsCallbacks::class.java)
-        wiseFy.searchForAccessPoints(TEST_SSID, false, mockCallbacks)
+        wisefy.searchForAccessPoints(TEST_SSID, false, mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).wisefyFailure(MISSING_PARAMETER)
     }
 
@@ -67,7 +67,7 @@ internal class SearchForAccessPointsTests : BaseAndroidJUnit4TestClass() {
     @Test fun async_failure_prechecks_filterDuplicates_true() {
         mockWiseFyPrechecksUtil.searchForAccessPoints_failure()
         val mockCallbacks = mock(SearchForAccessPointsCallbacks::class.java)
-        wiseFy.searchForAccessPoints(TEST_SSID, true, mockCallbacks)
+        wisefy.searchForAccessPoints(TEST_SSID, true, mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).wisefyFailure(MISSING_PARAMETER)
     }
 
@@ -80,7 +80,7 @@ internal class SearchForAccessPointsTests : BaseAndroidJUnit4TestClass() {
         mockWiseFyPrechecksUtil.searchForAccessPoints_success()
         mockWiseFySearchUtil.findAccessPointsMatchingRegex_null()
         val mockCallbacks = mock(SearchForAccessPointsCallbacks::class.java)
-        wiseFy.searchForAccessPoints(TEST_SSID, false, mockCallbacks)
+        wisefy.searchForAccessPoints(TEST_SSID, false, mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).noAccessPointsFound()
     }
 
@@ -94,10 +94,9 @@ internal class SearchForAccessPointsTests : BaseAndroidJUnit4TestClass() {
         mockWiseFyPrechecksUtil.searchForAccessPoints_success()
         mockWiseFySearchUtil.findAccessPointsMatchingRegex_null()
         val mockCallbacks = mock(SearchForAccessPointsCallbacks::class.java)
-        wiseFy.searchForAccessPoints(TEST_SSID, true, mockCallbacks)
+        wisefy.searchForAccessPoints(TEST_SSID, true, mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).noAccessPointsFound()
     }
-
 
     @Test fun async_failure_filterDuplicates_true_nullCallback() {
         mockWiseFyPrechecksUtil.searchForAccessPoints_success()
@@ -109,7 +108,7 @@ internal class SearchForAccessPointsTests : BaseAndroidJUnit4TestClass() {
         mockWiseFyPrechecksUtil.searchForAccessPoints_success()
         val accessPoints = mockWiseFySearchUtil.findAccessPointsMatchingRegex_success()
         val mockCallbacks = mock(SearchForAccessPointsCallbacks::class.java)
-        wiseFy.searchForAccessPoints(TEST_SSID, false, mockCallbacks)
+        wisefy.searchForAccessPoints(TEST_SSID, false, mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).foundAccessPoints(accessPoints)
     }
 
@@ -123,7 +122,7 @@ internal class SearchForAccessPointsTests : BaseAndroidJUnit4TestClass() {
         mockWiseFyPrechecksUtil.searchForAccessPoints_success()
         val accessPoints = mockWiseFySearchUtil.findAccessPointsMatchingRegex_success()
         val mockCallbacks = mock(SearchForAccessPointsCallbacks::class.java)
-        wiseFy.searchForAccessPoints(TEST_SSID, true, mockCallbacks)
+        wisefy.searchForAccessPoints(TEST_SSID, true, mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).foundAccessPoints(accessPoints)
     }
 

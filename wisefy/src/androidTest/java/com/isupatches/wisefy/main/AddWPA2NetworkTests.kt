@@ -25,28 +25,28 @@ internal class AddWPA2NetworkTests : BaseAndroidJUnit4TestClass() {
 
     @Test fun sync_failure_prechecks() {
         mockWiseFyPrechecksUtil.addNetwork_failure()
-        assertEquals(MISSING_PARAMETER, wiseFy.addWPA2Network(WPA2_NETWORK_SSID, WPA2_NETWORK_PASSWORD))
+        assertEquals(MISSING_PARAMETER, wisefy.addWPA2Network(WPA2_NETWORK_SSID, WPA2_NETWORK_PASSWORD))
         verificationUtil.didNoTryToAddNetwork()
     }
 
     @Test fun sync_failure() {
         mockWiseFyPrechecksUtil.addNetwork_success()
         mockNetworkUtil.addNetwork_failure()
-        assertEquals(WIFI_MANAGER_FAILURE, wiseFy.addWPA2Network(WPA2_NETWORK_SSID, WPA2_NETWORK_PASSWORD))
+        assertEquals(WIFI_MANAGER_FAILURE, wisefy.addWPA2Network(WPA2_NETWORK_SSID, WPA2_NETWORK_PASSWORD))
         verificationUtil.triedToAddNetwork()
     }
 
     @Test fun sync_success() {
         mockWiseFyPrechecksUtil.addNetwork_success()
         mockNetworkUtil.addNetwork_success()
-        assertNotEquals(WIFI_MANAGER_FAILURE, wiseFy.addWPA2Network(WPA2_NETWORK_SSID, WPA2_NETWORK_PASSWORD))
+        assertNotEquals(WIFI_MANAGER_FAILURE, wisefy.addWPA2Network(WPA2_NETWORK_SSID, WPA2_NETWORK_PASSWORD))
         verificationUtil.triedToAddNetwork()
     }
 
     @Test fun async_failure_prechecks() {
         mockWiseFyPrechecksUtil.addNetwork_failure()
         val mockCallbacks = mock(AddNetworkCallbacks::class.java)
-        wiseFy.addWPA2Network(WPA2_NETWORK_SSID, WPA2_NETWORK_PASSWORD, mockCallbacks)
+        wisefy.addWPA2Network(WPA2_NETWORK_SSID, WPA2_NETWORK_PASSWORD, mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).wisefyFailure(MISSING_PARAMETER)
         verificationUtil.didNoTryToAddNetwork()
     }
@@ -61,7 +61,7 @@ internal class AddWPA2NetworkTests : BaseAndroidJUnit4TestClass() {
         mockWiseFyPrechecksUtil.addNetwork_success()
         mockNetworkUtil.addNetwork_failure()
         val mockCallbacks = mock(AddNetworkCallbacks::class.java)
-        wiseFy.addWPA2Network(WPA2_NETWORK_SSID, WPA2_NETWORK_PASSWORD, mockCallbacks)
+        wisefy.addWPA2Network(WPA2_NETWORK_SSID, WPA2_NETWORK_PASSWORD, mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).failureAddingNetwork(WIFI_MANAGER_FAILURE)
         verificationUtil.triedToAddNetwork()
     }
@@ -77,7 +77,7 @@ internal class AddWPA2NetworkTests : BaseAndroidJUnit4TestClass() {
         mockWiseFyPrechecksUtil.addNetwork_success()
         mockNetworkUtil.addNetwork_success()
         val mockCallbacks = mock(AddNetworkCallbacks::class.java)
-        wiseFy.addWPA2Network(WPA2_NETWORK_SSID, WPA2_NETWORK_PASSWORD, mockCallbacks)
+        wisefy.addWPA2Network(WPA2_NETWORK_SSID, WPA2_NETWORK_PASSWORD, mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).networkAdded(anyInt(), any(WifiConfiguration::class.java))
         verificationUtil.triedToAddNetwork()
     }

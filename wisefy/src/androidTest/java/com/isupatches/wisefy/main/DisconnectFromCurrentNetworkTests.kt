@@ -21,28 +21,28 @@ internal class DisconnectFromCurrentNetworkTests : BaseAndroidJUnit4TestClass() 
 
     @Test fun sync_failure_prechecks() {
         mockWiseFyPrechecksUtil.disconnectFromCurrentNetwork_failure()
-        assertEquals(false, wiseFy.disconnectFromCurrentNetwork())
+        assertEquals(false, wisefy.disconnectFromCurrentNetwork())
         verificationUtil.didNotTryToDisconnectFromCurrentNetwork()
     }
 
     @Test fun sync_failure() {
         mockWiseFyPrechecksUtil.disconnectFromCurrentNetwork_success()
         mockNetworkUtil.disconnectFromCurrentNetwork_failure()
-        assertEquals(false, wiseFy.disconnectFromCurrentNetwork())
+        assertEquals(false, wisefy.disconnectFromCurrentNetwork())
         verificationUtil.triedToDisconnectFromCurrentNetwork()
     }
 
     @Test fun sync_success() {
         mockWiseFyPrechecksUtil.disconnectFromCurrentNetwork_success()
         mockNetworkUtil.disconnectFromCurrentNetwork_success()
-        assertEquals(true, wiseFy.disconnectFromCurrentNetwork())
+        assertEquals(true, wisefy.disconnectFromCurrentNetwork())
         verificationUtil.triedToDisconnectFromCurrentNetwork()
     }
 
     @Test fun async_failure_prechecks() {
         mockWiseFyPrechecksUtil.disconnectFromCurrentNetwork_failure()
         val mockCallbacks = mock(DisconnectFromCurrentNetworkCallbacks::class.java)
-        wiseFy.disconnectFromCurrentNetwork(mockCallbacks)
+        wisefy.disconnectFromCurrentNetwork(mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).wisefyFailure(MISSING_PARAMETER)
         verificationUtil.didNotTryToDisconnectFromCurrentNetwork()
     }
@@ -57,7 +57,7 @@ internal class DisconnectFromCurrentNetworkTests : BaseAndroidJUnit4TestClass() 
         mockWiseFyPrechecksUtil.disconnectFromCurrentNetwork_success()
         mockNetworkUtil.disconnectFromCurrentNetwork_failure()
         val mockCallbacks = mock(DisconnectFromCurrentNetworkCallbacks::class.java)
-        wiseFy.disconnectFromCurrentNetwork(mockCallbacks)
+        wisefy.disconnectFromCurrentNetwork(mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).failureDisconnectingFromCurrentNetwork()
         verificationUtil.triedToDisconnectFromCurrentNetwork()
     }
@@ -73,7 +73,7 @@ internal class DisconnectFromCurrentNetworkTests : BaseAndroidJUnit4TestClass() 
         mockWiseFyPrechecksUtil.disconnectFromCurrentNetwork_success()
         mockNetworkUtil.disconnectFromCurrentNetwork_success()
         val mockCallbacks = mock(DisconnectFromCurrentNetworkCallbacks::class.java)
-        wiseFy.disconnectFromCurrentNetwork(mockCallbacks)
+        wisefy.disconnectFromCurrentNetwork(mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).disconnectedFromCurrentNetwork()
         verificationUtil.triedToDisconnectFromCurrentNetwork()
     }

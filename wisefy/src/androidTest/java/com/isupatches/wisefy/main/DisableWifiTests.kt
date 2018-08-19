@@ -21,28 +21,28 @@ internal class DisableWifiTests : BaseAndroidJUnit4TestClass() {
 
     @Test fun sync_failure_prechecks() {
         mockWiseFyPrechecksUtil.disableWifi_failure()
-        assertEquals(false, wiseFy.disableWifi())
+        assertEquals(false, wisefy.disableWifi())
         verificationUtil.didNotTryToDisableWifi()
     }
 
     @Test fun sync_failure() {
         mockWiseFyPrechecksUtil.disableWifi_success()
         mockNetworkUtil.disableWifi_failure()
-        assertEquals(false, wiseFy.disableWifi())
+        assertEquals(false, wisefy.disableWifi())
         verificationUtil.triedToDisableWifi()
     }
 
     @Test fun sync_success() {
         mockWiseFyPrechecksUtil.disableWifi_success()
         mockNetworkUtil.disableWifi_success()
-        assertEquals(true, wiseFy.disableWifi())
+        assertEquals(true, wisefy.disableWifi())
         verificationUtil.triedToDisableWifi()
     }
 
     @Test fun async_failure_prechecks() {
         mockWiseFyPrechecksUtil.disableWifi_failure()
         val mockCallbacks = mock(DisableWifiCallbacks::class.java)
-        wiseFy.disableWifi(mockCallbacks)
+        wisefy.disableWifi(mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).wisefyFailure(MISSING_PARAMETER)
         verificationUtil.didNotTryToDisableWifi()
     }
@@ -57,7 +57,7 @@ internal class DisableWifiTests : BaseAndroidJUnit4TestClass() {
         mockWiseFyPrechecksUtil.disableWifi_success()
         mockNetworkUtil.disableWifi_failure()
         val mockCallbacks = mock(DisableWifiCallbacks::class.java)
-        wiseFy.disableWifi(mockCallbacks)
+        wisefy.disableWifi(mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).failureDisablingWifi()
         verificationUtil.triedToDisableWifi()
     }
@@ -73,7 +73,7 @@ internal class DisableWifiTests : BaseAndroidJUnit4TestClass() {
         mockWiseFyPrechecksUtil.disableWifi_success()
         mockNetworkUtil.disableWifi_success()
         val mockCallbacks = mock(DisableWifiCallbacks::class.java)
-        wiseFy.disableWifi(mockCallbacks)
+        wisefy.disableWifi(mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).wifiDisabled()
         verificationUtil.triedToDisableWifi()
     }

@@ -29,7 +29,7 @@ internal class GetFrequencyTests : BaseAndroidJUnit4TestClass() {
 
         mockWiseFyPrechecksUtil.getCurrentNetwork_success()
         mockNetworkUtil.currentNetwork_null()
-        assertEquals(null, wiseFy.getFrequency())
+        assertEquals(null, wisefy.getFrequency())
         verificationUtil.triedToGetCurrentNetwork()
     }
 
@@ -40,7 +40,7 @@ internal class GetFrequencyTests : BaseAndroidJUnit4TestClass() {
 
         mockWiseFyPrechecksUtil.getCurrentNetwork_success()
         val wifiInfo = mockNetworkUtil.networkWithFrequency(TEST_NETWORK_FREQUENCY_24GHZ)
-        val frequency = wiseFy.getFrequency()
+        val frequency = wisefy.getFrequency()
         if (frequency != null) {
             assertEquals(TEST_NETWORK_FREQUENCY_24GHZ.toLong(), frequency.toLong())
             verificationUtil.triedToGetCurrentNetwork()
@@ -58,7 +58,7 @@ internal class GetFrequencyTests : BaseAndroidJUnit4TestClass() {
         mockWiseFyPrechecksUtil.getCurrentNetwork_success()
         mockNetworkUtil.currentNetwork_null()
         val mockCallbacks = mock(GetFrequencyCallbacks::class.java)
-        wiseFy.getFrequency(mockCallbacks)
+        wisefy.getFrequency(mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).failureGettingFrequency()
         verificationUtil.triedToGetCurrentNetwork()
     }
@@ -82,7 +82,7 @@ internal class GetFrequencyTests : BaseAndroidJUnit4TestClass() {
         mockWiseFyPrechecksUtil.getCurrentNetwork_success()
         val mockWifiInfo = mockNetworkUtil.networkWithFrequency(TEST_NETWORK_FREQUENCY_24GHZ)
         val mockCallbacks = mock(GetFrequencyCallbacks::class.java)
-        wiseFy.getFrequency(mockCallbacks)
+        wisefy.getFrequency(mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).retrievedFrequency(TEST_NETWORK_FREQUENCY_24GHZ)
         verificationUtil.triedToGetCurrentNetwork()
         verify(mockWifiInfo, timeout(VERIFICATION_SUCCESS_TIMEOUT)).frequency
@@ -104,7 +104,7 @@ internal class GetFrequencyTests : BaseAndroidJUnit4TestClass() {
         }
 
         mockNetworkUtil.currentNetwork_null()
-        assertEquals(null, wiseFy.getFrequency(null as? WifiInfo?))
+        assertEquals(null, wisefy.getFrequency(null as? WifiInfo?))
     }
 
     @Test fun sync_getFrequency_networkProvided_success() {
@@ -113,7 +113,7 @@ internal class GetFrequencyTests : BaseAndroidJUnit4TestClass() {
         }
 
         val mockWifiInfo = mockNetworkUtil.networkWithFrequency(TEST_NETWORK_FREQUENCY_24GHZ)
-        val frequency = wiseFy.getFrequency(mockWifiInfo)
+        val frequency = wisefy.getFrequency(mockWifiInfo)
         if (frequency != null) {
             assertEquals(TEST_NETWORK_FREQUENCY_24GHZ.toLong(), frequency.toLong())
         } else {
@@ -128,7 +128,7 @@ internal class GetFrequencyTests : BaseAndroidJUnit4TestClass() {
 
         mockNetworkUtil.currentNetwork_null()
         val mockCallbacks = mock(GetFrequencyCallbacks::class.java)
-        wiseFy.getFrequency(null, mockCallbacks)
+        wisefy.getFrequency(null, mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).wisefyFailure(MISSING_PARAMETER)
     }
 
@@ -148,7 +148,7 @@ internal class GetFrequencyTests : BaseAndroidJUnit4TestClass() {
 
         val mockWifiInfo = mockNetworkUtil.networkWithFrequency(TEST_NETWORK_FREQUENCY_24GHZ)
         val mockCallbacks = mock(GetFrequencyCallbacks::class.java)
-        wiseFy.getFrequency(mockWifiInfo, mockCallbacks)
+        wisefy.getFrequency(mockWifiInfo, mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).retrievedFrequency(TEST_NETWORK_FREQUENCY_24GHZ)
         verify(mockWifiInfo, timeout(VERIFICATION_SUCCESS_TIMEOUT)).frequency
     }

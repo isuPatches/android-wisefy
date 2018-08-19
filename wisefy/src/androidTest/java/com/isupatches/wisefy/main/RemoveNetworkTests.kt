@@ -20,14 +20,14 @@ internal class RemoveNetworkTests : BaseAndroidJUnit4TestClass() {
 
     @Test fun sync_failure_prechecks() {
         mockWiseFyPrechecksUtil.removeNetwork_failure()
-        assertEquals(false, wiseFy.removeNetwork(TEST_SSID))
+        assertEquals(false, wisefy.removeNetwork(TEST_SSID))
         verificationUtil.didNotTryToRemoveNetwork()
     }
 
     @Test fun sync_failure_noSavedNetwork() {
         mockWiseFyPrechecksUtil.removeNetwork_success()
         mockWiseFySearchUtil.findSavedNetworkByRegex_null()
-        assertEquals(false, wiseFy.removeNetwork(TEST_SSID))
+        assertEquals(false, wisefy.removeNetwork(TEST_SSID))
         verificationUtil.didNotTryToRemoveNetwork()
     }
 
@@ -35,7 +35,7 @@ internal class RemoveNetworkTests : BaseAndroidJUnit4TestClass() {
         mockWiseFyPrechecksUtil.removeNetwork_success()
         mockWiseFySearchUtil.findSavedNetworkByRegex_success()
         mockNetworkUtil.removeNetwork(false)
-        assertEquals(false, wiseFy.removeNetwork(TEST_SSID))
+        assertEquals(false, wisefy.removeNetwork(TEST_SSID))
         verificationUtil.triedToRemoveNetwork()
     }
 
@@ -43,14 +43,14 @@ internal class RemoveNetworkTests : BaseAndroidJUnit4TestClass() {
         mockWiseFyPrechecksUtil.removeNetwork_success()
         mockWiseFySearchUtil.findSavedNetworkByRegex_success()
         mockNetworkUtil.removeNetwork(true)
-        assertEquals(true, wiseFy.removeNetwork(TEST_SSID))
+        assertEquals(true, wisefy.removeNetwork(TEST_SSID))
         verificationUtil.triedToRemoveNetwork()
     }
 
     @Test fun async_failure_prechecks() {
         mockWiseFyPrechecksUtil.removeNetwork_failure()
         val mockCallbacks = mock(RemoveNetworkCallbacks::class.java)
-        wiseFy.removeNetwork(TEST_SSID, mockCallbacks)
+        wisefy.removeNetwork(TEST_SSID, mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).wisefyFailure(MISSING_PARAMETER)
         verificationUtil.didNotTryToRemoveNetwork()
     }
@@ -65,7 +65,7 @@ internal class RemoveNetworkTests : BaseAndroidJUnit4TestClass() {
         mockWiseFyPrechecksUtil.removeNetwork_success()
         mockWiseFySearchUtil.findSavedNetworkByRegex_null()
         val mockCallbacks = mock(RemoveNetworkCallbacks::class.java)
-        wiseFy.removeNetwork(TEST_SSID, mockCallbacks)
+        wisefy.removeNetwork(TEST_SSID, mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).networkNotFoundToRemove()
         verificationUtil.didNotTryToRemoveNetwork()
     }
@@ -82,7 +82,7 @@ internal class RemoveNetworkTests : BaseAndroidJUnit4TestClass() {
         mockWiseFySearchUtil.findSavedNetworkByRegex_success()
         mockNetworkUtil.removeNetwork(false)
         val mockCallbacks = mock(RemoveNetworkCallbacks::class.java)
-        wiseFy.removeNetwork(TEST_SSID, mockCallbacks)
+        wisefy.removeNetwork(TEST_SSID, mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).failureRemovingNetwork()
         verificationUtil.triedToRemoveNetwork()
     }
@@ -100,7 +100,7 @@ internal class RemoveNetworkTests : BaseAndroidJUnit4TestClass() {
         mockWiseFySearchUtil.findSavedNetworkByRegex_success()
         mockNetworkUtil.removeNetwork(true)
         val mockCallbacks = mock(RemoveNetworkCallbacks::class.java)
-        wiseFy.removeNetwork(TEST_SSID, mockCallbacks)
+        wisefy.removeNetwork(TEST_SSID, mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).networkRemoved()
         verificationUtil.triedToRemoveNetwork()
     }

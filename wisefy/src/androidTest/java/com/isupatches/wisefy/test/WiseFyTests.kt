@@ -37,17 +37,17 @@ internal class WiseFyTests : BaseAndroidJUnit4TestClass() {
     }
 
     @Test fun calculateBars() {
-        val result = wiseFy.calculateBars(TEST_RSSI_LEVEL_HIGH, TEST_NUMBER_OF_BARS)
+        val result = wisefy.calculateBars(TEST_RSSI_LEVEL_HIGH, TEST_NUMBER_OF_BARS)
         assertEquals(EXPECTED_NUMBER_OF_BARS.toLong(), result.toLong())
     }
 
     @Test fun compareSignalLevel() {
-        val result = wiseFy.compareSignalLevel(TEST_RSSI_LEVEL_HIGH, TEST_RSSI_LEVEL_LOW)
+        val result = wisefy.compareSignalLevel(TEST_RSSI_LEVEL_HIGH, TEST_RSSI_LEVEL_LOW)
         assertEquals(EXPECTED_SIGNAL_RESULT.toLong(), result.toLong())
     }
 
     @Test fun getWiseFyLock() {
-        assertNotNull(wiseFy.getWiseFyLock())
+        assertNotNull(wisefy.getWiseFyLock())
     }
 
     @Test fun olderGcm_IllegalAccessError_notThrown() {

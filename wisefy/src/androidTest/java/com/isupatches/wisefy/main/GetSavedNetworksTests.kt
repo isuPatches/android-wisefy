@@ -20,21 +20,21 @@ internal class GetSavedNetworksTests : BaseAndroidJUnit4TestClass() {
 
     @Test fun sync_failure_prechecks() {
         mockWiseFyPrechecksUtil.getSavedNetworks_failure()
-        assertEquals(null, wiseFy.getSavedNetworks())
+        assertEquals(null, wisefy.getSavedNetworks())
         verificationUtil.didNotTryToGetSavedNetworks()
     }
 
     @Test fun sync_success() {
         mockWiseFyPrechecksUtil.getSavedNetworks_success()
         val savedNetworks = mockNetworkUtil.savedNetworks()
-        assertEquals(savedNetworks, wiseFy.getSavedNetworks())
+        assertEquals(savedNetworks, wisefy.getSavedNetworks())
         verificationUtil.triedToGetSavedNetworks()
     }
 
     @Test fun async_failure_prechecks() {
         mockWiseFyPrechecksUtil.getSavedNetworks_failure()
         val mockCallbacks = mock(GetSavedNetworksCallbacks::class.java)
-        wiseFy.getSavedNetworks(mockCallbacks)
+        wisefy.getSavedNetworks(mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).wisefyFailure(MISSING_PARAMETER)
         verificationUtil.didNotTryToGetSavedNetworks()
     }
@@ -49,7 +49,7 @@ internal class GetSavedNetworksTests : BaseAndroidJUnit4TestClass() {
         mockWiseFyPrechecksUtil.getSavedNetworks_success()
         mockNetworkUtil.getConfiguredNetworks_null()
         val mockCallbacks = mock(GetSavedNetworksCallbacks::class.java)
-        wiseFy.getSavedNetworks(mockCallbacks)
+        wisefy.getSavedNetworks(mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).noSavedNetworksFound()
         verificationUtil.triedToGetSavedNetworks()
     }
@@ -65,7 +65,7 @@ internal class GetSavedNetworksTests : BaseAndroidJUnit4TestClass() {
         mockWiseFyPrechecksUtil.getSavedNetworks_success()
         mockNetworkUtil.getConfiguredNetworks_emptyList()
         val mockCallbacks = mock(GetSavedNetworksCallbacks::class.java)
-        wiseFy.getSavedNetworks(mockCallbacks)
+        wisefy.getSavedNetworks(mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).noSavedNetworksFound()
         verificationUtil.triedToGetSavedNetworks()
     }
@@ -81,7 +81,7 @@ internal class GetSavedNetworksTests : BaseAndroidJUnit4TestClass() {
         mockWiseFyPrechecksUtil.getSavedNetworks_success()
         val savedNetworks = mockNetworkUtil.savedNetworks()
         val mockCallbacks = mock(GetSavedNetworksCallbacks::class.java)
-        wiseFy.getSavedNetworks(mockCallbacks)
+        wisefy.getSavedNetworks(mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).retrievedSavedNetworks(savedNetworks)
         verificationUtil.triedToGetSavedNetworks()
     }
@@ -95,34 +95,34 @@ internal class GetSavedNetworksTests : BaseAndroidJUnit4TestClass() {
 
     @Test fun sync_failure_prechecks_withRegex() {
         mockWiseFyPrechecksUtil.getSavedNetworks_failure()
-        assertEquals(null, wiseFy.getSavedNetworks(TEST_SSID))
+        assertEquals(null, wisefy.getSavedNetworks(TEST_SSID))
         verificationUtil.didNotTryToGetSavedNetworks()
     }
 
     @Test fun sync_success_withRegex() {
         mockWiseFyPrechecksUtil.getSavedNetworks_success()
         val savedNetwork = mockWiseFySearchUtil.findSavedNetworksMatchingRegex_success()
-        assertEquals(savedNetwork, wiseFy.getSavedNetworks(TEST_SSID))
+        assertEquals(savedNetwork, wisefy.getSavedNetworks(TEST_SSID))
     }
 
     @Test fun async_failure_prechecks_withRegex() {
         mockWiseFyPrechecksUtil.getSavedNetworks_failure()
         val mockCallbacks = mock(GetSavedNetworksCallbacks::class.java)
-        wiseFy.getSavedNetworks(TEST_SSID, mockCallbacks)
+        wisefy.getSavedNetworks(TEST_SSID, mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).wisefyFailure(MISSING_PARAMETER)
     }
 
     @Test fun async_failure_prechecks_withRegex_nullCallback() {
         mockWiseFyPrechecksUtil.getSavedNetworks_failure()
         nullCallbackUtil.callGetSavedNetworks_withRegex(TEST_SSID)
-        wiseFy.getSavedNetworks(TEST_SSID, null)
+        wisefy.getSavedNetworks(TEST_SSID, null)
     }
 
     @Test fun async_failure_withRegex_nullSavedNetworks() {
         mockWiseFyPrechecksUtil.getSavedNetworks_success()
         mockWiseFySearchUtil.findSavedNetworksByRegex_null()
         val mockCallbacks = mock(GetSavedNetworksCallbacks::class.java)
-        wiseFy.getSavedNetworks(TEST_SSID, mockCallbacks)
+        wisefy.getSavedNetworks(TEST_SSID, mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).noSavedNetworksFound()
     }
 
@@ -136,7 +136,7 @@ internal class GetSavedNetworksTests : BaseAndroidJUnit4TestClass() {
         mockWiseFyPrechecksUtil.getSavedNetworks_success()
         mockWiseFySearchUtil.findSavedNetworksByRegex_emptyList()
         val mockCallbacks = mock(GetSavedNetworksCallbacks::class.java)
-        wiseFy.getSavedNetworks(TEST_SSID, mockCallbacks)
+        wisefy.getSavedNetworks(TEST_SSID, mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).noSavedNetworksFound()
     }
 
@@ -150,7 +150,7 @@ internal class GetSavedNetworksTests : BaseAndroidJUnit4TestClass() {
         mockWiseFyPrechecksUtil.getSavedNetworks_success()
         val savedNetworks = mockWiseFySearchUtil.findSavedNetworksMatchingRegex_success()
         val mockCallbacks = mock(GetSavedNetworksCallbacks::class.java)
-        wiseFy.getSavedNetworks(TEST_SSID, mockCallbacks)
+        wisefy.getSavedNetworks(TEST_SSID, mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).retrievedSavedNetworks(savedNetworks)
     }
 

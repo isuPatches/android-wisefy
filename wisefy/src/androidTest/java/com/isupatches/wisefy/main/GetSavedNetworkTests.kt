@@ -20,25 +20,25 @@ internal class GetSavedNetworkTests : BaseAndroidJUnit4TestClass() {
 
     @Test fun sync_failure_prechecks() {
         mockWiseFyPrechecksUtil.getSavedNetwork_failure()
-        assertEquals(null, wiseFy.getSavedNetwork(TEST_SSID))
+        assertEquals(null, wisefy.getSavedNetwork(TEST_SSID))
     }
 
     @Test fun sync_failure() {
         mockWiseFyPrechecksUtil.getSavedNetwork_success()
         mockWiseFySearchUtil.findSavedNetworkByRegex_null()
-        assertEquals(null, wiseFy.getSavedNetwork(TEST_SSID))
+        assertEquals(null, wisefy.getSavedNetwork(TEST_SSID))
     }
 
     @Test fun sync_success() {
         mockWiseFyPrechecksUtil.getSavedNetwork_success()
         val savedNetwork = mockWiseFySearchUtil.findSavedNetworkByRegex_success()
-        assertEquals(savedNetwork, wiseFy.getSavedNetwork(TEST_SSID))
+        assertEquals(savedNetwork, wisefy.getSavedNetwork(TEST_SSID))
     }
 
     @Test fun async_failure_prechecks() {
         mockWiseFyPrechecksUtil.getSavedNetwork_failure()
         val mockCallbacks = mock(GetSavedNetworkCallbacks::class.java)
-        wiseFy.getSavedNetwork(TEST_SSID, mockCallbacks)
+        wisefy.getSavedNetwork(TEST_SSID, mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).wisefyFailure(MISSING_PARAMETER)
     }
 
@@ -51,7 +51,7 @@ internal class GetSavedNetworkTests : BaseAndroidJUnit4TestClass() {
         mockWiseFyPrechecksUtil.getSavedNetwork_success()
         mockWiseFySearchUtil.findSavedNetworkByRegex_null()
         val mockCallbacks = mock(GetSavedNetworkCallbacks::class.java)
-        wiseFy.getSavedNetwork(TEST_SSID, mockCallbacks)
+        wisefy.getSavedNetwork(TEST_SSID, mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).savedNetworkNotFound()
     }
 
@@ -65,7 +65,7 @@ internal class GetSavedNetworkTests : BaseAndroidJUnit4TestClass() {
         mockWiseFyPrechecksUtil.getSavedNetwork_success()
         val savedNetwork = mockWiseFySearchUtil.findSavedNetworkByRegex_success()
         val mockCallbacks = mock(GetSavedNetworkCallbacks::class.java)
-        wiseFy.getSavedNetwork(TEST_SSID, mockCallbacks)
+        wisefy.getSavedNetwork(TEST_SSID, mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).retrievedSavedNetwork(savedNetwork)
     }
 

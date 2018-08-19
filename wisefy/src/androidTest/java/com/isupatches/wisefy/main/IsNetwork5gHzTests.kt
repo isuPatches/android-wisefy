@@ -22,7 +22,7 @@ internal class IsNetwork5gHzTests : BaseAndroidJUnit4TestClass() {
 
         mockWiseFyPrechecksUtil.getCurrentNetwork_success()
         mockNetworkUtil.networkWithFrequency(TEST_NETWORK_FREQUENCY_ABOVE_5GHZ)
-        assertEquals(false, wiseFy.isNetwork5gHz())
+        assertEquals(false, wisefy.isNetwork5gHz())
     }
 
     @Test fun currentNetwork_failure_below5ghz() {
@@ -32,7 +32,7 @@ internal class IsNetwork5gHzTests : BaseAndroidJUnit4TestClass() {
 
         mockWiseFyPrechecksUtil.getCurrentNetwork_success()
         mockNetworkUtil.networkWithFrequency(TEST_NETWORK_FREQUENCY_BELOW_5GHZ)
-        assertEquals(false, wiseFy.isNetwork5gHz())
+        assertEquals(false, wisefy.isNetwork5gHz())
     }
 
     @Test fun currentNetwork_failure_null() {
@@ -42,7 +42,7 @@ internal class IsNetwork5gHzTests : BaseAndroidJUnit4TestClass() {
 
         mockWiseFyPrechecksUtil.getCurrentNetwork_success()
         mockNetworkUtil.currentNetwork_null()
-        assertEquals(false, wiseFy.isNetwork5gHz())
+        assertEquals(false, wisefy.isNetwork5gHz())
     }
 
     @Test fun currentNetwork_success() {
@@ -52,7 +52,7 @@ internal class IsNetwork5gHzTests : BaseAndroidJUnit4TestClass() {
 
         mockWiseFyPrechecksUtil.getCurrentNetwork_success()
         mockNetworkUtil.networkWithFrequency(TEST_NETWORK_FREQUENCY_5GHZ)
-        assertEquals(true, wiseFy.isNetwork5gHz())
+        assertEquals(true, wisefy.isNetwork5gHz())
     }
 
     @Test fun provideWifiInfo_failure_above5ghz() {
@@ -61,7 +61,7 @@ internal class IsNetwork5gHzTests : BaseAndroidJUnit4TestClass() {
         }
 
         val network = mockNetworkUtil.networkWithFrequency(TEST_NETWORK_FREQUENCY_ABOVE_5GHZ)
-        assertEquals(false, wiseFy.isNetwork5gHz(network))
+        assertEquals(false, wisefy.isNetwork5gHz(network))
     }
 
     @Test fun provideWifiInfo_failure_below5ghz() {
@@ -70,7 +70,7 @@ internal class IsNetwork5gHzTests : BaseAndroidJUnit4TestClass() {
         }
 
         val network = mockNetworkUtil.networkWithFrequency(TEST_NETWORK_FREQUENCY_BELOW_5GHZ)
-        assertEquals(false, wiseFy.isNetwork5gHz(network))
+        assertEquals(false, wisefy.isNetwork5gHz(network))
     }
 
     @Test fun provideWifiInfo_failure_null() {
@@ -78,7 +78,7 @@ internal class IsNetwork5gHzTests : BaseAndroidJUnit4TestClass() {
             return
         }
 
-        assertEquals(false, wiseFy.isNetwork5gHz(null))
+        assertEquals(false, wisefy.isNetwork5gHz(null))
     }
 
     @Test fun provideWifiInfo_success() {
@@ -87,6 +87,6 @@ internal class IsNetwork5gHzTests : BaseAndroidJUnit4TestClass() {
         }
 
         val mockWifiInfo = mockNetworkUtil.networkWithFrequency(TEST_NETWORK_FREQUENCY_5GHZ)
-        assertEquals(true, wiseFy.isNetwork5gHz(mockWifiInfo))
+        assertEquals(true, wisefy.isNetwork5gHz(mockWifiInfo))
     }
 }

@@ -14,19 +14,19 @@ internal class IsDeviceConnectedToMobileOrWifiNetworkTests : BaseAndroidJUnit4Te
 
     @Test fun failure_missingPrerequisite() {
         mockWiseFyPrechecksUtil.isDeviceConnectedToMobileOrWifiNetwork_failure()
-        assertFalse(wiseFy.isDeviceConnectedToMobileOrWifiNetwork())
+        assertFalse(wisefy.isDeviceConnectedToMobileOrWifiNetwork())
     }
 
     @Test fun failure() {
         mockWiseFyPrechecksUtil.isDeviceConnectedToMobileOrWifiNetwork_success()
         mockWiseFyConnectionUtil.isNetworkConnected(false)
-        assertFalse(wiseFy.isDeviceConnectedToMobileOrWifiNetwork())
+        assertFalse(wisefy.isDeviceConnectedToMobileOrWifiNetwork())
     }
 
     @Test fun success() {
         mockWiseFyPrechecksUtil.isDeviceConnectedToMobileOrWifiNetwork_success()
         mockNetworkUtil.activeNetwork()
         mockWiseFyConnectionUtil.isNetworkConnected(true)
-        assertTrue(wiseFy.isDeviceConnectedToMobileOrWifiNetwork())
+        assertTrue(wisefy.isDeviceConnectedToMobileOrWifiNetwork())
     }
 }

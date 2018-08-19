@@ -15,7 +15,7 @@ import org.mockito.Mockito.mock
  */
 internal open class BaseAndroidJUnit4TestClass {
 
-    protected val wiseFy: WiseFy
+    protected val wisefy: WiseFy
     protected val mockWiseFySearch: WiseFySearch
 
     protected val mockConnectivityManager: ConnectivityManager
@@ -41,7 +41,7 @@ internal open class BaseAndroidJUnit4TestClass {
         mockWifiManager = mock(WifiManager::class.java)
         mockConnectivityManager = mock(ConnectivityManager::class.java)
 
-        wiseFy = WiseFy.Brains(InstrumentationRegistry.getTargetContext())
+        wisefy = WiseFy.Brains(InstrumentationRegistry.getTargetContext())
             .customConnectivityManager(mockConnectivityManager)
             .customWifiManager(mockWifiManager)
             .customWiseFyConnection(mockWiseFyConnection)
@@ -56,13 +56,13 @@ internal open class BaseAndroidJUnit4TestClass {
         mockWiseFyPrechecksUtil = MockWiseFyPrechecksUtil(mockWiseFyPrechecks)
         mockWiseFySearchUtil = MockWiseFySearchUtil(mockWiseFySearch)
 
-        nullCallbackUtil = NullCallbackUtil(wiseFy)
+        nullCallbackUtil = NullCallbackUtil(wisefy)
 
         verificationUtil = VerificationUtil(mockConnectivityManager, mockWifiManager)
     }
 
     @After fun tearDown() {
-        wiseFy.dump()
+        wisefy.dump()
     }
 
     /*

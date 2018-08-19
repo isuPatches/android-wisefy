@@ -13,18 +13,18 @@ internal class IsWifiEnabledTests : BaseAndroidJUnit4TestClass() {
 
     @Test fun failure_prechecks() {
         mockWiseFyPrechecksUtil.isWifiEnabled_failure()
-        assertEquals(false, wiseFy.isWifiEnabled())
+        assertEquals(false, wisefy.isWifiEnabled())
     }
 
     @Test fun failure() {
         mockWiseFyPrechecksUtil.isWifiEnabled_success()
         mockNetworkUtil.isWifiEnabled(false)
-        assertEquals(false, wiseFy.isWifiEnabled())
+        assertEquals(false, wisefy.isWifiEnabled())
     }
 
     @Test fun success() {
         mockWiseFyPrechecksUtil.isWifiEnabled_success()
         mockNetworkUtil.isWifiEnabled(true)
-        assertEquals(true, wiseFy.isWifiEnabled())
+        assertEquals(true, wisefy.isWifiEnabled())
     }
 }

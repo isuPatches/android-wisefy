@@ -23,31 +23,31 @@ internal class GetRSSITests : BaseAndroidJUnit4TestClass() {
 
     @Test fun sync_failure_prechecks_takeHighest_false() {
         mockWiseFyPrechecksUtil.getRSSI_failure()
-        assertEquals(null, wiseFy.getRSSI(TEST_SSID, false, TEST_TIMEOUT))
+        assertEquals(null, wisefy.getRSSI(TEST_SSID, false, TEST_TIMEOUT))
     }
 
     @Test fun sync_failure_prechecks_takeHighest_true() {
         mockWiseFyPrechecksUtil.getRSSI_failure()
-        assertEquals(null, wiseFy.getRSSI(TEST_SSID, true, TEST_TIMEOUT))
+        assertEquals(null, wisefy.getRSSI(TEST_SSID, true, TEST_TIMEOUT))
     }
 
     @Test fun sync_failure_noNetworkFound_takeHighest_false() {
         mockWiseFyPrechecksUtil.getRSSI_success()
         mockWiseFySearchUtil.findAccessPointByRegex_null()
-        assertEquals(null, wiseFy.getRSSI(TEST_SSID, false, TEST_TIMEOUT))
+        assertEquals(null, wisefy.getRSSI(TEST_SSID, false, TEST_TIMEOUT))
     }
 
     @Test fun sync_failure_noNetworkFound_takeHighest_true() {
         mockWiseFyPrechecksUtil.getRSSI_success()
         mockWiseFySearchUtil.findAccessPointByRegex_null()
-        assertEquals(null, wiseFy.getRSSI(TEST_SSID, true, TEST_TIMEOUT))
+        assertEquals(null, wisefy.getRSSI(TEST_SSID, true, TEST_TIMEOUT))
     }
 
     @Test fun sync_success_takeHighest_false() {
         mockWiseFyPrechecksUtil.getRSSI_success()
         mockWiseFySearchUtil.findAccessPointByRegex_success()
 
-        val rssi = wiseFy.getRSSI(TEST_SSID, false, TEST_TIMEOUT)
+        val rssi = wisefy.getRSSI(TEST_SSID, false, TEST_TIMEOUT)
         if (rssi != null) {
             assertEquals(TEST_RSSI_LEVEL.toLong(), rssi.toLong())
         } else {
@@ -59,7 +59,7 @@ internal class GetRSSITests : BaseAndroidJUnit4TestClass() {
         mockWiseFyPrechecksUtil.getRSSI_success()
         mockWiseFySearchUtil.findAccessPointByRegex_success()
 
-        val rssi = wiseFy.getRSSI(TEST_SSID, true, TEST_TIMEOUT)
+        val rssi = wisefy.getRSSI(TEST_SSID, true, TEST_TIMEOUT)
         if (rssi != null) {
             assertEquals(TEST_RSSI_LEVEL.toLong(), rssi.toLong())
         } else {
@@ -70,7 +70,7 @@ internal class GetRSSITests : BaseAndroidJUnit4TestClass() {
     @Test fun async_failure_prechecks_takeHighest_false() {
         mockWiseFyPrechecksUtil.getRSSI_failure()
         val mockCallbacks = mock(GetRSSICallbacks::class.java)
-        wiseFy.getRSSI(TEST_SSID, false, TEST_TIMEOUT, mockCallbacks)
+        wisefy.getRSSI(TEST_SSID, false, TEST_TIMEOUT, mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).wisefyFailure(MISSING_PARAMETER)
     }
 
@@ -82,7 +82,7 @@ internal class GetRSSITests : BaseAndroidJUnit4TestClass() {
     @Test fun async_failure_prechecks_takeHighest_true() {
         mockWiseFyPrechecksUtil.getRSSI_failure()
         val mockCallbacks = mock(GetRSSICallbacks::class.java)
-        wiseFy.getRSSI(TEST_SSID, true, TEST_TIMEOUT, mockCallbacks)
+        wisefy.getRSSI(TEST_SSID, true, TEST_TIMEOUT, mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).wisefyFailure(MISSING_PARAMETER)
     }
 
@@ -95,7 +95,7 @@ internal class GetRSSITests : BaseAndroidJUnit4TestClass() {
         mockWiseFyPrechecksUtil.getRSSI_success()
         mockWiseFySearchUtil.findAccessPointByRegex_null()
         val mockCallbacks = mock(GetRSSICallbacks::class.java)
-        wiseFy.getRSSI(TEST_SSID, false, TEST_TIMEOUT, mockCallbacks)
+        wisefy.getRSSI(TEST_SSID, false, TEST_TIMEOUT, mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).networkNotFoundToRetrieveRSSI()
     }
 
@@ -109,7 +109,7 @@ internal class GetRSSITests : BaseAndroidJUnit4TestClass() {
         mockWiseFyPrechecksUtil.getRSSI_success()
         mockWiseFySearchUtil.findAccessPointByRegex_null()
         val mockCallbacks = mock(GetRSSICallbacks::class.java)
-        wiseFy.getRSSI(TEST_SSID, true, TEST_TIMEOUT, mockCallbacks)
+        wisefy.getRSSI(TEST_SSID, true, TEST_TIMEOUT, mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).networkNotFoundToRetrieveRSSI()
     }
 
@@ -123,7 +123,7 @@ internal class GetRSSITests : BaseAndroidJUnit4TestClass() {
         mockWiseFyPrechecksUtil.getRSSI_success()
         mockWiseFySearchUtil.findAccessPointByRegex_success()
         val mockCallbacks = mock(GetRSSICallbacks::class.java)
-        wiseFy.getRSSI(TEST_SSID, false, TEST_TIMEOUT, mockCallbacks)
+        wisefy.getRSSI(TEST_SSID, false, TEST_TIMEOUT, mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).retrievedRSSI(TEST_RSSI_LEVEL)
     }
 
@@ -137,7 +137,7 @@ internal class GetRSSITests : BaseAndroidJUnit4TestClass() {
         mockWiseFyPrechecksUtil.getRSSI_success()
         mockWiseFySearchUtil.findAccessPointByRegex_success()
         val mockCallbacks = mock(GetRSSICallbacks::class.java)
-        wiseFy.getRSSI(TEST_SSID, true, TEST_TIMEOUT, mockCallbacks)
+        wisefy.getRSSI(TEST_SSID, true, TEST_TIMEOUT, mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).retrievedRSSI(TEST_RSSI_LEVEL)
     }
 

@@ -23,14 +23,14 @@ internal class ConnectToNetworkTests : BaseAndroidJUnit4TestClass() {
 
     @Test fun sync_failure_prechecks() {
         mockWiseFyPrechecksUtil.connectToNetwork_failure()
-        assertEquals(false, wiseFy.connectToNetwork(TEST_SSID, TEST_TIMEOUT))
+        assertEquals(false, wisefy.connectToNetwork(TEST_SSID, TEST_TIMEOUT))
         verificationUtil.didNotTryToConnectToNetwork()
     }
 
     @Test fun sync_failure_noSavedNetwork() {
         mockWiseFyPrechecksUtil.connectToNetwork_success()
         mockWiseFySearchUtil.findSavedNetworkByRegex_null()
-        assertEquals(false, wiseFy.connectToNetwork(TEST_SSID, TEST_TIMEOUT))
+        assertEquals(false, wisefy.connectToNetwork(TEST_SSID, TEST_TIMEOUT))
         verificationUtil.didNotTryToConnectToNetwork()
     }
 
@@ -38,7 +38,7 @@ internal class ConnectToNetworkTests : BaseAndroidJUnit4TestClass() {
         mockWiseFyPrechecksUtil.connectToNetwork_success()
         mockWiseFySearchUtil.findSavedNetworkByRegex_success()
         mockWiseFyConnectionUtil.waitToConnectToSSID(false)
-        assertEquals(false, wiseFy.connectToNetwork(TEST_SSID, TEST_TIMEOUT))
+        assertEquals(false, wisefy.connectToNetwork(TEST_SSID, TEST_TIMEOUT))
         verificationUtil.triedToConnectToNetwork()
     }
 
@@ -46,14 +46,14 @@ internal class ConnectToNetworkTests : BaseAndroidJUnit4TestClass() {
         mockWiseFyPrechecksUtil.connectToNetwork_success()
         mockWiseFySearchUtil.findSavedNetworkByRegex_success()
         mockWiseFyConnectionUtil.waitToConnectToSSID(true)
-        assertEquals(true, wiseFy.connectToNetwork(TEST_SSID, TEST_TIMEOUT))
+        assertEquals(true, wisefy.connectToNetwork(TEST_SSID, TEST_TIMEOUT))
         verificationUtil.triedToConnectToNetwork()
     }
 
     @Test fun async_failure_prechecks() {
         mockWiseFyPrechecksUtil.connectToNetwork_failure()
         val mockCallbacks = mock(ConnectToNetworkCallbacks::class.java)
-        wiseFy.connectToNetwork(TEST_SSID, TEST_TIMEOUT, mockCallbacks)
+        wisefy.connectToNetwork(TEST_SSID, TEST_TIMEOUT, mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).wisefyFailure(MISSING_PARAMETER)
         verificationUtil.didNotTryToConnectToNetwork()
     }

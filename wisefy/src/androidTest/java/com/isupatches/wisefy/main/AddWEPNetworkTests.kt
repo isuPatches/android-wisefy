@@ -25,28 +25,28 @@ internal class AddWEPNetworkTests : BaseAndroidJUnit4TestClass() {
 
     @Test fun sync_failure_prechecks() {
         mockWiseFyPrechecksUtil.addNetwork_failure()
-        assertEquals(MISSING_PARAMETER, wiseFy.addWEPNetwork(WEP_NETWORK_SSID, WEP_NETWORK_PASSWORD))
+        assertEquals(MISSING_PARAMETER, wisefy.addWEPNetwork(WEP_NETWORK_SSID, WEP_NETWORK_PASSWORD))
         verificationUtil.didNoTryToAddNetwork()
     }
 
     @Test fun sync_failure() {
         mockWiseFyPrechecksUtil.addNetwork_success()
         mockNetworkUtil.addNetwork_failure()
-        assertEquals(WIFI_MANAGER_FAILURE, wiseFy.addWEPNetwork(WEP_NETWORK_SSID, WEP_NETWORK_PASSWORD))
+        assertEquals(WIFI_MANAGER_FAILURE, wisefy.addWEPNetwork(WEP_NETWORK_SSID, WEP_NETWORK_PASSWORD))
         verificationUtil.triedToAddNetwork()
     }
 
     @Test fun sync_success() {
         mockWiseFyPrechecksUtil.addNetwork_success()
         mockNetworkUtil.addNetwork_success()
-        assertNotEquals(1, wiseFy.addWEPNetwork(WEP_NETWORK_SSID, WEP_NETWORK_PASSWORD))
+        assertNotEquals(1, wisefy.addWEPNetwork(WEP_NETWORK_SSID, WEP_NETWORK_PASSWORD))
         verificationUtil.triedToAddNetwork()
     }
 
     @Test fun async_failure_prechecks() {
         mockWiseFyPrechecksUtil.addNetwork_failure()
         val mockCallbacks = mock(AddNetworkCallbacks::class.java)
-        wiseFy.addWEPNetwork(WEP_NETWORK_SSID, WEP_NETWORK_PASSWORD, mockCallbacks)
+        wisefy.addWEPNetwork(WEP_NETWORK_SSID, WEP_NETWORK_PASSWORD, mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).wisefyFailure(MISSING_PARAMETER)
         verificationUtil.didNoTryToAddNetwork()
     }
@@ -61,7 +61,7 @@ internal class AddWEPNetworkTests : BaseAndroidJUnit4TestClass() {
         mockWiseFyPrechecksUtil.addNetwork_success()
         mockNetworkUtil.addNetwork_failure()
         val mockCallbacks = mock(AddNetworkCallbacks::class.java)
-        wiseFy.addWEPNetwork(WEP_NETWORK_SSID, WEP_NETWORK_PASSWORD, mockCallbacks)
+        wisefy.addWEPNetwork(WEP_NETWORK_SSID, WEP_NETWORK_PASSWORD, mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).failureAddingNetwork(WIFI_MANAGER_FAILURE)
         verificationUtil.triedToAddNetwork()
     }
@@ -77,7 +77,7 @@ internal class AddWEPNetworkTests : BaseAndroidJUnit4TestClass() {
         mockWiseFyPrechecksUtil.addNetwork_success()
         mockNetworkUtil.addNetwork_success()
         val mockCallbacks = mock(AddNetworkCallbacks::class.java)
-        wiseFy.addWEPNetwork(WEP_NETWORK_SSID, WEP_NETWORK_PASSWORD, mockCallbacks)
+        wisefy.addWEPNetwork(WEP_NETWORK_SSID, WEP_NETWORK_PASSWORD, mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).networkAdded(anyInt(), any(WifiConfiguration::class.java))
         verificationUtil.triedToAddNetwork()
     }

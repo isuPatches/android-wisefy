@@ -15,18 +15,18 @@ internal class IsDeviceConnectedToSSIDTests : BaseAndroidJUnit4TestClass() {
 
     @Test fun failure_prechecks() {
         mockWiseFyPrechecksUtil.isDeviceConnectedToSSIDChecks_failure()
-        assertFalse(wiseFy.isDeviceConnectedToSSID(TEST_SSID))
+        assertFalse(wisefy.isDeviceConnectedToSSID(TEST_SSID))
     }
 
     @Test fun failure() {
         mockWiseFyPrechecksUtil.isDeviceConnectedToSSIDChecks_success()
         mockWiseFyConnectionUtil.isCurrentNetworkConnectedToSSID(false)
-        assertFalse(wiseFy.isDeviceConnectedToSSID(TEST_SSID))
+        assertFalse(wisefy.isDeviceConnectedToSSID(TEST_SSID))
     }
 
     @Test fun success() {
         mockWiseFyPrechecksUtil.isDeviceConnectedToSSIDChecks_success()
         mockWiseFyConnectionUtil.isCurrentNetworkConnectedToSSID(true)
-        assertTrue(wiseFy.isDeviceConnectedToSSID(TEST_SSID))
+        assertTrue(wisefy.isDeviceConnectedToSSID(TEST_SSID))
     }
 }

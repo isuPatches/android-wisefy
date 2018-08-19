@@ -16,25 +16,25 @@ internal class IsNetworkWPATests : BaseAndroidJUnit4TestClass() {
 
     @Test fun failure_differentCapability() {
         val scanResult = createMockAccessPointWithCapabilities("Other")
-        assertEquals(false, wiseFy.isNetworkWPA(scanResult))
+        assertEquals(false, wisefy.isNetworkWPA(scanResult))
     }
 
     @Test fun failure_emptyCapabilities() {
         val scanResult = createMockAccessPointWithCapabilities("")
-        assertEquals(false, wiseFy.isNetworkWPA(scanResult))
+        assertEquals(false, wisefy.isNetworkWPA(scanResult))
     }
 
     @Test fun failure_nullCapabilities() {
         val scanResult = createMockAccessPointWithCapabilities(null)
-        assertEquals(false, wiseFy.isNetworkWPA(scanResult))
+        assertEquals(false, wisefy.isNetworkWPA(scanResult))
     }
 
     @Test fun failure_nullScanResult() {
-        assertEquals(false, wiseFy.isNetworkWPA(null))
+        assertEquals(false, wisefy.isNetworkWPA(null))
     }
 
     @Test fun success() {
         val scanResult = createMockAccessPointWithCapabilities(WPA)
-        assertEquals(true, wiseFy.isNetworkWPA(scanResult))
+        assertEquals(true, wisefy.isNetworkWPA(scanResult))
     }
 }
