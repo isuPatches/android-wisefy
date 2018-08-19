@@ -1,16 +1,13 @@
 package com.isupatches.wisefy
 
+import android.net.wifi.ScanResult
+import android.net.wifi.WifiConfiguration
+import org.mockito.ArgumentMatchers
 import org.mockito.ArgumentMatchers.anyBoolean
 import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mockito.`when`
-
-import android.net.wifi.ScanResult
-import android.net.wifi.WifiConfiguration
-
 import java.util.ArrayList
-
-import org.mockito.ArgumentMatchers
 
 /**
  * A class to mock returns from the WiseFySearch class.

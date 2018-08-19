@@ -93,7 +93,11 @@ internal class WiseFySearchImpl private constructor(
             var found = false
             for (accessPoint in accessPoints) {
                 if (takeHighest) {
-                    if (accessPointMatchesRegex(accessPoint, regexForSSID) && hasHighestSignalStrength(accessPoints, accessPoint)) {
+                    if (accessPointMatchesRegex(accessPoint, regexForSSID) && hasHighestSignalStrength(
+                            accessPoints,
+                            accessPoint
+                        )
+                    ) {
                         accessPointToReturn = accessPoint
                         // Need to continue through rest of the list since
                         // we don't know which one will have the highest

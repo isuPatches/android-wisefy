@@ -1,14 +1,12 @@
 package com.isupatches.wisefy
 
-import org.mockito.Mockito.mock
-
 import android.net.ConnectivityManager
 import android.net.wifi.WifiManager
 import android.os.Build
 import android.support.test.InstrumentationRegistry
-
 import org.junit.After
 import org.mockito.Mockito
+import org.mockito.Mockito.mock
 
 /**
  * A common test class to extend.

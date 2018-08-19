@@ -1,15 +1,14 @@
 package com.isupatches.wisefy
 
 import android.net.ConnectivityManager
+import android.net.wifi.WifiConfiguration
+import android.net.wifi.WifiManager
 import org.mockito.ArgumentMatchers.any
 import org.mockito.ArgumentMatchers.anyBoolean
 import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.Mockito.after
 import org.mockito.Mockito.timeout
 import org.mockito.Mockito.verify
-
-import android.net.wifi.WifiConfiguration
-import android.net.wifi.WifiManager
 
 /**
  * A helper class with common logic to verify operations with WifiManager.

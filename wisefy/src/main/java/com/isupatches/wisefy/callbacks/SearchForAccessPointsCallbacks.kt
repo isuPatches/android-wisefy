@@ -36,7 +36,7 @@ interface SearchForAccessPointsCallbacks : BaseCallback {
      * @author Patches
      * @since 3.0
      */
-    fun foundAccessPoints(accessPoints: List<ScanResult>)
+    fun foundAccessPoints(accessPoints: List<@JvmSuppressWildcards ScanResult>)
 
     /**
      * Called when WiseFy times out trying to find a matching access points.

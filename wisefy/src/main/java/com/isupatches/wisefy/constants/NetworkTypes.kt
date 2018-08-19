@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@file:JvmName("NetworkTypes")
 package com.isupatches.wisefy.constants
 
 import android.support.annotation.StringDef

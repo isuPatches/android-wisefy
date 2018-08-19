@@ -1,11 +1,9 @@
 package com.isupatches.wisefy.main
 
-import org.junit.Assert.assertFalse
-import org.junit.Assert.assertTrue
-
 import com.isupatches.wisefy.BaseAndroidJUnit4TestClass
 import com.isupatches.wisefy.TEST_SSID
-
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 /**

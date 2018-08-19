@@ -1,23 +1,19 @@
 package com.isupatches.wisefy.main
 
-import org.junit.Assert.assertEquals
-import org.junit.Assert.fail
-
-import org.mockito.Mockito.after
-import org.mockito.Mockito.mock
-import org.mockito.Mockito.timeout
-import org.mockito.Mockito.verify
-
 import android.net.wifi.WifiInfo
 import com.isupatches.wisefy.BaseAndroidJUnit4TestClass
-
 import com.isupatches.wisefy.TEST_NETWORK_FREQUENCY_24GHZ
 import com.isupatches.wisefy.VERIFICATION_FAILURE_TIMEOUT
 import com.isupatches.wisefy.VERIFICATION_SUCCESS_TIMEOUT
 import com.isupatches.wisefy.callbacks.GetFrequencyCallbacks
 import com.isupatches.wisefy.constants.MISSING_PARAMETER
-
+import org.junit.Assert.assertEquals
+import org.junit.Assert.fail
 import org.junit.Test
+import org.mockito.Mockito.after
+import org.mockito.Mockito.mock
+import org.mockito.Mockito.timeout
+import org.mockito.Mockito.verify
 
 /**
  * Tests the ability to retrieve a network's frequency.

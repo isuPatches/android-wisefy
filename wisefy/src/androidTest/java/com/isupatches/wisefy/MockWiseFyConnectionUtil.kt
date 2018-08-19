@@ -1,11 +1,10 @@
 package com.isupatches.wisefy
 
+import android.net.NetworkInfo
 import org.mockito.ArgumentMatchers.any
 import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mockito.`when`
-
-import android.net.NetworkInfo
 
 /**
  * A class to mock returns from the WiseFyConnection class.

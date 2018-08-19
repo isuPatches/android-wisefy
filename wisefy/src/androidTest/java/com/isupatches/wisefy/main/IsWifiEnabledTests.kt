@@ -1,9 +1,7 @@
 package com.isupatches.wisefy.main
 
-import org.junit.Assert.assertEquals
-
 import com.isupatches.wisefy.BaseAndroidJUnit4TestClass
-
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 /**

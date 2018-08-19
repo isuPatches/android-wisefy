@@ -2,23 +2,55 @@
 
 To add an open network:
 
+_With Kotlin_
+
+```kotlin
+val result = wisefy.addOpenNetwork("Open Network")
+```
+
+_With Java_
+
 ```java
-int newNetworkId = wisefy.addOpenNetwork("Open Network");
+int result = wisefy.addOpenNetwork("Open Network");
 ```
 
 To add a WEP network:
 
+_With Kotlin_
+
+```kotlin
+val result = wisefy.addWEPNetwork("WEP Network", "123456")
+```
+
+_With Java_
+
 ```java
-int newNetworkId = wisefy.addWEPNetwork("WEP Network", "123456");
+int result = wisefy.addWEPNetwork("WEP Network", "123456");
 ```
 
 To add a WPA2 network:
 
+_With Kotlin_
+
+```kotlin
+val result = wisefy.addWEPNetwork("WPA2 Network", "123456")
+```
+
+_With Java_
+
 ```java
-int newNetworkId = wisefy.addWPA2Network("WPA2 Network", "12345678");
+int result = wisefy.addWPA2Network("WPA2 Network", "12345678");
 ```
 
 To remove a configured network:
+
+_With Kotlin_
+
+```kotlin
+val removedSuccessfully = wisefy.removeNetwork("SSID to remove");
+```
+
+_With Java_
 
 ```java
 boolean removedSuccessfully = wisefy.removeNetwork("SSID to remove");
@@ -28,89 +60,173 @@ boolean removedSuccessfully = wisefy.removeNetwork("SSID to remove");
 
 To add an open network:
 
+_With Kotlin_
+
+```kotlin
+wisefy.addOpenNetwork("Open Network", object: AddNetworkCallbacks {
+    override fun failureAddingNetwork(wifiManagerReturn: Int) {
+
+    }
+
+    override fun networkAdded(newNetworkId: Int, networkConfig: WifiConfiguration) {
+
+    }
+
+    override fun wisefyFailure(wisefyFailureCode: Int) {
+
+    }
+})
+```
+
+_With Java_
+
 ```java
-wisefy.addOpenNetwork("Open Network", new AddOpenNetworkCallbacks() {
+wisefy.addOpenNetwork("Open Network", new AddNetworkCallbacks() {
     @Override
-    public void addOpenNetworkWiseFyFailure(int wisefyReturnCode) {
-      
+    public void failureAddingNetwork(int i) {
+
     }
-    
+
     @Override
-    public void failureAddingOpenNetwork(int wifiManagerReturn) {
-    
+    public void networkAdded(int i, WifiConfiguration wifiConfiguration) {
+
     }
-    
+
     @Override
-    public void openNetworkAdded(int newNetworkId, WifiConfiguration openNetworkConfig) {
-    
+    public void wisefyFailure(int i) {
+
     }
 });
 ```
 
 To add a WEP network:
 
+_With Kotlin_
+
+```Kotlin
+wisefy.addWEPNetwork("WEP Network", "123456", object: AddNetworkCallbacks {
+    override fun failureAddingNetwork(wifiManagerReturn: Int) {
+
+    }
+
+    override fun networkAdded(newNetworkId: Int, networkConfig: WifiConfiguration) {
+
+    }
+
+    override fun wisefyFailure(wisefyFailureCode: Int) {
+
+    }
+})
+```
+
+_With Java_
+
 ```java
-wisefy.addWEPNetwork("WEP Network", "123456", new AddWEPNetworkCallbacks() {
+wisefy.addWEPNetwork("WEP Network", "123456", new AddNetworkCallbacks() {
     @Override
-    public void addWEPNetworkWiseFyFailure(int wisefyReturnCode) {
-      
+    public void failureAddingNetwork(int i) {
+
     }
-    
+
     @Override
-    public void failureAddingWEPNetwork(int wifiManagerReturn) {
-    
+    public void networkAdded(int i, WifiConfiguration wifiConfiguration) {
+
     }
-    
+
     @Override
-    public void wepNetworkAdded(int newNetworkId, WifiConfiguration wepNetworkConfig) {
-    
+    public void wisefyFailure(int i) {
+
     }
 });
 ```
 
 To add a WPA2 network:
 
+_With Kotlin_
+
+```kotlin
+wisefy.addWPA2Network("WPA2 Network", "12345678", object: AddNetworkCallbacks {
+    override fun failureAddingNetwork(wifiManagerReturn: Int) {
+
+    }
+
+    override fun networkAdded(newNetworkId: Int, networkConfig: WifiConfiguration) {
+
+    }
+
+    override fun wisefyFailure(wisefyFailureCode: Int) {
+
+    }
+})
+```
+
+_With Java_
+
 ```java
-wisefy.addWPA2Network("WPA2 Network", "12345678", new AddWPA2NetworkCallbacks() {
+wisefy.addWPA2Network("WPA2 Network", "12345678", new AddNetworkCallbacks() {
     @Override
-    public void addWPA2NetworkWiseFyFailure(int wisefyReturnCode) {
-    
+    public void failureAddingNetwork(int i) {
+
     }
-    
+
     @Override
-    public void failureAddingWPA2Network(int wifiManagerReturn) {
-    
+    public void networkAdded(int i, WifiConfiguration wifiConfiguration) {
+
     }
-    
+
     @Override
-    public void wpa2NetworkAdded(int newNetworkId, WifiConfiguration wpa2Network) {
-    
+    public void wisefyFailure(int i) {
+
     }
 });
 ```
 
 To remove a configured network:
 
+_With Kotlin_
+
+```kotlin
+wisefy.removeNetwork("SSID to remove", object: RemoveNetworkCallbacks {
+    override fun failureRemovingNetwork() {
+
+    }
+
+    override fun networkNotFoundToRemove() {
+
+    }
+
+    override fun networkRemoved() {
+
+    }
+
+    override fun wisefyFailure(wisefyFailureCode: Int) {
+
+    }
+})
+```
+
+_With Java_
+
 ```java
 wisefy.removeNetwork("SSID to remove", new RemoveNetworkCallbacks() {
     @Override
     public void failureRemovingNetwork() {
-    
+
     }
-    
+
     @Override
     public void networkNotFoundToRemove() {
-    
+
     }
-    
+
     @Override
     public void networkRemoved() {
-    
+
     }
-    
+
     @Override
-    public void removeNetworkWiseFyFailure(int wisefyReturnCode) {
-    
+    public void wisefyFailure(int i) {
+
     }
 });
 ```
@@ -119,4 +235,3 @@ wisefy.removeNetwork("SSID to remove", new RemoveNetworkCallbacks() {
 
 - Will return a WiseFy error code if network is already a saved configuration
 - Will return a WiseFy error code if parameter is missing
-- Will return a WiseFy error code if the instance has a missing prerequisite

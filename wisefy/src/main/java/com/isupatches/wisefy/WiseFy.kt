@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@file:JvmName("WiseFy")
 package com.isupatches.wisefy
 
 import android.Manifest.permission.ACCESS_COARSE_LOCATION
@@ -884,7 +885,6 @@ class WiseFy private constructor(
      * @throws SecurityException Without necessary permissions granted
      *
      * @see [getCurrentNetwork]
-     * @see [WifiInfo]
      * @see [WifiInfo.getFrequency]
      *
      * @author Patches
@@ -910,7 +910,6 @@ class WiseFy private constructor(
      * @see [getCurrentNetwork]
      * @see [GetFrequencyCallbacks]
      * @see [runOnWiseFyThread]
-     * @see [WifiInfo]
      * @see [WifiInfo.getFrequency]
      * @see [WiseFyLock]
      *
@@ -942,7 +941,6 @@ class WiseFy private constructor(
      *
      * @return Integer - The frequency of the devices current network or null if no network
      *
-     * @see [WifiInfo]
      * @see [WifiInfo.getFrequency]
      *
      * @author Patches
@@ -987,7 +985,6 @@ class WiseFy private constructor(
      *
      * @return String - The IPv4 or IPv6 address
      *
-     * @see [InetAddress]
      * @see [InetAddress.getHostAddress]
      * @see [WifiInfo.getIpAddress]
      * @see [WifiManager.getConnectionInfo]
@@ -1019,7 +1016,6 @@ class WiseFy private constructor(
      * @param callbacks The listener to return results to
      *
      * @see [GetIPCallbacks]
-     * @see [InetAddress]
      * @see [InetAddress.getHostAddress]
      * @see [runOnWiseFyThread]
      * @see [WifiInfo.getIpAddress]
@@ -1101,7 +1097,6 @@ class WiseFy private constructor(
      *
      * @see [GetNearbyAccessPointsCallbacks]
      * @see [runOnWiseFyThread]
-     * @see [ScanResult]
      * @see [WifiManager.getScanResults]
      * @see [WifiManager.startScan]
      * @see [WiseFyLock]
@@ -1146,7 +1141,6 @@ class WiseFy private constructor(
      *
      * @return Integer - The RSSI value for the found SSID or null if no matching network found
      *
-     * @see [ScanResult]
      * @see [ScanResult.level]
      * @see [WiseFyPrechecks.getRSSIChecks]
      * @see [WiseFySearch.findAccessPointByRegex]
@@ -1178,7 +1172,6 @@ class WiseFy private constructor(
      *
      * @see [GetRSSICallbacks]
      * @see [runOnWiseFyThread]
-     * @see [ScanResult]
      * @see [ScanResult.level]
      * @see [WiseFyLock]
      * @see [WiseFyPrechecks.getRSSIChecks]
@@ -1221,6 +1214,13 @@ class WiseFy private constructor(
      * @param regexForSSID The ssid to use while searching for saved configuration
      *
      * @return WifiConfiguration|null - Saved network that matches the ssid
+     *
+     * @see [WifiConfiguration]
+     * @see [WiseFyPrechecks.getSavedNetworkChecks]
+     * @see [WiseFySearch.findSavedNetworkByRegex]
+     *
+     * @author Patches
+     * @since 3.0
      */
     @Sync
     @CallingThread
@@ -1236,6 +1236,16 @@ class WiseFy private constructor(
      *
      * @param regexForSSID The ssid to use while searching for saved configuration
      * @param callbacks The listener to return results to
+     *
+     * @see [GetSavedNetworkCallbacks]
+     * @see [runOnWiseFyThread]
+     * @see [WifiConfiguration]
+     * @see [WiseFyLock]
+     * @see [WiseFyPrechecks.getSavedNetworkChecks]
+     * @see [WiseFySearch.findSavedNetworkByRegex]
+     *
+     * @author Patches
+     * @since 3.0
      */
     @Async
     @WiseFyThread
@@ -1263,6 +1273,13 @@ class WiseFy private constructor(
      * To retrieve a list of saved networks on a user's device.
      *
      * @return List of WifiConfiguration|null - List of saved networks on a users device
+     *
+     * @see [WifiConfiguration]
+     * @see [WiseFyPrechecks.getSavedNetworksChecks]
+     * @see [WiseFySearch.findSavedNetworksMatchingRegex]
+     *
+     * @author Patches
+     * @since 3.0
      */
     @Sync
     @CallingThread
@@ -1277,6 +1294,16 @@ class WiseFy private constructor(
      * To retrieve a list of saved networks on a user's device.
      *
      * @param callbacks The listener to return results to
+     *
+     * @see [GetSavedNetworksCallbacks]
+     * @see [runOnWiseFyThread]
+     * @see [WifiConfiguration]
+     * @see [WiseFyLock]
+     * @see [WiseFyPrechecks.getSavedNetworksChecks]
+     * @see [WiseFySearch.findSavedNetworksMatchingRegex]
+     *
+     * @author Patches
+     * @since 3.0
      */
     @Async
     @WiseFyThread
@@ -1306,6 +1333,13 @@ class WiseFy private constructor(
      * @param regexForSSID The ssid to use while searching for saved configurations
      *
      * @return List of WifiConfigurations|null - The list of saved network configurations that match the given regex
+     *
+     * @see [WifiConfiguration]
+     * @see [WiseFyPrechecks.getSavedNetworksChecks]
+     * @see [WiseFySearch.findSavedNetworksMatchingRegex]
+     *
+     * @author Patches
+     * @since 3.0
      */
     @Sync
     @CallingThread
@@ -1321,6 +1355,16 @@ class WiseFy private constructor(
      *
      * @param regexForSSID The ssid to use while searching for saved configurations
      * @param callbacks The listener to return results to
+     *
+     * @see [GetSavedNetworksCallbacks]
+     * @see [runOnWiseFyThread]
+     * @see [WifiConfiguration]
+     * @see [WiseFyLock]
+     * @see [WiseFyPrechecks.getSavedNetworksChecks]
+     * @see [WiseFySearch.findSavedNetworksMatchingRegex]
+     *
+     * @author Patches
+     * @since 3.0
      */
     @Async
     @WiseFyThread
@@ -1350,6 +1394,9 @@ class WiseFy private constructor(
      * @return WiseFyLock - The instance of the lock in use by WiseFy
      *
      * @see WiseFyLock
+     *
+     * @author Patches
+     * @since 3.0
      */
     override fun getWiseFyLock(): WiseFyLock = wisefyLock
 
@@ -1357,6 +1404,14 @@ class WiseFy private constructor(
      * To check if the device is connected to a mobile network.
      *
      * @return bool - If the device is currently connected to a mobile network
+     *
+     * @see [ConnectivityManager.getActiveNetworkInfo]
+     * @see [MOBILE]
+     * @see [WiseFyConnection.isNetworkConnectedAndMatchesType]
+     * @see [WiseFyPrechecks.isDeviceConnectedToMobileNetworkChecks]
+     *
+     * @author Patches
+     * @since 3.0
      */
     @Sync
     @CallingThread
@@ -1369,6 +1424,13 @@ class WiseFy private constructor(
      * To check if the device is connected to a mobile or wifi network.
      *
      * @return bool - If the device is currently connected to a mobile or wifi network
+     *
+     * @see [ConnectivityManager.getActiveNetworkInfo]
+     * @see [WiseFyConnection.isNetworkConnected]
+     * @see [WiseFyPrechecks.isDeviceConnectedToMobileOrWifiNetworkChecks]
+     *
+     * @author Patches
+     * @since 3.0
      */
     @Sync
     @CallingThread
@@ -1383,6 +1445,12 @@ class WiseFy private constructor(
      * @param ssid The SSID to check if the device is attached to
      *
      * @return bool - If the device is currently attached to the given SSID
+     *
+     * @see [WiseFyConnection.isCurrentNetworkConnectedToSSID]
+     * @see [WiseFyPrechecks.isDeviceConnectedToSSIDChecks]
+     *
+     * @author Patches
+     * @since 3.0
      */
     @Sync
     @CallingThread
@@ -1395,6 +1463,14 @@ class WiseFy private constructor(
      * To check if the device is connected to a wifi network.
      *
      * @return bool - If the device is currently connected to a wifi network
+     *
+     * @see [ConnectivityManager.getActiveNetworkInfo]
+     * @see [WIFI]
+     * @see [WiseFyConnection.isNetworkConnectedAndMatchesType]
+     * @see [WiseFyPrechecks.isDeviceConnectedToWifiNetworkChecks]
+     *
+     * @author Patches
+     * @since 3.0
      */
     @Sync
     @CallingThread
@@ -1407,6 +1483,13 @@ class WiseFy private constructor(
      * To query if the device is roaming.
      *
      * @return boolean - If the current network is roaming
+     *
+     * @see [ConnectivityManager.getActiveNetworkInfo]
+     * @see [NetworkInfo.isRoaming]
+     * @see [WiseFyPrechecks.isDeviceRoamingChecks]
+     *
+     * @author Patches
+     * @since 3.0
      */
     @Sync
     @CallingThread
@@ -1424,6 +1507,11 @@ class WiseFy private constructor(
      * To query if logging is enabled or disabled for a WiseFy instance.
      *
      * @return boolean - If logging is enabled for the WiseFy instance
+     *
+     * @see [WiseFyLogger.isLoggingEnabled]
+     *
+     * @author Patches
+     * @since 3.0
      */
     @Sync
     @CallingThread
@@ -1435,6 +1523,13 @@ class WiseFy private constructor(
      * @return boolean - If the network is 5gHz
      *
      * @throws SecurityException Without necessary permissions granted
+     *
+     * @see [getFrequency]
+     * @see [MAX_FREQUENCY_5GHZ]
+     * @see [MIN_FREQUENCY_5GHZ]
+     *
+     * @author Patches
+     * @since 3.0
      */
     @Sync
     @CallingThread
@@ -1452,6 +1547,14 @@ class WiseFy private constructor(
      * @param network The network to check if it's 5gHz
      *
      * @return boolean - If the network is 5gHz
+     *
+     * @see [getFrequency]
+     * @see [MAX_FREQUENCY_5GHZ]
+     * @see [MIN_FREQUENCY_5GHZ]
+     * @see [WifiInfo]
+     *
+     * @author Patches
+     * @since 3.0
      */
     @Sync
     @CallingThread
@@ -1467,6 +1570,13 @@ class WiseFy private constructor(
      * @param scanResult The network to check
      *
      * @return boolean - Whether the network has EAP capabilities listed
+     *
+     * @see [containsCapability]
+     * @see [ScanResult]
+     * @see [EAP]
+     *
+     * @author Patches
+     * @since 3.0
      */
     @Sync
     @CallingThread
@@ -1478,6 +1588,13 @@ class WiseFy private constructor(
      * @param scanResult The network to check
      *
      * @return boolean - Whether the network has PSK capabilities listed
+     *
+     * @see [containsCapability]
+     * @see [ScanResult]
+     * @see [PSK]
+     *
+     * @author Patches
+     * @since 3.0
      */
     @Sync
     @CallingThread
@@ -1489,6 +1606,12 @@ class WiseFy private constructor(
      * @param ssid The SSID to check and see if it's in the list of configured networks
      *
      * @return boolean - If the SSID is in the list of configured networks
+     *
+     * @see [WiseFyPrechecks.isNetworkSavedChecks]
+     * @see [WiseFySearch.isNetworkASavedConfiguration]
+     *
+     * @author Patches
+     * @since 3.0
      */
     @Sync
     @CallingThread
@@ -1497,20 +1620,30 @@ class WiseFy private constructor(
         wisefyPrechecks.isNetworkSavedChecks().passed() && wisefySearch.isNetworkASavedConfiguration(ssid)
 
     /**
-     * To check and return if a network is secure (WEP/WPA/WPA2 capabilities).
+     * To check and return if a network is secure (contains EAP/PSK/WEP/WPA/WPA2 capabilities).
      *
      * @param scanResult The network to see if it is secure
      *
      * @return boolean - Whether the network is secure
+     *
+     * @see [ScanResult.capabilities]
+     * @see [EAP]
+     * @see [PSK]
+     * @see [WEP]
+     * @see [WPA]
+     * @see [WPA2]
+     *
+     * @author Patches
+     * @since 3.0
      */
     @Sync
     @CallingThread
     override fun isNetworkSecure(scanResult: ScanResult?): Boolean {
-        if (scanResult?.capabilities != null) {
-            val networkCapabilities = scanResult.capabilities
+        scanResult?.let {
+            val networkCapabilities = it.capabilities
             val securityModes = arrayOf(EAP, PSK, WEP, WPA, WPA2)
-            for (i in securityModes.indices.reversed()) {
-                if (networkCapabilities.contains(securityModes[i])) {
+            for (securityMode in securityModes) {
+                if (networkCapabilities.contains(securityMode)) {
                     return true
                 }
             }
@@ -1524,6 +1657,13 @@ class WiseFy private constructor(
      * @param scanResult The network to check
      *
      * @return boolean - Whether the network has WEP capabilities listed
+     *
+     * @see [containsCapability]
+     * @see [ScanResult]
+     * @see [WEP]
+     *
+     * @author Patches
+     * @since 3.0
      */
     @Sync
     @CallingThread
@@ -1535,6 +1675,13 @@ class WiseFy private constructor(
      * @param scanResult The network to check
      *
      * @return boolean - Whether the network has WPA capabilities listed
+     *
+     * @see [containsCapability]
+     * @see [ScanResult]
+     * @see [WPA]
+     *
+     * @author Patches
+     * @since 3.0
      */
     @Sync
     @CallingThread
@@ -1546,6 +1693,13 @@ class WiseFy private constructor(
      * @param scanResult The network to check
      *
      * @return boolean - Whether the network has WPA2 capabilities listed
+     *
+     * @see [containsCapability]
+     * @see [ScanResult]
+     * @see [WPA2]
+     *
+     * @author Patches
+     * @since 3.0
      */
     @Sync
     @CallingThread
@@ -1555,6 +1709,12 @@ class WiseFy private constructor(
      * To check if Wifi is enabled on the device or not.
      *
      * @return boolean - if Wifi is enabled on device
+     *
+     * @see [WifiManager.isWifiEnabled]
+     * @see [WiseFyPrechecks.isWifiEnabledChecks]
+     *
+     * @author Patches
+     * @since 3.0
      */
     @Sync
     @CallingThread
@@ -1567,6 +1727,7 @@ class WiseFy private constructor(
      *
      * @return boolean - If the command succeeded in removing the network
      *
+     * @see [removeNetworkConfiguration]
      * @see [WifiConfiguration]
      * @see [WiseFyPrechecks.removeNetworkCheck]
      * @sse [WiseFySearch.findSavedNetworkByRegex]
@@ -1598,6 +1759,7 @@ class WiseFy private constructor(
      * @param callbacks The listener to return results to
      *
      * @see [RemoveNetworkCallbacks]
+     * @see [removeNetworkConfiguration]
      * @see [runOnWiseFyThread]
      * @see [WifiConfiguration]
      * @see [WiseFyLock]
@@ -1794,7 +1956,6 @@ class WiseFy private constructor(
      *
      * @return String|null - The first SSID that contains the search ssid (if any, else null)
      *
-     * @see [ScanResult]
      * @see [ScanResult.SSID]
      * @see [WiseFyPrechecks.searchForSSIDChecks]
      * @see [WiseFySearch.findAccessPointByRegex]
@@ -1823,7 +1984,6 @@ class WiseFy private constructor(
      * @param callbacks The listener to return results to
      *
      * @see [runOnWiseFyThread]
-     * @see [ScanResult]
      * @see [ScanResult.SSID]
      * @see [SearchForSSIDCallbacks]
      * @see [WiseFyLock]
@@ -1926,7 +2086,6 @@ class WiseFy private constructor(
      *
      * @return boolean - If the network was successfully added
      *
-     * @see [WifiConfiguration]
      * @see [WifiConfiguration.SSID]
      * @see [WifiManager.addNetwork]
      *
@@ -1936,6 +2095,9 @@ class WiseFy private constructor(
     private fun addNetworkConfiguration(wifiConfiguration: WifiConfiguration): Int {
         val result = wifiManager.addNetwork(wifiConfiguration)
         WiseFyLogger.debug(TAG, "Adding network with SSID: %s had result: %d", wifiConfiguration.SSID, result)
+        if (result == WIFI_MANAGER_FAILURE) {
+            WiseFyLogger.error(TAG, "Error adding network configuration.")
+        }
         return result
     }
 
@@ -1948,7 +2110,6 @@ class WiseFy private constructor(
      * @return boolean - True if the network contains the capability
      *
      * @see [Capability]
-     * @see [ScanResult]
      * @see [ScanResult.capabilities]
      *
      * @author Patches
@@ -1999,7 +2160,6 @@ class WiseFy private constructor(
      *
      * @return bool - true if the network was successfully removed
      *
-     * @see [WifiConfiguration]
      * @see [WifiConfiguration.networkId]
      * @see [WifiConfiguration.SSID]
      * @see [WifiManager.disconnect]

@@ -1,11 +1,9 @@
 package com.isupatches.wisefy
 
-import org.junit.Assert.fail
-
 import android.net.wifi.WifiInfo
-
 import com.isupatches.wisefy.callbacks.GetFrequencyCallbacks
 import com.isupatches.wisefy.callbacks.GetSavedNetworksCallbacks
+import org.junit.Assert.fail
 
 /**
  * A helper class to call methods in WiseFy with no callbacks.

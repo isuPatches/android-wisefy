@@ -1,23 +1,19 @@
 package com.isupatches.wisefy.main
 
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotEquals
-
-import org.mockito.ArgumentMatchers.anyInt
-import org.mockito.Mockito.timeout
-import org.mockito.Mockito.verify
-
 import android.net.wifi.WifiConfiguration
 import com.isupatches.wisefy.BaseAndroidJUnit4TestClass
-
 import com.isupatches.wisefy.OPEN_NETWORK_SSID
 import com.isupatches.wisefy.VERIFICATION_SUCCESS_TIMEOUT
 import com.isupatches.wisefy.WiseFy.Companion.WIFI_MANAGER_FAILURE
 import com.isupatches.wisefy.callbacks.AddNetworkCallbacks
 import com.isupatches.wisefy.constants.MISSING_PARAMETER
-
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotEquals
 import org.junit.Test
+import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.Mockito.mock
+import org.mockito.Mockito.timeout
+import org.mockito.Mockito.verify
 
 /**
  * Tests the ability to add open networks.

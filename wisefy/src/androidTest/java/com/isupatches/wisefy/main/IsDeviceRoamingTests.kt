@@ -1,10 +1,8 @@
 package com.isupatches.wisefy.main
 
+import com.isupatches.wisefy.BaseAndroidJUnit4TestClass
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
-
-import com.isupatches.wisefy.BaseAndroidJUnit4TestClass
-
 import org.junit.Test
 
 /**

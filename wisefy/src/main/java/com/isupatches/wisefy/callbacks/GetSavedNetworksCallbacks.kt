@@ -44,5 +44,5 @@ interface GetSavedNetworksCallbacks : BaseCallback {
      * @author Patches
      * @since 3.0
      */
-    fun retrievedSavedNetworks(savedNetworks: List<WifiConfiguration>)
+    fun retrievedSavedNetworks(savedNetworks: List<@JvmSuppressWildcards WifiConfiguration>)
 }

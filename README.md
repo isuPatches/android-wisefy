@@ -15,7 +15,7 @@ Wifi configuration and util library built for Android.
 - Rewritten in Kotlin
     - Static analysis tools added
 - Ability to get the IP of a device
-- Additional details in callback for adding a network:
+- Additional details in callbacks for adding a network:
     - The new id of the network
     - The WifiConfiguration of the network that was added
 - isNetworkInConfigurationList renamed isNetworkSaved
@@ -29,6 +29,7 @@ Wifi configuration and util library built for Android.
 - Target now is set to API 27
 - Less duplicate code
 - Improved testing
+- Updated documentation
 - Other improvements and adjustments!
 
 ## What's New in 2.0.x
@@ -98,11 +99,27 @@ WiseFy is constructed with the builder pattern that allows you access to the syn
 
 To grab a default instance:
 
+_With Kotlin_
+
+```kotlin
+val wisefy = WiseFy.Brains(activity!!).getSmarts()
+```
+
+_With Java_
+
 ```java
 WiseFy wisefy = new WiseFy.Brains(getActivity()).getSmarts();
 ```
 
 To grab an instance with logging enabled:
+
+_With Kotlin_
+
+```kotlin
+val wisefy = WiseFy.Brains(activity!!).logging(true).getSmarts()
+```
+
+_With Java_
 
 ```java
 WiseFy wisefy = new WiseFy.Brains(getActivity()).logging(true).getSmarts();
@@ -113,6 +130,14 @@ WiseFy wisefy = new WiseFy.Brains(getActivity()).logging(true).getSmarts();
 Since the Async API of WiseFy is run on a background thread, it is necessary to make sure it is exited and cleanup up properly.
 
 To stop the WiseFy thread and nullify it along with it's handler please call:
+
+_With Kotlin_
+
+```kotlin
+wisefy.dump();
+```
+
+_With Java_
 
 ```java
 wisefy.dump();

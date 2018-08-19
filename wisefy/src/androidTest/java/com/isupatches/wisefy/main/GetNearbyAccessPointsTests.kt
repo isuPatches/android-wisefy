@@ -1,18 +1,14 @@
 package com.isupatches.wisefy.main
 
-import org.junit.Assert.assertEquals
-
-import org.mockito.Mockito.mock
-import org.mockito.Mockito.timeout
-import org.mockito.Mockito.verify
-
-
 import com.isupatches.wisefy.BaseAndroidJUnit4TestClass
 import com.isupatches.wisefy.VERIFICATION_SUCCESS_TIMEOUT
 import com.isupatches.wisefy.callbacks.GetNearbyAccessPointsCallbacks
 import com.isupatches.wisefy.constants.MISSING_PARAMETER
-
+import org.junit.Assert.assertEquals
 import org.junit.Test
+import org.mockito.Mockito.mock
+import org.mockito.Mockito.timeout
+import org.mockito.Mockito.verify
 
 /**
  * Tests the ability to retrieve a list of nearby access points for a device.

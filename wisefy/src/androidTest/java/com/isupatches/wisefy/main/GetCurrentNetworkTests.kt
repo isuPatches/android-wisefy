@@ -1,20 +1,16 @@
 package com.isupatches.wisefy.main
 
 import com.isupatches.wisefy.BaseAndroidJUnit4TestClass
-import org.junit.Assert.assertEquals
-
-import org.junit.Assert.fail
-import org.mockito.Mockito.mock
-import org.mockito.Mockito.timeout
-import org.mockito.Mockito.verify
-
-
 import com.isupatches.wisefy.TEST_SSID
 import com.isupatches.wisefy.VERIFICATION_SUCCESS_TIMEOUT
 import com.isupatches.wisefy.callbacks.GetCurrentNetworkCallbacks
 import com.isupatches.wisefy.constants.MISSING_PARAMETER
-
+import org.junit.Assert.assertEquals
+import org.junit.Assert.fail
 import org.junit.Test
+import org.mockito.Mockito.mock
+import org.mockito.Mockito.timeout
+import org.mockito.Mockito.verify
 
 /**
  * Tests the ability to retrieve a device's current network.
