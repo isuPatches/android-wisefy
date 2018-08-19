@@ -2,23 +2,93 @@
 
 To get current network:
 
+_With Kotlin_
+
+```Kotlin
+val currentNetwork = wisefy.getCurrentNetwork()
+```
+
+_With Java_
+
 ```java
-WifiInfo currentNetwork = mWiseFy.getCurrentNetwork();
+WifiInfo currentNetwork = wisefy.getCurrentNetwork();
+```
+
+To get current network info:
+
+_With Kotlin_
+
+```kotlin
+val currentNetworkInfo = wisefy.getCurrentNetworkInfo()
+```
+
+_With Java_
+
+```java
+NetworkInfo currentNetworkInfo = wisefy.getCurrentNetworkInfo();
 ```
 
 #### Via The Asynchronous API
 
 To get current network:
 
+_With Kotlin_
+
+```kotlin
+wisefy.getCurrentNetwork(object: GetCurrentNetworkCallbacks {
+    override fun retrievedCurrentNetwork(currentNetwork: WifiInfo) {
+
+    }
+
+    override fun wisefyFailure(wisefyFailureCode: Int) {
+
+    }
+})
+```
+
+_With Java_
+
 ```java
-mWiseFy.getCurrentNetwork(new GetCurrentNetworkCallbacks() {
+wisefy.getCurrentNetwork(new GetCurrentNetworkCallbacks() {
     @Override
-    public void getCurrentNetworkWiseFyFailure(Integer wisefyReturnCode) {
+    public void retrievedCurrentNetwork(WifiInfo wifiInfo) {
 
     }
 
     @Override
-    public void retrievedCurrentNetwork(WifiInfo currentNetwork) {
+    public void wisefyFailure(int i) {
+
+    }
+});
+```
+
+To get current network info:
+
+_With Kotlin_
+
+```kotlin
+wisefy.getCurrentNetworkInfo(object: GetCurrentNetworkInfoCallbacks {
+    override fun retrievedCurrentNetworkInfo(currentNetworkDetails: NetworkInfo) {
+
+    }
+
+    override fun wisefyFailure(wisefyFailureCode: Int) {
+
+    }
+})
+```
+
+_With Java_
+
+```java
+wisefy.getCurrentNetworkInfo(new GetCurrentNetworkInfoCallbacks() {
+    @Override
+    public void retrievedCurrentNetworkInfo(NetworkInfo networkInfo) {
+
+    }
+
+    @Override
+    public void wisefyFailure(int i) {
 
     }
 });
@@ -27,4 +97,3 @@ mWiseFy.getCurrentNetwork(new GetCurrentNetworkCallbacks() {
 ***Notes***
 
 - Will return a WiseFy error code if parameter is missing
-- Will return a WiseFy error code if the instance has a missing prerequisite

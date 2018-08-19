@@ -6,8 +6,8 @@ jdk:
 
 env:
   global:
-    - TARGET_SDK=26
-    - BUILD_TOOLS_VERSION=26.0.0
+    - TARGET_SDK=27
+    - BUILD_TOOLS_VERSION=27.0.3
   matrix:
     - EMULATOR_SDK=android-19 ABI=armeabi-v7a
     - EMULATOR_SDK=android-22 ABI=armeabi-v7a
@@ -32,7 +32,7 @@ before_script:
   - adb shell input keyevent 82 &
 
 script:
-  - travis_wait 60 ./gradlew jacocoDebugTestReport
+  - travis_wait 60 ./gradlew makeGoodChoices
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)

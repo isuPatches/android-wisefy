@@ -4,13 +4,35 @@ Wifi configuration and util library built for Android.
 
 > <br/>*Developed by Patches 04/24/2016 - present* <br/>
 > 
-> <br/>Supports Android SDK levels 16-26<br/><br/>
+> <br/>Supports Android SDK levels 16-27<br/><br/>
 
-[![Build Status](https://travis-ci.org/isuPatches/WiseFy.svg?branch=master)](https://travis-ci.org/isuPatches/WiseFy) [ ![Download](https://api.bintray.com/packages/isupatches/Maven/wisefy/images/download.svg) ](https://bintray.com/isupatches/Maven/wisefy/_latestVersion) <a href="http://www.methodscount.com/?lib=com.isupatches%3Awisefy%3A2.%2B"><img src="https://img.shields.io/badge/Methods and size-298 | 51 KB-e91e63.svg"/></a> [![codecov](https://codecov.io/gh/isuPatches/WiseFy/branch/2.x/graph/badge.svg)](https://codecov.io/gh/isuPatches/WiseFy)
+[![Build Status](https://travis-ci.org/isuPatches/WiseFy.svg?branch=master)](https://travis-ci.org/isuPatches/WiseFy) [ ![Download](https://api.bintray.com/packages/isupatches/Maven/wisefy/images/download.svg) ](https://bintray.com/isupatches/Maven/wisefy/_latestVersion) [![codecov](https://codecov.io/gh/isuPatches/WiseFy/branch/3.x/graph/badge.svg)](https://codecov.io/gh/isuPatches/WiseFy)
 
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-WiseFy-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/6011) [![Android Weekly](https://img.shields.io/badge/Android%20Weekly-%23230-blue.svg)](http://androidweekly.net/issues/issue-230) 
 
-## What's New in 2.x
+## What's New in 3.x
+
+- Rewritten in Kotlin
+    - Static analysis tools added
+- Ability to get the IP of a device
+- Additional details in callbacks for adding a network:
+    - The new id of the network
+    - The WifiConfiguration of the network that was added
+- isNetworkInConfigurationList renamed isNetworkSaved
+- brains renamed Brains
+- Nullability issues will be more visible
+- Definitions for NetworkTypes and WiseFyCodes
+- Immutability throughout the library
+- Improved architecture
+- Updated dependencies
+- Updated to Gradle 4.x and AGP 3.x
+- Target now is set to API 27
+- Less duplicate code
+- Improved testing
+- Updated documentation with new Kotlin examples
+- Other improvements and adjustments!
+
+## What's New in 2.0.x
 
 - Asynchronous API
     - Certain methods have callbacks and are run on a WiseFy specific background thread
@@ -62,7 +84,7 @@ For Maven:
     <dependency>
       <groupId>com.isupatches</groupId>
       <artifactId>wisefy</artifactId>
-      <version><LATEST_VERSION></version>
+      <version>LATEST_VERSION</version>
       <type>pom</type>
     </dependency>
 ```
@@ -73,16 +95,34 @@ You may also download the @aar from the <a href="https://github.com/isuPatches/W
 
 WiseFy is constructed with the builder pattern that allows you access to the synchronous and asynchronous APIs.
 
+*NOTE* The context passed in must be non-null.
+
 To grab a default instance:
 
+_With Kotlin_
+
+```kotlin
+val wisefy = WiseFy.Brains(activity!!).getSmarts()
+```
+
+_With Java_
+
 ```java
-WiseFy mWiseFy = new WiseFy.brains(getActivity()).getSmarts();
+WiseFy wisefy = new WiseFy.Brains(getActivity()).getSmarts();
 ```
 
 To grab an instance with logging enabled:
 
+_With Kotlin_
+
+```kotlin
+val wisefy = WiseFy.Brains(activity!!).logging(true).getSmarts()
+```
+
+_With Java_
+
 ```java
-WiseFy mWiseFy = new WiseFy.brains(getActivity()).logging(true).getSmarts();
+WiseFy wisefy = new WiseFy.Brains(getActivity()).logging(true).getSmarts();
 ```
 
 ## Cleanup
@@ -91,8 +131,16 @@ Since the Async API of WiseFy is run on a background thread, it is necessary to 
 
 To stop the WiseFy thread and nullify it along with it's handler please call:
 
+_With Kotlin_
+
+```kotlin
+wisefy.dump();
+```
+
+_With Java_
+
 ```java
-mWiseFy.dump();
+wisefy.dump();
 ```
 
 ## Permissions
@@ -119,7 +167,7 @@ Please check [the permssions example](/documentation/permissions_example.md) for
 Please check [the documentation markdown directory](/documentation) for usage examples and details about both the synchronous and asynchronous API.
 
 ## License ##
-Copyright 2017 Patches Klinefelter
+Copyright 2018 Patches Klinefelter
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
 compliance with the License. You may obtain a copy of the License at

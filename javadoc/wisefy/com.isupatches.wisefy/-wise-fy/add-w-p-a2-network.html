@@ -1,0 +1,53 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>WiseFy.addWPA2Network - wisefy</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">wisefy</a>&nbsp;/&nbsp;<a href="../index.html">com.isupatches.wisefy</a>&nbsp;/&nbsp;<a href="index.html">WiseFy</a>&nbsp;/&nbsp;<a href="./add-w-p-a2-network.html">addWPA2Network</a><br/>
+<br/>
+<h1>addWPA2Network</h1>
+<a name="com.isupatches.wisefy.WiseFy$addWPA2Network(kotlin.String, kotlin.String)"></a>
+<code><span class="identifier">@Sync</span> <span class="identifier">@CallingThread</span> <span class="keyword">fun </span><span class="identifier">addWPA2Network</span><span class="symbol">(</span><span class="identifier" id="com.isupatches.wisefy.WiseFy$addWPA2Network(kotlin.String, kotlin.String)/ssid">ssid</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span><span class="symbol">, </span><span class="identifier" id="com.isupatches.wisefy.WiseFy$addWPA2Network(kotlin.String, kotlin.String)/password">password</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a></code>
+<p>To add a WPA2 network to the user's configured network list.</p>
+<h3>Parameters</h3>
+<p><a name="ssid"></a>
+<code>ssid</code> - The ssid of the WPA2 network you want to add</p>
+<p><a name="password"></a>
+<code>password</code> - The password for the WPA2 network being added</p>
+<p><strong>Return</strong><br/>
+int - The return code from WifiManager for network creation (-1 for failure)</p>
+<p><strong>See Also</strong><br/>
+<p><a href="#">addNetworkConfiguration</a></p>
+<p><a href="#">generateWPA2NetworkConfiguration</a></p>
+<p><a href="#">WiseFyPrechecks.addNetworkPrechecks</a></p>
+</p>
+<p><strong>Author</strong><br/>
+Patches</p>
+<p><strong>Since</strong><br/>
+3.0</p>
+<a name="com.isupatches.wisefy.WiseFy$addWPA2Network(kotlin.String, kotlin.String, com.isupatches.wisefy.callbacks.AddNetworkCallbacks)"></a>
+<code><span class="identifier">@Async</span> <span class="identifier">@WiseFyThread</span> <span class="keyword">fun </span><span class="identifier">addWPA2Network</span><span class="symbol">(</span><span class="identifier" id="com.isupatches.wisefy.WiseFy$addWPA2Network(kotlin.String, kotlin.String, com.isupatches.wisefy.callbacks.AddNetworkCallbacks)/ssid">ssid</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span><span class="symbol">, </span><span class="identifier" id="com.isupatches.wisefy.WiseFy$addWPA2Network(kotlin.String, kotlin.String, com.isupatches.wisefy.callbacks.AddNetworkCallbacks)/password">password</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span><span class="symbol">, </span><span class="identifier" id="com.isupatches.wisefy.WiseFy$addWPA2Network(kotlin.String, kotlin.String, com.isupatches.wisefy.callbacks.AddNetworkCallbacks)/callbacks">callbacks</span><span class="symbol">:</span>&nbsp;<a href="../../com.isupatches.wisefy.callbacks/-add-network-callbacks/index.html"><span class="identifier">AddNetworkCallbacks</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>To add a WPA2 network to the user's configured network list.</p>
+<h3>Parameters</h3>
+<p><a name="ssid"></a>
+<code>ssid</code> - The ssid of the WPA2 network you want to add</p>
+<p><a name="password"></a>
+<code>password</code> - The password for the WPA2 network being added</p>
+<p><a name="callbacks"></a>
+<code>callbacks</code> - The listener to return results to</p>
+<p><strong>See Also</strong><br/>
+<p><a href="#">addNetworkConfiguration</a></p>
+<p><a href="../../com.isupatches.wisefy.callbacks/-add-network-callbacks/index.html">AddNetworkCallbacks</a></p>
+<p><a href="#">generateWPA2NetworkConfiguration</a></p>
+<p><a href="#">runOnWiseFyThread</a></p>
+<p><a href="../-wise-fy-lock.html">WiseFyLock</a></p>
+<p><a href="#">WiseFyPrechecks.addNetworkPrechecks</a></p>
+</p>
+<p><strong>Author</strong><br/>
+Patches</p>
+<p><strong>Since</strong><br/>
+3.0</p>
+</BODY>
+</HTML>

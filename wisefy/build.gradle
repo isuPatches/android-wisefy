@@ -1,71 +1,106 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.getkeepsafe.dexcount'
+apply plugin: 'kotlin-android'
 
 group = rootProject.ext.GROUP
 version = rootProject.ext.VERSION_NAME
-
-dexcount {
-    format = "tree"
-    includeClasses = true
-    includeFieldCount = true
-    includeTotalMethodCount = true
-    orderByMethodCount = true
-    verbose = false
-}
 
 android {
 
     dexOptions {
         // Skip pre-dexing when running on Travis CI or when disabled via -Dpre-dex=false.
         preDexLibraries = preDexEnabled && !travisBuild
+        javaMaxHeapSize "2g"
     }
 
     adbOptions {
         timeOutInMs 15 * 60 * 1000  // 15 minutes
-        installOptions "-d","-t"
+        installOptions "-d", "-t"
     }
 
-    compileSdkVersion 26
-    buildToolsVersion "26.0.0"
+    lintOptions {
+        checkAllWarnings true
+        warningsAsErrors true
+        showAll true
+        explainIssues true
+        abortOnError true
+        enable 'AppLinksAutoVerifyError', 'AppLinksAutoVerifyWarning', 'BackButton',
+                'EasterEgg', 'FieldGetter', 'GoogleAppIndexingApiWarning', 'IconExpectedSize',
+                'LogConditional', 'MangledCRLF', 'NegativeMargin', 'NewerVersionAvailable',
+                'SelectableText', 'StopShip', 'TrulyRandom', 'TypographyQuotes', 'UnusedIds'
+    }
+
+    compileSdkVersion rootProject.ext.MAX_SDK_VERSION
+    buildToolsVersion rootProject.ext.BUILD_TOOLS_VERSION
 
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 26
-        versionCode 12
-        versionName version
+        minSdkVersion rootProject.ext.MIN_SDK_VERSION
+        targetSdkVersion rootProject.ext.MAX_SDK_VERSION
+        versionCode rootProject.ext.VERSION_CODE
+        versionName rootProject.ext.VERSION_NAME
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
+        consumerProguardFiles 'consumer-proguard-rules.pro'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     buildTypes {
         debug {
             testCoverageEnabled true
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
-            testProguardFile file("proguard-test-rules.txt")
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            testProguardFile file("proguard-test-rules.pro")
         }
 
         release {
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    sourceSets {
+        main {
+            jni.srcDirs = [] //disable automatic ndk-build call
+        }
+
+        test {
+            java.srcDirs += 'src/commonTest/java'
+        }
+
+        androidTest {
+            java.srcDirs += 'src/commonTest/java'
         }
     }
 }
 
-dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-
-    androidTestCompile 'com.android.support:support-annotations:26.0.0-alpha1'
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
-    androidTestCompile 'org.mockito:mockito-android:2.8.47'
-    androidTestCompile 'com.android.support.test:runner:0.5'
-    // For issue #55 / IllegalAccessError conflict test
-    androidTestCompile 'com.google.android.gms:play-services-gcm:8.3.0'
-
-    testCompile 'org.mockito:mockito-core:2.8.47'
-    testCompile 'junit:junit:4.12'
+ext {
+    espresso_version = '3.0.2'
+    junit_version = '4.12'
+    mockito_version = '2.21.0'
+    support_libs_version = '27.1.1'
+    test_runner_version = '1.0.2'
 }
 
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "com.android.support:support-annotations:$support_libs_version"
 
-apply from: rootProject.file('gradle/gradle-bintray-install.gradle')
-apply from: rootProject.file('gradle/gradle-bintray-upload.gradle')
-apply from: rootProject.file('gradle/jacoco.gradle')
+    // Kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:$espresso_version"
+    androidTestImplementation "org.mockito:mockito-core:$mockito_version"
+    androidTestImplementation "org.mockito:mockito-android:$mockito_version"
+    androidTestImplementation "com.android.support.test:runner:$test_runner_version"
+    // For issue #55 / IllegalAccessError conflict test
+    //noinspection GradleDependency
+    androidTestImplementation 'com.google.android.gms:play-services-gcm:8.3.0'
+
+    testImplementation "org.mockito:mockito-core:$mockito_version"
+    testImplementation "junit:junit:$junit_version"
+}
+
+apply from: rootProject.file("$rootProject.projectDir/gradle/gradle-bintray-install.gradle")
+apply from: rootProject.file("$rootProject.projectDir/gradle/gradle-bintray-upload.gradle")

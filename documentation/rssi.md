@@ -2,31 +2,75 @@
 
 To calculate number of bars given a networks signal strength and total number of bars:
 
+_With Kotlin_
+
+```kotlin
+val bars = wisefy.calculateBars(-35, 5)
+```
+
+_With Java_
+
 ```java
-int bars = mWiseFy.calculateBars(-35, 5);
+int bars = wisefy.calculateBars(-35, 5);
 ```
 
 To compare the signal strength of two networks:
 
+_With Kotlin_
+
+```kotlin
+val result = wisefy.compareSignalLevel(-35, -70)
+```
+
+_With Java_
+
 ```java
-int result = mWiseFy.compareSignalLevel(-35, -70);
+int result = wisefy.compareSignalLevel(-35, -70);
 ```
 
 To get the RSSI of the first SSID matching a given regex:<br/><br/>
 <strong>Setting takeHighest to true will return the access point with the highest RSSI for the given SSID</strong>
 
+_With Kotlin_
+
+```kotlin
+val rssi = wisefy.getRSSI("regex for SSID", true, 3000)
+```
+
+_With Java_
+
 ```java
-Integer rssi = mWiseFy.getRSSI("regex for SSID", true, 3000);
+Integer rssi = wisefy.getRSSI("regex for SSID", true, 3000);
 ```
 
 #### Via The Asynchronous API
 
 To get the RSSI of the first SSID matching a given regex:
 
+_With Kotlin_
+
+```kotlin
+wisefy.getRSSI("regex for SSID", true, 3000, object: GetRSSICallbacks{
+    override fun networkNotFoundToRetrieveRSSI() {
+
+    }
+
+    override fun retrievedRSSI(rssi: Int) {
+
+    }
+
+    override fun wisefyFailure(wisefyFailureCode: Int) {
+
+    }
+})
+```
+
+_With Java_
+
 ```java
-mWiseFy.getRSSI("regex for SSID", true, 3000, new GetRSSICallbacks() {
+wisefy.getRSSI("regex for SSID", true, 3000, new GetRSSICallbacks() {
     @Override
-    public void retrievedRSSI(Integer rssi) {
+    public void retrievedRSSI(int i) {
 
     }
 
@@ -36,7 +80,7 @@ mWiseFy.getRSSI("regex for SSID", true, 3000, new GetRSSICallbacks() {
     }
 
     @Override
-    public void getRSSIWiseFyFailure(Integer wisefyReturnCode) {
+    public void wisefyFailure(int i) {
 
     }
 });
@@ -45,4 +89,3 @@ mWiseFy.getRSSI("regex for SSID", true, 3000, new GetRSSICallbacks() {
 ***Notes***
 
 - Will return a WiseFy error code if parameter is missing
-- Will return a WiseFy error code if the instance has a missing prerequisite

@@ -1,0 +1,26 @@
+apply plugin: 'findbugs'
+
+task androidFindbugs(type: FindBugs, overwrite: true) {
+    description "Analyze code with findbugs"
+    group 'verification'
+
+    source = fileTree(project.rootDir.absolutePath).include("**/*.java")
+    classes = files("$project.buildDir.absolutePath/intermediates/classes/debug/")
+    classpath = files()
+
+    findbugs {
+        sourceSets = [android.sourceSets]
+        ignoreFailures = false
+        reportsDir = file("$project.buildDir/findbugsReports")
+        effort = "max"
+
+        excludeFilter = file("../wisefy/config/findbugs/findbugs-suppressions.xml")
+        reports {
+            xml.enabled = false
+            html.enabled = true
+            html.destination new File(project.buildDir, 'reports/findbugs/findbugs.html')
+        }
+    }
+}
+
+androidFindbugs.dependsOn(['assembleDebug'])
