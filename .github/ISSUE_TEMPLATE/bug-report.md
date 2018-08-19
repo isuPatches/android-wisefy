@@ -4,7 +4,7 @@ about: Create a report to help us improve
 
 ---
 
-Thank you for creating an issue to improve this library! Please check Please check https://github.com/isuPatches/WiseFy/issues to make sure that the improvement isn't already being worked on.
+Thank you for creating an issue to improve this library! Please check Please check [the current issues](https://github.com/isuPatches/WiseFy/issues) to make sure that the improvement isn't already being worked on.
 
 **Description**
 A clear and concise description of the bug.

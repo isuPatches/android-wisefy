@@ -4,7 +4,7 @@ about: Suggest an idea for this project
 
 ---
 
-Thank you for creating an issue to improve this library! Please check Please check https://github.com/isuPatches/WiseFy/issues to make sure that the improvement isn't already being worked on.
+Thank you for creating an issue to improve this library! Please check Please check [the current issues](https://github.com/isuPatches/WiseFy/issues) to make sure that the improvement isn't already being worked on.
 
 **Description**
 A clear and concise high-level description of the request. (i.e. As a developer I want ___ so that  ___)
@@ -19,4 +19,4 @@ Describe in more detail the request.  (i.e. - a method is added to the library, 
 Add any other context about the request here.
 
 **Images**
-If applicable, add screenshots to help explain.
+If applicable, add relevant images to help explain.
