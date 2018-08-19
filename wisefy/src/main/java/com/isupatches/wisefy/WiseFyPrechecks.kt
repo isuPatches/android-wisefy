@@ -21,13 +21,13 @@ import android.support.annotation.RequiresPermission
 import com.isupatches.wisefy.constants.DEFAULT_PRECHECK_RETURN_CODE
 import com.isupatches.wisefy.constants.MISSING_PARAMETER
 import com.isupatches.wisefy.constants.NETWORK_ALREADY_CONFIGURED
-
 import com.isupatches.wisefy.constants.WiseFyCode
 
 /**
  * A helper class with methods to determine if the necessary requirements are met to preform operations.
  *
- * @see WiseFyPrechecks
+ * @see [WiseFyPrechecks]
+ * @see [WiseFySearch]
  *
  * @author Patches
  * @since 3.0
@@ -37,145 +37,385 @@ internal class WiseFyPrechecksImpl private constructor(
 ) : WiseFyPrechecks {
 
     /**
+     * Used internally to make sure perquisites for adding a network as a saved configuration are met.
      *
+     * @param ssid The ssid param from [com.isupatches.wisefy.WiseFy.addOpenNetwork]
+     *
+     * @return PrecheckResult - [DEFAULT_PRECHECK_RESULT] or a [PrecheckResult] with an error code.
+     *
+     * @see [checkAddNetworkPrerequisites]
+     * @see [com.isupatches.wisefy.WiseFy.addOpenNetwork]
+     *
+     * @author Patches
+     * @since 3.0
      */
     @RequiresPermission(ACCESS_WIFI_STATE)
     override fun addNetworkPrechecks(ssid: String?): PrecheckResult =
         checkAddNetworkPrerequisites(ssid)
 
     /**
+     * Used internally to make sure perquisites for adding a network as a saved configuration are met.
      *
+     * @param ssid The ssid param from [com.isupatches.wisefy.WiseFy.addWEPNetwork] or [com.isupatches.wisefy.WiseFy.addWPA2Network]
+     * @param password The password from [com.isupatches.wisefy.WiseFy.addWEPNetwork] or [com.isupatches.wisefy.WiseFy.addWPA2Network]
+     *
+     * @return PrecheckResult - [DEFAULT_PRECHECK_RESULT] or a [PrecheckResult] with an error code.
+     *
+     * @see [checkAddNetworkPrerequisites]
+     * @see [com.isupatches.wisefy.WiseFy.addWEPNetwork]
+     * @see [com.isupatches.wisefy.WiseFy.addWPA2Network]
+     *
+     * @author Patches
+     * @since 3.0
      */
     @RequiresPermission(ACCESS_WIFI_STATE)
     override fun addNetworkPrechecks(ssid: String?, password: String?): PrecheckResult =
         checkAddNetworkPrerequisites(ssid, password)
 
     /**
+     * Used internally to make sure perquisites for connecting to a network are met.
      *
+     * @param ssidToConnectTo The ssidToConnectTo param from [com.isupatches.wisefy.WiseFy.connectToNetwork]
+     *
+     * @return PrecheckResult - [DEFAULT_PRECHECK_RESULT] or a [PrecheckResult] with an error code.
+     *
+     * @see [checkForParam]
+     * @see [com.isupatches.wisefy.WiseFy.connectToNetwork]
+     *
+     * @author Patches
+     * @since 3.0
      */
     override fun connectToNetworkPrechecks(ssidToConnectTo: String?): PrecheckResult =
         checkForParam(ssidToConnectTo)
 
     /**
+     * Used internally to make sure perquisites for disabling wifi on the device are met.
      *
+     * @return PrecheckResult - [DEFAULT_PRECHECK_RESULT]
+     *
+     * @see [com.isupatches.wisefy.WiseFy.disableWifi]
+     * @see [DEFAULT_PRECHECK_RESULT]
+     *
+     * @author Patches
+     * @since 3.0
      */
     override fun disableWifiChecks() = DEFAULT_PRECHECK_RESULT
 
     /**
+     * Used internally to make sure perquisites for disconnecting a device from it's current network are met.
      *
+     * @return PrecheckResult - [DEFAULT_PRECHECK_RESULT]
+     *
+     * @see [com.isupatches.wisefy.WiseFy.disconnectFromCurrentNetwork]
+     * @see [DEFAULT_PRECHECK_RESULT]
+     *
+     * @author Patches
+     * @since 3.0
      */
     override fun disconnectFromCurrentNetworkChecks() = DEFAULT_PRECHECK_RESULT
 
     /**
+     * Used internally to make sure perquisites for enabling wifi on the device are met.
      *
+     * @return PrecheckResult - [DEFAULT_PRECHECK_RESULT]
+     *
+     * @see [com.isupatches.wisefy.WiseFy.enableWifi]
+     * @see [DEFAULT_PRECHECK_RESULT]
+     *
+     * @author Patches
+     * @since 3.0
      */
     override fun enableWifiChecks() = DEFAULT_PRECHECK_RESULT
 
     /**
+     * Used internally to make sure perquisites for getting the device's current network are met.
      *
+     * @return PrecheckResult - [DEFAULT_PRECHECK_RESULT]
+     *
+     * @see [com.isupatches.wisefy.WiseFy.getCurrentNetworkInfo]
+     * @see [DEFAULT_PRECHECK_RESULT]
+     *
+     * @author Patches
+     * @since 3.0
      */
     override fun getCurrentNetworkChecks() = DEFAULT_PRECHECK_RESULT
 
     /**
+     * Used internally to make sure perquisites for getting the device's current network info are met.
      *
+     * @return PrecheckResult - [DEFAULT_PRECHECK_RESULT]
+     *
+     * @see [com.isupatches.wisefy.WiseFy.getCurrentNetworkInfo]
+     * @see [DEFAULT_PRECHECK_RESULT]
+     *
+     * @author Patches
+     * @since 3.0
      */
     override fun getCurrentNetworkInfoChecks() = DEFAULT_PRECHECK_RESULT
 
     /**
+     * Used internally to make sure perquisites for getting the ip of the device are met.
      *
+     * @return PrecheckResult - [DEFAULT_PRECHECK_RESULT]
+     *
+     * @see [com.isupatches.wisefy.WiseFy.getIP]
+     * @see [DEFAULT_PRECHECK_RESULT]
+     *
+     * @author Patches
+     * @since 3.0
      */
     override fun getIPChecks() = DEFAULT_PRECHECK_RESULT
 
     /**
+     * Used internally to make sure perquisites for getting nearby access points are met.
      *
+     * @return PrecheckResult - [DEFAULT_PRECHECK_RESULT]
+     *
+     * @see [com.isupatches.wisefy.WiseFy.getNearbyAccessPoints]
+     * @see [DEFAULT_PRECHECK_RESULT]
+     *
+     * @author Patches
+     * @since 3.0
      */
     override fun getNearbyAccessPointsChecks() = DEFAULT_PRECHECK_RESULT
 
     /**
+     * Used internally to make sure perquisites for getting the RSSI of a network matching a given regex are met.
      *
+     * @param regexForSSID The regexForSSID param from [com.isupatches.wisefy.WiseFy.getRSSI]
+     *
+     * @return PrecheckResult - [DEFAULT_PRECHECK_RESULT] or a [PrecheckResult] with an error code.
+     *
+     * @see [checkForParam]
+     * @see [com.isupatches.wisefy.WiseFy.getRSSI]
+     *
+     * @author Patches
+     * @since 3.0
      */
     override fun getRSSIChecks(regexForSSID: String?): PrecheckResult =
         checkForParam(regexForSSID)
 
     /**
+     * Used internally to make sure perquisites for getting the saved networks on a device are met.
      *
+     * @param regexForSSID The regexForSSID param from [com.isupatches.wisefy.WiseFy.getSavedNetwork]
+     *
+     * @return PrecheckResult - [DEFAULT_PRECHECK_RESULT] or a [PrecheckResult] with an error code.
+     *
+     * @see [checkForParam]
+     * @see [com.isupatches.wisefy.WiseFy.getSavedNetwork]
+     *
+     * @author Patches
+     * @since 3.0
      */
     override fun getSavedNetworkChecks(regexForSSID: String?): PrecheckResult =
         checkForParam(regexForSSID)
 
     /**
+     * Used internally to make sure perquisites for getting a saved network on a device are met.
      *
+     * @return PrecheckResult - [DEFAULT_PRECHECK_RESULT]
+     *
+     * @see [com.isupatches.wisefy.WiseFy.getSavedNetworks]
+     * @see [DEFAULT_PRECHECK_RESULT]
+     *
+     * @author Patches
+     * @since 3.0
      */
     override fun getSavedNetworksChecks() = DEFAULT_PRECHECK_RESULT
 
     /**
+     * Used internally to make sure perquisites for getting the saved networks on a device are met.
      *
+     * @param regexForSSID The regexForSSID param from [com.isupatches.wisefy.WiseFy.getSavedNetworks]
+     *
+     * @return PrecheckResult - [DEFAULT_PRECHECK_RESULT] or a [PrecheckResult] with an error code.
+     *
+     * @see [checkForParam]
+     * @see [com.isupatches.wisefy.WiseFy.getSavedNetworks]
+     *
+     * @author Patches
+     * @since 3.0
      */
     override fun getSavedNetworksChecks(regexForSSID: String?): PrecheckResult =
         checkForParam(regexForSSID)
 
     /**
+     * Used internally to make sure perquisites for checking if the device is connected to
+     * a mobile network are met.
      *
+     * @return PrecheckResult - [DEFAULT_PRECHECK_RESULT]
+     *
+     * @see [com.isupatches.wisefy.WiseFy.isDeviceConnectedToMobileNetwork]
+     * @see [DEFAULT_PRECHECK_RESULT]
+     *
+     * @author Patches
+     * @since 3.0
      */
     override fun isDeviceConnectedToMobileNetworkChecks() = DEFAULT_PRECHECK_RESULT
 
     /**
+     * Used internally to make sure perquisites for checking if the device is connected to
+     * a mobile or wifi network are met.
      *
+     * @return PrecheckResult - [DEFAULT_PRECHECK_RESULT]
+     *
+     * @see [com.isupatches.wisefy.WiseFy.isDeviceConnectedToMobileOrWifiNetwork]
+     * @see [DEFAULT_PRECHECK_RESULT]
+     *
+     * @author Patches
+     * @since 3.0
      */
     override fun isDeviceConnectedToMobileOrWifiNetworkChecks() = DEFAULT_PRECHECK_RESULT
 
     /**
+     * Used internally to make sure perquisites for checking if the device is connected to
+     * a specific SSID are met.
      *
+     * @param ssid The ssid param from [com.isupatches.wisefy.WiseFy.isDeviceConnectedToSSID]
+     *
+     * @return PrecheckResult - [DEFAULT_PRECHECK_RESULT] or a [PrecheckResult] with an error code.
+     *
+     * @see [checkForParam]
+     * @see [com.isupatches.wisefy.WiseFy.isDeviceConnectedToSSID]
+     *
+     * @author Patches
+     * @since 3.0
      */
     override fun isDeviceConnectedToSSIDChecks(ssid: String?): PrecheckResult =
         checkForParam(ssid)
 
     /**
+     * Used internally to make sure perquisites for checking if the device is connected to
+     * a wifi network are met.
      *
+     * @return PrecheckResult - [DEFAULT_PRECHECK_RESULT]
+     *
+     * @see [com.isupatches.wisefy.WiseFy.isDeviceConnectedToWifiNetwork]
+     * @see [DEFAULT_PRECHECK_RESULT]
+     *
+     * @author Patches
+     * @since 3.0
      */
     override fun isDeviceConnectedToWifiNetworkChecks() = DEFAULT_PRECHECK_RESULT
 
     /**
+     * Used internally to make sure prerequisites for seeing if a device is roaming are met.
      *
+     * @return PrecheckResult - [DEFAULT_PRECHECK_RESULT]
+     *
+     * @see [com.isupatches.wisefy.WiseFy.isDeviceRoaming]
+     * @see [DEFAULT_PRECHECK_RESULT]
+     *
+     * @author Patches
+     * @since 3.0
      */
     override fun isDeviceRoamingChecks() = DEFAULT_PRECHECK_RESULT
 
     /**
+     * Used internally to make sure prerequisites for seeing if a network is a saved configuration
+     * are met.
      *
+     * @return PrecheckResult - [DEFAULT_PRECHECK_RESULT]
+     *
+     * @see [com.isupatches.wisefy.WiseFy.isNetworkSaved]
+     * @see [DEFAULT_PRECHECK_RESULT]
+     *
+     * @author Patches
+     * @since 3.0
      */
     override fun isNetworkSavedChecks() = DEFAULT_PRECHECK_RESULT
 
     /**
+     * Used internally to make sure prerequisites for enabling wifi are met.
      *
+     * @return PrecheckResult - [DEFAULT_PRECHECK_RESULT]
+     *
+     * @see [com.isupatches.wisefy.WiseFy.isWifiEnabled]
+     * @see [DEFAULT_PRECHECK_RESULT]
+     *
+     * @author Patches
+     * @since 3.0
      */
     override fun isWifiEnabledChecks() = DEFAULT_PRECHECK_RESULT
 
     /**
+     * Used internally to make sure prerequisites for removing a network are met.
      *
+     * @param ssidToRemove The regexForSsid param from [com.isupatches.wisefy.WiseFy.removeNetwork]
+     *
+     * @return PrecheckResult - [DEFAULT_PRECHECK_RESULT] or a [PrecheckResult] with an error code.
+     *
+     * @see [checkForParam]
+     * @see [com.isupatches.wisefy.WiseFy.removeNetwork]
+     *
+     * @author Patches
+     * @since 3.0
      */
     override fun removeNetworkCheck(ssidToRemove: String?): PrecheckResult =
         checkForParam(ssidToRemove)
 
     /**
+     * Used internally to make sure prerequisites for searching for an individual access point
+     * are met.
      *
+     * @param regexForSSID The regexForSsid param from [com.isupatches.wisefy.WiseFy.searchForAccessPoint]
+     *
+     * @return PrecheckResult - [DEFAULT_PRECHECK_RESULT] or a [PrecheckResult] with an error code.
+     *
+     * @see [checkForParam]
+     * @see [com.isupatches.wisefy.WiseFy.searchForAccessPoint]
+     *
+     * @author Patches
+     * @since 3.0
      */
     override fun searchForAccessPointChecks(regexForSSID: String?): PrecheckResult =
         checkForParam(regexForSSID)
 
     /**
+     * Used internally to make sure prerequisites for searching for access points are met.
      *
+     * @param regexForSSID The regexForSsid param from [com.isupatches.wisefy.WiseFy.searchForAccessPoints]
+     *
+     * @return PrecheckResult - [DEFAULT_PRECHECK_RESULT] or a [PrecheckResult] with an error code.
+     *
+     * @see [checkForParam]
+     * @see [com.isupatches.wisefy.WiseFy.searchForAccessPoints]
+     *
+     * @author Patches
+     * @since 3.0
      */
     override fun searchForAccessPointsChecks(regexForSSID: String?): PrecheckResult =
         checkForParam(regexForSSID)
 
     /**
+     * Used internally to make sure prerequisites for searching for an individual SSID are met.
      *
+     * @param regexForSSID The regexForSsid param from [com.isupatches.wisefy.WiseFy.searchForSSID]
+     *
+     * @return PrecheckResult - [DEFAULT_PRECHECK_RESULT] or a [PrecheckResult] with an error code.
+     *
+     * @see [checkForParam]
+     * @see [com.isupatches.wisefy.WiseFy.searchForSSID]
+     *
+     * @author Patches
+     * @since 3.0
      */
     override fun searchForSSIDChecks(regexForSSID: String?): PrecheckResult =
         checkForParam(regexForSSID)
 
     /**
+     * Used internally to make sure prerequisites for searching for SSIDs are met.
      *
+     * @param regexForSSID The regexForSsid param from [com.isupatches.wisefy.WiseFy.searchForSSIDs]
+     *
+     * @return PrecheckResult - [DEFAULT_PRECHECK_RESULT] or a [PrecheckResult] with an error code.
+     *
+     * @see [checkForParam]
+     * @see [com.isupatches.wisefy.WiseFy.searchForSSIDs]
+     *
+     * @author Patches
+     * @since 3.0
      */
     override fun searchForSSIDsChecks(regexForSSID: String?): PrecheckResult =
         checkForParam(regexForSSID)
@@ -185,18 +425,41 @@ internal class WiseFyPrechecksImpl private constructor(
      */
 
     /**
+     * Used internally as an abstracted layer that check if a necessary param is not empty.
      *
+     * @param param The param to check if it's empty
+     *
+     * @return PrecheckResult - [DEFAULT_PRECHECK_RESULT] or a [PrecheckResult] with an error code.
+     *
+     * @see [DEFAULT_PRECHECK_RESULT]
+     * @see [MISSING_PARAMETER]
+     * @see [PrecheckResult]
+     *
+     * @author Patches
+     * @since 3.0
      */
-    private fun checkForParam(param: String?): PrecheckResult {
-        return if (param.isNullOrEmpty()) {
+    private fun checkForParam(param: String?): PrecheckResult =
+        if (param.isNullOrEmpty()) {
             PrecheckResult(code = MISSING_PARAMETER)
         } else {
             DEFAULT_PRECHECK_RESULT
         }
-    }
 
     /**
+     * Used internally as an abstracted layer that checks if all of the prerequisites for adding
+     * a network are met. i.e. ssid is not null or empty, network is not already saved, etc.
      *
+     * @param ssid The ssid of the network to add
+     *
+     * @return PrecheckResult - [DEFAULT_PRECHECK_RESULT] or a [PrecheckResult] with an error code.
+     *
+     * @see [DEFAULT_PRECHECK_RESULT]
+     * @see [MISSING_PARAMETER]
+     * @see [NETWORK_ALREADY_CONFIGURED]
+     * @see [PrecheckResult]
+     *
+     * @author Patches
+     * @since 3.0
      */
     private fun checkAddNetworkPrerequisites(ssid: String?): PrecheckResult =
         when {
@@ -209,7 +472,21 @@ internal class WiseFyPrechecksImpl private constructor(
         }
 
     /**
+     * Used internally as an abstracted layer that checks if all of the prerequisites for adding
+     * a network are met. i.e. ssid and password are not null or empty, network is not already saved, etc.
      *
+     * @param ssid The ssid of the network to add
+     * @param password The password of the network to add
+     *
+     * @return PrecheckResult - [DEFAULT_PRECHECK_RESULT] or a [PrecheckResult] with an error code.
+     *
+     * @see [DEFAULT_PRECHECK_RESULT]
+     * @see [MISSING_PARAMETER]
+     * @see [NETWORK_ALREADY_CONFIGURED]
+     * @see [PrecheckResult]
+     *
+     * @author Patches
+     * @since 3.0
      */
     private fun checkAddNetworkPrerequisites(ssid: String?, password: String?): PrecheckResult =
         when {
@@ -228,153 +505,66 @@ internal class WiseFyPrechecksImpl private constructor(
 }
 
 /**
+ * An interface with methods that relate to checking that prerequisites are met before
+ * continuing with a WiseFy operation.
  *
+ * @see [WiseFyPrechecksImpl]
+ *
+ * @author Patches
+ * @since 3.0
  */
-interface WiseFyPrechecks {
+internal interface WiseFyPrechecks {
 
-    /**
-     *
-     */
     fun addNetworkPrechecks(ssid: String?): PrecheckResult
 
-    /**
-     *
-     */
     fun addNetworkPrechecks(ssid: String?, password: String?): PrecheckResult
 
-    /**
-     *
-     */
     fun connectToNetworkPrechecks(ssidToConnectTo: String?): PrecheckResult
 
-    /**
-     *
-     */
     fun disableWifiChecks(): PrecheckResult
 
-    /**
-     *
-     */
     fun disconnectFromCurrentNetworkChecks(): PrecheckResult
 
-    /**
-     *
-     */
     fun enableWifiChecks(): PrecheckResult
 
-    /**
-     *
-     */
     fun getCurrentNetworkChecks(): PrecheckResult
 
-    /**
-     *
-     */
     fun getCurrentNetworkInfoChecks(): PrecheckResult
 
-    /**
-     *
-     */
     fun getIPChecks(): PrecheckResult
 
-    /**
-     *
-     */
     fun getNearbyAccessPointsChecks(): PrecheckResult
 
-    /**
-     *
-     */
     fun getRSSIChecks(regexForSSID: String?): PrecheckResult
 
-    /**
-     *
-     */
     fun getSavedNetworkChecks(regexForSSID: String?): PrecheckResult
 
-    /**
-     *
-     */
     fun getSavedNetworksChecks(regexForSSID: String?): PrecheckResult
 
-    /**
-     *
-     */
     fun getSavedNetworksChecks(): PrecheckResult
 
-    /**
-     *
-     */
     fun isDeviceConnectedToMobileNetworkChecks(): PrecheckResult
 
-    /**
-     *
-     */
     fun isDeviceConnectedToMobileOrWifiNetworkChecks(): PrecheckResult
 
-    /**
-     *
-     */
     fun isDeviceConnectedToSSIDChecks(ssid: String?): PrecheckResult
 
-    /**
-     *
-     */
     fun isDeviceConnectedToWifiNetworkChecks(): PrecheckResult
 
-    /**
-     *
-     */
     fun isDeviceRoamingChecks(): PrecheckResult
 
-    /**
-     *
-     */
     fun isNetworkSavedChecks(): PrecheckResult
 
-    /**
-     *
-     */
     fun isWifiEnabledChecks(): PrecheckResult
 
-    /**
-     * Used internally to make sure prerequisites for removing a network are met
-     *
-     * @author Patches
-     * @since 3.0
-     */
     fun removeNetworkCheck(ssidToRemove: String?): PrecheckResult
 
-    /**
-     * Used internally to make sure prerequisites for searching for an individual access point are met
-     *
-     * @author Patches
-     * @since 3.0
-     */
     fun searchForAccessPointChecks(regexForSSID: String?): PrecheckResult
 
-    /**
-     * Used internally to make sure prerequisites for searching for access points are met
-     *
-     * @author Patches
-     * @since 3.0
-     */
     fun searchForAccessPointsChecks(regexForSSID: String?): PrecheckResult
 
-    /**
-     * Used internally to make sure prerequisites for searching for an individual SSID are met
-     *
-     * @author Patches
-     * @since 3.0
-     */
     fun searchForSSIDChecks(regexForSSID: String?): PrecheckResult
 
-    /**
-     * Used internally to make sure prerequisites for searching for SSIDs are met
-     *
-     * @author Patches
-     * @since 3.0
-     */
     fun searchForSSIDsChecks(regexForSSID: String?): PrecheckResult
 }
 
@@ -383,39 +573,39 @@ interface WiseFyPrechecks {
  *
  * @param code The return code from prechecks (i.e. [DEFAULT_PRECHECK_RETURN_CODE] or
  * an error code such as [MISSING_PARAMETER].  This code will also be used by the extension
- * functions [passed] and [failed]
+ * functions [passed] and [failed].
  *
- * @see [passed]
  * @see [failed]
+ * @see [passed]
  * @see [WiseFyCode]
  *
  * @author Patches
  * @since 3.0
  */
-data class PrecheckResult(@WiseFyCode val code: Int)
+internal data class PrecheckResult(@WiseFyCode val code: Int)
 
 /**
- *  An extension function to determine if prerequisites for an operation are NOT met
+ *  An extension function to determine if prerequisites for an operation are NOT met.
  *
  * @see [PrecheckResult]
  *
  * @author Patches
  * @since 3.0
  */
-fun PrecheckResult.failed(): Boolean = code < DEFAULT_PRECHECK_RETURN_CODE
+internal fun PrecheckResult.failed(): Boolean = code < DEFAULT_PRECHECK_RETURN_CODE
 
 /**
- *  An extension function to determine if prerequisites for an operation ARE met
+ *  An extension function to determine if prerequisites for an operation ARE met.
  *
  * @see [PrecheckResult]
  *
  * @author Patches
  * @since 3.0
  */
-fun PrecheckResult.passed(): Boolean = code >= DEFAULT_PRECHECK_RETURN_CODE
+internal fun PrecheckResult.passed(): Boolean = code >= DEFAULT_PRECHECK_RETURN_CODE
 
 /**
- * A default result to return that denotes a success and that prerequisites for an operation are met
+ * A default result to return that denotes a success and that prerequisites for an operation are met.
  *
  * @see [PrecheckResult]
  *

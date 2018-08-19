@@ -23,10 +23,10 @@ import android.support.annotation.IntDef
  * @author Patches
  * @since 3.0
  */
-internal const val DEFAULT_PRECHECK_RETURN_CODE: Int = 0
+const val DEFAULT_PRECHECK_RETURN_CODE: Int = 0
 
 /**
- * A constant that denotes a parameter was null or empty ("").
+ * A constant that denotes a parameter was null or empty ("")/ length 0.
  *
  * @author Patches
  * @since 3.0

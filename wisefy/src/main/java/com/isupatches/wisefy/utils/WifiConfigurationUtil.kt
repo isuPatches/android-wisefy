@@ -28,6 +28,9 @@ import com.isupatches.wisefy.constants.QUOTE
  *
  * @see [com.isupatches.wisefy.WiseFy.addOpenNetwork]
  * @see [WifiConfiguration]
+ *
+ * @author Patches
+ * @since 3.0
  */
 internal fun generateOpenNetworkConfiguration(ssid: String): WifiConfiguration {
     val wifiConfiguration = WifiConfiguration()
@@ -55,6 +58,9 @@ internal fun generateOpenNetworkConfiguration(ssid: String): WifiConfiguration {
  *
  * @see [com.isupatches.wisefy.WiseFy.addWEPNetwork]
  * @see [WifiConfiguration]
+ *
+ * @author Patches
+ * @since 3.0
  */
 internal fun generateWEPNetworkConfiguration(ssid: String, password: String): WifiConfiguration {
     val wifiConfiguration = WifiConfiguration()
@@ -82,6 +88,9 @@ internal fun generateWEPNetworkConfiguration(ssid: String, password: String): Wi
  *
  * @see [com.isupatches.wisefy.WiseFy.addWPA2Network]
  * @see [WifiConfiguration]
+ *
+ * @author Patches
+ * @since 3.0
  */
 internal fun generateWPA2NetworkConfiguration(ssid: String, password: String): WifiConfiguration {
     val wifiConfiguration = WifiConfiguration()

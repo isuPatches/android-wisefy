@@ -27,4 +27,4 @@ import java.lang.annotation.Inherited
 @Target(AnnotationTarget.FUNCTION)
 @Inherited
 @Retention(AnnotationRetention.RUNTIME)
-annotation class CallingThread
+internal annotation class CallingThread

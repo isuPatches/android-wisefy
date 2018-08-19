@@ -22,6 +22,7 @@ package com.isupatches.wisefy.logging
  * @since 3.0
  */
 internal interface WiseFyLoggingStrategy {
+
     fun debug(tag: String, message: String, vararg args: Any)
 
     fun warn(tag: String, message: String, vararg args: Any)

@@ -26,7 +26,7 @@ package com.isupatches.wisefy.callbacks
 interface ConnectToNetworkCallbacks : BaseCallback {
 
     /**
-     * Called WiseFy has successfully connected to a network.
+     * Called when WiseFy has successfully connected to a network.
      *
      * @author Patches
      * @since 3.0
@@ -34,7 +34,8 @@ interface ConnectToNetworkCallbacks : BaseCallback {
     fun connectedToNetwork()
 
     /**
-     * Called when the network was found, but there was an issue attempting to connect to it with WifiManager.
+     * Called when the network was found, but there was an issue attempting to connect to
+     * it with [android.net.wifi.WifiManager].
      *
      * @see [android.net.wifi.WifiManager]
      *
@@ -44,7 +45,8 @@ interface ConnectToNetworkCallbacks : BaseCallback {
     fun failureConnectingToNetwork()
 
     /**
-     * Called when the SIID of the network to connect to cannot be found by WifiManager/WiseFy.
+     * Called when the SSID of the network to connect to cannot be found by [android.net.wifi.WifiManager]
+     * and WiseFy.
      *
      * @see [android.net.wifi.WifiManager]
      *

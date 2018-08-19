@@ -33,6 +33,9 @@ internal object WiseFyLogger {
      *
      * @see [ensureWiseFyLoggerImplementationExists]
      * @see [WiseFyLoggerImplementation.isLoggingEnabled]
+     *
+     * @author Patches
+     * @since 3.0
      */
     fun isLoggingEnabled(): Boolean {
         ensureWiseFyLoggerImplementationExists()
@@ -44,7 +47,10 @@ internal object WiseFyLogger {
      *
      * @param loggingEnabled - Whether logging should be enabled for the WiseFyLoggerImplementation
      *
-     * @see WiseFyLoggerImplementation
+     * @see [WiseFyLoggerImplementation]
+     *
+     * @author Patches
+     * @since 3.0
      */
     fun configureWiseFyLoggerImplementation(loggingEnabled: Boolean) {
         wisefyLoggerImplementation = WiseFyLoggerImplementation(loggingEnabled)
@@ -59,6 +65,9 @@ internal object WiseFyLogger {
      *
      * @see [ensureWiseFyLoggerImplementationExists]
      * @see [WiseFyLoggerImplementation.debug]
+     *
+     * @author Patches
+     * @since 3.0
      */
     fun debug(tag: String, message: String, vararg args: Any) {
         ensureWiseFyLoggerImplementationExists()
@@ -74,6 +83,9 @@ internal object WiseFyLogger {
      *
      * @see [ensureWiseFyLoggerImplementationExists]
      * @see [WiseFyLoggerImplementation.error]
+     *
+     * @author Patches
+     * @since 3.0
      */
     fun error(tag: String, message: String, vararg args: Any) {
         ensureWiseFyLoggerImplementationExists()
@@ -90,6 +102,9 @@ internal object WiseFyLogger {
      *
      * @see [ensureWiseFyLoggerImplementationExists]
      * @see [WiseFyLoggerImplementation.error]
+     *
+     * @author Patches
+     * @since 3.0
      */
     fun error(tag: String, throwable: Throwable, message: String, vararg args: Any) {
         ensureWiseFyLoggerImplementationExists()
@@ -105,6 +120,9 @@ internal object WiseFyLogger {
      *
      * @see [ensureWiseFyLoggerImplementationExists]
      * @see [WiseFyLoggerImplementation.warn]
+     *
+     * @author Patches
+     * @since 3.0
      */
     fun warn(tag: String, message: String, vararg args: Any) {
         ensureWiseFyLoggerImplementationExists()
@@ -120,6 +138,9 @@ internal object WiseFyLogger {
      * a new instance with the default value of false for logging enabled.
      *
      * @see [configureWiseFyLoggerImplementation]
+     *
+     * @author Patches
+     * @since 3.0
      */
     private fun ensureWiseFyLoggerImplementationExists() {
         if (wisefyLoggerImplementation == null) {

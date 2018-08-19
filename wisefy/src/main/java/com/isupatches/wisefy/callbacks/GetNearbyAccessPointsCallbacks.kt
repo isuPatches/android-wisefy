@@ -20,6 +20,7 @@ import android.net.wifi.ScanResult
 /**
  * Callbacks for retrieving a list of nearby access points.
  *
+ * @see [BaseCallback]
  * @see [com.isupatches.wisefy.WiseFy.getNearbyAccessPoints]
  *
  * @author Patches
@@ -29,6 +30,8 @@ interface GetNearbyAccessPointsCallbacks : BaseCallback {
 
     /**
      * Called when WiseFy has successfully retrieved a list of nearby access points.
+     *
+     * @see [ScanResult]
      *
      * @author Patches
      * @since 3.0

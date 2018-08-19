@@ -16,6 +16,7 @@
 package com.isupatches.wisefy.logging
 
 import android.util.Log
+import java.util.Locale
 
 /**
  * A class that implements the logging strategy desired for WiseFy.
@@ -23,9 +24,10 @@ import android.util.Log
  * @see WiseFyLoggingStrategy
  *
  * @author Patches
+ * @since 3.0
  */
 @Suppress("SpreadOperator")
-class WiseFyLoggerImplementation internal constructor(
+internal class WiseFyLoggerImplementation constructor(
     internal val isLoggingEnabled: Boolean
 ) : WiseFyLoggingStrategy {
 
@@ -40,12 +42,15 @@ class WiseFyLoggerImplementation internal constructor(
      * @param message The message to log (can include placeholders)
      * @param args The formatting arguments for the log message
      *
-     * @see .isLoggable
-     * @see Log.d
+     * @see [isLoggable]
+     * @see [Log.d]
+     *
+     * @author Patches
+     * @since 3.0
      */
     override fun debug(tag: String, message: String, vararg args: Any) {
         if (isLoggable(tag, Log.DEBUG)) {
-            Log.d(tag, String.format(message, *args))
+            Log.d(tag, message.format(Locale.US, *args))
         }
     }
 
@@ -56,12 +61,15 @@ class WiseFyLoggerImplementation internal constructor(
      * @param message The message to log (can include placeholders)
      * @param args The formatting arguments for the log message
      *
-     * @see .isLoggable
-     * @see Log.e
+     * @see [isLoggable]
+     * @see[Log.e]
+     *
+     * @author Patches
+     * @since 3.0
      */
     override fun error(tag: String, message: String, vararg args: Any) {
         if (isLoggable(tag, Log.ERROR)) {
-            Log.e(tag, String.format(message, *args))
+            Log.e(tag, message.format(Locale.US, *args))
         }
     }
 
@@ -73,12 +81,15 @@ class WiseFyLoggerImplementation internal constructor(
      * @param message The message to log (can include placeholders)
      * @param args The formatting arguments for the log message
      *
-     * @see .isLoggable
-     * @see Log.e
+     * @see [isLoggable]
+     * @see [Log.e]
+     *
+     * @author Patches
+     * @since 3.0
      */
     override fun error(tag: String, throwable: Throwable, message: String, vararg args: Any) {
         if (isLoggable(tag, Log.ERROR)) {
-            Log.e(tag, String.format(message, *args), throwable)
+            Log.e(tag, message.format(Locale.US, *args), throwable)
         }
     }
 
@@ -89,12 +100,15 @@ class WiseFyLoggerImplementation internal constructor(
      * @param message The message to log (can include placeholders)
      * @param args The formatting arguments for the log message
      *
-     * @see .isLoggable
-     * @see Log.w
+     * @see [isLoggable]
+     * @see [Log.w]
+     *
+     * @author Patches
+     * @since 3.0
      */
     override fun warn(tag: String, message: String, vararg args: Any) {
         if (isLoggable(tag, Log.WARN)) {
-            Log.w(tag, String.format(message, *args))
+            Log.w(tag, message.format(Locale.US, *args))
         }
     }
 
@@ -110,7 +124,12 @@ class WiseFyLoggerImplementation internal constructor(
      *
      * @return boolean - True if logging should occur based off level and other factors
      *
-     * @see Log.isLoggable
+     * @see [isLoggingEnabled]
+     * @see [Log.isLoggable]
+     * @see [MAX_TAG_LENGTH]
+     *
+     * @author Patches
+     * @since 3.0
      */
     private fun isLoggable(tag: String, level: Int): Boolean {
         val loggable: Boolean

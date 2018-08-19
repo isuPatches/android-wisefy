@@ -85,7 +85,7 @@ import java.net.UnknownHostException
  */
 @PublicAPI
 @Suppress("LargeClass")
-class WiseFy(
+class WiseFy private constructor(
     private val connectivityManager: ConnectivityManager,
     private val wifiManager: WifiManager,
     private val wisefyConnection: WiseFyConnection,
@@ -97,17 +97,28 @@ class WiseFy(
         private val TAG = WiseFy::class.java.simpleName
 
         /**
+         * The default error return from [WifiManager]
          *
+         * @see [WifiManager]
+         *
+         * @author Patches
+         * @since 3.0
          */
         const val WIFI_MANAGER_FAILURE: Int = -1
 
         /**
+         * The minimum value possible for a 5gHz network.
          *
+         * @author Patches
+         * @since 3.0
          */
         const val MIN_FREQUENCY_5GHZ: Int = 4900
 
         /**
+         * The max value possible for a 5gHz network.
          *
+         * @author Patches
+         * @since 3.0
          */
         const val MAX_FREQUENCY_5GHZ: Int = 5900
     }
@@ -118,7 +129,10 @@ class WiseFy(
     private var wisefyHandler: Handler? = null
 
     /**
+     * The Builder class for WiseFy.
      *
+     * @author Patches
+     * @since 3.0
      */
     class Brains(context: Context) {
 
@@ -138,47 +152,92 @@ class WiseFy(
         }
 
         /**
+         * Used to enable/or disable logging for a WiseFy instance.
          *
+         * @param loggingEnabled If logging should be enabled for the WiseFy instance.
+         *
+         * @author Patches
+         * @since 3.0
          */
         fun logging(loggingEnabled: Boolean): Brains = apply { this.loggingEnabled = loggingEnabled }
 
         /**
+         * Used internally to set ConnectivityManager in tests.
          *
+         * @param connectivityManager The custom ConnectivityManager to use (can be a mock)
+         *
+         * @see [ConnectivityManager]
+         *
+         * @author Patches
+         * @since 3.0
          */
-        fun customConnectivityManager(connectivityManager: ConnectivityManager): Brains = apply {
+        internal fun customConnectivityManager(connectivityManager: ConnectivityManager): Brains = apply {
             this.connectivityManager = connectivityManager
         }
 
         /**
+         * Used internally to set WifiManager in tests.
          *
+         * @param wifiManager The custom WifiManager to use (can be a mock)
+         *
+         * @see [WifiManager]
+         *
+         * @author Patches
+         * @since 3.0
          */
-        fun customWifiManager(wifiManager: WifiManager): Brains = apply {
+        internal fun customWifiManager(wifiManager: WifiManager): Brains = apply {
             this.wifiManager = wifiManager
         }
 
         /**
+         * Used internally to set WiseFyConnection in tests.
          *
+         * @param wisefyConnection The custom WiseFyConnection to use (can be a mock or custom interface implementation)
+         *
+         * @see [WiseFyConnection]
+         *
+         * @author Patches
+         * @since 3.0
          */
-        fun customWiseFyConnection(wisefyConnection: WiseFyConnection): Brains = apply {
+        internal fun customWiseFyConnection(wisefyConnection: WiseFyConnection): Brains = apply {
             this.wisefyConnection = wisefyConnection
         }
 
         /**
+         * Used internally to set WiseFyPrechecks in tests.
          *
+         * @param wisefyPrechecks The custom WiseFyPrechecks to use (can be a mock or custom interface implementation)
+         *
+         * @see [WiseFyPrechecks]
+         *
+         * @author Patches
+         * @since 3.0
          */
-        fun customWiseFyPrechecks(wisefyPrechecks: WiseFyPrechecks): Brains = apply {
+        internal fun customWiseFyPrechecks(wisefyPrechecks: WiseFyPrechecks): Brains = apply {
             this.wisefyPrechecks = wisefyPrechecks
         }
 
         /**
+         * Used internally to set WiseFySearch in tests.
          *
+         * @param wisefySearch The custom WisefySearch to use (can be a mock or custom interface implementation)
+         *
+         * @see [WiseFySearch]
+         *
+         * @author Patches
+         * @since 3.0
          */
-        fun customWiseFySearch(wisefySearch: WiseFySearch): Brains = apply {
+        internal fun customWiseFySearch(wisefySearch: WiseFySearch): Brains = apply {
             this.wisefySearch = wisefySearch
         }
 
         /**
+         * Uses a private constructor and returns a WiseFy instance.
          *
+         * @see [WiseFyLogger.configureWiseFyLoggerImplementation]
+         *
+         * @author Patches
+         * @since 3.0
          */
         fun getSmarts(): WiseFy {
             WiseFyLogger.configureWiseFyLoggerImplementation(loggingEnabled)
@@ -198,6 +257,13 @@ class WiseFy(
      * @param ssid The ssid of the open network you want to add
      *
      * @return int - The return code from WifiManager for network creation (-1 for failure)
+     *
+     * @see [addNetworkConfiguration]
+     * @see [generateOpenNetworkConfiguration]
+     * @see [WiseFyPrechecks.addNetworkPrechecks]
+     *
+     * @author Patches
+     * @since 3.0
      */
     @Sync
     @CallingThread
@@ -206,7 +272,7 @@ class WiseFy(
         val precheck = wisefyPrechecks.addNetworkPrechecks(ssid)
         return if (precheck.failed()) {
             precheck.code
-        } else { addNetworkConfiguration(generateOpenNetworkConfiguration(ssid!!)) }
+        } else addNetworkConfiguration(generateOpenNetworkConfiguration(ssid!!))
     }
 
     /**
@@ -214,6 +280,16 @@ class WiseFy(
      *
      * @param ssid The ssid of the open network you want to add
      * @param callbacks The listener to return results to
+     *
+     * @see [addNetworkConfiguration]
+     * @see [AddNetworkCallbacks]
+     * @see [generateOpenNetworkConfiguration]
+     * @see [runOnWiseFyThread]
+     * @see [WiseFyLock]
+     * @see [WiseFyPrechecks.addNetworkPrechecks]
+     *
+     * @author Patches
+     * @since 3.0
      */
     @Async
     @WiseFyThread
@@ -245,6 +321,13 @@ class WiseFy(
      * @param password The password for the WEP network being added
      *
      * @return int - The return code from WifiManager for network creation (-1 for failure)
+     *
+     * @see [addNetworkConfiguration]
+     * @see [generateWEPNetworkConfiguration]
+     * @see [WiseFyPrechecks.addNetworkPrechecks]
+     *
+     * @author Patches
+     * @since 3.0
      */
     @Sync
     @CallingThread
@@ -262,6 +345,16 @@ class WiseFy(
      * @param ssid The ssid of the WEP network you want to add
      * @param password The password for the WEP network being added
      * @param callbacks The listener to return results to
+     *
+     * @see [addNetworkConfiguration]
+     * @see [AddNetworkCallbacks]
+     * @see [generateWEPNetworkConfiguration]
+     * @see [runOnWiseFyThread]
+     * @see [WiseFyLock]
+     * @see [WiseFyPrechecks.addNetworkPrechecks]
+     *
+     * @author Patches
+     * @since 3.0
      */
     @Async
     @WiseFyThread
@@ -293,6 +386,13 @@ class WiseFy(
      * @param password The password for the WPA2 network being added
      *
      * @return int - The return code from WifiManager for network creation (-1 for failure)
+     *
+     * @see [addNetworkConfiguration]
+     * @see [generateWPA2NetworkConfiguration]
+     * @see [WiseFyPrechecks.addNetworkPrechecks]
+     *
+     * @author Patches
+     * @since 3.0
      */
     @Sync
     @CallingThread
@@ -310,6 +410,16 @@ class WiseFy(
      * @param ssid The ssid of the WPA2 network you want to add
      * @param password The password for the WPA2 network being added
      * @param callbacks The listener to return results to
+     *
+     * @see [addNetworkConfiguration]
+     * @see [AddNetworkCallbacks]
+     * @see [generateWPA2NetworkConfiguration]
+     * @see [runOnWiseFyThread]
+     * @see [WiseFyLock]
+     * @see [WiseFyPrechecks.addNetworkPrechecks]
+     *
+     * @author Patches
+     * @since 3.0
      */
     @Async
     @WiseFyThread
@@ -342,7 +452,10 @@ class WiseFy(
      *
      * @return int - The number of bars for the given RSSI value
      *
-     * @see WifiManager.calculateSignalLevel
+     * @see [WifiManager.calculateSignalLevel]
+     *
+     * @author Patches
+     * @since 3.0
      */
     @Sync
     @CallingThread
@@ -362,7 +475,10 @@ class WiseFy(
      *
      * @return int - The result of the comparison
      *
-     * @see WifiManager.compareSignalLevel
+     * @see [WifiManager.compareSignalLevel]
+     *
+     * @author Patches
+     * @since 3.0
      */
     @Sync
     @CallingThread
@@ -378,6 +494,14 @@ class WiseFy(
      * @param timeoutInMillis The number of milliseconds to continue waiting for the device to connect to the given SSID
      *
      * @return boolean - If the network was successfully reconnected
+     *
+     * @see [connectToNetworkWithId]
+     * @see [WiseFyConnection.waitToConnectToSSID]
+     * @see [WiseFyPrechecks.connectToNetworkPrechecks]
+     * @see [WiseFySearch.findSavedNetworkByRegex]
+     *
+     * @author Patches
+     * @since 3.0
      */
     @Sync
     @CallingThread
@@ -400,12 +524,22 @@ class WiseFy(
     /**
      * Used to connect to a network.
      *
-     *
      * Gets a list of saved networks, connects to the given ssid if found, and verifies connectivity.
      *
      * @param ssidToConnectTo The ssid to connect/reconnect to
      * @param timeoutInMillis The number of milliseconds to continue waiting for the device to connect to the given SSID
      * @param callbacks The listener to return results to
+     *
+     * @see [connectToNetworkWithId]
+     * @see [ConnectToNetworkCallbacks]
+     * @see [runOnWiseFyThread]
+     * @see [WiseFyConnection.waitToConnectToSSID]
+     * @see [WiseFyLock]
+     * @see [WiseFyPrechecks.connectToNetworkPrechecks]
+     * @see [WiseFySearch.findSavedNetworkByRegex]
+     *
+     * @author Patches
+     * @since 3.0
      */
     @Async
     @WiseFyThread
@@ -444,6 +578,12 @@ class WiseFy(
      * To disable Wifi on a user's device.
      *
      * @return boolean - True if the command succeeded in disabling wifi
+     *
+     * @see [WifiManager.setWifiEnabled]
+     * @see [WiseFyPrechecks.disableWifiChecks]
+     *
+     * @author Patches
+     * @since 3.0
      */
     @Sync
     @CallingThread
@@ -455,6 +595,15 @@ class WiseFy(
      * To disable Wifi on a user's device.
      *
      * @param callbacks The listener to return results to
+     *
+     * @see [DisableWifiCallbacks]
+     * @see [runOnWiseFyThread]
+     * @see [WifiManager.setWifiEnabled]
+     * @see [WiseFyLock]
+     * @see [WiseFyPrechecks.disableWifiChecks]
+     *
+     * @author Patches
+     * @since 3.0
      */
     @Async
     @WiseFyThread
@@ -481,6 +630,12 @@ class WiseFy(
      * To disconnect the user from their current network.
      *
      * @return boolean - If the command succeeded in disconnecting the device from the current network
+     *
+     * @see [WifiManager.disconnect]
+     * @see [WiseFyPrechecks.disconnectFromCurrentNetworkChecks]
+     *
+     * @author Patches
+     * @since 3.0
      */
     @Sync
     @CallingThread
@@ -491,6 +646,15 @@ class WiseFy(
      * To disconnect the user from their current network.
      *
      * @param callbacks The listener to return results to
+     *
+     * @see [DisconnectFromCurrentNetworkCallbacks]
+     * @see [runOnWiseFyThread]
+     * @see [WifiManager.disconnect]
+     * @see [WiseFyLock]
+     * @see [WiseFyPrechecks.disconnectFromCurrentNetworkChecks
+     *
+     * @author Patches
+     * @since 3.0
      */
     @Async
     @WiseFyThread
@@ -514,6 +678,12 @@ class WiseFy(
 
     /**
      * Used to cleanup the thread started by WiseFy.
+     *
+     * @see WiseFyHandlerThread
+     * @see WiseFyLock
+     *
+     * @author Patches
+     * @since 3.0
      */
     override fun dump() {
         wisefyHandlerThread?.let {
@@ -547,6 +717,12 @@ class WiseFy(
      * To enable Wifi on a user's device.
      *
      * @return boolean - If the command succeeded in enabling wifi
+     *
+     * @see [WifiManager.setWifiEnabled]
+     * @see [WiseFyPrechecks.enableWifiChecks]
+     *
+     * @author Patches
+     * @since 3.0
      */
     @Sync
     @CallingThread
@@ -558,6 +734,15 @@ class WiseFy(
      * To enable Wifi on a user's device.
      *
      * @param callbacks The listener to return results to
+     *
+     * @see [EnableWifiCallbacks]
+     * @see [runOnWiseFyThread]
+     * @see [WifiManager.setWifiEnabled]
+     * @see [WiseFyLock]
+     * @see [WiseFyPrechecks.enableWifiChecks]
+     *
+     * @author Patches
+     * @since 3.0
      */
     @Async
     @WiseFyThread
@@ -586,6 +771,13 @@ class WiseFy(
      * @return WifiInfo|null - The user's current network information
      *
      * @throws SecurityException Without necessary permissions granted
+     *
+     * @see [WifiInfo]
+     * @see [WifiManager.getConnectionInfo]
+     * @see [WiseFyPrechecks.getCurrentNetworkChecks]
+     *
+     * @author Patches
+     * @since 3.0
      */
     @Sync
     @CallingThread
@@ -594,7 +786,7 @@ class WiseFy(
     override fun getCurrentNetwork(): WifiInfo? {
         return if (wisefyPrechecks.getCurrentNetworkChecks().passed()) {
             wifiManager.connectionInfo
-        } else { null }
+        } else null
     }
 
     /**
@@ -603,6 +795,16 @@ class WiseFy(
      * @param callbacks The listener to return results to
      *
      * @throws SecurityException Without necessary permissions granted
+     *
+     * @see [GetCurrentNetworkCallbacks]
+     * @see [runOnWiseFyThread]
+     * @see [WifiInfo]
+     * @see [WifiManager.getConnectionInfo]
+     * @see [WiseFyLock]
+     * @see [WiseFyPrechecks.getCurrentNetworkChecks]
+     *
+     * @author Patches
+     * @since 3.0
      */
     @Async
     @WiseFyThread
@@ -625,6 +827,13 @@ class WiseFy(
      * To retrieve the details of the phones active network.
      *
      * @return NetworkInfo
+     *
+     * @see [ConnectivityManager.getActiveNetworkInfo]
+     * @see [NetworkInfo]
+     * @see [WiseFyPrechecks.getCurrentNetworkInfoChecks]
+     *
+     * @author Patches
+     * @since 3.0
      */
     @Sync
     @CallingThread
@@ -632,13 +841,23 @@ class WiseFy(
     override fun getCurrentNetworkInfo(): NetworkInfo? {
         return if (wisefyPrechecks.getCurrentNetworkInfoChecks().passed()) {
             connectivityManager.activeNetworkInfo
-        } else { null }
+        } else null
     }
 
     /**
      * To retrieve the details of the phones active network.
      *
      * @param callbacks The listener to return results to
+     *
+     * @see [ConnectivityManager.getActiveNetworkInfo]
+     * @see [GetCurrentNetworkInfoCallbacks]
+     * @see [NetworkInfo]
+     * @see [runOnWiseFyThread]
+     * @see [WiseFyLock]
+     * @see [WiseFyPrechecks.getCurrentNetworkInfoChecks]
+     *
+     * @author Patches
+     * @since 3.0
      */
     @Async
     @WiseFyThread
@@ -663,6 +882,13 @@ class WiseFy(
      * @return Integer - The frequency of the devices current network or null if no network
      *
      * @throws SecurityException Without necessary permissions granted
+     *
+     * @see [getCurrentNetwork]
+     * @see [WifiInfo]
+     * @see [WifiInfo.getFrequency]
+     *
+     * @author Patches
+     * @since 3.0
      */
     @Sync
     @CallingThread
@@ -680,6 +906,16 @@ class WiseFy(
      * @param callbacks The listener to return results to
      *
      * @throws SecurityException Without necessary permissions granted
+     *
+     * @see [getCurrentNetwork]
+     * @see [GetFrequencyCallbacks]
+     * @see [runOnWiseFyThread]
+     * @see [WifiInfo]
+     * @see [WifiInfo.getFrequency]
+     * @see [WiseFyLock]
+     *
+     * @author Patches
+     * @since 3.0
      */
     @Async
     @WiseFyThread
@@ -705,6 +941,12 @@ class WiseFy(
      * @param network The network to return the frequency of
      *
      * @return Integer - The frequency of the devices current network or null if no network
+     *
+     * @see [WifiInfo]
+     * @see [WifiInfo.getFrequency]
+     *
+     * @author Patches
+     * @since 3.0
      */
     @Sync
     @CallingThread
@@ -716,6 +958,14 @@ class WiseFy(
      *
      * @param network The network to return the frequency of
      * @param callbacks The listener to return results to
+     *
+     * @see [GetFrequencyCallbacks]
+     * @see [runOnWiseFyThread]
+     * @see [WifiInfo.getFrequency]
+     * @see [WiseFyLock]
+     *
+     * @author Patches
+     * @since 3.0
      */
     @Async
     @WiseFyThread
@@ -736,6 +986,15 @@ class WiseFy(
      * To retrieve the IPv4 or IPv6 of a device.
      *
      * @return String - The IPv4 or IPv6 address
+     *
+     * @see [InetAddress]
+     * @see [InetAddress.getHostAddress]
+     * @see [WifiInfo.getIpAddress]
+     * @see [WifiManager.getConnectionInfo]
+     * @see [WiseFyPrechecks.getIPChecks]
+     *
+     * @author Patches
+     * @since 3.0
      */
     @Sync
     @CallingThread
@@ -758,6 +1017,18 @@ class WiseFy(
      * To retrieve the IPv4 or IPv6 of a device.
      *
      * @param callbacks The listener to return results to
+     *
+     * @see [GetIPCallbacks]
+     * @see [InetAddress]
+     * @see [InetAddress.getHostAddress]
+     * @see [runOnWiseFyThread]
+     * @see [WifiInfo.getIpAddress]
+     * @see [WifiManager.getConnectionInfo]
+     * @see [WiseFyLock]
+     * @see [WiseFyPrechecks.getIPChecks]
+     *
+     * @author Patches
+     * @since 3.0
      */
     @Async
     @WiseFyThread
@@ -794,6 +1065,12 @@ class WiseFy(
      *
      * @throws SecurityException Without necessary permissions granted
      *
+     * @see [ScanResult]
+     * @see [WifiManager.getScanResults]
+     * @see [WifiManager.startScan]
+     * @see [WiseFyPrechecks.getNearbyAccessPointsChecks]
+     * @see [WiseFySearch.removeEntriesWithLowerSignalStrength]
+     *
      * @author Patches
      * @since 3.0
      */
@@ -821,6 +1098,15 @@ class WiseFy(
      *
      * @param filterDuplicates If you want to exclude SSIDs with that same name that have a weaker signal strength
      * @param callbacks The listener to return results to
+     *
+     * @see [GetNearbyAccessPointsCallbacks]
+     * @see [runOnWiseFyThread]
+     * @see [ScanResult]
+     * @see [WifiManager.getScanResults]
+     * @see [WifiManager.startScan]
+     * @see [WiseFyLock]
+     * @see [WiseFyPrechecks.getNearbyAccessPointsChecks]
+     * @see [WiseFySearch.removeEntriesWithLowerSignalStrength]
      *
      * @author Patches
      * @since 3.0
@@ -859,6 +1145,14 @@ class WiseFy(
      * @param timeoutInMillis The amount of time to search for a matching SSID
      *
      * @return Integer - The RSSI value for the found SSID or null if no matching network found
+     *
+     * @see [ScanResult]
+     * @see [ScanResult.level]
+     * @see [WiseFyPrechecks.getRSSIChecks]
+     * @see [WiseFySearch.findAccessPointByRegex]
+     *
+     * @author Patches
+     * @since 3.0
      */
     @Sync
     @CallingThread
@@ -881,6 +1175,14 @@ class WiseFy(
      * @param takeHighest Whether to return the access point with the highest RSSI for the given SSID
      * @param timeoutInMillis The amount of time to search for a matching SSID
      * @param callbacks The listener to return results to
+     *
+     * @see [GetRSSICallbacks]
+     * @see [runOnWiseFyThread]
+     * @see [ScanResult]
+     * @see [ScanResult.level]
+     * @see [WiseFyLock]
+     * @see [WiseFyPrechecks.getRSSIChecks]
+     * @see [WiseFySearch.findAccessPointByRegex]
      *
      * @author Patches
      * @since 3.0
@@ -926,7 +1228,7 @@ class WiseFy(
     override fun getSavedNetwork(regexForSSID: String?): WifiConfiguration? {
         return if (wisefyPrechecks.getSavedNetworkChecks(regexForSSID).passed()) {
             wisefySearch.findSavedNetworkByRegex(regexForSSID!!)
-        } else { null }
+        } else null
     }
 
     /**
@@ -968,7 +1270,7 @@ class WiseFy(
     override fun getSavedNetworks(): List<WifiConfiguration>? {
         return if (wisefyPrechecks.getSavedNetworksChecks().passed()) {
             wifiManager.configuredNetworks
-        } else { null }
+        } else null
     }
 
     /**
@@ -1011,7 +1313,7 @@ class WiseFy(
     override fun getSavedNetworks(regexForSSID: String?): List<WifiConfiguration>? {
         return if (wisefyPrechecks.getSavedNetworksChecks(regexForSSID).passed()) {
             wisefySearch.findSavedNetworksMatchingRegex(regexForSSID!!)
-        } else { null }
+        } else null
     }
 
     /**
@@ -1264,6 +1566,13 @@ class WiseFy(
      * @param ssidToRemove The ssid of the network you want to remove from the configured network list
      *
      * @return boolean - If the command succeeded in removing the network
+     *
+     * @see [WifiConfiguration]
+     * @see [WiseFyPrechecks.removeNetworkCheck]
+     * @sse [WiseFySearch.findSavedNetworkByRegex]
+     *
+     * @author Patches
+     * @since 3.0
      */
     @Sync
     @CallingThread
@@ -1287,6 +1596,16 @@ class WiseFy(
      *
      * @param ssidToRemove The ssid of the network you want to remove from the configured network list
      * @param callbacks The listener to return results to
+     *
+     * @see [RemoveNetworkCallbacks]
+     * @see [runOnWiseFyThread]
+     * @see [WifiConfiguration]
+     * @see [WiseFyLock]
+     * @see [WiseFyPrechecks.removeNetworkCheck]
+     * @sse [WiseFySearch.findSavedNetworkByRegex]
+     *
+     * @author Patches
+     * @since 3.0
      */
     @Async
     @WiseFyThread
@@ -1325,6 +1644,13 @@ class WiseFy(
      * @param filterDuplicates If you want to exclude access points with the same name that have a weaker signal strength
      *
      * @return ScanResult|null - The first access point or access point with the highest signal strength matching the regex
+     *
+     * @see [ScanResult]
+     * @see [WiseFyPrechecks.searchForAccessPointChecks]
+     * @see [WiseFySearch.findAccessPointByRegex]
+     *
+     * @author Patches
+     * @since 3.0
      */
     @Sync
     @CallingThread
@@ -1336,7 +1662,7 @@ class WiseFy(
     ): ScanResult? {
         return if (wisefyPrechecks.searchForAccessPointChecks(regexForSSID).passed()) {
             wisefySearch.findAccessPointByRegex(regexForSSID!!, timeoutInMillis, filterDuplicates)
-        } else { null }
+        } else null
     }
 
     /**
@@ -1349,6 +1675,16 @@ class WiseFy(
      * @param timeoutInMillis The amount of time (in milliseconds) to wait for a matching access point
      * @param filterDuplicates If you want to exclude access points with the same name that have a weaker signal strength
      * @param callbacks The listener to return results to
+     *
+     * @see [runOnWiseFyThread]
+     * @see [ScanResult]
+     * @see [SearchForAccessPointCallbacks]
+     * @see [WiseFyLock]
+     * @see [WiseFyPrechecks.searchForAccessPointChecks]
+     * @see [WiseFySearch.findAccessPointByRegex]
+     *
+     * @author Patches
+     * @since 3.0
      */
     @Async
     @WiseFyThread
@@ -1388,7 +1724,12 @@ class WiseFy(
      *
      * @return List of ScanResult|null - The list of matching access points or null if none match the given regex
      *
-     * @see WiseFySearch.findAccessPointsMatchingRegex
+     * @see [ScanResult]
+     * @see [WiseFyPrechecks.searchForAccessPointsChecks]
+     * @see [WiseFySearch.findAccessPointsMatchingRegex]
+     *
+     * @author Patches
+     * @since 3.0
      */
     @Sync
     @CallingThread
@@ -1396,7 +1737,7 @@ class WiseFy(
     override fun searchForAccessPoints(regexForSSID: String?, filterDuplicates: Boolean): List<ScanResult>? {
         return if (wisefyPrechecks.searchForAccessPointsChecks(regexForSSID).passed()) {
             wisefySearch.findAccessPointsMatchingRegex(regexForSSID!!, filterDuplicates)
-        } else { null }
+        } else null
     }
 
     /**
@@ -1409,10 +1750,15 @@ class WiseFy(
      * @param filterDuplicates If you want to exclude access points with the same name that have a weaker signal strength
      * @param callbacks The listener to return results to
      *
-     * @see .runOnWiseFyThread
-     * @see SearchForAccessPointsCallbacks
+     * @see [runOnWiseFyThread]
+     * @see [ScanResult]
+     * @see [SearchForAccessPointsCallbacks]
+     * @see [WiseFyLock]
+     * @see [WiseFyPrechecks.searchForAccessPointsChecks]
+     * @see [WiseFySearch.findAccessPointsMatchingRegex]
      *
-     * @see WiseFySearch.findAccessPointsMatchingRegex
+     * @author Patches
+     * @since 3.0
      */
     @Async
     @WiseFyThread
@@ -1448,7 +1794,13 @@ class WiseFy(
      *
      * @return String|null - The first SSID that contains the search ssid (if any, else null)
      *
-     * @see WiseFySearch.findAccessPointByRegex
+     * @see [ScanResult]
+     * @see [ScanResult.SSID]
+     * @see [WiseFyPrechecks.searchForSSIDChecks]
+     * @see [WiseFySearch.findAccessPointByRegex]
+     *
+     * @author Patches
+     * @since 3.0
      */
     @Sync
     @CallingThread
@@ -1470,10 +1822,16 @@ class WiseFy(
      * @param timeoutInMillis The number of milliseconds to keep searching for the SSID
      * @param callbacks The listener to return results to
      *
-     * @see .runOnWiseFyThread
-     * @see SearchForSSIDCallbacks
+     * @see [runOnWiseFyThread]
+     * @see [ScanResult]
+     * @see [ScanResult.SSID]
+     * @see [SearchForSSIDCallbacks]
+     * @see [WiseFyLock]
+     * @see [WiseFyPrechecks.searchForSSIDChecks]
+     * @see [WiseFySearch.findAccessPointByRegex]
      *
-     * @see WiseFySearch.findAccessPointByRegex
+     * @author Patches
+     * @since 3.0
      */
     @Async
     @WiseFyThread
@@ -1505,7 +1863,11 @@ class WiseFy(
      *
      * @return String|null - The first SSID that contains the search ssid (if any, else null)
      *
+     * @see [WiseFyPrechecks.searchForSSIDsChecks]
      * @see [WiseFySearch.findSSIDsMatchingRegex]
+     *
+     * @author Patches
+     * @since 3.0
      */
     @Sync
     @CallingThread
@@ -1513,7 +1875,7 @@ class WiseFy(
     override fun searchForSSIDs(regexForSSID: String?): List<String>? {
         return if (wisefyPrechecks.searchForSSIDsChecks(regexForSSID).passed()) {
             wisefySearch.findSSIDsMatchingRegex(regexForSSID!!)
-        } else { null }
+        } else null
     }
 
     /**
@@ -1524,7 +1886,12 @@ class WiseFy(
      *
      * @see [runOnWiseFyThread]
      * @see [SearchForSSIDsCallbacks]
+     * @see [WiseFyLock]
+     * @see [WiseFyPrechecks.searchForSSIDsChecks]
      * @see [WiseFySearch.findSSIDsMatchingRegex]
+     *
+     * @author Patches
+     * @since 3.0
      */
     @Async
     @WiseFyThread
@@ -1558,6 +1925,13 @@ class WiseFy(
      * @param wifiConfiguration The network configuration to add
      *
      * @return boolean - If the network was successfully added
+     *
+     * @see [WifiConfiguration]
+     * @see [WifiConfiguration.SSID]
+     * @see [WifiManager.addNetwork]
+     *
+     * @author Patches
+     * @since 3.0
      */
     private fun addNetworkConfiguration(wifiConfiguration: WifiConfiguration): Int {
         val result = wifiManager.addNetwork(wifiConfiguration)
@@ -1572,6 +1946,13 @@ class WiseFy(
      * @param capability The capability to check for
      *
      * @return boolean - True if the network contains the capability
+     *
+     * @see [Capability]
+     * @see [ScanResult]
+     * @see [ScanResult.capabilities]
+     *
+     * @author Patches
+     * @since 3.0
      */
     private fun containsCapability(scanResult: ScanResult?, @Capability capability: String): Boolean =
         scanResult?.capabilities != null && scanResult.capabilities.contains(capability)
@@ -1580,6 +1961,13 @@ class WiseFy(
      * Used internally to connect to a network given it's id.
      *
      * @param networkId The network id to enable
+     *
+     * @see [WifiManager.disconnect]
+     * @see [WifiManager.enableNetwork]
+     * @see [WifiManager.reconnect]
+     *
+     * @author Patches
+     * @since 3.0
      */
     private fun connectToNetworkWithId(networkId: Int) {
         wifiManager.disconnect()
@@ -1592,7 +1980,10 @@ class WiseFy(
      *
      * @param runnable The block of code to execute in the background
      *
-     * @see .setupWiseFyThread
+     * @see [setupWiseFyThread]
+     *
+     * @author Patches
+     * @since 3.0
      */
     private fun runOnWiseFyThread(runnable: Runnable) {
         if (wisefyHandler == null) {
@@ -1607,6 +1998,16 @@ class WiseFy(
      * @param wifiConfiguration The network to remove
      *
      * @return bool - true if the network was successfully removed
+     *
+     * @see [WifiConfiguration]
+     * @see [WifiConfiguration.networkId]
+     * @see [WifiConfiguration.SSID]
+     * @see [WifiManager.disconnect]
+     * @see [WifiManager.removeNetwork]
+     * @see [WifiManager.reconnect]
+     *
+     * @author Patches
+     * @since 3.0
      */
     private fun removeNetworkConfiguration(wifiConfiguration: WifiConfiguration): Boolean {
         wifiManager.disconnect()
@@ -1621,6 +2022,9 @@ class WiseFy(
      *
      * @see [runOnWiseFyThread]
      * @see [WiseFyHandlerThread]
+     *
+     * @author Patches
+     * @since 3.0
      */
     private fun setupWiseFyThread() {
         wisefyHandlerThread = WiseFyHandlerThread(WiseFyHandlerThread.TAG)

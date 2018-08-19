@@ -18,6 +18,7 @@ package com.isupatches.wisefy.callbacks
 /**
  * Callbacks for retrieving RSSI level of a nearby access point.
  *
+ * @see [BaseCallback]
  * @see [com.isupatches.wisefy.WiseFy.getRSSI]
  *
  * @author Patches

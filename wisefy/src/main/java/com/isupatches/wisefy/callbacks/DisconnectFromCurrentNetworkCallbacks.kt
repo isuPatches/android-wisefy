@@ -18,6 +18,7 @@ package com.isupatches.wisefy.callbacks
 /**
  * Callbacks for disconnecting a device from it's current network.
  *
+ * @see [BaseCallback]
  * @see [com.isupatches.wisefy.WiseFy.disconnectFromCurrentNetwork]
  *
  * @author Patches

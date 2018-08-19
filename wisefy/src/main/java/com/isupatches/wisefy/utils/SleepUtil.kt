@@ -18,12 +18,15 @@ package com.isupatches.wisefy.utils
 private const val BASE_DELAY = 1000
 
 /**
- * To sleep the calling thread for a second.
+ * To sleep the calling thread for a set amount of time.
  *
  * @see [BASE_DELAY]
  * @see [sleep]
+ *
+ * @author Patches
+ * @since 3.0
  */
-fun rest() {
+internal fun rest() {
     sleep(BASE_DELAY.toLong())
 }
 
@@ -31,6 +34,9 @@ fun rest() {
  * Used to wait for a given amount of time (in milliseconds).
  *
  * @param timeToSleepInMillis The number of milliseconds to sleep
+ *
+ * @author Patches
+ * @since 3.0
  */
 private fun sleep(timeToSleepInMillis: Long) {
     try {

@@ -23,7 +23,7 @@ import android.support.annotation.StringDef
  * @author Patches
  * @since 3.0
  */
-internal const val MOBILE = "MOBILE"
+const val MOBILE: String = "MOBILE"
 
 /**
  * Constant for a Wifi network.
@@ -31,7 +31,7 @@ internal const val MOBILE = "MOBILE"
  * @author Patches
  * @since 3.0
  */
-internal const val WIFI = "WIFI"
+const val WIFI: String = "WIFI"
 
 /**
  * Annotation to help avoid crazy strings when handling network types.

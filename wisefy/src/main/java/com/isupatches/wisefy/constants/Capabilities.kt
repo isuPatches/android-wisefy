@@ -23,7 +23,7 @@ import android.support.annotation.StringDef
  * @author Patches
  * @since 3.0
  */
-internal const val EAP = "EAP"
+const val EAP: String = "EAP"
 
 /**
  * Constant for PSK security capabilities.
@@ -31,7 +31,7 @@ internal const val EAP = "EAP"
  * @author Patches
  * @since 3.0
  */
-internal const val PSK = "PSK"
+const val PSK: String = "PSK"
 
 /**
  * Constant for WEP security capabilities.
@@ -39,7 +39,7 @@ internal const val PSK = "PSK"
  * @author Patches
  * @since 3.0
  */
-internal const val WEP = "WEP"
+const val WEP: String = "WEP"
 
 /**
  * Constant for WPA security capabilities.
@@ -47,7 +47,7 @@ internal const val WEP = "WEP"
  * @author Patches
  * @since 3.0
  */
-internal const val WPA = "WPA"
+const val WPA: String = "WPA"
 
 /**
  * Constant for WPA2 security capabilities.
@@ -55,7 +55,7 @@ internal const val WPA = "WPA"
  * @author Patches
  * @since 3.0
  */
-internal const val WPA2 = "WPA2"
+const val WPA2: String = "WPA2"
 
 /**
  * Annotation to help avoid crazy strings when working with network security capabilities.

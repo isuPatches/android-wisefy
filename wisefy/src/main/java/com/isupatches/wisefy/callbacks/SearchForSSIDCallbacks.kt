@@ -18,6 +18,7 @@ package com.isupatches.wisefy.callbacks
 /**
  * Callbacks for finding a nearby SSID on a device.
  *
+ * @see [BaseCallback]
  * @see [com.isupatches.wisefy.WiseFy.searchForSSID]
  *
  * @author Patches

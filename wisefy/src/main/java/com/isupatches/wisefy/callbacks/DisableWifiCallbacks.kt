@@ -18,6 +18,7 @@ package com.isupatches.wisefy.callbacks
 /**
  * Callbacks for disabling a device's wifi.
  *
+ * @see [BaseCallback]
  * @see [com.isupatches.wisefy.WiseFy.disableWifi]
  *
  * @author Patches
@@ -26,7 +27,7 @@ package com.isupatches.wisefy.callbacks
 interface DisableWifiCallbacks : BaseCallback {
 
     /**
-     * Called when there is an issue disabling Wifi via WifiManager.
+     * Called when there is an issue disabling Wifi on the device.
      *
      * @author Patches
      * @since 3.0
@@ -34,7 +35,7 @@ interface DisableWifiCallbacks : BaseCallback {
     fun failureDisablingWifi()
 
     /**
-     * Called when WiseFy has successfully disabled Wifi via WifiManager.
+     * Called when WiseFy has successfully disabled Wifi on the device.
      *
      * @author Patches
      * @since 3.0

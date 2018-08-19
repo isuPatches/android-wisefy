@@ -20,6 +20,7 @@ import android.net.wifi.WifiConfiguration
 /**
  * Callbacks for retrieving a saved network on a device.
  *
+ * @see [BaseCallback]
  * @see [com.isupatches.wisefy.WiseFy.getSavedNetwork]
  *
  * @author Patches
@@ -37,6 +38,8 @@ interface GetSavedNetworkCallbacks : BaseCallback {
 
     /**
      * Called when WiseFy has successfully retrieved a matching saved network configuration.
+     *
+     * @see [WifiConfiguration]
      *
      * @author Patches
      * @since 3.0

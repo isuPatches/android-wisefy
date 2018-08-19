@@ -26,4 +26,4 @@ import java.lang.annotation.Inherited
 @MustBeDocumented
 @Inherited
 @Retention(AnnotationRetention.RUNTIME)
-annotation class PublicAPI
+internal annotation class PublicAPI

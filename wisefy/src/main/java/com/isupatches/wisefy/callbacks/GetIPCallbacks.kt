@@ -18,6 +18,7 @@ package com.isupatches.wisefy.callbacks
 /**
  * Callbacks for retrieving a device's IP.
  *
+ * @see [BaseCallback]
  * @see [com.isupatches.wisefy.WiseFy.getIP]
  *
  * @author Patches

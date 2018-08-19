@@ -18,6 +18,7 @@ package com.isupatches.wisefy.callbacks
 /**
  * Callbacks for enabling a device's wifi.
  *
+ * @see [BaseCallback]
  * @see [com.isupatches.wisefy.WiseFy.enableWifi]
  *
  * @author Patches

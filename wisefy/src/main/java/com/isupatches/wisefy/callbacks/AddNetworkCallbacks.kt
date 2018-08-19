@@ -20,6 +20,7 @@ import android.net.wifi.WifiConfiguration
 /**
  * Callbacks for adding a network as a saved configuration on a device.
  *
+ * @see [BaseCallback]
  * @see [com.isupatches.wisefy.WiseFy.addOpenNetwork]
  * @see [com.isupatches.wisefy.WiseFy.addWEPNetwork]
  * @see [com.isupatches.wisefy.WiseFy.addWPA2Network]

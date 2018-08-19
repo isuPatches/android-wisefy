@@ -29,4 +29,4 @@ import java.lang.annotation.Inherited
 @Target(AnnotationTarget.FUNCTION)
 @Inherited
 @Retention(AnnotationRetention.RUNTIME)
-annotation class WiseFyThread
+internal annotation class WiseFyThread

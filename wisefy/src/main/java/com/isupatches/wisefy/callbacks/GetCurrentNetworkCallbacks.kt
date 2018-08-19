@@ -20,6 +20,7 @@ import android.net.wifi.WifiInfo
 /**
  * Callbacks for retrieving a device's current network.
  *
+ * @see [BaseCallback]
  * @see [com.isupatches.wisefy.WiseFy.getCurrentNetwork]
  *
  * @author Patches
@@ -29,6 +30,8 @@ interface GetCurrentNetworkCallbacks : BaseCallback {
 
     /**
      * Called when WiseFy has successfully retrieved the device's current network.
+     *
+     * @see [WifiInfo]
      *
      * @author Patches
      * @since 3.0

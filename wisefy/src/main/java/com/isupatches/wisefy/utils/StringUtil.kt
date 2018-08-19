@@ -16,6 +16,7 @@
 package com.isupatches.wisefy.utils
 
 import com.isupatches.wisefy.constants.QUOTE
+import java.util.Locale
 
 /**
  * Used internally to convert an SSID into an acceptable format to create a WifiConfiguration.
@@ -23,5 +24,8 @@ import com.isupatches.wisefy.constants.QUOTE
  * @param ssid The SSID to format
  *
  * @return String - The formatted SSID value
+ *
+ * @author Patches
+ * @since 3.0
  */
-internal fun convertSSIDForConfig(ssid: String): String = String.format("%s%s%s", QUOTE, ssid, QUOTE)
+internal fun convertSSIDForConfig(ssid: String): String = "%s%s%s".format(Locale.US, QUOTE, ssid, QUOTE)

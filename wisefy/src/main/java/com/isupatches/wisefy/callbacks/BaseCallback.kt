@@ -21,19 +21,19 @@ import com.isupatches.wisefy.constants.WiseFyCode
  * Callbacks that are applicable to all Async WiseFy operations.
  * All Async interfaces should extend this class.
  *
- * @see [com.isupatches.wisefy.WiseFyPrechecks]
- * @see [com.isupatches.wisefy.constants.WiseFyCode]
- *
  * @author Patches
  * @since 3.0
  */
 interface BaseCallback {
 
     /**
-     * Called when [com.isupatches.wisefy.WiseFyPrechecks] determines there
+     * Called when [com.isupatches.wisefy.WiseFyPrechecks] determines that there
      * is an issue and an operation cannot be completed.
      *
-     * Example: A null or empty ssid is passed in, but is a required parameter.
+     * Example: A null or empty ssid is passed in but is a required parameter.
+     *
+     * @see [com.isupatches.wisefy.WiseFyPrechecks]
+     * @see [com.isupatches.wisefy.constants.WiseFyCode]
      *
      * @author Patches
      * @since 3.0

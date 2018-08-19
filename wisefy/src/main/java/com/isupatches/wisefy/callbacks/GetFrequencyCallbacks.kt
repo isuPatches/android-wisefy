@@ -18,6 +18,7 @@ package com.isupatches.wisefy.callbacks
 /**
  * Callbacks for retrieving the frequency of a network.
  *
+ * @see [BaseCallback]
  * @see [com.isupatches.wisefy.WiseFy.getFrequency]
  *
  * @author Patches

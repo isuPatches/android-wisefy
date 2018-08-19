@@ -27,14 +27,15 @@ import com.isupatches.wisefy.logging.WiseFyLogger
 import com.isupatches.wisefy.utils.rest
 
 import java.util.ArrayList
+import java.util.Locale
 
 /**
  * A class used internally for the purposes of shared query logic. This handles saved networks and
  * nearby access points. There is also filtering by regex functionality and some RSSI logic that
  * are tied into these queries.
  *
- * @see WifiManager
- * @see WiseFySearch
+ * @see [WifiManager]
+ * @see [WiseFySearch]
  *
  * @author Patches
  * @since 3.0
@@ -337,7 +338,7 @@ internal class WiseFySearchImpl private constructor(
     private fun accessPointMatchesRegex(accessPoint: ScanResult?, regexForSSID: String): Boolean {
         WiseFyLogger.debug(
             TAG,
-            String.format("accessPoint. SSID: %s, regex for SSID: %s", accessPoint?.SSID, regexForSSID)
+            "accessPoint. SSID: %s, regex for SSID: %s".format(Locale.US, accessPoint?.SSID, regexForSSID)
         )
         return accessPoint?.SSID?.matches(regexForSSID.toRegex()) ?: false
     }
@@ -403,64 +404,24 @@ internal class WiseFySearchImpl private constructor(
 /**
  * An interface that helps with searching.
  *
+ * @see [WiseFySearchImpl]
+ *
  * @author Patches
  * @since 3.0
  */
-interface WiseFySearch {
+internal interface WiseFySearch {
 
-    /**
-     * Used internally to wait for a given time and return the first ScanResult whose SSID matches a given regex.
-     *
-     * @author Patches
-     * @since 3.0
-     */
     fun findAccessPointByRegex(regexForSSID: String, timeoutInMillis: Int, takeHighest: Boolean): ScanResult?
 
-    /**
-     * Used internally to return a list of networks whose SSID match the given regex.
-     *
-     * @author Patches
-     * @since 3.0
-     */
     fun findAccessPointsMatchingRegex(regexForSSID: String, takeHighest: Boolean): List<ScanResult>?
 
-    /**
-     * Used internally to return the first configuration of s saved networks matching a given regex.
-     *
-     * @author Patches
-     * @since 3.0
-     */
     fun findSavedNetworkByRegex(regexForSSID: String): WifiConfiguration?
 
-    /**
-     * Used internally to return a list of saved networks matching a given regex.
-     *
-     * @author Patches
-     * @since 3.0
-     */
     fun findSavedNetworksMatchingRegex(regexForSSID: String): List<WifiConfiguration>?
 
-    /**
-     * Used internally to return a list of SSIDs from saved networks matching a given regex.
-     *
-     * @author Patches
-     * @since 3.0
-     */
     fun findSSIDsMatchingRegex(regexForSSID: String): List<String>?
 
-    /**
-     * Used internally to determine if a network exists as a saved network configuration.
-     *
-     * @author Patches
-     * @since 3.0
-     */
     fun isNetworkASavedConfiguration(ssid: String?): Boolean
 
-    /**
-     * Used internally to build a list of ScanResults (removes duplicates by taking access point with higher RSSI).
-     *
-     * @author Patches
-     * @since 3.0
-     */
     fun removeEntriesWithLowerSignalStrength(accessPoints: List<ScanResult>): List<ScanResult>
 }
