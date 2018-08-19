@@ -1,0 +1,35 @@
+task jacocoAllCombinedTests {
+    group = "verification"
+
+    dependsOn ':wisefy:jacocoDebugCombinedTest'
+}
+
+task jacocoAllCombinedTestReports {
+    group = "verification"
+
+    dependsOn ':wisefy:jacocoDebugCombinedTestReport'
+}
+
+task jacocoAllUnitTests {
+    group = "verification"
+
+    dependsOn ':wisefy:jacocoDebugUnitTest'
+}
+
+task jacocoAllUnitTestReports {
+    group = "verification"
+
+    dependsOn ':wisefy:jacocoDebugUnitTestReport'
+}
+
+task jacocoAllAndroidTests {
+    group = "verification"
+
+    dependsOn ':wisefy:jacocoDebugAndroidTest'
+}
+
+task jacocoAllAndroidTestReports {
+    group = "verification"
+
+    dependsOn ':wisefy:jacocoDebugAndroidTestReport'
+}

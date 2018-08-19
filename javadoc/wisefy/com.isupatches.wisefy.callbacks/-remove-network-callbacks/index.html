@@ -1,0 +1,70 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>RemoveNetworkCallbacks - wisefy</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">wisefy</a>&nbsp;/&nbsp;<a href="../index.html">com.isupatches.wisefy.callbacks</a>&nbsp;/&nbsp;<a href="./index.html">RemoveNetworkCallbacks</a><br/>
+<br/>
+<h1>RemoveNetworkCallbacks</h1>
+<code><span class="keyword">interface </span><span class="identifier">RemoveNetworkCallbacks</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-base-callback/index.html"><span class="identifier">BaseCallback</span></a></code>
+<p>Callbacks for removing a saved network on a device.</p>
+<p><strong>See Also</strong><br/>
+<p><a href="../-base-callback/index.html">BaseCallback</a></p>
+<p><a href="../../com.isupatches.wisefy/-wise-fy/remove-network.html">com.isupatches.wisefy.WiseFy.removeNetwork</a></p>
+</p>
+<p><strong>Author</strong><br/>
+Patches</p>
+<p><strong>Since</strong><br/>
+3.0</p>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="failure-removing-network.html">failureRemovingNetwork</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">failureRemovingNetwork</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Called when there is an issue removing a saved network configuration with WifiManager.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="network-not-found-to-remove.html">networkNotFoundToRemove</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">networkNotFoundToRemove</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Called when the network is not found in the save network configuration list.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="network-removed.html">networkRemoved</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">networkRemoved</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Called when WiseFy has successfully removed a network from the
+list of saved network configurations.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Inherited Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="../-base-callback/wisefy-failure.html">wisefyFailure</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">wisefyFailure</span><span class="symbol">(</span><span class="identifier" id="com.isupatches.wisefy.callbacks.BaseCallback$wisefyFailure(kotlin.Int)/wisefyFailureCode">wisefyFailureCode</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Called when <a href="#">com.isupatches.wisefy.WiseFyPrechecks</a> determines that there
+is an issue and an operation cannot be completed.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

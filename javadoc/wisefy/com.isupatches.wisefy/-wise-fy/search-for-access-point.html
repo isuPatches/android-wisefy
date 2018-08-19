@@ -1,0 +1,59 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>WiseFy.searchForAccessPoint - wisefy</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">wisefy</a>&nbsp;/&nbsp;<a href="../index.html">com.isupatches.wisefy</a>&nbsp;/&nbsp;<a href="index.html">WiseFy</a>&nbsp;/&nbsp;<a href="./search-for-access-point.html">searchForAccessPoint</a><br/>
+<br/>
+<h1>searchForAccessPoint</h1>
+<a name="com.isupatches.wisefy.WiseFy$searchForAccessPoint(kotlin.String, kotlin.Int, kotlin.Boolean)"></a>
+<code><span class="identifier">@Sync</span> <span class="identifier">@CallingThread</span> <span class="keyword">fun </span><span class="identifier">searchForAccessPoint</span><span class="symbol">(</span><span class="identifier" id="com.isupatches.wisefy.WiseFy$searchForAccessPoint(kotlin.String, kotlin.Int, kotlin.Boolean)/regexForSSID">regexForSSID</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span><span class="symbol">, </span><span class="identifier" id="com.isupatches.wisefy.WiseFy$searchForAccessPoint(kotlin.String, kotlin.Int, kotlin.Boolean)/timeoutInMillis">timeoutInMillis</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">, </span><span class="identifier" id="com.isupatches.wisefy.WiseFy$searchForAccessPoint(kotlin.String, kotlin.Int, kotlin.Boolean)/filterDuplicates">filterDuplicates</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://developer.android.com/reference/android/net/wifi/ScanResult.html"><span class="identifier">ScanResult</span></a><span class="symbol">?</span></code>
+<p>To return the first access point that matches a given regex.</p>
+<p><em>NOTE</em> Setting filterDuplicates to true will not return an access point with a weaker signal strength (will always take the highest).</p>
+<h3>Parameters</h3>
+<p><a name="regexForSSID"></a>
+<code>regexForSSID</code> - The regex to use when iterating through nearby access points</p>
+<p><a name="timeoutInMillis"></a>
+<code>timeoutInMillis</code> - The amount of time (in milliseconds) to wait for a matching access point</p>
+<p><a name="filterDuplicates"></a>
+<code>filterDuplicates</code> - If you want to exclude access points with the same name that have a weaker signal strength</p>
+<p><strong>Return</strong><br/>
+ScanResult|null - The first access point or access point with the highest signal strength matching the regex</p>
+<p><strong>See Also</strong><br/>
+<p><a href="https://developer.android.com/reference/android/net/wifi/ScanResult.html">ScanResult</a></p>
+<p><a href="#">WiseFyPrechecks.searchForAccessPointChecks</a></p>
+<p><a href="#">WiseFySearch.findAccessPointByRegex</a></p>
+</p>
+<p><strong>Author</strong><br/>
+Patches</p>
+<p><strong>Since</strong><br/>
+3.0</p>
+<a name="com.isupatches.wisefy.WiseFy$searchForAccessPoint(kotlin.String, kotlin.Int, kotlin.Boolean, com.isupatches.wisefy.callbacks.SearchForAccessPointCallbacks)"></a>
+<code><span class="identifier">@Async</span> <span class="identifier">@WiseFyThread</span> <span class="keyword">fun </span><span class="identifier">searchForAccessPoint</span><span class="symbol">(</span><span class="identifier" id="com.isupatches.wisefy.WiseFy$searchForAccessPoint(kotlin.String, kotlin.Int, kotlin.Boolean, com.isupatches.wisefy.callbacks.SearchForAccessPointCallbacks)/regexForSSID">regexForSSID</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span><span class="symbol">, </span><span class="identifier" id="com.isupatches.wisefy.WiseFy$searchForAccessPoint(kotlin.String, kotlin.Int, kotlin.Boolean, com.isupatches.wisefy.callbacks.SearchForAccessPointCallbacks)/timeoutInMillis">timeoutInMillis</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">, </span><span class="identifier" id="com.isupatches.wisefy.WiseFy$searchForAccessPoint(kotlin.String, kotlin.Int, kotlin.Boolean, com.isupatches.wisefy.callbacks.SearchForAccessPointCallbacks)/filterDuplicates">filterDuplicates</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a><span class="symbol">, </span><span class="identifier" id="com.isupatches.wisefy.WiseFy$searchForAccessPoint(kotlin.String, kotlin.Int, kotlin.Boolean, com.isupatches.wisefy.callbacks.SearchForAccessPointCallbacks)/callbacks">callbacks</span><span class="symbol">:</span>&nbsp;<a href="../../com.isupatches.wisefy.callbacks/-search-for-access-point-callbacks/index.html"><span class="identifier">SearchForAccessPointCallbacks</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>To return the first access point that matches a given regex.</p>
+<p><em>NOTE</em> Setting filterDuplicates to true will not return an access point with a weaker signal strength (will always take the highest).</p>
+<h3>Parameters</h3>
+<p><a name="regexForSSID"></a>
+<code>regexForSSID</code> - The regex to use when iterating through nearby access points</p>
+<p><a name="timeoutInMillis"></a>
+<code>timeoutInMillis</code> - The amount of time (in milliseconds) to wait for a matching access point</p>
+<p><a name="filterDuplicates"></a>
+<code>filterDuplicates</code> - If you want to exclude access points with the same name that have a weaker signal strength</p>
+<p><a name="callbacks"></a>
+<code>callbacks</code> - The listener to return results to</p>
+<p><strong>See Also</strong><br/>
+<p><a href="#">runOnWiseFyThread</a></p>
+<p><a href="https://developer.android.com/reference/android/net/wifi/ScanResult.html">ScanResult</a></p>
+<p><a href="../../com.isupatches.wisefy.callbacks/-search-for-access-point-callbacks/index.html">SearchForAccessPointCallbacks</a></p>
+<p><a href="../-wise-fy-lock.html">WiseFyLock</a></p>
+<p><a href="#">WiseFyPrechecks.searchForAccessPointChecks</a></p>
+<p><a href="#">WiseFySearch.findAccessPointByRegex</a></p>
+</p>
+<p><strong>Author</strong><br/>
+Patches</p>
+<p><strong>Since</strong><br/>
+3.0</p>
+</BODY>
+</HTML>

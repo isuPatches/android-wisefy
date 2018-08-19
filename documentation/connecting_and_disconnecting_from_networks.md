@@ -2,29 +2,64 @@
 
 To connect to a network given an SSID:
 
+_With Kotlin_
+
+```kotlin
+val connectedSuccessfully = wisefy.connectToNetwork("SSID to connect to", 3000);
+```
+
+_With Java_
+
 ```java
-boolean connectedSuccessfully = mWiseFy.connectToNetwork("SSID to connect to", 30000);
+boolean connectedSuccessfully = wisefy.connectToNetwork("SSID to connect to", 3000);
 ```
 
 To disconnect from current network:
 
+_With Kotlin_
+
+```kotlin
+val disconnectedSuccessfully = wisefy.disconnectFromCurrentNetwork();
+```
+
+_With Java_
+
 ```java
-boolean disconnectedSuccessfully = mWiseFy.disconnectFromCurrentNetwork();
+boolean disconnectedSuccessfully = wisefy.disconnectFromCurrentNetwork();
 ```
 
 #### Via The Asynchronous API
 
 To connect to a network given an SSID:
 
-```java
-mWiseFy.connectToNetwork("SSID to connect to", 30000, new ConnectToNetworkCallbacks() {
-    @Override
-    public void connectedToNetwork() {
+_With Kotlin_
+
+```kotlin
+wisefy.connectToNetwork("SSID to connect to", 3000, object: ConnectToNetworkCallbacks {
+    override fun connectedToNetwork() {
 
     }
 
+    override fun failureConnectingToNetwork() {
+
+    }
+
+    override fun networkNotFoundToConnectTo() {
+
+    }
+
+    override fun wisefyFailure(wisefyFailureCode: Int) {
+
+    }
+})
+```
+
+_With Java_
+
+```java
+wisefy.connectToNetwork("SSID to connect to", 3000, new ConnectToNetworkCallbacks() {
     @Override
-    public void connectToNetworkWiseFyFailure(Integer wisefyReturnCode) {
+    public void connectedToNetwork() {
 
     }
 
@@ -37,25 +72,50 @@ mWiseFy.connectToNetwork("SSID to connect to", 30000, new ConnectToNetworkCallba
     public void networkNotFoundToConnectTo() {
 
     }
+
+    @Override
+    public void wisefyFailure(int i) {
+
+    }
 });
 ```
 
 To disconnect from current network:
 
+_With Kotlin_
+
+```Kotlin
+wisefy.disconnectFromCurrentNetwork(object: DisconnectFromCurrentNetworkCallbacks {
+    override fun disconnectedFromCurrentNetwork() {
+
+    }
+
+    override fun failureDisconnectingFromCurrentNetwork() {
+
+    }
+
+    override fun wisefyFailure(wisefyFailureCode: Int) {
+
+    }
+})
+```
+
+_With Java_
+
 ```java
-mWiseFy.disconnectFromCurrentNetwork(new DisconnectFromCurrentNetworkCallbacks() {
+wisefy.disconnectFromCurrentNetwork(new DisconnectFromCurrentNetworkCallbacks() {
     @Override
     public void disconnectedFromCurrentNetwork() {
 
     }
 
     @Override
-    public void disconnectFromCurrentNetworkWiseFyFailure(Integer wisefyReturnCode) {
+    public void failureDisconnectingFromCurrentNetwork() {
 
     }
 
     @Override
-    public void failureDisconnectingFromCurrentNetwork() {
+    public void wisefyFailure(int i) {
 
     }
 });
@@ -64,4 +124,3 @@ mWiseFy.disconnectFromCurrentNetwork(new DisconnectFromCurrentNetworkCallbacks()
 ***Notes***
 
 - Will return a WiseFy error code if parameter is missing
-- Will return a WiseFy error code if the instance has a missing prerequisite

@@ -1,0 +1,57 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>WiseFy.connectToNetwork - wisefy</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">wisefy</a>&nbsp;/&nbsp;<a href="../index.html">com.isupatches.wisefy</a>&nbsp;/&nbsp;<a href="index.html">WiseFy</a>&nbsp;/&nbsp;<a href="./connect-to-network.html">connectToNetwork</a><br/>
+<br/>
+<h1>connectToNetwork</h1>
+<a name="com.isupatches.wisefy.WiseFy$connectToNetwork(kotlin.String, kotlin.Int)"></a>
+<code><span class="identifier">@Sync</span> <span class="identifier">@CallingThread</span> <span class="identifier">@WaitsForTimeout</span> <span class="keyword">fun </span><span class="identifier">connectToNetwork</span><span class="symbol">(</span><span class="identifier" id="com.isupatches.wisefy.WiseFy$connectToNetwork(kotlin.String, kotlin.Int)/ssidToConnectTo">ssidToConnectTo</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span><span class="symbol">, </span><span class="identifier" id="com.isupatches.wisefy.WiseFy$connectToNetwork(kotlin.String, kotlin.Int)/timeoutInMillis">timeoutInMillis</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code>
+<p>Used to connect to a network.</p>
+<p><em>NOTE</em> Gets a list of saved networks, connects to the given ssid if found, and verifies connectivity.</p>
+<h3>Parameters</h3>
+<p><a name="ssidToConnectTo"></a>
+<code>ssidToConnectTo</code> - The ssid to connect/reconnect to</p>
+<p><a name="timeoutInMillis"></a>
+<code>timeoutInMillis</code> - The number of milliseconds to continue waiting for the device to connect to the given SSID</p>
+<p><strong>Return</strong><br/>
+boolean - If the network was successfully reconnected</p>
+<p><strong>See Also</strong><br/>
+<p><a href="#">connectToNetworkWithId</a></p>
+<p><a href="#">WiseFyConnection.waitToConnectToSSID</a></p>
+<p><a href="#">WiseFyPrechecks.connectToNetworkPrechecks</a></p>
+<p><a href="#">WiseFySearch.findSavedNetworkByRegex</a></p>
+</p>
+<p><strong>Author</strong><br/>
+Patches</p>
+<p><strong>Since</strong><br/>
+3.0</p>
+<a name="com.isupatches.wisefy.WiseFy$connectToNetwork(kotlin.String, kotlin.Int, com.isupatches.wisefy.callbacks.ConnectToNetworkCallbacks)"></a>
+<code><span class="identifier">@Async</span> <span class="identifier">@WiseFyThread</span> <span class="identifier">@WaitsForTimeout</span> <span class="keyword">fun </span><span class="identifier">connectToNetwork</span><span class="symbol">(</span><span class="identifier" id="com.isupatches.wisefy.WiseFy$connectToNetwork(kotlin.String, kotlin.Int, com.isupatches.wisefy.callbacks.ConnectToNetworkCallbacks)/ssidToConnectTo">ssidToConnectTo</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span><span class="symbol">, </span><span class="identifier" id="com.isupatches.wisefy.WiseFy$connectToNetwork(kotlin.String, kotlin.Int, com.isupatches.wisefy.callbacks.ConnectToNetworkCallbacks)/timeoutInMillis">timeoutInMillis</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">, </span><span class="identifier" id="com.isupatches.wisefy.WiseFy$connectToNetwork(kotlin.String, kotlin.Int, com.isupatches.wisefy.callbacks.ConnectToNetworkCallbacks)/callbacks">callbacks</span><span class="symbol">:</span>&nbsp;<a href="../../com.isupatches.wisefy.callbacks/-connect-to-network-callbacks/index.html"><span class="identifier">ConnectToNetworkCallbacks</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Used to connect to a network.</p>
+<p>Gets a list of saved networks, connects to the given ssid if found, and verifies connectivity.</p>
+<h3>Parameters</h3>
+<p><a name="ssidToConnectTo"></a>
+<code>ssidToConnectTo</code> - The ssid to connect/reconnect to</p>
+<p><a name="timeoutInMillis"></a>
+<code>timeoutInMillis</code> - The number of milliseconds to continue waiting for the device to connect to the given SSID</p>
+<p><a name="callbacks"></a>
+<code>callbacks</code> - The listener to return results to</p>
+<p><strong>See Also</strong><br/>
+<p><a href="#">connectToNetworkWithId</a></p>
+<p><a href="../../com.isupatches.wisefy.callbacks/-connect-to-network-callbacks/index.html">ConnectToNetworkCallbacks</a></p>
+<p><a href="#">runOnWiseFyThread</a></p>
+<p><a href="#">WiseFyConnection.waitToConnectToSSID</a></p>
+<p><a href="../-wise-fy-lock.html">WiseFyLock</a></p>
+<p><a href="#">WiseFyPrechecks.connectToNetworkPrechecks</a></p>
+<p><a href="#">WiseFySearch.findSavedNetworkByRegex</a></p>
+</p>
+<p><strong>Author</strong><br/>
+Patches</p>
+<p><strong>Since</strong><br/>
+3.0</p>
+</BODY>
+</HTML>

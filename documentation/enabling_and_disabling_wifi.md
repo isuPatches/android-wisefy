@@ -2,27 +2,58 @@
 
 To disable wifi:
 
+_With Kotlin_
+
+```kotlin
+val disabledWifiSuccessfully = wisefy.disableWifi()
+```
+
+_With Java_
+
 ```java
-boolean disabledWifiSuccessfully = mWiseFy.disableWifi();
+boolean disabledWifiSuccessfully = wisefy.disableWifi();
 ```
 
 To enable wifi:
 
+_With Kotlin_
+
+```kotlin
+val enabledWifiSuccessfully = wisefy.enableWiFi()
+```
+
+_With Java_
+
 ```java
-boolean wifiEnabled = mWiseFy.enableWiFi();
+boolean enabledWifiSuccessfully = wisefy.enableWiFi();
 ```
 
 #### Via The Asynchronous API
 
 To disable wifi:
 
-```java
-mWiseFy.disableWifi(new DisableWifiCallbacks() {
-    @Override
-    public void disableWifiWiseFyFailure(Integer wisefyReturnCode) {
+_With Kotlin_
+
+```kotlin
+wisefy.disableWifi(object : DisableWifiCallbacks {
+    override fun failureDisablingWifi() {
 
     }
 
+    override fun wifiDisabled() {
+
+    }
+
+    override fun wisefyFailure(wisefyFailureCode: Int) {
+
+    }
+})
+```
+
+_With Java_
+
+```java
+wisefy.disableWifi(new DisableWifiCallbacks() {
     @Override
     public void failureDisablingWifi() {
 
@@ -32,18 +63,37 @@ mWiseFy.disableWifi(new DisableWifiCallbacks() {
     public void wifiDisabled() {
 
     }
+
+    @Override
+    public void wisefyFailure(int i) {
+
+    }
 });
 ```
 
 To enable wifi:
 
-```java
-mWiseFy.enableWifi(new EnableWifiCallbacks() {
-    @Override
-    public void enableWifiWiseFyFailure(Integer wisefyReturnCode) {
+_With Kotlin_
+
+```kotlin
+wisefy.enableWifi(object: EnableWifiCallbacks {
+    override fun failureEnablingWifi() {
 
     }
 
+    override fun wifiEnabled() {
+
+    }
+
+    override fun wisefyFailure(wisefyFailureCode: Int) {
+    }
+})
+```
+
+_With Java_
+
+```java
+wisefy.enableWifi(new EnableWifiCallbacks() {
     @Override
     public void failureEnablingWifi() {
 
@@ -53,10 +103,14 @@ mWiseFy.enableWifi(new EnableWifiCallbacks() {
     public void wifiEnabled() {
 
     }
+
+    @Override
+    public void wisefyFailure(int i) {
+
+    }
 });
 ```
 
 ***Notes***
 
 - Will return a WiseFy error code if parameter is missing
-- Will return a WiseFy error code if the instance has a missing prerequisite

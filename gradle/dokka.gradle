@@ -1,0 +1,6 @@
+dokka {
+    moduleName = 'wisefy'
+    outputFormat = 'html'
+    outputDirectory = "$rootProject.projectDir/javadoc"
+    jdkVersion = 8
+}
