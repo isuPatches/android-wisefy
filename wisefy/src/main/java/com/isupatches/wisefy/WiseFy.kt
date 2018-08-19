@@ -1640,11 +1640,13 @@ class WiseFy private constructor(
     @CallingThread
     override fun isNetworkSecure(scanResult: ScanResult?): Boolean {
         scanResult?.let {
-            val networkCapabilities = it.capabilities
-            val securityModes = arrayOf(EAP, PSK, WEP, WPA, WPA2)
-            for (securityMode in securityModes) {
-                if (networkCapabilities.contains(securityMode)) {
-                    return true
+            val networkCapabilities: String? = it.capabilities
+            networkCapabilities?.let { capabilities ->
+                val securityModes = arrayOf(EAP, PSK, WEP, WPA, WPA2)
+                for (securityMode in securityModes) {
+                    if (capabilities.contains(securityMode)) {
+                        return true
+                    }
                 }
             }
         }

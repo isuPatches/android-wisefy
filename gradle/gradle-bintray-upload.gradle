@@ -39,11 +39,14 @@ if (project.rootProject.file('local.properties').exists()) {
 bintray {
     user = properties.getProperty("bintray.user")
     key = properties.getProperty("bintray.apikey")
+    def gpg_passphrase = properties.getProperty("bintray.gpg_passphrase")
 
     println("user: " + user)
     println("key: " + key)
+    println("gpg_passphrase: " + gpg_passphrase)
 
     configurations = ['archives']
+
     pkg {
         repo = BINTRAY_REPO
         name = BINTRAY_NAME
@@ -59,7 +62,7 @@ bintray {
             desc = LIBRARY_DESCRIPTION
             gpg {
                 sign = true // Determines whether to GPG sign the files. The default is false
-                passphrase = properties.getProperty("bintray.gpg.password")
+                passphrase = gpg_passphrase
                 // Optional. The passphrase for GPG signing'
             }
         }

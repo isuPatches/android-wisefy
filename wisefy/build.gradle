@@ -1,6 +1,9 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
+group = rootProject.ext.GROUP
+version = rootProject.ext.VERSION_NAME
+
 android {
 
     dexOptions {
