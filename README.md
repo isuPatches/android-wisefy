@@ -6,7 +6,7 @@ Wifi configuration and util library built for Android.
 > 
 > <br/>Supports Android SDK levels 16-27<br/><br/>
 
-[![Build Status](https://travis-ci.org/isuPatches/WiseFy.svg?branch=master)](https://travis-ci.org/isuPatches/WiseFy) [ ![Download](https://api.bintray.com/packages/isupatches/Maven/wisefy/images/download.svg) ](https://bintray.com/isupatches/Maven/wisefy/_latestVersion) <a href="http://www.methodscount.com/?lib=com.isupatches%3Awisefy%3A2.%2B"><img src="https://img.shields.io/badge/Methods and size-298 | 51 KB-e91e63.svg"/></a> [![codecov](https://codecov.io/gh/isuPatches/WiseFy/branch/2.x/graph/badge.svg)](https://codecov.io/gh/isuPatches/WiseFy)
+[![Build Status](https://travis-ci.org/isuPatches/WiseFy.svg?branch=master)](https://travis-ci.org/isuPatches/WiseFy) [ ![Download](https://api.bintray.com/packages/isupatches/Maven/wisefy/images/download.svg) ](https://bintray.com/isupatches/Maven/wisefy/_latestVersion) [![codecov](https://codecov.io/gh/isuPatches/WiseFy/branch/3.x/graph/badge.svg)](https://codecov.io/gh/isuPatches/WiseFy)
 
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-WiseFy-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/6011) [![Android Weekly](https://img.shields.io/badge/Android%20Weekly-%23230-blue.svg)](http://androidweekly.net/issues/issue-230) 
 
@@ -29,7 +29,7 @@ Wifi configuration and util library built for Android.
 - Target now is set to API 27
 - Less duplicate code
 - Improved testing
-- Updated documentation
+- Updated documentation with new Kotlin examples
 - Other improvements and adjustments!
 
 ## What's New in 2.0.x
