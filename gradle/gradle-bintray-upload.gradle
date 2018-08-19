@@ -10,10 +10,8 @@ if (project.hasProperty("android")) { // Android libraries
         from android.sourceSets.main.java.srcDirs
     }
 
-    task javadoc(type: Javadoc) {
-        source = android.sourceSets.main.java.srcDirs
-        destinationDir = file("../javadoc/")
-        classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    task javadoc(type: Javadoc, dependsOn: dokka) {
+
     }
 } else { // Java libraries
     task sourcesJar(type: Jar, dependsOn: classes) {
@@ -44,7 +42,6 @@ bintray {
 
     println("user: " + user)
     println("key: " + key)
-
 
     configurations = ['archives']
     pkg {

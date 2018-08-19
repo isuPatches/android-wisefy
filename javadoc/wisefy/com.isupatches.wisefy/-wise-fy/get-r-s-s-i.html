@@ -1,0 +1,59 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>WiseFy.getRSSI - wisefy</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">wisefy</a>&nbsp;/&nbsp;<a href="../index.html">com.isupatches.wisefy</a>&nbsp;/&nbsp;<a href="index.html">WiseFy</a>&nbsp;/&nbsp;<a href="./get-r-s-s-i.html">getRSSI</a><br/>
+<br/>
+<h1>getRSSI</h1>
+<a name="com.isupatches.wisefy.WiseFy$getRSSI(kotlin.String, kotlin.Boolean, kotlin.Int)"></a>
+<code><span class="identifier">@Sync</span> <span class="identifier">@CallingThread</span> <span class="identifier">@WaitsForTimeout</span> <span class="keyword">fun </span><span class="identifier">getRSSI</span><span class="symbol">(</span><span class="identifier" id="com.isupatches.wisefy.WiseFy$getRSSI(kotlin.String, kotlin.Boolean, kotlin.Int)/regexForSSID">regexForSSID</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span><span class="symbol">, </span><span class="identifier" id="com.isupatches.wisefy.WiseFy$getRSSI(kotlin.String, kotlin.Boolean, kotlin.Int)/takeHighest">takeHighest</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a><span class="symbol">, </span><span class="identifier" id="com.isupatches.wisefy.WiseFy$getRSSI(kotlin.String, kotlin.Boolean, kotlin.Int)/timeoutInMillis">timeoutInMillis</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">?</span></code>
+<p>To retrieve the RSSI of the first network matching a given regex.</p>
+<p><em>NOTE</em> Setting takeHighest to true will return the access point with the highest RSSI for the given SSID.</p>
+<h3>Parameters</h3>
+<p><a name="regexForSSID"></a>
+<code>regexForSSID</code> - The regex to be used to search for the ssid</p>
+<p><a name="takeHighest"></a>
+<code>takeHighest</code> - Whether to return the access point with the highest RSSI for the given SSID</p>
+<p><a name="timeoutInMillis"></a>
+<code>timeoutInMillis</code> - The amount of time to search for a matching SSID</p>
+<p><strong>Return</strong><br/>
+Integer - The RSSI value for the found SSID or null if no matching network found</p>
+<p><strong>See Also</strong><br/>
+<p><a href="https://developer.android.com/reference/android/net/wifi/ScanResult.html#level">ScanResult.level</a></p>
+<p><a href="#">WiseFyPrechecks.getRSSIChecks</a></p>
+<p><a href="#">WiseFySearch.findAccessPointByRegex</a></p>
+</p>
+<p><strong>Author</strong><br/>
+Patches</p>
+<p><strong>Since</strong><br/>
+3.0</p>
+<a name="com.isupatches.wisefy.WiseFy$getRSSI(kotlin.String, kotlin.Boolean, kotlin.Int, com.isupatches.wisefy.callbacks.GetRSSICallbacks)"></a>
+<code><span class="identifier">@Async</span> <span class="identifier">@WiseFyThread</span> <span class="identifier">@WaitsForTimeout</span> <span class="keyword">fun </span><span class="identifier">getRSSI</span><span class="symbol">(</span><span class="identifier" id="com.isupatches.wisefy.WiseFy$getRSSI(kotlin.String, kotlin.Boolean, kotlin.Int, com.isupatches.wisefy.callbacks.GetRSSICallbacks)/regexForSSID">regexForSSID</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span><span class="symbol">, </span><span class="identifier" id="com.isupatches.wisefy.WiseFy$getRSSI(kotlin.String, kotlin.Boolean, kotlin.Int, com.isupatches.wisefy.callbacks.GetRSSICallbacks)/takeHighest">takeHighest</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a><span class="symbol">, </span><span class="identifier" id="com.isupatches.wisefy.WiseFy$getRSSI(kotlin.String, kotlin.Boolean, kotlin.Int, com.isupatches.wisefy.callbacks.GetRSSICallbacks)/timeoutInMillis">timeoutInMillis</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">, </span><span class="identifier" id="com.isupatches.wisefy.WiseFy$getRSSI(kotlin.String, kotlin.Boolean, kotlin.Int, com.isupatches.wisefy.callbacks.GetRSSICallbacks)/callbacks">callbacks</span><span class="symbol">:</span>&nbsp;<a href="../../com.isupatches.wisefy.callbacks/-get-r-s-s-i-callbacks/index.html"><span class="identifier">GetRSSICallbacks</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>To retrieve the RSSI of the first network matching a given regex.</p>
+<p><em>NOTE</em> Setting takeHighest to true will return the access point with the highest RSSI for the given SSID.</p>
+<h3>Parameters</h3>
+<p><a name="regexForSSID"></a>
+<code>regexForSSID</code> - The regex to be used to search for the ssid</p>
+<p><a name="takeHighest"></a>
+<code>takeHighest</code> - Whether to return the access point with the highest RSSI for the given SSID</p>
+<p><a name="timeoutInMillis"></a>
+<code>timeoutInMillis</code> - The amount of time to search for a matching SSID</p>
+<p><a name="callbacks"></a>
+<code>callbacks</code> - The listener to return results to</p>
+<p><strong>See Also</strong><br/>
+<p><a href="../../com.isupatches.wisefy.callbacks/-get-r-s-s-i-callbacks/index.html">GetRSSICallbacks</a></p>
+<p><a href="#">runOnWiseFyThread</a></p>
+<p><a href="https://developer.android.com/reference/android/net/wifi/ScanResult.html#level">ScanResult.level</a></p>
+<p><a href="../-wise-fy-lock.html">WiseFyLock</a></p>
+<p><a href="#">WiseFyPrechecks.getRSSIChecks</a></p>
+<p><a href="#">WiseFySearch.findAccessPointByRegex</a></p>
+</p>
+<p><strong>Author</strong><br/>
+Patches</p>
+<p><strong>Since</strong><br/>
+3.0</p>
+</BODY>
+</HTML>

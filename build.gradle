@@ -1,8 +1,9 @@
 buildscript {
     project.ext {
         agp_version = '3.1.0'
-        bintray_version = '1.7.3'
+        bintray_version = '1.8.4'
         cpd_version = '1.1'
+        dokka_version = '0.9.17'
         dexcount_version = '0.8.3'
         jacoco_version = '0.8.1'
         kotlin_version = "1.2.60"
@@ -17,6 +18,7 @@ buildscript {
 
     dependencies {
         classpath "com.android.tools.build:gradle:$agp_version"
+        classpath "org.jetbrains.dokka:dokka-android-gradle-plugin:$dokka_version"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "com.getkeepsafe.dexcount:dexcount-gradle-plugin:$dexcount_version"
         classpath "com.github.dcendents:android-maven-gradle-plugin:$maven_version"
@@ -40,7 +42,10 @@ apply from: rootProject.file("$rootProject.projectDir/gradle/static-analysis.gra
 apply from: rootProject.file("$rootProject.projectDir/gradle/code-coverage.gradle")
 
 subprojects {
+    apply plugin: 'org.jetbrains.dokka-android'
     apply plugin: "org.jlleitschuh.gradle.ktlint"
+
+    apply from: rootProject.file("$rootProject.projectDir/gradle/dokka.gradle")
 
     apply from: rootProject.file("$rootProject.projectDir/gradle/cpd.gradle")
     apply from: rootProject.file("$rootProject.projectDir/gradle/pmd.gradle")
@@ -82,7 +87,6 @@ ext {
     // allows for -Dpre-dex=false to be set
     preDexEnabled = "true" == System.getProperty("pre-dex", "true")
 
-
     // Bintray and POM Details
     GROUP = "com.isupatches"
 
@@ -114,7 +118,7 @@ ext {
     MAX_SDK_VERSION = 27
     MIN_SDK_VERSION = 16
     VERSION_CODE = 13
-    VERSION_NAME = "2.1.0"
+    VERSION_NAME = "3.0.0"
 }
 
 task makeGoodChoices {
