@@ -69,7 +69,7 @@ internal class ConnectToNetworkTests : BaseAndroidJUnit4TestClass() {
         mockWiseFyPrechecksUtil.connectToNetwork_success()
         mockWiseFySearchUtil.findSavedNetworkByRegex_null()
         val mockCallbacks = mock(ConnectToNetworkCallbacks::class.java)
-        wiseFy.connectToNetwork(TEST_SSID, TEST_TIMEOUT, mockCallbacks)
+        wisefy.connectToNetwork(TEST_SSID, TEST_TIMEOUT, mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).networkNotFoundToConnectTo()
         verificationUtil.didNotTryToConnectToNetwork()
     }
@@ -86,7 +86,7 @@ internal class ConnectToNetworkTests : BaseAndroidJUnit4TestClass() {
         mockWiseFySearchUtil.findSavedNetworkByRegex_success()
         mockWiseFyConnectionUtil.waitToConnectToSSID(false)
         val mockCallbacks = mock(ConnectToNetworkCallbacks::class.java)
-        wiseFy.connectToNetwork(TEST_SSID, TEST_TIMEOUT, mockCallbacks)
+        wisefy.connectToNetwork(TEST_SSID, TEST_TIMEOUT, mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).failureConnectingToNetwork()
         verificationUtil.triedToConnectToNetwork()
     }
@@ -104,7 +104,7 @@ internal class ConnectToNetworkTests : BaseAndroidJUnit4TestClass() {
         mockWiseFySearchUtil.findSavedNetworkByRegex_success()
         mockWiseFyConnectionUtil.waitToConnectToSSID(true)
         val mockCallbacks = mock(ConnectToNetworkCallbacks::class.java)
-        wiseFy.connectToNetwork(TEST_SSID, TEST_TIMEOUT, mockCallbacks)
+        wisefy.connectToNetwork(TEST_SSID, TEST_TIMEOUT, mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).connectedToNetwork()
         verificationUtil.triedToConnectToNetwork()
     }

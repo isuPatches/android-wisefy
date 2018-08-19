@@ -16,25 +16,25 @@ internal class IsNetworkPSKTest : BaseAndroidJUnit4TestClass() {
 
     @Test fun failure_differentCapability() {
         val scanResult = createMockAccessPointWithCapabilities("Other")
-        assertEquals(false, wiseFy.isNetworkPSK(scanResult))
+        assertEquals(false, wisefy.isNetworkPSK(scanResult))
     }
 
     @Test fun failure_emptyCapabilities() {
         val scanResult = createMockAccessPointWithCapabilities("")
-        assertEquals(false, wiseFy.isNetworkPSK(scanResult))
+        assertEquals(false, wisefy.isNetworkPSK(scanResult))
     }
 
     @Test fun failure_nullCapabilities() {
         val scanResult = createMockAccessPointWithCapabilities(null)
-        assertEquals(false, wiseFy.isNetworkPSK(scanResult))
+        assertEquals(false, wisefy.isNetworkPSK(scanResult))
     }
 
     @Test fun failure_nullScanResult() {
-        assertEquals(false, wiseFy.isNetworkPSK(null))
+        assertEquals(false, wisefy.isNetworkPSK(null))
     }
 
     @Test fun success() {
         val scanResult = createMockAccessPointWithCapabilities(PSK)
-        assertEquals(true, wiseFy.isNetworkPSK(scanResult))
+        assertEquals(true, wisefy.isNetworkPSK(scanResult))
     }
 }
