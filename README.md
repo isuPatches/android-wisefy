@@ -1,11 +1,9 @@
-# WiseFy
-
 <img src="Banner.png" width="40%" height="40%" />
 
-Wifi configuration and util library built for Android.
+Wifi configuration and util library built for Android.  
 
 > <br/>*Developed by Patches 04/24/2016 - present* <br/>
-> 
+> <br/> Logo/icon created by mansya (2018)<br/>
 > <br/>Supports Android SDK levels 16-27<br/><br/>
 
 [![Build Status](https://travis-ci.org/isuPatches/WiseFy.svg?branch=master)](https://travis-ci.org/isuPatches/WiseFy) [ ![Download](https://api.bintray.com/packages/isupatches/Maven/wisefy/images/download.svg) ](https://bintray.com/isupatches/Maven/wisefy/_latestVersion) [![codecov](https://codecov.io/gh/isuPatches/WiseFy/branch/3.x/graph/badge.svg)](https://codecov.io/gh/isuPatches/WiseFy)
