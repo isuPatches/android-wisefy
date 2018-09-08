@@ -1,5 +1,7 @@
 # WiseFy
 
+<img src="Banner.png" width="40%" height="40%" />
+
 Wifi configuration and util library built for Android.
 
 > <br/>*Developed by Patches 04/24/2016 - present* <br/>
