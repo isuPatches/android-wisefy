@@ -6,7 +6,7 @@ buildscript {
         dokka_version = '0.9.17'
         dexcount_version = '0.8.3'
         jacoco_version = '0.8.1'
-        kotlin_version = "1.2.60"
+        kotlin_version = "1.2.61"
         maven_version = '2.0'
     }
 
