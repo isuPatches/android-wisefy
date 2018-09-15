@@ -1,12 +1,12 @@
 buildscript {
     project.ext {
-        agp_version = '3.1.0'
+        agp_version = '3.1.4'
         bintray_version = '1.8.4'
         cpd_version = '1.1'
         dokka_version = '0.9.17'
         dexcount_version = '0.8.3'
-        jacoco_version = '0.8.1'
-        kotlin_version = "1.2.60"
+        jacoco_version = '0.8.2'
+        kotlin_version = "1.2.70"
         maven_version = '2.0'
     }
 
@@ -32,7 +32,7 @@ buildscript {
 
 plugins {
     id "io.gitlab.arturbosch.detekt" version "1.0.0.RC8"
-    id "org.jlleitschuh.gradle.ktlint" version "5.0.0"
+    id "org.jlleitschuh.gradle.ktlint" version "5.1.0"
 }
 
 apply from: rootProject.file("$rootProject.projectDir/gradle/detekt.gradle")
@@ -117,8 +117,14 @@ ext {
     BUILD_TOOLS_VERSION = '27.0.3'
     MAX_SDK_VERSION = 27
     MIN_SDK_VERSION = 16
-    VERSION_CODE = 13
-    VERSION_NAME = "3.0.0"
+    VERSION_CODE = 14
+    VERSION_NAME = "3.0.1"
+
+    espresso_version = '3.0.2'
+    junit_version = '4.12'
+    mockito_version = '2.21.0'
+    support_libs_version = '27.1.1'
+    test_runner_version = '1.0.2'
 }
 
 task makeGoodChoices {
