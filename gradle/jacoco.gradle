@@ -1,25 +1,31 @@
 apply plugin: 'jacoco'
 
 jacoco {
-    toolVersion = "0.8.1"
+toolVersion = "$jacoco_version"
 }
 
 def srcDirs = ["src/main/java"]
 
-def excludes = ['**/R.class',
-                '**/R$*.class',
-                '**/*$ViewBinder*.*',
-                '**/*MembersInjector*.*',
-                '**/BuildConfig.*',
-                '**/Manifest*.*',
-                '**/*$Lambda$*.class',
-                '**/*Factory*.class',
-                '**/*$Builder*']
+def excludes = [
+    '**/R.class',
+    '**/R$*.class',
+    '**/*$ViewBinder*.*',
+    '**/*MembersInjector*.*',
+    '**/BuildConfig.*',
+    '**/Manifest*.*',
+    '**/*$Lambda$*.class',
+    '**/*Factory*.class',
+    '**/*$Builder*'
+]
 
 project.afterEvaluate {
     def variants = getVariants()
     if (variants != null) {
         variants.all { variant ->
+            if (variant.name.toLowerCase().contains("release")) {
+                return
+            }
+
             task("jacoco${variant.name.capitalize()}UnitTest", type: JacocoReport, dependsOn: "test${variant.name.capitalize()}UnitTest") {
                 group = "verification"
 
