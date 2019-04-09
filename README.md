@@ -75,7 +75,7 @@ Then add it as a dependency (please see https://github.com/isuPatches/WiseFy/rel
 For Gradle:
 
 ```groovy
-    compile 'com.isupatches:wisefy:<LATEST_VERSION>'
+    implementation 'com.isupatches:wisefy:<LATEST_VERSION>'
 ```
 
 For Maven:
