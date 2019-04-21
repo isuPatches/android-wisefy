@@ -1,0 +1,11 @@
+ext {
+    androidx_support_annotations_version = '1.0.0'
+    androidx_espresso_core_version = '3.1.0'
+    androidx_test_runner_version = "1.1.0"
+
+    detekt_version = "1.0.0-RC14"
+    ktlint_version = "0.31.0"
+
+    junit_version = '4.12'
+    mockito_version = '2.27.0'
+}

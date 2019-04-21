@@ -18,6 +18,7 @@ buildscript {
 
     dependencies {
         classpath "com.android.tools.build:gradle:$agp_version"
+        classpath "de.aaschmid:gradle-cpd-plugin:$cpd_version"
         classpath "org.jetbrains.dokka:dokka-android-gradle-plugin:$dokka_version"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "com.getkeepsafe.dexcount:dexcount-gradle-plugin:$dexcount_version"
@@ -31,9 +32,11 @@ buildscript {
 }
 
 plugins {
-    id "io.gitlab.arturbosch.detekt" version "1.0.0.RC8"
-    id "org.jlleitschuh.gradle.ktlint" version "5.1.0"
+    id "io.gitlab.arturbosch.detekt" version "1.0.0-RC14"
+    id "org.jlleitschuh.gradle.ktlint" version "7.3.0"
 }
+
+apply from: rootProject.file("$rootProject.projectDir/gradle/versions.gradle")
 
 apply from: rootProject.file("$rootProject.projectDir/gradle/detekt.gradle")
 apply from: rootProject.file("$rootProject.projectDir/gradle/ktlint.gradle")
@@ -51,6 +54,11 @@ subprojects {
     apply from: rootProject.file("$rootProject.projectDir/gradle/pmd.gradle")
 
     apply from: rootProject.file("$rootProject.projectDir/gradle/jacoco.gradle")
+
+    // https://github.com/aaschmid/gradle-cpd-plugin/issues/28
+    dependencies {
+        cpd "net.sourceforge.pmd:pmd-dist:6.8.0"
+    }
 }
 
 allprojects {
@@ -119,12 +127,12 @@ ext {
     MIN_SDK_VERSION = 16
     VERSION_CODE = 14
     VERSION_NAME = "4.0.0"
+}
 
-    espresso_version = '3.0.2'
-    junit_version = '4.12'
-    mockito_version = '2.27.0'
-    support_libs_version = '27.1.1'
-    test_runner_version = '1.0.2'
+subprojects {
+    apply plugin: "org.jlleitschuh.gradle.ktlint"
+
+    apply from: rootProject.file("$rootProject.projectDir/gradle/detekt.gradle")
 }
 
 task makeGoodChoices {

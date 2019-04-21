@@ -16,7 +16,7 @@
 @file:JvmName("Capabilities")
 package com.isupatches.wisefy.constants
 
-import android.support.annotation.StringDef
+import androidx.annotation.StringDef
 
 /**
  * Constant for EAP security capabilities.

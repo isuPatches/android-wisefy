@@ -3,7 +3,7 @@ package com.isupatches.wisefy
 import android.net.ConnectivityManager
 import android.net.wifi.WifiManager
 import android.os.Build
-import android.support.test.InstrumentationRegistry
+import androidx.test.platform.app.InstrumentationRegistry
 import org.junit.After
 import org.mockito.Mockito
 import org.mockito.Mockito.mock
@@ -41,7 +41,7 @@ internal open class BaseAndroidJUnit4TestClass {
         mockWifiManager = mock(WifiManager::class.java)
         mockConnectivityManager = mock(ConnectivityManager::class.java)
 
-        wisefy = WiseFy.Brains(InstrumentationRegistry.getTargetContext())
+        wisefy = WiseFy.Brains(InstrumentationRegistry.getInstrumentation().targetContext)
             .customConnectivityManager(mockConnectivityManager)
             .customWifiManager(mockWifiManager)
             .customWiseFyConnection(mockWiseFyConnection)

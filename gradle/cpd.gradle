@@ -1,19 +1,19 @@
 apply plugin: 'cpd'
 
 cpd {
-    language = 'java'
+    language = 'kotlin'
 }
 
 cpdCheck {
+    group = "verification"
+
     ignoreFailures false
 
-    def classes = fileTree('src/main/java')
+    def classes = fileTree("$projectDir/src/main/java")
     classes += fileTree('src/androidTest/java')
     classes += fileTree('src/commonTest/java')
     classes += fileTree('src/test/java')
     source = classes
-
-    skipLexicalErrors true
 
     reports {
         text.enabled = false

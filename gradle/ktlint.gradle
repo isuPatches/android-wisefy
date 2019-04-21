@@ -1,5 +1,5 @@
 ktlint {
-    version '0.28.0'
+    version "$ktlint_version"
     debug = true
     verbose = true
     android = true

@@ -37,7 +37,7 @@ android {
         targetSdkVersion rootProject.ext.MAX_SDK_VERSION
         versionCode rootProject.ext.VERSION_CODE
         versionName rootProject.ext.VERSION_NAME
-        testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         consumerProguardFiles 'consumer-proguard-rules.pro'
     }
 
@@ -75,20 +75,19 @@ android {
     }
 }
 
+check.dependsOn('cpdCheck')
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "com.android.support:support-annotations:$support_libs_version"
+    implementation "androidx.annotation:annotation:$androidx_support_annotations_version"
 
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
-    androidTestImplementation "com.android.support.test.espresso:espresso-core:$espresso_version"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$androidx_espresso_core_version"
+    androidTestImplementation "androidx.test:runner:$androidx_test_runner_version"
     androidTestImplementation "org.mockito:mockito-core:$mockito_version"
     androidTestImplementation "org.mockito:mockito-android:$mockito_version"
-    androidTestImplementation "com.android.support.test:runner:$test_runner_version"
-    // For issue #55 / IllegalAccessError conflict test
-    //noinspection GradleDependency
-    androidTestImplementation 'com.google.android.gms:play-services-gcm:8.3.0'
 
     testImplementation "org.mockito:mockito-core:$mockito_version"
     testImplementation "junit:junit:$junit_version"

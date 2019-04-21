@@ -16,7 +16,7 @@
 @file:JvmName("NetworkTypes")
 package com.isupatches.wisefy.constants
 
-import android.support.annotation.StringDef
+import androidx.annotation.StringDef
 
 /**
  * Constant for a mobile network.

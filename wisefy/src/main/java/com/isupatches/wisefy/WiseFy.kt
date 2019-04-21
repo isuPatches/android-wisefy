@@ -29,8 +29,8 @@ import android.net.wifi.WifiInfo
 import android.net.wifi.WifiManager
 import android.os.Build
 import android.os.Handler
-import android.support.annotation.RequiresApi
-import android.support.annotation.RequiresPermission
+import androidx.annotation.RequiresApi
+import androidx.annotation.RequiresPermission
 
 import com.isupatches.wisefy.annotations.Async
 import com.isupatches.wisefy.annotations.CallingThread

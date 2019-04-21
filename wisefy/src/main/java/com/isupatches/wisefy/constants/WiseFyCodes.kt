@@ -16,7 +16,7 @@
 @file:JvmName("WiseFyCodes")
 package com.isupatches.wisefy.constants
 
-import android.support.annotation.IntDef
+import androidx.annotation.IntDef
 
 /**
  * A constant that denotes a successful operation within WiseFy.
