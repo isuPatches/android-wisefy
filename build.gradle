@@ -54,11 +54,6 @@ subprojects {
     apply from: rootProject.file("$rootProject.projectDir/gradle/pmd.gradle")
 
     apply from: rootProject.file("$rootProject.projectDir/gradle/jacoco.gradle")
-
-    // https://github.com/aaschmid/gradle-cpd-plugin/issues/28
-    dependencies {
-        cpd "net.sourceforge.pmd:pmd-dist:6.8.0"
-    }
 }
 
 allprojects {
