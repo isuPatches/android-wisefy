@@ -76,7 +76,7 @@ internal class WiseFyConnectionImpl private constructor(
         connectionInfo?.let {
             if (!it.ssid.isNullOrEmpty()) {
                 val currentSSID = it.ssid.replace(QUOTE, "")
-                WiseFyLogger.debug(TAG, "Current SSID: %s, Desired SSID: %s", currentSSID, ssid ?: "")
+                WiseFyLogger.debug(TAG, "Current SSID: %s, Desired SSID: %s", currentSSID, ssid)
                 if (currentSSID.equals(ssid, ignoreCase = true) &&
                     isNetworkConnected(connectivityManager.activeNetworkInfo)
                 ) {

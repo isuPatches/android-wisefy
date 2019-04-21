@@ -273,7 +273,7 @@ internal class WiseFySearchImpl private constructor(
      */
     @RequiresPermission(ACCESS_WIFI_STATE)
     override fun isNetworkASavedConfiguration(ssid: String?): Boolean =
-        !ssid.isNullOrEmpty() && findSavedNetworkByRegex(ssid!!) != null
+        !ssid.isNullOrEmpty() && findSavedNetworkByRegex(ssid) != null
 
     /**
      * Used internally to build a list of ScanResults (removes duplicates by taking access point with higher RSSI).
