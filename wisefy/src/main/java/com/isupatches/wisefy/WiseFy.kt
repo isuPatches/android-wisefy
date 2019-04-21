@@ -85,7 +85,7 @@ import java.net.UnknownHostException
  * @since 3.0
  */
 @PublicAPI
-@Suppress("LargeClass")
+@Suppress("LargeClass, SyntheticAccessor")
 class WiseFy private constructor(
     private val connectivityManager: ConnectivityManager,
     private val wifiManager: WifiManager,

@@ -2,6 +2,7 @@ apply plugin: 'cpd'
 
 cpd {
     language = 'java'
+    toolVersion = '6.8.0'
 }
 
 cpdCheck {

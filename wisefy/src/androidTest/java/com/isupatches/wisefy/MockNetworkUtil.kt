@@ -93,7 +93,7 @@ internal class MockNetworkUtil internal constructor(
         `when`(mockWifiManager.setWifiEnabled(true)).thenReturn(true)
     }
 
-    internal fun getExpectedNearbyAccessPoint(): ScanResult? =  expectedNearbyAccessPoint
+    internal fun getExpectedNearbyAccessPoint(): ScanResult? = expectedNearbyAccessPoint
     internal fun getExpectedNearbyAccessPoints(): List<ScanResult>? = expectedNearbyAccessPoints
 
     internal fun getExpectedSavedNetwork(): WifiConfiguration? = expectedSavedNetwork

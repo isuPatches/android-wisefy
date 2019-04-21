@@ -24,7 +24,6 @@ internal class NullCallbackUtil internal constructor(private val wisefy: WiseFy)
         } catch (npe: NullPointerException) {
             fail()
         }
-
     }
 
     /**
@@ -39,7 +38,6 @@ internal class NullCallbackUtil internal constructor(private val wisefy: WiseFy)
         } catch (npe: NullPointerException) {
             fail()
         }
-
     }
 
     /**
@@ -54,7 +52,6 @@ internal class NullCallbackUtil internal constructor(private val wisefy: WiseFy)
         } catch (npe: NullPointerException) {
             fail()
         }
-
     }
 
     /**
@@ -70,7 +67,6 @@ internal class NullCallbackUtil internal constructor(private val wisefy: WiseFy)
         } catch (npe: NullPointerException) {
             fail()
         }
-
     }
 
     /**
@@ -84,7 +80,6 @@ internal class NullCallbackUtil internal constructor(private val wisefy: WiseFy)
         } catch (npe: NullPointerException) {
             fail()
         }
-
     }
 
     /**
@@ -98,7 +93,6 @@ internal class NullCallbackUtil internal constructor(private val wisefy: WiseFy)
         } catch (npe: NullPointerException) {
             fail()
         }
-
     }
 
     /**
@@ -112,7 +106,6 @@ internal class NullCallbackUtil internal constructor(private val wisefy: WiseFy)
         } catch (npe: NullPointerException) {
             fail()
         }
-
     }
 
     /**
@@ -126,7 +119,6 @@ internal class NullCallbackUtil internal constructor(private val wisefy: WiseFy)
         } catch (npe: NullPointerException) {
             fail()
         }
-
     }
 
     fun callGetCurrentNetworkInfo() {
@@ -148,7 +140,6 @@ internal class NullCallbackUtil internal constructor(private val wisefy: WiseFy)
         } catch (npe: NullPointerException) {
             fail()
         }
-
     }
 
     /**
@@ -164,7 +155,6 @@ internal class NullCallbackUtil internal constructor(private val wisefy: WiseFy)
         } catch (npe: NullPointerException) {
             fail()
         }
-
     }
 
     /**
@@ -180,7 +170,6 @@ internal class NullCallbackUtil internal constructor(private val wisefy: WiseFy)
         } catch (npe: NullPointerException) {
             fail()
         }
-
     }
 
     /**
@@ -196,7 +185,6 @@ internal class NullCallbackUtil internal constructor(private val wisefy: WiseFy)
         } catch (npe: NullPointerException) {
             fail()
         }
-
     }
 
     /**
@@ -212,7 +200,6 @@ internal class NullCallbackUtil internal constructor(private val wisefy: WiseFy)
         } catch (npe: NullPointerException) {
             fail()
         }
-
     }
 
     /**
@@ -226,7 +213,6 @@ internal class NullCallbackUtil internal constructor(private val wisefy: WiseFy)
         } catch (npe: NullPointerException) {
             fail()
         }
-
     }
 
     /**
@@ -242,7 +228,6 @@ internal class NullCallbackUtil internal constructor(private val wisefy: WiseFy)
         } catch (npe: NullPointerException) {
             fail()
         }
-
     }
 
     /**
@@ -258,7 +243,6 @@ internal class NullCallbackUtil internal constructor(private val wisefy: WiseFy)
         } catch (npe: NullPointerException) {
             fail()
         }
-
     }
 
     /**
@@ -275,7 +259,6 @@ internal class NullCallbackUtil internal constructor(private val wisefy: WiseFy)
         } catch (npe: NullPointerException) {
             fail()
         }
-
     }
 
     /**
@@ -292,7 +275,6 @@ internal class NullCallbackUtil internal constructor(private val wisefy: WiseFy)
         } catch (npe: NullPointerException) {
             fail()
         }
-
     }
 
     /**
@@ -308,7 +290,6 @@ internal class NullCallbackUtil internal constructor(private val wisefy: WiseFy)
         } catch (npe: NullPointerException) {
             fail()
         }
-
     }
 
     /**
@@ -324,6 +305,5 @@ internal class NullCallbackUtil internal constructor(private val wisefy: WiseFy)
         } catch (npe: NullPointerException) {
             fail()
         }
-
     }
 }

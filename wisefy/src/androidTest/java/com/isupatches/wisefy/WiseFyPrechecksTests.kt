@@ -6,7 +6,6 @@ import com.isupatches.wisefy.constants.NETWORK_ALREADY_CONFIGURED
 
 import org.junit.Assert.assertEquals
 
-
 import org.junit.Test
 
 /**
