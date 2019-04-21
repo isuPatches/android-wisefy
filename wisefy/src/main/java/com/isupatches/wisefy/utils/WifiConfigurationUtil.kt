@@ -36,15 +36,19 @@ internal fun generateOpenNetworkConfiguration(ssid: String): WifiConfiguration {
     val wifiConfiguration = WifiConfiguration()
     wifiConfiguration.SSID = convertSSIDForConfig(ssid)
     wifiConfiguration.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE)
-    wifiConfiguration.allowedProtocols.set(WifiConfiguration.Protocol.RSN)
-    wifiConfiguration.allowedProtocols.set(WifiConfiguration.Protocol.WPA)
+
+    // Allowed auth algorithms
     wifiConfiguration.allowedAuthAlgorithms.clear()
-    wifiConfiguration.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP)
-    wifiConfiguration.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.TKIP)
-    wifiConfiguration.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP40)
-    wifiConfiguration.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP104)
+
+    // Allowed protocols
+    wifiConfiguration.allowedProtocols.set(WifiConfiguration.Protocol.RSN)
+
+    // Allowed Group Ciphers
     wifiConfiguration.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP)
     wifiConfiguration.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP)
+
+    // Allowed Pairwise Ciphers
+    wifiConfiguration.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP)
     return wifiConfiguration
 }
 
@@ -62,19 +66,47 @@ internal fun generateOpenNetworkConfiguration(ssid: String): WifiConfiguration {
  * @author Patches
  * @since 3.0
  */
+@Deprecated("Due to security and performance limitations, WEP networks are discouraged")
+@Suppress("deprecation")
 internal fun generateWEPNetworkConfiguration(ssid: String, password: String): WifiConfiguration {
     val wifiConfiguration = WifiConfiguration()
     wifiConfiguration.SSID = convertSSIDForConfig(ssid)
     wifiConfiguration.wepKeys[0] = QUOTE + password + QUOTE
     wifiConfiguration.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE)
-    wifiConfiguration.allowedProtocols.set(WifiConfiguration.Protocol.RSN)
-    wifiConfiguration.allowedProtocols.set(WifiConfiguration.Protocol.WPA)
+
+    // Deprecated due to security issues with WPA networks, should use WPA2 instead
+    wifiConfiguration.allowedProtocols.set(WifiConfiguration.Protocol.WPA) // WPA network protocol
+
+    /*
+     * Allowed Auth Algorithms
+     */
+
     wifiConfiguration.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.OPEN)
+    // Deprecated due to shared key authentication requiring static WEP keys
     wifiConfiguration.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.SHARED)
-    wifiConfiguration.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP)
-    wifiConfiguration.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.TKIP)
+
+
+    /*
+     * Allowed Protocols
+     */
+    wifiConfiguration.allowedProtocols.set(WifiConfiguration.Protocol.RSN)
+
+    /*
+     * Allowed Group Ciphers
+     */
+
+    // Deprecated because of WEP
     wifiConfiguration.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP40)
     wifiConfiguration.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP104)
+
+    /*
+     * Allowed Pairwise Ciphers
+     */
+
+    wifiConfiguration.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP)
+    // Deprecated WPA algorithm, RSN and WPA2 should be used instead
+    wifiConfiguration.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.TKIP)
+
     return wifiConfiguration
 }
 
@@ -96,17 +128,17 @@ internal fun generateWPA2NetworkConfiguration(ssid: String, password: String): W
     val wifiConfiguration = WifiConfiguration()
     wifiConfiguration.SSID = convertSSIDForConfig(ssid)
     wifiConfiguration.preSharedKey = QUOTE + password + QUOTE
-    wifiConfiguration.allowedProtocols.set(WifiConfiguration.Protocol.RSN)
     wifiConfiguration.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_PSK)
     wifiConfiguration.status = WifiConfiguration.Status.ENABLED
+
+    // Allowed protocols
+    wifiConfiguration.allowedProtocols.set(WifiConfiguration.Protocol.RSN)
+
+    // Allowed Group Ciphers
     wifiConfiguration.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP)
     wifiConfiguration.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP)
-    wifiConfiguration.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.TKIP)
-    wifiConfiguration.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP)
-    wifiConfiguration.allowedProtocols.set(WifiConfiguration.Protocol.RSN)
-    wifiConfiguration.allowedProtocols.set(WifiConfiguration.Protocol.WPA)
 
-    wifiConfiguration.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP)
+    // Allowed Pairwise Ciphers
     wifiConfiguration.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP)
     return wifiConfiguration
 }

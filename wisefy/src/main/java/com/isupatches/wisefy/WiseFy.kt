@@ -333,6 +333,8 @@ class WiseFy private constructor(
     @Sync
     @CallingThread
     @RequiresPermission(ACCESS_WIFI_STATE)
+    @Deprecated("Due to security and performance limitations, WEP networks are discouraged")
+    @Suppress("deprecation")
     override fun addWEPNetwork(ssid: String?, password: String?): Int {
         val precheck = wisefyPrechecks.addNetworkPrechecks(ssid, password)
         return if (precheck.failed()) {
@@ -360,6 +362,8 @@ class WiseFy private constructor(
     @Async
     @WiseFyThread
     @RequiresPermission(ACCESS_WIFI_STATE)
+    @Deprecated("Due to security and performance limitations, WEP networks are discouraged")
+    @Suppress("deprecation")
     override fun addWEPNetwork(ssid: String?, password: String?, callbacks: AddNetworkCallbacks?) {
         runOnWiseFyThread(Runnable {
             synchronized(wisefyLock) {
@@ -1318,7 +1322,7 @@ class WiseFy private constructor(
                 }
 
                 val savedNetworks = wifiManager.configuredNetworks
-                if (savedNetworks != null && !savedNetworks.isEmpty()) {
+                if (savedNetworks != null && savedNetworks.isNotEmpty()) {
                     callbacks?.retrievedSavedNetworks(savedNetworks)
                 } else {
                     callbacks?.noSavedNetworksFound()
@@ -1379,7 +1383,7 @@ class WiseFy private constructor(
                 }
 
                 val savedNetworks = wisefySearch.findSavedNetworksMatchingRegex(regexForSSID!!)
-                if (savedNetworks != null && !savedNetworks.isEmpty()) {
+                if (savedNetworks != null && savedNetworks.isNotEmpty()) {
                     callbacks?.retrievedSavedNetworks(savedNetworks)
                 } else {
                     callbacks?.noSavedNetworksFound()

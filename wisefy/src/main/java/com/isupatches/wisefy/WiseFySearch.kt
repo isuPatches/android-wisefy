@@ -163,7 +163,7 @@ internal class WiseFySearchImpl private constructor(
             }
         }
 
-        return if (!matchingAccessPoints.isEmpty()) matchingAccessPoints else null
+        return if (matchingAccessPoints.isNotEmpty()) matchingAccessPoints else null
     }
 
     /**
@@ -225,7 +225,7 @@ internal class WiseFySearchImpl private constructor(
             }
         }
 
-        return if (!matchingSavedNetworks.isEmpty()) matchingSavedNetworks else null
+        return if (matchingSavedNetworks.isNotEmpty()) matchingSavedNetworks else null
     }
 
     /**
@@ -256,7 +256,7 @@ internal class WiseFySearchImpl private constructor(
             }
         }
 
-        return if (!matchingSSIDs.isEmpty()) matchingSSIDs else null
+        return if (matchingSSIDs.isNotEmpty()) matchingSSIDs else null
     }
 
     /**
