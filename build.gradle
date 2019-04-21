@@ -18,7 +18,6 @@ buildscript {
 
     dependencies {
         classpath "com.android.tools.build:gradle:$agp_version"
-        classpath "de.aaschmid:gradle-cpd-plugin:$cpd_version"
         classpath "org.jetbrains.dokka:dokka-android-gradle-plugin:$dokka_version"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "com.getkeepsafe.dexcount:dexcount-gradle-plugin:$dexcount_version"
@@ -54,11 +53,6 @@ subprojects {
     apply from: rootProject.file("$rootProject.projectDir/gradle/pmd.gradle")
 
     apply from: rootProject.file("$rootProject.projectDir/gradle/jacoco.gradle")
-
-    // https://github.com/aaschmid/gradle-cpd-plugin/issues/28
-    dependencies {
-        cpd "net.sourceforge.pmd:pmd-dist:6.8.0"
-    }
 }
 
 allprojects {
