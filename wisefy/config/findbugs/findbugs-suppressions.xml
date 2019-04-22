@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<FindBugsFilter>
-    <Match>
-        <Class name="~com.isupatches.wisefy.WiseFy.brains" />
-        <Bug pattern="NM_CLASS_NAMING_CONVENTION" />
-    </Match>
-</FindBugsFilter>

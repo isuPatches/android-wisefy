@@ -46,7 +46,6 @@ internal val TEST_IP_ADDRESS_INT = getIntVersionOfTestIPAddress()
 
 private const val BIT_SHIFT_VALUE = 8
 
-
 /**
  * To convert the TEST_IP_ADDRESS_STRING string into an integer value to be used for Inet and
  * tests.

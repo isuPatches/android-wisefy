@@ -2,12 +2,15 @@ apply plugin: 'cpd'
 
 cpd {
     language = 'java'
+    toolVersion = '6.8.0'
 }
 
 cpdCheck {
+    group = "verification"
+
     ignoreFailures false
 
-    def classes = fileTree('src/main/java')
+    def classes = fileTree("$projectDir/src/main/java")
     classes += fileTree('src/androidTest/java')
     classes += fileTree('src/commonTest/java')
     classes += fileTree('src/test/java')

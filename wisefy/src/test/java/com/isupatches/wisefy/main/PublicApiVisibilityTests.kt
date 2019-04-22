@@ -1,18 +1,9 @@
 package com.isupatches.wisefy.main
 
-import com.isupatches.wisefy.WiseFy.Companion.WIFI_MANAGER_FAILURE
-import org.junit.Assert.assertEquals
-
-import org.mockito.ArgumentMatchers.any
-import org.mockito.ArgumentMatchers.anyBoolean
-import org.mockito.ArgumentMatchers.anyInt
-import org.mockito.ArgumentMatchers.anyString
-import org.mockito.Mockito.mock
-import org.mockito.Mockito.verify
-
 import android.net.wifi.ScanResult
 import android.net.wifi.WifiConfiguration
 import android.net.wifi.WifiInfo
+
 import com.isupatches.wisefy.OPEN_NETWORK_SSID
 import com.isupatches.wisefy.TEST_DELAY
 import com.isupatches.wisefy.TEST_NUMBER_OF_BARS
@@ -24,7 +15,7 @@ import com.isupatches.wisefy.WEP_NETWORK_PASSWORD
 import com.isupatches.wisefy.WEP_NETWORK_SSID
 import com.isupatches.wisefy.WPA2_NETWORK_PASSWORD
 import com.isupatches.wisefy.WPA2_NETWORK_SSID
-
+import com.isupatches.wisefy.WiseFy.Companion.WIFI_MANAGER_FAILURE
 import com.isupatches.wisefy.WiseFyPublicApi
 import com.isupatches.wisefy.callbacks.AddNetworkCallbacks
 import com.isupatches.wisefy.callbacks.ConnectToNetworkCallbacks
@@ -44,14 +35,22 @@ import com.isupatches.wisefy.callbacks.SearchForAccessPointsCallbacks
 import com.isupatches.wisefy.callbacks.SearchForSSIDCallbacks
 import com.isupatches.wisefy.callbacks.SearchForSSIDsCallbacks
 
+import org.junit.Assert.assertEquals
 import org.junit.Test
+
+import org.mockito.ArgumentMatchers.any
+import org.mockito.ArgumentMatchers.anyBoolean
+import org.mockito.ArgumentMatchers.anyInt
+import org.mockito.ArgumentMatchers.anyString
+import org.mockito.Mockito.mock
+import org.mockito.Mockito.verify
 
 /**
  * Used to test the visibility of the public API.
  *
  * @author Patches
  */
-@Suppress("LargeClass","UndocumentedPublicFunction")
+@Suppress("LargeClass", "UndocumentedPublicFunction")
 class PublicApiVisibilityTests {
 
     private val wisefy = mock(WiseFyPublicApi::class.java)
@@ -63,15 +62,12 @@ class PublicApiVisibilityTests {
         verify<WiseFyPublicApi>(wisefy).addOpenNetwork(anyString())
         wisefy.addOpenNetwork(OPEN_NETWORK_SSID, object : AddNetworkCallbacks {
             override fun failureAddingNetwork(wifiManagerReturn: Int) {
-
             }
 
             override fun networkAdded(newNetworkId: Int, networkConfig: WifiConfiguration) {
-
             }
 
             override fun wisefyFailure(wisefyFailureCode: Int) {
-
             }
         })
         verify<WiseFyPublicApi>(wisefy).addOpenNetwork(anyString(), any(AddNetworkCallbacks::class.java))
@@ -82,15 +78,12 @@ class PublicApiVisibilityTests {
         verify<WiseFyPublicApi>(wisefy).addWEPNetwork(anyString(), anyString())
         wisefy.addWEPNetwork(WEP_NETWORK_SSID, WEP_NETWORK_PASSWORD, object : AddNetworkCallbacks {
             override fun failureAddingNetwork(wifiManagerReturn: Int) {
-
             }
 
             override fun networkAdded(newNetworkId: Int, networkConfig: WifiConfiguration) {
-
             }
 
             override fun wisefyFailure(wisefyFailureCode: Int) {
-
             }
         })
         verify<WiseFyPublicApi>(wisefy).addWEPNetwork(anyString(), anyString(), any(AddNetworkCallbacks::class.java))
@@ -101,15 +94,12 @@ class PublicApiVisibilityTests {
         verify<WiseFyPublicApi>(wisefy).addWPA2Network(anyString(), anyString())
         wisefy.addWPA2Network(WPA2_NETWORK_SSID, WPA2_NETWORK_PASSWORD, object : AddNetworkCallbacks {
             override fun failureAddingNetwork(wifiManagerReturn: Int) {
-
             }
 
             override fun networkAdded(newNetworkId: Int, networkConfig: WifiConfiguration) {
-
             }
 
             override fun wisefyFailure(wisefyFailureCode: Int) {
-
             }
         })
         verify<WiseFyPublicApi>(wisefy).addWPA2Network(anyString(), anyString(), any(AddNetworkCallbacks::class.java))
@@ -130,19 +120,15 @@ class PublicApiVisibilityTests {
         verify<WiseFyPublicApi>(wisefy).connectToNetwork(anyString(), anyInt())
         wisefy.connectToNetwork(TEST_SSID, TEST_DELAY, object : ConnectToNetworkCallbacks {
             override fun connectedToNetwork() {
-
             }
 
             override fun wisefyFailure(wisefyFailureCode: Int) {
-
             }
 
             override fun failureConnectingToNetwork() {
-
             }
 
             override fun networkNotFoundToConnectTo() {
-
             }
         })
         verify<WiseFyPublicApi>(wisefy).connectToNetwork(anyString(), anyInt(), any(ConnectToNetworkCallbacks::class.java))
@@ -152,17 +138,13 @@ class PublicApiVisibilityTests {
         wisefy.disableWifi()
         verify<WiseFyPublicApi>(wisefy).disableWifi()
         wisefy.disableWifi(object : DisableWifiCallbacks {
-
             override fun wisefyFailure(wisefyFailureCode: Int) {
-
             }
 
             override fun failureDisablingWifi() {
-
             }
 
             override fun wifiDisabled() {
-
             }
         })
         verify<WiseFyPublicApi>(wisefy).disableWifi(any(DisableWifiCallbacks::class.java))
@@ -173,15 +155,12 @@ class PublicApiVisibilityTests {
         verify<WiseFyPublicApi>(wisefy).disconnectFromCurrentNetwork()
         wisefy.disconnectFromCurrentNetwork(object : DisconnectFromCurrentNetworkCallbacks {
             override fun disconnectedFromCurrentNetwork() {
-
             }
 
             override fun wisefyFailure(wisefyFailureCode: Int) {
-
             }
 
             override fun failureDisconnectingFromCurrentNetwork() {
-
             }
         })
         verify<WiseFyPublicApi>(wisefy).disconnectFromCurrentNetwork(any(DisconnectFromCurrentNetworkCallbacks::class.java))
@@ -191,17 +170,13 @@ class PublicApiVisibilityTests {
         wisefy.enableWifi()
         verify<WiseFyPublicApi>(wisefy).enableWifi()
         wisefy.enableWifi(object : EnableWifiCallbacks {
-
             override fun wisefyFailure(wisefyFailureCode: Int) {
-
             }
 
             override fun failureEnablingWifi() {
-
             }
 
             override fun wifiEnabled() {
-
             }
         })
         verify<WiseFyPublicApi>(wisefy).enableWifi(any(EnableWifiCallbacks::class.java))
@@ -211,13 +186,10 @@ class PublicApiVisibilityTests {
         wisefy.getCurrentNetwork()
         verify<WiseFyPublicApi>(wisefy).getCurrentNetwork()
         wisefy.getCurrentNetwork(object : GetCurrentNetworkCallbacks {
-
             override fun wisefyFailure(wisefyFailureCode: Int) {
-
             }
 
             override fun retrievedCurrentNetwork(currentNetwork: WifiInfo) {
-
             }
         })
         verify<WiseFyPublicApi>(wisefy).getCurrentNetwork(any(GetCurrentNetworkCallbacks::class.java))
@@ -228,15 +200,12 @@ class PublicApiVisibilityTests {
         verify<WiseFyPublicApi>(wisefy).getFrequency()
         wisefy.getFrequency(object : GetFrequencyCallbacks {
             override fun failureGettingFrequency() {
-
             }
 
             override fun wisefyFailure(wisefyFailureCode: Int) {
-
             }
 
             override fun retrievedFrequency(frequency: Int) {
-
             }
         })
         verify<WiseFyPublicApi>(wisefy).getFrequency(any(GetFrequencyCallbacks::class.java))
@@ -245,15 +214,12 @@ class PublicApiVisibilityTests {
         verify<WiseFyPublicApi>(wisefy).getFrequency(any(WifiInfo::class.java))
         wisefy.getFrequency(mock(WifiInfo::class.java), object : GetFrequencyCallbacks {
             override fun failureGettingFrequency() {
-
             }
 
             override fun wisefyFailure(wisefyFailureCode: Int) {
-
             }
 
             override fun retrievedFrequency(frequency: Int) {
-
             }
         })
         verify<WiseFyPublicApi>(wisefy).getFrequency(any(WifiInfo::class.java), any(GetFrequencyCallbacks::class.java))
@@ -264,31 +230,25 @@ class PublicApiVisibilityTests {
         verify<WiseFyPublicApi>(wisefy).getIP()
         wisefy.getIP(object : GetIPCallbacks {
             override fun failureRetrievingIP() {
-
             }
 
             override fun wisefyFailure(wisefyFailureCode: Int) {
-
             }
 
             override fun retrievedIP(ip: String) {
-
             }
         })
         verify<WiseFyPublicApi>(wisefy).getIP(any(GetIPCallbacks::class.java))
     }
-
 
     @Test fun getNearbyAccessPoints_apis() {
         wisefy.getNearbyAccessPoints(true)
         verify<WiseFyPublicApi>(wisefy).getNearbyAccessPoints(anyBoolean())
         wisefy.getNearbyAccessPoints(true, object : GetNearbyAccessPointsCallbacks {
             override fun retrievedNearbyAccessPoints(nearbyAccessPoints: List<ScanResult>) {
-
             }
 
             override fun wisefyFailure(wisefyFailureCode: Int) {
-
             }
         })
         verify<WiseFyPublicApi>(wisefy).getNearbyAccessPoints(anyBoolean(), any(GetNearbyAccessPointsCallbacks::class.java))
@@ -299,15 +259,12 @@ class PublicApiVisibilityTests {
         verify<WiseFyPublicApi>(wisefy).getRSSI(anyString(), anyBoolean(), anyInt())
         wisefy.getRSSI(TEST_SSID, true, TEST_DELAY, object : GetRSSICallbacks {
             override fun retrievedRSSI(rssi: Int) {
-
             }
 
             override fun networkNotFoundToRetrieveRSSI() {
-
             }
 
             override fun wisefyFailure(wisefyFailureCode: Int) {
-
             }
         })
         verify<WiseFyPublicApi>(wisefy).getRSSI(anyString(), anyBoolean(), anyInt(), any(GetRSSICallbacks::class.java))
@@ -318,15 +275,12 @@ class PublicApiVisibilityTests {
         verify<WiseFyPublicApi>(wisefy).getSavedNetwork(anyString())
         wisefy.getSavedNetwork(TEST_SSID, object : GetSavedNetworkCallbacks {
             override fun wisefyFailure(wisefyFailureCode: Int) {
-
             }
 
             override fun savedNetworkNotFound() {
-
             }
 
             override fun retrievedSavedNetwork(savedNetwork: WifiConfiguration) {
-
             }
         })
         verify<WiseFyPublicApi>(wisefy).getSavedNetwork(anyString(), any(GetSavedNetworkCallbacks::class.java))
@@ -434,24 +388,19 @@ class PublicApiVisibilityTests {
 
         wisefy.removeNetwork(TEST_SSID, object : RemoveNetworkCallbacks {
             override fun failureRemovingNetwork() {
-
             }
 
             override fun networkNotFoundToRemove() {
-
             }
 
             override fun networkRemoved() {
-
             }
 
             override fun wisefyFailure(wisefyFailureCode: Int) {
-
             }
         })
         verify<WiseFyPublicApi>(wisefy).removeNetwork(anyString(), any(RemoveNetworkCallbacks::class.java))
     }
-
 
     @Test fun searchForAccessPoint_api() {
         wisefy.searchForAccessPoint(TEST_SSID, TEST_DELAY, true)
@@ -459,15 +408,12 @@ class PublicApiVisibilityTests {
 
         wisefy.searchForAccessPoint(TEST_SSID, TEST_DELAY, true, object : SearchForAccessPointCallbacks {
             override fun wisefyFailure(wisefyFailureCode: Int) {
-
             }
 
             override fun accessPointFound(accessPoint: ScanResult) {
-
             }
 
             override fun accessPointNotFound() {
-
             }
         })
         verify<WiseFyPublicApi>(wisefy).searchForAccessPoint(anyString(), anyInt(), anyBoolean(), any(SearchForAccessPointCallbacks::class.java))
@@ -479,15 +425,12 @@ class PublicApiVisibilityTests {
 
         wisefy.searchForAccessPoints(TEST_SSID, true, object : SearchForAccessPointsCallbacks {
             override fun foundAccessPoints(accessPoints: List<ScanResult>) {
-
             }
 
             override fun noAccessPointsFound() {
-
             }
 
             override fun wisefyFailure(wisefyFailureCode: Int) {
-
             }
         })
         verify<WiseFyPublicApi>(wisefy).searchForAccessPoints(anyString(), anyBoolean(), any(SearchForAccessPointsCallbacks::class.java))
@@ -499,15 +442,12 @@ class PublicApiVisibilityTests {
 
         wisefy.searchForSSID(TEST_SSID, TEST_DELAY, object : SearchForSSIDCallbacks {
             override fun wisefyFailure(wisefyFailureCode: Int) {
-
             }
 
             override fun ssidFound(ssid: String) {
-
             }
 
             override fun ssidNotFound() {
-
             }
         })
         verify<WiseFyPublicApi>(wisefy).searchForSSID(anyString(), anyInt(), any(SearchForSSIDCallbacks::class.java))
@@ -519,15 +459,12 @@ class PublicApiVisibilityTests {
 
         wisefy.searchForSSIDs(TEST_SSID, object : SearchForSSIDsCallbacks {
             override fun wisefyFailure(wisefyFailureCode: Int) {
-
             }
 
             override fun retrievedSSIDs(ssids: List<String>) {
-
             }
 
             override fun noSSIDsFound() {
-
             }
         })
         verify<WiseFyPublicApi>(wisefy).searchForSSIDs(anyString(), any(SearchForSSIDsCallbacks::class.java))
@@ -539,15 +476,12 @@ class PublicApiVisibilityTests {
 
     private class MyGetSavedNetworksCallbacks : GetSavedNetworksCallbacks {
         override fun noSavedNetworksFound() {
-
         }
 
         override fun retrievedSavedNetworks(savedNetworks: List<WifiConfiguration>) {
-
         }
 
         override fun wisefyFailure(wisefyFailureCode: Int) {
-
         }
     }
 }

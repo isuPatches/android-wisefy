@@ -1,7 +1,9 @@
 task staticAnalysisSanityCheck {
     group = "verification"
 
-    dependsOn 'lintAll', 'detektAll', 'ktlintAll', 'cpdAll'
+    outputs.upToDateWhen { false }
+
+    dependsOn 'checkAll', 'lintAll'
     doLast {
         println "\n##################################################" +
                 "\n# Static analysis passed! You are doing so good! #" +
@@ -9,47 +11,28 @@ task staticAnalysisSanityCheck {
     }
 }
 
+task checkAll() {
+    group = 'verification'
+
+    outputs.upToDateWhen { false }
+
+    dependsOn ':wisefy:check'
+    doLast {
+        println "\n##################################################" +
+                "\n#        Checked all the things!  Go you!        #" +
+                "\n##################################################"
+    }
+}
+
 task lintAll {
     group = 'verification'
+
+    outputs.upToDateWhen { false }
 
     dependsOn ':wisefy:lintDebug'
     doLast {
         println "\n##################################################" +
-                "\n#        Linted all the things!  Go you!         #" +
+                "\n#       Lint error free is the way to be!        #" +
                 "\n##################################################"
     }
-}
-
-task ktlintAll {
-    group = 'verification'
-
-    dependsOn ':wisefy:ktlintDebugCheck'
-    doLast {
-        println "\n##################################################" +
-                "\n#        KTLinted all the things!  Go you!       #" +
-                "\n##################################################"
-    }
-}
-
-task detektAll {
-    group = 'verification'
-
-    dependsOn 'detektCheck'
-    doLast {
-        println "\n##################################################" +
-                "\n#        Detekt'ed all the things!  Go you!      #" +
-                "\n##################################################"
-    }
-}
-
-task cpdAll {
-    group = 'verification'
-
-    dependsOn ':wisefy:cpdCheck'
-    doLast {
-        println "\n##################################################" +
-                "\n#      Code so DRY, it must have an umbrella!    #" +
-                "\n##################################################"
-    }
-
 }

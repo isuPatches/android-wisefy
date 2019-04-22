@@ -1,8 +1,6 @@
 package com.isupatches.wisefy.test
 
-import android.support.test.InstrumentationRegistry
-
-import com.google.android.gms.iid.InstanceID
+import androidx.test.platform.app.InstrumentationRegistry
 
 import com.isupatches.wisefy.BaseAndroidJUnit4TestClass
 import com.isupatches.wisefy.TEST_NUMBER_OF_BARS
@@ -27,12 +25,12 @@ internal class WiseFyTests : BaseAndroidJUnit4TestClass() {
     }
 
     @Test fun brains_loggingFalse() {
-        val wisefy = WiseFy.Brains(InstrumentationRegistry.getContext()).logging(false).getSmarts()
+        val wisefy = WiseFy.Brains(InstrumentationRegistry.getInstrumentation().targetContext).logging(false).getSmarts()
         assertEquals(false, wisefy.isLoggingEnabled())
     }
 
     @Test fun brains_loggingTrue() {
-        val wisefy = WiseFy.Brains(InstrumentationRegistry.getContext()).logging(true).getSmarts()
+        val wisefy = WiseFy.Brains(InstrumentationRegistry.getInstrumentation().targetContext).logging(true).getSmarts()
         assertEquals(true, wisefy.isLoggingEnabled())
     }
 
@@ -48,10 +46,5 @@ internal class WiseFyTests : BaseAndroidJUnit4TestClass() {
 
     @Test fun getWiseFyLock() {
         assertNotNull(wisefy.getWiseFyLock())
-    }
-
-    @Test fun olderGcm_IllegalAccessError_notThrown() {
-        val instanceID = InstanceID.getInstance(InstrumentationRegistry.getContext())
-        assertNotNull(instanceID)
     }
 }

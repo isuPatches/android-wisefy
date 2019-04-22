@@ -19,7 +19,7 @@ import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.net.wifi.ScanResult
 import android.net.wifi.WifiConfiguration
 import android.net.wifi.WifiManager
-import android.support.annotation.RequiresPermission
+import androidx.annotation.RequiresPermission
 
 import com.isupatches.wisefy.annotations.WaitsForTimeout
 import com.isupatches.wisefy.constants.QUOTE
@@ -273,7 +273,7 @@ internal class WiseFySearchImpl private constructor(
      */
     @RequiresPermission(ACCESS_WIFI_STATE)
     override fun isNetworkASavedConfiguration(ssid: String?): Boolean =
-        !ssid.isNullOrEmpty() && findSavedNetworkByRegex(ssid!!) != null
+        !ssid.isNullOrEmpty() && findSavedNetworkByRegex(ssid) != null
 
     /**
      * Used internally to build a list of ScanResults (removes duplicates by taking access point with higher RSSI).

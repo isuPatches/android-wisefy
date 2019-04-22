@@ -22,9 +22,9 @@ import android.Manifest.permission.ACCESS_COARSE_LOCATION
 import android.content.pm.PackageManager
 import android.net.wifi.ScanResult
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import androidx.core.content.ContextCompat
+import androidx.appcompat.app.AppCompatActivity
 
 import com.isupatches.wisefy.WiseFy
 import com.isupatches.wisefy.callbacks.GetNearbyAccessPointsCallbacks
@@ -113,16 +113,18 @@ _With Java_
 ```java
 package wisefy_sample.isupatches.com.wisefysample.ui;
 
-
 import android.content.pm.PackageManager;
 import android.net.wifi.ScanResult;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.isupatches.wisefy.WiseFy;
 import com.isupatches.wisefy.callbacks.GetNearbyAccessPointsCallbacks;
+
 import java.util.List;
+
 import wisefy_sample.isupatches.com.wisefysample.R;
 import wisefy_sample.isupatches.com.wisefysample.constants.Permissions;
 import wisefy_sample.isupatches.com.wisefysample.util.PermissionUtil;
@@ -217,9 +219,9 @@ _With Kotlin_
 package com.isupatches.wisefysample.util
 
 import android.app.Activity
-import android.support.v4.app.ActivityCompat
 import android.content.pm.PackageManager
-import android.support.v4.content.ContextCompat
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 
 class PermissionUtil private constructor() {
 
@@ -250,8 +252,8 @@ package wisefy_sample.isupatches.com.wisefysample.util;
 
 import android.app.Activity;
 import android.content.pm.PackageManager;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 public class PermissionUtil {
 

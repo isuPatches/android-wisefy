@@ -1,14 +1,6 @@
+apply plugin: "io.gitlab.arturbosch.detekt"
+
 detekt {
-    version = "1.0.0.RC8"
-
-    profile("main") {
-        input = "$projectDir/wisefy/src/"
-        output = "$projectDir/wisefy/build/reports/detekt"
-        config = "$projectDir/config/detekt-config.yml"
-    }
-
-    profile("wisefy") {
-        input = "$projectDir/wisefy/src/"
-        output = "$projectDir/wisefy/build/reports/detekt"
-    }
+    version = "$detekt_version"
+    config = files("$project.rootDir/config/detekt-config.yml")
 }

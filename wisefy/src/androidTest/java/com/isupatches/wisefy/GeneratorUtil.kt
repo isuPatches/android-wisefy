@@ -32,8 +32,12 @@ internal fun createMockAccessPointWithCapabilities(capabilities: String?): ScanR
  *
  * @see ScanResult
  */
-internal fun createMockAccessPointList(ssid1: String, rssi1: Int,
-                                       ssid2: String, rssi2: Int): List<ScanResult> {
+internal fun createMockAccessPointList(
+    ssid1: String,
+    rssi1: Int,
+    ssid2: String,
+    rssi2: Int
+): List<ScanResult> {
     val accessPoints = ArrayList<ScanResult>()
     accessPoints.add(createMockAccessPointWithSSIDAndRSSI(ssid1, rssi1))
     accessPoints.add(createMockAccessPointWithSSIDAndRSSI(ssid2, rssi2))

@@ -55,7 +55,6 @@ internal class SearchForSSIDsTests : BaseAndroidJUnit4TestClass() {
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).noSSIDsFound()
     }
 
-
     @Test fun async_failure_nullCallback() {
         mockWiseFyPrechecksUtil.searchForSSIDs_success()
         mockWiseFySearchUtil.findSSIDsMatchingRegex_null()

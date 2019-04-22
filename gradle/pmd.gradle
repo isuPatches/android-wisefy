@@ -8,6 +8,8 @@ task pmd(type: Pmd) {
 
     source = fileTree('src/main/java')
 
+    outputs.upToDateWhen { false }
+
     reports {
         xml.enabled = false
         html.enabled = true

@@ -11,7 +11,6 @@
     <allow pkg="android.content"/>
     <allow pkg="android.net"/>
     <allow pkg="android.os"/>
-    <allow pkg="android.support"/>
     <allow pkg="android.util"/>
 
     <!-- Google -->

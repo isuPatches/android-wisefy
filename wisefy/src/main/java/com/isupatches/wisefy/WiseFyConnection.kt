@@ -20,7 +20,7 @@ import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.net.wifi.WifiManager
-import android.support.annotation.RequiresPermission
+import androidx.annotation.RequiresPermission
 
 import com.isupatches.wisefy.annotations.WaitsForTimeout
 import com.isupatches.wisefy.constants.NetworkType
@@ -76,7 +76,7 @@ internal class WiseFyConnectionImpl private constructor(
         connectionInfo?.let {
             if (!it.ssid.isNullOrEmpty()) {
                 val currentSSID = it.ssid.replace(QUOTE, "")
-                WiseFyLogger.debug(TAG, "Current SSID: %s, Desired SSID: %s", currentSSID, ssid ?: "")
+                WiseFyLogger.debug(TAG, "Current SSID: %s, Desired SSID: %s", currentSSID, ssid)
                 if (currentSSID.equals(ssid, ignoreCase = true) &&
                     isNetworkConnected(connectivityManager.activeNetworkInfo)
                 ) {
