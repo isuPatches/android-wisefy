@@ -1,6 +1,8 @@
 task staticAnalysisSanityCheck {
     group = "verification"
 
+    outputs.upToDateWhen { false }
+
     dependsOn 'checkAll', 'lintAll'
     doLast {
         println "\n##################################################" +
@@ -12,8 +14,9 @@ task staticAnalysisSanityCheck {
 task checkAll() {
     group = 'verification'
 
-    dependsOn ':wisefy:check'
+    outputs.upToDateWhen { false }
 
+    dependsOn ':wisefy:check'
     doLast {
         println "\n##################################################" +
                 "\n#        Checked all the things!  Go you!        #" +
@@ -23,6 +26,8 @@ task checkAll() {
 
 task lintAll {
     group = 'verification'
+
+    outputs.upToDateWhen { false }
 
     dependsOn ':wisefy:lintDebug'
     doLast {

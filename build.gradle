@@ -18,15 +18,22 @@ buildscript {
 
     dependencies {
         classpath "com.android.tools.build:gradle:$agp_version"
-        classpath "org.jetbrains.dokka:dokka-android-gradle-plugin:$dokka_version"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+
+        // Static Analysis
         classpath "com.getkeepsafe.dexcount:dexcount-gradle-plugin:$dexcount_version"
-        classpath "com.github.dcendents:android-maven-gradle-plugin:$maven_version"
-        classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:$bintray_version"
         classpath "de.aaschmid:gradle-cpd-plugin:$cpd_version"
+
+
+        // Code Coverage
         classpath "org.jacoco:org.jacoco.core:$jacoco_version"
         classpath "org.jacoco:org.jacoco.agent:$jacoco_version"
         classpath "org.jacoco:org.jacoco.report:$jacoco_version"
+
+        // Publishing
+        classpath "com.github.dcendents:android-maven-gradle-plugin:$maven_version"
+        classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:$bintray_version"
+        classpath "org.jetbrains.dokka:dokka-android-gradle-plugin:$dokka_version"
     }
 }
 
@@ -37,7 +44,6 @@ plugins {
 
 apply from: rootProject.file("$rootProject.projectDir/gradle/versions.gradle")
 
-apply from: rootProject.file("$rootProject.projectDir/gradle/detekt.gradle")
 apply from: rootProject.file("$rootProject.projectDir/gradle/ktlint.gradle")
 apply from: rootProject.file("$rootProject.projectDir/gradle/static-analysis.gradle")
 
@@ -47,12 +53,16 @@ subprojects {
     apply plugin: 'org.jetbrains.dokka-android'
     apply plugin: "org.jlleitschuh.gradle.ktlint"
 
-    apply from: rootProject.file("$rootProject.projectDir/gradle/dokka.gradle")
-
+    // Static Analysis
+    apply from: rootProject.file("$rootProject.projectDir/gradle/detekt.gradle")
     apply from: rootProject.file("$rootProject.projectDir/gradle/cpd.gradle")
     apply from: rootProject.file("$rootProject.projectDir/gradle/pmd.gradle")
 
+    // Code Coverage
     apply from: rootProject.file("$rootProject.projectDir/gradle/jacoco.gradle")
+
+    // Publishing
+    apply from: rootProject.file("$rootProject.projectDir/gradle/dokka.gradle")
 }
 
 allprojects {
@@ -63,6 +73,8 @@ allprojects {
 }
 
 task clean(type: Delete) {
+    outputs.upToDateWhen { false }
+
     delete rootProject.buildDir
 }
 
@@ -123,14 +135,10 @@ ext {
     VERSION_NAME = "4.0.0"
 }
 
-subprojects {
-    apply plugin: "org.jlleitschuh.gradle.ktlint"
-
-    apply from: rootProject.file("$rootProject.projectDir/gradle/detekt.gradle")
-}
-
 task makeGoodChoices {
     group = "verification"
+
+    outputs.upToDateWhen { false }
 
     dependsOn 'staticAnalysisSanityCheck', 'jacocoAllCombinedTests'
     doLast {

@@ -17,18 +17,6 @@ android {
         installOptions "-d", "-t"
     }
 
-    lintOptions {
-        checkAllWarnings true
-        warningsAsErrors true
-        showAll true
-        explainIssues true
-        abortOnError true
-        enable 'AppLinksAutoVerifyError', 'AppLinksAutoVerifyWarning', 'BackButton',
-                'EasterEgg', 'FieldGetter', 'GoogleAppIndexingApiWarning', 'IconExpectedSize',
-                'LogConditional', 'MangledCRLF', 'NegativeMargin', 'NewerVersionAvailable',
-                'SelectableText', 'StopShip', 'TrulyRandom', 'TypographyQuotes', 'UnusedIds'
-    }
-
     compileSdkVersion rootProject.ext.MAX_SDK_VERSION
     buildToolsVersion rootProject.ext.BUILD_TOOLS_VERSION
 
@@ -39,11 +27,6 @@ android {
         versionName rootProject.ext.VERSION_NAME
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         consumerProguardFiles 'consumer-proguard-rules.pro'
-    }
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     buildTypes {
@@ -60,18 +43,33 @@ android {
         }
     }
 
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    lintOptions {
+        checkAllWarnings true
+        warningsAsErrors true
+        showAll true
+        explainIssues true
+        abortOnError true
+        // UnusedIds is disabled for Kotlin synthetics and MissingRegistered is disabled for androidx.
+        disable 'UnusedIds', 'MissingRegistered'
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
     sourceSets {
-        main {
-            jni.srcDirs = [] //disable automatic ndk-build call
-        }
+        def commonTestDir = 'src/commonTest/java'
 
-        test {
-            java.srcDirs += 'src/commonTest/java'
-        }
+        test { java.srcDir commonTestDir }
 
-        androidTest {
-            java.srcDirs += 'src/commonTest/java'
-        }
+        androidTest { java.srcDir commonTestDir }
+
+        main { jni.srcDirs = [] }
     }
 }
 

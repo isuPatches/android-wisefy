@@ -1,18 +1,9 @@
 package com.isupatches.wisefy.main
 
-import com.isupatches.wisefy.WiseFy.Companion.WIFI_MANAGER_FAILURE
-import org.junit.Assert.assertEquals
-
-import org.mockito.ArgumentMatchers.any
-import org.mockito.ArgumentMatchers.anyBoolean
-import org.mockito.ArgumentMatchers.anyInt
-import org.mockito.ArgumentMatchers.anyString
-import org.mockito.Mockito.mock
-import org.mockito.Mockito.verify
-
 import android.net.wifi.ScanResult
 import android.net.wifi.WifiConfiguration
 import android.net.wifi.WifiInfo
+
 import com.isupatches.wisefy.OPEN_NETWORK_SSID
 import com.isupatches.wisefy.TEST_DELAY
 import com.isupatches.wisefy.TEST_NUMBER_OF_BARS
@@ -24,7 +15,7 @@ import com.isupatches.wisefy.WEP_NETWORK_PASSWORD
 import com.isupatches.wisefy.WEP_NETWORK_SSID
 import com.isupatches.wisefy.WPA2_NETWORK_PASSWORD
 import com.isupatches.wisefy.WPA2_NETWORK_SSID
-
+import com.isupatches.wisefy.WiseFy.Companion.WIFI_MANAGER_FAILURE
 import com.isupatches.wisefy.WiseFyPublicApi
 import com.isupatches.wisefy.callbacks.AddNetworkCallbacks
 import com.isupatches.wisefy.callbacks.ConnectToNetworkCallbacks
@@ -44,7 +35,15 @@ import com.isupatches.wisefy.callbacks.SearchForAccessPointsCallbacks
 import com.isupatches.wisefy.callbacks.SearchForSSIDCallbacks
 import com.isupatches.wisefy.callbacks.SearchForSSIDsCallbacks
 
+import org.junit.Assert.assertEquals
 import org.junit.Test
+
+import org.mockito.ArgumentMatchers.any
+import org.mockito.ArgumentMatchers.anyBoolean
+import org.mockito.ArgumentMatchers.anyInt
+import org.mockito.ArgumentMatchers.anyString
+import org.mockito.Mockito.mock
+import org.mockito.Mockito.verify
 
 /**
  * Used to test the visibility of the public API.
