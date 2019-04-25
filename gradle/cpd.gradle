@@ -1,8 +1,8 @@
 apply plugin: 'cpd'
 
 cpd {
-    language = 'java'
-    toolVersion = '6.8.0'
+    language = 'kotlin'
+    toolVersion = '6.13.0'
 }
 
 cpdCheck {

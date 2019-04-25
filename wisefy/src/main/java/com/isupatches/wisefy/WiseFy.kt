@@ -56,6 +56,9 @@ import com.isupatches.wisefy.callbacks.SearchForAccessPointCallbacks
 import com.isupatches.wisefy.callbacks.SearchForAccessPointsCallbacks
 import com.isupatches.wisefy.callbacks.SearchForSSIDCallbacks
 import com.isupatches.wisefy.callbacks.SearchForSSIDsCallbacks
+import com.isupatches.wisefy.connection.WiseFyConnection
+import com.isupatches.wisefy.connection.WiseFyConnectionLegacy
+import com.isupatches.wisefy.connection.WiseFyConnectionSDK23
 import com.isupatches.wisefy.constants.Capability
 import com.isupatches.wisefy.constants.EAP
 import com.isupatches.wisefy.constants.MISSING_PARAMETER
@@ -135,7 +138,9 @@ class WiseFy private constructor(
      * @author Patches
      * @since 3.0
      */
-    class Brains(context: Context) {
+    class Brains(context: Context, useLegacyConnection: Boolean = false) {
+
+        constructor(context: Context): this(context = context, useLegacyConnection = false)
 
         private var loggingEnabled: Boolean = false
         private var connectivityManager: ConnectivityManager
@@ -147,7 +152,11 @@ class WiseFy private constructor(
         init {
             connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
             wifiManager = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
-            wisefyConnection = WiseFyConnectionImpl.create(connectivityManager, wifiManager)
+            wisefyConnection = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M || useLegacyConnection) {
+                WiseFyConnectionLegacy.create(connectivityManager, wifiManager)
+            } else {
+                WiseFyConnectionSDK23.create(connectivityManager, wifiManager)
+            }
             wisefySearch = WiseFySearchImpl.create(wifiManager)
             wisefyPrechecks = WiseFyPrechecksImpl.create(wisefySearch)
         }
@@ -160,7 +169,9 @@ class WiseFy private constructor(
          * @author Patches
          * @since 3.0
          */
-        fun logging(loggingEnabled: Boolean): Brains = apply { this.loggingEnabled = loggingEnabled }
+        fun logging(loggingEnabled: Boolean): Brains = apply {
+            this.loggingEnabled = loggingEnabled
+        }
 
         /**
          * Used internally to set ConnectivityManager in tests.
@@ -242,6 +253,7 @@ class WiseFy private constructor(
          */
         fun getSmarts(): WiseFy {
             WiseFyLogger.configureWiseFyLoggerImplementation(loggingEnabled)
+            wisefyConnection.init()
             return WiseFy(
                 connectivityManager = connectivityManager,
                 wifiManager = wifiManager,
@@ -715,6 +727,7 @@ class WiseFy private constructor(
             wisefyHandlerThread = null
         }
         wisefyHandler = null
+        wisefyConnection.destroy()
         WiseFyLogger.debug(TAG, "Cleaned up WiseFy Thread")
     }
 
@@ -1411,7 +1424,7 @@ class WiseFy private constructor(
      *
      * @see [ConnectivityManager.getActiveNetworkInfo]
      * @see [MOBILE]
-     * @see [WiseFyConnection.isNetworkConnectedAndMatchesType]
+     * @see [WiseFyConnection.isDeviceConnectedToMobileNetwork]
      * @see [WiseFyPrechecks.isDeviceConnectedToMobileNetworkChecks]
      *
      * @author Patches
@@ -1422,7 +1435,7 @@ class WiseFy private constructor(
     @RequiresPermission(ACCESS_NETWORK_STATE)
     override fun isDeviceConnectedToMobileNetwork(): Boolean =
         wisefyPrechecks.isDeviceConnectedToMobileNetworkChecks().passed() &&
-            wisefyConnection.isNetworkConnectedAndMatchesType(connectivityManager.activeNetworkInfo, MOBILE)
+            wisefyConnection.isDeviceConnectedToMobileNetwork()
 
     /**
      * To check if the device is connected to a mobile or wifi network.
@@ -1441,7 +1454,7 @@ class WiseFy private constructor(
     @RequiresPermission(ACCESS_NETWORK_STATE)
     override fun isDeviceConnectedToMobileOrWifiNetwork(): Boolean =
         wisefyPrechecks.isDeviceConnectedToMobileOrWifiNetworkChecks().passed() &&
-            wisefyConnection.isNetworkConnected(connectivityManager.activeNetworkInfo)
+            wisefyConnection.isNetworkConnected()
 
     /**
      * To check if the device is connected to a given SSID.
@@ -1470,7 +1483,7 @@ class WiseFy private constructor(
      *
      * @see [ConnectivityManager.getActiveNetworkInfo]
      * @see [WIFI]
-     * @see [WiseFyConnection.isNetworkConnectedAndMatchesType]
+     * @see [WiseFyConnection.isDeviceConnectedToWifiNetwork]
      * @see [WiseFyPrechecks.isDeviceConnectedToWifiNetworkChecks]
      *
      * @author Patches
@@ -1481,7 +1494,7 @@ class WiseFy private constructor(
     @RequiresPermission(ACCESS_NETWORK_STATE)
     override fun isDeviceConnectedToWifiNetwork(): Boolean =
         wisefyPrechecks.isDeviceConnectedToWifiNetworkChecks().passed() &&
-            wisefyConnection.isNetworkConnectedAndMatchesType(connectivityManager.activeNetworkInfo, WIFI)
+            wisefyConnection.isDeviceConnectedToWifiNetwork()
 
     /**
      * To query if the device is roaming.

@@ -1,6 +1,7 @@
 package com.isupatches.wisefy
 
 import android.net.NetworkInfo
+import com.isupatches.wisefy.connection.WiseFyConnection
 import org.mockito.ArgumentMatchers.any
 import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.ArgumentMatchers.anyString

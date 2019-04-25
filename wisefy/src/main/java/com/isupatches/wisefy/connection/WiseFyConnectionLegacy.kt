@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.wisefy
+package com.isupatches.wisefy.connection
 
 import android.Manifest.permission.ACCESS_NETWORK_STATE
 import android.Manifest.permission.ACCESS_WIFI_STATE
@@ -23,8 +23,10 @@ import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
 
 import com.isupatches.wisefy.annotations.WaitsForTimeout
+import com.isupatches.wisefy.constants.MOBILE
 import com.isupatches.wisefy.constants.NetworkType
 import com.isupatches.wisefy.constants.QUOTE
+import com.isupatches.wisefy.constants.WIFI
 import com.isupatches.wisefy.logging.WiseFyLogger
 import com.isupatches.wisefy.utils.rest
 
@@ -39,16 +41,25 @@ import com.isupatches.wisefy.utils.rest
  * @author Patches
  * @since 3.0
  */
-internal class WiseFyConnectionImpl private constructor(
+@Suppress("deprecation")
+internal class WiseFyConnectionLegacy private constructor(
     private val connectivityManager: ConnectivityManager,
     private val wifiManager: WifiManager
 ) : WiseFyConnection {
 
     internal companion object {
-        private val TAG = WiseFyConnection::class.java.simpleName
+        private val TAG = WiseFyConnectionLegacy::class.java.simpleName
 
         fun create(connectivityManager: ConnectivityManager, wifiManager: WifiManager): WiseFyConnection =
-            WiseFyConnectionImpl(connectivityManager, wifiManager)
+                WiseFyConnectionLegacy(connectivityManager, wifiManager)
+    }
+
+    override fun init() {
+        // No-op
+    }
+
+    override fun destroy() {
+        // No-op
     }
 
     /**
@@ -77,9 +88,7 @@ internal class WiseFyConnectionImpl private constructor(
             if (!it.ssid.isNullOrEmpty()) {
                 val currentSSID = it.ssid.replace(QUOTE, "")
                 WiseFyLogger.debug(TAG, "Current SSID: %s, Desired SSID: %s", currentSSID, ssid)
-                if (currentSSID.equals(ssid, ignoreCase = true) &&
-                    isNetworkConnected(connectivityManager.activeNetworkInfo)
-                ) {
+                if (currentSSID.equals(ssid, ignoreCase = true) && isNetworkConnected()) {
                     WiseFyLogger.debug(TAG, "Network is connected")
                     return true
                 }
@@ -88,10 +97,14 @@ internal class WiseFyConnectionImpl private constructor(
         return false
     }
 
+    override fun isDeviceConnectedToMobileNetwork(): Boolean =
+        isNetworkConnectedAndMatchesType(connectivityManager.activeNetworkInfo, MOBILE)
+
+    override fun isDeviceConnectedToWifiNetwork(): Boolean =
+        isNetworkConnectedAndMatchesType(connectivityManager.activeNetworkInfo, WIFI)
+
     /**
      * Used internally to check if a network is connected.
-     *
-     * @param networkInfo The network to check
      *
      * @return boolean - True if the network is both available and connected
      *
@@ -100,28 +113,11 @@ internal class WiseFyConnectionImpl private constructor(
      * @author Patches
      * @since 3.0
      */
-    override fun isNetworkConnected(networkInfo: NetworkInfo?): Boolean {
+    override fun isNetworkConnected(): Boolean {
+        val networkInfo = connectivityManager.activeNetworkInfo
         WiseFyLogger.debug(TAG, "networkInfo: %s", networkInfo ?: "")
         return networkInfo != null && networkInfo.isConnected && networkInfo.isAvailable
     }
-
-    /**
-     * Used internally to check if a given network matches a given type and is connected.
-     *
-     * @param networkInfo The network to check
-     * @param type The type of network (i.error. Mobile or Wifi)
-     *
-     * @return boolean - True if the network is both connected and matches the given type of network
-     *
-     * @see [doesNetworkMatchType]
-     * @see [isNetworkConnected]
-     * @see [NetworkInfo]
-     *
-     * @author Patches
-     * @since 3.0
-     */
-    override fun isNetworkConnectedAndMatchesType(networkInfo: NetworkInfo?, @NetworkType type: String): Boolean =
-        isNetworkConnected(networkInfo) && doesNetworkMatchType(networkInfo, type)
 
     /**
      * Used internally to check if the device connects to a given SSID within a specified time.
@@ -171,23 +167,22 @@ internal class WiseFyConnectionImpl private constructor(
      */
     private fun doesNetworkMatchType(networkInfo: NetworkInfo?, @NetworkType type: String): Boolean =
         type.equals(networkInfo?.typeName, ignoreCase = true)
-}
 
-/**
- * An interface with methods that relate to checking device connectivity.
- *
- * @see [WiseFyConnectionImpl]
- *
- * @author Patches
- * @since 3.0
- */
-internal interface WiseFyConnection {
-
-    fun isCurrentNetworkConnectedToSSID(ssid: String?): Boolean
-
-    fun isNetworkConnected(networkInfo: NetworkInfo?): Boolean
-
-    fun isNetworkConnectedAndMatchesType(networkInfo: NetworkInfo?, @NetworkType type: String): Boolean
-
-    fun waitToConnectToSSID(ssid: String?, timeoutInMillis: Int): Boolean
+    /**
+     * Used internally to check if a given network matches a given type and is connected.
+     *
+     * @param networkInfo The network to check
+     * @param type The type of network (i.error. Mobile or Wifi)
+     *
+     * @return boolean - True if the network is both connected and matches the given type of network
+     *
+     * @see [doesNetworkMatchType]
+     * @see [isNetworkConnected]
+     * @see [NetworkInfo]
+     *
+     * @author Patches
+     * @since 3.0
+     */
+    private fun isNetworkConnectedAndMatchesType(networkInfo: NetworkInfo?, @NetworkType type: String): Boolean =
+            isNetworkConnected() && doesNetworkMatchType(networkInfo, type)
 }

@@ -1,5 +1,7 @@
 package com.isupatches.wisefy
 
+import com.isupatches.wisefy.connection.WiseFyConnection
+import com.isupatches.wisefy.connection.WiseFyConnectionImpl
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 

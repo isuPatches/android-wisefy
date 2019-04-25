@@ -85,7 +85,6 @@ internal fun generateWEPNetworkConfiguration(ssid: String, password: String): Wi
     // Deprecated due to shared key authentication requiring static WEP keys
     wifiConfiguration.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.SHARED)
 
-
     /*
      * Allowed Protocols
      */

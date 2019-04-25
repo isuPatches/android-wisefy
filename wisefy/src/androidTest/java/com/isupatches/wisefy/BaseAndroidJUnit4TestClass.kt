@@ -4,6 +4,7 @@ import android.net.ConnectivityManager
 import android.net.wifi.WifiManager
 import android.os.Build
 import androidx.test.platform.app.InstrumentationRegistry
+import com.isupatches.wisefy.connection.WiseFyConnection
 import org.junit.After
 import org.mockito.Mockito
 import org.mockito.Mockito.mock

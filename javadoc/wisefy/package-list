@@ -4,4 +4,5 @@ $dokka.linkExtension:html
 com.isupatches.wisefy
 com.isupatches.wisefy.callbacks
 com.isupatches.wisefy.constants
+com.isupatches.wisefy.reciever
 com.isupatches.wisefy.threads
