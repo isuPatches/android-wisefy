@@ -69,6 +69,9 @@ import com.isupatches.wisefy.constants.WIFI
 import com.isupatches.wisefy.constants.WPA
 import com.isupatches.wisefy.constants.WPA2
 import com.isupatches.wisefy.logging.WiseFyLogger
+import com.isupatches.wisefy.search.WiseFySearch
+import com.isupatches.wisefy.search.WiseFySearchLegacy
+import com.isupatches.wisefy.search.WiseFySearchSDK23
 import com.isupatches.wisefy.threads.WiseFyHandlerThread
 import com.isupatches.wisefy.utils.generateOpenNetworkConfiguration
 import com.isupatches.wisefy.utils.generateWEPNetworkConfiguration
@@ -138,9 +141,11 @@ class WiseFy private constructor(
      * @author Patches
      * @since 3.0
      */
-    class Brains(context: Context, useLegacyConnection: Boolean = false) {
-
-        constructor(context: Context): this(context = context, useLegacyConnection = false)
+    class Brains @JvmOverloads constructor(
+        context: Context,
+        useLegacyConnection: Boolean = false,
+        useLegacySearch: Boolean = false
+    ) {
 
         private var loggingEnabled: Boolean = false
         private var connectivityManager: ConnectivityManager
@@ -157,7 +162,11 @@ class WiseFy private constructor(
             } else {
                 WiseFyConnectionSDK23.create(connectivityManager, wifiManager)
             }
-            wisefySearch = WiseFySearchImpl.create(wifiManager)
+            wisefySearch = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M || useLegacySearch) {
+                WiseFySearchLegacy.create(wifiManager)
+            } else {
+                WiseFySearchSDK23.create(wifiManager)
+            }
             wisefyPrechecks = WiseFyPrechecksImpl.create(wisefySearch)
         }
 
@@ -254,6 +263,7 @@ class WiseFy private constructor(
         fun getSmarts(): WiseFy {
             WiseFyLogger.configureWiseFyLoggerImplementation(loggingEnabled)
             wisefyConnection.init()
+            wisefySearch.init()
             return WiseFy(
                 connectivityManager = connectivityManager,
                 wifiManager = wifiManager,
@@ -728,6 +738,7 @@ class WiseFy private constructor(
         }
         wisefyHandler = null
         wisefyConnection.destroy()
+        wisefySearch.destroy()
         WiseFyLogger.debug(TAG, "Cleaned up WiseFy Thread")
     }
 

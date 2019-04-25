@@ -14,7 +14,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        WiseFy wiseFy = new WiseFy.Brains(this, true)
+        WiseFy wiseFy = new WiseFy.Brains(this, true, true)
                 .logging(true)
                 .getSmarts();
         Log.d("WiseFy", "MainActivity - \n" +

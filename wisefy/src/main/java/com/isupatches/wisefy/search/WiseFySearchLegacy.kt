@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.wisefy
+package com.isupatches.wisefy.search
 
 import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.net.wifi.ScanResult
@@ -40,14 +40,23 @@ import java.util.Locale
  * @author Patches
  * @since 3.0
  */
-internal class WiseFySearchImpl private constructor(
+@Suppress("deprecation")
+internal class WiseFySearchLegacy private constructor(
     private val wifiManager: WifiManager
 ) : WiseFySearch {
 
     internal companion object {
-        private val TAG = WiseFySearch::class.java.simpleName
+        private val TAG = WiseFySearchLegacy::class.java.simpleName
 
-        fun create(wifiManager: WifiManager): WiseFySearch = WiseFySearchImpl(wifiManager)
+        fun create(wifiManager: WifiManager): WiseFySearch = WiseFySearchLegacy(wifiManager)
+    }
+
+    override fun init() {
+        // No-op
+    }
+
+    override fun destroy() {
+        // No-op
     }
 
     /**
@@ -94,9 +103,9 @@ internal class WiseFySearchImpl private constructor(
             for (accessPoint in accessPoints) {
                 if (takeHighest) {
                     if (accessPointMatchesRegex(accessPoint, regexForSSID) && hasHighestSignalStrength(
-                            accessPoints,
-                            accessPoint
-                        )
+                                    accessPoints,
+                                    accessPoint
+                            )
                     ) {
                         accessPointToReturn = accessPoint
                         // Need to continue through rest of the list since
@@ -273,7 +282,7 @@ internal class WiseFySearchImpl private constructor(
      */
     @RequiresPermission(ACCESS_WIFI_STATE)
     override fun isNetworkASavedConfiguration(ssid: String?): Boolean =
-        !ssid.isNullOrEmpty() && findSavedNetworkByRegex(ssid) != null
+            !ssid.isNullOrEmpty() && findSavedNetworkByRegex(ssid) != null
 
     /**
      * Used internally to build a list of ScanResults (removes duplicates by taking access point with higher RSSI).
@@ -303,9 +312,9 @@ internal class WiseFySearchImpl private constructor(
                     WiseFyLogger.debug(TAG, "RSSI level of access point 1: %d", scanResult.level)
                     WiseFyLogger.debug(TAG, "RSSI level of access point 2: %d", accessPoint.level)
                     WiseFyLogger.debug(
-                        TAG,
-                        "comparison result: %d (removeEntriesWithLowerSignalStrength)",
-                        WifiManager.compareSignalLevel(accessPoint.level, scanResult.level)
+                            TAG,
+                            "comparison result: %d (removeEntriesWithLowerSignalStrength)",
+                            WifiManager.compareSignalLevel(accessPoint.level, scanResult.level)
                     )
                     if (WifiManager.compareSignalLevel(accessPoint.level, scanResult.level) > 0) {
                         WiseFyLogger.debug(TAG, "New result has a higher or same signal strength, swapping")
@@ -341,8 +350,8 @@ internal class WiseFySearchImpl private constructor(
      */
     private fun accessPointMatchesRegex(accessPoint: ScanResult?, regexForSSID: String): Boolean {
         WiseFyLogger.debug(
-            TAG,
-            "accessPoint. SSID: %s, regex for SSID: %s".format(Locale.US, accessPoint?.SSID, regexForSSID)
+                TAG,
+                "accessPoint. SSID: %s, regex for SSID: %s".format(Locale.US, accessPoint?.SSID, regexForSSID)
         )
         return accessPoint?.SSID?.matches(regexForSSID.toRegex()) ?: false
     }
@@ -370,9 +379,9 @@ internal class WiseFySearchImpl private constructor(
                 WiseFyLogger.debug(TAG, "RSSI level of current access point: %d", currentAccessPoint.level)
                 WiseFyLogger.debug(TAG, "RSSI level of access point in list: %d", accessPoint.level)
                 WiseFyLogger.debug(
-                    TAG,
-                    "comparison result: %d (hasHighestSignalStrength)",
-                    WifiManager.compareSignalLevel(accessPoint.level, currentAccessPoint.level)
+                        TAG,
+                        "comparison result: %d (hasHighestSignalStrength)",
+                        WifiManager.compareSignalLevel(accessPoint.level, currentAccessPoint.level)
                 )
                 if (WifiManager.compareSignalLevel(accessPoint.level, currentAccessPoint.level) > 0) {
                     WiseFyLogger.debug(TAG, "Stronger signal strength found")
@@ -403,29 +412,4 @@ internal class WiseFySearchImpl private constructor(
         }
         return false
     }
-}
-
-/**
- * An interface that helps with searching.
- *
- * @see [WiseFySearchImpl]
- *
- * @author Patches
- * @since 3.0
- */
-internal interface WiseFySearch {
-
-    fun findAccessPointByRegex(regexForSSID: String, timeoutInMillis: Int, takeHighest: Boolean): ScanResult?
-
-    fun findAccessPointsMatchingRegex(regexForSSID: String, takeHighest: Boolean): List<ScanResult>?
-
-    fun findSavedNetworkByRegex(regexForSSID: String): WifiConfiguration?
-
-    fun findSavedNetworksMatchingRegex(regexForSSID: String): List<WifiConfiguration>?
-
-    fun findSSIDsMatchingRegex(regexForSSID: String): List<String>?
-
-    fun isNetworkASavedConfiguration(ssid: String?): Boolean
-
-    fun removeEntriesWithLowerSignalStrength(accessPoints: List<ScanResult>): List<ScanResult>
 }

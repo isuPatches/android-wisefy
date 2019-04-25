@@ -1,6 +1,5 @@
 package com.isupatches.wisefy.connection
 
-
 /**
  * An interface with methods that relate to checking device connectivity.
  *
