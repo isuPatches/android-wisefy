@@ -14,13 +14,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        WiseFy wiseFy = new WiseFy.Brains(this, true, true)
+        WiseFy wiseFy = new WiseFy.Brains(this, false, false)
                 .logging(true)
                 .getSmarts();
         Log.d("WiseFy", "MainActivity - \n" +
-                "isDeviceConnectedToMobileNetwork:  " +  wiseFy.isDeviceConnectedToMobileNetwork() + "\n" +
-                "isDeviceConnectedToWifiNetwork: " + wiseFy.isDeviceConnectedToWifiNetwork() + "\n" +
-                "isDeviceConnectedToMobileOrWifiNetwork: " + wiseFy.isDeviceConnectedToMobileOrWifiNetwork()
+            "isDeviceConnectedToMobileNetwork:  " +  wiseFy.isDeviceConnectedToMobileNetwork() + "\n" +
+            "isDeviceConnectedToWifiNetwork: " + wiseFy.isDeviceConnectedToWifiNetwork() + "\n" +
+            "isDeviceConnectedToMobileOrWifiNetwork: " + wiseFy.isDeviceConnectedToMobileOrWifiNetwork()
         );
+
+        boolean result = wiseFy.isDeviceRoaming();
+        Log.d("WiseFy", "Result: " + result);
     }
 }

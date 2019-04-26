@@ -21,6 +21,8 @@ internal interface WiseFyConnection {
 
     fun isDeviceConnectedToMobileNetwork(): Boolean
 
+    fun isDeviceRoaming(): Boolean
+
     fun isNetworkConnected(): Boolean
 
     fun waitToConnectToSSID(ssid: String?, timeoutInMillis: Int): Boolean

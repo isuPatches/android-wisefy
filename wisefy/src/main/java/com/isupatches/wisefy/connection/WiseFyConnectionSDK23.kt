@@ -50,8 +50,6 @@ internal class WiseFyConnectionSDK23 private constructor(
                 WiseFyConnectionSDK23(connectivityManager, wifiManager)
     }
 
-    private var networkCapabilities: NetworkCapabilities? = null
-
     private var connectionStatus: WiseFyConnectionStatus? = null
 
     private val networkChangeCallback by lazy {
@@ -65,7 +63,6 @@ internal class WiseFyConnectionSDK23 private constructor(
             override fun onCapabilitiesChanged(network: Network?, networkCapabilities: NetworkCapabilities?) {
                 super.onCapabilitiesChanged(network, networkCapabilities)
                 WiseFyLogger.debug(TAG, "onCapabilitiesChanged, network: $network, networkCapabilities: $networkCapabilities")
-                this@WiseFyConnectionSDK23.networkCapabilities = networkCapabilities
             }
 
             override fun onLinkPropertiesChanged(network: Network?, linkProperties: LinkProperties?) {
@@ -109,10 +106,20 @@ internal class WiseFyConnectionSDK23 private constructor(
         transportType = NetworkCapabilities.TRANSPORT_WIFI
     )
 
+    override fun isDeviceRoaming(): Boolean = !doesNetworkHaveCapability(
+        capability = NetworkCapabilities.NET_CAPABILITY_NOT_ROAMING
+    )
+
     override fun isNetworkConnected(): Boolean = connectionStatus == WiseFyConnectionStatus.AVAILABLE
 
     private fun doesNetworkHaveTransportType(transportType: Int): Boolean =
-        networkCapabilities?.hasTransport(transportType) ?: false
+        getActiveNetworkCapabilities().hasTransport(transportType)
+
+    private fun doesNetworkHaveCapability(capability: Int): Boolean =
+        getActiveNetworkCapabilities().hasCapability(capability)
+
+    private fun getActiveNetworkCapabilities(): NetworkCapabilities =
+        connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
 
     private fun startListeningForNetworkChanges(connectivityManager: ConnectivityManager) {
         val request = NetworkRequest.Builder().build()

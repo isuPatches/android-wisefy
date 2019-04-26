@@ -1,6 +1,6 @@
 package com.isupatches.wisefy.connection
 
-enum class WiseFyConnectionStatus {
+internal enum class WiseFyConnectionStatus {
     AVAILABLE,
     LOSING,
     LOST,

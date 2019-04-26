@@ -1,50 +1,56 @@
 package com.isupatches.wisefy.search
 
+import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.net.wifi.ScanResult
-import android.net.wifi.WifiConfiguration
 import android.net.wifi.WifiManager
+import android.os.Build
+import androidx.annotation.RequiresApi
+import androidx.annotation.RequiresPermission
 
+@RequiresApi(Build.VERSION_CODES.M)
 internal class WiseFySearchSDK23 private constructor(
     private val wifiManager: WifiManager
-) : WiseFySearch {
+) : AbstractWiseFySearch(wifiManager) {
 
     internal companion object {
-        private val TAG = WiseFySearchSDK23::class.java.simpleName
-
         fun create(wifiManager: WifiManager): WiseFySearch = WiseFySearchSDK23(wifiManager)
     }
 
-    override fun init() {
-    }
+    @RequiresPermission(ACCESS_WIFI_STATE)
+    override fun findAccessPointByRegex(
+        regexForSSID: String,
+        timeoutInMillis: Int,
+        takeHighest: Boolean
+    ): ScanResult? = findAccessPointByRegex(
+        accessPoints = wifiManager.scanResults,
+        regexForSSID = regexForSSID,
+        timeoutInMillis = timeoutInMillis,
+        takeHighest = takeHighest
+    )
 
-    override fun destroy() {
-    }
+    @RequiresPermission(ACCESS_WIFI_STATE)
+    override fun findAccessPointsMatchingRegex(
+        regexForSSID: String,
+        takeHighest: Boolean
+    ): List<ScanResult>? = findAccessPointsMatchingRegex(
+        accessPoints = wifiManager.scanResults,
+        regexForSSID = regexForSSID,
+        takeHighest = takeHighest
+    )
 
-    override fun findAccessPointByRegex(regexForSSID: String, timeoutInMillis: Int, takeHighest: Boolean): ScanResult? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    @RequiresPermission(ACCESS_WIFI_STATE)
+    override fun findSSIDsMatchingRegex(
+        regexForSSID: String
+    ): List<String>? = findSSIDsMatchingRegex(
+        accessPoints = wifiManager.scanResults,
+        regexForSSID = regexForSSID
+    )
 
-    override fun findAccessPointsMatchingRegex(regexForSSID: String, takeHighest: Boolean): List<ScanResult>? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun findSavedNetworkByRegex(regexForSSID: String): WifiConfiguration? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun findSavedNetworksMatchingRegex(regexForSSID: String): List<WifiConfiguration>? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun findSSIDsMatchingRegex(regexForSSID: String): List<String>? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun isNetworkASavedConfiguration(ssid: String?): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun removeEntriesWithLowerSignalStrength(accessPoints: List<ScanResult>): List<ScanResult> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    @RequiresPermission(ACCESS_WIFI_STATE)
+    override fun getNearbyAccessPoints(
+        filterDuplicates: Boolean
+    ): List<ScanResult> = getNearbyAccessPoints(
+        accessPoints = wifiManager.scanResults,
+        filterDuplicates = filterDuplicates
+    )
 }

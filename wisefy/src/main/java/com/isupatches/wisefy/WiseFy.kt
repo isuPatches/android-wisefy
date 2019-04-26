@@ -263,7 +263,6 @@ class WiseFy private constructor(
         fun getSmarts(): WiseFy {
             WiseFyLogger.configureWiseFyLoggerImplementation(loggingEnabled)
             wisefyConnection.init()
-            wisefySearch.init()
             return WiseFy(
                 connectivityManager = connectivityManager,
                 wifiManager = wifiManager,
@@ -738,7 +737,6 @@ class WiseFy private constructor(
         }
         wisefyHandler = null
         wisefyConnection.destroy()
-        wisefySearch.destroy()
         WiseFyLogger.debug(TAG, "Cleaned up WiseFy Thread")
     }
 
@@ -1093,7 +1091,6 @@ class WiseFy private constructor(
      * @see [WifiManager.getScanResults]
      * @see [WifiManager.startScan]
      * @see [WiseFyPrechecks.getNearbyAccessPointsChecks]
-     * @see [WiseFySearch.removeEntriesWithLowerSignalStrength]
      *
      * @author Patches
      * @since 3.0
@@ -1107,12 +1104,7 @@ class WiseFy private constructor(
             return null
         }
 
-        wifiManager.startScan()
-        return if (filterDuplicates) {
-            wisefySearch.removeEntriesWithLowerSignalStrength(wifiManager.scanResults)
-        } else {
-            wifiManager.scanResults
-        }
+        return wisefySearch.getNearbyAccessPoints(filterDuplicates)
     }
 
     /**
@@ -1129,7 +1121,6 @@ class WiseFy private constructor(
      * @see [WifiManager.startScan]
      * @see [WiseFyLock]
      * @see [WiseFyPrechecks.getNearbyAccessPointsChecks]
-     * @see [WiseFySearch.removeEntriesWithLowerSignalStrength]
      *
      * @author Patches
      * @since 3.0
@@ -1146,14 +1137,9 @@ class WiseFy private constructor(
                     return@Runnable
                 }
 
-                wifiManager.startScan()
-                if (filterDuplicates) {
-                    callbacks?.retrievedNearbyAccessPoints(
-                        wisefySearch.removeEntriesWithLowerSignalStrength(wifiManager.scanResults)
-                    )
-                } else {
-                    callbacks?.retrievedNearbyAccessPoints(wifiManager.scanResults)
-                }
+                callbacks?.retrievedNearbyAccessPoints(
+                    wisefySearch.getNearbyAccessPoints(filterDuplicates)
+                )
             }
         })
     }
@@ -1526,9 +1512,7 @@ class WiseFy private constructor(
         if (wisefyPrechecks.isDeviceRoamingChecks().failed()) {
             return false
         }
-
-        val networkInfo = connectivityManager.activeNetworkInfo
-        return networkInfo != null && networkInfo.isRoaming
+        return wisefyConnection.isDeviceRoaming()
     }
 
     /**

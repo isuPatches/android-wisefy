@@ -54,6 +54,11 @@ internal class WiseFyConnectionLegacy private constructor(
     override fun isDeviceConnectedToWifiNetwork(): Boolean =
         isNetworkConnectedAndMatchesType(connectivityManager.activeNetworkInfo, WIFI)
 
+    override fun isDeviceRoaming(): Boolean {
+        val networkInfo = connectivityManager.activeNetworkInfo
+        return networkInfo != null && networkInfo.isRoaming
+    }
+
     /**
      * Used internally to check if a network is connected.
      *

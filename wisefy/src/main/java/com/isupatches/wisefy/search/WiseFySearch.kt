@@ -6,16 +6,13 @@ import android.net.wifi.WifiConfiguration
 /**
  * An interface that helps with searching.
  *
- * @see [WiseFySearchImpl]
+ * @see [WiseFySearchLegacy]
+ * @see [WiseFySearchSDK23]
  *
  * @author Patches
  * @since 3.0
  */
 internal interface WiseFySearch {
-
-    fun init()
-
-    fun destroy()
 
     fun findAccessPointByRegex(regexForSSID: String, timeoutInMillis: Int, takeHighest: Boolean): ScanResult?
 
@@ -27,7 +24,7 @@ internal interface WiseFySearch {
 
     fun findSSIDsMatchingRegex(regexForSSID: String): List<String>?
 
-    fun isNetworkASavedConfiguration(ssid: String?): Boolean
+    fun getNearbyAccessPoints(filterDuplicates: Boolean): List<ScanResult>
 
-    fun removeEntriesWithLowerSignalStrength(accessPoints: List<ScanResult>): List<ScanResult>
+    fun isNetworkASavedConfiguration(ssid: String?): Boolean
 }
