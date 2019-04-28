@@ -28,6 +28,8 @@ import android.net.wifi.WifiInfo
  */
 interface GetCurrentNetworkCallbacks : BaseCallback {
 
+    fun noCurrentNetwork()
+
     /**
      * Called when WiseFy has successfully retrieved the device's current network.
      *

@@ -845,7 +845,12 @@ class WiseFy private constructor(
                     return@Runnable
                 }
 
-                callbacks?.retrievedCurrentNetwork(wifiManager.connectionInfo)
+                val currentNetwork: WifiInfo?  = wifiManager.connectionInfo
+                if (currentNetwork != null) {
+                    callbacks?.retrievedCurrentNetwork(currentNetwork)
+                } else {
+                    callbacks?.noCurrentNetwork()
+                }
             }
         })
     }
@@ -898,7 +903,12 @@ class WiseFy private constructor(
                     return@Runnable
                 }
 
-                callbacks?.retrievedCurrentNetworkInfo(connectivityManager.activeNetworkInfo)
+                val currentNetworkInfo: NetworkInfo? = connectivityManager.activeNetworkInfo
+                if (currentNetworkInfo != null) {
+                    callbacks?.retrievedCurrentNetworkInfo(currentNetworkInfo)
+                } else {
+                    callbacks?.noCurrentNetworkInfo()
+                }
             }
         })
     }
@@ -1054,7 +1064,7 @@ class WiseFy private constructor(
      */
     @Async
     @WiseFyThread
-    @RequiresPermission(ACCESS_WIFI_STATE)
+    @RequiresPermission(allOf = arrayOf(ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE))
     override fun getIP(callbacks: GetIPCallbacks?) {
         runOnWiseFyThread(Runnable {
             synchronized(wisefyLock) {

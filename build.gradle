@@ -2,7 +2,7 @@ buildscript {
     project.ext {
         agp_version = '3.4.0'
         bintray_version = '1.8.4'
-        cpd_version = '1.4-SNAPSHOT'
+        cpd_version = '2.0-SNAPSHOT'
         dokka_version = '0.9.18'
         dexcount_version = '0.8.5'
         jacoco_version = '0.8.3'

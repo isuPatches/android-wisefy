@@ -10,7 +10,9 @@ import com.isupatches.wisefy.constants.QUOTE
 import com.isupatches.wisefy.logging.WiseFyLogger
 import com.isupatches.wisefy.utils.rest
 
-internal abstract class AbstractWiseFyConnection(private val wifiManager: WifiManager): WiseFyConnection {
+internal abstract class AbstractWiseFyConnection(
+    private val wifiManager: WifiManager
+) : WiseFyConnection {
 
     internal companion object {
         private val TAG = AbstractWiseFyConnection::class.java.simpleName
