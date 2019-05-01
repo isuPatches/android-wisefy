@@ -1,5 +1,6 @@
 package com.isupatches.wisefy.search
 
+import android.Manifest
 import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.net.wifi.ScanResult
 import android.net.wifi.WifiManager
@@ -16,7 +17,7 @@ internal class WiseFySearchSDK23 private constructor(
         fun create(wifiManager: WifiManager): WiseFySearch = WiseFySearchSDK23(wifiManager)
     }
 
-    @RequiresPermission(ACCESS_WIFI_STATE)
+    @RequiresPermission(allOf = [Manifest.permission.ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
     override fun findAccessPointByRegex(
         regexForSSID: String,
         timeoutInMillis: Int,
@@ -28,7 +29,7 @@ internal class WiseFySearchSDK23 private constructor(
         takeHighest = takeHighest
     )
 
-    @RequiresPermission(ACCESS_WIFI_STATE)
+    @RequiresPermission(allOf = [Manifest.permission.ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
     override fun findAccessPointsMatchingRegex(
         regexForSSID: String,
         takeHighest: Boolean
@@ -38,7 +39,7 @@ internal class WiseFySearchSDK23 private constructor(
         takeHighest = takeHighest
     )
 
-    @RequiresPermission(ACCESS_WIFI_STATE)
+    @RequiresPermission(allOf = [Manifest.permission.ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
     override fun findSSIDsMatchingRegex(
         regexForSSID: String
     ): List<String>? = findSSIDsMatchingRegex(
@@ -46,7 +47,7 @@ internal class WiseFySearchSDK23 private constructor(
         regexForSSID = regexForSSID
     )
 
-    @RequiresPermission(ACCESS_WIFI_STATE)
+    @RequiresPermission(allOf = [Manifest.permission.ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
     override fun getNearbyAccessPoints(
         filterDuplicates: Boolean
     ): List<ScanResult> = getNearbyAccessPoints(

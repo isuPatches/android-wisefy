@@ -27,7 +27,7 @@ class MiscModel(
     private val wiseFy: WiseFy
 ): MiscMvp.Model {
 
-    @RequiresPermission(allOf = arrayOf(CHANGE_WIFI_STATE))
+    @RequiresPermission(allOf = [CHANGE_WIFI_STATE])
     override fun disableWifi() {
         wiseFy.disableWifi(object : DisableWifiCallbacks {
             override fun wifiDisabled() {
@@ -44,7 +44,7 @@ class MiscModel(
         })
     }
 
-    @RequiresPermission(allOf = arrayOf(CHANGE_WIFI_STATE))
+    @RequiresPermission(allOf = [CHANGE_WIFI_STATE])
     override fun enableWifi() {
         wiseFy.enableWifi(object : EnableWifiCallbacks {
             override fun wifiEnabled() {
@@ -61,7 +61,7 @@ class MiscModel(
         })
     }
 
-    @RequiresPermission(allOf = arrayOf(ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE))
+    @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
     override fun getCurrentNetwork() {
         wiseFy.getCurrentNetwork(object : GetCurrentNetworkCallbacks {
             override fun retrievedCurrentNetwork(currentNetwork: WifiInfo) {
@@ -78,7 +78,7 @@ class MiscModel(
         })
     }
 
-    @RequiresPermission(allOf = arrayOf(ACCESS_NETWORK_STATE))
+    @RequiresPermission(allOf = [ACCESS_NETWORK_STATE])
     override fun getCurrentNetworkInfo() {
         wiseFy.getCurrentNetworkInfo(object : GetCurrentNetworkInfoCallbacks {
             override fun retrievedCurrentNetworkInfo(currentNetworkDetails: NetworkInfo) {
@@ -95,7 +95,7 @@ class MiscModel(
         })
     }
 
-    @RequiresPermission(allOf = arrayOf(ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE))
+    @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun getFrequency() {
         wiseFy.getFrequency(object : GetFrequencyCallbacks {
@@ -113,7 +113,7 @@ class MiscModel(
         })
     }
 
-    @RequiresPermission(allOf = arrayOf(ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE))
+    @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
     override fun getIP() {
         wiseFy.getIP(object : GetIPCallbacks {
             override fun retrievedIP(ip: String) {
@@ -130,7 +130,7 @@ class MiscModel(
         })
     }
 
-    @RequiresPermission(allOf = arrayOf(ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE))
+    @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
     override fun getNearbyAccessPoints() {
         wiseFy.getNearbyAccessPoints(true, object : GetNearbyAccessPointsCallbacks {
             override fun retrievedNearbyAccessPoints(nearbyAccessPoints: List<ScanResult>) {
@@ -143,7 +143,7 @@ class MiscModel(
         })
     }
 
-    @RequiresPermission(allOf = arrayOf(ACCESS_WIFI_STATE))
+    @RequiresPermission(allOf = [ACCESS_WIFI_STATE])
     override fun getSavedNetworks() {
         wiseFy.getSavedNetworks(object : GetSavedNetworksCallbacks {
             override fun noSavedNetworksFound() {

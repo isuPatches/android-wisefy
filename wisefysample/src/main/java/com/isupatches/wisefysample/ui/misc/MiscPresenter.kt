@@ -19,46 +19,54 @@ class MiscPresenter(wiseFy: WiseFy) : BasePresenter<MiscMvp.View>(), MiscMvp.Pre
 
     private val model = MiscModel(this, wiseFy)
 
-    @RequiresPermission(allOf = arrayOf(CHANGE_WIFI_STATE))
+    /*
+     * Model call-throughs
+     */
+
+    @RequiresPermission(allOf = [CHANGE_WIFI_STATE])
     override fun disableWifi() {
         model.disableWifi()
     }
 
-    @RequiresPermission(allOf = arrayOf(CHANGE_WIFI_STATE))
+    @RequiresPermission(allOf = [CHANGE_WIFI_STATE])
     override fun enableWifi() {
         model.enableWifi()
     }
 
-    @RequiresPermission(allOf = arrayOf(ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE))
+    @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
     override fun getCurrentNetwork() {
         model.getCurrentNetwork()
     }
 
-    @RequiresPermission(allOf = arrayOf(ACCESS_NETWORK_STATE))
+    @RequiresPermission(allOf = [ACCESS_NETWORK_STATE])
     override fun getCurrentNetworkInfo() {
         model.getCurrentNetworkInfo()
     }
 
-    @RequiresPermission(allOf = arrayOf(ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE))
+    @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun getFrequency() {
         model.getFrequency()
     }
 
-    @RequiresPermission(allOf = arrayOf(ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE))
+    @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
     override fun getIP() {
         model.getIP()
     }
 
-    @RequiresPermission(allOf = arrayOf(ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE))
+    @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
     override fun getNearbyAccessPoints() {
         model.getNearbyAccessPoints()
     }
 
-    @RequiresPermission(allOf = arrayOf(ACCESS_WIFI_STATE))
+    @RequiresPermission(allOf = [ACCESS_WIFI_STATE])
     override fun getSavedNetworks() {
         model.getSavedNetworks()
     }
+
+    /*
+     * View callbacks
+     */
 
     override fun displayWifiDisabled() {
         doSafelyWithView { view -> view.displayWifiDisabled() }

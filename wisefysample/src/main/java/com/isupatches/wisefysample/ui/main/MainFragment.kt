@@ -8,7 +8,7 @@ class MainFragment : BaseFragment() {
     override val layoutRes = R.layout.fragment_main
 
     companion object {
-        val TAG = MainFragment::class.java.simpleName
+        val TAG: String = MainFragment::class.java.simpleName
 
         fun newInstance() = MainFragment()
     }

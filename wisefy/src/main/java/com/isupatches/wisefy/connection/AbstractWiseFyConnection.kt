@@ -41,7 +41,7 @@ internal abstract class AbstractWiseFyConnection(
      * @author Patches
      * @since 3.0
      */
-    @RequiresPermission(allOf = arrayOf(ACCESS_NETWORK_STATE, ACCESS_WIFI_STATE))
+    @RequiresPermission(allOf = [ACCESS_NETWORK_STATE, ACCESS_WIFI_STATE])
     override fun isCurrentNetworkConnectedToSSID(ssid: String?): Boolean {
         if (ssid.isNullOrEmpty()) {
             return false
@@ -75,7 +75,7 @@ internal abstract class AbstractWiseFyConnection(
      * @since 3.0
      */
     @WaitsForTimeout
-    @RequiresPermission(allOf = arrayOf(ACCESS_NETWORK_STATE, ACCESS_WIFI_STATE))
+    @RequiresPermission(allOf = [ACCESS_NETWORK_STATE, ACCESS_WIFI_STATE])
     override fun waitToConnectToSSID(ssid: String?, timeoutInMillis: Int): Boolean {
         WiseFyLogger.debug(TAG, "Waiting %d milliseconds to connect to network with ssid %s", timeoutInMillis, ssid ?: "")
         var currentTime: Long

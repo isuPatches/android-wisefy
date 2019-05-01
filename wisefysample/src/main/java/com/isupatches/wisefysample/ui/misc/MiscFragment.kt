@@ -35,7 +35,9 @@ class MiscFragment : BaseFragment(), MiscMvp.View {
     private val presenter by lazy { MiscPresenter(wiseFy) }
 
     companion object {
-        val TAG = MiscFragment::class.java.simpleName
+        val TAG: String = MiscFragment::class.java.simpleName
+
+        fun newInstance() = MiscFragment()
 
         private const val WISEFY_DISABLE_WIFI_REQUEST_CODE = 1
         private const val WISEFY_ENABLE_WIFI_REQUEST_CODE = 2
@@ -45,8 +47,6 @@ class MiscFragment : BaseFragment(), MiscMvp.View {
         private const val WISEFY_GET_IP_REQUEST_CODE = 6
         private const val WISEFY_GET_NEARBY_ACCESS_POINTS_REQUEST_CODE = 7
         private const val WISEFY_GET_SAVED_NETWORKS_REQUEST_CODE = 8
-
-        fun newInstance() = MiscFragment()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -254,20 +254,6 @@ class MiscFragment : BaseFragment(), MiscMvp.View {
 
     private fun checkGetSavedNetworksPermissions(): Boolean {
         return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_GET_SAVED_NETWORKS_REQUEST_CODE)
-    }
-
-    private fun isPermissionGranted(permission: String, requestCode: Int): Boolean {
-        return if (permissionUtil.permissionNotGranted(activity!!, permission)) {
-            if (shouldShowRequestPermissionRationale(permission)) {
-                // Display dialog or rationale for requesting permission here
-                requestPermissions(arrayOf(permission), requestCode)
-            } else {
-                requestPermissions(arrayOf(permission), requestCode)
-            }
-            false
-        } else {
-            true
-        }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {

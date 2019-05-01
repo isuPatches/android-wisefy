@@ -17,7 +17,7 @@ abstract class BaseFragment : Fragment() {
     @get:LayoutRes abstract val layoutRes: Int
 
     protected lateinit var wiseFy: WiseFy
-    protected val permissionUtil = PermissionsUtil.instance
+    private val permissionUtil = PermissionsUtil.instance
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,5 +35,19 @@ abstract class BaseFragment : Fragment() {
 
     protected fun displayWiseFyFailureWithCode(@WiseFyCode wiseFyFailureCode: Int) {
         displayShortToast("WiseFy Failure. Code: $wiseFyFailureCode")
+    }
+
+    protected fun isPermissionGranted(permission: String, requestCode: Int): Boolean {
+        return if (permissionUtil.permissionNotGranted(activity!!, permission)) {
+            if (shouldShowRequestPermissionRationale(permission)) {
+                // Display dialog or rationale for requesting permission here
+                requestPermissions(arrayOf(permission), requestCode)
+            } else {
+                requestPermissions(arrayOf(permission), requestCode)
+            }
+            false
+        } else {
+            true
+        }
     }
 }

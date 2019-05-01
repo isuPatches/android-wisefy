@@ -27,6 +27,10 @@ interface MiscMvp {
     }
 
     interface Presenter : BaseMvp.Presenter<View> {
+
+        /*
+         * Model call-throughs
+         */
         fun disableWifi()
         fun enableWifi()
         fun getCurrentNetwork()
@@ -36,6 +40,9 @@ interface MiscMvp {
         fun getNearbyAccessPoints()
         fun getSavedNetworks()
 
+        /*
+         * View callbacks
+         */
         fun displayWifiDisabled()
         fun displayFailureDisablingWifi()
         fun displayWifiEnabled()

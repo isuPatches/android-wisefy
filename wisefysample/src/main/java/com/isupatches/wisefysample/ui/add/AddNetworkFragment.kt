@@ -8,7 +8,7 @@ class AddNetworkFragment : BaseFragment() {
     override val layoutRes = R.layout.fragment_add
 
     companion object {
-        val TAG = AddNetworkFragment::class.java.simpleName
+        val TAG: String = AddNetworkFragment::class.java.simpleName
 
         fun newInstance() = AddNetworkFragment()
     }
