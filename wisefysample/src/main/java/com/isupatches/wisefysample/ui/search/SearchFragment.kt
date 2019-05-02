@@ -6,9 +6,13 @@ import android.net.wifi.ScanResult
 import android.net.wifi.WifiConfiguration
 import android.os.Bundle
 import android.view.View
+import android.widget.SeekBar
+
 import com.isupatches.wisefysample.R
 import com.isupatches.wisefysample.ui.base.BaseFragment
-import com.isupatches.wisefysample.ui.misc.MiscFragment
+import com.isupatches.wisefysample.util.asHtmlSpanned
+import kotlinx.android.synthetic.main.fragment_search.timeoutSeek
+import kotlinx.android.synthetic.main.fragment_search.timeoutTxt
 
 class SearchFragment : BaseFragment(), SearchMvp.View {
 
@@ -21,6 +25,9 @@ class SearchFragment : BaseFragment(), SearchMvp.View {
 
         fun newInstance() = SearchFragment()
 
+        private const val TIMEOUT_MIN = 1
+        private const val TIMEOUT_MAX = 60
+
         private const val WISEFY_SEARCH_FOR_SAVED_NETWORK_REQUEST_CODE = 1
         private const val WISEFY_SEARCH_FOR_SAVED_NETWORKS_REQUEST_CODE = 2
         private const val WISEFY_SEARCH_FOR_ACCESS_POINT_REQUEST_CODE = 3
@@ -32,6 +39,21 @@ class SearchFragment : BaseFragment(), SearchMvp.View {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // todo@patches add UI click listeners here
+        timeoutSeek.max = TIMEOUT_MAX
+        timeoutSeek.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                val progressToDisplay = Math.max(TIMEOUT_MIN, progress)
+                timeoutTxt.text = getString(R.string.timeout_after_x_seconds_args_html, progressToDisplay).asHtmlSpanned()
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+                // No-op
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                // No-op
+            }
+        })
     }
 
     override fun onStart() {

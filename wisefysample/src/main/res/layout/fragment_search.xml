@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -29,15 +29,32 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <TextView
+            android:id="@+id/searchTypeTxt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/search_for"
+            android:textSize="18sp"
+            android:paddingTop="8dp"
+            android:paddingStart="16dp"
+            android:paddingLeft="16dp"
+            android:paddingEnd="16dp"
+            android:paddingRight="16dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/searchRegexTxt"
+            />
+
         <RadioGroup
-            android:id="@+id/searchOptionsRadioGroup"
+            android:id="@+id/searchTypeGdg"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/default_margin"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/searchRegexTxt">
+            app:layout_constraintTop_toBottomOf="@id/searchTypeTxt">
 
             <RadioButton
                 android:id="@+id/nearbyAccessPointsRdb"
@@ -47,20 +64,88 @@
                 android:text="@string/nearby_access_points" />
 
             <RadioButton
-                android:id="@+id/savedNetworksSwitchRdb"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/default_margin"
-                android:text="@string/saved_networks" />
-
-            <RadioButton
                 android:id="@+id/nearbySsidsSwitchRdb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/default_margin"
                 android:text="@string/nearby_ssids" />
 
+            <RadioButton
+                android:id="@+id/savedNetworksSwitchRdb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/default_margin"
+                android:text="@string/saved_networks" />
+
         </RadioGroup>
+
+        <TextView
+            android:id="@+id/filterDupesTxt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/filter_duplicates"
+            android:textSize="18sp"
+            android:paddingTop="8dp"
+            android:paddingStart="16dp"
+            android:paddingLeft="16dp"
+            android:paddingEnd="16dp"
+            android:paddingRight="16dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/searchTypeGdg"
+            />
+
+        <RadioGroup
+            android:id="@+id/filterDupesRdg"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_margin"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/filterDupesTxt">
+
+            <RadioButton
+                android:id="@+id/yesEdb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/default_margin"
+                android:text="@string/yes" />
+
+            <RadioButton
+                android:id="@+id/noRdb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/default_margin"
+                android:text="@string/no" />
+
+        </RadioGroup>
+
+        <androidx.appcompat.widget.AppCompatSeekBar
+            android:id="@+id/timeoutSeek"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_margin"
+            app:layout_constraintTop_toBottomOf="@id/filterDupesRdg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+        <TextView
+            android:id="@+id/timeoutTxt"
+            android:textSize="14sp"
+            android:paddingBottom="16dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/timeoutSeek"
+            tools:text="@string/timeout_after_x_seconds_args_html"
+            />
 
         <Button
             style="@style/Button"
@@ -70,7 +155,7 @@
             android:text="@string/search"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/searchOptionsRadioGroup" />
+            app:layout_constraintTop_toBottomOf="@id/timeoutTxt" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

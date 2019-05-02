@@ -12,9 +12,12 @@
 
     <!-- Search -->
     <string name="regex_for_network">Regex for network…</string>
+    <string name="search_for">Search for…</string>
     <string name="nearby_access_points">Nearby Access Points</string>
-    <string name="saved_networks">Saved Networks</string>
     <string name="nearby_ssids">Nearby SSIDs</string>
+    <string name="saved_networks">Saved Networks</string>
+    <string name="filter_duplicates">Filter Duplicates</string>
+    <string name="timeout_after_x_seconds_args_html">Timeout after <![CDATA[<b>%d</b>]]> seconds</string>
 
     <!-- Misc. -->
     <string name="disable_wifi">Disable Wifi</string>
@@ -39,5 +42,7 @@
     <!-- Shared -->
     <string name="network_password">Network Password</string>
     <string name="network_name">Network Name</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
 
 </resources>
