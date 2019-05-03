@@ -1147,9 +1147,12 @@ class WiseFy private constructor(
                     return@Runnable
                 }
 
-                callbacks?.retrievedNearbyAccessPoints(
-                    wisefySearch.getNearbyAccessPoints(filterDuplicates)
-                )
+                val nearbyAccessPoints = wisefySearch.getNearbyAccessPoints(filterDuplicates)
+                if (nearbyAccessPoints != null) {
+                    callbacks?.retrievedNearbyAccessPoints(nearbyAccessPoints)
+                } else {
+                    callbacks?.noAccessPointsFound()
+                }
             }
         })
     }

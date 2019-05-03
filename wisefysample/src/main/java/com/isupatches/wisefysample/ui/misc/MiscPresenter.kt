@@ -120,6 +120,10 @@ class MiscPresenter(wiseFy: WiseFy) : BasePresenter<MiscMvp.View>(), MiscMvp.Pre
         doSafelyWithView { view -> view.displayNearbyAccessPoints(accessPoints) }
     }
 
+    override fun displayNoAccessPointsFound() {
+        doSafelyWithView { view -> view.displayNoAccessPointsFound() }
+    }
+
     override fun displayNoSavedNetworksFound() {
         doSafelyWithView { view -> view.displayNoSavedNetworksFound() }
     }

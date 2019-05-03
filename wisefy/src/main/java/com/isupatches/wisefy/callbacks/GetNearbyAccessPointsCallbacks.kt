@@ -37,4 +37,6 @@ interface GetNearbyAccessPointsCallbacks : BaseCallback {
      * @since 3.0
      */
     fun retrievedNearbyAccessPoints(nearbyAccessPoints: List<@JvmSuppressWildcards ScanResult>)
+
+    fun noAccessPointsFound()
 }

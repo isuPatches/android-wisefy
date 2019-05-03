@@ -6,6 +6,9 @@
 
     <!-- Add Network -->
     <string name="add_network">Add Network</string>
+    <string name="wpa2">WPA2</string>
+    <string name="wep">WEP</string>
+    <string name="open">Open</string>
 
     <!-- Remove Network -->
     <string name="remove_network">Remove Network</string>
@@ -13,9 +16,11 @@
     <!-- Search -->
     <string name="regex_for_network">Regex for network…</string>
     <string name="search_for">Search for…</string>
-    <string name="nearby_access_points">Nearby Access Points</string>
-    <string name="nearby_ssids">Nearby SSIDs</string>
-    <string name="saved_networks">Saved Networks</string>
+    <string name="access_point">Access Point</string>
+    <string name="ssid">SSID</string>
+    <string name="saved_network">Saved Network</string>
+    <string name="return_full_list_label">Return full list of results?</string>
+    <string name="return_full_list_description">This option will return a list of results instead of an individual item when enabled.</string>
     <string name="filter_duplicates">Filter Duplicates</string>
     <string name="timeout_after_x_seconds_args_html">Timeout after <![CDATA[<b>%d</b>]]> seconds</string>
 
@@ -35,9 +40,6 @@
     <string name="home">Home</string>
     <string name="misc">Misc.</string>
     <string name="search">Search</string>
-    <string name="wpa2">WPA2</string>
-    <string name="wep">WEP</string>
-    <string name="open">Open</string>
 
     <!-- Shared -->
     <string name="network_password">Network Password</string>

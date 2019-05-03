@@ -20,6 +20,8 @@ internal abstract class AbstractWiseFySearch(
         private val TAG = AbstractWiseFySearch::class.java.simpleName
     }
 
+    abstract val scanResultsProvider: () -> List<ScanResult>?
+
     /**
      * Used internally to return the first configuration of s saved networks matching a given regex.
      *
@@ -98,9 +100,31 @@ internal abstract class AbstractWiseFySearch(
     override fun isNetworkASavedConfiguration(ssid: String?): Boolean =
             !ssid.isNullOrEmpty() && findSavedNetworkByRegex(ssid) != null
 
+    /**
+     * Used internally to wait for a given time and return the first ScanResult whose SSID matches a given regex.
+     *
+     * Returns either:
+     * - The first network whose SSID matches a given regex
+     * - A network matching the given regex and has the highest RSSI
+     *
+     * @param regexForSSID The regex to check the SSID of the network against
+     * @param timeoutInMillis The amount of time to wait for a match
+     * @param takeHighest If the method should iterate through and return only the access point with the highest RSSI
+     *
+     * @return ScanResult|null - Matching network or null if none found
+     *
+     * @see [accessPointMatchesRegex]
+     * @see [hasHighestSignalStrength]
+     * @see [rest]
+     * @see [ScanResult]
+     * @see [WifiManager.startScan]
+     * @see [WifiManager.getScanResults]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     @RequiresPermission(ACCESS_WIFI_STATE)
-    protected fun findAccessPointByRegex(
-        accessPoints: List<ScanResult>,
+    override fun findAccessPointByRegex(
         regexForSSID: String,
         timeoutInMillis: Int,
         takeHighest: Boolean
@@ -112,13 +136,15 @@ internal abstract class AbstractWiseFySearch(
         do {
             currentTime = System.currentTimeMillis()
 
+            val accessPointsTemp = scanResultsProvider()
+
             WiseFyLogger.debug(TAG, "Scanning SSIDs, pass %d", scanPass)
-            if (accessPoints.isNotEmpty()) {
+            if (accessPointsTemp != null && accessPointsTemp.isNotEmpty()) {
                 var found = false
-                for (accessPoint in accessPoints) {
+                for (accessPoint in accessPointsTemp) {
                     if (takeHighest) {
                         if (accessPointMatchesRegex(accessPoint, regexForSSID) &&
-                                hasHighestSignalStrength(accessPoints, accessPoint)
+                                hasHighestSignalStrength(accessPointsTemp, accessPoint)
                         ) {
                             accessPointToReturn = accessPoint
                             // Need to continue through rest of the list since
@@ -147,22 +173,40 @@ internal abstract class AbstractWiseFySearch(
         return accessPointToReturn
     }
 
+    /**
+     * Used internally to return a list of networks whose SSID match the given regex.
+     *
+     * @param regexForSSID The regex to check the SSID of the network against
+     * @param takeHighest If the method should iterate through and return only the access point with the highest RSSI
+     *
+     * @return List of ScanResults|null - The list of networks that have an SSID that matches the given regex
+     *
+     * @see [accessPointMatchesRegex]
+     * @see [hasHighestSignalStrength]
+     * @see [ScanResult]
+     * @see [WifiManager.startScan]
+     * @see [WifiManager.getScanResults]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     @RequiresPermission(ACCESS_WIFI_STATE)
-    protected fun findAccessPointsMatchingRegex(
-        accessPoints: List<ScanResult>,
+    override fun findAccessPointsMatchingRegex(
         regexForSSID: String,
         takeHighest: Boolean
     ): List<ScanResult>? {
         val matchingAccessPoints = ArrayList<ScanResult>()
 
-        if (accessPoints.isEmpty()) {
+        val accessPointsTemp = scanResultsProvider()
+
+        if (accessPointsTemp == null || accessPointsTemp.isEmpty()) {
             return null
         }
 
-        for (accessPoint in accessPoints) {
+        for (accessPoint in accessPointsTemp) {
             if (accessPointMatchesRegex(accessPoint, regexForSSID)) {
                 if (takeHighest) {
-                    if (hasHighestSignalStrength(accessPoints, accessPoint)) {
+                    if (hasHighestSignalStrength(accessPointsTemp, accessPoint)) {
                         matchingAccessPoints.add(accessPoint)
                     }
                 } else {
@@ -174,14 +218,29 @@ internal abstract class AbstractWiseFySearch(
         return if (matchingAccessPoints.isNotEmpty()) matchingAccessPoints else null
     }
 
+    /**
+     * Used internally to return a list of SSIDs from saved networks matching a given regex.
+     *
+     * @param regexForSSID The regex for the SSIDs to find in the configured network list
+     *
+     * @return List of Strings|null - SSIDs of saved network configurations matching the
+     * given regex or null if none found
+     *
+     * @see [accessPointMatchesRegex]
+     * @see [WifiManager.getScanResults]
+     * @see [WifiManager.startScan]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     @RequiresPermission(ACCESS_WIFI_STATE)
-    protected fun findSSIDsMatchingRegex(
-        accessPoints: List<ScanResult>,
+    override fun findSSIDsMatchingRegex(
         regexForSSID: String
     ): List<String>? {
         val matchingSSIDs = ArrayList<String>()
-        if (accessPoints.isNotEmpty()) {
-            for (accessPoint in accessPoints) {
+        val accessPointsTemp = scanResultsProvider()
+        if (accessPointsTemp != null && accessPointsTemp.isNotEmpty()) {
+            for (accessPoint in accessPointsTemp) {
                 if (accessPointMatchesRegex(accessPoint, regexForSSID) && !matchingSSIDs.contains(accessPoint.SSID)) {
                     matchingSSIDs.add(accessPoint.SSID)
                 }
@@ -192,14 +251,19 @@ internal abstract class AbstractWiseFySearch(
     }
 
     @RequiresPermission(ACCESS_WIFI_STATE)
-    protected fun getNearbyAccessPoints(
-        accessPoints: List<ScanResult>,
+    override fun getNearbyAccessPoints(
         filterDuplicates: Boolean
-    ): List<ScanResult> {
+    ): List<ScanResult>? {
+        val accessPointsTemp = scanResultsProvider()
+
+        if (accessPointsTemp == null || accessPointsTemp.isEmpty()) {
+           return null
+        }
+
         return if (filterDuplicates) {
-            removeEntriesWithLowerSignalStrength(accessPoints)
+            removeEntriesWithLowerSignalStrength(accessPointsTemp)
         } else {
-            accessPoints
+            accessPointsTemp
         }
     }
 

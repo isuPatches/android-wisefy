@@ -144,6 +144,10 @@ class MiscFragment : BaseFragment(), MiscMvp.View {
         displayShortToast("Nearby access points: $accessPoints")
     }
 
+    override fun displayNoAccessPointsFound() {
+        displayShortToast("No access points found!")
+    }
+
     override fun displaySavedNetworks(savedNetworks: List<WifiConfiguration>) {
         displayShortToast("Saved networks: $savedNetworks")
     }

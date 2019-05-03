@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/padding_big">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/searchRegexTxt"
@@ -19,6 +21,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/searchRegexEdt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/default_margin"
@@ -47,35 +50,101 @@
             />
 
         <RadioGroup
-            android:id="@+id/searchTypeGdg"
+            android:id="@+id/searchTypeRdg"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/default_margin"
             android:orientation="vertical"
+            android:checkedButton="@+id/accessPointRdb"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/searchTypeTxt">
 
             <RadioButton
-                android:id="@+id/nearbyAccessPointsRdb"
+                android:id="@+id/accessPointRdb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/default_margin"
-                android:text="@string/nearby_access_points" />
+                android:text="@string/access_point"
+                />
 
             <RadioButton
-                android:id="@+id/nearbySsidsSwitchRdb"
+                android:id="@+id/ssidRdb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/default_margin"
-                android:text="@string/nearby_ssids" />
+                android:text="@string/ssid"
+                />
 
             <RadioButton
-                android:id="@+id/savedNetworksSwitchRdb"
+                android:id="@+id/savedNetworkRdb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/default_margin"
-                android:text="@string/saved_networks" />
+                android:text="@string/saved_network"
+                />
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/returnFullListTxt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/return_full_list_label"
+            android:textSize="18sp"
+            android:paddingTop="8dp"
+            android:paddingStart="16dp"
+            android:paddingLeft="16dp"
+            android:paddingEnd="16dp"
+            android:paddingRight="16dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/searchTypeRdg"
+            />
+
+        <TextView
+            android:id="@+id/returnFullListDescriptionTxt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/return_full_list_description"
+            android:textSize="14sp"
+            android:paddingTop="8dp"
+            android:paddingStart="16dp"
+            android:paddingLeft="16dp"
+            android:paddingEnd="16dp"
+            android:paddingRight="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/returnFullListTxt"
+            />
+
+        <RadioGroup
+            android:id="@+id/returnFullListRdg"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_margin"
+            android:orientation="horizontal"
+            android:checkedButton="@+id/yesFullListRdb"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/returnFullListDescriptionTxt">
+
+            <RadioButton
+                android:id="@+id/yesFullListRdb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/default_margin"
+                android:text="@string/yes"
+                />
+
+            <RadioButton
+                android:id="@+id/noReturnFullListRdb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/default_margin"
+                android:text="@string/no"
+                />
 
         </RadioGroup>
 
@@ -93,7 +162,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/searchTypeGdg"
+            app:layout_constraintTop_toBottomOf="@+id/returnFullListRdg"
             />
 
         <RadioGroup
@@ -102,23 +171,26 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/default_margin"
             android:orientation="horizontal"
+            android:checkedButton="@+id/yesFilterDupesRdb"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/filterDupesTxt">
 
             <RadioButton
-                android:id="@+id/yesEdb"
+                android:id="@+id/yesFilterDupesRdb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/default_margin"
-                android:text="@string/yes" />
+                android:text="@string/yes"
+                />
 
             <RadioButton
-                android:id="@+id/noRdb"
+                android:id="@+id/noFilterDupesRdb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/default_margin"
-                android:text="@string/no" />
+                android:text="@string/no"
+                />
 
         </RadioGroup>
 
@@ -148,6 +220,7 @@
             />
 
         <Button
+            android:id="@+id/searchBtn"
             style="@style/Button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

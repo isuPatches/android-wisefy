@@ -22,6 +22,7 @@ interface MiscMvp {
         fun displayIP(ip: String)
         fun displayFailureRetrievingIP()
         fun displayNearbyAccessPoints(accessPoints: List<ScanResult>)
+        fun displayNoAccessPointsFound()
         fun displayNoSavedNetworksFound()
         fun displaySavedNetworks(savedNetworks: List<WifiConfiguration>)
     }
@@ -56,6 +57,7 @@ interface MiscMvp {
         fun displayIP(ip: String)
         fun displayFailureRetrievingIP()
         fun displayNearbyAccessPoints(accessPoints: List<ScanResult>)
+        fun displayNoAccessPointsFound()
         fun displayNoSavedNetworksFound()
         fun displaySavedNetworks(savedNetworks: List<WifiConfiguration>)
     }

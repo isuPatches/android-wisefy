@@ -24,7 +24,7 @@ internal interface WiseFySearch {
 
     fun findSSIDsMatchingRegex(regexForSSID: String): List<String>?
 
-    fun getNearbyAccessPoints(filterDuplicates: Boolean): List<ScanResult>
+    fun getNearbyAccessPoints(filterDuplicates: Boolean): List<ScanResult>?
 
     fun isNetworkASavedConfiguration(ssid: String?): Boolean
 }

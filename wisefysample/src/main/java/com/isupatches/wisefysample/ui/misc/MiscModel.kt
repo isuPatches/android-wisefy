@@ -137,6 +137,10 @@ class MiscModel(
                 presenter.displayNearbyAccessPoints(nearbyAccessPoints)
             }
 
+            override fun noAccessPointsFound() {
+                presenter.displayNoAccessPointsFound()
+            }
+
             override fun wisefyFailure(wisefyFailureCode: Int) {
                 presenter.displayWiseFyFailure(wisefyFailureCode)
             }

@@ -11,6 +11,15 @@ import android.widget.SeekBar
 import com.isupatches.wisefysample.R
 import com.isupatches.wisefysample.ui.base.BaseFragment
 import com.isupatches.wisefysample.util.asHtmlSpanned
+import com.isupatches.wisefysample.util.displayShortToast
+import com.isupatches.wisefysample.util.getTrimmedInput
+
+import kotlinx.android.synthetic.main.fragment_search.filterDupesRdg
+import kotlinx.android.synthetic.main.fragment_search.filterDupesTxt
+import kotlinx.android.synthetic.main.fragment_search.returnFullListRdg
+import kotlinx.android.synthetic.main.fragment_search.searchBtn
+import kotlinx.android.synthetic.main.fragment_search.searchRegexEdt
+import kotlinx.android.synthetic.main.fragment_search.searchTypeRdg
 import kotlinx.android.synthetic.main.fragment_search.timeoutSeek
 import kotlinx.android.synthetic.main.fragment_search.timeoutTxt
 
@@ -38,22 +47,35 @@ class SearchFragment : BaseFragment(), SearchMvp.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // todo@patches add UI click listeners here
-        timeoutSeek.max = TIMEOUT_MAX
-        timeoutSeek.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                val progressToDisplay = Math.max(TIMEOUT_MIN, progress)
-                timeoutTxt.text = getString(R.string.timeout_after_x_seconds_args_html, progressToDisplay).asHtmlSpanned()
-            }
 
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {
-                // No-op
-            }
+        searchTypeRdg.setOnCheckedChangeListener { _, _ ->
+            updateUI()
+        }
+        returnFullListRdg.setOnCheckedChangeListener { _, _ ->
+            updateUI()
+        }
 
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                // No-op
-            }
-        })
+        searchBtn.setOnClickListener {
+            search()
+        }
+
+        with(timeoutSeek) {
+            max = TIMEOUT_MAX
+            setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                    val progressToDisplay = Math.max(TIMEOUT_MIN, progress)
+                    timeoutTxt.text = getString(R.string.timeout_after_x_seconds_args_html, progressToDisplay).asHtmlSpanned()
+                }
+
+                override fun onStartTrackingTouch(seekBar: SeekBar?) {
+                    // No-op
+                }
+
+                override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                    // No-op
+                }
+            })
+        }
     }
 
     override fun onStart() {
@@ -67,42 +89,110 @@ class SearchFragment : BaseFragment(), SearchMvp.View {
     }
 
     /*
+     * View helpers
+     */
+
+    private fun getFilterDuplicates(): Boolean =
+        filterDupesRdg.checkedRadioButtonId == R.id.yesFilterDupesRdb
+
+    private fun search() {
+        when (searchTypeRdg.checkedRadioButtonId) {
+            R.id.accessPointRdb -> {
+                when (returnFullListRdg.checkedRadioButtonId) {
+                    R.id.yesFullListRdb -> searchForAccessPoints()
+                    R.id.noReturnFullListRdb -> searchForAccessPoint()
+                }
+            }
+            R.id.ssidRdb -> {
+                when (returnFullListRdg.checkedRadioButtonId) {
+                    R.id.yesFullListRdb -> searchForSSIDs()
+                    R.id.noReturnFullListRdb -> searchForSSID()
+                }
+            }
+            R.id.savedNetworkRdb -> {
+                when (returnFullListRdg.checkedRadioButtonId) {
+                    R.id.yesFullListRdb -> getSavedNetworks()
+                    R.id.noReturnFullListRdb -> getSavedNetwork()
+                }
+            }
+        }
+    }
+
+    private fun updateUI() {
+        when (searchTypeRdg.checkedRadioButtonId) {
+            R.id.accessPointRdb -> {
+                filterDupesTxt.visibility = View.VISIBLE
+                filterDupesRdg.visibility = View.VISIBLE
+                when (returnFullListRdg.checkedRadioButtonId) {
+                    R.id.yesFullListRdb -> {
+                        timeoutSeek.visibility = View.INVISIBLE
+                    }
+                    R.id.noReturnFullListRdb -> {
+                        timeoutSeek.visibility = View.VISIBLE
+                    }
+                }
+            }
+            R.id.ssidRdb -> {
+                filterDupesTxt.visibility = View.INVISIBLE
+                filterDupesRdg.visibility = View.INVISIBLE
+                when (returnFullListRdg.checkedRadioButtonId) {
+                    R.id.yesFullListRdb -> {
+                        timeoutSeek.visibility = View.INVISIBLE
+                    }
+                    R.id.noReturnFullListRdb -> {
+                        timeoutSeek.visibility = View.VISIBLE
+                    }
+                }
+            }
+            R.id.savedNetworkRdb -> {
+                filterDupesTxt.visibility = View.INVISIBLE
+                filterDupesRdg.visibility = View.INVISIBLE
+                timeoutSeek.visibility = View.INVISIBLE
+            }
+        }
+    }
+
+    /*
      * WiseFy helpers
      */
 
     private fun getSavedNetwork() {
         if (checkSearchForSavedNetworkPermissions()) {
-
+            presenter.getSavedNetwork(searchRegexEdt.getTrimmedInput())
         }
     }
 
     private fun getSavedNetworks() {
         if (checkSearchForSavedNetworksPermissions()) {
-
+            presenter.getSavedNetworks(searchRegexEdt.getTrimmedInput())
         }
     }
 
+    @Throws(SecurityException::class)
     private fun searchForAccessPoint() {
         if (checkSearchForAccessPointPermissions()) {
-
+            presenter.searchForAccessPoint(searchRegexEdt.getTrimmedInput(), timeoutSeek.progress, getFilterDuplicates())
         }
     }
 
+    @Throws(SecurityException::class)
     private fun searchForAccessPoints() {
         if (checkSearchForAccessPointsPermissions()) {
-
+            presenter.searchForAccessPoints(searchRegexEdt.getTrimmedInput(), getFilterDuplicates())
         }
     }
 
+    @Throws(SecurityException::class)
     private fun searchForSSID() {
         if (checkSearchForSSIDPermissions()) {
-
+            presenter.searchForSSID(searchRegexEdt.getTrimmedInput(), timeoutSeek.progress)
         }
     }
 
+    @Throws(SecurityException::class)
     private fun searchForSSIDs() {
         if (checkSearchForSSIDsPermissions()) {
-
+            presenter.searchForSSIDs(searchRegexEdt.getTrimmedInput());
         }
     }
 
@@ -111,55 +201,55 @@ class SearchFragment : BaseFragment(), SearchMvp.View {
      */
 
     override fun displaySavedNetwork(savedNetwork: WifiConfiguration) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        displayShortToast("Saved network: $savedNetwork")
     }
 
     override fun displaySavedNetworkNotFound() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        displayShortToast("Saved network not found")
     }
 
     override fun displaySavedNetworks(savedNetworks: List<WifiConfiguration>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        displayShortToast("Saved networks: $savedNetworks")
     }
 
     override fun displayNoSavedNetworksFound() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        displayShortToast("No saved networks found")
     }
 
     override fun displayAccessPoint(accessPoint: ScanResult) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        displayShortToast("Access point: $accessPoint")
     }
 
     override fun displayAccessPointNotFound() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        displayShortToast("Access point not found")
     }
 
     override fun displayAccessPoints(accessPoints: List<ScanResult>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        displayShortToast("Access points: $accessPoints")
     }
 
     override fun displayNoAccessPointsFound() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        displayShortToast("No access points found")
     }
 
     override fun displaySSID(ssid: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        displayShortToast("SSID: $ssid")
     }
 
     override fun displaySSIDNotFound() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        displayShortToast("SSID not found")
     }
 
     override fun displaySSIDs(ssids: List<String>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        displayShortToast("SSIDs: $ssids")
     }
 
     override fun displayNoSSIDsFound() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        displayShortToast("No SSIDs found")
     }
 
     override fun displayWiseFyFailure(wiseFyFailureCode: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        displayWiseFyFailureWithCode(wiseFyFailureCode)
     }
 
     /*
