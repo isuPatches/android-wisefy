@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="preferences_search_data" translatable="false">com.isupatches.wisefysample.app.search_data</string>
+</resources>

@@ -2,8 +2,11 @@ ext {
     androidx_appcompat_version = "1.1.0-alpha04"
     androidx_constraintlayout_version = "2.0.0-alpha5"
     androidx_support_annotations_version = '1.0.0'
+    androidx_core_ktx_version = '1.0.1'
 
-    google_android_material_version = "1.1.0-alpha05"
+    google_android_material_version = "1.1.0-alpha06"
+
+    dagger_version = "2.22.1"
 
     detekt_version = "1.0.0-RC14"
     ktlint_version = "0.31.0"

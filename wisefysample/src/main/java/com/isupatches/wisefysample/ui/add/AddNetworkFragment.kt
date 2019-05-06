@@ -1,9 +1,9 @@
 package com.isupatches.wisefysample.ui.add
 
 import com.isupatches.wisefysample.R
-import com.isupatches.wisefysample.ui.base.BaseFragment
+import com.isupatches.wisefysample.internal.base.BaseFragment
 
-class AddNetworkFragment : BaseFragment() {
+internal class AddNetworkFragment : BaseFragment() {
 
     override val layoutRes = R.layout.fragment_add
 

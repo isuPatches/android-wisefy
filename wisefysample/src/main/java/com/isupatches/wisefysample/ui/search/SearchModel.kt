@@ -15,7 +15,7 @@ import com.isupatches.wisefy.callbacks.SearchForSSIDCallbacks
 import com.isupatches.wisefy.callbacks.SearchForSSIDsCallbacks
 import com.isupatches.wisefy.constants.WiseFyCode
 
-class SearchModel(
+internal class SearchModel(
     private val presenter: SearchMvp.Presenter,
     private val wiseFy: WiseFy
 ): SearchMvp.Model {

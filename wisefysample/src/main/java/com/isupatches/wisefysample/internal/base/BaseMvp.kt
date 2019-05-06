@@ -1,8 +1,8 @@
-package com.isupatches.wisefysample.ui.base
+package com.isupatches.wisefysample.internal.base
 
 import com.isupatches.wisefy.constants.WiseFyCode
 
-interface BaseMvp {
+internal interface BaseMvp {
 
     interface View {
         fun displayWiseFyFailure(@WiseFyCode wiseFyFailureCode: Int)

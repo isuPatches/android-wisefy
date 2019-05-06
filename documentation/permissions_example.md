@@ -29,7 +29,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.isupatches.wisefy.WiseFy
 import com.isupatches.wisefy.callbacks.GetNearbyAccessPointsCallbacks
 import com.isupatches.wisefysample.R
-import com.isupatches.wisefysample.util.PermissionUtil
+import com.isupatches.wisefysample.internal.util.PermissionUtil
 
 class MainActivity : AppCompatActivity() {
 
@@ -216,7 +216,7 @@ In this example, PermissionUtil is just an abstracted, shared piece of logic:
 _With Kotlin_
 
 ```kotlin
-package com.isupatches.wisefysample.util
+package com.isupatches.wisefysample.internal.util
 
 import android.app.Activity
 import android.content.pm.PackageManager

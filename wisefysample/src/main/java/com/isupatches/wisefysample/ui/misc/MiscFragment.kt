@@ -16,8 +16,8 @@ import android.view.View
 
 import com.isupatches.wisefy.constants.WiseFyCode
 import com.isupatches.wisefysample.R
-import com.isupatches.wisefysample.ui.base.BaseFragment
-import com.isupatches.wisefysample.util.displayShortToast
+import com.isupatches.wisefysample.internal.base.BaseFragment
+import com.isupatches.wisefysample.internal.util.displayShortToast
 
 import kotlinx.android.synthetic.main.fragment_misc.enableWifiBtn
 import kotlinx.android.synthetic.main.fragment_misc.disableWifiBtn
@@ -28,7 +28,7 @@ import kotlinx.android.synthetic.main.fragment_misc.getIPBtn
 import kotlinx.android.synthetic.main.fragment_misc.getNearbyAccessPointsBtn
 import kotlinx.android.synthetic.main.fragment_misc.getSavedNetworksBtn
 
-class MiscFragment : BaseFragment(), MiscMvp.View {
+internal class MiscFragment : BaseFragment(), MiscMvp.View {
 
     override val layoutRes = R.layout.fragment_misc
 

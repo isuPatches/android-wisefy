@@ -13,9 +13,9 @@ import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 
 import com.isupatches.wisefy.WiseFy
-import com.isupatches.wisefysample.ui.base.BasePresenter
+import com.isupatches.wisefysample.internal.base.BasePresenter
 
-class MiscPresenter(wiseFy: WiseFy) : BasePresenter<MiscMvp.View>(), MiscMvp.Presenter {
+internal class MiscPresenter(wiseFy: WiseFy) : BasePresenter<MiscMvp.View>(), MiscMvp.Presenter {
 
     private val model = MiscModel(this, wiseFy)
 

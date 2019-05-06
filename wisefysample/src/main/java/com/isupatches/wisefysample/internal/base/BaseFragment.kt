@@ -1,5 +1,6 @@
-package com.isupatches.wisefysample.ui.base
+package com.isupatches.wisefysample.internal.base
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,15 +10,24 @@ import androidx.fragment.app.Fragment
 
 import com.isupatches.wisefy.WiseFy
 import com.isupatches.wisefy.constants.WiseFyCode
-import com.isupatches.wisefysample.util.PermissionsUtil
-import com.isupatches.wisefysample.util.displayShortToast
+import com.isupatches.wisefysample.internal.util.PermissionUtil
+import com.isupatches.wisefysample.internal.util.displayShortToast
 
-abstract class BaseFragment : Fragment() {
+import dagger.android.support.AndroidSupportInjection
+
+import javax.inject.Inject
+
+internal abstract class BaseFragment : Fragment() {
 
     @get:LayoutRes abstract val layoutRes: Int
 
     protected lateinit var wiseFy: WiseFy
-    private val permissionUtil = PermissionsUtil.instance
+    @Inject lateinit var permissionUtil: PermissionUtil
+
+    override fun onAttach(context: Context) {
+        AndroidSupportInjection.inject(this)
+        super.onAttach(context)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

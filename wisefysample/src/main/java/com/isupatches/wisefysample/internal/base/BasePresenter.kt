@@ -1,4 +1,4 @@
-package com.isupatches.wisefysample.ui.base
+package com.isupatches.wisefysample.internal.base
 
 import android.util.Log
 
@@ -6,9 +6,11 @@ import com.isupatches.wisefy.constants.WiseFyCode
 
 import io.reactivex.android.schedulers.AndroidSchedulers
 
-abstract class BasePresenter<V : BaseMvp.View> : BaseMvp.Presenter<V> {
+internal abstract class BasePresenter<V : BaseMvp.View> : BaseMvp.Presenter<V> {
 
-    private val TAG = BasePresenter::class.java.simpleName
+    companion object {
+        private val TAG = BasePresenter::class.java.simpleName
+    }
 
     private var view: V? = null
 

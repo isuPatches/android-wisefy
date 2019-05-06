@@ -4,9 +4,9 @@ import android.net.NetworkInfo
 import android.net.wifi.ScanResult
 import android.net.wifi.WifiConfiguration
 import android.net.wifi.WifiInfo
-import com.isupatches.wisefysample.ui.base.BaseMvp
+import com.isupatches.wisefysample.internal.base.BaseMvp
 
-interface MiscMvp {
+internal interface MiscMvp {
 
     interface View : BaseMvp.View {
         fun displayWifiDisabled()

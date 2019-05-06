@@ -8,15 +8,15 @@ import android.view.View
 
 import com.isupatches.wisefy.constants.WiseFyCode
 import com.isupatches.wisefysample.R
-import com.isupatches.wisefysample.ui.base.BaseFragment
-import com.isupatches.wisefysample.util.displayShortToast
-import com.isupatches.wisefysample.util.getTrimmedInput
-import com.isupatches.wisefysample.util.hideKeyboardFrom
+import com.isupatches.wisefysample.internal.base.BaseFragment
+import com.isupatches.wisefysample.internal.util.displayShortToast
+import com.isupatches.wisefysample.internal.util.getTrimmedInput
+import com.isupatches.wisefysample.internal.util.hideKeyboardFrom
 
 import kotlinx.android.synthetic.main.fragment_remove.removeNetworkBtn
 import kotlinx.android.synthetic.main.fragment_remove.removeNetworkEdt
 
-class RemoveNetworkFragment : BaseFragment(), RemoveNetworkMvp.View {
+internal class RemoveNetworkFragment : BaseFragment(), RemoveNetworkMvp.View {
 
     override val layoutRes = R.layout.fragment_remove
 

@@ -1,4 +1,4 @@
-package com.isupatches.wisefysample.nav
+package com.isupatches.wisefysample.internal.nav
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -13,7 +13,7 @@ internal fun BottomNavigationView.selectItem(actionId: Int) {
 internal fun openFragment(activity: FragmentActivity?, fragment: Fragment, tag: String) {
     activity?.let {
         val supportFragmentManager = it.supportFragmentManager
-        (0 until supportFragmentManager.backStackEntryCount).forEach {
+        (0 until supportFragmentManager.backStackEntryCount).forEach { _ ->
             supportFragmentManager.popBackStack()
         }
         with(supportFragmentManager.beginTransaction()) {

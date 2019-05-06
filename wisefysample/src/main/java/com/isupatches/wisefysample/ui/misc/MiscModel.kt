@@ -22,7 +22,7 @@ import com.isupatches.wisefy.callbacks.GetIPCallbacks
 import com.isupatches.wisefy.callbacks.GetNearbyAccessPointsCallbacks
 import com.isupatches.wisefy.callbacks.GetSavedNetworksCallbacks
 
-class MiscModel(
+internal class MiscModel(
     private val presenter: MiscMvp.Presenter,
     private val wiseFy: WiseFy
 ): MiscMvp.Model {

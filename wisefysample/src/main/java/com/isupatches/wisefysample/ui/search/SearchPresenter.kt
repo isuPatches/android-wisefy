@@ -7,9 +7,11 @@ import android.net.wifi.WifiConfiguration
 import androidx.annotation.RequiresPermission
 
 import com.isupatches.wisefy.WiseFy
-import com.isupatches.wisefysample.ui.base.BasePresenter
+import com.isupatches.wisefysample.internal.base.BasePresenter
 
-class SearchPresenter(wiseFy: WiseFy) : BasePresenter<SearchMvp.View>(), SearchMvp.Presenter {
+internal class SearchPresenter(
+    wiseFy: WiseFy
+) : BasePresenter<SearchMvp.View>(), SearchMvp.Presenter {
 
     private val model = SearchModel(this, wiseFy)
 

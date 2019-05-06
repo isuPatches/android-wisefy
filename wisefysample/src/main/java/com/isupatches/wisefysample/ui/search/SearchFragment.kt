@@ -9,10 +9,12 @@ import android.view.View
 import android.widget.SeekBar
 
 import com.isupatches.wisefysample.R
-import com.isupatches.wisefysample.ui.base.BaseFragment
-import com.isupatches.wisefysample.util.asHtmlSpanned
-import com.isupatches.wisefysample.util.displayShortToast
-import com.isupatches.wisefysample.util.getTrimmedInput
+import com.isupatches.wisefysample.internal.models.SearchType
+import com.isupatches.wisefysample.internal.preferences.SearchStore
+import com.isupatches.wisefysample.internal.base.BaseFragment
+import com.isupatches.wisefysample.internal.util.asHtmlSpanned
+import com.isupatches.wisefysample.internal.util.displayShortToast
+import com.isupatches.wisefysample.internal.util.getTrimmedInput
 
 import kotlinx.android.synthetic.main.fragment_search.filterDupesRdg
 import kotlinx.android.synthetic.main.fragment_search.filterDupesTxt
@@ -23,11 +25,15 @@ import kotlinx.android.synthetic.main.fragment_search.searchTypeRdg
 import kotlinx.android.synthetic.main.fragment_search.timeoutSeek
 import kotlinx.android.synthetic.main.fragment_search.timeoutTxt
 
-class SearchFragment : BaseFragment(), SearchMvp.View {
+import javax.inject.Inject
+
+internal class SearchFragment : BaseFragment(), SearchMvp.View {
 
     override val layoutRes = R.layout.fragment_search
 
     private val presenter by lazy { SearchPresenter(wiseFy) }
+
+    @Inject lateinit var searchStore: SearchStore
 
     companion object {
         val TAG: String = SearchFragment::class.java.simpleName
@@ -48,23 +54,40 @@ class SearchFragment : BaseFragment(), SearchMvp.View {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        searchTypeRdg.setOnCheckedChangeListener { _, _ ->
-            updateUI()
-        }
-        returnFullListRdg.setOnCheckedChangeListener { _, _ ->
-            updateUI()
+        if (savedInstanceState == null) {
+            restoreUI()
         }
 
-        searchBtn.setOnClickListener {
-            search()
+        searchTypeRdg.setOnCheckedChangeListener { _, checkedId ->
+            when (checkedId) {
+                R.id.accessPointRdb -> searchStore.setSearchType(SearchType.ACCESS_POINT)
+                R.id.ssidRdb -> searchStore.setSearchType(SearchType.SSID)
+                R.id.savedNetworkRdb -> searchStore.setSearchType(SearchType.SAVED_NETWORK)
+            }
+            updateUI()
         }
+        filterDupesRdg.setOnCheckedChangeListener { _, checkedId ->
+            when (checkedId) {
+                R.id.yesFilterDupesRdb -> searchStore.setFilterDuplicates(true)
+                else -> searchStore.setFilterDuplicates(false)
+            }
+        }
+        returnFullListRdg.setOnCheckedChangeListener { _, checkedId ->
+            when (checkedId) {
+                R.id.yesFullListRdb -> searchStore.setReturnFullList(true)
+                else -> searchStore.setReturnFullList(false)
+            }
+            updateUI()
+        }
+        searchBtn.setOnClickListener { search() }
 
         with(timeoutSeek) {
             max = TIMEOUT_MAX
             setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                    val progressToDisplay = Math.max(TIMEOUT_MIN, progress)
-                    timeoutTxt.text = getString(R.string.timeout_after_x_seconds_args_html, progressToDisplay).asHtmlSpanned()
+                    val timeout = Math.max(TIMEOUT_MIN, progress)
+                    searchStore.setTimeout(timeout)
+                    timeoutTxt.text = getString(R.string.timeout_after_x_seconds_args_html, timeout).asHtmlSpanned()
                 }
 
                 override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -95,6 +118,41 @@ class SearchFragment : BaseFragment(), SearchMvp.View {
     private fun getFilterDuplicates(): Boolean =
         filterDupesRdg.checkedRadioButtonId == R.id.yesFilterDupesRdb
 
+    private fun getSelectedTimeout(): Int = timeoutSeek.progress * 1000
+
+    private fun restoreUI() {
+        // Restore edit text value
+        searchRegexEdt.setText(searchStore.getLastUsedRegex())
+
+        // Restore search type
+        when (searchStore.getSearchType()) {
+            SearchType.ACCESS_POINT -> showAccessPointUI()
+            SearchType.SSID -> showSSIDUI()
+            SearchType.SAVED_NETWORK -> showSavedNetworkUI()
+        }
+
+        // Restore timeout
+        val timeout = searchStore.getTimeout()
+        timeoutSeek.progress = timeout
+        timeoutTxt.text = getString(R.string.timeout_after_x_seconds_args_html, timeout).asHtmlSpanned()
+
+        // Restore return full list
+        val fullListCheckedId = if (searchStore.shouldReturnFullList()) {
+            R.id.yesFullListRdb
+        } else {
+            R.id.noReturnFullListRdb
+        }
+        returnFullListRdg.check(fullListCheckedId)
+
+        // Restore filter duplicates
+        val filterDupesCheckedId = if (searchStore.shouldFilterDuplicates()) {
+            R.id.yesFilterDupesRdb
+        } else {
+            R.id.noFilterDupesRdb
+        }
+        filterDupesRdg.check(filterDupesCheckedId)
+    }
+
     private fun search() {
         when (searchTypeRdg.checkedRadioButtonId) {
             R.id.accessPointRdb -> {
@@ -118,37 +176,43 @@ class SearchFragment : BaseFragment(), SearchMvp.View {
         }
     }
 
+    private fun showAccessPointUI() {
+        filterDupesTxt.visibility = View.VISIBLE
+        filterDupesRdg.visibility = View.VISIBLE
+        toggleSeekVisibility()
+    }
+
+    private fun showSavedNetworkUI() {
+        filterDupesTxt.visibility = View.INVISIBLE
+        filterDupesRdg.visibility = View.INVISIBLE
+        timeoutSeek.visibility = View.INVISIBLE
+        timeoutTxt.visibility = View.INVISIBLE
+    }
+
+    private fun showSSIDUI() {
+        filterDupesTxt.visibility = View.INVISIBLE
+        filterDupesRdg.visibility = View.INVISIBLE
+        toggleSeekVisibility()
+    }
+
+    private fun toggleSeekVisibility() {
+        when (returnFullListRdg.checkedRadioButtonId) {
+            R.id.yesFullListRdb -> {
+                timeoutSeek.visibility = View.INVISIBLE
+                timeoutTxt.visibility = View.INVISIBLE
+            }
+            R.id.noReturnFullListRdb -> {
+                timeoutSeek.visibility = View.VISIBLE
+                timeoutTxt.visibility = View.VISIBLE
+            }
+        }
+    }
+
     private fun updateUI() {
         when (searchTypeRdg.checkedRadioButtonId) {
-            R.id.accessPointRdb -> {
-                filterDupesTxt.visibility = View.VISIBLE
-                filterDupesRdg.visibility = View.VISIBLE
-                when (returnFullListRdg.checkedRadioButtonId) {
-                    R.id.yesFullListRdb -> {
-                        timeoutSeek.visibility = View.INVISIBLE
-                    }
-                    R.id.noReturnFullListRdb -> {
-                        timeoutSeek.visibility = View.VISIBLE
-                    }
-                }
-            }
-            R.id.ssidRdb -> {
-                filterDupesTxt.visibility = View.INVISIBLE
-                filterDupesRdg.visibility = View.INVISIBLE
-                when (returnFullListRdg.checkedRadioButtonId) {
-                    R.id.yesFullListRdb -> {
-                        timeoutSeek.visibility = View.INVISIBLE
-                    }
-                    R.id.noReturnFullListRdb -> {
-                        timeoutSeek.visibility = View.VISIBLE
-                    }
-                }
-            }
-            R.id.savedNetworkRdb -> {
-                filterDupesTxt.visibility = View.INVISIBLE
-                filterDupesRdg.visibility = View.INVISIBLE
-                timeoutSeek.visibility = View.INVISIBLE
-            }
+            R.id.accessPointRdb -> showAccessPointUI()
+            R.id.ssidRdb -> showSSIDUI()
+            R.id.savedNetworkRdb -> showSavedNetworkUI()
         }
     }
 
@@ -171,7 +235,7 @@ class SearchFragment : BaseFragment(), SearchMvp.View {
     @Throws(SecurityException::class)
     private fun searchForAccessPoint() {
         if (checkSearchForAccessPointPermissions()) {
-            presenter.searchForAccessPoint(searchRegexEdt.getTrimmedInput(), timeoutSeek.progress, getFilterDuplicates())
+            presenter.searchForAccessPoint(searchRegexEdt.getTrimmedInput(), getSelectedTimeout(), getFilterDuplicates())
         }
     }
 
@@ -185,14 +249,14 @@ class SearchFragment : BaseFragment(), SearchMvp.View {
     @Throws(SecurityException::class)
     private fun searchForSSID() {
         if (checkSearchForSSIDPermissions()) {
-            presenter.searchForSSID(searchRegexEdt.getTrimmedInput(), timeoutSeek.progress)
+            presenter.searchForSSID(searchRegexEdt.getTrimmedInput(), getSelectedTimeout())
         }
     }
 
     @Throws(SecurityException::class)
     private fun searchForSSIDs() {
         if (checkSearchForSSIDsPermissions()) {
-            presenter.searchForSSIDs(searchRegexEdt.getTrimmedInput());
+            presenter.searchForSSIDs(searchRegexEdt.getTrimmedInput())
         }
     }
 

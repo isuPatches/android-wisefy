@@ -2,9 +2,9 @@ package com.isupatches.wisefysample.ui.search
 
 import android.net.wifi.ScanResult
 import android.net.wifi.WifiConfiguration
-import com.isupatches.wisefysample.ui.base.BaseMvp
+import com.isupatches.wisefysample.internal.base.BaseMvp
 
-interface SearchMvp {
+internal interface SearchMvp {
 
     interface View : BaseMvp.View {
 

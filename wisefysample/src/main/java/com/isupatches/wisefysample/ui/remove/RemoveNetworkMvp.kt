@@ -1,8 +1,8 @@
 package com.isupatches.wisefysample.ui.remove
 
-import com.isupatches.wisefysample.ui.base.BaseMvp
+import com.isupatches.wisefysample.internal.base.BaseMvp
 
-interface RemoveNetworkMvp {
+internal interface RemoveNetworkMvp {
 
     interface View : BaseMvp.View {
         fun displayNetworkRemoved()

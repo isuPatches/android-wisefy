@@ -7,7 +7,7 @@ import com.isupatches.wisefy.WiseFy
 import com.isupatches.wisefy.callbacks.RemoveNetworkCallbacks
 import com.isupatches.wisefy.constants.WiseFyCode
 
-class RemoveNetworkModel(
+internal class RemoveNetworkModel(
     private val presenter: RemoveNetworkMvp.Presenter,
     private val wiseFy: WiseFy
 ): RemoveNetworkMvp.Model {
