@@ -15,6 +15,7 @@ import com.isupatches.wisefysample.internal.base.BaseFragment
 import com.isupatches.wisefysample.internal.util.asHtmlSpanned
 import com.isupatches.wisefysample.internal.util.displayShortToast
 import com.isupatches.wisefysample.internal.util.getTrimmedInput
+import com.isupatches.wisefysample.internal.util.hideKeyboardFrom
 
 import kotlinx.android.synthetic.main.fragment_search.filterDupesRdg
 import kotlinx.android.synthetic.main.fragment_search.filterDupesTxt
@@ -109,11 +110,23 @@ internal class SearchFragment : BaseFragment(), SearchMvp.View {
     override fun onStop() {
         presenter.detachView()
         super.onStop()
+        searchStore.setLastUsedRegex(searchRegexEdt.getTrimmedInput())
+        hideKeyboardFrom(searchBtn)
     }
 
     /*
      * View helpers
      */
+
+    private fun adjustFilterDupesVisibility(visibility: Int) {
+        filterDupesTxt.visibility = visibility
+        filterDupesRdg.visibility = visibility
+    }
+
+    private fun adjustTimeoutVisibility(visibility: Int) {
+        timeoutSeek.visibility = visibility
+        timeoutTxt.visibility = visibility
+    }
 
     private fun getFilterDuplicates(): Boolean =
         filterDupesRdg.checkedRadioButtonId == R.id.yesFilterDupesRdb
@@ -126,15 +139,19 @@ internal class SearchFragment : BaseFragment(), SearchMvp.View {
 
         // Restore search type
         when (searchStore.getSearchType()) {
-            SearchType.ACCESS_POINT -> showAccessPointUI()
-            SearchType.SSID -> showSSIDUI()
-            SearchType.SAVED_NETWORK -> showSavedNetworkUI()
+            SearchType.ACCESS_POINT -> {
+                searchTypeRdg.check(R.id.accessPointRdb)
+                showAccessPointUI()
+            }
+            SearchType.SSID -> {
+                searchTypeRdg.check(R.id.ssidRdb)
+                showSSIDUI()
+            }
+            SearchType.SAVED_NETWORK -> {
+                searchTypeRdg.check(R.id.savedNetworkRdb)
+                showSavedNetworkUI()
+            }
         }
-
-        // Restore timeout
-        val timeout = searchStore.getTimeout()
-        timeoutSeek.progress = timeout
-        timeoutTxt.text = getString(R.string.timeout_after_x_seconds_args_html, timeout).asHtmlSpanned()
 
         // Restore return full list
         val fullListCheckedId = if (searchStore.shouldReturnFullList()) {
@@ -151,6 +168,17 @@ internal class SearchFragment : BaseFragment(), SearchMvp.View {
             R.id.noFilterDupesRdb
         }
         filterDupesRdg.check(filterDupesCheckedId)
+
+        // Restore timeout
+        val timeout = searchStore.getTimeout()
+        timeoutSeek.progress = timeout
+        timeoutTxt.text = getString(R.string.timeout_after_x_seconds_args_html, timeout).asHtmlSpanned()
+        when {
+            searchStore.getSearchType() == SearchType.SAVED_NETWORK -> {
+                adjustTimeoutVisibility(View.INVISIBLE)
+            }
+            else -> toggleSeekVisibility()
+        }
     }
 
     private fun search() {
@@ -177,34 +205,24 @@ internal class SearchFragment : BaseFragment(), SearchMvp.View {
     }
 
     private fun showAccessPointUI() {
-        filterDupesTxt.visibility = View.VISIBLE
-        filterDupesRdg.visibility = View.VISIBLE
+        adjustFilterDupesVisibility(View.VISIBLE)
         toggleSeekVisibility()
     }
 
     private fun showSavedNetworkUI() {
-        filterDupesTxt.visibility = View.INVISIBLE
-        filterDupesRdg.visibility = View.INVISIBLE
-        timeoutSeek.visibility = View.INVISIBLE
-        timeoutTxt.visibility = View.INVISIBLE
+        adjustFilterDupesVisibility(View.INVISIBLE)
+        adjustTimeoutVisibility(View.INVISIBLE)
     }
 
     private fun showSSIDUI() {
-        filterDupesTxt.visibility = View.INVISIBLE
-        filterDupesRdg.visibility = View.INVISIBLE
+        adjustFilterDupesVisibility(View.INVISIBLE)
         toggleSeekVisibility()
     }
 
     private fun toggleSeekVisibility() {
         when (returnFullListRdg.checkedRadioButtonId) {
-            R.id.yesFullListRdb -> {
-                timeoutSeek.visibility = View.INVISIBLE
-                timeoutTxt.visibility = View.INVISIBLE
-            }
-            R.id.noReturnFullListRdb -> {
-                timeoutSeek.visibility = View.VISIBLE
-                timeoutTxt.visibility = View.VISIBLE
-            }
+            R.id.yesFullListRdb -> adjustTimeoutVisibility(View.INVISIBLE)
+            R.id.noReturnFullListRdb -> adjustTimeoutVisibility(View.VISIBLE)
         }
     }
 

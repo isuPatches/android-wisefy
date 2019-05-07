@@ -6,7 +6,6 @@ import androidx.core.content.edit
 
 import com.isupatches.wisefysample.internal.models.SearchType
 
-private const val PREF_LAST_USED_REGEX = "last used regex"
 private const val PREF_SEARCH_TYPE = "search type"
 private const val PREF_RETURN_FULL_LIST = "return full list"
 private const val PREF_FILTER_DUPLICATES = "filter duplicates"

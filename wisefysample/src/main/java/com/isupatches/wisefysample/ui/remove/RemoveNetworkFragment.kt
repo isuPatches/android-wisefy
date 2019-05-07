@@ -9,6 +9,7 @@ import android.view.View
 import com.isupatches.wisefy.constants.WiseFyCode
 import com.isupatches.wisefysample.R
 import com.isupatches.wisefysample.internal.base.BaseFragment
+import com.isupatches.wisefysample.internal.preferences.RemoveNetworkStore
 import com.isupatches.wisefysample.internal.util.displayShortToast
 import com.isupatches.wisefysample.internal.util.getTrimmedInput
 import com.isupatches.wisefysample.internal.util.hideKeyboardFrom
@@ -16,11 +17,15 @@ import com.isupatches.wisefysample.internal.util.hideKeyboardFrom
 import kotlinx.android.synthetic.main.fragment_remove.removeNetworkBtn
 import kotlinx.android.synthetic.main.fragment_remove.removeNetworkEdt
 
+import javax.inject.Inject
+
 internal class RemoveNetworkFragment : BaseFragment(), RemoveNetworkMvp.View {
 
     override val layoutRes = R.layout.fragment_remove
 
     private val presenter by lazy { RemoveNetworkPresenter(wiseFy) }
+
+    @Inject lateinit var removeNetworkStore: RemoveNetworkStore
 
     companion object {
         val TAG: String = RemoveNetworkFragment::class.java.simpleName
@@ -32,6 +37,11 @@ internal class RemoveNetworkFragment : BaseFragment(), RemoveNetworkMvp.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if (savedInstanceState == null) {
+            restoreUI()
+        }
+
         removeNetworkBtn.setOnClickListener {
             hideKeyboardFrom(removeNetworkBtn)
             removeNetwork()
@@ -46,6 +56,17 @@ internal class RemoveNetworkFragment : BaseFragment(), RemoveNetworkMvp.View {
     override fun onStop() {
         presenter.detachView()
         super.onStop()
+        removeNetworkStore.setLastUsedRegex(removeNetworkEdt.getTrimmedInput())
+        hideKeyboardFrom(removeNetworkBtn)
+    }
+
+    /*
+     * View helpers
+     */
+
+    private fun restoreUI() {
+        // Restore edit text value
+        removeNetworkEdt.setText(removeNetworkStore.getLastUsedRegex())
     }
 
     /*
