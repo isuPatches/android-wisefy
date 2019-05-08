@@ -44,13 +44,15 @@ internal class WiseFyConnectionSDK23 private constructor(
 ) : AbstractWiseFyConnection(wifiManager) {
 
     internal companion object {
-        private val TAG = WiseFyConnectionSDK23::class.java.simpleName
+        // Internal to avoid SyntheticAccessor error within networkChangeCallback
+        internal val TAG = WiseFyConnectionSDK23::class.java.simpleName
 
         fun create(connectivityManager: ConnectivityManager, wifiManager: WifiManager): WiseFyConnection =
                 WiseFyConnectionSDK23(connectivityManager, wifiManager)
     }
 
-    private var connectionStatus: WiseFyConnectionStatus? = null
+    // Internal to avoid SyntheticAccessor error within networkChangeCallback
+    internal var connectionStatus: WiseFyConnectionStatus? = null
 
     private val networkChangeCallback by lazy {
         object : ConnectivityManager.NetworkCallback() {
@@ -106,9 +108,14 @@ internal class WiseFyConnectionSDK23 private constructor(
         transportType = NetworkCapabilities.TRANSPORT_WIFI
     )
 
-    override fun isDeviceRoaming(): Boolean = !doesNetworkHaveCapability(
-        capability = NetworkCapabilities.NET_CAPABILITY_NOT_ROAMING
-    )
+    override fun isDeviceRoaming(): Boolean =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            !doesNetworkHaveCapability(capability = NetworkCapabilities.NET_CAPABILITY_NOT_ROAMING)
+        } else {
+            val networkInfo = connectivityManager.activeNetworkInfo
+            @Suppress("DEPRECATION")
+            networkInfo != null && networkInfo.isRoaming
+        }
 
     override fun isNetworkConnected(): Boolean = connectionStatus == WiseFyConnectionStatus.AVAILABLE
 

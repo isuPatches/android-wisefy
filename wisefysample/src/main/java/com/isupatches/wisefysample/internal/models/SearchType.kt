@@ -12,7 +12,7 @@ internal enum class SearchType(val intVal: Int) {
                 ACCESS_POINT.intVal -> ACCESS_POINT
                 SSID.intVal -> SSID
                 SAVED_NETWORK.intVal -> SAVED_NETWORK
-                else -> throw IllegalArgumentException("Invalid SearchType intVal: $intVal")
+                else -> throw IllegalArgumentException("Invalid SearchType, intVal: $intVal")
             }
         }
     }

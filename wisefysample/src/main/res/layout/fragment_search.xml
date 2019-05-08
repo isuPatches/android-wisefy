@@ -12,7 +12,7 @@
         android:paddingBottom="@dimen/padding_big">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/searchRegexTxt"
+            android:id="@+id/searchRegexTil"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_margin"
@@ -46,7 +46,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/searchRegexTxt"
+            app:layout_constraintTop_toBottomOf="@+id/searchRegexTil"
             />
 
         <RadioGroup
@@ -62,7 +62,7 @@
 
             <RadioButton
                 android:id="@+id/accessPointRdb"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/default_margin"
                 android:text="@string/access_point"
@@ -70,7 +70,7 @@
 
             <RadioButton
                 android:id="@+id/ssidRdb"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/default_margin"
                 android:text="@string/ssid"
@@ -78,7 +78,7 @@
 
             <RadioButton
                 android:id="@+id/savedNetworkRdb"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/default_margin"
                 android:text="@string/saved_network"

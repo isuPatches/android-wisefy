@@ -137,21 +137,22 @@ internal class SearchFragment : BaseFragment(), SearchMvp.View {
         // Restore edit text value
         searchRegexEdt.setText(searchStore.getLastUsedRegex())
 
-        // Restore search type
-        when (searchStore.getSearchType()) {
+        // Restore checked state
+        val checkedId = when (searchStore.getSearchType()) {
             SearchType.ACCESS_POINT -> {
-                searchTypeRdg.check(R.id.accessPointRdb)
                 showAccessPointUI()
+                R.id.accessPointRdb
             }
             SearchType.SSID -> {
-                searchTypeRdg.check(R.id.ssidRdb)
                 showSSIDUI()
+                R.id.ssidRdb
             }
             SearchType.SAVED_NETWORK -> {
-                searchTypeRdg.check(R.id.savedNetworkRdb)
                 showSavedNetworkUI()
+                R.id.savedNetworkRdb
             }
         }
+        searchTypeRdg.check(checkedId)
 
         // Restore return full list
         val fullListCheckedId = if (searchStore.shouldReturnFullList()) {
@@ -173,10 +174,8 @@ internal class SearchFragment : BaseFragment(), SearchMvp.View {
         val timeout = searchStore.getTimeout()
         timeoutSeek.progress = timeout
         timeoutTxt.text = getString(R.string.timeout_after_x_seconds_args_html, timeout).asHtmlSpanned()
-        when {
-            searchStore.getSearchType() == SearchType.SAVED_NETWORK -> {
-                adjustTimeoutVisibility(View.INVISIBLE)
-            }
+        when(searchStore.getSearchType()) {
+            SearchType.SAVED_NETWORK -> adjustTimeoutVisibility(View.INVISIBLE)
             else -> toggleSeekVisibility()
         }
     }

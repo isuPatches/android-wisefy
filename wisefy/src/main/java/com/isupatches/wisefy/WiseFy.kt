@@ -388,19 +388,12 @@ class WiseFy private constructor(
     override fun addWEPNetwork(ssid: String?, password: String?, callbacks: AddNetworkCallbacks?) {
         runOnWiseFyThread(Runnable {
             synchronized(wisefyLock) {
-                val precheck = wisefyPrechecks.addNetworkPrechecks(ssid, password)
-                if (precheck.failed()) {
-                    callbacks?.wisefyFailure(precheck.code)
-                    return@Runnable
-                }
-
-                val wepNetworkConfiguration = generateWEPNetworkConfiguration(ssid!!, password!!)
-                val result = addNetworkConfiguration(wepNetworkConfiguration)
-                if (result != WIFI_MANAGER_FAILURE) {
-                    callbacks?.networkAdded(result, wepNetworkConfiguration)
-                } else {
-                    callbacks?.failureAddingNetwork(result)
-                }
+                addNetworkWithPasswordAsync(
+                    ssid = ssid,
+                    password = password,
+                    wifiConfigurationProvider = { generateWEPNetworkConfiguration(ssid!!, password!!) },
+                    callbacks = callbacks
+                )
             }
         })
     }
@@ -453,19 +446,12 @@ class WiseFy private constructor(
     override fun addWPA2Network(ssid: String?, password: String?, callbacks: AddNetworkCallbacks?) {
         runOnWiseFyThread(Runnable {
             synchronized(wisefyLock) {
-                val precheck = wisefyPrechecks.addNetworkPrechecks(ssid, password)
-                if (precheck.failed()) {
-                    callbacks?.wisefyFailure(precheck.code)
-                    return@Runnable
-                }
-
-                val wpa2NetworkConfiguration = generateWPA2NetworkConfiguration(ssid!!, password!!)
-                val result = addNetworkConfiguration(wpa2NetworkConfiguration)
-                if (result != WIFI_MANAGER_FAILURE) {
-                    callbacks?.networkAdded(result, wpa2NetworkConfiguration)
-                } else {
-                    callbacks?.failureAddingNetwork(result)
-                }
+                addNetworkWithPasswordAsync(
+                    ssid = ssid,
+                    password = password,
+                    wifiConfigurationProvider = { generateWPA2NetworkConfiguration(ssid!!, password!!) },
+                    callbacks = callbacks
+                )
             }
         })
     }
@@ -845,7 +831,7 @@ class WiseFy private constructor(
                     return@Runnable
                 }
 
-                val currentNetwork: WifiInfo?  = wifiManager.connectionInfo
+                val currentNetwork: WifiInfo? = wifiManager.connectionInfo
                 if (currentNetwork != null) {
                     callbacks?.retrievedCurrentNetwork(currentNetwork)
                 } else {
@@ -2105,6 +2091,28 @@ class WiseFy private constructor(
     /*
      * HELPERS
      */
+
+    private fun addNetworkWithPasswordAsync(
+        ssid: String?,
+        password: String?,
+        wifiConfigurationProvider: () -> WifiConfiguration,
+        callbacks: AddNetworkCallbacks?
+    ) {
+        val precheck = wisefyPrechecks.addNetworkPrechecks(ssid, password)
+        if (precheck.failed()) {
+            callbacks?.wisefyFailure(precheck.code)
+            return
+        }
+
+        val wifiConfiguration = wifiConfigurationProvider()
+
+        val result = addNetworkConfiguration(wifiConfiguration)
+        if (result != WIFI_MANAGER_FAILURE) {
+            callbacks?.networkAdded(result, wifiConfiguration)
+        } else {
+            callbacks?.failureAddingNetwork(result)
+        }
+    }
 
     /**
      * Used internally to add and save a new wifi configuration.

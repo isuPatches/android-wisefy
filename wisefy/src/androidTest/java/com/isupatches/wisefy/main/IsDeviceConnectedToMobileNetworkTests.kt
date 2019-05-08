@@ -19,14 +19,14 @@ internal class IsDeviceConnectedToMobileNetworkTests : BaseAndroidJUnit4TestClas
 
     @Test fun failure() {
         mockWiseFyPrechecksUtil.isDeviceConnectedToMobileNetwork_success()
-        mockWiseFyConnectionUtil.isNetworkConnectedAndMatchesType(false)
+        mockWiseFyConnectionUtil.isDeviceConnectedToMobileNetwork(false)
         assertFalse(wisefy.isDeviceConnectedToMobileNetwork())
     }
 
     @Test fun success() {
         mockWiseFyPrechecksUtil.isDeviceConnectedToMobileNetwork_success()
         mockNetworkUtil.activeNetwork()
-        mockWiseFyConnectionUtil.isNetworkConnectedAndMatchesType(true)
+        mockWiseFyConnectionUtil.isDeviceConnectedToMobileNetwork(true)
         assertTrue(wisefy.isDeviceConnectedToMobileNetwork())
     }
 }

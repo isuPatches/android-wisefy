@@ -1,13 +1,19 @@
 package com.isupatches.wisefy
 
 import android.net.ConnectivityManager
+import android.net.wifi.WifiConfiguration
 import android.net.wifi.WifiManager
 import android.os.Build
 import androidx.test.platform.app.InstrumentationRegistry
+import com.isupatches.wisefy.callbacks.AddNetworkCallbacks
 import com.isupatches.wisefy.connection.WiseFyConnection
+import com.isupatches.wisefy.search.WiseFySearch
 import org.junit.After
+import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.Mockito
 import org.mockito.Mockito.mock
+import org.mockito.Mockito.timeout
+import org.mockito.Mockito.verify
 
 /**
  * A common test class to extend.
@@ -80,4 +86,8 @@ internal open class BaseAndroidJUnit4TestClass {
     protected fun preLollipop(): Boolean = Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP
 
     protected fun <T> any(type: Class<T>): T = Mockito.any<T>(type)
+
+    protected fun verifyNetworkAdded(mockCallbacks: AddNetworkCallbacks) {
+        verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).networkAdded(anyInt(), any(WifiConfiguration::class.java))
+    }
 }

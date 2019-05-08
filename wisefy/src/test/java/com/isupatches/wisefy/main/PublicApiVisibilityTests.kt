@@ -189,6 +189,9 @@ class PublicApiVisibilityTests {
             override fun wisefyFailure(wisefyFailureCode: Int) {
             }
 
+            override fun noCurrentNetwork() {
+            }
+
             override fun retrievedCurrentNetwork(currentNetwork: WifiInfo) {
             }
         })
@@ -246,6 +249,9 @@ class PublicApiVisibilityTests {
         verify<WiseFyPublicApi>(wisefy).getNearbyAccessPoints(anyBoolean())
         wisefy.getNearbyAccessPoints(true, object : GetNearbyAccessPointsCallbacks {
             override fun retrievedNearbyAccessPoints(nearbyAccessPoints: List<ScanResult>) {
+            }
+
+            override fun noAccessPointsFound() {
             }
 
             override fun wisefyFailure(wisefyFailureCode: Int) {

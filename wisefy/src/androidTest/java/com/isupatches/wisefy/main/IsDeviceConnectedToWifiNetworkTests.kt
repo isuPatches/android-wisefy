@@ -19,14 +19,14 @@ internal class IsDeviceConnectedToWifiNetworkTests : BaseAndroidJUnit4TestClass(
 
     @Test fun failure() {
         mockWiseFyPrechecksUtil.isDeviceConnectedToWifiNetwork_success()
-        mockWiseFyConnectionUtil.isNetworkConnectedAndMatchesType(false)
+        mockWiseFyConnectionUtil.isDeviceConnectedToWifiNetwork(false)
         assertFalse(wisefy.isDeviceConnectedToWifiNetwork())
     }
 
     @Test fun success() {
         mockWiseFyPrechecksUtil.isDeviceConnectedToWifiNetwork_success()
         mockNetworkUtil.activeNetwork()
-        mockWiseFyConnectionUtil.isNetworkConnectedAndMatchesType(true)
+        mockWiseFyConnectionUtil.isDeviceConnectedToWifiNetwork(true)
         assertTrue(wisefy.isDeviceConnectedToWifiNetwork())
     }
 }

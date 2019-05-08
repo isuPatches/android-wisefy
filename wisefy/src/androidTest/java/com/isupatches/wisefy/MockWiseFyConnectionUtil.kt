@@ -30,6 +30,28 @@ internal class MockWiseFyConnectionUtil internal constructor(
     }
 
     /**
+     * To mock if the device is connected to a mobile network.
+     *
+     * @param connected If the device is connected to a mobile network
+     *
+     * @see WiseFyConnection.isDeviceConnectedToMobileNetwork
+     */
+    fun isDeviceConnectedToMobileNetwork(connected: Boolean) {
+        `when`(mockWiseFyConnection.isDeviceConnectedToMobileNetwork()).thenReturn(connected)
+    }
+
+    /**
+     * To mock if the device is connected to a Wifi network.
+     *
+     * @param connected If the device is connected to a Wifi network
+     *
+     * @see WiseFyConnection.isDeviceConnectedToWifiNetwork
+     */
+    fun isDeviceConnectedToWifiNetwork(connected: Boolean) {
+        `when`(mockWiseFyConnection.isDeviceConnectedToWifiNetwork()).thenReturn(connected)
+    }
+
+    /**
      * Mocks if the device is connected to a network.
      *
      * @param connected Whether the device is connected or not
@@ -37,18 +59,7 @@ internal class MockWiseFyConnectionUtil internal constructor(
      * @see WiseFyConnection.isNetworkConnected
      */
     fun isNetworkConnected(connected: Boolean) {
-        `when`(mockWiseFyConnection.isNetworkConnected(any(NetworkInfo::class.java))).thenReturn(connected)
-    }
-
-    /**
-     * To mock if the device is connected to a mobile network.
-     *
-     * @param connectedAndMatchesType If the device is connected to a mobile network
-     *
-     * @see WiseFyConnection.isNetworkConnectedAndMatchesType
-     */
-    fun isNetworkConnectedAndMatchesType(connectedAndMatchesType: Boolean) {
-        `when`(mockWiseFyConnection.isNetworkConnectedAndMatchesType(any(NetworkInfo::class.java), anyString())).thenReturn(connectedAndMatchesType)
+        `when`(mockWiseFyConnection.isNetworkConnected()).thenReturn(connected)
     }
 
     /**

@@ -20,6 +20,10 @@ internal class SharedPreferencesRemoveNetworkStore(
         sharedPreferences.edit { clear() }
     }
 
+    /*
+     * Last used Regex
+     */
+
     override fun getLastUsedRegex() = sharedPreferences.getString(
         PREF_LAST_USED_REGEX,
         ""

@@ -2,6 +2,7 @@ package com.isupatches.wisefy
 
 import android.net.wifi.ScanResult
 import android.net.wifi.WifiConfiguration
+import com.isupatches.wisefy.search.WiseFySearch
 import org.mockito.ArgumentMatchers
 import org.mockito.ArgumentMatchers.anyBoolean
 import org.mockito.ArgumentMatchers.anyInt
@@ -136,15 +137,15 @@ internal class MockWiseFySearchUtil internal constructor(private val mockWiseFyS
         `when`(mockWiseFySearch.isNetworkASavedConfiguration(anyString())).thenReturn(saved)
     }
 
-    /**
-     * Mocks a basic return of two networks from WiseFySearch#removeEntriesWithLowerSignalStrength.
-     *
-     * @see WiseFySearch.removeEntriesWithLowerSignalStrength
-     * @return List of ScanResults - The mocked networks that will be returned
-     */
-    fun removeEntriesWithLowerSignalStrength(): List<ScanResult> {
-        val accessPoints = createMockAccessPointList(TEST_SSID, TEST_RSSI_LEVEL_HIGH, TEST_SSID2, TEST_RSSI_LEVEL_LOW)
-        `when`(mockWiseFySearch.removeEntriesWithLowerSignalStrength(ArgumentMatchers.anyList())).thenReturn(accessPoints)
-        return accessPoints
-    }
+//    /**
+//     * Mocks a basic return of two networks from WiseFySearch#removeEntriesWithLowerSignalStrength.
+//     *
+//     * @see WiseFySearch.removeEntriesWithLowerSignalStrength
+//     * @return List of ScanResults - The mocked networks that will be returned
+//     */
+//    fun removeEntriesWithLowerSignalStrength(): List<ScanResult> {
+//        val accessPoints = createMockAccessPointList(TEST_SSID, TEST_RSSI_LEVEL_HIGH, TEST_SSID2, TEST_RSSI_LEVEL_LOW)
+//        `when`(mockWiseFySearch.removeEntriesWithLowerSignalStrength(ArgumentMatchers.anyList())).thenReturn(accessPoints)
+//        return accessPoints
+//    }
 }

@@ -257,7 +257,7 @@ internal abstract class AbstractWiseFySearch(
         val accessPointsTemp = scanResultsProvider()
 
         if (accessPointsTemp == null || accessPointsTemp.isEmpty()) {
-           return null
+            return null
         }
 
         return if (filterDuplicates) {

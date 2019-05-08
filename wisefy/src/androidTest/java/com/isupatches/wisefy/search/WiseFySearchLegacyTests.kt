@@ -1,5 +1,9 @@
-package com.isupatches.wisefy
+package com.isupatches.wisefy.search
 
+import com.isupatches.wisefy.BaseAndroidJUnit4TestClass
+import com.isupatches.wisefy.TEST_REGEX
+import com.isupatches.wisefy.TEST_SSID
+import com.isupatches.wisefy.TEST_TIMEOUT
 import org.junit.Assert.assertEquals
 
 import org.junit.Test
@@ -12,9 +16,9 @@ import org.junit.Test
  * @author Patches
  */
 @Suppress("LargeClass", "TooManyFunctions")
-internal class WiseFySearchTests : BaseAndroidJUnit4TestClass() {
+internal class WiseFySearchLegacyTests : BaseAndroidJUnit4TestClass() {
 
-    private val wisefySearch: WiseFySearch = WiseFySearchImpl.create(mockWifiManager)
+    private val wisefySearch: WiseFySearch = WiseFySearchLegacy.create(mockWifiManager)
 
     /*
      * findAccessPointByRegex tests
@@ -499,27 +503,27 @@ internal class WiseFySearchTests : BaseAndroidJUnit4TestClass() {
         assertEquals(true, wisefySearch.isNetworkASavedConfiguration(TEST_REGEX))
     }
 
-    /*
-     *  removeEntriesWithLowerSignalStrength tests
-     */
-
-    @Test fun removeEntriesWithLowerSignalStrength_differentSSIDs() {
-        val accessPoints = mockNetworkUtil.nearbyAccessPoints_multipleSSIDs_sameRSSI(true)
-        assertEquals(mockNetworkUtil.getExpectedNearbyAccessPoints(), wisefySearch.removeEntriesWithLowerSignalStrength(accessPoints))
-    }
-
-    @Test fun removeEntriesWithLowerSignalStrength_sameSignalLevels() {
-        val accessPoints = mockNetworkUtil.nearbyAccessPoints_multipleMatchingSSIDs_sameRSSI(false)
-        assertEquals(mockNetworkUtil.getExpectedNearbyAccessPoints(), wisefySearch.removeEntriesWithLowerSignalStrength(accessPoints))
-    }
-
-    @Test fun removeEntriesWithLowerSignalStrength_accessPoint1Higher() {
-        val accessPoints = mockNetworkUtil.nearbyAccessPoints_multipleMatchingSSIDs_accessPoint1HasHigherRSSI(true)
-        assertEquals(mockNetworkUtil.getExpectedNearbyAccessPoints(), wisefySearch.removeEntriesWithLowerSignalStrength(accessPoints))
-    }
-
-    @Test fun removeEntriesWithLowerSignalStrength_accessPoint2Higher() {
-        val accessPoints = mockNetworkUtil.nearbyAccessPoints_multipleMatchingSSIDs_accessPoint2HasHigherRSSI(true)
-        assertEquals(mockNetworkUtil.getExpectedNearbyAccessPoints(), wisefySearch.removeEntriesWithLowerSignalStrength(accessPoints))
-    }
+//    /*
+//     *  removeEntriesWithLowerSignalStrength tests
+//     */
+//
+//    @Test fun removeEntriesWithLowerSignalStrength_differentSSIDs() {
+//        val accessPoints = mockNetworkUtil.nearbyAccessPoints_multipleSSIDs_sameRSSI(true)
+//        assertEquals(mockNetworkUtil.getExpectedNearbyAccessPoints(), wisefySearch.removeEntriesWithLowerSignalStrength(accessPoints))
+//    }
+//
+//    @Test fun removeEntriesWithLowerSignalStrength_sameSignalLevels() {
+//        val accessPoints = mockNetworkUtil.nearbyAccessPoints_multipleMatchingSSIDs_sameRSSI(false)
+//        assertEquals(mockNetworkUtil.getExpectedNearbyAccessPoints(), wisefySearch.removeEntriesWithLowerSignalStrength(accessPoints))
+//    }
+//
+//    @Test fun removeEntriesWithLowerSignalStrength_accessPoint1Higher() {
+//        val accessPoints = mockNetworkUtil.nearbyAccessPoints_multipleMatchingSSIDs_accessPoint1HasHigherRSSI(true)
+//        assertEquals(mockNetworkUtil.getExpectedNearbyAccessPoints(), wisefySearch.removeEntriesWithLowerSignalStrength(accessPoints))
+//    }
+//
+//    @Test fun removeEntriesWithLowerSignalStrength_accessPoint2Higher() {
+//        val accessPoints = mockNetworkUtil.nearbyAccessPoints_multipleMatchingSSIDs_accessPoint2HasHigherRSSI(true)
+//        assertEquals(mockNetworkUtil.getExpectedNearbyAccessPoints(), wisefySearch.removeEntriesWithLowerSignalStrength(accessPoints))
+//    }
 }

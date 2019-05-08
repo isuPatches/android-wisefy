@@ -35,26 +35,14 @@ internal class SharedPreferencesSearchStore(
         sharedPreferences.edit { clear() }
     }
 
+    /*
+     * Last used Regex
+     */
+
     override fun getLastUsedRegex() = sharedPreferences.getString(
         PREF_LAST_USED_REGEX,
         ""
     ) ?: ""
-
-    override fun getSearchType(): SearchType = SearchType.of(
-        sharedPreferences.getInt(PREF_SEARCH_TYPE, SearchType.ACCESS_POINT.intVal)
-    )
-
-    override fun shouldReturnFullList() = sharedPreferences.getBoolean(
-        PREF_RETURN_FULL_LIST,
-        true
-    )
-
-    override fun shouldFilterDuplicates() = sharedPreferences.getBoolean(
-        PREF_FILTER_DUPLICATES,
-        true
-    )
-
-    override fun getTimeout() = sharedPreferences.getInt(PREF_TIMEOUT, 1)
 
     override fun setLastUsedRegex(lastUsedRegex: String) {
         sharedPreferences.edit {
@@ -62,11 +50,28 @@ internal class SharedPreferencesSearchStore(
         }
     }
 
+    /*
+     * Search type
+     */
+
+    override fun getSearchType(): SearchType = SearchType.of(
+        sharedPreferences.getInt(PREF_SEARCH_TYPE, SearchType.ACCESS_POINT.intVal)
+    )
+
     override fun setSearchType(searchType: SearchType) {
         sharedPreferences.edit {
             putInt(PREF_SEARCH_TYPE, searchType.intVal)
         }
     }
+
+    /*
+     * Return full list
+     */
+
+    override fun shouldReturnFullList() = sharedPreferences.getBoolean(
+        PREF_RETURN_FULL_LIST,
+        true
+    )
 
     override fun setReturnFullList(returnFullList: Boolean) {
         sharedPreferences.edit {
@@ -74,11 +79,26 @@ internal class SharedPreferencesSearchStore(
         }
     }
 
+    /*
+     * Filter duplicates
+     */
+
+    override fun shouldFilterDuplicates() = sharedPreferences.getBoolean(
+        PREF_FILTER_DUPLICATES,
+        true
+    )
+
     override fun setFilterDuplicates(filterDuplicates: Boolean) {
         sharedPreferences.edit {
             putBoolean(PREF_FILTER_DUPLICATES, filterDuplicates)
         }
     }
+
+    /*
+     * Timeout
+     */
+
+    override fun getTimeout() = sharedPreferences.getInt(PREF_TIMEOUT, 1)
 
     override fun setTimeout(timeout: Int) {
         sharedPreferences.edit {

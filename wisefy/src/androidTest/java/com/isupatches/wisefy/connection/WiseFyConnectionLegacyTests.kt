@@ -1,7 +1,11 @@
-package com.isupatches.wisefy
+package com.isupatches.wisefy.connection
 
-import com.isupatches.wisefy.connection.WiseFyConnection
-import com.isupatches.wisefy.connection.WiseFyConnectionImpl
+import com.isupatches.wisefy.BaseAndroidJUnit4TestClass
+import com.isupatches.wisefy.TEST_SSID
+import com.isupatches.wisefy.TEST_SSID2
+import com.isupatches.wisefy.TEST_TIMEOUT
+import com.isupatches.wisefy.TEST_TYPE1
+
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 
@@ -13,12 +17,12 @@ import org.junit.Test
  *
  * @author Patches
  */
-internal class WiseFyConnectionTests : BaseAndroidJUnit4TestClass() {
+internal class WiseFyConnectionLegacyTests : BaseAndroidJUnit4TestClass() {
 
     private lateinit var wisefyConnection: WiseFyConnection
 
     @Before fun setUp() {
-        wisefyConnection = WiseFyConnectionImpl.create(mockConnectivityManager, mockWifiManager)
+        wisefyConnection = WiseFyConnectionLegacy.create(mockConnectivityManager, mockWifiManager)
     }
 
     /*
@@ -75,72 +79,72 @@ internal class WiseFyConnectionTests : BaseAndroidJUnit4TestClass() {
    */
 
     @Test fun isNetworkConnected_failure_nullNetworkInfoParam() {
-        assertFalse(wisefyConnection.isNetworkConnected(null))
+        assertFalse(wisefyConnection.isNetworkConnected())
     }
 
     @Test fun isNetworkConnected_failure_notAvailable() {
-        val networkInfo = mockNetworkUtil.currentNetworkConnectionStatus(false, true, null)
-        assertFalse(wisefyConnection.isNetworkConnected(networkInfo))
+        mockNetworkUtil.currentNetworkConnectionStatus(false, true, null)
+        assertFalse(wisefyConnection.isNetworkConnected())
     }
 
     @Test fun isNetworkConnected_failure_notAvailableOrConnected() {
-        val networkInfo = mockNetworkUtil.currentNetworkConnectionStatus(false, false, null)
-        assertFalse(wisefyConnection.isNetworkConnected(networkInfo))
+        mockNetworkUtil.currentNetworkConnectionStatus(false, false, null)
+        assertFalse(wisefyConnection.isNetworkConnected())
     }
 
     @Test fun isNetworkConnected_failure_notConnected() {
-        val networkInfo = mockNetworkUtil.currentNetworkConnectionStatus(true, false, null)
-        assertFalse(wisefyConnection.isNetworkConnected(networkInfo))
+        mockNetworkUtil.currentNetworkConnectionStatus(true, false, null)
+        assertFalse(wisefyConnection.isNetworkConnected())
     }
 
     @Test fun isNetworkConnected_success() {
-        val networkInfo = mockNetworkUtil.currentNetworkConnectionStatus(true, true, null)
-        assertTrue(wisefyConnection.isNetworkConnected(networkInfo))
+        mockNetworkUtil.currentNetworkConnectionStatus(true, true, null)
+        assertTrue(wisefyConnection.isNetworkConnected())
     }
 
-    /*
-   * isNetworkConnectedAndMatchesType tests
-   */
-
-    @Test fun isNetworkConnectedAndMatchesType_failure_nullNetworkInfo() {
-        assertFalse(wisefyConnection.isNetworkConnectedAndMatchesType(null, TEST_TYPE1))
-    }
-
-    @Test fun isNetworkConnectedAndMatchesType_failure_notAvailable() {
-        mockNetworkUtil.currentNetwork(TEST_SSID)
-        val networkInfo = mockNetworkUtil.currentNetworkConnectionStatus(false, true, TEST_TYPE1)
-        assertFalse(wisefyConnection.isNetworkConnectedAndMatchesType(networkInfo, TEST_TYPE1))
-    }
-
-    @Test fun isNetworkConnectedAndMatchesType_failure_notAvailableOrConnected() {
-        mockNetworkUtil.currentNetwork(TEST_SSID)
-        val networkInfo = mockNetworkUtil.currentNetworkConnectionStatus(false, false, TEST_TYPE1)
-        assertFalse(wisefyConnection.isNetworkConnectedAndMatchesType(networkInfo, TEST_TYPE1))
-    }
-
-    @Test fun isNetworkConnectedAndMatchesType_failure_notConnected() {
-        mockNetworkUtil.currentNetwork(TEST_SSID)
-        val networkInfo = mockNetworkUtil.currentNetworkConnectionStatus(true, false, TEST_TYPE1)
-        assertFalse(wisefyConnection.isNetworkConnectedAndMatchesType(networkInfo, TEST_TYPE1))
-    }
-
-    @Test fun isNetworkConnectedAndMatchesType_failure_nullTypeName() {
-        mockNetworkUtil.currentNetwork(TEST_SSID)
-        val networkInfo = mockNetworkUtil.currentNetworkConnectionStatus(true, true, null)
-        assertFalse(wisefyConnection.isNetworkConnectedAndMatchesType(networkInfo, TEST_TYPE1))
-    }
-
-    @Test fun isNetworkConnectedAndMatchesType_failure_differentTypeName() {
-        mockNetworkUtil.currentNetwork(TEST_SSID)
-        val networkInfo = mockNetworkUtil.currentNetworkConnectionStatus(true, true, TEST_TYPE2)
-        assertFalse(wisefyConnection.isNetworkConnectedAndMatchesType(networkInfo, TEST_TYPE1))
-    }
-
-    @Test fun isNetworkConnectedAndMatchesType_success() {
-        mockNetworkUtil.currentNetwork(TEST_SSID)
-        val networkInfo = mockNetworkUtil.currentNetworkConnectionStatus(true, true, TEST_TYPE1)
-        assertTrue(wisefyConnection.isNetworkConnectedAndMatchesType(networkInfo, TEST_TYPE1))
-    }
+//    /*
+//     * isNetworkConnectedAndMatchesType tests
+//     */
+//
+//    @Test fun isNetworkConnectedAndMatchesType_failure_nullNetworkInfo() {
+//        assertFalse(wisefyConnection.isNetworkConnectedAndMatchesType(null, TEST_TYPE1))
+//    }
+//
+//    @Test fun isNetworkConnectedAndMatchesType_failure_notAvailable() {
+//        mockNetworkUtil.currentNetwork(TEST_SSID)
+//        val networkInfo = mockNetworkUtil.currentNetworkConnectionStatus(false, true, TEST_TYPE1)
+//        assertFalse(wisefyConnection.isNetworkConnectedAndMatchesType(networkInfo, TEST_TYPE1))
+//    }
+//
+//    @Test fun isNetworkConnectedAndMatchesType_failure_notAvailableOrConnected() {
+//        mockNetworkUtil.currentNetwork(TEST_SSID)
+//        val networkInfo = mockNetworkUtil.currentNetworkConnectionStatus(false, false, TEST_TYPE1)
+//        assertFalse(wisefyConnection.isNetworkConnectedAndMatchesType(networkInfo, TEST_TYPE1))
+//    }
+//
+//    @Test fun isNetworkConnectedAndMatchesType_failure_notConnected() {
+//        mockNetworkUtil.currentNetwork(TEST_SSID)
+//        val networkInfo = mockNetworkUtil.currentNetworkConnectionStatus(true, false, TEST_TYPE1)
+//        assertFalse(wisefyConnection.isNetworkConnectedAndMatchesType(networkInfo, TEST_TYPE1))
+//    }
+//
+//    @Test fun isNetworkConnectedAndMatchesType_failure_nullTypeName() {
+//        mockNetworkUtil.currentNetwork(TEST_SSID)
+//        val networkInfo = mockNetworkUtil.currentNetworkConnectionStatus(true, true, null)
+//        assertFalse(wisefyConnection.isNetworkConnectedAndMatchesType(networkInfo, TEST_TYPE1))
+//    }
+//
+//    @Test fun isNetworkConnectedAndMatchesType_failure_differentTypeName() {
+//        mockNetworkUtil.currentNetwork(TEST_SSID)
+//        val networkInfo = mockNetworkUtil.currentNetworkConnectionStatus(true, true, TEST_TYPE2)
+//        assertFalse(wisefyConnection.isNetworkConnectedAndMatchesType(networkInfo, TEST_TYPE1))
+//    }
+//
+//    @Test fun isNetworkConnectedAndMatchesType_success() {
+//        mockNetworkUtil.currentNetwork(TEST_SSID)
+//        val networkInfo = mockNetworkUtil.currentNetworkConnectionStatus(true, true, TEST_TYPE1)
+//        assertTrue(wisefyConnection.isNetworkConnectedAndMatchesType(networkInfo, TEST_TYPE1))
+//    }
 
     /*
      * waitToConnectToSSID tests
