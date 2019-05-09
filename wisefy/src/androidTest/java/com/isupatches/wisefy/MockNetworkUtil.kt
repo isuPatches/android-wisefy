@@ -54,7 +54,8 @@ internal class MockNetworkUtil internal constructor(
         return mockCurrentNetwork
     }
 
-    internal fun currentNetworkConnectionStatus(isAvailable: Boolean, isConnected: Boolean, type: String?): NetworkInfo {
+    @Suppress("DEPRECATION")
+    internal fun currentNetworkConnectionStatus(isAvailable: Boolean, isConnected: Boolean, type: String?) {
         val networkInfo = mock(NetworkInfo::class.java)
         `when`(networkInfo.isAvailable).thenReturn(isAvailable)
         `when`(networkInfo.isConnected).thenReturn(isConnected)
@@ -62,7 +63,6 @@ internal class MockNetworkUtil internal constructor(
             `when`(networkInfo.typeName).thenReturn(type)
         }
         `when`(mockConnectivityManager.activeNetworkInfo).thenReturn(networkInfo)
-        return networkInfo
     }
 
     internal fun currentNetwork_null() {
@@ -101,6 +101,7 @@ internal class MockNetworkUtil internal constructor(
 
     internal fun getExpectedSSIDs(): List<String>? = expectedSSIDs
 
+    @Suppress("DEPRECATION")
     internal fun isDeviceRoaming(roaming: Boolean) {
         val networkInfo = mock(NetworkInfo::class.java)
         `when`(networkInfo.isRoaming).thenReturn(roaming)
@@ -109,12 +110,6 @@ internal class MockNetworkUtil internal constructor(
 
     internal fun isWifiEnabled(wifiEnabled: Boolean) {
         `when`(mockWifiManager.isWifiEnabled).thenReturn(wifiEnabled)
-    }
-
-    internal fun nearbyAccessPoints(): List<ScanResult> {
-        val accessPoints = createMockAccessPointList(TEST_SSID, TEST_RSSI_LEVEL_HIGH, TEST_SSID2, TEST_RSSI_LEVEL_LOW)
-        `when`(mockWifiManager.scanResults).thenReturn(accessPoints)
-        return accessPoints
     }
 
     internal fun networkWithFrequency(frequency: Int): WifiInfo {
@@ -173,7 +168,7 @@ internal class MockNetworkUtil internal constructor(
         `when`(mockWifiManager.scanResults).thenReturn(accessPoints)
     }
 
-    internal fun nearbyAccessPoints_multipleMatchingSSIDs_accessPoint1HasHigherRSSI(takeHighest: Boolean): List<ScanResult> {
+    internal fun nearbyAccessPoints_multipleMatchingSSIDs_accessPoint1HasHigherRSSI(takeHighest: Boolean) {
         val accessPoint1 = createMockAccessPointWithSSIDAndRSSI(TEST_SSID, TEST_RSSI_LEVEL_HIGH)
         val accessPoint2 = createMockAccessPointWithSSIDAndRSSI(TEST_SSID, TEST_RSSI_LEVEL_LOW)
 
@@ -189,11 +184,9 @@ internal class MockNetworkUtil internal constructor(
         addToExpectedSSIDs(accessPoint1)
 
         `when`(mockWifiManager.scanResults).thenReturn(accessPoints)
-
-        return accessPoints
     }
 
-    internal fun nearbyAccessPoints_multipleMatchingSSIDs_accessPoint2HasHigherRSSI(takeHighest: Boolean): List<ScanResult> {
+    internal fun nearbyAccessPoints_multipleMatchingSSIDs_accessPoint2HasHigherRSSI(takeHighest: Boolean) {
         val accessPoint1 = createMockAccessPointWithSSIDAndRSSI(TEST_SSID, TEST_RSSI_LEVEL_LOW)
         val accessPoint2 = createMockAccessPointWithSSIDAndRSSI(TEST_SSID, TEST_RSSI_LEVEL_HIGH)
 
@@ -209,11 +202,9 @@ internal class MockNetworkUtil internal constructor(
         addToExpectedSSIDs(accessPoint1)
 
         `when`(mockWifiManager.scanResults).thenReturn(accessPoints)
-
-        return accessPoints
     }
 
-    internal fun nearbyAccessPoints_multipleSSIDs_sameRSSI(addSecondNetwork: Boolean): List<ScanResult> {
+    internal fun nearbyAccessPoints_multipleSSIDs_sameRSSI(addSecondNetwork: Boolean) {
         val accessPoint1 = createMockAccessPointWithSSIDAndRSSI(TEST_SSID, TEST_RSSI_LEVEL)
         val accessPoint2 = createMockAccessPointWithSSIDAndRSSI(TEST_SSID2, TEST_RSSI_LEVEL)
 
@@ -234,11 +225,9 @@ internal class MockNetworkUtil internal constructor(
         }
 
         `when`(mockWifiManager.scanResults).thenReturn(accessPoints)
-
-        return accessPoints
     }
 
-    internal fun nearbyAccessPoints_multipleMatchingSSIDs_sameRSSI(addSecondNetwork: Boolean): List<ScanResult> {
+    internal fun nearbyAccessPoints_multipleMatchingSSIDs_sameRSSI(addSecondNetwork: Boolean) {
         val accessPoint1 = createMockAccessPointWithSSIDAndRSSI(TEST_SSID, TEST_RSSI_LEVEL)
         val accessPoint2 = createMockAccessPointWithSSIDAndRSSI(TEST_SSID, TEST_RSSI_LEVEL)
 
@@ -254,8 +243,6 @@ internal class MockNetworkUtil internal constructor(
         addToExpectedSSIDs(accessPoint1)
 
         `when`(mockWifiManager.scanResults).thenReturn(accessPoints)
-
-        return accessPoints
     }
 
     internal fun nearbyAccessPoints_multipleNonMatchingSSIDs() {

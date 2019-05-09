@@ -1,8 +1,7 @@
 package com.isupatches.wisefy
 
-import android.net.NetworkInfo
 import com.isupatches.wisefy.connection.WiseFyConnection
-import org.mockito.ArgumentMatchers.any
+
 import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mockito.`when`
@@ -49,6 +48,10 @@ internal class MockWiseFyConnectionUtil internal constructor(
      */
     fun isDeviceConnectedToWifiNetwork(connected: Boolean) {
         `when`(mockWiseFyConnection.isDeviceConnectedToWifiNetwork()).thenReturn(connected)
+    }
+
+    fun isDeviceRoaming(roaming: Boolean) {
+        `when`(mockWiseFyConnection.isDeviceRoaming()).thenReturn(roaming)
     }
 
     /**

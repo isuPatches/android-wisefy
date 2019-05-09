@@ -21,6 +21,7 @@ import org.mockito.Mockito.verify
  *
  * @author Patches
  */
+@Suppress("deprecation")
 internal class AddWEPNetworkTests : BaseAndroidJUnit4TestClass() {
 
     @Test fun sync_failure_prechecks() {

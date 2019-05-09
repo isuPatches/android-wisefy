@@ -1,6 +1,7 @@
 package com.isupatches.wisefy.main
 
 import com.isupatches.wisefy.BaseAndroidJUnit4TestClass
+
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -17,21 +18,15 @@ internal class IsDeviceRoamingTests : BaseAndroidJUnit4TestClass() {
         assertFalse(wisefy.isDeviceRoaming())
     }
 
-    @Test fun failure_nullActiveNetworkInfo() {
-        mockWiseFyPrechecksUtil.isDeviceRoaming_success()
-        mockNetworkUtil.currentNetwork_null()
-        assertFalse(wisefy.isDeviceRoaming())
-    }
-
     @Test fun failure() {
         mockWiseFyPrechecksUtil.isDeviceRoaming_success()
-        mockNetworkUtil.isDeviceRoaming(false)
+        mockWiseFyConnectionUtil.isDeviceRoaming(false)
         assertFalse(wisefy.isDeviceRoaming())
     }
 
     @Test fun success() {
         mockWiseFyPrechecksUtil.isDeviceRoaming_success()
-        mockNetworkUtil.isDeviceRoaming(true)
+        mockWiseFyConnectionUtil.isDeviceRoaming(true)
         assertTrue(wisefy.isDeviceRoaming())
     }
 }

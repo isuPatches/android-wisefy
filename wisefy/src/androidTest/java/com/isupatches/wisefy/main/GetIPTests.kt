@@ -16,7 +16,7 @@ import org.mockito.Mockito.verify
  *
  * @author Patches
  */
-internal class GetIIPTests : BaseAndroidJUnit4TestClass() {
+internal class GetIPTests : BaseAndroidJUnit4TestClass() {
 
     @Test fun sync_getIP_failure_missingPrerequisites() {
         mockWiseFyPrechecksUtil.getIP_failure()

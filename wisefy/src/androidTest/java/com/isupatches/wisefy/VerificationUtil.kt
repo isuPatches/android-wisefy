@@ -87,15 +87,6 @@ internal class VerificationUtil internal constructor(
     }
 
     /**
-     * To verify no attempt to get nearby access points was made.
-     *
-     * @see WifiManager.getScanResults
-     */
-    fun didNotTryToGetNearbyAccessPoints() {
-        verify(mockWifiManager, after(VERIFICATION_FAILURE_TIMEOUT).times(0)).scanResults
-    }
-
-    /**
      * To verify no attempt to get saved networks was made.
      *
      * @see WifiManager.getConfiguredNetworks

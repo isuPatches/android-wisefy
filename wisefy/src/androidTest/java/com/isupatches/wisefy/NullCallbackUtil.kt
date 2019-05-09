@@ -32,6 +32,7 @@ internal class NullCallbackUtil internal constructor(private val wisefy: WiseFy)
      * @param ssid The ssid to use when adding
      * @param password The password to use when adding
      */
+    @Suppress("DEPRECATION")
     fun callAddWEPNetwork(ssid: String?, password: String?) {
         try {
             wisefy.addWEPNetwork(ssid, password, null)

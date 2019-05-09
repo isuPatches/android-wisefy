@@ -29,6 +29,12 @@ internal class GetCurrentNetworkInfoTest : BaseAndroidJUnit4TestClass() {
         verificationUtil.didNotTryToGetCurrentNetworkInfo()
     }
 
+    @Test fun sync_failure_nullCurrentNetwork() {
+        mockWiseFyPrechecksUtil.getCurrentNetworkInfo_success()
+        assertEquals(null, wisefy.getCurrentNetworkInfo())
+        verificationUtil.triedToGetCurrentNetworkInfo()
+    }
+
     @Test fun sync_success() {
         mockWiseFyPrechecksUtil.getCurrentNetworkInfo_success()
         mockNetworkUtil.activeNetwork()
@@ -55,6 +61,20 @@ internal class GetCurrentNetworkInfoTest : BaseAndroidJUnit4TestClass() {
         verificationUtil.didNotTryToGetCurrentNetworkInfo()
     }
 
+    @Test fun async_failure_nullCurrentNetwork() {
+        mockWiseFyPrechecksUtil.getCurrentNetworkInfo_success()
+        val mockCallbacks = mock(GetCurrentNetworkInfoCallbacks::class.java)
+        wisefy.getCurrentNetworkInfo(mockCallbacks)
+        verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).noCurrentNetworkInfo()
+        verificationUtil.triedToGetCurrentNetworkInfo()
+    }
+
+    @Test fun async_failure_nullCurrentNetwork_nullCallbacks() {
+        mockWiseFyPrechecksUtil.getCurrentNetworkInfo_success()
+        nullCallbackUtil.callGetCurrentNetworkInfo()
+        verificationUtil.triedToGetCurrentNetworkInfo()
+    }
+
     @Test fun async_success() {
         mockWiseFyPrechecksUtil.getCurrentNetworkInfo_success()
         mockNetworkUtil.activeNetwork()
@@ -68,6 +88,6 @@ internal class GetCurrentNetworkInfoTest : BaseAndroidJUnit4TestClass() {
         mockWiseFyPrechecksUtil.getCurrentNetworkInfo_success()
         mockNetworkUtil.activeNetwork()
         nullCallbackUtil.callGetCurrentNetworkInfo()
-        verificationUtil.didNotTryToGetCurrentNetworkInfo()
+        verificationUtil.triedToGetCurrentNetworkInfo()
     }
 }
