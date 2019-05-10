@@ -21,12 +21,17 @@ android:
     - android-${TARGET_SDK}
     - android-19
     - android-22
-    - android-28
+    - # For Google APIs
+    - addon-google_apis-google-28
+    # Google Play Services
+    - extra-google-google_play_services
+    # Build Tools
     - build-tools-${BUILD_TOOLS_VERSION}
+    # Latest artifacts in local repository
+    - extra-google-m2repository
     - extra-android-m2repository
-
-before_install:
-  - yes | sdkmanager "platforms;android-28"
+    # Emulator image
+    - sys-img-armeabi-v7a-google_apis-28
 
 before_script:
   - android-update-sdk --components=sys-img-$ABI-$EMULATOR_SDK --accept-licenses='android-sdk-license-[0-9a-f]{8}'
