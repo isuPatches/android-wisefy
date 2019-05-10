@@ -11,7 +11,7 @@ env:
   matrix:
 #    - EMULATOR_SDK=android-19 ABI=armeabi-v7a
 #    - EMULATOR_SDK=android-22 ABI=armeabi-v7a
-    - EMULATOR_SDK=android-28 ABI=x86 TAG=google_apis
+    - EMULATOR_SDK=android-26 ABI=x86 TAG=google_apis
 
 android:
   components:
@@ -21,13 +21,14 @@ android:
     - android-${TARGET_SDK}
     - android-19
     - android-22
+    - android-26
     - android-28
     # Build Tools
     - build-tools-${BUILD_TOOLS_VERSION}
     # Latest artifacts in local repository
     - extra-google-m2repository
     - extra-android-m2repository
-    - sys-img-x86-android-28
+    - sys-img-x86-google_apis-26
 
 before_script:
   - android-update-sdk --components=sys-img-$ABI-$EMULATOR_SDK --accept-licenses='android-sdk-license-[0-9a-f]{8}'
