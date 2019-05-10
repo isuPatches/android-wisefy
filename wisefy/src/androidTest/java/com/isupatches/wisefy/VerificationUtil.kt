@@ -3,10 +3,12 @@ package com.isupatches.wisefy
 import android.net.ConnectivityManager
 import android.net.wifi.WifiConfiguration
 import android.net.wifi.WifiManager
+
 import org.mockito.ArgumentMatchers.any
 import org.mockito.ArgumentMatchers.anyBoolean
 import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.Mockito.after
+import org.mockito.Mockito.atLeastOnce
 import org.mockito.Mockito.timeout
 import org.mockito.Mockito.verify
 
@@ -93,6 +95,11 @@ internal class VerificationUtil internal constructor(
      */
     fun didNotTryToGetSavedNetworks() {
         verify(mockWifiManager, after(VERIFICATION_FAILURE_TIMEOUT).times(0)).configuredNetworks
+    }
+
+    @Suppress("DEPRECATION")
+    fun didNotTryToScanForAccessPoints() {
+        verify(mockWifiManager, after(VERIFICATION_FAILURE_TIMEOUT).times(0)).startScan()
     }
 
     /**
@@ -193,5 +200,10 @@ internal class VerificationUtil internal constructor(
      */
     fun triedToRemoveNetwork() {
         verify(mockWifiManager, timeout(VERIFICATION_SUCCESS_TIMEOUT)).removeNetwork(anyInt())
+    }
+
+    @Suppress("DEPRECATION")
+    fun triedToScanForAccessPoints() {
+        verify(mockWifiManager, atLeastOnce()).startScan()
     }
 }

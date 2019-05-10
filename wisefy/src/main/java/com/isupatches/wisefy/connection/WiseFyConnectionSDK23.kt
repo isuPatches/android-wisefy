@@ -23,6 +23,7 @@ import android.net.NetworkRequest
 import android.net.wifi.WifiManager
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.annotation.VisibleForTesting
 
 import com.isupatches.wisefy.logging.WiseFyLogger
 
@@ -54,7 +55,7 @@ internal class WiseFyConnectionSDK23 private constructor(
     // Internal to avoid SyntheticAccessor error within networkChangeCallback
     internal var connectionStatus: WiseFyConnectionStatus? = null
 
-    private val networkChangeCallback by lazy {
+    @VisibleForTesting internal val networkChangeCallback by lazy {
         object : ConnectivityManager.NetworkCallback() {
             override fun onAvailable(network: Network?) {
                 super.onAvailable(network)
@@ -102,11 +103,11 @@ internal class WiseFyConnectionSDK23 private constructor(
 
     override fun isDeviceConnectedToMobileNetwork(): Boolean = doesNetworkHaveTransportType(
         transportType = NetworkCapabilities.TRANSPORT_CELLULAR
-    )
+    ) && isNetworkConnected()
 
     override fun isDeviceConnectedToWifiNetwork(): Boolean = doesNetworkHaveTransportType(
         transportType = NetworkCapabilities.TRANSPORT_WIFI
-    )
+    ) && isNetworkConnected()
 
     override fun isDeviceRoaming(): Boolean =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
@@ -120,12 +121,15 @@ internal class WiseFyConnectionSDK23 private constructor(
     override fun isNetworkConnected(): Boolean = connectionStatus == WiseFyConnectionStatus.AVAILABLE
 
     private fun doesNetworkHaveTransportType(transportType: Int): Boolean =
-        getActiveNetworkCapabilities().hasTransport(transportType)
+        getActiveNetworkCapabilities()?.let {
+            it.hasTransport(transportType) &&
+            it.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+        } ?: false
 
     private fun doesNetworkHaveCapability(capability: Int): Boolean =
-        getActiveNetworkCapabilities().hasCapability(capability)
+        getActiveNetworkCapabilities()?.hasCapability(capability) ?: false
 
-    private fun getActiveNetworkCapabilities(): NetworkCapabilities =
+    private fun getActiveNetworkCapabilities(): NetworkCapabilities? =
         connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
 
     private fun startListeningForNetworkChanges(connectivityManager: ConnectivityManager) {

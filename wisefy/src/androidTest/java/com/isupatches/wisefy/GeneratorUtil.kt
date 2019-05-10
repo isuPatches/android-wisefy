@@ -2,7 +2,9 @@ package com.isupatches.wisefy
 
 import android.net.wifi.ScanResult
 import android.net.wifi.WifiConfiguration
+
 import org.mockito.Mockito.mock
+
 import java.util.ArrayList
 
 /**

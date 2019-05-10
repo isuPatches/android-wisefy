@@ -6,8 +6,10 @@ import com.isupatches.wisefy.TEST_TIMEOUT
 import com.isupatches.wisefy.VERIFICATION_SUCCESS_TIMEOUT
 import com.isupatches.wisefy.callbacks.SearchForAccessPointCallbacks
 import com.isupatches.wisefy.constants.MISSING_PARAMETER
+
 import org.junit.Assert.assertEquals
 import org.junit.Test
+
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.timeout
 import org.mockito.Mockito.verify

@@ -1,8 +1,10 @@
 package com.isupatches.wisefy
 
 import android.net.wifi.WifiInfo
+
 import com.isupatches.wisefy.callbacks.GetFrequencyCallbacks
 import com.isupatches.wisefy.callbacks.GetSavedNetworksCallbacks
+
 import org.junit.Assert.fail
 
 /**

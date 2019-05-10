@@ -149,11 +149,11 @@ internal class WiseFyConnectionLegacyTests : BaseAndroidJUnit4TestClass() {
     }
 
     /*
-     * isDeviceConnectedToMobileNetwork tests
+     * isDeviceConnectedToWifiNetwork tests
      */
 
     @Test fun isDeviceConnectedToWifiNetwork_failure_nullNetworkInfo() {
-        assertFalse(wisefyConnection.isDeviceConnectedToMobileNetwork())
+        assertFalse(wisefyConnection.isDeviceConnectedToWifiNetwork())
     }
 
     @Test fun isDeviceConnectedToWifiNetwork_failure_notAvailable() {

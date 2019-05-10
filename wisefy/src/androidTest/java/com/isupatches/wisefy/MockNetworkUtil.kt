@@ -6,11 +6,14 @@ import android.net.wifi.ScanResult
 import android.net.wifi.WifiConfiguration
 import android.net.wifi.WifiInfo
 import android.net.wifi.WifiManager
+
 import com.isupatches.wisefy.WiseFy.Companion.WIFI_MANAGER_FAILURE
+
 import org.mockito.ArgumentMatchers.any
 import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
+
 import java.util.ArrayList
 
 /**

@@ -2,12 +2,14 @@ package com.isupatches.wisefy
 
 import android.net.wifi.ScanResult
 import android.net.wifi.WifiConfiguration
+
 import com.isupatches.wisefy.search.WiseFySearch
 
 import org.mockito.ArgumentMatchers.anyBoolean
 import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mockito.`when`
+
 import java.util.ArrayList
 
 /**
