@@ -25,6 +25,9 @@ android:
     - build-tools-${BUILD_TOOLS_VERSION}
     - extra-android-m2repository
 
+before_install:
+  - yes | sdkmanager "platforms;android-28"
+
 before_script:
   - android-update-sdk --components=sys-img-$ABI-$EMULATOR_SDK --accept-licenses='android-sdk-license-[0-9a-f]{8}'
   - echo no | android create avd --force -n test -t $EMULATOR_SDK --abi $ABI

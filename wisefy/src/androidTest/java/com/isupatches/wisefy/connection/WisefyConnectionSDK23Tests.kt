@@ -1,7 +1,6 @@
 package com.isupatches.wisefy.connection
 
 import android.net.Network
-import android.net.NetworkCapabilities
 import android.os.Build
 
 import com.isupatches.wisefy.BaseAndroidJUnit4TestClass
@@ -122,8 +121,8 @@ internal class WisefyConnectionSDK23Tests : BaseAndroidJUnit4TestClass() {
     @Test fun isDeviceConnectedToMobileNetwork_failure_differentTransport() {
         withAvailableNetwork()
         val networkCapabilities = getNetworkCapabilities(
-            NetworkCapabilities.TRANSPORT_WIFI,
-            arrayOf(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+            android.net.NetworkCapabilities.TRANSPORT_WIFI,
+            arrayOf(android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET)
         )
         setUpNetworkCapabilities(networkCapabilities)
         assertFalse(wisefyConnection.isDeviceConnectedToMobileNetwork())
@@ -132,7 +131,7 @@ internal class WisefyConnectionSDK23Tests : BaseAndroidJUnit4TestClass() {
     @Test fun isDeviceConnectedToMobileNetwork_failure_noInternetCapability() {
         withAvailableNetwork()
         val networkCapabilities = getNetworkCapabilities(
-            NetworkCapabilities.TRANSPORT_CELLULAR
+            android.net.NetworkCapabilities.TRANSPORT_CELLULAR
         )
         setUpNetworkCapabilities(networkCapabilities)
         assertFalse(wisefyConnection.isDeviceConnectedToMobileNetwork())
@@ -141,8 +140,8 @@ internal class WisefyConnectionSDK23Tests : BaseAndroidJUnit4TestClass() {
     @Test fun isDeviceConnectedToMobileNetwork_failure_unavailable() {
         withUnavailableNetwork()
         val networkCapabilities = getNetworkCapabilities(
-            NetworkCapabilities.TRANSPORT_CELLULAR,
-            arrayOf(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+            android.net.NetworkCapabilities.TRANSPORT_CELLULAR,
+            arrayOf(android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET)
         )
         setUpNetworkCapabilities(networkCapabilities)
         assertFalse(wisefyConnection.isDeviceConnectedToMobileNetwork())
@@ -151,8 +150,8 @@ internal class WisefyConnectionSDK23Tests : BaseAndroidJUnit4TestClass() {
     @Test fun isDeviceConnectedToMobileNetwork_failure_lost() {
         withLostNetwork()
         val networkCapabilities = getNetworkCapabilities(
-            NetworkCapabilities.TRANSPORT_CELLULAR,
-            arrayOf(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+            android.net.NetworkCapabilities.TRANSPORT_CELLULAR,
+            arrayOf(android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET)
         )
         setUpNetworkCapabilities(networkCapabilities)
         assertFalse(wisefyConnection.isDeviceConnectedToMobileNetwork())
@@ -161,8 +160,8 @@ internal class WisefyConnectionSDK23Tests : BaseAndroidJUnit4TestClass() {
     @Test fun isDeviceConnectedToMobileNetwork_failure_losing() {
         withLosingNetwork()
         val networkCapabilities = getNetworkCapabilities(
-            NetworkCapabilities.TRANSPORT_CELLULAR,
-            arrayOf(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+            android.net.NetworkCapabilities.TRANSPORT_CELLULAR,
+            arrayOf(android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET)
         )
         setUpNetworkCapabilities(networkCapabilities)
         assertFalse(wisefyConnection.isDeviceConnectedToMobileNetwork())
@@ -171,8 +170,8 @@ internal class WisefyConnectionSDK23Tests : BaseAndroidJUnit4TestClass() {
     @Test fun isDeviceConnectedToMobileNetwork_success() {
         withAvailableNetwork()
         val networkCapabilities = getNetworkCapabilities(
-            NetworkCapabilities.TRANSPORT_CELLULAR,
-            arrayOf(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+            android.net.NetworkCapabilities.TRANSPORT_CELLULAR,
+            arrayOf(android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET)
         )
         setUpNetworkCapabilities(networkCapabilities)
         assertTrue(wisefyConnection.isDeviceConnectedToMobileNetwork())
@@ -194,8 +193,8 @@ internal class WisefyConnectionSDK23Tests : BaseAndroidJUnit4TestClass() {
     @Test fun isDeviceConnectedToWifiNetwork_failure_differentTransport() {
         withAvailableNetwork()
         val networkCapabilities = getNetworkCapabilities(
-            NetworkCapabilities.TRANSPORT_CELLULAR,
-            arrayOf(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+            android.net.NetworkCapabilities.TRANSPORT_CELLULAR,
+            arrayOf(android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET)
         )
         setUpNetworkCapabilities(networkCapabilities)
         assertFalse(wisefyConnection.isDeviceConnectedToWifiNetwork())
@@ -204,7 +203,7 @@ internal class WisefyConnectionSDK23Tests : BaseAndroidJUnit4TestClass() {
     @Test fun isDeviceConnectedToWifiNetwork_failure_noInternetCapability() {
         withAvailableNetwork()
         val networkCapabilities = getNetworkCapabilities(
-            NetworkCapabilities.TRANSPORT_WIFI
+            android.net.NetworkCapabilities.TRANSPORT_WIFI
         )
         setUpNetworkCapabilities(networkCapabilities)
         assertFalse(wisefyConnection.isDeviceConnectedToWifiNetwork())
@@ -213,8 +212,8 @@ internal class WisefyConnectionSDK23Tests : BaseAndroidJUnit4TestClass() {
     @Test fun isDeviceConnectedToWifiNetwork_failure_unavailable() {
         withUnavailableNetwork()
         val networkCapabilities = getNetworkCapabilities(
-            NetworkCapabilities.TRANSPORT_WIFI,
-            arrayOf(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+            android.net.NetworkCapabilities.TRANSPORT_WIFI,
+            arrayOf(android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET)
         )
         setUpNetworkCapabilities(networkCapabilities)
         assertFalse(wisefyConnection.isDeviceConnectedToWifiNetwork())
@@ -223,8 +222,8 @@ internal class WisefyConnectionSDK23Tests : BaseAndroidJUnit4TestClass() {
     @Test fun isDeviceConnectedToWifiNetwork_failure_lost() {
         withLostNetwork()
         val networkCapabilities = getNetworkCapabilities(
-            NetworkCapabilities.TRANSPORT_WIFI,
-            arrayOf(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+            android.net.NetworkCapabilities.TRANSPORT_WIFI,
+            arrayOf(android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET)
         )
         setUpNetworkCapabilities(networkCapabilities)
         assertFalse(wisefyConnection.isDeviceConnectedToWifiNetwork())
@@ -233,8 +232,8 @@ internal class WisefyConnectionSDK23Tests : BaseAndroidJUnit4TestClass() {
     @Test fun isDeviceConnectedToWifiNetwork_failure_losing() {
         withLosingNetwork()
         val networkCapabilities = getNetworkCapabilities(
-            NetworkCapabilities.TRANSPORT_WIFI,
-            arrayOf(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+            android.net.NetworkCapabilities.TRANSPORT_WIFI,
+            arrayOf(android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET)
         )
         setUpNetworkCapabilities(networkCapabilities)
         assertFalse(wisefyConnection.isDeviceConnectedToWifiNetwork())
@@ -243,8 +242,8 @@ internal class WisefyConnectionSDK23Tests : BaseAndroidJUnit4TestClass() {
     @Test fun isDeviceConnectedToWifiNetwork_success() {
         withAvailableNetwork()
         val networkCapabilities = getNetworkCapabilities(
-            NetworkCapabilities.TRANSPORT_WIFI,
-            arrayOf(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+            android.net.NetworkCapabilities.TRANSPORT_WIFI,
+            arrayOf(android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET)
         )
         setUpNetworkCapabilities(networkCapabilities)
         assertTrue(wisefyConnection.isDeviceConnectedToWifiNetwork())
@@ -296,7 +295,7 @@ internal class WisefyConnectionSDK23Tests : BaseAndroidJUnit4TestClass() {
         "Can only run on API Level 28 or newer",
         Build.VERSION.SDK_INT >= Build.VERSION_CODES.P
         )
-        val networkCapabilities = NetworkCapabilities(null)
+        val networkCapabilities = android.net.NetworkCapabilities(null)
         setUpNetworkCapabilities(networkCapabilities)
         mockNetworkUtil.isDeviceRoaming(false)
         assertTrue(wisefyConnection.isDeviceRoaming())
@@ -307,7 +306,7 @@ internal class WisefyConnectionSDK23Tests : BaseAndroidJUnit4TestClass() {
             "Can only run on API Level 28 or newer",
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.P
         )
-        val networkCapabilities = getNetworkCapabilities(arrayOf(NetworkCapabilities.NET_CAPABILITY_NOT_ROAMING))
+        val networkCapabilities = getNetworkCapabilities(arrayOf(android.net.NetworkCapabilities.NET_CAPABILITY_NOT_ROAMING))
         setUpNetworkCapabilities(networkCapabilities)
         mockNetworkUtil.isDeviceRoaming(true)
         assertFalse(wisefyConnection.isDeviceRoaming())
@@ -368,7 +367,7 @@ internal class WisefyConnectionSDK23Tests : BaseAndroidJUnit4TestClass() {
      *
      */
 
-    private fun setUpNetworkCapabilities(networkCapabilities: NetworkCapabilities) {
+    private fun setUpNetworkCapabilities(networkCapabilities: android.net.NetworkCapabilities) {
         val network = mock(Network::class.java)
         `when`(mockConnectivityManager.activeNetwork).thenReturn(network)
         `when`(mockConnectivityManager.getNetworkCapabilities(network)).thenReturn(networkCapabilities)
