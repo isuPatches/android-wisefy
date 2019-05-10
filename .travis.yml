@@ -11,7 +11,7 @@ env:
   matrix:
     - EMULATOR_SDK=android-19 ABI=armeabi-v7a
     - EMULATOR_SDK=android-22 ABI=armeabi-v7a
-    - EMULATOR_SDK=android-28 ABI=google_apis/armeabi-v7a
+    - EMULATOR_SDK=android-27 ABI=armeabi-v7a
 
 android:
   components:
@@ -21,17 +21,16 @@ android:
     - android-${TARGET_SDK}
     - android-19
     - android-22
-    - # For Google APIs
-    - addon-google_apis-google-28
-    # Google Play Services
-    - extra-google-google_play_services
+    - android-27
     # Build Tools
     - build-tools-${BUILD_TOOLS_VERSION}
     # Latest artifacts in local repository
     - extra-google-m2repository
     - extra-android-m2repository
-    # Emulator image
-    - sys-img-armeabi-v7a-google_apis-28
+    - sys-img-armeabi-v7a-android-27
+
+before_install:
+  - yes | sdkmanager "platforms;android-27"
 
 before_script:
   - android-update-sdk --components=sys-img-$ABI-$EMULATOR_SDK --accept-licenses='android-sdk-license-[0-9a-f]{8}'
