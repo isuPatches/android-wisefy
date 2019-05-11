@@ -8,10 +8,6 @@ env:
   global:
     - TARGET_SDK=28
     - BUILD_TOOLS_VERSION=28.0.3
-  matrix:
-#    - EMULATOR_SDK=android-19 ABI=armeabi-v7a
-#    - EMULATOR_SDK=android-22 ABI=armeabi-v7a
-    - EMULATOR_SDK=android-26 ABI=x86 TAG=google_apis
 
 android:
   components:
@@ -19,26 +15,12 @@ android:
     - platform-tools
     - tools
     - android-${TARGET_SDK}
-    - android-19
-    - android-22
-    - android-26
-    - android-28
-    # Build Tools
     - build-tools-${BUILD_TOOLS_VERSION}
-    # Latest artifacts in local repository
     - extra-google-m2repository
     - extra-android-m2repository
-    - sys-img-x86-google_apis-26
-
-before_script:
-  - android-update-sdk --components=sys-img-$ABI-$EMULATOR_SDK --accept-licenses='android-sdk-license-[0-9a-f]{8}'
-  - echo no | android create avd --force -n test -t $EMULATOR_SDK --abi $ABI --tag $TAG
-  - emulator -avd test -no-audio -no-window &
-  - ./gradlew clean assembleDebug assembleDebugAndroidTest
-  - android-wait-for-emulator
-  - adb shell input keyevent 82 &
 
 script:
+  - ./gradlew clean assembleDebug assembleDebugAndroidTest
   - travis_wait 60 ./gradlew makeGoodChoices
 
 after_success:

@@ -29,8 +29,10 @@ import android.net.wifi.WifiInfo
 import android.net.wifi.WifiManager
 import android.os.Build
 import android.os.Handler
+import android.os.Looper
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
+import androidx.annotation.VisibleForTesting
 
 import com.isupatches.wisefy.annotations.Async
 import com.isupatches.wisefy.annotations.CallingThread
@@ -91,7 +93,7 @@ import java.net.UnknownHostException
  * @since 3.0
  */
 @PublicAPI
-@Suppress("LargeClass, SyntheticAccessor")
+@Suppress("LargeClass", "SyntheticAccessor")
 class WiseFy private constructor(
     private val connectivityManager: ConnectivityManager,
     private val wifiManager: WifiManager,
@@ -2183,7 +2185,7 @@ class WiseFy private constructor(
      */
     private fun runOnWiseFyThread(runnable: Runnable) {
         if (wisefyHandler == null) {
-            setupWiseFyThread()
+            setupWiseFyThread(false)
         }
         wisefyHandler?.post(runnable)
     }
@@ -2221,11 +2223,12 @@ class WiseFy private constructor(
      * @author Patches
      * @since 3.0
      */
-    private fun setupWiseFyThread() {
+    @VisibleForTesting
+    internal fun setupWiseFyThread(useMainLooper: Boolean) {
         wisefyHandlerThread = WiseFyHandlerThread(WiseFyHandlerThread.TAG)
         wisefyHandlerThread?.let {
             it.start()
-            val looper = it.looper
+            val looper = if (useMainLooper) Looper.getMainLooper() else it.looper
             wisefyHandler = Handler(looper)
         }
     }

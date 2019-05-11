@@ -3,7 +3,7 @@ task staticAnalysisSanityCheck {
 
     outputs.upToDateWhen { false }
 
-    dependsOn 'checkAll', 'lintAll'
+    dependsOn 'ktlintAll', 'detektAll', 'cpdAll', 'pmdAll', 'lintAll'
     doLast {
         println "\n##################################################" +
                 "\n# Static analysis passed! You are doing so good! #" +
@@ -11,15 +11,46 @@ task staticAnalysisSanityCheck {
     }
 }
 
-task checkAll() {
+task ktlintAll {
     group = 'verification'
 
-    outputs.upToDateWhen { false }
-
-    dependsOn ':wisefy:check'
+    dependsOn ':wisefy:ktlintCheck'
     doLast {
         println "\n##################################################" +
-                "\n#        Checked all the things!  Go you!        #" +
+                "\n#        KTLinted all the things!  Go you!       #" +
+                "\n##################################################"
+    }
+}
+
+task detektAll {
+    group = 'verification'
+
+    dependsOn ':wisefy:detekt'
+    doLast {
+        println "\n##################################################" +
+                "\n#         No issues Detekt'ed :badjoke:          #" +
+                "\n##################################################"
+    }
+}
+
+task cpdAll {
+    group = 'verification'
+
+    dependsOn ':wisefy:cpdCheck'
+    doLast {
+        println "\n##################################################" +
+                "\n#      Code so DRY, it must have an umbrella!    #" +
+                "\n##################################################"
+    }
+}
+
+task pmdAll {
+    group = 'verification'
+
+    dependsOn ':wisefy:pmd'
+    doLast {
+        println "\n##################################################" +
+                "\n#      PMD'ed all the things!  Oooohh yea!!      #" +
                 "\n##################################################"
     }
 }

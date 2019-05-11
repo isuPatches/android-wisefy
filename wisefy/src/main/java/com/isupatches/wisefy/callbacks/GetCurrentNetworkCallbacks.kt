@@ -28,6 +28,10 @@ import android.net.wifi.WifiInfo
  */
 interface GetCurrentNetworkCallbacks : BaseCallback {
 
+    /**
+     * @author Patches
+     * @since 4.0
+     */
     fun noCurrentNetwork()
 
     /**

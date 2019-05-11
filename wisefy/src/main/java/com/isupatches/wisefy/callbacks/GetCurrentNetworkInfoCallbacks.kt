@@ -28,6 +28,10 @@ import android.net.NetworkInfo
  */
 interface GetCurrentNetworkInfoCallbacks : BaseCallback {
 
+    /**
+     * @author Patches
+     * @since 4.0
+     */
     fun noCurrentNetworkInfo()
 
     /**

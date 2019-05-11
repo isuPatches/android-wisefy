@@ -12,6 +12,7 @@ import com.isupatches.wisefy.utils.rest
 
 import java.util.Locale
 
+@Suppress("LargeClass")
 internal abstract class AbstractWiseFySearch(
     private val wifiManager: WifiManager
 ) : WiseFySearch {
