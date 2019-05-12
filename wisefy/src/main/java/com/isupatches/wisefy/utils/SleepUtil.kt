@@ -38,6 +38,7 @@ internal fun rest() {
  * @author Patches
  * @since 3.0
  */
+@Suppress("SwallowedException")
 private fun sleep(timeToSleepInMillis: Long) {
     try {
         Thread.sleep(timeToSleepInMillis)

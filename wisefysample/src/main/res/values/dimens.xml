@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Paddings -->
+    <dimen name="default_padding">8dp</dimen>
+    <dimen name="padding_big">16dp</dimen>
+
+    <!-- Margins -->
+    <dimen name="default_margin">8dp</dimen>
+    <dimen name="margin_big">16dp</dimen>
+
+    <!-- Text Sizes -->
+    <dimen name="toolbar_title_text_size">32sp</dimen>
+
+</resources>

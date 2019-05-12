@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Patches Klinefelter
+ * Copyright 2019 Patches Klinefelter
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,10 +23,21 @@ import android.net.NetworkInfo
  * @see [BaseCallback]
  * @see [com.isupatches.wisefy.WiseFy.getCurrentNetworkInfo]
  *
+ * Updates
+ * - 05/12/2019: Added noCurrentNetworkInfo callback
+ *
  * @author Patches
  * @since 3.0
  */
 interface GetCurrentNetworkInfoCallbacks : BaseCallback {
+
+    /**
+     * Called when the Android OS returns no current network info.
+     *
+     * @author Patches
+     * @since 4.0
+     */
+    fun noCurrentNetworkInfo()
 
     /**
      * Called when WiseFy has successfully retrieved the device's current network info.

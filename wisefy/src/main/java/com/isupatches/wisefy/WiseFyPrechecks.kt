@@ -22,6 +22,7 @@ import com.isupatches.wisefy.constants.DEFAULT_PRECHECK_RETURN_CODE
 import com.isupatches.wisefy.constants.MISSING_PARAMETER
 import com.isupatches.wisefy.constants.NETWORK_ALREADY_CONFIGURED
 import com.isupatches.wisefy.constants.WiseFyCode
+import com.isupatches.wisefy.search.WiseFySearch
 
 /**
  * A helper class with methods to determine if the necessary requirements are met to preform operations.
@@ -463,8 +464,7 @@ internal class WiseFyPrechecksImpl private constructor(
      */
     private fun checkAddNetworkPrerequisites(ssid: String?): PrecheckResult =
         when {
-            ssid == null -> PrecheckResult(code = MISSING_PARAMETER)
-            ssid.isEmpty() -> PrecheckResult(code = MISSING_PARAMETER)
+            ssid.isNullOrEmpty() -> PrecheckResult(code = MISSING_PARAMETER)
             wisefySearch.isNetworkASavedConfiguration(ssid) -> {
                 PrecheckResult(code = NETWORK_ALREADY_CONFIGURED)
             }

@@ -59,7 +59,18 @@ android {
     }
 
     testOptions {
-        unitTests.returnDefaultValues = true
+        unitTests {
+            returnDefaultValues = true
+            /*
+             * includeAndroidResources and all block were added for RoboElectric
+             */
+            includeAndroidResources = true
+            all {
+                jacoco {
+                    includeNoLocationClasses = true
+                }
+            }
+        }
     }
 
     sourceSets {
@@ -80,11 +91,8 @@ dependencies {
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
-    androidTestImplementation "androidx.test.espresso:espresso-core:$androidx_espresso_core_version"
-    androidTestImplementation "androidx.test:runner:$androidx_test_runner_version"
-    androidTestImplementation "org.mockito:mockito-core:$mockito_version"
-    androidTestImplementation "org.mockito:mockito-android:$mockito_version"
-
+    testImplementation "org.robolectric:robolectric:$robo_electric_version"
+    testImplementation "androidx.test:core:$androidx_core_test_version"
     testImplementation "org.mockito:mockito-core:$mockito_version"
     testImplementation "junit:junit:$junit_version"
 }

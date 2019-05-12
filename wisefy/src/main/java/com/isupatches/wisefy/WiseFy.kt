@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Patches Klinefelter
+ * Copyright 2019 Patches Klinefelter
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,8 +29,10 @@ import android.net.wifi.WifiInfo
 import android.net.wifi.WifiManager
 import android.os.Build
 import android.os.Handler
+import android.os.Looper
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
+import androidx.annotation.VisibleForTesting
 
 import com.isupatches.wisefy.annotations.Async
 import com.isupatches.wisefy.annotations.CallingThread
@@ -56,16 +58,20 @@ import com.isupatches.wisefy.callbacks.SearchForAccessPointCallbacks
 import com.isupatches.wisefy.callbacks.SearchForAccessPointsCallbacks
 import com.isupatches.wisefy.callbacks.SearchForSSIDCallbacks
 import com.isupatches.wisefy.callbacks.SearchForSSIDsCallbacks
+import com.isupatches.wisefy.connection.WiseFyConnection
+import com.isupatches.wisefy.connection.WiseFyConnectionLegacy
+import com.isupatches.wisefy.connection.WiseFyConnectionSDK23
 import com.isupatches.wisefy.constants.Capability
 import com.isupatches.wisefy.constants.EAP
 import com.isupatches.wisefy.constants.MISSING_PARAMETER
-import com.isupatches.wisefy.constants.MOBILE
 import com.isupatches.wisefy.constants.PSK
 import com.isupatches.wisefy.constants.WEP
-import com.isupatches.wisefy.constants.WIFI
 import com.isupatches.wisefy.constants.WPA
 import com.isupatches.wisefy.constants.WPA2
 import com.isupatches.wisefy.logging.WiseFyLogger
+import com.isupatches.wisefy.search.WiseFySearch
+import com.isupatches.wisefy.search.WiseFySearchLegacy
+import com.isupatches.wisefy.search.WiseFySearchSDK23
 import com.isupatches.wisefy.threads.WiseFyHandlerThread
 import com.isupatches.wisefy.utils.generateOpenNetworkConfiguration
 import com.isupatches.wisefy.utils.generateWEPNetworkConfiguration
@@ -85,7 +91,7 @@ import java.net.UnknownHostException
  * @since 3.0
  */
 @PublicAPI
-@Suppress("LargeClass, SyntheticAccessor")
+@Suppress("LargeClass", "SyntheticAccessor")
 class WiseFy private constructor(
     private val connectivityManager: ConnectivityManager,
     private val wifiManager: WifiManager,
@@ -132,10 +138,21 @@ class WiseFy private constructor(
     /**
      * The Builder class for WiseFy.
      *
+     * Updates
+     * - 05/12/2019
+     *      * Branched wisefyConnection based off of if device is pre or post SDK23
+     *      * Branched wisefySearch based off of if device is pre or post SDK23
+     *      * Added useLegacyConnection
+     *      * Added useLegacySearch
+     *
      * @author Patches
      * @since 3.0
      */
-    class Brains(context: Context) {
+    class Brains @JvmOverloads constructor(
+        context: Context,
+        useLegacyConnection: Boolean = false,
+        useLegacySearch: Boolean = false
+    ) {
 
         private var loggingEnabled: Boolean = false
         private var connectivityManager: ConnectivityManager
@@ -147,8 +164,23 @@ class WiseFy private constructor(
         init {
             connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
             wifiManager = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
-            wisefyConnection = WiseFyConnectionImpl.create(connectivityManager, wifiManager)
-            wisefySearch = WiseFySearchImpl.create(wifiManager)
+
+            // We'll use SDK 23 logic for WiseFyConnection if client is on at least an SDK 23 device
+            // and "useLegacyConnection" option is not enabled
+
+            wisefyConnection = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M || useLegacyConnection) {
+                WiseFyConnectionLegacy.create(connectivityManager, wifiManager)
+            } else {
+                WiseFyConnectionSDK23.create(connectivityManager, wifiManager)
+            }
+            // We'll use SDK 23 logic for WiseFySearch if client is on at least an SDK 23 device
+            // and "useLegacySearch" option is not enabled
+            wisefySearch = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M || useLegacySearch) {
+                WiseFySearchLegacy.create(wifiManager)
+            } else {
+                WiseFySearchSDK23.create(wifiManager)
+            }
+
             wisefyPrechecks = WiseFyPrechecksImpl.create(wisefySearch)
         }
 
@@ -160,7 +192,9 @@ class WiseFy private constructor(
          * @author Patches
          * @since 3.0
          */
-        fun logging(loggingEnabled: Boolean): Brains = apply { this.loggingEnabled = loggingEnabled }
+        fun logging(loggingEnabled: Boolean): Brains = apply {
+            this.loggingEnabled = loggingEnabled
+        }
 
         /**
          * Used internally to set ConnectivityManager in tests.
@@ -236,12 +270,17 @@ class WiseFy private constructor(
          * Uses a private constructor and returns a WiseFy instance.
          *
          * @see [WiseFyLogger.configureWiseFyLoggerImplementation]
+         * @see [WiseFyConnection.init]
+         *
+         * Updates
+         * - 05/12/2019: Added new call to [WiseFyConnection.init]
          *
          * @author Patches
          * @since 3.0
          */
         fun getSmarts(): WiseFy {
             WiseFyLogger.configureWiseFyLoggerImplementation(loggingEnabled)
+            wisefyConnection.init()
             return WiseFy(
                 connectivityManager = connectivityManager,
                 wifiManager = wifiManager,
@@ -333,6 +372,8 @@ class WiseFy private constructor(
     @Sync
     @CallingThread
     @RequiresPermission(ACCESS_WIFI_STATE)
+    @Deprecated("Due to security and performance limitations, WEP networks are discouraged")
+    @Suppress("deprecation")
     override fun addWEPNetwork(ssid: String?, password: String?): Int {
         val precheck = wisefyPrechecks.addNetworkPrechecks(ssid, password)
         return if (precheck.failed()) {
@@ -347,12 +388,14 @@ class WiseFy private constructor(
      * @param password The password for the WEP network being added
      * @param callbacks The listener to return results to
      *
-     * @see [addNetworkConfiguration]
+     * @see [addNetworkWithPasswordAsync]
      * @see [AddNetworkCallbacks]
      * @see [generateWEPNetworkConfiguration]
      * @see [runOnWiseFyThread]
      * @see [WiseFyLock]
-     * @see [WiseFyPrechecks.addNetworkPrechecks]
+     *
+     * Updates
+     * - 05/12/2019: Abstracted logic for adding network into addNetworkWithPasswordAsync
      *
      * @author Patches
      * @since 3.0
@@ -360,22 +403,17 @@ class WiseFy private constructor(
     @Async
     @WiseFyThread
     @RequiresPermission(ACCESS_WIFI_STATE)
+    @Deprecated("Due to security and performance limitations, WEP networks are discouraged")
+    @Suppress("deprecation")
     override fun addWEPNetwork(ssid: String?, password: String?, callbacks: AddNetworkCallbacks?) {
         runOnWiseFyThread(Runnable {
             synchronized(wisefyLock) {
-                val precheck = wisefyPrechecks.addNetworkPrechecks(ssid, password)
-                if (precheck.failed()) {
-                    callbacks?.wisefyFailure(precheck.code)
-                    return@Runnable
-                }
-
-                val wepNetworkConfiguration = generateWEPNetworkConfiguration(ssid!!, password!!)
-                val result = addNetworkConfiguration(wepNetworkConfiguration)
-                if (result != WIFI_MANAGER_FAILURE) {
-                    callbacks?.networkAdded(result, wepNetworkConfiguration)
-                } else {
-                    callbacks?.failureAddingNetwork(result)
-                }
+                addNetworkWithPasswordAsync(
+                    ssid = ssid,
+                    password = password,
+                    wifiConfigurationProvider = { generateWEPNetworkConfiguration(ssid!!, password!!) },
+                    callbacks = callbacks
+                )
             }
         })
     }
@@ -412,12 +450,14 @@ class WiseFy private constructor(
      * @param password The password for the WPA2 network being added
      * @param callbacks The listener to return results to
      *
-     * @see [addNetworkConfiguration]
+     * @see [addNetworkWithPasswordAsync]
      * @see [AddNetworkCallbacks]
      * @see [generateWPA2NetworkConfiguration]
      * @see [runOnWiseFyThread]
      * @see [WiseFyLock]
-     * @see [WiseFyPrechecks.addNetworkPrechecks]
+     *
+     * Updates
+     * - 05/12/2019: Abstracted logic for adding network into addNetworkWithPasswordAsync
      *
      * @author Patches
      * @since 3.0
@@ -428,19 +468,12 @@ class WiseFy private constructor(
     override fun addWPA2Network(ssid: String?, password: String?, callbacks: AddNetworkCallbacks?) {
         runOnWiseFyThread(Runnable {
             synchronized(wisefyLock) {
-                val precheck = wisefyPrechecks.addNetworkPrechecks(ssid, password)
-                if (precheck.failed()) {
-                    callbacks?.wisefyFailure(precheck.code)
-                    return@Runnable
-                }
-
-                val wpa2NetworkConfiguration = generateWPA2NetworkConfiguration(ssid!!, password!!)
-                val result = addNetworkConfiguration(wpa2NetworkConfiguration)
-                if (result != WIFI_MANAGER_FAILURE) {
-                    callbacks?.networkAdded(result, wpa2NetworkConfiguration)
-                } else {
-                    callbacks?.failureAddingNetwork(result)
-                }
+                addNetworkWithPasswordAsync(
+                    ssid = ssid,
+                    password = password,
+                    wifiConfigurationProvider = { generateWPA2NetworkConfiguration(ssid!!, password!!) },
+                    callbacks = callbacks
+                )
             }
         })
     }
@@ -680,8 +713,12 @@ class WiseFy private constructor(
     /**
      * Used to cleanup the thread started by WiseFy.
      *
+     * @see [WiseFyConnection.destroy]
      * @see WiseFyHandlerThread
      * @see WiseFyLock
+     *
+     * Updates
+     * - 05/12/2019: Added new call to [WiseFyConnection.destroy]
      *
      * @author Patches
      * @since 3.0
@@ -711,6 +748,7 @@ class WiseFy private constructor(
             wisefyHandlerThread = null
         }
         wisefyHandler = null
+        wisefyConnection.destroy()
         WiseFyLogger.debug(TAG, "Cleaned up WiseFy Thread")
     }
 
@@ -782,7 +820,7 @@ class WiseFy private constructor(
      */
     @Sync
     @CallingThread
-    @RequiresPermission(allOf = arrayOf(ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE))
+    @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
     @Throws(SecurityException::class)
     override fun getCurrentNetwork(): WifiInfo? {
         return if (wisefyPrechecks.getCurrentNetworkChecks().passed()) {
@@ -804,12 +842,15 @@ class WiseFy private constructor(
      * @see [WiseFyLock]
      * @see [WiseFyPrechecks.getCurrentNetworkChecks]
      *
+     * Updates
+     * - 05/12/2019: Added noCurrentNetwork callback
+     *
      * @author Patches
      * @since 3.0
      */
     @Async
     @WiseFyThread
-    @RequiresPermission(allOf = arrayOf(ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE))
+    @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
     override fun getCurrentNetwork(callbacks: GetCurrentNetworkCallbacks?) {
         runOnWiseFyThread(Runnable {
             synchronized(wisefyLock) {
@@ -819,7 +860,12 @@ class WiseFy private constructor(
                     return@Runnable
                 }
 
-                callbacks?.retrievedCurrentNetwork(wifiManager.connectionInfo)
+                val currentNetwork: WifiInfo? = wifiManager.connectionInfo
+                if (currentNetwork != null) {
+                    callbacks?.retrievedCurrentNetwork(currentNetwork)
+                } else {
+                    callbacks?.noCurrentNetwork()
+                }
             }
         })
     }
@@ -857,6 +903,9 @@ class WiseFy private constructor(
      * @see [WiseFyLock]
      * @see [WiseFyPrechecks.getCurrentNetworkInfoChecks]
      *
+     * Updates
+     * - 05/12/2019: Added noCurrentNetworkInfo callback
+     *
      * @author Patches
      * @since 3.0
      */
@@ -872,7 +921,12 @@ class WiseFy private constructor(
                     return@Runnable
                 }
 
-                callbacks?.retrievedCurrentNetworkInfo(connectivityManager.activeNetworkInfo)
+                val currentNetworkInfo: NetworkInfo? = connectivityManager.activeNetworkInfo
+                if (currentNetworkInfo != null) {
+                    callbacks?.retrievedCurrentNetworkInfo(currentNetworkInfo)
+                } else {
+                    callbacks?.noCurrentNetworkInfo()
+                }
             }
         })
     }
@@ -893,7 +947,7 @@ class WiseFy private constructor(
     @Sync
     @CallingThread
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    @RequiresPermission(allOf = arrayOf(ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE))
+    @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
     @Throws(SecurityException::class)
     override fun getFrequency(): Int? {
         val currentNetwork = getCurrentNetwork()
@@ -919,7 +973,7 @@ class WiseFy private constructor(
     @Async
     @WiseFyThread
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    @RequiresPermission(allOf = arrayOf(ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE))
+    @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
     @Throws(SecurityException::class)
     override fun getFrequency(callbacks: GetFrequencyCallbacks?) {
         runOnWiseFyThread(Runnable {
@@ -1028,7 +1082,7 @@ class WiseFy private constructor(
      */
     @Async
     @WiseFyThread
-    @RequiresPermission(ACCESS_WIFI_STATE)
+    @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
     override fun getIP(callbacks: GetIPCallbacks?) {
         runOnWiseFyThread(Runnable {
             synchronized(wisefyLock) {
@@ -1062,29 +1116,25 @@ class WiseFy private constructor(
      * @throws SecurityException Without necessary permissions granted
      *
      * @see [ScanResult]
-     * @see [WifiManager.getScanResults]
-     * @see [WifiManager.startScan]
+     * @see [WiseFySearch.getNearbyAccessPoints]
      * @see [WiseFyPrechecks.getNearbyAccessPointsChecks]
-     * @see [WiseFySearch.removeEntriesWithLowerSignalStrength]
+     *
+     * Updates
+     * - 05/12/2019: Added call to new getNearbyAccessPoints
      *
      * @author Patches
      * @since 3.0
      */
     @Sync
     @CallingThread
-    @RequiresPermission(allOf = arrayOf(ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE))
+    @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
     @Throws(SecurityException::class)
     override fun getNearbyAccessPoints(filterDuplicates: Boolean): List<ScanResult>? {
         if (wisefyPrechecks.getNearbyAccessPointsChecks().failed()) {
             return null
         }
 
-        wifiManager.startScan()
-        return if (filterDuplicates) {
-            wisefySearch.removeEntriesWithLowerSignalStrength(wifiManager.scanResults)
-        } else {
-            wifiManager.scanResults
-        }
+        return wisefySearch.getNearbyAccessPoints(filterDuplicates)
     }
 
     /**
@@ -1097,18 +1147,21 @@ class WiseFy private constructor(
      *
      * @see [GetNearbyAccessPointsCallbacks]
      * @see [runOnWiseFyThread]
-     * @see [WifiManager.getScanResults]
-     * @see [WifiManager.startScan]
+     * @see [WiseFySearch.getNearbyAccessPoints]
      * @see [WiseFyLock]
      * @see [WiseFyPrechecks.getNearbyAccessPointsChecks]
-     * @see [WiseFySearch.removeEntriesWithLowerSignalStrength]
+     *
+     * Updates
+     * - 05/12/2019
+     *      * Added call to new getNearbyAccessPoints
+     *      * Added noAccessPointsFound callback
      *
      * @author Patches
      * @since 3.0
      */
     @Async
     @WiseFyThread
-    @RequiresPermission(allOf = arrayOf(ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE))
+    @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
     override fun getNearbyAccessPoints(filterDuplicates: Boolean, callbacks: GetNearbyAccessPointsCallbacks?) {
         runOnWiseFyThread(Runnable {
             synchronized(wisefyLock) {
@@ -1118,13 +1171,11 @@ class WiseFy private constructor(
                     return@Runnable
                 }
 
-                wifiManager.startScan()
-                if (filterDuplicates) {
-                    callbacks?.retrievedNearbyAccessPoints(
-                        wisefySearch.removeEntriesWithLowerSignalStrength(wifiManager.scanResults)
-                    )
+                val nearbyAccessPoints = wisefySearch.getNearbyAccessPoints(filterDuplicates)
+                if (nearbyAccessPoints != null) {
+                    callbacks?.retrievedNearbyAccessPoints(nearbyAccessPoints)
                 } else {
-                    callbacks?.retrievedNearbyAccessPoints(wifiManager.scanResults)
+                    callbacks?.noAccessPointsFound()
                 }
             }
         })
@@ -1318,7 +1369,7 @@ class WiseFy private constructor(
                 }
 
                 val savedNetworks = wifiManager.configuredNetworks
-                if (savedNetworks != null && !savedNetworks.isEmpty()) {
+                if (savedNetworks != null && savedNetworks.isNotEmpty()) {
                     callbacks?.retrievedSavedNetworks(savedNetworks)
                 } else {
                     callbacks?.noSavedNetworksFound()
@@ -1379,7 +1430,7 @@ class WiseFy private constructor(
                 }
 
                 val savedNetworks = wisefySearch.findSavedNetworksMatchingRegex(regexForSSID!!)
-                if (savedNetworks != null && !savedNetworks.isEmpty()) {
+                if (savedNetworks != null && savedNetworks.isNotEmpty()) {
                     callbacks?.retrievedSavedNetworks(savedNetworks)
                 } else {
                     callbacks?.noSavedNetworksFound()
@@ -1405,10 +1456,11 @@ class WiseFy private constructor(
      *
      * @return bool - If the device is currently connected to a mobile network
      *
-     * @see [ConnectivityManager.getActiveNetworkInfo]
-     * @see [MOBILE]
-     * @see [WiseFyConnection.isNetworkConnectedAndMatchesType]
+     * @see [WiseFyConnection.isDeviceConnectedToMobileNetwork]
      * @see [WiseFyPrechecks.isDeviceConnectedToMobileNetworkChecks]
+     *
+     * Updates
+     * - 05/12/2019: Started using isDeviceConnectedToMobileNetwork
      *
      * @author Patches
      * @since 3.0
@@ -1418,14 +1470,13 @@ class WiseFy private constructor(
     @RequiresPermission(ACCESS_NETWORK_STATE)
     override fun isDeviceConnectedToMobileNetwork(): Boolean =
         wisefyPrechecks.isDeviceConnectedToMobileNetworkChecks().passed() &&
-            wisefyConnection.isNetworkConnectedAndMatchesType(connectivityManager.activeNetworkInfo, MOBILE)
+            wisefyConnection.isDeviceConnectedToMobileNetwork()
 
     /**
      * To check if the device is connected to a mobile or wifi network.
      *
      * @return bool - If the device is currently connected to a mobile or wifi network
      *
-     * @see [ConnectivityManager.getActiveNetworkInfo]
      * @see [WiseFyConnection.isNetworkConnected]
      * @see [WiseFyPrechecks.isDeviceConnectedToMobileOrWifiNetworkChecks]
      *
@@ -1437,7 +1488,7 @@ class WiseFy private constructor(
     @RequiresPermission(ACCESS_NETWORK_STATE)
     override fun isDeviceConnectedToMobileOrWifiNetwork(): Boolean =
         wisefyPrechecks.isDeviceConnectedToMobileOrWifiNetworkChecks().passed() &&
-            wisefyConnection.isNetworkConnected(connectivityManager.activeNetworkInfo)
+            wisefyConnection.isNetworkConnected()
 
     /**
      * To check if the device is connected to a given SSID.
@@ -1454,7 +1505,7 @@ class WiseFy private constructor(
      */
     @Sync
     @CallingThread
-    @RequiresPermission(allOf = arrayOf(ACCESS_NETWORK_STATE, ACCESS_WIFI_STATE))
+    @RequiresPermission(allOf = [ACCESS_NETWORK_STATE, ACCESS_WIFI_STATE])
     override fun isDeviceConnectedToSSID(ssid: String?): Boolean =
         wisefyPrechecks.isDeviceConnectedToSSIDChecks(ssid).passed() &&
             wisefyConnection.isCurrentNetworkConnectedToSSID(ssid)
@@ -1465,9 +1516,11 @@ class WiseFy private constructor(
      * @return bool - If the device is currently connected to a wifi network
      *
      * @see [ConnectivityManager.getActiveNetworkInfo]
-     * @see [WIFI]
-     * @see [WiseFyConnection.isNetworkConnectedAndMatchesType]
+     * @see [WiseFyConnection.isDeviceConnectedToWifiNetwork]
      * @see [WiseFyPrechecks.isDeviceConnectedToWifiNetworkChecks]
+     *
+     * Updates
+     * - 05/12/2019: Started using isDeviceConnectedToWifiNetwork
      *
      * @author Patches
      * @since 3.0
@@ -1477,16 +1530,18 @@ class WiseFy private constructor(
     @RequiresPermission(ACCESS_NETWORK_STATE)
     override fun isDeviceConnectedToWifiNetwork(): Boolean =
         wisefyPrechecks.isDeviceConnectedToWifiNetworkChecks().passed() &&
-            wisefyConnection.isNetworkConnectedAndMatchesType(connectivityManager.activeNetworkInfo, WIFI)
+            wisefyConnection.isDeviceConnectedToWifiNetwork()
 
     /**
      * To query if the device is roaming.
      *
      * @return boolean - If the current network is roaming
      *
-     * @see [ConnectivityManager.getActiveNetworkInfo]
-     * @see [NetworkInfo.isRoaming]
+     * @see [WiseFyConnection.isDeviceRoaming]
      * @see [WiseFyPrechecks.isDeviceRoamingChecks]
+     *
+     * Updates
+     * - 05/12/2019: Started using isDeviceRoaming
      *
      * @author Patches
      * @since 3.0
@@ -1498,9 +1553,7 @@ class WiseFy private constructor(
         if (wisefyPrechecks.isDeviceRoamingChecks().failed()) {
             return false
         }
-
-        val networkInfo = connectivityManager.activeNetworkInfo
-        return networkInfo != null && networkInfo.isRoaming
+        return wisefyConnection.isDeviceRoaming()
     }
 
     /**
@@ -1534,7 +1587,7 @@ class WiseFy private constructor(
     @Sync
     @CallingThread
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    @RequiresPermission(allOf = arrayOf(ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE))
+    @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
     @Throws(SecurityException::class)
     override fun isNetwork5gHz(): Boolean {
         val frequency = getFrequency()
@@ -1818,7 +1871,7 @@ class WiseFy private constructor(
      */
     @Sync
     @CallingThread
-    @RequiresPermission(ACCESS_WIFI_STATE)
+    @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
     override fun searchForAccessPoint(
         regexForSSID: String?,
         timeoutInMillis: Int,
@@ -1852,7 +1905,7 @@ class WiseFy private constructor(
      */
     @Async
     @WiseFyThread
-    @RequiresPermission(ACCESS_WIFI_STATE)
+    @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
     override fun searchForAccessPoint(
         regexForSSID: String?,
         timeoutInMillis: Int,
@@ -1897,7 +1950,7 @@ class WiseFy private constructor(
      */
     @Sync
     @CallingThread
-    @RequiresPermission(ACCESS_WIFI_STATE)
+    @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
     override fun searchForAccessPoints(regexForSSID: String?, filterDuplicates: Boolean): List<ScanResult>? {
         return if (wisefyPrechecks.searchForAccessPointsChecks(regexForSSID).passed()) {
             wisefySearch.findAccessPointsMatchingRegex(regexForSSID!!, filterDuplicates)
@@ -1926,7 +1979,7 @@ class WiseFy private constructor(
      */
     @Async
     @WiseFyThread
-    @RequiresPermission(ACCESS_WIFI_STATE)
+    @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
     override fun searchForAccessPoints(
         regexForSSID: String?,
         filterDuplicates: Boolean,
@@ -1968,7 +2021,7 @@ class WiseFy private constructor(
     @Sync
     @CallingThread
     @WaitsForTimeout
-    @RequiresPermission(ACCESS_WIFI_STATE)
+    @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
     override fun searchForSSID(regexForSSID: String?, timeoutInMillis: Int): String? {
         if (wisefyPrechecks.searchForSSIDChecks(regexForSSID).failed()) {
             return null
@@ -1998,7 +2051,7 @@ class WiseFy private constructor(
     @Async
     @WiseFyThread
     @WaitsForTimeout
-    @RequiresPermission(ACCESS_WIFI_STATE)
+    @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
     override fun searchForSSID(regexForSSID: String?, timeoutInMillis: Int, callbacks: SearchForSSIDCallbacks?) {
         runOnWiseFyThread(Runnable {
             synchronized(wisefyLock) {
@@ -2033,7 +2086,7 @@ class WiseFy private constructor(
      */
     @Sync
     @CallingThread
-    @RequiresPermission(ACCESS_WIFI_STATE)
+    @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
     override fun searchForSSIDs(regexForSSID: String?): List<String>? {
         return if (wisefyPrechecks.searchForSSIDsChecks(regexForSSID).passed()) {
             wisefySearch.findSSIDsMatchingRegex(regexForSSID!!)
@@ -2057,7 +2110,7 @@ class WiseFy private constructor(
      */
     @Async
     @WiseFyThread
-    @RequiresPermission(ACCESS_WIFI_STATE)
+    @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
     override fun searchForSSIDs(regexForSSID: String?, callbacks: SearchForSSIDsCallbacks?) {
         runOnWiseFyThread(Runnable {
             synchronized(wisefyLock) {
@@ -2068,7 +2121,7 @@ class WiseFy private constructor(
                 }
 
                 val ssids = wisefySearch.findSSIDsMatchingRegex(regexForSSID!!)
-                if (ssids != null && ssids.isNotEmpty()) {
+                if (ssids != null) {
                     callbacks?.retrievedSSIDs(ssids)
                 } else {
                     callbacks?.noSSIDsFound()
@@ -2080,6 +2133,46 @@ class WiseFy private constructor(
     /*
      * HELPERS
      */
+
+    /**
+     * Used internally to add a network with password from async API.
+     *
+     * *NOTES* NOT to be used with sync APIs.
+     *
+     * @param ssid The ssid of the network to add
+     * @param password The password for the network to add
+     * @param wifiConfigurationProvider The configuration of the network to add (as a provider)
+     * @param callbacks The callbacks for adding the network
+     *
+     * @see [addNetworkConfiguration]
+     * @see [WiseFyPrechecks.addNetworkPrechecks]
+     * @see [WIFI_MANAGER_FAILURE]
+     * @see [WifiConfiguration]
+     *
+     * @author Patches
+     * @since 4.0
+     */
+    private fun addNetworkWithPasswordAsync(
+        ssid: String?,
+        password: String?,
+        wifiConfigurationProvider: () -> WifiConfiguration,
+        callbacks: AddNetworkCallbacks?
+    ) {
+        val precheck = wisefyPrechecks.addNetworkPrechecks(ssid, password)
+        if (precheck.failed()) {
+            callbacks?.wisefyFailure(precheck.code)
+            return
+        }
+
+        val wifiConfiguration = wifiConfigurationProvider()
+
+        val result = addNetworkConfiguration(wifiConfiguration)
+        if (result != WIFI_MANAGER_FAILURE) {
+            callbacks?.networkAdded(result, wifiConfiguration)
+        } else {
+            callbacks?.failureAddingNetwork(result)
+        }
+    }
 
     /**
      * Used internally to add and save a new wifi configuration.
@@ -2182,17 +2275,24 @@ class WiseFy private constructor(
     /**
      * Used internally to setup a WiseFyThread to run background operations.
      *
+     * @param useMainLooper Only to be set to true for testing.  It's a hacky param to allow RoboElectric
+     * to complete runnables posted to the [WiseFyHandlerThread] :(  I feel bad about this.
+     *
      * @see [runOnWiseFyThread]
      * @see [WiseFyHandlerThread]
+     *
+     * Updates
+     * - 05/12/2019: Marks as visible for testing and added useMainLooper param
      *
      * @author Patches
      * @since 3.0
      */
-    private fun setupWiseFyThread() {
+    @VisibleForTesting
+    internal fun setupWiseFyThread(useMainLooper: Boolean = false) {
         wisefyHandlerThread = WiseFyHandlerThread(WiseFyHandlerThread.TAG)
         wisefyHandlerThread?.let {
             it.start()
-            val looper = it.looper
+            val looper = if (useMainLooper) Looper.getMainLooper() else it.looper
             wisefyHandler = Handler(looper)
         }
     }

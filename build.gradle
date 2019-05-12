@@ -2,11 +2,11 @@ buildscript {
     project.ext {
         agp_version = '3.4.0'
         bintray_version = '1.8.4'
-        cpd_version = '1.3'
+        cpd_version = '2.0-SNAPSHOT'
         dokka_version = '0.9.18'
         dexcount_version = '0.8.5'
         jacoco_version = '0.8.3'
-        kotlin_version = "1.3.30"
+        kotlin_version = "1.3.31"
         maven_version = '2.1'
     }
 
@@ -14,6 +14,7 @@ buildscript {
         jcenter()
         google()
         maven { url "https://plugins.gradle.org/m2/" }
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
     }
 
     dependencies {
@@ -140,7 +141,7 @@ task makeGoodChoices {
 
     outputs.upToDateWhen { false }
 
-    dependsOn 'staticAnalysisSanityCheck', 'jacocoAllCombinedTests'
+    dependsOn 'staticAnalysisSanityCheck', ':wisefy:jacocoDebugUnitTest'
     doLast {
         println "\n#############################################" +
                 "\n# All checks passed! You are doing so good! #" +

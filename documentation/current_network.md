@@ -40,6 +40,10 @@ wisefy.getCurrentNetwork(object: GetCurrentNetworkCallbacks {
 
     }
 
+    override fun noCurrentNetwork() {
+            
+    }
+    
     override fun wisefyFailure(wisefyFailureCode: Int) {
 
     }
@@ -54,9 +58,14 @@ wisefy.getCurrentNetwork(new GetCurrentNetworkCallbacks() {
     public void retrievedCurrentNetwork(WifiInfo wifiInfo) {
 
     }
+    
+    @Override 
+    public void noCurrentNetwork() {
+        
+    }
 
     @Override
-    public void wisefyFailure(int i) {
+    public void wisefyFailure(int wisefyFailureCode) {
 
     }
 });
@@ -68,12 +77,17 @@ _With Kotlin_
 
 ```kotlin
 wisefy.getCurrentNetworkInfo(object: GetCurrentNetworkInfoCallbacks {
+   
     override fun retrievedCurrentNetworkInfo(currentNetworkDetails: NetworkInfo) {
-
+    
+    }
+    
+    override fun noCurrentNetworkInfo() {
+        
     }
 
     override fun wisefyFailure(wisefyFailureCode: Int) {
-
+   
     }
 })
 ```
@@ -86,9 +100,14 @@ wisefy.getCurrentNetworkInfo(new GetCurrentNetworkInfoCallbacks() {
     public void retrievedCurrentNetworkInfo(NetworkInfo networkInfo) {
 
     }
+    
+    @Override 
+    public void noCurrentNetworkInfo() {
+            
+    }
 
     @Override
-    public void wisefyFailure(int i) {
+    public void wisefyFailure(int wisefyFailureCode) {
 
     }
 });

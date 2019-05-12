@@ -22,14 +22,14 @@ _With Kotlin_
 
 ```kotlin
 wisefy.getIP(object: GetIPCallbacks {
-    override fun failureRetrievingIP() {
-
-    }
-
     override fun retrievedIP(ip: String) {
 
     }
+    
+    override fun failureRetrievingIP() {
 
+    }
+    
     override fun wisefyFailure(wisefyFailureCode: Int) {
 
     }
@@ -41,17 +41,17 @@ _With Java_
 ```java
 wisefy.getIP(new GetIPCallbacks() {
     @Override
+    public void retrievedIP(String ip) {
+
+    }
+
+    @Override
     public void failureRetrievingIP() {
 
     }
-
+    
     @Override
-    public void retrievedIP(String s) {
-
-    }
-
-    @Override
-    public void wisefyFailure(int i) {
+    public void wisefyFailure(int wisefyFailureCode) {
 
     }
 });

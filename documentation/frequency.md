@@ -69,12 +69,12 @@ _With Kotlin_
 
 ```kotlin
 wisefy.getFrequency(object: GetFrequencyCallbacks {
-    override fun failureGettingFrequency() {
-
-    }
-
     override fun retrievedFrequency(frequency: Int) {
 
+    }
+    
+    override fun failureGettingFrequency() {
+    
     }
 
     override fun wisefyFailure(wisefyFailureCode: Int) {
@@ -88,17 +88,17 @@ _With Java_
 ```java
 wisefy.getFrequency(new GetFrequencyCallbacks() {
     @Override
+    public void retrievedFrequency(int frequency) {
+
+    }
+    
+    @Override
     public void failureGettingFrequency() {
-
+    
     }
 
     @Override
-    public void retrievedFrequency(int i) {
-
-    }
-
-    @Override
-    public void wisefyFailure(int i) {
+    public void wisefyFailure(int wisefyFailureCode) {
 
     }
 });
@@ -111,12 +111,12 @@ _With Kotlin_
 
 ```kotlin
 wisefy.getFrequency(wifiInfo, object: GetFrequencyCallbacks {
-    override fun failureGettingFrequency() {
-
-    }
-
     override fun retrievedFrequency(frequency: Int) {
 
+    }
+    
+    override fun failureGettingFrequency() {
+    
     }
 
     override fun wisefyFailure(wisefyFailureCode: Int) {
@@ -130,17 +130,17 @@ _With Java_
 ```java
 wisefy.getFrequency(wifiInfo, new GetFrequencyCallbacks() {
     @Override
+    public void retrievedFrequency(int frequency) {
+
+    }
+    
+    @Override
     public void failureGettingFrequency() {
-
+    
     }
 
     @Override
-    public void retrievedFrequency(int i) {
-
-    }
-
-    @Override
-    public void wisefyFailure(int i) {
+    public void wisefyFailure(int wisefyFailureCode) {
     
     }
 });

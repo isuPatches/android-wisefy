@@ -36,11 +36,11 @@ _With Kotlin_
 
 ```kotlin
 wisefy.disableWifi(object : DisableWifiCallbacks {
-    override fun failureDisablingWifi() {
+    override fun wifiDisabled() {
 
     }
-
-    override fun wifiDisabled() {
+    
+    override fun failureDisablingWifi() {
 
     }
 
@@ -55,17 +55,17 @@ _With Java_
 ```java
 wisefy.disableWifi(new DisableWifiCallbacks() {
     @Override
+    public void wifiDisabled() {
+    
+    }
+    
+    @Override
     public void failureDisablingWifi() {
 
     }
 
     @Override
-    public void wifiDisabled() {
-
-    }
-
-    @Override
-    public void wisefyFailure(int i) {
+    public void wisefyFailure(int wisefyFailureCode) {
 
     }
 });
@@ -77,11 +77,11 @@ _With Kotlin_
 
 ```kotlin
 wisefy.enableWifi(object: EnableWifiCallbacks {
-    override fun failureEnablingWifi() {
+    override fun wifiEnabled() {
 
     }
-
-    override fun wifiEnabled() {
+    
+    override fun failureEnablingWifi() {
 
     }
 
@@ -95,17 +95,17 @@ _With Java_
 ```java
 wisefy.enableWifi(new EnableWifiCallbacks() {
     @Override
+    public void wifiEnabled() {
+    
+    }
+    
+    @Override
     public void failureEnablingWifi() {
 
     }
 
     @Override
-    public void wifiEnabled() {
-
-    }
-
-    @Override
-    public void wisefyFailure(int i) {
+    public void wisefyFailure(int wisefyFailureCode) {
 
     }
 });

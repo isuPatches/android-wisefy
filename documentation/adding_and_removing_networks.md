@@ -64,11 +64,11 @@ _With Kotlin_
 
 ```kotlin
 wisefy.addOpenNetwork("Open Network", object: AddNetworkCallbacks {
-    override fun failureAddingNetwork(wifiManagerReturn: Int) {
+    override fun networkAdded(newNetworkId: Int, networkConfig: WifiConfiguration) {
 
     }
-
-    override fun networkAdded(newNetworkId: Int, networkConfig: WifiConfiguration) {
+    
+    override fun failureAddingNetwork(wifiManagerReturn: Int) {
 
     }
 
@@ -83,17 +83,17 @@ _With Java_
 ```java
 wisefy.addOpenNetwork("Open Network", new AddNetworkCallbacks() {
     @Override
-    public void failureAddingNetwork(int i) {
+    public void networkAdded(int newNetworkId, WifiConfiguration wifiConfiguration) {
+    
+    }
+    
+    @Override
+    public void failureAddingNetwork(int wifiManagerReturn) {
 
     }
 
     @Override
-    public void networkAdded(int i, WifiConfiguration wifiConfiguration) {
-
-    }
-
-    @Override
-    public void wisefyFailure(int i) {
+    public void wisefyFailure(int wisefyFailureCode) {
 
     }
 });
@@ -105,12 +105,12 @@ _With Kotlin_
 
 ```Kotlin
 wisefy.addWEPNetwork("WEP Network", "123456", object: AddNetworkCallbacks {
-    override fun failureAddingNetwork(wifiManagerReturn: Int) {
-
-    }
-
     override fun networkAdded(newNetworkId: Int, networkConfig: WifiConfiguration) {
-
+    
+    }
+    
+    override fun failureAddingNetwork(wifiManagerReturn: Int) {
+    
     }
 
     override fun wisefyFailure(wisefyFailureCode: Int) {
@@ -124,17 +124,17 @@ _With Java_
 ```java
 wisefy.addWEPNetwork("WEP Network", "123456", new AddNetworkCallbacks() {
     @Override
-    public void failureAddingNetwork(int i) {
+    public void networkAdded(int newNetworkId, WifiConfiguration wifiConfiguration) {
+
+    }
+        
+    @Override
+    public void failureAddingNetwork(int wifiManagerReturn) {
 
     }
 
     @Override
-    public void networkAdded(int i, WifiConfiguration wifiConfiguration) {
-
-    }
-
-    @Override
-    public void wisefyFailure(int i) {
+    public void wisefyFailure(int wisefyFailureCode) {
 
     }
 });
@@ -146,11 +146,11 @@ _With Kotlin_
 
 ```kotlin
 wisefy.addWPA2Network("WPA2 Network", "12345678", object: AddNetworkCallbacks {
-    override fun failureAddingNetwork(wifiManagerReturn: Int) {
+    override fun networkAdded(newNetworkId: Int, networkConfig: WifiConfiguration) {
 
     }
-
-    override fun networkAdded(newNetworkId: Int, networkConfig: WifiConfiguration) {
+    
+    override fun failureAddingNetwork(wifiManagerReturn: Int) {
 
     }
 
@@ -165,17 +165,17 @@ _With Java_
 ```java
 wisefy.addWPA2Network("WPA2 Network", "12345678", new AddNetworkCallbacks() {
     @Override
-    public void failureAddingNetwork(int i) {
+    public void networkAdded(int newNetworkId, WifiConfiguration wifiConfiguration) {
+
+    }
+        
+    @Override
+    public void failureAddingNetwork(int wifiManagerReturn) {
 
     }
 
     @Override
-    public void networkAdded(int i, WifiConfiguration wifiConfiguration) {
-
-    }
-
-    @Override
-    public void wisefyFailure(int i) {
+    public void wisefyFailure(int wisefyFailureCode) {
 
     }
 });
@@ -187,15 +187,15 @@ _With Kotlin_
 
 ```kotlin
 wisefy.removeNetwork("SSID to remove", object: RemoveNetworkCallbacks {
+    override fun networkRemoved() {
+
+    }
+    
     override fun failureRemovingNetwork() {
 
     }
 
     override fun networkNotFoundToRemove() {
-
-    }
-
-    override fun networkRemoved() {
 
     }
 
@@ -210,6 +210,11 @@ _With Java_
 ```java
 wisefy.removeNetwork("SSID to remove", new RemoveNetworkCallbacks() {
     @Override
+    public void networkRemoved() {
+
+    }
+        
+    @Override
     public void failureRemovingNetwork() {
 
     }
@@ -220,12 +225,7 @@ wisefy.removeNetwork("SSID to remove", new RemoveNetworkCallbacks() {
     }
 
     @Override
-    public void networkRemoved() {
-
-    }
-
-    @Override
-    public void wisefyFailure(int i) {
+    public void wisefyFailure(int wisefyFailureCode) {
 
     }
 });
