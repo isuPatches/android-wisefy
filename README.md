@@ -34,8 +34,9 @@ Wifi configuration and util library built for Android.
     - Async api with null current network
     - Async api with null current network info
     - Async api with null nearby access points
-- Fix for search with empty list
+- Fix for searching when empty list returned from OS
 - More tests
+- Removal of some generic variable names from documentation for clarity
 
 Previous updates:
 - [What's New in 3.x](/changes/whatsnew/3.x.md)

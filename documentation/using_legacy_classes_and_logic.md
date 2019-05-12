@@ -21,6 +21,7 @@ _With Kotlin_
 wiseFy = WiseFy.Brains(activity!!, useLegacyConnection = false, useLegacySearch = true)
                 .logging(true)
                 .getSmarts()
+```
 
 _With Java_
 
@@ -36,6 +37,7 @@ _With Kotlin_
 wiseFy = WiseFy.Brains(activity!!, useLegacyConnection = true, useLegacySearch = true)
                 .logging(true)
                 .getSmarts()
+```
 
 _With Java_
 
