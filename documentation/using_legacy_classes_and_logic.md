@@ -3,8 +3,7 @@ To grab an instance with legacy connection enabled:
 _With Kotlin_
 
 ```kotlin
-wiseFy = WiseFy.Brains(activity!!, useLegacyConnection = true, useLegacySearch = false)
-                .getSmarts()
+wiseFy = WiseFy.Brains(activity!!, useLegacyConnection = true, useLegacySearch = false).getSmarts()
 ```
 
 _With Java_
@@ -18,8 +17,7 @@ To grab an instance with legacy search enabled:
 _With Kotlin_
 
 ```kotlin
-wiseFy = WiseFy.Brains(activity!!, useLegacyConnection = false, useLegacySearch = true)
-                .getSmarts()
+wiseFy = WiseFy.Brains(activity!!, useLegacyConnection = false, useLegacySearch = true).getSmarts()
 ```
 
 _With Java_
@@ -33,8 +31,7 @@ To grab an instance with both legacy search and legacy connection enabled:
 _With Kotlin_
 
 ```kotlin
-wiseFy = WiseFy.Brains(activity!!, useLegacyConnection = true, useLegacySearch = true)
-                .getSmarts()
+wiseFy = WiseFy.Brains(activity!!, useLegacyConnection = true, useLegacySearch = true).getSmarts()
 ```
 
 _With Java_
