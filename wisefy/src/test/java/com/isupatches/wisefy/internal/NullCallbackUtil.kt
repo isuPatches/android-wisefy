@@ -163,6 +163,14 @@ internal class NullCallbackUtil internal constructor(private val wisefy: WiseFy)
         }
     }
 
+    fun callGetIP() {
+        try {
+            wisefy.getIP( null)
+        } catch (npe: NullPointerException) {
+            fail()
+        }
+    }
+
     /**
      * To try to get nearby access points with null callbacks.
      *

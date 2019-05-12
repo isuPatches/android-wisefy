@@ -464,8 +464,7 @@ internal class WiseFyPrechecksImpl private constructor(
      */
     private fun checkAddNetworkPrerequisites(ssid: String?): PrecheckResult =
         when {
-            ssid == null -> PrecheckResult(code = MISSING_PARAMETER)
-            ssid.isEmpty() -> PrecheckResult(code = MISSING_PARAMETER)
+            ssid.isNullOrEmpty() -> PrecheckResult(code = MISSING_PARAMETER)
             wisefySearch.isNetworkASavedConfiguration(ssid) -> {
                 PrecheckResult(code = NETWORK_ALREADY_CONFIGURED)
             }

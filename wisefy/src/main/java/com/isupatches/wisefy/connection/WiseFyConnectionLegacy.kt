@@ -48,6 +48,14 @@ internal class WiseFyConnectionLegacy private constructor(
                 WiseFyConnectionLegacy(connectivityManager, wifiManager)
     }
 
+    override fun init() {
+        // No-op
+    }
+
+    override fun destroy() {
+        // No-op
+    }
+
     override fun isDeviceConnectedToMobileNetwork(): Boolean =
         isNetworkConnectedAndMatchesType(connectivityManager.activeNetworkInfo, MOBILE)
 
@@ -72,7 +80,7 @@ internal class WiseFyConnectionLegacy private constructor(
     override fun isNetworkConnected(): Boolean {
         val networkInfo = connectivityManager.activeNetworkInfo
         WiseFyLogger.debug(TAG, "networkInfo: %s", networkInfo ?: "")
-        return networkInfo != null && networkInfo.isConnected && networkInfo.isAvailable
+        return networkInfo?.isConnectedAndAvailable() ?: false
     }
 
     /**
@@ -91,8 +99,8 @@ internal class WiseFyConnectionLegacy private constructor(
      * @author Patches
      * @since 3.0
      */
-    private fun doesNetworkMatchType(networkInfo: NetworkInfo?, @NetworkType type: String): Boolean =
-        type.equals(networkInfo?.typeName, ignoreCase = true)
+    private fun doesNetworkMatchType(networkInfo: NetworkInfo, @NetworkType type: String): Boolean =
+        type.equals(networkInfo.typeName, ignoreCase = true)
 
     /**
      * Used internally to check if a given network matches a given type and is connected.
@@ -110,5 +118,7 @@ internal class WiseFyConnectionLegacy private constructor(
      * @since 3.0
      */
     private fun isNetworkConnectedAndMatchesType(networkInfo: NetworkInfo?, @NetworkType type: String): Boolean =
-        isNetworkConnected() && doesNetworkMatchType(networkInfo, type)
+        networkInfo?.let { doesNetworkMatchType(it, type) && it.isConnectedAndAvailable() } ?: false
+
+    private fun NetworkInfo.isConnectedAndAvailable() = isConnected && isAvailable
 }

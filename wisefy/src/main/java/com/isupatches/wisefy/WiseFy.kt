@@ -2081,7 +2081,7 @@ class WiseFy private constructor(
                 }
 
                 val ssids = wisefySearch.findSSIDsMatchingRegex(regexForSSID!!)
-                if (ssids != null && ssids.isNotEmpty()) {
+                if (ssids != null) {
                     callbacks?.retrievedSSIDs(ssids)
                 } else {
                     callbacks?.noSSIDsFound()

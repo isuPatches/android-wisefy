@@ -19,15 +19,12 @@ import com.isupatches.wisefy.internal.mock.MockWiseFySearchUtil
 import com.isupatches.wisefy.search.WiseFySearch
 
 import org.junit.After
-import org.junit.Before
 
 import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.Mockito
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.timeout
 import org.mockito.Mockito.verify
-
-import org.robolectric.shadows.ShadowLooper
 
 internal abstract class BaseUnitTest {
 
@@ -77,10 +74,6 @@ internal abstract class BaseUnitTest {
         nullCallbackUtil = NullCallbackUtil(wisefy)
 
         verificationUtil = VerificationUtil(mockConnectivityManager, mockWifiManager)
-    }
-
-    @Before fun setUp() {
-        ShadowLooper.runUiThreadTasksIncludingDelayedTasks()
     }
 
     @After fun tearDown() {

@@ -77,6 +77,7 @@ internal class GetFrequencyTests : BaseUnitTest() {
 
     @Test fun async_getFrequency_currentNetwork_success_nullCallback() {
         mockWiseFyPrechecksUtil.getCurrentNetwork_success()
+        mockNetworkUtil.networkWithFrequency(TEST_NETWORK_FREQUENCY_24GHZ)
         nullCallbackUtil.callGetFrequency()
         verificationUtil.triedToGetCurrentNetwork()
     }

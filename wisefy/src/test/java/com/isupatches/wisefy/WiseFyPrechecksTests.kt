@@ -30,6 +30,10 @@ internal class WiseFyPrechecksTests : BaseUnitTest() {
         assertEquals(MISSING_PARAMETER, wisefyPrechecks.addNetworkPrechecks(null).code)
     }
 
+    @Test fun addNetworkPrechecks_failure_emptySSID() {
+        assertEquals(MISSING_PARAMETER, wisefyPrechecks.addNetworkPrechecks("").code)
+    }
+
     @Test fun addNetworkPrechecks_failure_networkAlreadySaved() {
         mockWiseFySearchUtil.isNetworkASavedConfiguration(true)
         assertEquals(NETWORK_ALREADY_CONFIGURED, wisefyPrechecks.addNetworkPrechecks(TEST_SSID).code)
@@ -44,8 +48,16 @@ internal class WiseFyPrechecksTests : BaseUnitTest() {
         assertEquals(MISSING_PARAMETER, wisefyPrechecks.addNetworkPrechecks(null, WEP_NETWORK_PASSWORD).code)
     }
 
+    @Test fun addNetworkPrechecks_withPassword_failure_emptySSIDParam() {
+        assertEquals(MISSING_PARAMETER, wisefyPrechecks.addNetworkPrechecks("", WEP_NETWORK_PASSWORD).code)
+    }
+
     @Test fun addNetworkPrechecks_withPassword_failure_nullPasswordParam() {
         assertEquals(MISSING_PARAMETER, wisefyPrechecks.addNetworkPrechecks(WEP_NETWORK_SSID, null).code)
+    }
+
+    @Test fun addNetworkPrechecks_withPassword_failure_emptyPasswordParam() {
+        assertEquals(MISSING_PARAMETER, wisefyPrechecks.addNetworkPrechecks(WEP_NETWORK_SSID, "").code)
     }
 
     @Test fun addNetworkPrechecks_withPassword_failure_networkAlreadySaved() {
@@ -79,6 +91,10 @@ internal class WiseFyPrechecksTests : BaseUnitTest() {
 
     @Test fun getCurrentNetworkChecks() {
         assertEquals(DEFAULT_PRECHECK_RETURN_CODE, wisefyPrechecks.getCurrentNetworkChecks().code)
+    }
+
+    @Test fun getCurrentNetworkInfoChecks() {
+        assertEquals(DEFAULT_PRECHECK_RETURN_CODE, wisefyPrechecks.getCurrentNetworkInfoChecks().code)
     }
 
     @Test fun getIPChecks() {

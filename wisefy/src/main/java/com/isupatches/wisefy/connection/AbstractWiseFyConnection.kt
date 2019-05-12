@@ -18,14 +18,6 @@ internal abstract class AbstractWiseFyConnection(
         private val TAG = AbstractWiseFyConnection::class.java.simpleName
     }
 
-    override fun init() {
-        // No-op
-    }
-
-    override fun destroy() {
-        // No-op
-    }
-
     /**
      * Used internally to see if the current network is connected to and matches a given ssid.
      *

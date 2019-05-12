@@ -39,7 +39,7 @@ project.afterEvaluate {
                 ]))
 
                 reports {
-                    xml.enabled = false
+                    xml.enabled = true // Enabled for CodeCov
                     html.enabled = true
                 }
             }
@@ -112,7 +112,7 @@ project.afterEvaluate {
                 ]))
 
                 reports {
-                    xml.enabled = true // Enabled for CodeCov
+                    xml.enabled = false
                     html.enabled = true
                 }
             }

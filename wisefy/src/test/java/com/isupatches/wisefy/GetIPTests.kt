@@ -50,6 +50,11 @@ internal class GetIPTests : BaseUnitTest() {
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).wisefyFailure(MISSING_PARAMETER)
     }
 
+    @Test fun async_getIP_failure_missingPrerequisites_nullCallbacks() {
+        mockWiseFyPrechecksUtil.getIP_failure()
+        nullCallbackUtil.callGetIP()
+    }
+
     @Test fun async_getIP_failure() {
         mockWiseFyPrechecksUtil.getIP_success()
         mockNetworkUtil.ip_failure()
@@ -58,11 +63,23 @@ internal class GetIPTests : BaseUnitTest() {
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).failureRetrievingIP()
     }
 
+    @Test fun async_getIP_failure_nullCallbacks() {
+        mockWiseFyPrechecksUtil.getIP_success()
+        mockNetworkUtil.ip_failure()
+        nullCallbackUtil.callGetIP()
+    }
+
     @Test fun async_getIP_success() {
         mockWiseFyPrechecksUtil.getIP_success()
         mockNetworkUtil.ip_success()
         val mockCallbacks = mock(GetIPCallbacks::class.java)
         wisefy.getIP(mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).retrievedIP(TEST_IP_ADDRESS_STRING)
+    }
+
+    @Test fun async_getIP_success_nullCallbacks() {
+        mockWiseFyPrechecksUtil.getIP_success()
+        mockNetworkUtil.ip_success()
+        nullCallbackUtil.callGetIP()
     }
 }
