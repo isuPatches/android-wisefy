@@ -76,7 +76,7 @@ internal abstract class BaseUnitTest {
         verificationUtil = VerificationUtil(mockConnectivityManager, mockWifiManager)
     }
 
-    @After fun tearDown() {
+    @After open fun tearDown() {
         wisefy.dump()
     }
 

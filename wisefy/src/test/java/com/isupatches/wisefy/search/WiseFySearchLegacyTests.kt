@@ -8,6 +8,7 @@ import com.isupatches.wisefy.TEST_TIMEOUT
 import com.isupatches.wisefy.internal.base.BaseUnitTest
 
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -408,6 +409,22 @@ internal class WiseFySearchLegacyTests : BaseUnitTest() {
      *  getNearbyAccessPoints tests
      */
 
+    @Test fun getNearbyAccessPoints_nullAccessPointList_filterDuplicates_true() {
+        mockNetworkUtil.nearbyAccessPoints_nullList()
+        val accessPoints = wisefySearch.getNearbyAccessPoints(true)
+        assertNull(accessPoints)
+        verificationUtil.triedToGetNearbyAccessPoints()
+        verificationUtil.triedToScanForAccessPoints()
+    }
+
+    @Test fun getNearbyAccessPoints_emptyAccessPointList_filterDuplicates_true() {
+        mockNetworkUtil.nearbyAccessPoints_emptyList()
+        val accessPoints = wisefySearch.getNearbyAccessPoints(true)
+        assertNull(accessPoints)
+        verificationUtil.triedToGetNearbyAccessPoints()
+        verificationUtil.triedToScanForAccessPoints()
+    }
+
     @Test fun getNearbyAccessPoints_differentSSIDs_filterDuplicates_true() {
         mockNetworkUtil.nearbyAccessPoints_multipleSSIDs_sameRSSI(true)
         val accessPoints = wisefySearch.getNearbyAccessPoints(true)
@@ -436,6 +453,22 @@ internal class WiseFySearchLegacyTests : BaseUnitTest() {
         mockNetworkUtil.nearbyAccessPoints_multipleMatchingSSIDs_accessPoint2HasHigherRSSI(true)
         val accessPoints = wisefySearch.getNearbyAccessPoints(true)
         assertEquals(mockNetworkUtil.getExpectedNearbyAccessPoints(), accessPoints)
+        verificationUtil.triedToGetNearbyAccessPoints()
+        verificationUtil.triedToScanForAccessPoints()
+    }
+
+    @Test fun getNearbyAccessPoints_nullAccessPointList_filterDuplicates_false() {
+        mockNetworkUtil.nearbyAccessPoints_nullList()
+        val accessPoints = wisefySearch.getNearbyAccessPoints(false)
+        assertNull(accessPoints)
+        verificationUtil.triedToGetNearbyAccessPoints()
+        verificationUtil.triedToScanForAccessPoints()
+    }
+
+    @Test fun getNearbyAccessPoints_emptyAccessPointList_filterDuplicates_false() {
+        mockNetworkUtil.nearbyAccessPoints_emptyList()
+        val accessPoints = wisefySearch.getNearbyAccessPoints(false)
+        assertNull(accessPoints)
         verificationUtil.triedToGetNearbyAccessPoints()
         verificationUtil.triedToScanForAccessPoints()
     }

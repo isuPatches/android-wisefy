@@ -277,7 +277,7 @@ internal class MockNetworkUtil internal constructor(
     }
 
     internal fun nearbyAccessPoints_nullAccessPoint() {
-        val accessPoints = emptyList<ScanResult>()
+        val accessPoints = arrayListOf<ScanResult?>(null)
         `when`(mockWifiManager.scanResults).thenReturn(accessPoints)
     }
 
@@ -296,6 +296,10 @@ internal class MockNetworkUtil internal constructor(
 
     internal fun savedNetworks_emptyList() {
         `when`(mockWifiManager.configuredNetworks).thenReturn(ArrayList())
+    }
+
+    internal fun savedNetworks_listWithNull() {
+        `when`(mockWifiManager.configuredNetworks).thenReturn(arrayListOf<WifiConfiguration?>(null))
     }
 
     internal fun savedNetworks_matchingSSID() {

@@ -165,7 +165,7 @@ internal class NullCallbackUtil internal constructor(private val wisefy: WiseFy)
 
     fun callGetIP() {
         try {
-            wisefy.getIP( null)
+            wisefy.getIP(null)
         } catch (npe: NullPointerException) {
             fail()
         }

@@ -316,9 +316,9 @@ internal abstract class AbstractWiseFySearch(
                 WiseFyLogger.debug(TAG, "RSSI level of current access point: %d", currentAccessPoint.level)
                 WiseFyLogger.debug(TAG, "RSSI level of access point in list: %d", accessPoint.level)
                 WiseFyLogger.debug(
-                        TAG,
-                        "comparison result: %d (hasHighestSignalStrength)",
-                        WifiManager.compareSignalLevel(accessPoint.level, currentAccessPoint.level)
+                    TAG,
+                    "comparison result: %d (hasHighestSignalStrength)",
+                    WifiManager.compareSignalLevel(accessPoint.level, currentAccessPoint.level)
                 )
                 if (WifiManager.compareSignalLevel(accessPoint.level, currentAccessPoint.level) > 0) {
                     WiseFyLogger.debug(TAG, "Stronger signal strength found")
@@ -357,9 +357,9 @@ internal abstract class AbstractWiseFySearch(
                     WiseFyLogger.debug(TAG, "RSSI level of access point 1: %d", scanResult.level)
                     WiseFyLogger.debug(TAG, "RSSI level of access point 2: %d", accessPoint.level)
                     WiseFyLogger.debug(
-                            TAG,
-                            "comparison result: %d (removeEntriesWithLowerSignalStrength)",
-                            WifiManager.compareSignalLevel(accessPoint.level, scanResult.level)
+                        TAG,
+                        "comparison result: %d (removeEntriesWithLowerSignalStrength)",
+                        WifiManager.compareSignalLevel(accessPoint.level, scanResult.level)
                     )
                     if (WifiManager.compareSignalLevel(accessPoint.level, scanResult.level) > 0) {
                         WiseFyLogger.debug(TAG, "New result has a higher or same signal strength, swapping")
@@ -390,10 +390,13 @@ internal abstract class AbstractWiseFySearch(
      * @since 3.0
      */
     private fun savedNetworkMatchesRegex(savedNetwork: WifiConfiguration?, regexForSSID: String): Boolean {
-        if (savedNetwork?.SSID != null) {
-            val ssidInList = savedNetwork.SSID.replace(QUOTE, "")
-            return ssidInList.matches(regexForSSID.toRegex())
-        }
-        return false
+        return savedNetwork?.let {
+            return if (it.SSID != null) {
+                val ssidInList = it.SSID.replace(QUOTE, "")
+                ssidInList.matches(regexForSSID.toRegex())
+            } else {
+                false
+            }
+        } ?: false
     }
 }

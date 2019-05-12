@@ -9,9 +9,11 @@ import com.isupatches.wisefy.TEST_TYPE1
 import com.isupatches.wisefy.constants.MOBILE
 import com.isupatches.wisefy.constants.WIFI
 import com.isupatches.wisefy.internal.base.BaseUnitTest
+import org.junit.After
 
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -31,6 +33,16 @@ internal class WiseFyConnectionLegacyTests : BaseUnitTest() {
         mockConnectivityManager,
         mockWifiManager
     )
+
+    @Before fun setUp() {
+        super.tearDown()
+        wisefyConnection.init()
+    }
+
+    @After override fun tearDown() {
+        super.tearDown()
+        wisefyConnection.destroy()
+    }
 
     /*
      * isCurrentNetworkConnectedToSSID tests

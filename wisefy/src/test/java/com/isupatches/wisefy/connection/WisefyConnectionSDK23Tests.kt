@@ -9,9 +9,11 @@ import com.isupatches.wisefy.TEST_TIMEOUT
 import com.isupatches.wisefy.internal.base.BaseUnitTest
 import com.isupatches.wisefy.internal.getNetworkCapabilities
 
+import org.junit.After
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Assume.assumeTrue
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -29,6 +31,16 @@ internal class WisefyConnectionSDK23Tests : BaseUnitTest() {
         mockConnectivityManager,
         mockWifiManager
     )
+
+    @Before fun setUp() {
+        super.tearDown()
+        wisefyConnection.init()
+    }
+
+    @After override fun tearDown() {
+        super.tearDown()
+        wisefyConnection.destroy()
+    }
 
     /*
      * isCurrentNetworkConnectedToSSID tests
