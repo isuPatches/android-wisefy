@@ -386,7 +386,7 @@ internal class WisefyConnectionSDK23Tests : BaseUnitTest() {
         val network = mock(Network::class.java)
         `when`(mockConnectivityManager.activeNetwork).thenReturn(network)
         `when`(mockConnectivityManager.getNetworkCapabilities(network)).thenReturn(networkCapabilities)
-        (wisefyConnection as WiseFyConnectionSDK23).networkChangeCallback.onCapabilitiesChanged(
+        (wisefyConnection as WiseFyConnectionSDK23).networkChangeCallbacks.onCapabilitiesChanged(
             network,
             networkCapabilities
         )
@@ -397,25 +397,25 @@ internal class WisefyConnectionSDK23Tests : BaseUnitTest() {
      */
 
     private fun withAvailableNetwork() {
-        (wisefyConnection as WiseFyConnectionSDK23).networkChangeCallback.onAvailable(
+        (wisefyConnection as WiseFyConnectionSDK23).networkChangeCallbacks.onAvailable(
             mock(Network::class.java)
         )
     }
 
     private fun withLosingNetwork() {
-        (wisefyConnection as WiseFyConnectionSDK23).networkChangeCallback.onLosing(
+        (wisefyConnection as WiseFyConnectionSDK23).networkChangeCallbacks.onLosing(
             mock(Network::class.java),
             1
         )
     }
 
     private fun withLostNetwork() {
-        (wisefyConnection as WiseFyConnectionSDK23).networkChangeCallback.onLost(
+        (wisefyConnection as WiseFyConnectionSDK23).networkChangeCallbacks.onLost(
             mock(Network::class.java)
         )
     }
 
     private fun withUnavailableNetwork() {
-        (wisefyConnection as WiseFyConnectionSDK23).networkChangeCallback.onUnavailable()
+        (wisefyConnection as WiseFyConnectionSDK23).networkChangeCallbacks.onUnavailable()
     }
 }
