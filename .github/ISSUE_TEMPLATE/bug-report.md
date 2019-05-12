@@ -6,6 +6,8 @@ about: Create a report to help us improve
 
 Thank you for creating an issue to improve this library! Please check Please check [the current issues](https://github.com/isuPatches/WiseFy/issues) to make sure that the improvement isn't already being worked on.
 
+It will be _EXTREMELY_ helpful if you also take a look at the [sample app](/wisefysample) to see how it behalves and if you can reproduce there.
+
 **Description**
 A clear and concise description of the bug.
 
@@ -27,10 +29,13 @@ A description of what you expected to happen.
 **Actual behavior**
 A description of what actually happened 
 
-**Android Information**
+**Additional Information**
  - Device (i.e. Nexus 5x):
  - OS Version (i.e. Android 8.1):
-- Rooted:
+ - Rooted:
+ - Using legacy connection logic?:
+ - Using legacy search logic?:
+ - Reproducible with sample app?:
 
 **Logs**
 Please include logs from WiseFy if at all possible.  They can be found with `logging(true)` set on the WiseFy instance and by filtering on 'WiseFy'
