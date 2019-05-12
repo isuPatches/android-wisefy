@@ -74,7 +74,7 @@ wisefy.connectToNetwork("SSID to connect to", 3000, new ConnectToNetworkCallback
     }
 
     @Override
-    public void wisefyFailure(int i) {
+    public void wisefyFailure(int wisefyFailureCode) {
 
     }
 });
@@ -115,7 +115,7 @@ wisefy.disconnectFromCurrentNetwork(new DisconnectFromCurrentNetworkCallbacks() 
     }
 
     @Override
-    public void wisefyFailure(int i) {
+    public void wisefyFailure(int wisefyFailureCode) {
 
     }
 });

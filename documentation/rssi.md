@@ -51,12 +51,12 @@ _With Kotlin_
 
 ```kotlin
 wisefy.getRSSI("regex for SSID", true, 3000, object: GetRSSICallbacks{
-    override fun networkNotFoundToRetrieveRSSI() {
-
-    }
-
     override fun retrievedRSSI(rssi: Int) {
 
+    }
+    
+    override fun networkNotFoundToRetrieveRSSI() {
+    
     }
 
     override fun wisefyFailure(wisefyFailureCode: Int) {
@@ -70,7 +70,7 @@ _With Java_
 ```java
 wisefy.getRSSI("regex for SSID", true, 3000, new GetRSSICallbacks() {
     @Override
-    public void retrievedRSSI(int i) {
+    public void retrievedRSSI(int rssi) {
 
     }
 
@@ -80,7 +80,7 @@ wisefy.getRSSI("regex for SSID", true, 3000, new GetRSSICallbacks() {
     }
 
     @Override
-    public void wisefyFailure(int i) {
+    public void wisefyFailure(int wisefyFailureCode) {
 
     }
 });

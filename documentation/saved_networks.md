@@ -83,17 +83,17 @@ _With Java_
 ```java
 wisefy.getSavedNetwork("regex for SSID", new GetSavedNetworkCallbacks() {
     @Override
+    public void retrievedSavedNetwork(WifiConfiguration savedNetwork) {
+    
+    }
+        
+    @Override
     public void savedNetworkNotFound() {
 
     }
 
     @Override
-    public void retrievedSavedNetwork(WifiConfiguration wifiConfiguration) {
-
-    }
-
-    @Override
-    public void wisefyFailure(int i) {
+    public void wisefyFailure(int wisefyFailureCode) {
 
     }
 });
@@ -105,14 +105,14 @@ _With Kotlin_
 
 ```kotlin
 wisefy.getSavedNetworks(object: GetSavedNetworksCallbacks {
-    override fun noSavedNetworksFound() {
-
-    }
-
     override fun retrievedSavedNetworks(savedNetworks: List<WifiConfiguration>) {
 
     }
 
+    override fun noSavedNetworksFound() {
+
+    }
+    
     override fun wisefyFailure(wisefyFailureCode: Int) {
 
     }
@@ -124,12 +124,12 @@ _With Java_
 ```java
 wisefy.getSavedNetworks(new GetSavedNetworksCallbacks() {
     @Override
-    public void noSavedNetworksFound() {
-
-    }
-
-    @Override
     public void retrievedSavedNetworks(List<WifiConfiguration> savedNetworks) {
+    
+    }
+    
+    @Override
+    public void noSavedNetworksFound() {
 
     }
 
@@ -146,11 +146,11 @@ _With Kotlin_
 
 ```kotlin
 wisefy.getSavedNetworks("regex for SSID", object: GetSavedNetworksCallbacks {
-    override fun noSavedNetworksFound() {
+    override fun retrievedSavedNetworks(savedNetworks: List<WifiConfiguration>) {
 
     }
 
-    override fun retrievedSavedNetworks(savedNetworks: List<WifiConfiguration>) {
+    override fun noSavedNetworksFound() {
 
     }
 
@@ -165,15 +165,15 @@ _With Java_
 ```java
 wisefy.getSavedNetworks("regex for SSID", new GetSavedNetworksCallbacks() {
     @Override
-    public void noSavedNetworksFound() {
-
-    }
-
-    @Override
     public void retrievedSavedNetworks(List<WifiConfiguration> savedNetworks) {
 
     }
 
+    @Override
+    public void noSavedNetworksFound() {
+
+    }
+    
     @Override
     public void wisefyFailure(int wisefyFailureCode) {
 

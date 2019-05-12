@@ -37,41 +37,9 @@ Wifi configuration and util library built for Android.
 - Fix for search with empty list
 - More tests
 
-## What's New in 3.x
-
-- Rewritten in Kotlin
-    - Static analysis tools added
-- Ability to get the IP of a device
-- Additional details in callbacks for adding a network:
-    - The new id of the network
-    - The WifiConfiguration of the network that was added
-- isNetworkInConfigurationList renamed isNetworkSaved
-- brains renamed Brains
-- Nullability issues will be more visible
-- Definitions for NetworkTypes and WiseFyCodes
-- Immutability throughout the library
-- Improved architecture
-- Updated dependencies
-- Updated to Gradle 4.x and AGP 3.x
-- Target now is set to API 27
-- Less duplicate code
-- Improved testing
-- Updated documentation with new Kotlin examples
-- Other improvements and adjustments!
-
-## What's New in 2.0.x
-
-- Asynchronous API
-    - Certain methods have callbacks and are run on a WiseFy specific background thread
-- Ability to search by regex for:
-    - Nearby access points
-    - Saved Configurations
-    - SSIDs
-- Ability to query for RSSI
-- Ability to query for if the device is roaming
-- Additional methods to query for network security
-- Full fledged documentation directory
-- Tested against Android O
+Previous updates:
+- [What's New in 3.x](/changes/whatsnew/3.x.md)
+- [What's New in 2.x](/changes/whatsnew/2.x.md)
 
 ## Adding to your project
 

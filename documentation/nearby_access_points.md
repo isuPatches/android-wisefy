@@ -86,6 +86,10 @@ wisefy.getNearbyAccessPoints(true, object: GetNearbyAccessPointsCallbacks {
 
     }
 
+    override fun noAccessPointsFound() {
+    
+    }
+    
     override fun wisefyFailure(wisefyFailureCode: Int) {
 
     }
@@ -99,6 +103,11 @@ wisefy.getNearbyAccessPoints(true, new GetNearbyAccessPointsCallbacks() {
     @Override
     public void retrievedNearbyAccessPoints(List<ScanResult> accessPoints) {
 
+    }
+    
+    @Override
+    public void noAccessPointsFound() {
+        
     }
 
     @Override
@@ -134,7 +143,7 @@ _With Java_
 ```java
 wisefy.searchForAccessPoint("regex for SSID", 3000, true, new SearchForAccessPointCallbacks() {
     @Override
-    public void accessPointFound(ScanResult scanResult) {
+    public void accessPointFound(ScanResult accessPoint) {
 
     }
 
@@ -144,7 +153,7 @@ wisefy.searchForAccessPoint("regex for SSID", 3000, true, new SearchForAccessPoi
     }
 
     @Override
-    public void wisefyFailure(int i) {
+    public void wisefyFailure(int wisefyFailureCode) {
 
     }
 });
@@ -186,7 +195,7 @@ wisefy.searchForAccessPoints("regex for SSID", true, new SearchForAccessPointsCa
     }
 
     @Override
-    public void wisefyFailure(int i) {
+    public void wisefyFailure(int wisefyFailureCode) {
 
     }
 });
@@ -217,7 +226,7 @@ _With Java_
 ```java
 wisefy.searchForSSID("regex for SSID", 3000, new SearchForSSIDCallbacks() {
     @Override
-    public void ssidFound(String s) {
+    public void ssidFound(String ssid) {
 
     }
 
@@ -227,7 +236,7 @@ wisefy.searchForSSID("regex for SSID", 3000, new SearchForSSIDCallbacks() {
     }
 
     @Override
-    public void wisefyFailure(int i) {
+    public void wisefyFailure(int wisefyFailureCode) {
 
     }
 });
@@ -239,11 +248,11 @@ _With Kotlin_
 
 ```kotlin
 wisefy.searchForSSIDs("regex for SSID", object: SearchForSSIDsCallbacks {
-    override fun noSSIDsFound() {
+    override fun retrievedSSIDs(ssids: List<String>) {
 
     }
-
-    override fun retrievedSSIDs(ssids: List<String>) {
+    
+    override fun noSSIDsFound() {
 
     }
 
@@ -258,7 +267,7 @@ _With Java_
 ```java
 wisefy.searchForSSIDs("regex for SSID", new SearchForSSIDsCallbacks() {
     @Override
-    public void retrievedSSIDs(List<String> list) {
+    public void retrievedSSIDs(List<String> ssids) {
 
     }
 
@@ -268,7 +277,7 @@ wisefy.searchForSSIDs("regex for SSID", new SearchForSSIDsCallbacks() {
     }
 
     @Override
-    public void wisefyFailure(int i) {
+    public void wisefyFailure(int wisefyFailureCode) {
 
     }
 });

@@ -1,5 +1,6 @@
 package com.isupatches.wisefy.main
 
+import android.net.NetworkInfo
 import android.net.wifi.ScanResult
 import android.net.wifi.WifiConfiguration
 import android.net.wifi.WifiInfo
@@ -23,6 +24,7 @@ import com.isupatches.wisefy.callbacks.DisableWifiCallbacks
 import com.isupatches.wisefy.callbacks.DisconnectFromCurrentNetworkCallbacks
 import com.isupatches.wisefy.callbacks.EnableWifiCallbacks
 import com.isupatches.wisefy.callbacks.GetCurrentNetworkCallbacks
+import com.isupatches.wisefy.callbacks.GetCurrentNetworkInfoCallbacks
 import com.isupatches.wisefy.callbacks.GetFrequencyCallbacks
 import com.isupatches.wisefy.callbacks.GetIPCallbacks
 import com.isupatches.wisefy.callbacks.GetNearbyAccessPointsCallbacks
@@ -196,6 +198,22 @@ class PublicApiVisibilityTests {
             }
         })
         verify<WiseFyPublicApi>(wisefy).getCurrentNetwork(any(GetCurrentNetworkCallbacks::class.java))
+    }
+
+    @Test fun getCurrentNetworkInfo_apis() {
+        wisefy.getCurrentNetworkInfo()
+        verify<WiseFyPublicApi>(wisefy).getCurrentNetworkInfo()
+        wisefy.getCurrentNetworkInfo(object : GetCurrentNetworkInfoCallbacks {
+            override fun noCurrentNetworkInfo() {
+            }
+
+            override fun retrievedCurrentNetworkInfo(currentNetworkDetails: NetworkInfo) {
+            }
+
+            override fun wisefyFailure(wisefyFailureCode: Int) {
+            }
+        })
+        verify<WiseFyPublicApi>(wisefy).getCurrentNetworkInfo(any(GetCurrentNetworkInfoCallbacks::class.java))
     }
 
     @Test fun getFrequency_apis() {
