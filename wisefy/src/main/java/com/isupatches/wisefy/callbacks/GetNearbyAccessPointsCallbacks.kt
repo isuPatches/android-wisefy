@@ -23,6 +23,9 @@ import android.net.wifi.ScanResult
  * @see [BaseCallback]
  * @see [com.isupatches.wisefy.WiseFy.getNearbyAccessPoints]
  *
+ * Updates
+ * - 05/12/2019: Added noCurrentNetwork callback
+ *
  * @author Patches
  * @since 3.0
  */
@@ -39,6 +42,8 @@ interface GetNearbyAccessPointsCallbacks : BaseCallback {
     fun retrievedNearbyAccessPoints(nearbyAccessPoints: List<@JvmSuppressWildcards ScanResult>)
 
     /**
+     * Called when the Android OS returns no access points.
+     *
      * @author Patches
      * @since 4.0
      */

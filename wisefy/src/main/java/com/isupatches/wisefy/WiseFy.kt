@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Patches Klinefelter
+ * Copyright 2019 Patches Klinefelter
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -64,10 +64,8 @@ import com.isupatches.wisefy.connection.WiseFyConnectionSDK23
 import com.isupatches.wisefy.constants.Capability
 import com.isupatches.wisefy.constants.EAP
 import com.isupatches.wisefy.constants.MISSING_PARAMETER
-import com.isupatches.wisefy.constants.MOBILE
 import com.isupatches.wisefy.constants.PSK
 import com.isupatches.wisefy.constants.WEP
-import com.isupatches.wisefy.constants.WIFI
 import com.isupatches.wisefy.constants.WPA
 import com.isupatches.wisefy.constants.WPA2
 import com.isupatches.wisefy.logging.WiseFyLogger
@@ -140,6 +138,13 @@ class WiseFy private constructor(
     /**
      * The Builder class for WiseFy.
      *
+     * Updates
+     * - 05/12/2019
+     *      * Branched wisefyConnection based off of if device is pre or post SDK23
+     *      * Branched wisefySearch based off of if device is pre or post SDK23
+     *      * Added useLegacyConnection
+     *      * Added useLegacySearch
+     *
      * @author Patches
      * @since 3.0
      */
@@ -159,16 +164,23 @@ class WiseFy private constructor(
         init {
             connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
             wifiManager = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+
+            // We'll use SDK 23 logic for WiseFyConnection if client is on at least an SDK 23 device
+            // and "useLegacyConnection" option is not enabled
+
             wisefyConnection = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M || useLegacyConnection) {
                 WiseFyConnectionLegacy.create(connectivityManager, wifiManager)
             } else {
                 WiseFyConnectionSDK23.create(connectivityManager, wifiManager)
             }
+            // We'll use SDK 23 logic for WiseFySearch if client is on at least an SDK 23 device
+            // and "useLegacySearch" option is not enabled
             wisefySearch = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M || useLegacySearch) {
                 WiseFySearchLegacy.create(wifiManager)
             } else {
                 WiseFySearchSDK23.create(wifiManager)
             }
+
             wisefyPrechecks = WiseFyPrechecksImpl.create(wisefySearch)
         }
 
@@ -258,6 +270,10 @@ class WiseFy private constructor(
          * Uses a private constructor and returns a WiseFy instance.
          *
          * @see [WiseFyLogger.configureWiseFyLoggerImplementation]
+         * @see [WiseFyConnection.init]
+         *
+         * Updates
+         * - 05/12/2019: Added new call to [WiseFyConnection.init]
          *
          * @author Patches
          * @since 3.0
@@ -372,12 +388,14 @@ class WiseFy private constructor(
      * @param password The password for the WEP network being added
      * @param callbacks The listener to return results to
      *
-     * @see [addNetworkConfiguration]
+     * @see [addNetworkWithPasswordAsync]
      * @see [AddNetworkCallbacks]
      * @see [generateWEPNetworkConfiguration]
      * @see [runOnWiseFyThread]
      * @see [WiseFyLock]
-     * @see [WiseFyPrechecks.addNetworkPrechecks]
+     *
+     * Updates
+     * - 05/12/2019: Abstracted logic for adding network into addNetworkWithPasswordAsync
      *
      * @author Patches
      * @since 3.0
@@ -432,12 +450,14 @@ class WiseFy private constructor(
      * @param password The password for the WPA2 network being added
      * @param callbacks The listener to return results to
      *
-     * @see [addNetworkConfiguration]
+     * @see [addNetworkWithPasswordAsync]
      * @see [AddNetworkCallbacks]
      * @see [generateWPA2NetworkConfiguration]
      * @see [runOnWiseFyThread]
      * @see [WiseFyLock]
-     * @see [WiseFyPrechecks.addNetworkPrechecks]
+     *
+     * Updates
+     * - 05/12/2019: Abstracted logic for adding network into addNetworkWithPasswordAsync
      *
      * @author Patches
      * @since 3.0
@@ -693,8 +713,12 @@ class WiseFy private constructor(
     /**
      * Used to cleanup the thread started by WiseFy.
      *
+     * @see [WiseFyConnection.destroy]
      * @see WiseFyHandlerThread
      * @see WiseFyLock
+     *
+     * Updates
+     * - 05/12/2019: Added new call to [WiseFyConnection.destroy]
      *
      * @author Patches
      * @since 3.0
@@ -818,6 +842,9 @@ class WiseFy private constructor(
      * @see [WiseFyLock]
      * @see [WiseFyPrechecks.getCurrentNetworkChecks]
      *
+     * Updates
+     * - 05/12/2019: Added noCurrentNetwork callback
+     *
      * @author Patches
      * @since 3.0
      */
@@ -875,6 +902,9 @@ class WiseFy private constructor(
      * @see [runOnWiseFyThread]
      * @see [WiseFyLock]
      * @see [WiseFyPrechecks.getCurrentNetworkInfoChecks]
+     *
+     * Updates
+     * - 05/12/2019: Added noCurrentNetworkInfo callback
      *
      * @author Patches
      * @since 3.0
@@ -1086,9 +1116,11 @@ class WiseFy private constructor(
      * @throws SecurityException Without necessary permissions granted
      *
      * @see [ScanResult]
-     * @see [WifiManager.getScanResults]
-     * @see [WifiManager.startScan]
+     * @see [WiseFySearch.getNearbyAccessPoints]
      * @see [WiseFyPrechecks.getNearbyAccessPointsChecks]
+     *
+     * Updates
+     * - 05/12/2019: Added call to new getNearbyAccessPoints
      *
      * @author Patches
      * @since 3.0
@@ -1115,10 +1147,14 @@ class WiseFy private constructor(
      *
      * @see [GetNearbyAccessPointsCallbacks]
      * @see [runOnWiseFyThread]
-     * @see [WifiManager.getScanResults]
-     * @see [WifiManager.startScan]
+     * @see [WiseFySearch.getNearbyAccessPoints]
      * @see [WiseFyLock]
      * @see [WiseFyPrechecks.getNearbyAccessPointsChecks]
+     *
+     * Updates
+     * - 05/12/2019
+     *      * Added call to new getNearbyAccessPoints
+     *      * Added noAccessPointsFound callback
      *
      * @author Patches
      * @since 3.0
@@ -1420,10 +1456,11 @@ class WiseFy private constructor(
      *
      * @return bool - If the device is currently connected to a mobile network
      *
-     * @see [ConnectivityManager.getActiveNetworkInfo]
-     * @see [MOBILE]
      * @see [WiseFyConnection.isDeviceConnectedToMobileNetwork]
      * @see [WiseFyPrechecks.isDeviceConnectedToMobileNetworkChecks]
+     *
+     * Updates
+     * - 05/12/2019: Started using isDeviceConnectedToMobileNetwork
      *
      * @author Patches
      * @since 3.0
@@ -1440,7 +1477,6 @@ class WiseFy private constructor(
      *
      * @return bool - If the device is currently connected to a mobile or wifi network
      *
-     * @see [ConnectivityManager.getActiveNetworkInfo]
      * @see [WiseFyConnection.isNetworkConnected]
      * @see [WiseFyPrechecks.isDeviceConnectedToMobileOrWifiNetworkChecks]
      *
@@ -1480,9 +1516,11 @@ class WiseFy private constructor(
      * @return bool - If the device is currently connected to a wifi network
      *
      * @see [ConnectivityManager.getActiveNetworkInfo]
-     * @see [WIFI]
      * @see [WiseFyConnection.isDeviceConnectedToWifiNetwork]
      * @see [WiseFyPrechecks.isDeviceConnectedToWifiNetworkChecks]
+     *
+     * Updates
+     * - 05/12/2019: Started using isDeviceConnectedToWifiNetwork
      *
      * @author Patches
      * @since 3.0
@@ -1499,9 +1537,11 @@ class WiseFy private constructor(
      *
      * @return boolean - If the current network is roaming
      *
-     * @see [ConnectivityManager.getActiveNetworkInfo]
-     * @see [NetworkInfo.isRoaming]
+     * @see [WiseFyConnection.isDeviceRoaming]
      * @see [WiseFyPrechecks.isDeviceRoamingChecks]
+     *
+     * Updates
+     * - 05/12/2019: Started using isDeviceRoaming
      *
      * @author Patches
      * @since 3.0
@@ -2094,6 +2134,24 @@ class WiseFy private constructor(
      * HELPERS
      */
 
+    /**
+     * Used internally to add a network with password from async API.
+     *
+     * *NOTES* NOT to be used with sync APIs.
+     *
+     * @param ssid The ssid of the network to add
+     * @param password The password for the network to add
+     * @param wifiConfigurationProvider The configuration of the network to add (as a provider)
+     * @param callbacks The callbacks for adding the network
+     *
+     * @see [addNetworkConfiguration]
+     * @see [WiseFyPrechecks.addNetworkPrechecks]
+     * @see [WIFI_MANAGER_FAILURE]
+     * @see [WifiConfiguration]
+     *
+     * @author Patches
+     * @since 4.0
+     */
     private fun addNetworkWithPasswordAsync(
         ssid: String?,
         password: String?,
@@ -2185,7 +2243,7 @@ class WiseFy private constructor(
      */
     private fun runOnWiseFyThread(runnable: Runnable) {
         if (wisefyHandler == null) {
-            setupWiseFyThread(false)
+            setupWiseFyThread()
         }
         wisefyHandler?.post(runnable)
     }
@@ -2217,14 +2275,20 @@ class WiseFy private constructor(
     /**
      * Used internally to setup a WiseFyThread to run background operations.
      *
+     * @param useMainLooper Only to be set to true for testing.  It's a hacky param to allow RoboElectric
+     * to complete runnables posted to the [WiseFyHandlerThread] :(  I feel bad about this.
+     *
      * @see [runOnWiseFyThread]
      * @see [WiseFyHandlerThread]
+     *
+     * Updates
+     * - 05/12/2019: Marks as visible for testing and added useMainLooper param
      *
      * @author Patches
      * @since 3.0
      */
     @VisibleForTesting
-    internal fun setupWiseFyThread(useMainLooper: Boolean) {
+    internal fun setupWiseFyThread(useMainLooper: Boolean = false) {
         wisefyHandlerThread = WiseFyHandlerThread(WiseFyHandlerThread.TAG)
         wisefyHandlerThread?.let {
             it.start()

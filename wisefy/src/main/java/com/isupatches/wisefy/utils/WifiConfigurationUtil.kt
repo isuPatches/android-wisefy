@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Patches Klinefelter
+ * Copyright 2019 Patches Klinefelter
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,6 +28,9 @@ import com.isupatches.wisefy.constants.QUOTE
  *
  * @see [com.isupatches.wisefy.WiseFy.addOpenNetwork]
  * @see [WifiConfiguration]
+ *
+ * Updates
+ * - 05/12/2019: General cleanup and removing deprecated values
  *
  * @author Patches
  * @since 3.0
@@ -62,6 +65,9 @@ internal fun generateOpenNetworkConfiguration(ssid: String): WifiConfiguration {
  *
  * @see [com.isupatches.wisefy.WiseFy.addWEPNetwork]
  * @see [WifiConfiguration]
+ *
+ * Updates
+ * - 05/12/2019: General cleanup and removing deprecated values
  *
  * @author Patches
  * @since 3.0
@@ -119,6 +125,9 @@ internal fun generateWEPNetworkConfiguration(ssid: String, password: String): Wi
  *
  * @see [com.isupatches.wisefy.WiseFy.addWPA2Network]
  * @see [WifiConfiguration]
+ *
+ * Updates
+ * - 05/12/2019: General cleanup and removing deprecated values
  *
  * @author Patches
  * @since 3.0
