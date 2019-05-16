@@ -6,7 +6,9 @@ import androidx.annotation.RequiresPermission
 import com.isupatches.wisefy.WiseFy
 import com.isupatches.wisefy.callbacks.RemoveNetworkCallbacks
 
-internal class RemoveNetworkModel(
+import javax.inject.Inject
+
+internal class RemoveNetworkModel @Inject constructor(
     private val wiseFy: WiseFy
 ): RemoveNetworkMvp.Model {
 

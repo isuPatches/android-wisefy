@@ -12,7 +12,9 @@ import com.isupatches.wisefy.callbacks.SearchForAccessPointsCallbacks
 import com.isupatches.wisefy.callbacks.SearchForSSIDCallbacks
 import com.isupatches.wisefy.callbacks.SearchForSSIDsCallbacks
 
-internal class SearchModel(
+import javax.inject.Inject
+
+internal class SearchModel @Inject constructor(
     private val wiseFy: WiseFy
 ): SearchMvp.Model {
 

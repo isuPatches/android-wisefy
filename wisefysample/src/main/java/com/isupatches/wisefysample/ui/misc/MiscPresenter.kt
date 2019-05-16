@@ -21,10 +21,14 @@ import com.isupatches.wisefy.callbacks.GetIPCallbacks
 import com.isupatches.wisefy.callbacks.GetNearbyAccessPointsCallbacks
 import com.isupatches.wisefy.callbacks.GetSavedNetworksCallbacks
 import com.isupatches.wisefysample.internal.base.BasePresenter
+import com.isupatches.wisefysample.internal.util.RxSchedulersProvider
 
-internal class MiscPresenter(
-    private val model: MiscMvp.Model
-) : BasePresenter<MiscMvp.View>(), MiscMvp.Presenter {
+import javax.inject.Inject
+
+internal class MiscPresenter @Inject constructor(
+    private val model: MiscMvp.Model,
+    rxSchedulersProvider: RxSchedulersProvider
+) : BasePresenter<MiscMvp.View>(rxSchedulersProvider), MiscMvp.Presenter {
 
     /*
      * Model call-throughs

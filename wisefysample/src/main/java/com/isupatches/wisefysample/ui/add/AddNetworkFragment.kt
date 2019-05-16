@@ -16,6 +16,9 @@ import com.isupatches.wisefysample.internal.util.displayShortToast
 import com.isupatches.wisefysample.internal.util.getTrimmedInput
 import com.isupatches.wisefysample.internal.util.hideKeyboardFrom
 
+import dagger.Binds
+import dagger.Module
+
 import kotlinx.android.synthetic.main.fragment_add.addNetworkBtn
 import kotlinx.android.synthetic.main.fragment_add.addNetworkTypeRdg
 import kotlinx.android.synthetic.main.fragment_add.networkNameEdt
@@ -28,8 +31,7 @@ internal class AddNetworkFragment : BaseFragment(), AddNetworkMvp.View {
 
     override val layoutRes = R.layout.fragment_add
 
-    private val presenter by lazy { AddNetworkPresenter(AddNetworkModel(wiseFy)) }
-
+    @Inject lateinit var presenter: AddNetworkMvp.Presenter
     @Inject lateinit var addNetworkStore: AddNetworkStore
 
     companion object {
@@ -206,5 +208,15 @@ internal class AddNetworkFragment : BaseFragment(), AddNetworkMvp.View {
                 Log.wtf(TAG, "Weird permission requested, not handled")
             }
         }
+    }
+
+    /*
+     * Dagger
+     */
+
+    @Suppress("unused")
+    @Module internal interface AddNetworkFragmentModule {
+        @Binds fun bindAddNetworkModel(impl: AddNetworkModel): AddNetworkMvp.Model
+        @Binds fun bindAddNetworkPresenter(impl: AddNetworkPresenter): AddNetworkMvp.Presenter
     }
 }

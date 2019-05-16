@@ -17,6 +17,9 @@ import com.isupatches.wisefysample.internal.util.displayShortToast
 import com.isupatches.wisefysample.internal.util.getTrimmedInput
 import com.isupatches.wisefysample.internal.util.hideKeyboardFrom
 
+import dagger.Binds
+import dagger.Module
+
 import kotlinx.android.synthetic.main.fragment_search.filterDupesRdg
 import kotlinx.android.synthetic.main.fragment_search.filterDupesTxt
 import kotlinx.android.synthetic.main.fragment_search.returnFullListRdg
@@ -32,8 +35,7 @@ internal class SearchFragment : BaseFragment(), SearchMvp.View {
 
     override val layoutRes = R.layout.fragment_search
 
-    private val presenter by lazy { SearchPresenter(SearchModel(wiseFy)) }
-
+    @Inject lateinit var presenter: SearchMvp.Presenter
     @Inject lateinit var searchStore: SearchStore
 
     companion object {
@@ -363,5 +365,15 @@ internal class SearchFragment : BaseFragment(), SearchMvp.View {
     private fun checkSearchForSSIDsPermissions(): Boolean {
         return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_SEARCH_FOR_SSIDS_REQUEST_CODE)
                 && isPermissionGranted(Manifest.permission.ACCESS_COARSE_LOCATION, WISEFY_SEARCH_FOR_SSIDS_REQUEST_CODE)
+    }
+
+    /*
+     * Dagger
+     */
+
+    @Suppress("unused")
+    @Module internal interface SearchFragmentModule {
+        @Binds fun bindSearchModel(impl: SearchModel): SearchMvp.Model
+        @Binds fun bindSearchPresenter(impl: SearchPresenter): SearchMvp.Presenter
     }
 }

@@ -14,10 +14,14 @@ import com.isupatches.wisefy.callbacks.SearchForSSIDCallbacks
 import com.isupatches.wisefy.callbacks.SearchForSSIDsCallbacks
 import com.isupatches.wisefy.constants.WiseFyCode
 import com.isupatches.wisefysample.internal.base.BasePresenter
+import com.isupatches.wisefysample.internal.util.RxSchedulersProvider
 
-internal class SearchPresenter(
-    private val model: SearchMvp.Model
-) : BasePresenter<SearchMvp.View>(), SearchMvp.Presenter {
+import javax.inject.Inject
+
+internal class SearchPresenter @Inject constructor(
+    private val model: SearchMvp.Model,
+    rxSchedulersProvider: RxSchedulersProvider
+) : BasePresenter<SearchMvp.View>(rxSchedulersProvider), SearchMvp.Presenter {
 
     /*
      * Model call-throughs

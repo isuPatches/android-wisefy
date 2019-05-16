@@ -21,17 +21,12 @@ internal abstract class BaseFragment : Fragment() {
 
     @get:LayoutRes abstract val layoutRes: Int
 
-    protected lateinit var wiseFy: WiseFy
+    @Inject lateinit var wiseFy: WiseFy
     @Inject lateinit var permissionUtil: PermissionUtil
 
     override fun onAttach(context: Context) {
         AndroidSupportInjection.inject(this)
         super.onAttach(context)
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        wiseFy = WiseFy.Brains(activity!!).logging(true).getSmarts()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

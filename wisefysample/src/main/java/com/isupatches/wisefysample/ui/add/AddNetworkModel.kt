@@ -6,7 +6,9 @@ import androidx.annotation.RequiresPermission
 import com.isupatches.wisefy.WiseFy
 import com.isupatches.wisefy.callbacks.AddNetworkCallbacks
 
-internal class AddNetworkModel(
+import javax.inject.Inject
+
+internal class AddNetworkModel @Inject constructor(
     private val wiseFy: WiseFy
 ): AddNetworkMvp.Model {
 

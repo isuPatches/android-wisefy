@@ -23,6 +23,20 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
+    sourceSets {
+        def commonTestDir = 'src/commonTest/java'
+
+        test { java.srcDir commonTestDir }
+
+        androidTest { java.srcDir commonTestDir }
+
+        main { jni.srcDirs = [] }
+    }
 }
 
 dependencies {
@@ -51,6 +65,9 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxjava:$rxjava_version"
 
     // Unit test dependencies
+    testImplementation "androidx.test:core:$androidx_core_test_version"
+    testImplementation "org.mockito:mockito-core:$mockito_version"
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockito_kotlin_version"
     testImplementation "junit:junit:$junit_version"
 
     // Instrumentation test dependencies

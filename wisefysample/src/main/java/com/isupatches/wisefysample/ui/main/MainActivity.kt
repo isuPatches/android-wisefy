@@ -10,12 +10,14 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.isupatches.wisefysample.R
 import com.isupatches.wisefysample.internal.nav.openFragment
 import com.isupatches.wisefysample.internal.nav.selectItem
+import com.isupatches.wisefysample.internal.util.createWiseFy
 import com.isupatches.wisefysample.ui.add.AddNetworkFragment
 import com.isupatches.wisefysample.ui.misc.MiscFragment
 import com.isupatches.wisefysample.ui.remove.RemoveNetworkFragment
 import com.isupatches.wisefysample.ui.search.SearchFragment
 
 import dagger.Module
+import dagger.Provides
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.ContributesAndroidInjector
@@ -74,10 +76,23 @@ internal class MainActivity : AppCompatActivity(),
 
     @Suppress("unused")
     @Module internal interface FragmentBindings {
-        @ContributesAndroidInjector fun addNetworkFragment(): AddNetworkFragment
-        @ContributesAndroidInjector fun removeNetworkFragment(): RemoveNetworkFragment
+        @ContributesAndroidInjector(modules = [
+            AddNetworkFragment.AddNetworkFragmentModule::class
+        ]) fun addNetworkFragment(): AddNetworkFragment
+        @ContributesAndroidInjector(modules = [
+            RemoveNetworkFragment.RemoveNetworkFragmentModule::class
+        ]) fun removeNetworkFragment(): RemoveNetworkFragment
         @ContributesAndroidInjector fun mainFragment(): MainFragment
-        @ContributesAndroidInjector fun miscFragment(): MiscFragment
-        @ContributesAndroidInjector fun searchFragment(): SearchFragment
+        @ContributesAndroidInjector(modules = [
+            MiscFragment.MiscFragmentModule::class
+        ]) fun miscFragment(): MiscFragment
+        @ContributesAndroidInjector(modules = [
+            SearchFragment.SearchFragmentModule::class
+        ]) fun searchFragment(): SearchFragment
+    }
+
+    @Suppress("unused")
+    @Module internal object MainActivityModule {
+        @Provides @JvmStatic fun provideWiseFy(activity: MainActivity) = createWiseFy(activity)
     }
 }

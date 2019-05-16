@@ -6,10 +6,10 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
 @Suppress("unused")
-@Module
-internal interface ScreenBindingsModule {
+@Module internal interface ScreenBindingsModule {
 
     @ContributesAndroidInjector(modules = [
+        MainActivity.MainActivityModule::class,
         MainActivity.FragmentBindings::class
     ])
     fun mainActivity(): MainActivity

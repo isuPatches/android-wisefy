@@ -18,13 +18,15 @@ import com.isupatches.wisefy.callbacks.GetIPCallbacks
 import com.isupatches.wisefy.callbacks.GetNearbyAccessPointsCallbacks
 import com.isupatches.wisefy.callbacks.GetSavedNetworksCallbacks
 
-internal class MiscModel(
+import javax.inject.Inject
+
+internal class MiscModel @Inject constructor(
     private val wiseFy: WiseFy
 ): MiscMvp.Model {
 
     @RequiresPermission(allOf = [CHANGE_WIFI_STATE])
     override fun disableWifi(callbacks: DisableWifiCallbacks) {
-        wiseFy.disableWifi()
+        wiseFy.disableWifi(callbacks)
     }
 
     @RequiresPermission(allOf = [CHANGE_WIFI_STATE])

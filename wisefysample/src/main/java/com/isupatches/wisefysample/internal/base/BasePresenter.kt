@@ -3,18 +3,17 @@ package com.isupatches.wisefysample.internal.base
 import android.util.Log
 
 import com.isupatches.wisefy.constants.WiseFyCode
+import com.isupatches.wisefysample.internal.util.RxSchedulersProvider
 
-import io.reactivex.android.schedulers.AndroidSchedulers
-
-internal abstract class BasePresenter<V : BaseMvp.View> : BaseMvp.Presenter<V> {
+internal abstract class BasePresenter<V : BaseMvp.View> constructor(
+    private val rxSchedulersProvider: RxSchedulersProvider
+): BaseMvp.Presenter<V> {
 
     companion object {
         private val TAG = BasePresenter::class.java.simpleName
     }
 
     private var view: V? = null
-
-    private val mainThread  = AndroidSchedulers.mainThread()
 
     private val isViewAttached: Boolean
         get() = view != null
@@ -31,7 +30,7 @@ internal abstract class BasePresenter<V : BaseMvp.View> : BaseMvp.Presenter<V> {
 
     protected fun doSafelyWithView(viewCommand: (view: V) -> Unit) {
         if (isViewAttached) {
-            mainThread.scheduleDirect {
+            rxSchedulersProvider.main.scheduleDirect {
                 if (isViewAttached) {
                     viewCommand(view!!)
                 } else {
@@ -43,10 +42,5 @@ internal abstract class BasePresenter<V : BaseMvp.View> : BaseMvp.Presenter<V> {
 
     override fun displayWiseFyFailure(@WiseFyCode wiseFyFailureCode: Int) {
         doSafelyWithView { view -> view.displayWiseFyFailure(wiseFyFailureCode) }
-    }
-
-    @Suppress("unused")
-    protected interface ViewCommand<V : BaseMvp.View> {
-        fun command(view: V?)
     }
 }

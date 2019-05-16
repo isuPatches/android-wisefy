@@ -6,10 +6,13 @@ import androidx.annotation.RequiresPermission
 
 import com.isupatches.wisefy.callbacks.AddNetworkCallbacks
 import com.isupatches.wisefysample.internal.base.BasePresenter
+import com.isupatches.wisefysample.internal.util.RxSchedulersProvider
+import javax.inject.Inject
 
-internal class AddNetworkPresenter(
-    private val model: AddNetworkMvp.Model
-) : BasePresenter<AddNetworkMvp.View>(), AddNetworkMvp.Presenter {
+internal class AddNetworkPresenter @Inject constructor(
+    private val model: AddNetworkMvp.Model,
+    rxSchedulersProvider: RxSchedulersProvider
+) : BasePresenter<AddNetworkMvp.View>(rxSchedulersProvider), AddNetworkMvp.Presenter {
 
     /*
      * Model call-throughs

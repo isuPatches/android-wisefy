@@ -19,6 +19,9 @@ import com.isupatches.wisefysample.R
 import com.isupatches.wisefysample.internal.base.BaseFragment
 import com.isupatches.wisefysample.internal.util.displayShortToast
 
+import dagger.Binds
+import dagger.Module
+
 import kotlinx.android.synthetic.main.fragment_misc.enableWifiBtn
 import kotlinx.android.synthetic.main.fragment_misc.disableWifiBtn
 import kotlinx.android.synthetic.main.fragment_misc.getCurrentNetworkBtn
@@ -28,11 +31,13 @@ import kotlinx.android.synthetic.main.fragment_misc.getIPBtn
 import kotlinx.android.synthetic.main.fragment_misc.getNearbyAccessPointsBtn
 import kotlinx.android.synthetic.main.fragment_misc.getSavedNetworksBtn
 
+import javax.inject.Inject
+
 internal class MiscFragment : BaseFragment(), MiscMvp.View {
 
     override val layoutRes = R.layout.fragment_misc
 
-    private val presenter by lazy { MiscPresenter(MiscModel(wiseFy)) }
+    @Inject lateinit var presenter: MiscMvp.Presenter
 
     companion object {
         val TAG: String = MiscFragment::class.java.simpleName
@@ -331,5 +336,15 @@ internal class MiscFragment : BaseFragment(), MiscMvp.View {
                 Log.wtf(TAG, "Weird permission requested, not handled")
             }
         }
+    }
+
+    /*
+     * Dagger
+     */
+
+    @Suppress("unused")
+    @Module internal interface MiscFragmentModule {
+        @Binds fun bindMiscModel(impl: MiscModel): MiscMvp.Model
+        @Binds fun bindMiscPresenter(impl: MiscPresenter): MiscMvp.Presenter
     }
 }

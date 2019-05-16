@@ -14,6 +14,9 @@ import com.isupatches.wisefysample.internal.util.displayShortToast
 import com.isupatches.wisefysample.internal.util.getTrimmedInput
 import com.isupatches.wisefysample.internal.util.hideKeyboardFrom
 
+import dagger.Binds
+import dagger.Module
+
 import kotlinx.android.synthetic.main.fragment_remove.removeNetworkBtn
 import kotlinx.android.synthetic.main.fragment_remove.removeNetworkEdt
 
@@ -23,10 +26,7 @@ internal class RemoveNetworkFragment : BaseFragment(), RemoveNetworkMvp.View {
 
     override val layoutRes = R.layout.fragment_remove
 
-    private val presenter by lazy {
-        RemoveNetworkPresenter(RemoveNetworkModel(wiseFy))
-    }
-
+    @Inject lateinit var presenter: RemoveNetworkMvp.Presenter
     @Inject lateinit var removeNetworkStore: RemoveNetworkStore
 
     companion object {
@@ -124,5 +124,15 @@ internal class RemoveNetworkFragment : BaseFragment(), RemoveNetworkMvp.View {
                 Log.wtf(TAG, "Weird permission requested, not handled")
             }
         }
+    }
+
+    /*
+     * Dagger
+     */
+
+    @Suppress("unused")
+    @Module internal interface RemoveNetworkFragmentModule {
+        @Binds fun bindRemoveNetworkModel(impl: RemoveNetworkModel): RemoveNetworkMvp.Model
+        @Binds fun bindRemoveNetworkPresenter(impl: RemoveNetworkPresenter): RemoveNetworkMvp.Presenter
     }
 }

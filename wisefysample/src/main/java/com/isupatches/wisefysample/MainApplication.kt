@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import com.isupatches.wisefysample.internal.di.PermissionsModule
 import com.isupatches.wisefysample.internal.di.PreferencesModule
 import com.isupatches.wisefysample.internal.di.ScreenBindingsModule
+import com.isupatches.wisefysample.internal.util.RxSchedulersProvider
 
 import dagger.BindsInstance
 import dagger.Component
@@ -31,6 +32,7 @@ internal open class MainApplication : Application(), HasActivityInjector, HasSup
     private fun initializeDependencyInjection() {
         mainApplicationComponent = DaggerMainApplication_MainApplicationComponent.builder()
                 .application(this)
+                .rxSchedulersProvider(RxSchedulersProvider())
                 .build()
         mainApplicationComponent.inject(this)
     }
@@ -58,6 +60,7 @@ internal open class MainApplication : Application(), HasActivityInjector, HasSup
             fun build(): MainApplicationComponent
 
             @BindsInstance fun application(application: Context): Builder
+            @BindsInstance fun rxSchedulersProvider(prov: RxSchedulersProvider): Builder
         }
     }
 }
