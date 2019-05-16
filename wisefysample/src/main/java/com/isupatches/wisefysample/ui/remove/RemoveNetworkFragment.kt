@@ -23,7 +23,9 @@ internal class RemoveNetworkFragment : BaseFragment(), RemoveNetworkMvp.View {
 
     override val layoutRes = R.layout.fragment_remove
 
-    private val presenter by lazy { RemoveNetworkPresenter(wiseFy) }
+    private val presenter by lazy {
+        RemoveNetworkPresenter(RemoveNetworkModel(wiseFy))
+    }
 
     @Inject lateinit var removeNetworkStore: RemoveNetworkStore
 

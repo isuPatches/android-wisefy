@@ -6,7 +6,7 @@ about: Create a report to help us improve
 
 Thank you for creating an issue to improve this library! Please check Please check [the current issues](https://github.com/isuPatches/WiseFy/issues) to make sure that the improvement isn't already being worked on.
 
-It will be _EXTREMELY_ helpful if you also take a look at the [sample app](/wisefysample) to see how it behalves and if you can reproduce there.
+It will be _EXTREMELY_ helpful if you also take a look at the [sample app](/wisefysample) to see how it behaves and if you can reproduce there.
 
 **Description**
 A clear and concise description of the bug.

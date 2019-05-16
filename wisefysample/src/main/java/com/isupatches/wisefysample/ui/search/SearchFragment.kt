@@ -32,7 +32,7 @@ internal class SearchFragment : BaseFragment(), SearchMvp.View {
 
     override val layoutRes = R.layout.fragment_search
 
-    private val presenter by lazy { SearchPresenter(wiseFy) }
+    private val presenter by lazy { SearchPresenter(SearchModel(wiseFy)) }
 
     @Inject lateinit var searchStore: SearchStore
 

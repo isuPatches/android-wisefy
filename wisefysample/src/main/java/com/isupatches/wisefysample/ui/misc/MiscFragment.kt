@@ -32,7 +32,7 @@ internal class MiscFragment : BaseFragment(), MiscMvp.View {
 
     override val layoutRes = R.layout.fragment_misc
 
-    private val presenter by lazy { MiscPresenter(wiseFy) }
+    private val presenter by lazy { MiscPresenter(MiscModel(wiseFy)) }
 
     companion object {
         val TAG: String = MiscFragment::class.java.simpleName

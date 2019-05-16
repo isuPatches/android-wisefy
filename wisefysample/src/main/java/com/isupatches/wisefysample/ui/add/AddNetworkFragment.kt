@@ -28,7 +28,7 @@ internal class AddNetworkFragment : BaseFragment(), AddNetworkMvp.View {
 
     override val layoutRes = R.layout.fragment_add
 
-    private val presenter by lazy { AddNetworkPresenter(wiseFy) }
+    private val presenter by lazy { AddNetworkPresenter(AddNetworkModel(wiseFy)) }
 
     @Inject lateinit var addNetworkStore: AddNetworkStore
 

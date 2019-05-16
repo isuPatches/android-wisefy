@@ -4,14 +4,12 @@ import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.net.wifi.WifiConfiguration
 import androidx.annotation.RequiresPermission
 
-import com.isupatches.wisefy.WiseFy
+import com.isupatches.wisefy.callbacks.AddNetworkCallbacks
 import com.isupatches.wisefysample.internal.base.BasePresenter
 
 internal class AddNetworkPresenter(
-    wiseFy: WiseFy
+    private val model: AddNetworkMvp.Model
 ) : BasePresenter<AddNetworkMvp.View>(), AddNetworkMvp.Presenter {
-
-    private val model = AddNetworkModel(this, wiseFy)
 
     /*
      * Model call-throughs
@@ -19,28 +17,64 @@ internal class AddNetworkPresenter(
 
     @RequiresPermission(ACCESS_WIFI_STATE)
     override fun addOpenNetwork(ssid: String) {
-        model.addOpenNetwork(ssid)
+        model.addOpenNetwork(ssid, object : AddNetworkCallbacks {
+            override fun networkAdded(newNetworkId: Int, networkConfig: WifiConfiguration) {
+                displayNetworkAdded(newNetworkId, networkConfig)
+            }
+
+            override fun failureAddingNetwork(wifiManagerReturn: Int) {
+                displayFailureAddingNetwork(wifiManagerReturn)
+            }
+
+            override fun wisefyFailure(wisefyFailureCode: Int) {
+                displayWiseFyFailure(wisefyFailureCode)
+            }
+        })
     }
 
     @RequiresPermission(ACCESS_WIFI_STATE)
     override fun addWEPNetwork(ssid: String, password: String) {
-        model.addWEPNetwork(ssid, password)
+        model.addWEPNetwork(ssid, password, object : AddNetworkCallbacks {
+            override fun networkAdded(newNetworkId: Int, networkConfig: WifiConfiguration) {
+                displayNetworkAdded(newNetworkId, networkConfig)
+            }
+
+            override fun failureAddingNetwork(wifiManagerReturn: Int) {
+                displayFailureAddingNetwork(wifiManagerReturn)
+            }
+
+            override fun wisefyFailure(wisefyFailureCode: Int) {
+                displayWiseFyFailure(wisefyFailureCode)
+            }
+        })
     }
 
     @RequiresPermission(ACCESS_WIFI_STATE)
     override fun addWPA2Network(ssid: String, password: String) {
-        model.addWPA2Network(ssid, password)
+        model.addWPA2Network(ssid, password, object : AddNetworkCallbacks {
+            override fun networkAdded(newNetworkId: Int, networkConfig: WifiConfiguration) {
+                displayNetworkAdded(newNetworkId, networkConfig)
+            }
+
+            override fun failureAddingNetwork(wifiManagerReturn: Int) {
+                displayFailureAddingNetwork(wifiManagerReturn)
+            }
+
+            override fun wisefyFailure(wisefyFailureCode: Int) {
+                displayWiseFyFailure(wisefyFailureCode)
+            }
+        })
     }
 
     /*
      * View callbacks
      */
 
-    override fun displayFailureAddingNetwork(wifiManagerReturn: Int) {
+    private fun displayFailureAddingNetwork(wifiManagerReturn: Int) {
         doSafelyWithView { view -> view.displayFailureAddingNetwork(wifiManagerReturn) }
     }
 
-    override fun displayNetworkAdded(newNetworkId: Int, networkConfig: WifiConfiguration) {
+    private fun displayNetworkAdded(newNetworkId: Int, networkConfig: WifiConfiguration) {
         doSafelyWithView { view -> view.displayNetworkAdded(newNetworkId, networkConfig) }
     }
 }
