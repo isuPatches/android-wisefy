@@ -5,6 +5,7 @@ import android.net.wifi.WifiConfiguration
 import com.isupatches.wisefy.callbacks.AddNetworkCallbacks
 import com.isupatches.wisefysample.internal.base.BaseMvp
 
+@Suppress("UndocumentedPublicClass", "UndocumentedPublicFunction")
 internal interface AddNetworkMvp {
 
     interface View : BaseMvp.View {

@@ -39,15 +39,10 @@ internal class SharedPreferencesSearchStore(
      * Last used Regex
      */
 
-    override fun getLastUsedRegex() = sharedPreferences.getString(
-        PREF_LAST_USED_REGEX,
-        ""
-    ) ?: ""
+    override fun getLastUsedRegex() = sharedPreferences.getLastUsedRegex()
 
     override fun setLastUsedRegex(lastUsedRegex: String) {
-        sharedPreferences.edit {
-            putString(PREF_LAST_USED_REGEX, lastUsedRegex)
-        }
+        sharedPreferences.setLastUsedRegex(lastUsedRegex)
     }
 
     /*

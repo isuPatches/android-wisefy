@@ -141,7 +141,8 @@ task makeGoodChoices {
 
     outputs.upToDateWhen { false }
 
-    dependsOn 'staticAnalysisSanityCheck', ':wisefy:jacocoDebugUnitTest'
+    dependsOn 'staticAnalysisSanityCheck',
+            ':wisefy:jacocoDebugUnitTest', ':wisefysample:jacocoDebugUnitTest'
     doLast {
         println "\n#############################################" +
                 "\n# All checks passed! You are doing so good! #" +

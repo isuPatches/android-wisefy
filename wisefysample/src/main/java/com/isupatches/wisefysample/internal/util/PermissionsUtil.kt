@@ -10,7 +10,7 @@ internal interface PermissionUtil {
     fun permissionNotGranted(context: Context, permission: String): Boolean
 }
 
-internal class PermissionsUtilImpl @Inject constructor(): PermissionUtil {
+internal class PermissionsUtilImpl @Inject constructor() : PermissionUtil {
 
     override fun permissionNotGranted(context: Context, permission: String): Boolean {
         return ContextCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED

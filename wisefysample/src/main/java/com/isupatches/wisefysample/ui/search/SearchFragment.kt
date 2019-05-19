@@ -31,6 +31,7 @@ import kotlinx.android.synthetic.main.fragment_search.timeoutTxt
 
 import javax.inject.Inject
 
+@Suppress("LargeClass")
 internal class SearchFragment : BaseFragment(), SearchMvp.View {
 
     override val layoutRes = R.layout.fragment_search
@@ -45,6 +46,8 @@ internal class SearchFragment : BaseFragment(), SearchMvp.View {
 
         private const val TIMEOUT_MIN = 1
         private const val TIMEOUT_MAX = 60
+
+        private const val SEEK_MILLI_OFFSET = 1000
 
         private const val WISEFY_SEARCH_FOR_SAVED_NETWORK_REQUEST_CODE = 1
         private const val WISEFY_SEARCH_FOR_SAVED_NETWORKS_REQUEST_CODE = 2
@@ -133,7 +136,7 @@ internal class SearchFragment : BaseFragment(), SearchMvp.View {
     private fun getFilterDuplicates(): Boolean =
         filterDupesRdg.checkedRadioButtonId == R.id.yesFilterDupesRdb
 
-    private fun getSelectedTimeout(): Int = timeoutSeek.progress * 1000
+    private fun getSelectedTimeout(): Int = timeoutSeek.progress * SEEK_MILLI_OFFSET
 
     private fun restoreUI() {
         // Restore edit text value
@@ -176,7 +179,7 @@ internal class SearchFragment : BaseFragment(), SearchMvp.View {
         val timeout = searchStore.getTimeout()
         timeoutSeek.progress = timeout
         timeoutTxt.text = getString(R.string.timeout_after_x_seconds_args_html, timeout).asHtmlSpanned()
-        when(searchStore.getSearchType()) {
+        when (searchStore.getSearchType()) {
             SearchType.SAVED_NETWORK -> adjustTimeoutVisibility(View.INVISIBLE)
             else -> toggleSeekVisibility()
         }
@@ -348,23 +351,23 @@ internal class SearchFragment : BaseFragment(), SearchMvp.View {
     }
 
     private fun checkSearchForAccessPointPermissions(): Boolean {
-        return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_SEARCH_FOR_ACCESS_POINT_REQUEST_CODE)
-                && isPermissionGranted(Manifest.permission.ACCESS_COARSE_LOCATION, WISEFY_SEARCH_FOR_ACCESS_POINT_REQUEST_CODE)
+        return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_SEARCH_FOR_ACCESS_POINT_REQUEST_CODE) &&
+                isPermissionGranted(Manifest.permission.ACCESS_COARSE_LOCATION, WISEFY_SEARCH_FOR_ACCESS_POINT_REQUEST_CODE)
     }
 
     private fun checkSearchForAccessPointsPermissions(): Boolean {
-        return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_SEARCH_FOR_ACCESS_POINTS_REQUEST_CODE)
-                && isPermissionGranted(Manifest.permission.ACCESS_COARSE_LOCATION, WISEFY_SEARCH_FOR_ACCESS_POINTS_REQUEST_CODE)
+        return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_SEARCH_FOR_ACCESS_POINTS_REQUEST_CODE) &&
+                isPermissionGranted(Manifest.permission.ACCESS_COARSE_LOCATION, WISEFY_SEARCH_FOR_ACCESS_POINTS_REQUEST_CODE)
     }
 
     private fun checkSearchForSSIDPermissions(): Boolean {
-        return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_SEARCH_FOR_SSID_REQUEST_CODE)
-                && isPermissionGranted(Manifest.permission.ACCESS_COARSE_LOCATION, WISEFY_SEARCH_FOR_SSID_REQUEST_CODE)
+        return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_SEARCH_FOR_SSID_REQUEST_CODE) &&
+                isPermissionGranted(Manifest.permission.ACCESS_COARSE_LOCATION, WISEFY_SEARCH_FOR_SSID_REQUEST_CODE)
     }
 
     private fun checkSearchForSSIDsPermissions(): Boolean {
-        return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_SEARCH_FOR_SSIDS_REQUEST_CODE)
-                && isPermissionGranted(Manifest.permission.ACCESS_COARSE_LOCATION, WISEFY_SEARCH_FOR_SSIDS_REQUEST_CODE)
+        return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_SEARCH_FOR_SSIDS_REQUEST_CODE) &&
+                isPermissionGranted(Manifest.permission.ACCESS_COARSE_LOCATION, WISEFY_SEARCH_FOR_SSIDS_REQUEST_CODE)
     }
 
     /*

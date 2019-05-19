@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.isupatches.wisefy.WiseFyPublicApi
 
 import com.isupatches.wisefysample.R
 import com.isupatches.wisefysample.internal.nav.openFragment
@@ -35,6 +36,8 @@ internal class MainActivity : AppCompatActivity(),
     @Inject lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
     override fun supportFragmentInjector(): AndroidInjector<Fragment> = fragmentInjector
 
+    @Inject lateinit var wiseFy: WiseFyPublicApi
+
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
@@ -47,6 +50,12 @@ internal class MainActivity : AppCompatActivity(),
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        wiseFy.dump()
+    }
+
+    @Suppress("ReturnCount")
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_add -> {

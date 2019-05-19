@@ -6,6 +6,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 
 import javax.inject.Inject
 
+@Suppress("UndocumentedPublicClass")
 open class RxSchedulersProvider @Inject constructor() {
     open val main: Scheduler by lazy { AndroidSchedulers.mainThread() }
     open val io: Scheduler by lazy { Schedulers.io() }

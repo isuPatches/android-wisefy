@@ -685,7 +685,7 @@ class WiseFy private constructor(
      * @see [runOnWiseFyThread]
      * @see [WifiManager.disconnect]
      * @see [WiseFyLock]
-     * @see [WiseFyPrechecks.disconnectFromCurrentNetworkChecks
+     * @see [WiseFyPrechecks.disconnectFromCurrentNetworkChecks]
      *
      * @author Patches
      * @since 3.0
@@ -714,8 +714,8 @@ class WiseFy private constructor(
      * Used to cleanup the thread started by WiseFy.
      *
      * @see [WiseFyConnection.destroy]
-     * @see WiseFyHandlerThread
-     * @see WiseFyLock
+     * @see [WiseFyHandlerThread]
+     * @see [WiseFyLock]
      *
      * Updates
      * - 05/12/2019: Added new call to [WiseFyConnection.destroy]
@@ -809,8 +809,6 @@ class WiseFy private constructor(
      *
      * @return WifiInfo|null - The user's current network information
      *
-     * @throws SecurityException Without necessary permissions granted
-     *
      * @see [WifiInfo]
      * @see [WifiManager.getConnectionInfo]
      * @see [WiseFyPrechecks.getCurrentNetworkChecks]
@@ -821,7 +819,6 @@ class WiseFy private constructor(
     @Sync
     @CallingThread
     @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
-    @Throws(SecurityException::class)
     override fun getCurrentNetwork(): WifiInfo? {
         return if (wisefyPrechecks.getCurrentNetworkChecks().passed()) {
             wifiManager.connectionInfo
@@ -832,8 +829,6 @@ class WiseFy private constructor(
      * To retrieve the user's current network.
      *
      * @param callbacks The listener to return results to
-     *
-     * @throws SecurityException Without necessary permissions granted
      *
      * @see [GetCurrentNetworkCallbacks]
      * @see [runOnWiseFyThread]
@@ -936,8 +931,6 @@ class WiseFy private constructor(
      *
      * @return Integer - The frequency of the devices current network or null if no network
      *
-     * @throws SecurityException Without necessary permissions granted
-     *
      * @see [getCurrentNetwork]
      * @see [WifiInfo.getFrequency]
      *
@@ -948,7 +941,6 @@ class WiseFy private constructor(
     @CallingThread
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
-    @Throws(SecurityException::class)
     override fun getFrequency(): Int? {
         val currentNetwork = getCurrentNetwork()
         return currentNetwork?.frequency
@@ -958,8 +950,6 @@ class WiseFy private constructor(
      * To retrieve the frequency of the device's current network.
      *
      * @param callbacks The listener to return results to
-     *
-     * @throws SecurityException Without necessary permissions granted
      *
      * @see [getCurrentNetwork]
      * @see [GetFrequencyCallbacks]
@@ -974,7 +964,6 @@ class WiseFy private constructor(
     @WiseFyThread
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
-    @Throws(SecurityException::class)
     override fun getFrequency(callbacks: GetFrequencyCallbacks?) {
         runOnWiseFyThread(Runnable {
             synchronized(wisefyLock) {
@@ -1113,8 +1102,6 @@ class WiseFy private constructor(
      *
      * @return List of ScanResults|null - List of nearby access points
      *
-     * @throws SecurityException Without necessary permissions granted
-     *
      * @see [ScanResult]
      * @see [WiseFySearch.getNearbyAccessPoints]
      * @see [WiseFyPrechecks.getNearbyAccessPointsChecks]
@@ -1128,7 +1115,6 @@ class WiseFy private constructor(
     @Sync
     @CallingThread
     @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
-    @Throws(SecurityException::class)
     override fun getNearbyAccessPoints(filterDuplicates: Boolean): List<ScanResult>? {
         if (wisefyPrechecks.getNearbyAccessPointsChecks().failed()) {
             return null
@@ -1140,7 +1126,8 @@ class WiseFy private constructor(
     /**
      * To retrieve a list of nearby access points.
      *
-     * *NOTE* Setting filterDuplicates to true will not return SSIDs with a weaker signal strength (will always take the highest).
+     * *NOTE* Setting filterDuplicates to true will not return SSIDs with a weaker signal strength
+     * (will always take the highest).
      *
      * @param filterDuplicates If you want to exclude SSIDs with that same name that have a weaker signal strength
      * @param callbacks The listener to return results to
@@ -1442,7 +1429,7 @@ class WiseFy private constructor(
     /**
      * To retrieve the lock in use by WiseFy for synchronization.
      *
-     * @return WiseFyLock - The instance of the lock in use by WiseFy
+     * @return WiseFyLock - The instance of the lock in-use by WiseFy
      *
      * @see WiseFyLock
      *
@@ -1575,8 +1562,6 @@ class WiseFy private constructor(
      *
      * @return boolean - If the network is 5gHz
      *
-     * @throws SecurityException Without necessary permissions granted
-     *
      * @see [getFrequency]
      * @see [MAX_FREQUENCY_5GHZ]
      * @see [MIN_FREQUENCY_5GHZ]
@@ -1588,7 +1573,6 @@ class WiseFy private constructor(
     @CallingThread
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
-    @Throws(SecurityException::class)
     override fun isNetwork5gHz(): Boolean {
         val frequency = getFrequency()
         return frequency != null && frequency > MIN_FREQUENCY_5GHZ && frequency < MAX_FREQUENCY_5GHZ
@@ -1853,7 +1837,6 @@ class WiseFy private constructor(
     /**
      * To return the first access point that matches a given regex.
      *
-     *
      * *NOTE* Setting filterDuplicates to true will not return an access point with a weaker signal strength (will always take the highest).
      *
      * @param regexForSSID The regex to use when iterating through nearby access points
@@ -1884,7 +1867,6 @@ class WiseFy private constructor(
 
     /**
      * To return the first access point that matches a given regex.
-     *
      *
      * *NOTE* Setting filterDuplicates to true will not return an access point with a weaker signal strength (will always take the highest).
      *
@@ -1933,7 +1915,6 @@ class WiseFy private constructor(
     /**
      * To return nearby access points that match a given regex.
      *
-     *
      * *NOTE* Setting filterDuplicates to true will not return access points with a weaker signal strength (will always take the highest).
      *
      * @param regexForSSID The regex to use when iterating through nearby access points
@@ -1959,7 +1940,6 @@ class WiseFy private constructor(
 
     /**
      * To return nearby access points that match a given regex.
-     *
      *
      * *NOTE* Setting filterDuplicates to true will not return access points with a weaker signal strength (will always take the highest).
      *

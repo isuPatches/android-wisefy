@@ -11,6 +11,7 @@ import com.isupatches.wisefy.callbacks.SearchForSSIDCallbacks
 import com.isupatches.wisefy.callbacks.SearchForSSIDsCallbacks
 import com.isupatches.wisefysample.internal.base.BaseMvp
 
+@Suppress("UndocumentedPublicClass", "UndocumentedPublicFunction")
 internal interface SearchMvp {
 
     interface View : BaseMvp.View {

@@ -2,6 +2,7 @@ package com.isupatches.wisefysample.internal.base
 
 import com.isupatches.wisefy.constants.WiseFyCode
 
+@Suppress("UndocumentedPublicClass", "UndocumentedPublicFunction")
 internal interface BaseMvp {
 
     interface View {

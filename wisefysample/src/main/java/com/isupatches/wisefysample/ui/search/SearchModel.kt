@@ -4,7 +4,7 @@ import android.Manifest.permission.ACCESS_COARSE_LOCATION
 import android.Manifest.permission.ACCESS_WIFI_STATE
 import androidx.annotation.RequiresPermission
 
-import com.isupatches.wisefy.WiseFy
+import com.isupatches.wisefy.WiseFyPublicApi
 import com.isupatches.wisefy.callbacks.GetSavedNetworkCallbacks
 import com.isupatches.wisefy.callbacks.GetSavedNetworksCallbacks
 import com.isupatches.wisefy.callbacks.SearchForAccessPointCallbacks
@@ -15,8 +15,8 @@ import com.isupatches.wisefy.callbacks.SearchForSSIDsCallbacks
 import javax.inject.Inject
 
 internal class SearchModel @Inject constructor(
-    private val wiseFy: WiseFy
-): SearchMvp.Model {
+    private val wiseFy: WiseFyPublicApi
+) : SearchMvp.Model {
 
     @RequiresPermission(ACCESS_WIFI_STATE)
     override fun getSavedNetwork(regexForSSID: String, callbacks: GetSavedNetworkCallbacks) {

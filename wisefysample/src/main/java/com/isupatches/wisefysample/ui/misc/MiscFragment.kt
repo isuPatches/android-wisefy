@@ -33,6 +33,7 @@ import kotlinx.android.synthetic.main.fragment_misc.getSavedNetworksBtn
 
 import javax.inject.Inject
 
+@Suppress("LargeClass")
 internal class MiscFragment : BaseFragment(), MiscMvp.View {
 
     override val layoutRes = R.layout.fragment_misc
@@ -238,8 +239,8 @@ internal class MiscFragment : BaseFragment(), MiscMvp.View {
     }
 
     private fun checkGetCurrentNetworkPermissions(): Boolean {
-        return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_GET_CURRENT_NETWORK_REQUEST_CODE)
-                && isPermissionGranted(ACCESS_COARSE_LOCATION, WISEFY_GET_CURRENT_NETWORK_REQUEST_CODE)
+        return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_GET_CURRENT_NETWORK_REQUEST_CODE) &&
+                isPermissionGranted(ACCESS_COARSE_LOCATION, WISEFY_GET_CURRENT_NETWORK_REQUEST_CODE)
     }
 
     private fun checkGetCurrentNetworkInfoPermissions(): Boolean {
@@ -247,24 +248,25 @@ internal class MiscFragment : BaseFragment(), MiscMvp.View {
     }
 
     private fun checkGetFrequencyPermissions(): Boolean {
-        return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_GET_FREQUENCY_REQUEST_CODE)
-                && isPermissionGranted(ACCESS_COARSE_LOCATION, WISEFY_GET_FREQUENCY_REQUEST_CODE)
+        return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_GET_FREQUENCY_REQUEST_CODE) &&
+                isPermissionGranted(ACCESS_COARSE_LOCATION, WISEFY_GET_FREQUENCY_REQUEST_CODE)
     }
 
-    private fun  checkGetIPPermissions(): Boolean {
-        return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_GET_IP_REQUEST_CODE)
-                && isPermissionGranted(ACCESS_COARSE_LOCATION, WISEFY_GET_IP_REQUEST_CODE)
+    private fun checkGetIPPermissions(): Boolean {
+        return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_GET_IP_REQUEST_CODE) &&
+                isPermissionGranted(ACCESS_COARSE_LOCATION, WISEFY_GET_IP_REQUEST_CODE)
     }
 
     private fun checkGetNearbyAccessPointsPermissions(): Boolean {
-        return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_GET_NEARBY_ACCESS_POINTS_REQUEST_CODE)
-                && isPermissionGranted(ACCESS_COARSE_LOCATION, WISEFY_GET_NEARBY_ACCESS_POINTS_REQUEST_CODE)
+        return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_GET_NEARBY_ACCESS_POINTS_REQUEST_CODE) &&
+                isPermissionGranted(ACCESS_COARSE_LOCATION, WISEFY_GET_NEARBY_ACCESS_POINTS_REQUEST_CODE)
     }
 
     private fun checkGetSavedNetworksPermissions(): Boolean {
         return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_GET_SAVED_NETWORKS_REQUEST_CODE)
     }
 
+    @Suppress("LongMethod", "ComplexMethod")
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         when (requestCode) {
             WISEFY_DISABLE_WIFI_REQUEST_CODE -> {

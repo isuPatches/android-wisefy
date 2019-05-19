@@ -1,6 +1,5 @@
 package com.isupatches.wisefysample
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Application
 import android.content.Context
@@ -21,7 +20,7 @@ import dagger.android.support.HasSupportFragmentInjector
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@SuppressLint("Registered")
+@Suppress("Registered", "UndocumentedPublicClass", "UndocumentedPublicFunction")
 internal open class MainApplication : Application(), HasActivityInjector, HasSupportFragmentInjector {
 
     override fun onCreate() {
@@ -52,7 +51,7 @@ internal open class MainApplication : Application(), HasActivityInjector, HasSup
         PermissionsModule::class,
         PreferencesModule::class
     ])
-    interface MainApplicationComponent {
+    internal interface MainApplicationComponent {
 
         fun inject(mainApplication: MainApplication)
 

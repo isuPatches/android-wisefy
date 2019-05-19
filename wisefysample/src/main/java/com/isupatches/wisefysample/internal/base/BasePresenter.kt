@@ -7,7 +7,7 @@ import com.isupatches.wisefysample.internal.util.RxSchedulersProvider
 
 internal abstract class BasePresenter<V : BaseMvp.View> constructor(
     private val rxSchedulersProvider: RxSchedulersProvider
-): BaseMvp.Presenter<V> {
+) : BaseMvp.Presenter<V> {
 
     companion object {
         private val TAG = BasePresenter::class.java.simpleName

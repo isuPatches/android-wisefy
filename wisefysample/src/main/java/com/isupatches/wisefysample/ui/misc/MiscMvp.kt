@@ -15,6 +15,7 @@ import com.isupatches.wisefy.callbacks.GetNearbyAccessPointsCallbacks
 import com.isupatches.wisefy.callbacks.GetSavedNetworksCallbacks
 import com.isupatches.wisefysample.internal.base.BaseMvp
 
+@Suppress("UndocumentedPublicClass", "UndocumentedPublicFunction")
 internal interface MiscMvp {
 
     interface View : BaseMvp.View {

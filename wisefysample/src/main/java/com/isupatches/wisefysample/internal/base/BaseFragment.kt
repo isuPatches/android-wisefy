@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 
-import com.isupatches.wisefy.WiseFy
 import com.isupatches.wisefy.constants.WiseFyCode
 import com.isupatches.wisefysample.internal.util.PermissionUtil
 import com.isupatches.wisefysample.internal.util.displayShortToast
@@ -21,7 +20,6 @@ internal abstract class BaseFragment : Fragment() {
 
     @get:LayoutRes abstract val layoutRes: Int
 
-    @Inject lateinit var wiseFy: WiseFy
     @Inject lateinit var permissionUtil: PermissionUtil
 
     override fun onAttach(context: Context) {
@@ -31,11 +29,6 @@ internal abstract class BaseFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(layoutRes, container, false)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        wiseFy.dump()
     }
 
     protected fun displayWiseFyFailureWithCode(@WiseFyCode wiseFyFailureCode: Int) {

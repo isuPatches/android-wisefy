@@ -96,7 +96,7 @@ internal class AddNetworkFragment : BaseFragment(), AddNetworkMvp.View {
         networkPasswordEdt.setText(addNetworkStore.getLastUsedNetworkPassword())
 
         // Restore checked state
-        val checkedId = when(addNetworkStore.getNetworkType()) {
+        val checkedId = when (addNetworkStore.getNetworkType()) {
             NetworkType.OPEN -> R.id.openNetworkRdb
             NetworkType.WEP -> R.id.wepNetworkRdb
             NetworkType.WPA2 -> R.id.wpa2NetworkRdb
@@ -104,14 +104,14 @@ internal class AddNetworkFragment : BaseFragment(), AddNetworkMvp.View {
         addNetworkTypeRdg.check(checkedId)
 
         // Show/hide password edit
-        when(addNetworkStore.getNetworkType()) {
+        when (addNetworkStore.getNetworkType()) {
             NetworkType.OPEN -> adjustNetworkPasswordVisibility(View.INVISIBLE)
             else -> adjustNetworkPasswordVisibility(View.VISIBLE)
         }
     }
 
     private fun updateUI() {
-        when(addNetworkTypeRdg.checkedRadioButtonId) {
+        when (addNetworkTypeRdg.checkedRadioButtonId) {
             R.id.openNetworkRdb -> adjustNetworkPasswordVisibility(View.INVISIBLE)
             else -> adjustNetworkPasswordVisibility(View.VISIBLE)
         }

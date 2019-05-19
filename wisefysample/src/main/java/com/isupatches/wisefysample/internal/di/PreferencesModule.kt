@@ -16,7 +16,7 @@ import dagger.Provides
 
 import javax.inject.Singleton
 
-@Suppress("unused")
+@Suppress("unused", "UndocumentedPublicClass", "UndocumentedPublicFunction")
 @Module internal object PreferencesModule {
 
     @JvmStatic @Singleton @Provides

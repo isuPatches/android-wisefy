@@ -7,6 +7,7 @@ import androidx.annotation.RequiresPermission
 import com.isupatches.wisefy.callbacks.AddNetworkCallbacks
 import com.isupatches.wisefysample.internal.base.BasePresenter
 import com.isupatches.wisefysample.internal.util.RxSchedulersProvider
+
 import javax.inject.Inject
 
 internal class AddNetworkPresenter @Inject constructor(
@@ -14,59 +15,39 @@ internal class AddNetworkPresenter @Inject constructor(
     rxSchedulersProvider: RxSchedulersProvider
 ) : BasePresenter<AddNetworkMvp.View>(rxSchedulersProvider), AddNetworkMvp.Presenter {
 
+    private val addNetworkCallbacks by lazy {
+        object : AddNetworkCallbacks {
+            override fun networkAdded(newNetworkId: Int, networkConfig: WifiConfiguration) {
+                displayNetworkAdded(newNetworkId, networkConfig)
+            }
+
+            override fun failureAddingNetwork(wifiManagerReturn: Int) {
+                displayFailureAddingNetwork(wifiManagerReturn)
+            }
+
+            override fun wisefyFailure(wisefyFailureCode: Int) {
+                displayWiseFyFailure(wisefyFailureCode)
+            }
+        }
+    }
+
     /*
      * Model call-throughs
      */
 
     @RequiresPermission(ACCESS_WIFI_STATE)
     override fun addOpenNetwork(ssid: String) {
-        model.addOpenNetwork(ssid, object : AddNetworkCallbacks {
-            override fun networkAdded(newNetworkId: Int, networkConfig: WifiConfiguration) {
-                displayNetworkAdded(newNetworkId, networkConfig)
-            }
-
-            override fun failureAddingNetwork(wifiManagerReturn: Int) {
-                displayFailureAddingNetwork(wifiManagerReturn)
-            }
-
-            override fun wisefyFailure(wisefyFailureCode: Int) {
-                displayWiseFyFailure(wisefyFailureCode)
-            }
-        })
+        model.addOpenNetwork(ssid, addNetworkCallbacks)
     }
 
     @RequiresPermission(ACCESS_WIFI_STATE)
     override fun addWEPNetwork(ssid: String, password: String) {
-        model.addWEPNetwork(ssid, password, object : AddNetworkCallbacks {
-            override fun networkAdded(newNetworkId: Int, networkConfig: WifiConfiguration) {
-                displayNetworkAdded(newNetworkId, networkConfig)
-            }
-
-            override fun failureAddingNetwork(wifiManagerReturn: Int) {
-                displayFailureAddingNetwork(wifiManagerReturn)
-            }
-
-            override fun wisefyFailure(wisefyFailureCode: Int) {
-                displayWiseFyFailure(wisefyFailureCode)
-            }
-        })
+        model.addWEPNetwork(ssid, password, addNetworkCallbacks)
     }
 
     @RequiresPermission(ACCESS_WIFI_STATE)
     override fun addWPA2Network(ssid: String, password: String) {
-        model.addWPA2Network(ssid, password, object : AddNetworkCallbacks {
-            override fun networkAdded(newNetworkId: Int, networkConfig: WifiConfiguration) {
-                displayNetworkAdded(newNetworkId, networkConfig)
-            }
-
-            override fun failureAddingNetwork(wifiManagerReturn: Int) {
-                displayFailureAddingNetwork(wifiManagerReturn)
-            }
-
-            override fun wisefyFailure(wisefyFailureCode: Int) {
-                displayWiseFyFailure(wisefyFailureCode)
-            }
-        })
+        model.addWPA2Network(ssid, password, addNetworkCallbacks)
     }
 
     /*

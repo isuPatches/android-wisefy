@@ -8,7 +8,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 
-import com.isupatches.wisefy.WiseFy
+import com.isupatches.wisefy.WiseFyPublicApi
 import com.isupatches.wisefy.callbacks.DisableWifiCallbacks
 import com.isupatches.wisefy.callbacks.EnableWifiCallbacks
 import com.isupatches.wisefy.callbacks.GetCurrentNetworkCallbacks
@@ -21,8 +21,8 @@ import com.isupatches.wisefy.callbacks.GetSavedNetworksCallbacks
 import javax.inject.Inject
 
 internal class MiscModel @Inject constructor(
-    private val wiseFy: WiseFy
-): MiscMvp.Model {
+    private val wiseFy: WiseFyPublicApi
+) : MiscMvp.Model {
 
     @RequiresPermission(allOf = [CHANGE_WIFI_STATE])
     override fun disableWifi(callbacks: DisableWifiCallbacks) {

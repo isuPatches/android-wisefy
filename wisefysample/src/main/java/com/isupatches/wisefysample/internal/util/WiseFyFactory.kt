@@ -3,7 +3,9 @@ package com.isupatches.wisefysample.internal.util
 import androidx.fragment.app.FragmentActivity
 
 import com.isupatches.wisefy.WiseFy
+import com.isupatches.wisefy.WiseFyPublicApi
 
-fun createWiseFy(activity: FragmentActivity): WiseFy = WiseFy.Brains(activity)
+@Suppress("UndocumentedPublicFunction")
+fun createWiseFy(activity: FragmentActivity): WiseFyPublicApi = WiseFy.Brains(activity)
         .logging(true)
         .getSmarts()

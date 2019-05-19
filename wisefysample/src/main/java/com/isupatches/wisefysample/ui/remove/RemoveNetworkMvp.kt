@@ -3,6 +3,7 @@ package com.isupatches.wisefysample.ui.remove
 import com.isupatches.wisefy.callbacks.RemoveNetworkCallbacks
 import com.isupatches.wisefysample.internal.base.BaseMvp
 
+@Suppress("UndocumentedPublicClass", "UndocumentedPublicFunction")
 internal interface RemoveNetworkMvp {
 
     interface View : BaseMvp.View {

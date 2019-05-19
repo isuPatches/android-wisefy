@@ -338,7 +338,7 @@ style:
   UnusedImports:
     active: true
   ExpressionBodySyntax:
-    active: true
+    active: false
   NestedClassesVisibility:
     active: true
   RedundantVisibilityModifierRule:
