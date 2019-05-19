@@ -1,15 +1,15 @@
 package com.isupatches.wisefysample.internal.preferences
 
 import android.content.SharedPreferences
-
+import androidx.annotation.VisibleForTesting
 import androidx.core.content.edit
 
 import com.isupatches.wisefysample.internal.models.SearchType
 
-private const val PREF_SEARCH_TYPE = "search type"
-private const val PREF_RETURN_FULL_LIST = "return full list"
-private const val PREF_FILTER_DUPLICATES = "filter duplicates"
-private const val PREF_TIMEOUT = "timeout"
+@VisibleForTesting internal const val PREF_SEARCH_TYPE = "search type"
+@VisibleForTesting internal const val PREF_RETURN_FULL_LIST = "return full list"
+@VisibleForTesting internal const val PREF_FILTER_DUPLICATES = "filter duplicates"
+@VisibleForTesting internal const val PREF_TIMEOUT = "timeout"
 
 internal interface SearchStore {
     fun clear()

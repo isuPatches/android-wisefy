@@ -30,7 +30,7 @@ internal class AddNetworkPresenterTest {
 
     companion object {
         private const val NETWORK_ID = 1
-        private val NETWORK_CONFIGURATION = mock<WifiConfiguration>()
+        private val SAVED_NETWORK = mock<WifiConfiguration>()
     }
 
     @Before fun setUp() {
@@ -45,7 +45,7 @@ internal class AddNetworkPresenterTest {
         // Given
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[1] as AddNetworkCallbacks
-            callback.networkAdded(NETWORK_ID, NETWORK_CONFIGURATION)
+            callback.networkAdded(NETWORK_ID, SAVED_NETWORK)
             null
         }.whenever(model).addOpenNetwork(eq(TEST_SSID_1), any())
 
@@ -53,8 +53,8 @@ internal class AddNetworkPresenterTest {
         addOpenNetwork()
 
         // Then
-        verifyOpenNetworkAdded()
-        verify(view, times(1)).displayNetworkAdded(NETWORK_ID, NETWORK_CONFIGURATION)
+        verifyTriedToAddOpenNetwork()
+        verify(view, times(1)).displayNetworkAdded(NETWORK_ID, SAVED_NETWORK)
     }
 
     @Test fun addOpenNetwork_failureAddingNetwork() {
@@ -69,7 +69,7 @@ internal class AddNetworkPresenterTest {
         addOpenNetwork()
 
         // Then
-        verifyOpenNetworkAdded()
+        verifyTriedToAddOpenNetwork()
         verify(view, times(1)).displayFailureAddingNetwork(BAD_WIFI_MANAGER_RETURN)
     }
 
@@ -85,7 +85,7 @@ internal class AddNetworkPresenterTest {
         addOpenNetwork()
 
         // Then
-        verifyOpenNetworkAdded()
+        verifyTriedToAddOpenNetwork()
         verify(view, times(1)).displayWiseFyFailure(MISSING_PARAMETER)
     }
 
@@ -93,7 +93,7 @@ internal class AddNetworkPresenterTest {
         // Given
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[2] as AddNetworkCallbacks
-            callback.networkAdded(NETWORK_ID, NETWORK_CONFIGURATION)
+            callback.networkAdded(NETWORK_ID, SAVED_NETWORK)
             null
         }.whenever(model).addWEPNetwork(eq(TEST_SSID_1), eq(TEST_PASSWORD_1), any())
 
@@ -101,8 +101,8 @@ internal class AddNetworkPresenterTest {
         addWEPNetwork()
 
         // Then
-        verifyWEPNetworkAdded()
-        verify(view, times(1)).displayNetworkAdded(NETWORK_ID, NETWORK_CONFIGURATION)
+        verifyTriedToAddWEPNetwork()
+        verify(view, times(1)).displayNetworkAdded(NETWORK_ID, SAVED_NETWORK)
     }
 
     @Test fun addWEPNetwork_failureAddingNetwork() {
@@ -117,7 +117,7 @@ internal class AddNetworkPresenterTest {
         addWEPNetwork()
 
         // Then
-        verifyWEPNetworkAdded()
+        verifyTriedToAddWEPNetwork()
         verify(view, times(1)).displayFailureAddingNetwork(BAD_WIFI_MANAGER_RETURN)
     }
 
@@ -133,7 +133,7 @@ internal class AddNetworkPresenterTest {
         addWEPNetwork()
 
         // Then
-        verifyWEPNetworkAdded()
+        verifyTriedToAddWEPNetwork()
         verify(view, times(1)).displayWiseFyFailure(MISSING_PARAMETER)
     }
 
@@ -141,7 +141,7 @@ internal class AddNetworkPresenterTest {
         // Given
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[2] as AddNetworkCallbacks
-            callback.networkAdded(NETWORK_ID, NETWORK_CONFIGURATION)
+            callback.networkAdded(NETWORK_ID, SAVED_NETWORK)
             null
         }.whenever(model).addWPA2Network(eq(TEST_SSID_1), eq(TEST_PASSWORD_1), any())
 
@@ -149,8 +149,8 @@ internal class AddNetworkPresenterTest {
         addWPA2Network()
 
         // Then
-        verifyWPA2NetworkAdded()
-        verify(view, times(1)).displayNetworkAdded(NETWORK_ID, NETWORK_CONFIGURATION)
+        verifyTriedToAddWPA2Network()
+        verify(view, times(1)).displayNetworkAdded(NETWORK_ID, SAVED_NETWORK)
     }
 
     @Test fun addWPA2Network_failureAddingNetwork() {
@@ -165,7 +165,7 @@ internal class AddNetworkPresenterTest {
         addWPA2Network()
 
         // Then
-        verifyWPA2NetworkAdded()
+        verifyTriedToAddWPA2Network()
         verify(view, times(1)).displayFailureAddingNetwork(BAD_WIFI_MANAGER_RETURN)
     }
 
@@ -181,7 +181,7 @@ internal class AddNetworkPresenterTest {
         addWPA2Network()
 
         // Then
-        verifyWPA2NetworkAdded()
+        verifyTriedToAddWPA2Network()
         verify(view, times(1)).displayWiseFyFailure(MISSING_PARAMETER)
     }
 
@@ -205,11 +205,11 @@ internal class AddNetworkPresenterTest {
      * Verification Helpers
      */
 
-    private fun verifyOpenNetworkAdded() {
+    private fun verifyTriedToAddOpenNetwork() {
         verify(model, times(1)).addOpenNetwork(eq(TEST_SSID_1), any())
     }
 
-    private fun verifyWEPNetworkAdded() {
+    private fun verifyTriedToAddWEPNetwork() {
         verify(model, times(1)).addWEPNetwork(
             eq(TEST_SSID_1),
             eq(TEST_PASSWORD_1),
@@ -217,7 +217,7 @@ internal class AddNetworkPresenterTest {
         )
     }
 
-    private fun verifyWPA2NetworkAdded() {
+    private fun verifyTriedToAddWPA2Network() {
         verify(model, times(1)).addWPA2Network(
             eq(TEST_SSID_1),
             eq(TEST_PASSWORD_1),

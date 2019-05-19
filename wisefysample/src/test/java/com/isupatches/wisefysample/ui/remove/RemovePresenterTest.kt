@@ -42,10 +42,10 @@ internal class RemovePresenterTest {
         }.whenever(model).removeNetwork(eq(TEST_SSID_1), any())
 
         // When
-        presenter.removeNetwork(TEST_SSID_1)
+        removeNetwork()
 
         // Then
-        verifyNetworkRemoved()
+        verifyTriedToRemoveNetwork()
         verify(view, times(1)).displayNetworkRemoved()
     }
 
@@ -58,10 +58,10 @@ internal class RemovePresenterTest {
         }.whenever(model).removeNetwork(eq(TEST_SSID_1), any())
 
         // When
-        presenter.removeNetwork(TEST_SSID_1)
+        removeNetwork()
 
         // Then
-        verifyNetworkRemoved()
+        verifyTriedToRemoveNetwork()
         verify(view, times(1)).displayFailureRemovingNetwork()
     }
 
@@ -74,10 +74,10 @@ internal class RemovePresenterTest {
         }.whenever(model).removeNetwork(eq(TEST_SSID_1), any())
 
         // When
-        presenter.removeNetwork(TEST_SSID_1)
+        removeNetwork()
 
         // Then
-        verifyNetworkRemoved()
+        verifyTriedToRemoveNetwork()
         verify(view, times(1)).displayNetworkNotFoundToRemove()
     }
 
@@ -93,7 +93,7 @@ internal class RemovePresenterTest {
         removeNetwork()
 
         // Then
-        verifyNetworkRemoved()
+        verifyTriedToRemoveNetwork()
         verify(view, times(1)).displayWiseFyFailure(MISSING_PARAMETER)
     }
 
@@ -109,7 +109,7 @@ internal class RemovePresenterTest {
      * Verification Helpers
      */
 
-    private fun verifyNetworkRemoved() {
+    private fun verifyTriedToRemoveNetwork() {
         verify(model, times(1)).removeNetwork(eq(TEST_SSID_1), any())
     }
 }
