@@ -116,7 +116,7 @@ internal class RemoveNetworkFragment : BaseFragment(), RemoveNetworkMvp.View {
                     removeNetwork()
                 } else {
                     Log.w(TAG, "Permissions for remove saved network are denied")
-                    // Display permission error here
+                    displayPermissionErrorDialog(R.string.permission_error_remove_network)
                 }
             }
             else -> {

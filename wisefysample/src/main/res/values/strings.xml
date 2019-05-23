@@ -34,6 +34,8 @@
     <string name="get_nearby_access_points">Get Nearby Access Points</string>
     <string name="get_saved_networks">Get Saved Networks</string>
 
+    <string name="frequency_lollipop_notice">Retrieving network frequency is a Lollipop and above feature.</string>
+
     <!-- Nav -->
     <string name="add">Add</string>
     <string name="remove">Remove</string>
@@ -46,5 +48,32 @@
     <string name="network_name">Network Name</string>
     <string name="no">No</string>
     <string name="yes">Yes</string>
+    <string name="ok">OK</string>
+    <string name="info">Info</string>
+
+    <!-- Permissions -->
+    <string name="permission_error">Permission Error</string>
+
+    <string name="permission_error_add_open_network">Permissions for adding an open network are denied</string>
+    <string name="permission_error_add_wep_network">Permissions for adding a WEP network are denied</string>
+    <string name="permission_error_add_wpa2_network">Permissions for adding a WPA2 network are denied</string>
+
+    <string name="permission_error_remove_network">Permissions for removing network are denied</string>
+
+    <string name="permission_error_disable_wifi">Permissions for disabling wifi are denied</string>
+    <string name="permission_error_enable_wifi">Permissions for enabling wifi are denied</string>
+    <string name="permission_error_get_current_network">Permissions for getting current network are denied</string>
+    <string name="permission_error_get_current_network_info">Permissions for getting current network info are denied</string>
+    <string name="permission_error_get_frequency">Permissions for getting the frequency of the device\'s current network are denied</string>
+    <string name="permission_error_get_ip">Permissions for getting the device\'s IP are denied</string>
+    <string name="permission_error_get_nearby_access_points">Permissions for getting nearby access points are denied</string>
+    <string name="permission_error_get_saved_networks">Permissions for getting saved networks are denied</string>
+
+    <string name="permission_error_search_for_saved_network">Permissions for searching for a saved network are denied</string>
+    <string name="permission_error_search_for_saved_networks">Permissions for searching for saved networks are denied</string>
+    <string name="permission_error_search_for_access_point">Permissions for searching for an access point are denied</string>
+    <string name="permission_error_search_for_access_points">Permissions for searching for access points are denied</string>
+    <string name="permission_error_search_for_ssid">Permissions for searching for an SSID are denied</string>
+    <string name="permission_error_search_for_ssids">Permissions for searching for SSIDs are denied</string>
 
 </resources>

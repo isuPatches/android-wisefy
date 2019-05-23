@@ -390,6 +390,39 @@ internal class WiseFyPrechecksImpl private constructor(
         checkForParam(regexForSSID)
 
     /**
+     * Used internally to make sure prerequisites for searching for an individual saved network
+     * are met.
+     *
+     * @param regexForSSID The regexForSsid param from [com.isupatches.wisefy.WiseFy.searchForSavedNetwork]
+     *
+     * @return PrecheckResult - [DEFAULT_PRECHECK_RESULT] or a [PrecheckResult] with an error code.
+     *
+     * @see [checkForParam]
+     * @see [com.isupatches.wisefy.WiseFy.searchForSavedNetwork]
+     *
+     * @author Patches
+     * @since 4.0
+     */
+    override fun searchForSavedNetworkChecks(regexForSSID: String?): PrecheckResult =
+            checkForParam(regexForSSID)
+
+    /**
+     * Used internally to make sure prerequisites for searching for saved networks are met.
+     *
+     * @param regexForSSID The regexForSsid param from [com.isupatches.wisefy.WiseFy.searchForSavedNetworks]
+     *
+     * @return PrecheckResult - [DEFAULT_PRECHECK_RESULT] or a [PrecheckResult] with an error code.
+     *
+     * @see [checkForParam]
+     * @see [com.isupatches.wisefy.WiseFy.searchForSavedNetworks]
+     *
+     * @author Patches
+     * @since 4.0
+     */
+    override fun searchForSavedNetworksChecks(regexForSSID: String?): PrecheckResult =
+            checkForParam(regexForSSID)
+
+    /**
      * Used internally to make sure prerequisites for searching for an individual SSID are met.
      *
      * @param regexForSSID The regexForSsid param from [com.isupatches.wisefy.WiseFy.searchForSSID]
@@ -562,6 +595,10 @@ internal interface WiseFyPrechecks {
     fun searchForAccessPointChecks(regexForSSID: String?): PrecheckResult
 
     fun searchForAccessPointsChecks(regexForSSID: String?): PrecheckResult
+
+    fun searchForSavedNetworkChecks(regexForSSID: String?): PrecheckResult
+
+    fun searchForSavedNetworksChecks(regexForSSID: String?): PrecheckResult
 
     fun searchForSSIDChecks(regexForSSID: String?): PrecheckResult
 

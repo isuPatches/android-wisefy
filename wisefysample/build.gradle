@@ -14,7 +14,7 @@ android {
         targetSdkVersion rootProject.ext.MAX_SDK_VERSION
         versionCode rootProject.ext.VERSION_CODE
         versionName rootProject.ext.VERSION_NAME
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -75,4 +75,9 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-intents:$androidx_espresso_core_version"
     androidTestImplementation "androidx.test:runner:$androidx_test_runner_version"
     androidTestImplementation "androidx.test:rules:$androidx_test_runner_version"
+    androidTestImplementation "org.mockito:mockito-core:$mockito_version"
+    androidTestImplementation "org.mockito:mockito-android:$mockito_version"
+    androidTestImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockito_kotlin_version"
+    kaptAndroidTest "com.google.dagger:dagger-compiler:$dagger_version"
+    kaptAndroidTest "com.google.dagger:dagger-android-processor:$dagger_version"
 }

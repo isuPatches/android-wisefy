@@ -3,12 +3,12 @@ package com.isupatches.wisefysample.ui.search
 import android.net.wifi.ScanResult
 import android.net.wifi.WifiConfiguration
 
-import com.isupatches.wisefy.callbacks.GetSavedNetworkCallbacks
-import com.isupatches.wisefy.callbacks.GetSavedNetworksCallbacks
 import com.isupatches.wisefy.callbacks.SearchForAccessPointCallbacks
 import com.isupatches.wisefy.callbacks.SearchForAccessPointsCallbacks
 import com.isupatches.wisefy.callbacks.SearchForSSIDCallbacks
 import com.isupatches.wisefy.callbacks.SearchForSSIDsCallbacks
+import com.isupatches.wisefy.callbacks.SearchForSavedNetworkCallbacks
+import com.isupatches.wisefy.callbacks.SearchForSavedNetworksCallbacks
 import com.isupatches.wisefy.constants.MISSING_PARAMETER
 import com.isupatches.wisefysample.TEST_SSID_1
 import com.isupatches.wisefysample.TEST_TIMEOUT
@@ -44,102 +44,6 @@ internal class SearchPresenterTest {
 
     @After fun tearDown() {
         presenter.detachView()
-    }
-
-    @Test fun getSavedNetwork_retrievedSavedNetwork() {
-        // Given
-        doAnswer { invocationOnMock ->
-            val callback = invocationOnMock.arguments[1] as GetSavedNetworkCallbacks
-            callback.retrievedSavedNetwork(SAVED_NETWORK)
-            null
-        }.whenever(model).getSavedNetwork(eq(TEST_SSID_1), any())
-
-        // When
-        getSavedNetwork()
-
-        // Then
-        verifyRetrievedSavedNetwork()
-        verify(view, times(1)).displaySavedNetwork(SAVED_NETWORK)
-    }
-
-    @Test fun getSavedNetwork_savedNetworkNotFound() {
-        // Given
-        doAnswer { invocationOnMock ->
-            val callback = invocationOnMock.arguments[1] as GetSavedNetworkCallbacks
-            callback.savedNetworkNotFound()
-            null
-        }.whenever(model).getSavedNetwork(eq(TEST_SSID_1), any())
-
-        // When
-        getSavedNetwork()
-
-        // Then
-        verifyRetrievedSavedNetwork()
-        verify(view, times(1)).displaySavedNetworkNotFound()
-    }
-
-    @Test fun getSavedNetwork_wisefyFailure() {
-        // Given
-        doAnswer { invocationOnMock ->
-            val callback = invocationOnMock.arguments[1] as GetSavedNetworkCallbacks
-            callback.wisefyFailure(MISSING_PARAMETER)
-            null
-        }.whenever(model).getSavedNetwork(eq(TEST_SSID_1), any())
-
-        // When
-        getSavedNetwork()
-
-        // Then
-        verifyRetrievedSavedNetwork()
-        verify(view, times(1)).displayWiseFyFailure(MISSING_PARAMETER)
-    }
-
-    @Test fun getSavedNetworks_retrievedSavedNetworks() {
-        // Given
-        doAnswer { invocationOnMock ->
-            val callback = invocationOnMock.arguments[1] as GetSavedNetworksCallbacks
-            callback.retrievedSavedNetworks(listOf(SAVED_NETWORK))
-            null
-        }.whenever(model).getSavedNetworks(eq(TEST_SSID_1), any())
-
-        // When
-        getSavedNetworks()
-
-        // Then
-        verifyRetrievedSavedNetworks()
-        verify(view, times(1)).displaySavedNetworks(listOf(SAVED_NETWORK))
-    }
-
-    @Test fun getSavedNetworks_noSavedNetworksFound() {
-        // Given
-        doAnswer { invocationOnMock ->
-            val callback = invocationOnMock.arguments[1] as GetSavedNetworksCallbacks
-            callback.noSavedNetworksFound()
-            null
-        }.whenever(model).getSavedNetworks(eq(TEST_SSID_1), any())
-
-        // When
-        getSavedNetworks()
-
-        // Then
-        verifyRetrievedSavedNetworks()
-        verify(view, times(1)).displayNoSavedNetworksFound()
-    }
-
-    @Test fun getSavedNetworks_wisefyFailure() {
-        // Given
-        doAnswer { invocationOnMock ->
-            val callback = invocationOnMock.arguments[1] as GetSavedNetworksCallbacks
-            callback.wisefyFailure(MISSING_PARAMETER)
-            null
-        }.whenever(model).getSavedNetworks(eq(TEST_SSID_1), any())
-
-        // When
-        getSavedNetworks()
-
-        // Then
-        verifyRetrievedSavedNetworks()
-        verify(view, times(1)).displayWiseFyFailure(MISSING_PARAMETER)
     }
 
     @Test fun searchForAccessPoint_accessPointFound() {
@@ -235,6 +139,102 @@ internal class SearchPresenterTest {
 
         // Then
         verifySearchedForAccessPoints()
+        verify(view, times(1)).displayWiseFyFailure(MISSING_PARAMETER)
+    }
+
+    @Test fun searchForSavedNetwork_retrievedSavedNetwork() {
+        // Given
+        doAnswer { invocationOnMock ->
+            val callback = invocationOnMock.arguments[1] as SearchForSavedNetworkCallbacks
+            callback.retrievedSavedNetwork(SAVED_NETWORK)
+            null
+        }.whenever(model).searchForSavedNetwork(eq(TEST_SSID_1), any())
+
+        // When
+        searchForSavedNetwork()
+
+        // Then
+        verifySearchedForSavedNetwork()
+        verify(view, times(1)).displaySavedNetwork(SAVED_NETWORK)
+    }
+
+    @Test fun searchForSavedNetwork_savedNetworkNotFound() {
+        // Given
+        doAnswer { invocationOnMock ->
+            val callback = invocationOnMock.arguments[1] as SearchForSavedNetworkCallbacks
+            callback.savedNetworkNotFound()
+            null
+        }.whenever(model).searchForSavedNetwork(eq(TEST_SSID_1), any())
+
+        // When
+        searchForSavedNetwork()
+
+        // Then
+        verifySearchedForSavedNetwork()
+        verify(view, times(1)).displaySavedNetworkNotFound()
+    }
+
+    @Test fun searchForSavedNetwork_wisefyFailure() {
+        // Given
+        doAnswer { invocationOnMock ->
+            val callback = invocationOnMock.arguments[1] as SearchForSavedNetworkCallbacks
+            callback.wisefyFailure(MISSING_PARAMETER)
+            null
+        }.whenever(model).searchForSavedNetwork(eq(TEST_SSID_1), any())
+
+        // When
+        searchForSavedNetwork()
+
+        // Then
+        verifySearchedForSavedNetwork()
+        verify(view, times(1)).displayWiseFyFailure(MISSING_PARAMETER)
+    }
+
+    @Test fun searchForSavedNetworks_retrievedSavedNetworks() {
+        // Given
+        doAnswer { invocationOnMock ->
+            val callback = invocationOnMock.arguments[1] as SearchForSavedNetworksCallbacks
+            callback.retrievedSavedNetworks(listOf(SAVED_NETWORK))
+            null
+        }.whenever(model).searchForSavedNetworks(eq(TEST_SSID_1), any())
+
+        // When
+        searchForSavedNetworks()
+
+        // Then
+        verifySearchedForSavedNetworks()
+        verify(view, times(1)).displaySavedNetworks(listOf(SAVED_NETWORK))
+    }
+
+    @Test fun searchForSavedNetworks_noSavedNetworksFound() {
+        // Given
+        doAnswer { invocationOnMock ->
+            val callback = invocationOnMock.arguments[1] as SearchForSavedNetworksCallbacks
+            callback.noSavedNetworksFound()
+            null
+        }.whenever(model).searchForSavedNetworks(eq(TEST_SSID_1), any())
+
+        // When
+        searchForSavedNetworks()
+
+        // Then
+        verifySearchedForSavedNetworks()
+        verify(view, times(1)).displayNoSavedNetworksFound()
+    }
+
+    @Test fun searchForSavedNetworks_wisefyFailure() {
+        // Given
+        doAnswer { invocationOnMock ->
+            val callback = invocationOnMock.arguments[1] as SearchForSavedNetworksCallbacks
+            callback.wisefyFailure(MISSING_PARAMETER)
+            null
+        }.whenever(model).searchForSavedNetworks(eq(TEST_SSID_1), any())
+
+        // When
+        searchForSavedNetworks()
+
+        // Then
+        verifySearchedForSavedNetworks()
         verify(view, times(1)).displayWiseFyFailure(MISSING_PARAMETER)
     }
 
@@ -338,20 +338,20 @@ internal class SearchPresenterTest {
      * Call Helpers
      */
 
-    private fun getSavedNetwork() {
-        presenter.getSavedNetwork(TEST_SSID_1)
-    }
-
-    private fun getSavedNetworks() {
-        presenter.getSavedNetworks(TEST_SSID_1)
-    }
-
     private fun searchForAccessPoint() {
         presenter.searchForAccessPoint(TEST_SSID_1, TEST_TIMEOUT, true)
     }
 
     private fun searchForAccessPoints() {
         presenter.searchForAccessPoints(TEST_SSID_1, true)
+    }
+
+    private fun searchForSavedNetwork() {
+        presenter.searchForSavedNetwork(TEST_SSID_1)
+    }
+
+    private fun searchForSavedNetworks() {
+        presenter.searchForSavedNetworks(TEST_SSID_1)
     }
 
     private fun searchForSSID() {
@@ -365,14 +365,6 @@ internal class SearchPresenterTest {
     /*
      * Verification Helpers
      */
-
-    private fun verifyRetrievedSavedNetwork() {
-        verify(model, times(1)).getSavedNetwork(eq(TEST_SSID_1), any())
-    }
-
-    private fun verifyRetrievedSavedNetworks() {
-        verify(model, times(1)).getSavedNetworks(eq(TEST_SSID_1), any())
-    }
 
     private fun verifySearchedForAccessPoint() {
         verify(model, times(1)).searchForAccessPoint(
@@ -389,6 +381,14 @@ internal class SearchPresenterTest {
             eq(true),
             any()
         )
+    }
+
+    private fun verifySearchedForSavedNetwork() {
+        verify(model, times(1)).searchForSavedNetwork(eq(TEST_SSID_1), any())
+    }
+
+    private fun verifySearchedForSavedNetworks() {
+        verify(model, times(1)).searchForSavedNetworks(eq(TEST_SSID_1), any())
     }
 
     private fun verifySearchedForSSID() {

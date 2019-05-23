@@ -206,11 +206,11 @@ internal class NullCallbackUtil internal constructor(private val wisefy: WiseFy)
      *
      * @param regexForSSID The regex to use while trying
      *
-     * @see WiseFy.getSavedNetwork
+     * @see WiseFy.searchForSavedNetwork
      */
-    fun callGetSavedNetwork(regexForSSID: String?) {
+    fun callSearchForSavedNetwork(regexForSSID: String?) {
         try {
-            wisefy.getSavedNetwork(regexForSSID, null)
+            wisefy.searchForSavedNetwork(regexForSSID, null)
         } catch (npe: NullPointerException) {
             fail()
         }
@@ -234,11 +234,11 @@ internal class NullCallbackUtil internal constructor(private val wisefy: WiseFy)
      *
      * @param regexForSSID The ssid to use while trying
      *
-     * @see WiseFy.getSavedNetwork
+     * @see WiseFy.searchForSavedNetworks
      */
-    fun callGetSavedNetworks_withRegex(regexForSSID: String?) {
+    fun callSearchForSavedNetworks_withRegex(regexForSSID: String?) {
         try {
-            wisefy.getSavedNetworks(regexForSSID, null)
+            wisefy.searchForSavedNetworks(regexForSSID, null)
         } catch (npe: NullPointerException) {
             fail()
         }

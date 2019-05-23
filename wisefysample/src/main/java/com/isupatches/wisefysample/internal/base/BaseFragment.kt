@@ -6,9 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
+import androidx.annotation.StringRes
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 
 import com.isupatches.wisefy.constants.WiseFyCode
+import com.isupatches.wisefysample.R
 import com.isupatches.wisefysample.internal.util.PermissionUtil
 import com.isupatches.wisefysample.internal.util.displayShortToast
 
@@ -29,6 +32,30 @@ internal abstract class BaseFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(layoutRes, container, false)
+    }
+
+    protected fun displayInfo(@StringRes infoMessageResId: Int) {
+        activity?.let {
+            AlertDialog.Builder(it)
+                .setTitle(R.string.info)
+                .setMessage(infoMessageResId)
+                .setPositiveButton(R.string.ok) { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .show()
+        }
+    }
+
+    protected fun displayPermissionErrorDialog(@StringRes permissionErrorMessageResId: Int) {
+        activity?.let {
+            AlertDialog.Builder(it)
+                .setTitle(R.string.permission_error)
+                .setMessage(permissionErrorMessageResId)
+                .setPositiveButton(R.string.ok) { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .show()
+        }
     }
 
     protected fun displayWiseFyFailureWithCode(@WiseFyCode wiseFyFailureCode: Int) {

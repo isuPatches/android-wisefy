@@ -202,7 +202,7 @@ internal class MiscFragment : BaseFragment(), MiscMvp.View {
                 presenter.getFrequency()
             }
         } else {
-            displayShortToast("getFrequency is a Lollipop and above feature")
+            displayInfo(R.string.frequency_lollipop_notice)
         }
     }
 
@@ -274,7 +274,7 @@ internal class MiscFragment : BaseFragment(), MiscMvp.View {
                     getIP()
                 } else {
                     Log.w(TAG, "Permissions for disabling wifi are denied")
-                    // Display permission error here
+                    displayPermissionErrorDialog(R.string.permission_error_disable_wifi)
                 }
             }
             WISEFY_ENABLE_WIFI_REQUEST_CODE -> {
@@ -282,7 +282,7 @@ internal class MiscFragment : BaseFragment(), MiscMvp.View {
                     getIP()
                 } else {
                     Log.w(TAG, "Permissions for enabling wifi are denied")
-                    // Display permission error here
+                    displayPermissionErrorDialog(R.string.permission_error_enable_wifi)
                 }
             }
             WISEFY_GET_CURRENT_NETWORK_REQUEST_CODE -> {
@@ -290,7 +290,7 @@ internal class MiscFragment : BaseFragment(), MiscMvp.View {
                     getCurrentNetwork()
                 } else {
                     Log.w(TAG, "Permissions for getting current network are denied")
-                    // Display permission error here
+                    displayPermissionErrorDialog(R.string.permission_error_get_current_network)
                 }
             }
             WISEFY_GET_CURRENT_NETWORK_INFO_REQUEST_CODE -> {
@@ -298,7 +298,7 @@ internal class MiscFragment : BaseFragment(), MiscMvp.View {
                     getCurrentNetworkInfo()
                 } else {
                     Log.w(TAG, "Permissions for getting current network info are denied")
-                    // Display permission error here
+                    displayPermissionErrorDialog(R.string.permission_error_get_current_network_info)
                 }
             }
             WISEFY_GET_FREQUENCY_REQUEST_CODE -> {
@@ -306,7 +306,7 @@ internal class MiscFragment : BaseFragment(), MiscMvp.View {
                     getFrequency()
                 } else {
                     Log.w(TAG, "Permissions for getting frequency are denied")
-                    // Display permission error here
+                    displayPermissionErrorDialog(R.string.permission_error_get_frequency)
                 }
             }
             WISEFY_GET_IP_REQUEST_CODE -> {
@@ -314,7 +314,7 @@ internal class MiscFragment : BaseFragment(), MiscMvp.View {
                     getIP()
                 } else {
                     Log.w(TAG, "Permissions for getting ip are denied")
-                    // Display permission error here
+                    displayPermissionErrorDialog(R.string.permission_error_get_ip)
                 }
             }
             WISEFY_GET_NEARBY_ACCESS_POINTS_REQUEST_CODE -> {
@@ -322,7 +322,7 @@ internal class MiscFragment : BaseFragment(), MiscMvp.View {
                     getNearbyAccessPoints()
                 } else {
                     Log.w(TAG, "Permissions for getting nearby access points are denied")
-                    // Display permission error here
+                    displayPermissionErrorDialog(R.string.permission_error_get_nearby_access_points)
                 }
             }
             WISEFY_GET_SAVED_NETWORKS_REQUEST_CODE -> {
@@ -330,7 +330,7 @@ internal class MiscFragment : BaseFragment(), MiscMvp.View {
                     getIP()
                 } else {
                     Log.w(TAG, "Permissions for getting saved networks are denied")
-                    // Display permission error here
+                    displayPermissionErrorDialog(R.string.permission_error_get_saved_networks)
                 }
             }
             else -> {

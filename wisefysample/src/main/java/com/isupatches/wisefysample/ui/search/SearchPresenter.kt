@@ -6,12 +6,12 @@ import android.net.wifi.ScanResult
 import android.net.wifi.WifiConfiguration
 import androidx.annotation.RequiresPermission
 
-import com.isupatches.wisefy.callbacks.GetSavedNetworkCallbacks
-import com.isupatches.wisefy.callbacks.GetSavedNetworksCallbacks
 import com.isupatches.wisefy.callbacks.SearchForAccessPointCallbacks
 import com.isupatches.wisefy.callbacks.SearchForAccessPointsCallbacks
 import com.isupatches.wisefy.callbacks.SearchForSSIDCallbacks
 import com.isupatches.wisefy.callbacks.SearchForSSIDsCallbacks
+import com.isupatches.wisefy.callbacks.SearchForSavedNetworkCallbacks
+import com.isupatches.wisefy.callbacks.SearchForSavedNetworksCallbacks
 import com.isupatches.wisefy.constants.WiseFyCode
 import com.isupatches.wisefysample.internal.base.BasePresenter
 import com.isupatches.wisefysample.internal.util.RxSchedulersProvider
@@ -26,38 +26,6 @@ internal class SearchPresenter @Inject constructor(
     /*
      * Model call-throughs
      */
-
-    override fun getSavedNetwork(regexForSSID: String) {
-        model.getSavedNetwork(regexForSSID, object : GetSavedNetworkCallbacks {
-            override fun retrievedSavedNetwork(savedNetwork: WifiConfiguration) {
-                displaySavedNetwork(savedNetwork)
-            }
-
-            override fun savedNetworkNotFound() {
-                displaySavedNetworkNotFound()
-            }
-
-            override fun wisefyFailure(@WiseFyCode wisefyFailureCode: Int) {
-                displayWiseFyFailure(wisefyFailureCode)
-            }
-        })
-    }
-
-    override fun getSavedNetworks(regexForSSID: String) {
-        model.getSavedNetworks(regexForSSID, object : GetSavedNetworksCallbacks {
-            override fun retrievedSavedNetworks(savedNetworks: List<WifiConfiguration>) {
-                displaySavedNetworks(savedNetworks)
-            }
-
-            override fun noSavedNetworksFound() {
-                displayNoSavedNetworksFound()
-            }
-
-            override fun wisefyFailure(@WiseFyCode wisefyFailureCode: Int) {
-                displayWiseFyFailure(wisefyFailureCode)
-            }
-        })
-    }
 
     @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
     override fun searchForAccessPoint(
@@ -93,6 +61,38 @@ internal class SearchPresenter @Inject constructor(
 
             override fun noAccessPointsFound() {
                 displayNoAccessPointsFound()
+            }
+
+            override fun wisefyFailure(@WiseFyCode wisefyFailureCode: Int) {
+                displayWiseFyFailure(wisefyFailureCode)
+            }
+        })
+    }
+
+    override fun searchForSavedNetwork(regexForSSID: String) {
+        model.searchForSavedNetwork(regexForSSID, object : SearchForSavedNetworkCallbacks {
+            override fun retrievedSavedNetwork(savedNetwork: WifiConfiguration) {
+                displaySavedNetwork(savedNetwork)
+            }
+
+            override fun savedNetworkNotFound() {
+                displaySavedNetworkNotFound()
+            }
+
+            override fun wisefyFailure(@WiseFyCode wisefyFailureCode: Int) {
+                displayWiseFyFailure(wisefyFailureCode)
+            }
+        })
+    }
+
+    override fun searchForSavedNetworks(regexForSSID: String) {
+        model.searchForSavedNetworks(regexForSSID, object : SearchForSavedNetworksCallbacks {
+            override fun retrievedSavedNetworks(savedNetworks: List<WifiConfiguration>) {
+                displaySavedNetworks(savedNetworks)
+            }
+
+            override fun noSavedNetworksFound() {
+                displayNoSavedNetworksFound()
             }
 
             override fun wisefyFailure(@WiseFyCode wisefyFailureCode: Int) {

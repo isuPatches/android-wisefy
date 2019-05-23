@@ -2,9 +2,11 @@ package com.isupatches.wisefysample.ui.search
 
 import android.Manifest
 import android.Manifest.permission.ACCESS_WIFI_STATE
+import android.content.pm.PackageManager
 import android.net.wifi.ScanResult
 import android.net.wifi.WifiConfiguration
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.SeekBar
 
@@ -193,16 +195,16 @@ internal class SearchFragment : BaseFragment(), SearchMvp.View {
                     R.id.noReturnFullListRdb -> searchForAccessPoint()
                 }
             }
+            R.id.savedNetworkRdb -> {
+                when (returnFullListRdg.checkedRadioButtonId) {
+                    R.id.yesFullListRdb -> searchForSavedNetwork()
+                    R.id.noReturnFullListRdb -> searchForSavedNetworks()
+                }
+            }
             R.id.ssidRdb -> {
                 when (returnFullListRdg.checkedRadioButtonId) {
                     R.id.yesFullListRdb -> searchForSSIDs()
                     R.id.noReturnFullListRdb -> searchForSSID()
-                }
-            }
-            R.id.savedNetworkRdb -> {
-                when (returnFullListRdg.checkedRadioButtonId) {
-                    R.id.yesFullListRdb -> getSavedNetworks()
-                    R.id.noReturnFullListRdb -> getSavedNetwork()
                 }
             }
         }
@@ -242,18 +244,6 @@ internal class SearchFragment : BaseFragment(), SearchMvp.View {
      * WiseFy helpers
      */
 
-    private fun getSavedNetwork() {
-        if (checkSearchForSavedNetworkPermissions()) {
-            presenter.getSavedNetwork(searchRegexEdt.getTrimmedInput())
-        }
-    }
-
-    private fun getSavedNetworks() {
-        if (checkSearchForSavedNetworksPermissions()) {
-            presenter.getSavedNetworks(searchRegexEdt.getTrimmedInput())
-        }
-    }
-
     @Throws(SecurityException::class)
     private fun searchForAccessPoint() {
         if (checkSearchForAccessPointPermissions()) {
@@ -265,6 +255,18 @@ internal class SearchFragment : BaseFragment(), SearchMvp.View {
     private fun searchForAccessPoints() {
         if (checkSearchForAccessPointsPermissions()) {
             presenter.searchForAccessPoints(searchRegexEdt.getTrimmedInput(), getFilterDuplicates())
+        }
+    }
+
+    private fun searchForSavedNetwork() {
+        if (checkSearchForSavedNetworkPermissions()) {
+            presenter.searchForSavedNetwork(searchRegexEdt.getTrimmedInput())
+        }
+    }
+
+    private fun searchForSavedNetworks() {
+        if (checkSearchForSavedNetworksPermissions()) {
+            presenter.searchForSavedNetworks(searchRegexEdt.getTrimmedInput())
         }
     }
 
@@ -368,6 +370,63 @@ internal class SearchFragment : BaseFragment(), SearchMvp.View {
     private fun checkSearchForSSIDsPermissions(): Boolean {
         return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_SEARCH_FOR_SSIDS_REQUEST_CODE) &&
                 isPermissionGranted(Manifest.permission.ACCESS_COARSE_LOCATION, WISEFY_SEARCH_FOR_SSIDS_REQUEST_CODE)
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        when (requestCode) {
+            WISEFY_SEARCH_FOR_SAVED_NETWORK_REQUEST_CODE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    searchForSavedNetwork()
+                } else {
+                    Log.w(TAG, "Permissions for getting a saved network are denied")
+                    displayPermissionErrorDialog(R.string.permission_error_search_for_saved_network)
+                }
+            }
+            WISEFY_SEARCH_FOR_SAVED_NETWORKS_REQUEST_CODE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    searchForSavedNetworks()
+                } else {
+                    Log.w(TAG, "Permissions for getting saved networks are denied")
+                    displayPermissionErrorDialog(R.string.permission_error_search_for_saved_networks)
+                }
+            }
+            WISEFY_SEARCH_FOR_ACCESS_POINT_REQUEST_CODE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    searchForAccessPoint()
+                } else {
+                    Log.w(TAG, "Permissions for searching for an access point are denied")
+                    displayPermissionErrorDialog(R.string.permission_error_search_for_access_point)
+                }
+            }
+            WISEFY_SEARCH_FOR_ACCESS_POINTS_REQUEST_CODE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    searchForAccessPoints()
+                } else {
+                    Log.w(TAG, "Permissions for searching for access points are denied")
+                    displayPermissionErrorDialog(R.string.permission_error_search_for_access_points)
+                }
+            }
+            WISEFY_SEARCH_FOR_SSID_REQUEST_CODE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    searchForSSID()
+                } else {
+                    Log.w(TAG, "Permissions for searching for an SSID are denied")
+                    displayPermissionErrorDialog(R.string.permission_error_search_for_ssid)
+                }
+            }
+            WISEFY_SEARCH_FOR_SSIDS_REQUEST_CODE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    searchForSSIDs()
+                } else {
+                    Log.w(TAG, "Permissions for searching for SSIDs are denied")
+                    displayPermissionErrorDialog(R.string.permission_error_search_for_ssids)
+                }
+            }
+            else -> {
+                // Display permission error here
+                Log.wtf(TAG, "Weird permission requested, not handled")
+            }
+        }
     }
 
     /*

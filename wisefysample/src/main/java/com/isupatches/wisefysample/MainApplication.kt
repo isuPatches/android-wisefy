@@ -42,7 +42,7 @@ internal open class MainApplication : Application(), HasActivityInjector, HasSup
     @Inject lateinit var supportFragmentInject: DispatchingAndroidInjector<Fragment>
     override fun supportFragmentInjector() = supportFragmentInject
 
-    private lateinit var mainApplicationComponent: MainApplicationComponent
+    protected lateinit var mainApplicationComponent: MainApplicationComponent
 
     @Singleton
     @Component(modules = [

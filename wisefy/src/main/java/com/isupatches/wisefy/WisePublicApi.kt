@@ -31,13 +31,14 @@ import com.isupatches.wisefy.callbacks.GetFrequencyCallbacks
 import com.isupatches.wisefy.callbacks.GetIPCallbacks
 import com.isupatches.wisefy.callbacks.GetNearbyAccessPointsCallbacks
 import com.isupatches.wisefy.callbacks.GetRSSICallbacks
-import com.isupatches.wisefy.callbacks.GetSavedNetworkCallbacks
 import com.isupatches.wisefy.callbacks.GetSavedNetworksCallbacks
 import com.isupatches.wisefy.callbacks.RemoveNetworkCallbacks
 import com.isupatches.wisefy.callbacks.SearchForAccessPointCallbacks
 import com.isupatches.wisefy.callbacks.SearchForAccessPointsCallbacks
 import com.isupatches.wisefy.callbacks.SearchForSSIDCallbacks
 import com.isupatches.wisefy.callbacks.SearchForSSIDsCallbacks
+import com.isupatches.wisefy.callbacks.SearchForSavedNetworkCallbacks
+import com.isupatches.wisefy.callbacks.SearchForSavedNetworksCallbacks
 
 /**
  * The interface that is the public facing API for WiseFy.  It is composed of various other sub-apis for separation
@@ -785,35 +786,6 @@ interface RemoveNetworkApi {
 interface SavedNetworkApi {
 
     /**
-     * To search for and return a saved WiFiConfiguration given an SSID.
-     *
-     * @param regexForSSID The ssid to use while searching for saved configuration
-     *
-     * @return WifiConfiguration|null - Saved network that matches the ssid
-     *
-     * @see [WiseFy.getSavedNetwork]
-     * @see [WifiConfiguration]
-     *
-     * @author Patches
-     * @since 3.0
-     */
-    fun getSavedNetwork(regexForSSID: String?): WifiConfiguration?
-
-    /**
-     * To search for and return a saved WiFiConfiguration given an SSID.
-     *
-     * @param regexForSSID The ssid to use while searching for saved configuration
-     * @param callbacks The listener to return results to
-     *
-     * @see [WiseFy.getSavedNetwork]
-     * @see [GetSavedNetworkCallbacks]
-     *
-     * @author Patches
-     * @since 3.0
-     */
-    fun getSavedNetwork(regexForSSID: String?, callbacks: GetSavedNetworkCallbacks?)
-
-    /**
      * To retrieve a list of saved networks on a user's device.
      *
      * @return List of WifiConfiguration|null - List of saved networks on a users device
@@ -840,35 +812,6 @@ interface SavedNetworkApi {
     fun getSavedNetworks(callbacks: GetSavedNetworksCallbacks?)
 
     /**
-     * To retrieve a list of saved networks on a user's device that match a given regex.
-     *
-     * @param regexForSSID The ssid to use while searching for saved configurations
-     *
-     * @return List of WifiConfigurations|null - The list of saved network configurations that match the given regex
-     *
-     * @see [WiseFy.getSavedNetworks]
-     * @see [WifiConfiguration]
-     *
-     * @author Patches
-     * @since 3.0
-     */
-    fun getSavedNetworks(regexForSSID: String?): List<WifiConfiguration>?
-
-    /**
-     * To retrieve a list of saved networks on a user's device that match a given regex.
-     *
-     * @param regexForSSID The ssid to use while searching for saved configurations
-     * @param callbacks The listener to return results to
-     *
-     * @see [WiseFy.getSavedNetworks]
-     * @see [GetSavedNetworksCallbacks]
-     *
-     * @author Patches
-     * @since 3.0
-     */
-    fun getSavedNetworks(regexForSSID: String?, callbacks: GetSavedNetworksCallbacks?)
-
-    /**
      * To check if an SSID is in the list of configured networks.
      *
      * @param ssid The SSID to check and see if it's in the list of configured networks
@@ -881,6 +824,64 @@ interface SavedNetworkApi {
      * @since 3.0
      */
     fun isNetworkSaved(ssid: String?): Boolean
+
+    /**
+     * To search for and return a saved WiFiConfiguration given an SSID.
+     *
+     * @param regexForSSID The ssid to use while searching for saved configuration
+     *
+     * @return WifiConfiguration|null - Saved network that matches the ssid
+     *
+     * @see [WiseFy.searchForSavedNetwork]
+     * @see [WifiConfiguration]
+     *
+     * @author Patches
+     * @since 3.0
+     */
+    fun searchForSavedNetwork(regexForSSID: String?): WifiConfiguration?
+
+    /**
+     * To search for and return a saved WiFiConfiguration given an SSID.
+     *
+     * @param regexForSSID The ssid to use while searching for saved configuration
+     * @param callbacks The listener to return results to
+     *
+     * @see [WiseFy.searchForSavedNetwork]
+     * @see [SearchForSavedNetworkCallbacks]
+     *
+     * @author Patches
+     * @since 3.0
+     */
+    fun searchForSavedNetwork(regexForSSID: String?, callbacks: SearchForSavedNetworkCallbacks?)
+
+    /**
+     * To retrieve a list of saved networks on a user's device that match a given regex.
+     *
+     * @param regexForSSID The ssid to use while searching for saved configurations
+     *
+     * @return List of WifiConfigurations|null - The list of saved network configurations that match the given regex
+     *
+     * @see [WiseFy.searchForSavedNetworks]
+     * @see [WifiConfiguration]
+     *
+     * @author Patches
+     * @since 3.0
+     */
+    fun searchForSavedNetworks(regexForSSID: String?): List<WifiConfiguration>?
+
+    /**
+     * To retrieve a list of saved networks on a user's device that match a given regex.
+     *
+     * @param regexForSSID The ssid to use while searching for saved configurations
+     * @param callbacks The listener to return results to
+     *
+     * @see [WiseFy.searchForSavedNetworks]
+     * @see [SearchForSavedNetworksCallbacks]
+     *
+     * @author Patches
+     * @since 3.0
+     */
+    fun searchForSavedNetworks(regexForSSID: String?, callbacks: SearchForSavedNetworksCallbacks?)
 }
 
 /**

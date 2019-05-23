@@ -4,12 +4,12 @@ import android.net.wifi.ScanResult
 import android.net.wifi.WifiConfiguration
 
 import com.isupatches.wisefy.WiseFyPublicApi
-import com.isupatches.wisefy.callbacks.GetSavedNetworkCallbacks
-import com.isupatches.wisefy.callbacks.GetSavedNetworksCallbacks
 import com.isupatches.wisefy.callbacks.SearchForAccessPointCallbacks
 import com.isupatches.wisefy.callbacks.SearchForAccessPointsCallbacks
 import com.isupatches.wisefy.callbacks.SearchForSSIDCallbacks
 import com.isupatches.wisefy.callbacks.SearchForSSIDsCallbacks
+import com.isupatches.wisefy.callbacks.SearchForSavedNetworkCallbacks
+import com.isupatches.wisefy.callbacks.SearchForSavedNetworksCallbacks
 import com.isupatches.wisefysample.TEST_SSID_1
 import com.isupatches.wisefysample.TEST_TIMEOUT
 
@@ -26,40 +26,6 @@ internal class SearchModelTest {
     private val wiseFy = mock<WiseFyPublicApi>()
 
     private val model = SearchModel(wiseFy)
-
-    @Test fun getSavedNetwork() {
-        // When
-        model.getSavedNetwork(TEST_SSID_1, object : GetSavedNetworkCallbacks {
-            override fun retrievedSavedNetwork(savedNetwork: WifiConfiguration) {
-            }
-
-            override fun savedNetworkNotFound() {
-            }
-
-            override fun wisefyFailure(wisefyFailureCode: Int) {
-            }
-        })
-
-        // Then
-        verify(wiseFy, times(1)).getSavedNetwork(eq(TEST_SSID_1), any())
-    }
-
-    @Test fun getSavedNetworks() {
-        // When
-        model.getSavedNetworks(TEST_SSID_1, object : GetSavedNetworksCallbacks {
-            override fun retrievedSavedNetworks(savedNetworks: List<WifiConfiguration>) {
-            }
-
-            override fun noSavedNetworksFound() {
-            }
-
-            override fun wisefyFailure(wisefyFailureCode: Int) {
-            }
-        })
-
-        // Then
-        verify(wiseFy, times(1)).getSavedNetworks(eq(TEST_SSID_1), any())
-    }
 
     @Test fun searchForAccessPoint() {
         // When
@@ -102,6 +68,40 @@ internal class SearchModelTest {
             eq(true),
             any()
         )
+    }
+
+    @Test fun searchForSavedNetwork() {
+        // When
+        model.searchForSavedNetwork(TEST_SSID_1, object : SearchForSavedNetworkCallbacks {
+            override fun retrievedSavedNetwork(savedNetwork: WifiConfiguration) {
+            }
+
+            override fun savedNetworkNotFound() {
+            }
+
+            override fun wisefyFailure(wisefyFailureCode: Int) {
+            }
+        })
+
+        // Then
+        verify(wiseFy, times(1)).searchForSavedNetwork(eq(TEST_SSID_1), any())
+    }
+
+    @Test fun searchForSavedNetworks() {
+        // When
+        model.searchForSavedNetworks(TEST_SSID_1, object : SearchForSavedNetworksCallbacks {
+            override fun retrievedSavedNetworks(savedNetworks: List<WifiConfiguration>) {
+            }
+
+            override fun noSavedNetworksFound() {
+            }
+
+            override fun wisefyFailure(wisefyFailureCode: Int) {
+            }
+        })
+
+        // Then
+        verify(wiseFy, times(1)).searchForSavedNetworks(eq(TEST_SSID_1), any())
     }
 
     @Test fun searchForSSID() {

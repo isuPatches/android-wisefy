@@ -5,28 +5,18 @@ import android.Manifest.permission.ACCESS_WIFI_STATE
 import androidx.annotation.RequiresPermission
 
 import com.isupatches.wisefy.WiseFyPublicApi
-import com.isupatches.wisefy.callbacks.GetSavedNetworkCallbacks
-import com.isupatches.wisefy.callbacks.GetSavedNetworksCallbacks
 import com.isupatches.wisefy.callbacks.SearchForAccessPointCallbacks
 import com.isupatches.wisefy.callbacks.SearchForAccessPointsCallbacks
 import com.isupatches.wisefy.callbacks.SearchForSSIDCallbacks
 import com.isupatches.wisefy.callbacks.SearchForSSIDsCallbacks
+import com.isupatches.wisefy.callbacks.SearchForSavedNetworkCallbacks
+import com.isupatches.wisefy.callbacks.SearchForSavedNetworksCallbacks
 
 import javax.inject.Inject
 
 internal class SearchModel @Inject constructor(
     private val wiseFy: WiseFyPublicApi
 ) : SearchMvp.Model {
-
-    @RequiresPermission(ACCESS_WIFI_STATE)
-    override fun getSavedNetwork(regexForSSID: String, callbacks: GetSavedNetworkCallbacks) {
-        wiseFy.getSavedNetwork(regexForSSID, callbacks)
-    }
-
-    @RequiresPermission(ACCESS_WIFI_STATE)
-    override fun getSavedNetworks(regexForSSID: String, callbacks: GetSavedNetworksCallbacks) {
-        wiseFy.getSavedNetworks(regexForSSID, callbacks)
-    }
 
     @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
     override fun searchForAccessPoint(
@@ -45,6 +35,22 @@ internal class SearchModel @Inject constructor(
         callbacks: SearchForAccessPointsCallbacks
     ) {
         wiseFy.searchForAccessPoints(regexForSSID, filterDuplicates, callbacks)
+    }
+
+    @RequiresPermission(ACCESS_WIFI_STATE)
+    override fun searchForSavedNetwork(
+        regexForSSID: String,
+       callbacks: SearchForSavedNetworkCallbacks
+    ) {
+        wiseFy.searchForSavedNetwork(regexForSSID, callbacks)
+    }
+
+    @RequiresPermission(ACCESS_WIFI_STATE)
+    override fun searchForSavedNetworks(
+        regexForSSID: String,
+        callbacks: SearchForSavedNetworksCallbacks
+    ) {
+        wiseFy.searchForSavedNetworks(regexForSSID, callbacks)
     }
 
     @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])

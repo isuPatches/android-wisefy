@@ -184,7 +184,7 @@ internal class AddNetworkFragment : BaseFragment(), AddNetworkMvp.View {
                     addOpenNetwork()
                 } else {
                     Log.w(TAG, "Permissions for adding an open network are denied")
-                    // Display permission error here
+                    displayPermissionErrorDialog(R.string.permission_error_add_open_network)
                 }
             }
             WISEFY_ADD_WEP_NETWORK_REQUEST_CODE -> {
@@ -192,7 +192,7 @@ internal class AddNetworkFragment : BaseFragment(), AddNetworkMvp.View {
                     addWEPNetwork()
                 } else {
                     Log.w(TAG, "Permissions for adding a WEP network are denied")
-                    // Display permission error here
+                    displayPermissionErrorDialog(R.string.permission_error_add_wep_network)
                 }
             }
             WISEFY_ADD_WPA2_NETWORK_REQUEST_CODE -> {
@@ -200,7 +200,7 @@ internal class AddNetworkFragment : BaseFragment(), AddNetworkMvp.View {
                     addWPA2Network()
                 } else {
                     Log.w(TAG, "Permissions for adding a WPA2 network are denied")
-                    // Display permission error here
+                    displayPermissionErrorDialog(R.string.permission_error_add_wpa2_network)
                 }
             }
             else -> {

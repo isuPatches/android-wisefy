@@ -147,32 +147,16 @@ internal class MockWiseFyPrechecksUtil internal constructor(private val mockWise
     }
 
     /**
-     * Mocks a precheck failure getting a saved network.
-     *
-     * @see WiseFyPrechecks.getSavedNetworkChecks
-     */
-    fun getSavedNetwork_failure() {
-        `when`(mockWiseFyPrechecks.getSavedNetworkChecks(anyString())).thenReturn(PRECHECK_RESULT_FAILURE)
-    }
-
-    fun getSavedNetwork_success() {
-        `when`(mockWiseFyPrechecks.getSavedNetworkChecks(anyString())).thenReturn(DEFAULT_PRECHECK_RESULT)
-    }
-
-    /**
      * Mocks a precheck failure getting saved networks.
      *
-     * @see WiseFyPrechecks.getSavedNetworksChecks
      * @see WiseFyPrechecks.getSavedNetworksChecks
      */
     fun getSavedNetworks_failure() {
         `when`(mockWiseFyPrechecks.getSavedNetworksChecks()).thenReturn(PRECHECK_RESULT_FAILURE)
-        `when`(mockWiseFyPrechecks.getSavedNetworksChecks(anyString())).thenReturn(PRECHECK_RESULT_FAILURE)
     }
 
     fun getSavedNetworks_success() {
         `when`(mockWiseFyPrechecks.getSavedNetworksChecks()).thenReturn(DEFAULT_PRECHECK_RESULT)
-        `when`(mockWiseFyPrechecks.getSavedNetworksChecks(anyString())).thenReturn(DEFAULT_PRECHECK_RESULT)
     }
 
     /**
@@ -303,6 +287,23 @@ internal class MockWiseFyPrechecksUtil internal constructor(private val mockWise
 
     fun searchForAccessPoint_success() {
         `when`(mockWiseFyPrechecks.searchForAccessPointChecks(anyString())).thenReturn(DEFAULT_PRECHECK_RESULT)
+    }
+
+    fun searchForSavedNetwork_failure() {
+        `when`(mockWiseFyPrechecks.searchForSavedNetworkChecks(anyString())).thenReturn(PRECHECK_RESULT_FAILURE)
+    }
+
+    fun searchForSavedNetwork_success() {
+        `when`(mockWiseFyPrechecks.searchForSavedNetworkChecks(anyString())).thenReturn(DEFAULT_PRECHECK_RESULT)
+    }
+
+
+    fun searchForSavedNetworks_failure() {
+        `when`(mockWiseFyPrechecks.searchForSavedNetworksChecks(anyString())).thenReturn(PRECHECK_RESULT_FAILURE)
+    }
+
+    fun searchForSavedNetworks_success() {
+        `when`(mockWiseFyPrechecks.searchForSavedNetworksChecks(anyString())).thenReturn(DEFAULT_PRECHECK_RESULT)
     }
 
     /**
