@@ -24,6 +24,12 @@ Wifi configuration and util library built for Android.
 - Update to gradle 5.x
 - Static analysis tools updated
 - WEP is now deprecated due to security and other issues with this network type and will be phased out
+- Better naming for some saved network functions
+    - GetSavedNetworkCallbacks renamed SearchForSavedNetworkCallbacks
+    - Added SearchForSavedNetworksCallbacks
+    - getSavedNetwork(regex: String?): List<WifiConfiguration>? refactored to searchForSavedNetwork(regexForSSID: String?): WifiConfiguration?
+    - getSavedNetwork(regexForSSID: String?, callbacks: GetSavedNetworkCallbacks?) refactored to searchForSavedNetwork(regexForSSID: String?, callbacks: SearchForSavedNetworkCallbacks?)
+    - getSavedNetworks(regexForSSID: String?, callbacks: GetSavedNetworksCallbacks?) refactored to searchForSavedNetworks(regexForSSID: String?, callbacks: SearchForSavedNetworksCallbacks?)
 - Introduction of [RoboElectric](https://github.com/robolectric/robolectric) for better unit testing
     - This may be controversial, but please check this [issue](https://github.com/isuPatches/WiseFy/issues/133) for rationale
 - Removal of Checkstyle and FindBugs since project is no longer Java
@@ -150,7 +156,6 @@ For the sake of transparency and because you're probably curious as to what perm
  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
  <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
 
- <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 ```
 
