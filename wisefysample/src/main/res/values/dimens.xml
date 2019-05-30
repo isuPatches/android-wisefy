@@ -12,4 +12,7 @@
     <!-- Text Sizes -->
     <dimen name="toolbar_title_text_size">32sp</dimen>
 
+    <!-- Dialog -->
+    <dimen name="dialog_min_width">300dp</dimen>
+
 </resources>

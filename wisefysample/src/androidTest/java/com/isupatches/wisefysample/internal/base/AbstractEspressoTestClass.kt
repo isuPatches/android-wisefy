@@ -28,16 +28,20 @@ import com.nhaarman.mockitokotlin2.mock
 internal abstract class AbstractEspressoTestClass {
 
     protected val wiseFy: WiseFyPublicApi = mock()
-    private val permissionUtil: PermissionUtil = mock()
+    protected val permissionUtil: PermissionUtil = mock()
 
     private val addNetworkPresenter: AddNetworkMvp.Presenter = AddNetworkPresenter(
         model = AddNetworkModel(wiseFy = wiseFy),
         rxSchedulersProvider = TestRxSchedulersProvider()
     )
+    protected val addNetworkStore = InMemoryAddNetworkStore()
+
     private val removeNetworkPresenter: RemoveNetworkMvp.Presenter = RemoveNetworkPresenter(
         model = RemoveNetworkModel(wiseFy = wiseFy),
         rxSchedulersProvider = TestRxSchedulersProvider()
     )
+    protected val removeNetworkStore = InMemoryRemoveNetworkStore()
+
     private val miscPresenter: MiscMvp.Presenter = MiscPresenter(
         model = MiscModel(wiseFy = wiseFy),
         rxSchedulersProvider = TestRxSchedulersProvider()
@@ -46,6 +50,7 @@ internal abstract class AbstractEspressoTestClass {
         model = SearchModel(wiseFy = wiseFy),
         rxSchedulersProvider = TestRxSchedulersProvider()
     )
+    protected val searchStore = InMemorySearchStore()
 
     open fun setUp() {
         @SuppressWarnings("UnsafeCast")
@@ -56,12 +61,12 @@ internal abstract class AbstractEspressoTestClass {
                 wiseFy = wiseFy,
                 permissionUtil = permissionUtil,
                 addNetworkPresenter = addNetworkPresenter,
-                addNetworkStore = InMemoryAddNetworkStore(),
+                addNetworkStore = addNetworkStore,
                 removeNetworkPresenter = removeNetworkPresenter,
-                removeNetworkStore = InMemoryRemoveNetworkStore(),
+                removeNetworkStore = removeNetworkStore,
                 miscPresenter = miscPresenter,
                 searchPresenter = searchPresenter,
-                searchStore = InMemorySearchStore()
+                searchStore = searchStore
             )
             .build()
         app.setTestComponent(mainComponent)

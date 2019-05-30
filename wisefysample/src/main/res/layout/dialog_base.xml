@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:minWidth="@dimen/dialog_min_width"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/dialogTitleTxt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textIsSelectable="true"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimary"
+        android:paddingTop="@dimen/padding_big"
+        android:paddingStart="@dimen/padding_big"
+        android:paddingEnd="@dimen/padding_big"
+        android:paddingBottom="@dimen/default_padding"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="@string/permission_error"
+        />
+
+    <TextView
+        android:id="@+id/dialogMessageTxt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/default_padding"
+        android:paddingBottom="@dimen/padding_big"
+        android:paddingStart="@dimen/padding_big"
+        android:paddingEnd="@dimen/padding_big"
+        android:textSize="18sp"
+        android:textIsSelectable="true"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/dialogTitleTxt"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="@string/permission_error_add_open_network"
+        />
+
+    <Button
+        android:id="@+id/okBtn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/ok"
+        android:background="@drawable/button_selector"
+        android:textColor="@color/white"
+        android:layout_marginTop="@dimen/default_margin"
+        android:layout_marginEnd="@dimen/margin_big"
+        android:layout_marginStart="@dimen/margin_big"
+        android:layout_marginBottom="@dimen/margin_big"
+        app:layout_constraintTop_toBottomOf="@id/dialogMessageTxt"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

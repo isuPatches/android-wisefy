@@ -1,7 +1,10 @@
 package com.isupatches.wisefysample.ui.add
 
+import android.Manifest.permission.ACCESS_WIFI_STATE
+import android.content.pm.PackageManager
 import androidx.test.espresso.intent.rule.IntentsTestRule
 
+import com.isupatches.wisefysample.RANDO_PERMISSION_REQUEST_CODE
 import com.isupatches.wisefysample.internal.base.AbstractEspressoTestClass
 import com.isupatches.wisefysample.ui.main.MainActivity
 
@@ -12,18 +15,179 @@ import org.junit.Test
 internal class AddNetworkFragmentTest : AbstractEspressoTestClass() {
 
     @get:Rule
-    var activityTestRule = IntentsTestRule(MainActivity::class.java, false, false)
+    val activityTestRule = IntentsTestRule(MainActivity::class.java, false, false)
 
     private lateinit var addNetworkRobot: AddNetworkRobot
 
     @Before override fun setUp() {
         super.setUp()
-        addNetworkRobot = AddNetworkRobot(activityTestRule, wiseFy)
+        addNetworkRobot = AddNetworkRobot(
+            activityTestRule,
+            wiseFy,
+            addNetworkStore,
+            permissionUtil
+        )
+    }
+
+    @Test fun networkTypeSelector() {
+        with(addNetworkRobot) {
+            // Given
+            launchAddNetworkScreen()
+
+            // Then
+            checkOpenNetwork()
+            verifyOpenNetworkIsChecked()
+            verifyOnlyNetworkNameIsVisible()
+
+            // And
+            checkWEPNetwork()
+            verifyWEPNetworkIsChecked()
+            verifyNetworkNameAndPasswordAreBothVisible()
+
+            // And
+            checkWPA2Network()
+            verifyWPA2NetworkIsChecked()
+            verifyNetworkNameAndPasswordAreBothVisible()
+
+            // And
+            checkOpenNetwork()
+            verifyOpenNetworkIsChecked()
+            verifyOnlyNetworkNameIsVisible()
+        }
+    }
+
+    @Test fun loadsOpenNetworkFromStore() {
+        with(addNetworkRobot) {
+            // Given
+            withOpenNetworkInStore()
+
+            // When
+            launchAddNetworkScreen()
+
+            // Then
+            verifyOpenNetworkIsChecked()
+            verifyNetworkNameIsPopulated()
+        }
+    }
+
+    @Test fun loadsWEPNetworkFromStore() {
+        with(addNetworkRobot) {
+            // Given
+            withWEPNetworkInStore()
+
+            // When
+            launchAddNetworkScreen()
+
+            // Then
+            verifyWEPNetworkIsChecked()
+            verifyNetworkNameAndPasswordIsPopulated()
+        }
+    }
+
+    @Test fun loadsWPA2NetworkFromStore() {
+        with(addNetworkRobot) {
+            // Given
+            withWPA2NetworkInStore()
+
+            // When
+            launchAddNetworkScreen()
+
+            // Then
+            verifyWPA2NetworkIsChecked()
+            verifyNetworkNameAndPasswordIsPopulated()
+        }
+    }
+
+    @Test fun addOpenNetwork_permissionErrorDialog() {
+        with(addNetworkRobot) {
+            // Given
+            withPermission(ACCESS_WIFI_STATE)
+            launchAddNetworkScreen()
+            addOpenNetwork()
+
+            // When
+            permissionCallbackTriggered(
+                AddNetworkFragment.WISEFY_ADD_OPEN_NETWORK_REQUEST_CODE,
+                PackageManager.PERMISSION_DENIED
+            )
+
+            // Then
+            dismissErrorDialog()
+        }
+    }
+
+    @Test fun addOpenNetwork_permissionError_once() {
+        with(addNetworkRobot) {
+            // Given
+            withPermissionDeniedOnce(ACCESS_WIFI_STATE)
+            launchAddNetworkScreen()
+            addOpenNetwork()
+
+            // Then
+            verifyTriedToAddOpenNetwork()
+        }
+    }
+
+    @Test fun addOpenNetwork_permissionError_emptyList() {
+        with(addNetworkRobot) {
+            // Given
+            withPermission(ACCESS_WIFI_STATE)
+            withSuccessAddingOpenNetwork()
+            launchAddNetworkScreen()
+            addOpenNetwork()
+
+            // When
+            permissionCallbackTriggeredWithEmptyArray(
+                AddNetworkFragment.WISEFY_ADD_OPEN_NETWORK_REQUEST_CODE
+            )
+
+            // Then
+            verifyTriedToAddOpenNetwork()
+        }
+    }
+
+    @Test fun addOpenNetwork_permissionError_permissionDenied() {
+        with(addNetworkRobot) {
+            // Given
+            withPermission(ACCESS_WIFI_STATE)
+            withSuccessAddingOpenNetwork()
+            launchAddNetworkScreen()
+            addOpenNetwork()
+
+            // When
+            permissionCallbackTriggered(
+                AddNetworkFragment.WISEFY_ADD_OPEN_NETWORK_REQUEST_CODE,
+                PackageManager.PERMISSION_DENIED
+            )
+
+            // Then
+            verifyTriedToAddOpenNetwork()
+        }
+    }
+
+    @Test fun addOpenNetwork_success_afterPermissionGranted() {
+        with(addNetworkRobot) {
+            // Given
+            withPermission(ACCESS_WIFI_STATE)
+            withSuccessAddingOpenNetwork()
+            launchAddNetworkScreen()
+            addOpenNetwork()
+
+            // When
+            permissionCallbackTriggered(
+                AddNetworkFragment.WISEFY_ADD_OPEN_NETWORK_REQUEST_CODE,
+                PackageManager.PERMISSION_GRANTED
+            )
+
+            // Then
+            verifyTriedToAddOpenNetwork(times = 2)
+        }
     }
 
     @Test fun addOpenNetwork_success() {
         with(addNetworkRobot) {
             // Given
+            withPermission(ACCESS_WIFI_STATE)
             withSuccessAddingOpenNetwork()
             launchAddNetworkScreen()
 
@@ -38,6 +202,7 @@ internal class AddNetworkFragmentTest : AbstractEspressoTestClass() {
     @Test fun addOpenNetwork_wifiManagerFailure() {
         with(addNetworkRobot) {
             // Given
+            withPermission(ACCESS_WIFI_STATE)
             withWifiManagerFailureAddingOpenNetwork()
             launchAddNetworkScreen()
 
@@ -52,6 +217,7 @@ internal class AddNetworkFragmentTest : AbstractEspressoTestClass() {
     @Test fun addOpenNetwork_wiseFyFailure() {
         with(addNetworkRobot) {
             // Given
+            withPermission(ACCESS_WIFI_STATE)
             withWiseFyFailureAddingOpenNetwork()
             launchAddNetworkScreen()
 
@@ -59,13 +225,104 @@ internal class AddNetworkFragmentTest : AbstractEspressoTestClass() {
             addOpenNetwork()
 
             // Then
+            verifyWiseFyFailureIsDisplayed()
             verifyTriedToAddOpenNetwork()
+
+            // And
+            dismissErrorDialog()
+        }
+    }
+
+    @Test fun addWEPNetwork_permissionErrorDialog() {
+        with(addNetworkRobot) {
+            // Given
+            withPermission(ACCESS_WIFI_STATE)
+            launchAddNetworkScreen()
+            addWEPNetwork()
+
+            // When
+            permissionCallbackTriggered(
+                AddNetworkFragment.WISEFY_ADD_WEP_NETWORK_REQUEST_CODE,
+                PackageManager.PERMISSION_DENIED
+            )
+
+            // Then
+            dismissErrorDialog()
+        }
+    }
+
+    @Test fun addWEPNetwork_permissionError_once() {
+        with(addNetworkRobot) {
+            // Given
+            withPermissionDeniedOnce(ACCESS_WIFI_STATE)
+            launchAddNetworkScreen()
+            addWEPNetwork()
+
+            // Then
+            verifyTriedToAddWEPNetwork()
+        }
+    }
+
+    @Test fun addWEPNetwork_permissionError_emptyList() {
+        with(addNetworkRobot) {
+            // Given
+            withPermission(ACCESS_WIFI_STATE)
+            withSuccessAddingWEPNetwork()
+            launchAddNetworkScreen()
+            addWEPNetwork()
+
+            // When
+            permissionCallbackTriggeredWithEmptyArray(
+                AddNetworkFragment.WISEFY_ADD_WEP_NETWORK_REQUEST_CODE
+            )
+
+            // Then
+            verifyTriedToAddWEPNetwork()
+        }
+    }
+
+    @Test fun addWEPNetwork_permissionError_permissionDenied() {
+        with(addNetworkRobot) {
+            // Given
+            withPermission(ACCESS_WIFI_STATE)
+            withSuccessAddingWEPNetwork()
+            launchAddNetworkScreen()
+            addWEPNetwork()
+
+            // When
+            permissionCallbackTriggered(
+                AddNetworkFragment.WISEFY_ADD_WEP_NETWORK_REQUEST_CODE,
+                PackageManager.PERMISSION_DENIED
+            )
+
+            // Then
+            verifyTriedToAddWEPNetwork()
+        }
+    }
+
+    @Test fun addWEPNetwork_success_afterPermissionGranted() {
+        with(addNetworkRobot) {
+            // Given
+            withPermission(ACCESS_WIFI_STATE)
+            withSuccessAddingWEPNetwork()
+            launchAddNetworkScreen()
+            addWEPNetwork()
+
+            // When
+            permissionCallbackTriggered(
+                AddNetworkFragment.WISEFY_ADD_WEP_NETWORK_REQUEST_CODE,
+                PackageManager.PERMISSION_GRANTED
+            )
+
+            // Then
+            verifyTriedToAddWEPNetwork(times = 2)
         }
     }
 
     @Test fun addWEPNetwork_success() {
         with(addNetworkRobot) {
             // Given
+            withPermission(ACCESS_WIFI_STATE)
             withSuccessAddingWEPNetwork()
             launchAddNetworkScreen()
 
@@ -80,6 +337,7 @@ internal class AddNetworkFragmentTest : AbstractEspressoTestClass() {
     @Test fun addWEPNetwork_wifiManagerFailure() {
         with(addNetworkRobot) {
             // Given
+            withPermission(ACCESS_WIFI_STATE)
             withWifiManagerFailureAddingWEPNetwork()
             launchAddNetworkScreen()
 
@@ -91,9 +349,10 @@ internal class AddNetworkFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun addWEPNetwork_wiseFyManagerFailure() {
+    @Test fun addWEPNetwork_wiseFyFailure() {
         with(addNetworkRobot) {
             // Given
+            withPermission(ACCESS_WIFI_STATE)
             withWiseFyFailureAddingWEPNetwork()
             launchAddNetworkScreen()
 
@@ -101,13 +360,103 @@ internal class AddNetworkFragmentTest : AbstractEspressoTestClass() {
             addWEPNetwork()
 
             // Then
+            verifyWiseFyFailureIsDisplayed()
             verifyTriedToAddWEPNetwork()
+
+            // And
+            dismissErrorDialog()
+        }
+    }
+
+    @Test fun addWPA2Network_permissionErrorDialog() {
+        with(addNetworkRobot) {
+            // Given
+            withPermission(ACCESS_WIFI_STATE)
+            launchAddNetworkScreen()
+            addWPA2Network()
+
+            // When
+            permissionCallbackTriggered(
+                AddNetworkFragment.WISEFY_ADD_WPA2_NETWORK_REQUEST_CODE,
+                PackageManager.PERMISSION_DENIED
+            )
+
+            // Then
+            dismissErrorDialog()
+        }
+    }
+    @Test fun addWPA2Network_permissionError_once() {
+        with(addNetworkRobot) {
+            // Given
+            withPermissionDeniedOnce(ACCESS_WIFI_STATE)
+            launchAddNetworkScreen()
+            addWPA2Network()
+
+            // Then
+            verifyTriedToAddWPA2Network()
+        }
+    }
+
+    @Test fun addWPA2Network_permissionError_emptyList() {
+        with(addNetworkRobot) {
+            // Given
+            withPermission(ACCESS_WIFI_STATE)
+            withSuccessAddingWPA2Network()
+            launchAddNetworkScreen()
+            addWPA2Network()
+
+            // When
+            permissionCallbackTriggeredWithEmptyArray(
+                AddNetworkFragment.WISEFY_ADD_WPA2_NETWORK_REQUEST_CODE
+            )
+
+            // Then
+            verifyTriedToAddWPA2Network()
+        }
+    }
+
+    @Test fun addWPA2Network_permissionError_permissionDenied() {
+        with(addNetworkRobot) {
+            // Given
+            withPermission(ACCESS_WIFI_STATE)
+            withSuccessAddingWEPNetwork()
+            launchAddNetworkScreen()
+            addWPA2Network()
+
+            // When
+            permissionCallbackTriggered(
+                AddNetworkFragment.WISEFY_ADD_WPA2_NETWORK_REQUEST_CODE,
+                PackageManager.PERMISSION_DENIED
+            )
+
+            // Then
+            verifyTriedToAddWPA2Network()
+        }
+    }
+
+    @Test fun addWPA2Network_success_afterPermissionGranted() {
+        with(addNetworkRobot) {
+            // Given
+            withPermission(ACCESS_WIFI_STATE)
+            withSuccessAddingWPA2Network()
+            launchAddNetworkScreen()
+            addWPA2Network()
+
+            // When
+            permissionCallbackTriggered(
+                AddNetworkFragment.WISEFY_ADD_WPA2_NETWORK_REQUEST_CODE,
+                PackageManager.PERMISSION_GRANTED
+            )
+
+            // Then
+            verifyTriedToAddWPA2Network(times = 2)
         }
     }
 
     @Test fun addWPA2Network_success() {
         with(addNetworkRobot) {
             // Given
+            withPermission(ACCESS_WIFI_STATE)
             withSuccessAddingWPA2Network()
             launchAddNetworkScreen()
 
@@ -122,6 +471,7 @@ internal class AddNetworkFragmentTest : AbstractEspressoTestClass() {
     @Test fun addWPA2Network_wifiManagerFailure() {
         with(addNetworkRobot) {
             // Given
+            withPermission(ACCESS_WIFI_STATE)
             withWifiManagerFailureAddingWPA2Network()
             launchAddNetworkScreen()
 
@@ -133,9 +483,10 @@ internal class AddNetworkFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun addWPA2Network_wiseFyManagerFailure() {
+    @Test fun addWPA2Network_wiseFyFailure() {
         with(addNetworkRobot) {
             // Given
+            withPermission(ACCESS_WIFI_STATE)
             withWiseFyFailureAddingWPA2Network()
             launchAddNetworkScreen()
 
@@ -143,7 +494,25 @@ internal class AddNetworkFragmentTest : AbstractEspressoTestClass() {
             addWPA2Network()
 
             // Then
+            verifyWiseFyFailureIsDisplayed()
             verifyTriedToAddWPA2Network()
+
+            // And
+            dismissErrorDialog()
+        }
+    }
+
+    @Test fun ridiculousPermissionRequested() {
+        with(addNetworkRobot) {
+            // Given
+            launchAddNetworkScreen()
+
+            // When
+            permissionCallbackTriggeredWithEmptyArray(RANDO_PERMISSION_REQUEST_CODE)
+
+            // Then
+            verifyPermissionErrorShown()
+            dismissErrorDialog()
         }
     }
 }

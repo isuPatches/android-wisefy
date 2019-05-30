@@ -372,6 +372,7 @@ internal class SearchFragment : BaseFragment(), SearchMvp.View {
                 isPermissionGranted(Manifest.permission.ACCESS_COARSE_LOCATION, WISEFY_SEARCH_FOR_SSIDS_REQUEST_CODE)
     }
 
+    @Suppress("LongMethod", "ComplexMethod")
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         when (requestCode) {
             WISEFY_SEARCH_FOR_SAVED_NETWORK_REQUEST_CODE -> {

@@ -21,6 +21,6 @@ ext {
     mockito_kotlin_version = '2.1.0'
     robo_electric_version = '4.2.1'
 
-    androidx_espresso_core_version = '3.1.0'
-    androidx_test_runner_version = "1.1.0"
+    androidx_espresso_core_version = '3.1.1'
+    androidx_test_runner_version = "1.1.1"
 }

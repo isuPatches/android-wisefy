@@ -6,6 +6,7 @@ import android.net.wifi.WifiConfiguration
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.annotation.VisibleForTesting
 
 import com.isupatches.wisefy.constants.WiseFyCode
 import com.isupatches.wisefysample.R
@@ -39,9 +40,9 @@ internal class AddNetworkFragment : BaseFragment(), AddNetworkMvp.View {
 
         fun newInstance() = AddNetworkFragment()
 
-        private const val WISEFY_ADD_OPEN_NETWORK_REQUEST_CODE = 1
-        private const val WISEFY_ADD_WEP_NETWORK_REQUEST_CODE = 2
-        private const val WISEFY_ADD_WPA2_NETWORK_REQUEST_CODE = 3
+        @VisibleForTesting internal const val WISEFY_ADD_OPEN_NETWORK_REQUEST_CODE = 1
+        @VisibleForTesting internal const val WISEFY_ADD_WEP_NETWORK_REQUEST_CODE = 2
+        @VisibleForTesting internal const val WISEFY_ADD_WPA2_NETWORK_REQUEST_CODE = 3
     }
 
     override fun onStart() {
@@ -204,8 +205,10 @@ internal class AddNetworkFragment : BaseFragment(), AddNetworkMvp.View {
                 }
             }
             else -> {
-                // Display permission error here
                 Log.wtf(TAG, "Weird permission requested, not handled")
+                displayPermissionErrorDialog(
+                    getString(R.string.permission_error_unhandled_request_code_args, requestCode)
+                )
             }
         }
     }

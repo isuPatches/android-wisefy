@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.wifi.WifiConfiguration
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.rule.ActivityTestRule
 
 import com.isupatches.wisefy.WiseFyPublicApi
@@ -13,27 +14,72 @@ import com.isupatches.wisefysample.BAD_WIFI_MANAGER_RETURN
 import com.isupatches.wisefysample.R
 import com.isupatches.wisefysample.TEST_PASSWORD_1
 import com.isupatches.wisefysample.TEST_SSID_1
+import com.isupatches.wisefysample.internal.base.BaseRobot
+import com.isupatches.wisefysample.internal.espresso.checkIsChecked
+import com.isupatches.wisefysample.internal.espresso.checkIsDisplayed
+import com.isupatches.wisefysample.internal.espresso.checkIsInvisible
+import com.isupatches.wisefysample.internal.espresso.checkIsVisible
 import com.isupatches.wisefysample.internal.espresso.performClick
 import com.isupatches.wisefysample.internal.espresso.performScrollToAndClick
 import com.isupatches.wisefysample.internal.espresso.performScrollToAndReplaceText
+import com.isupatches.wisefysample.internal.models.NetworkType
+import com.isupatches.wisefysample.internal.preferences.AddNetworkStore
+import com.isupatches.wisefysample.internal.util.PermissionUtil
 import com.isupatches.wisefysample.ui.main.MainActivity
 
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.doAnswer
 import com.nhaarman.mockitokotlin2.eq
 import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.times
+import com.nhaarman.mockitokotlin2.timeout
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
+import org.hamcrest.CoreMatchers.allOf
 
 internal class AddNetworkRobot(
     private val activityTestRule: ActivityTestRule<MainActivity>,
-    private val wiseFyPublicApi: WiseFyPublicApi
-) {
+    private val wiseFyPublicApi: WiseFyPublicApi,
+    private val addNetworkStore: AddNetworkStore,
+    permissionUtil: PermissionUtil
+) : BaseRobot(activityTestRule, permissionUtil) {
 
     companion object {
         private const val NETWORK_ID = 1
         private val SAVED_NETWORK = mock<WifiConfiguration>()
+    }
+
+    fun permissionCallbackTriggered(requestCode: Int, permissionResult: Int) {
+        val activity = activityTestRule.activity
+        val fragment: AddNetworkFragment? = activity
+            .supportFragmentManager
+            .findFragmentByTag(
+                    AddNetworkFragment.TAG
+            ) as? AddNetworkFragment
+
+        activity.runOnUiThread {
+            fragment?.onRequestPermissionsResult(
+                    requestCode,
+                    emptyArray(),
+                    intArrayOf(permissionResult)
+            )
+        }
+    }
+
+    fun permissionCallbackTriggeredWithEmptyArray(requestCode: Int) {
+        val activity = activityTestRule.activity
+        val fragment: AddNetworkFragment? = activity
+            .supportFragmentManager
+            .findFragmentByTag(
+                    AddNetworkFragment.TAG
+            ) as? AddNetworkFragment
+
+        activity.runOnUiThread {
+            fragment?.onRequestPermissionsResult(
+                requestCode,
+                emptyArray(),
+                intArrayOf()
+            )
+        }
     }
 
     fun launchAddNetworkScreen() {
@@ -59,6 +105,18 @@ internal class AddNetworkRobot(
         onView((withId(R.id.addNetworkBtn))).performScrollToAndClick()
     }
 
+    fun checkOpenNetwork() {
+        onView(withId(R.id.openNetworkRdb)).performClick()
+    }
+
+    fun checkWEPNetwork() {
+        onView(withId(R.id.wepNetworkRdb)).performClick()
+    }
+
+    fun checkWPA2Network() {
+        onView(withId(R.id.wpa2NetworkRdb)).performClick()
+    }
+
     fun withSuccessAddingOpenNetwork() {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[1] as AddNetworkCallbacks
@@ -78,7 +136,7 @@ internal class AddNetworkRobot(
     fun withWiseFyFailureAddingOpenNetwork() {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[1] as AddNetworkCallbacks
-            callback.failureAddingNetwork(MISSING_PARAMETER)
+            callback.wisefyFailure(MISSING_PARAMETER)
             null
         }.whenever(wiseFyPublicApi).addOpenNetwork(eq(TEST_SSID_1), any())
     }
@@ -110,7 +168,7 @@ internal class AddNetworkRobot(
     fun withWiseFyFailureAddingWEPNetwork() {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[2] as AddNetworkCallbacks
-            callback.failureAddingNetwork(MISSING_PARAMETER)
+            callback.wisefyFailure(MISSING_PARAMETER)
             null
         }.whenever(wiseFyPublicApi).addWEPNetwork(
             eq(TEST_SSID_1),
@@ -146,7 +204,7 @@ internal class AddNetworkRobot(
     fun withWiseFyFailureAddingWPA2Network() {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[2] as AddNetworkCallbacks
-            callback.failureAddingNetwork(MISSING_PARAMETER)
+            callback.wisefyFailure(MISSING_PARAMETER)
             null
         }.whenever(wiseFyPublicApi).addWPA2Network(
             eq(TEST_SSID_1),
@@ -155,20 +213,72 @@ internal class AddNetworkRobot(
         )
     }
 
-    fun verifyTriedToAddOpenNetwork() {
-        verify(wiseFyPublicApi, times(1)).addOpenNetwork(eq(TEST_SSID_1), any())
+    fun withOpenNetworkInStore() {
+        with(addNetworkStore) {
+            setNetworkType(NetworkType.OPEN)
+            setLastUsedNetworkName(TEST_SSID_1)
+        }
     }
 
-    fun verifyTriedToAddWEPNetwork() {
-        verify(wiseFyPublicApi, times(1)).addWEPNetwork(
+    fun withWEPNetworkInStore() {
+        with(addNetworkStore) {
+            setNetworkType(NetworkType.WEP)
+            setLastUsedNetworkName(TEST_SSID_1)
+            setLastUsedNetworkPassword(TEST_PASSWORD_1)
+        }
+    }
+
+    fun withWPA2NetworkInStore() {
+        with(addNetworkStore) {
+            setNetworkType(NetworkType.WPA2)
+            setLastUsedNetworkName(TEST_SSID_1)
+            setLastUsedNetworkPassword(TEST_PASSWORD_1)
+        }
+    }
+
+    fun verifyOpenNetworkIsChecked() {
+        onView(withId(R.id.openNetworkRdb)).checkIsChecked()
+    }
+
+    fun verifyWEPNetworkIsChecked() {
+        onView(withId(R.id.wepNetworkRdb)).checkIsChecked()
+    }
+
+    fun verifyWPA2NetworkIsChecked() {
+        onView(withId(R.id.wpa2NetworkRdb)).checkIsChecked()
+    }
+
+    fun verifyOnlyNetworkNameIsVisible() {
+        onView(withId(R.id.networkNameEdt)).checkIsVisible()
+        onView(withId(R.id.networkPasswordEdt)).checkIsInvisible()
+    }
+
+    fun verifyNetworkNameAndPasswordAreBothVisible() {
+        onView(withId(R.id.networkNameEdt)).checkIsVisible()
+        onView(withId(R.id.networkPasswordEdt)).checkIsVisible()
+    }
+
+    fun verifyNetworkNameAndPasswordIsPopulated() {
+        onView(allOf(withId(R.id.networkNameEdt), withText(TEST_SSID_1))).checkIsDisplayed()
+        onView(
+            allOf(withId(R.id.networkPasswordEdt), withText(TEST_PASSWORD_1))
+        ).checkIsDisplayed()
+    }
+
+    fun verifyTriedToAddOpenNetwork(times: Int = 1) {
+        verify(wiseFyPublicApi, timeout(3000).times(times)).addOpenNetwork(eq(TEST_SSID_1), any())
+    }
+
+    fun verifyTriedToAddWEPNetwork(times: Int = 1) {
+        verify(wiseFyPublicApi, timeout(3000).times(times)).addWEPNetwork(
             eq(TEST_SSID_1),
             eq(TEST_PASSWORD_1),
             any()
         )
     }
 
-    fun verifyTriedToAddWPA2Network() {
-        verify(wiseFyPublicApi, times(1)).addWPA2Network(
+    fun verifyTriedToAddWPA2Network(times: Int = 1) {
+        verify(wiseFyPublicApi, timeout(3000).times(times)).addWPA2Network(
             eq(TEST_SSID_1),
             eq(TEST_PASSWORD_1),
             any()

@@ -297,7 +297,6 @@ internal class MockWiseFyPrechecksUtil internal constructor(private val mockWise
         `when`(mockWiseFyPrechecks.searchForSavedNetworkChecks(anyString())).thenReturn(DEFAULT_PRECHECK_RESULT)
     }
 
-
     fun searchForSavedNetworks_failure() {
         `when`(mockWiseFyPrechecks.searchForSavedNetworksChecks(anyString())).thenReturn(PRECHECK_RESULT_FAILURE)
     }

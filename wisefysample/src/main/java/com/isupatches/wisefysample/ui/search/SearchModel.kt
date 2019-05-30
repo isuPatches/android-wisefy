@@ -40,7 +40,7 @@ internal class SearchModel @Inject constructor(
     @RequiresPermission(ACCESS_WIFI_STATE)
     override fun searchForSavedNetwork(
         regexForSSID: String,
-       callbacks: SearchForSavedNetworkCallbacks
+        callbacks: SearchForSavedNetworkCallbacks
     ) {
         wiseFy.searchForSavedNetwork(regexForSSID, callbacks)
     }

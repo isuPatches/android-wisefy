@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.annotation.VisibleForTesting
 
 import com.isupatches.wisefy.constants.WiseFyCode
 import com.isupatches.wisefysample.R
@@ -18,7 +19,7 @@ import dagger.Binds
 import dagger.Module
 
 import kotlinx.android.synthetic.main.fragment_remove.removeNetworkBtn
-import kotlinx.android.synthetic.main.fragment_remove.removeNetworkEdt
+import kotlinx.android.synthetic.main.fragment_remove.networkNameEdt
 
 import javax.inject.Inject
 
@@ -34,7 +35,7 @@ internal class RemoveNetworkFragment : BaseFragment(), RemoveNetworkMvp.View {
 
         fun newInstance() = RemoveNetworkFragment()
 
-        private const val WISEFY_REMOVE_NETWORK_REQUEST_CODE = 1
+        @VisibleForTesting internal const val WISEFY_REMOVE_NETWORK_REQUEST_CODE = 1
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -58,7 +59,7 @@ internal class RemoveNetworkFragment : BaseFragment(), RemoveNetworkMvp.View {
     override fun onStop() {
         presenter.detachView()
         super.onStop()
-        removeNetworkStore.setLastUsedRegex(removeNetworkEdt.getTrimmedInput())
+        removeNetworkStore.setLastUsedRegex(networkNameEdt.getTrimmedInput())
         hideKeyboardFrom(removeNetworkBtn)
     }
 
@@ -68,7 +69,7 @@ internal class RemoveNetworkFragment : BaseFragment(), RemoveNetworkMvp.View {
 
     private fun restoreUI() {
         // Restore edit text value
-        removeNetworkEdt.setText(removeNetworkStore.getLastUsedRegex())
+        networkNameEdt.setText(removeNetworkStore.getLastUsedRegex())
     }
 
     /*
@@ -97,7 +98,7 @@ internal class RemoveNetworkFragment : BaseFragment(), RemoveNetworkMvp.View {
 
     private fun removeNetwork() {
         if (checkRemoveNetworkPermissions()) {
-            presenter.removeNetwork(removeNetworkEdt.getTrimmedInput())
+            presenter.removeNetwork(networkNameEdt.getTrimmedInput())
         }
     }
 
@@ -120,8 +121,10 @@ internal class RemoveNetworkFragment : BaseFragment(), RemoveNetworkMvp.View {
                 }
             }
             else -> {
-                // Display permission error here
                 Log.wtf(TAG, "Weird permission requested, not handled")
+                displayPermissionErrorDialog(
+                    getString(R.string.permission_error_unhandled_request_code_args, requestCode)
+                )
             }
         }
     }

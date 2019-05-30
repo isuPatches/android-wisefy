@@ -76,4 +76,8 @@
     <string name="permission_error_search_for_ssid">Permissions for searching for an SSID are denied</string>
     <string name="permission_error_search_for_ssids">Permissions for searching for SSIDs are denied</string>
 
+    <string name="permission_error_unhandled_request_code_args">Unhandled permission requested.  Request code: %d</string>
+
+    <string name="wisefy_error">WiseFy Error</string>
+    <string name="wisefy_error_descriptions_args">An error occurred with WiseFy.  Error code: %d</string>
 </resources>
