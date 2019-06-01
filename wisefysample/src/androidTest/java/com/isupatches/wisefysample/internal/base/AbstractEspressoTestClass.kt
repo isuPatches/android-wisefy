@@ -10,6 +10,7 @@ import com.isupatches.wisefysample.internal.preferences.InMemoryAddNetworkStore
 import com.isupatches.wisefysample.internal.preferences.InMemoryRemoveNetworkStore
 import com.isupatches.wisefysample.internal.preferences.InMemorySearchStore
 import com.isupatches.wisefysample.internal.util.PermissionUtil
+import com.isupatches.wisefysample.internal.util.SdkUtil
 import com.isupatches.wisefysample.ui.add.AddNetworkModel
 import com.isupatches.wisefysample.ui.add.AddNetworkMvp
 import com.isupatches.wisefysample.ui.add.AddNetworkPresenter
@@ -29,6 +30,7 @@ internal abstract class AbstractEspressoTestClass {
 
     protected val wiseFy: WiseFyPublicApi = mock()
     protected val permissionUtil: PermissionUtil = mock()
+    protected val sdkUtil: SdkUtil = mock()
 
     private val addNetworkPresenter: AddNetworkMvp.Presenter = AddNetworkPresenter(
         model = AddNetworkModel(wiseFy = wiseFy),
@@ -66,7 +68,8 @@ internal abstract class AbstractEspressoTestClass {
                 removeNetworkStore = removeNetworkStore,
                 miscPresenter = miscPresenter,
                 searchPresenter = searchPresenter,
-                searchStore = searchStore
+                searchStore = searchStore,
+                sdkUtil = sdkUtil
             )
             .build()
         app.setTestComponent(mainComponent)

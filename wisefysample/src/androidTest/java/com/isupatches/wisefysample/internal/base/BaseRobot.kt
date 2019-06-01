@@ -35,15 +35,17 @@ internal abstract class BaseRobot(
             .thenReturn(true)
     }
 
+    fun withPermissions(vararg permissions: String) {
+        for (permission in permissions) {
+            `when`(permissionUtil.isPermissionGranted(any(), eq(permission)))
+                .thenReturn(true)
+        }
+    }
+
     fun withPermissionDeniedOnce(permission: String) {
         `when`(permissionUtil.isPermissionGranted(any(), eq(permission)))
             .thenReturn(false)
             .thenReturn(true)
-    }
-
-    fun withoutPermission(permission: String) {
-        `when`(permissionUtil.isPermissionGranted(any(), eq(permission)))
-            .thenReturn(false)
     }
 
     fun verifyNetworkNameIsPopulated() {

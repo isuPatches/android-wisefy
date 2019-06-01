@@ -2,15 +2,20 @@
 <resources>
 
     <!-- Paddings -->
+    <dimen name="padding_small">4dp</dimen>
     <dimen name="default_padding">8dp</dimen>
     <dimen name="padding_big">16dp</dimen>
 
     <!-- Margins -->
+    <dimen name="margin_small">4dp</dimen>
     <dimen name="default_margin">8dp</dimen>
     <dimen name="margin_big">16dp</dimen>
 
     <!-- Text Sizes -->
     <dimen name="toolbar_title_text_size">32sp</dimen>
+    <dimen name="font_size_large">18sp</dimen>
+    <dimen name="font_size_medium">16sp</dimen>
+    <dimen name="font_size_small">14sp</dimen>
 
     <!-- Dialog -->
     <dimen name="dialog_min_width">300dp</dimen>

@@ -15,7 +15,8 @@ def excludes = [
     '**/Manifest*.*',
     '**/*$Lambda$*.class',
     '**/*Factory*.class',
-    '**/*$Builder*'
+    '**/*$Builder*',
+    '**/di/*.class'
 ]
 
 project.afterEvaluate {

@@ -20,6 +20,7 @@
             android:layout_marginRight="@dimen/default_margin"
             android:layout_marginTop="@dimen/margin_big"
             android:text="@string/disable_wifi"
+            android:textSize="@dimen/font_size_medium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -34,6 +35,7 @@
             android:layout_marginRight="@dimen/default_margin"
             android:layout_marginTop="@dimen/margin_big"
             android:text="@string/enabled_wifi"
+            android:textSize="@dimen/font_size_medium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/disableWifiBtn" />
@@ -48,12 +50,13 @@
             android:layout_marginRight="@dimen/default_margin"
             android:layout_marginTop="@dimen/margin_big"
             android:text="@string/get_current_network"
+            android:textSize="@dimen/font_size_medium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/enableWifiBtn" />
 
         <Button
-            android:id="@+id/getCurrentNetworkDetailsBtn"
+            android:id="@+id/getCurrentNetworkInfoBtn"
             style="@style/Button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -62,6 +65,7 @@
             android:layout_marginRight="@dimen/default_margin"
             android:layout_marginTop="@dimen/margin_big"
             android:text="@string/get_current_network_details"
+            android:textSize="@dimen/font_size_medium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/getCurrentNetworkBtn" />
@@ -76,9 +80,10 @@
             android:layout_marginRight="@dimen/default_margin"
             android:layout_marginTop="@dimen/margin_big"
             android:text="@string/get_frequency"
+            android:textSize="@dimen/font_size_medium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/getCurrentNetworkDetailsBtn" />
+            app:layout_constraintTop_toBottomOf="@id/getCurrentNetworkInfoBtn" />
 
         <Button
             android:id="@+id/getIPBtn"
@@ -90,6 +95,7 @@
             android:layout_marginRight="@dimen/default_margin"
             android:layout_marginTop="@dimen/margin_big"
             android:text="@string/get_ip"
+            android:textSize="@dimen/font_size_medium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/getFrequencyBtn" />
@@ -104,6 +110,7 @@
             android:layout_marginRight="@dimen/default_margin"
             android:layout_marginTop="@dimen/margin_big"
             android:text="@string/get_nearby_access_points"
+            android:textSize="@dimen/font_size_medium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/getIPBtn" />
@@ -118,6 +125,7 @@
             android:layout_marginRight="@dimen/default_margin"
             android:layout_marginTop="@dimen/margin_big"
             android:text="@string/get_saved_networks"
+            android:textSize="@dimen/font_size_medium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/getNearbyAccessPointsBtn" />

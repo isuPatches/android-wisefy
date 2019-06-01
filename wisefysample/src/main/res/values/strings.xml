@@ -1,8 +1,9 @@
 <resources>
     <string name="app_name">WiseFy Sample</string>
 
-    <!-- Permissions -->
-    <string name="access_coarse_location_rationale">To search for nearby network, we need to know about your location</string>
+    <!-- Main Screen -->
+    <string name="wisefy">WiseFy</string>
+    <string name="wisefy_sample_description">Explore the various uses for WiseFy by poking around this sample app based on MVP architecture.</string>
 
     <!-- Add Network -->
     <string name="add_network">Add Network</string>
@@ -50,6 +51,8 @@
     <string name="yes">Yes</string>
     <string name="ok">OK</string>
     <string name="info">Info</string>
+    <string name="wisefy_error">WiseFy Error</string>
+    <string name="wisefy_error_descriptions_args">An error occurred with WiseFy.  Error code: %d</string>
 
     <!-- Permissions -->
     <string name="permission_error">Permission Error</string>
@@ -78,6 +81,7 @@
 
     <string name="permission_error_unhandled_request_code_args">Unhandled permission requested.  Request code: %d</string>
 
-    <string name="wisefy_error">WiseFy Error</string>
-    <string name="wisefy_error_descriptions_args">An error occurred with WiseFy.  Error code: %d</string>
+    <!-- Content Descriptions -->
+    <string name="content_description_logo">logo</string>
+
 </resources>

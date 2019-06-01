@@ -9,14 +9,15 @@ import android.net.NetworkInfo
 import android.net.wifi.ScanResult
 import android.net.wifi.WifiConfiguration
 import android.net.wifi.WifiInfo
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.annotation.VisibleForTesting
 
 import com.isupatches.wisefy.constants.WiseFyCode
 import com.isupatches.wisefysample.R
 import com.isupatches.wisefysample.internal.base.BaseFragment
+import com.isupatches.wisefysample.internal.util.SdkUtil
 import com.isupatches.wisefysample.internal.util.displayShortToast
 
 import dagger.Binds
@@ -25,7 +26,7 @@ import dagger.Module
 import kotlinx.android.synthetic.main.fragment_misc.enableWifiBtn
 import kotlinx.android.synthetic.main.fragment_misc.disableWifiBtn
 import kotlinx.android.synthetic.main.fragment_misc.getCurrentNetworkBtn
-import kotlinx.android.synthetic.main.fragment_misc.getCurrentNetworkDetailsBtn
+import kotlinx.android.synthetic.main.fragment_misc.getCurrentNetworkInfoBtn
 import kotlinx.android.synthetic.main.fragment_misc.getFrequencyBtn
 import kotlinx.android.synthetic.main.fragment_misc.getIPBtn
 import kotlinx.android.synthetic.main.fragment_misc.getNearbyAccessPointsBtn
@@ -39,20 +40,21 @@ internal class MiscFragment : BaseFragment(), MiscMvp.View {
     override val layoutRes = R.layout.fragment_misc
 
     @Inject lateinit var presenter: MiscMvp.Presenter
+    @Inject lateinit var sdkUtil: SdkUtil
 
     companion object {
         val TAG: String = MiscFragment::class.java.simpleName
 
         fun newInstance() = MiscFragment()
 
-        private const val WISEFY_DISABLE_WIFI_REQUEST_CODE = 1
-        private const val WISEFY_ENABLE_WIFI_REQUEST_CODE = 2
-        private const val WISEFY_GET_CURRENT_NETWORK_REQUEST_CODE = 3
-        private const val WISEFY_GET_CURRENT_NETWORK_INFO_REQUEST_CODE = 4
-        private const val WISEFY_GET_FREQUENCY_REQUEST_CODE = 5
-        private const val WISEFY_GET_IP_REQUEST_CODE = 6
-        private const val WISEFY_GET_NEARBY_ACCESS_POINTS_REQUEST_CODE = 7
-        private const val WISEFY_GET_SAVED_NETWORKS_REQUEST_CODE = 8
+        @VisibleForTesting internal const val WISEFY_DISABLE_WIFI_REQUEST_CODE = 1
+        @VisibleForTesting internal const val WISEFY_ENABLE_WIFI_REQUEST_CODE = 2
+        @VisibleForTesting internal const val WISEFY_GET_CURRENT_NETWORK_REQUEST_CODE = 3
+        @VisibleForTesting internal const val WISEFY_GET_CURRENT_NETWORK_INFO_REQUEST_CODE = 4
+        @VisibleForTesting internal const val WISEFY_GET_FREQUENCY_REQUEST_CODE = 5
+        @VisibleForTesting internal const val WISEFY_GET_IP_REQUEST_CODE = 6
+        @VisibleForTesting internal const val WISEFY_GET_NEARBY_ACCESS_POINTS_REQUEST_CODE = 7
+        @VisibleForTesting internal const val WISEFY_GET_SAVED_NETWORKS_REQUEST_CODE = 8
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -67,7 +69,7 @@ internal class MiscFragment : BaseFragment(), MiscMvp.View {
         getCurrentNetworkBtn.setOnClickListener {
             getCurrentNetwork()
         }
-        getCurrentNetworkDetailsBtn.setOnClickListener {
+        getCurrentNetworkInfoBtn.setOnClickListener {
             getCurrentNetworkInfo()
         }
         getFrequencyBtn.setOnClickListener {
@@ -197,7 +199,7 @@ internal class MiscFragment : BaseFragment(), MiscMvp.View {
 
     @Throws(SecurityException::class)
     private fun getFrequency() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (sdkUtil.isAtLeastLollipop()) {
             if (checkGetFrequencyPermissions()) {
                 presenter.getFrequency()
             }
@@ -271,7 +273,7 @@ internal class MiscFragment : BaseFragment(), MiscMvp.View {
         when (requestCode) {
             WISEFY_DISABLE_WIFI_REQUEST_CODE -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    getIP()
+                    disableWifi()
                 } else {
                     Log.w(TAG, "Permissions for disabling wifi are denied")
                     displayPermissionErrorDialog(R.string.permission_error_disable_wifi)
@@ -279,7 +281,7 @@ internal class MiscFragment : BaseFragment(), MiscMvp.View {
             }
             WISEFY_ENABLE_WIFI_REQUEST_CODE -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    getIP()
+                    enableWifi()
                 } else {
                     Log.w(TAG, "Permissions for enabling wifi are denied")
                     displayPermissionErrorDialog(R.string.permission_error_enable_wifi)
@@ -327,15 +329,17 @@ internal class MiscFragment : BaseFragment(), MiscMvp.View {
             }
             WISEFY_GET_SAVED_NETWORKS_REQUEST_CODE -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    getIP()
+                    getSavedNetworks()
                 } else {
                     Log.w(TAG, "Permissions for getting saved networks are denied")
                     displayPermissionErrorDialog(R.string.permission_error_get_saved_networks)
                 }
             }
             else -> {
-                // Display permission error here
                 Log.wtf(TAG, "Weird permission requested, not handled")
+                displayPermissionErrorDialog(
+                    getString(R.string.permission_error_unhandled_request_code_args, requestCode)
+                )
             }
         }
     }

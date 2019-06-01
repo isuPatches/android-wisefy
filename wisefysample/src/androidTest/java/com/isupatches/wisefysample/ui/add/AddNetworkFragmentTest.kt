@@ -121,6 +121,8 @@ internal class AddNetworkFragmentTest : AbstractEspressoTestClass() {
             // Given
             withPermissionDeniedOnce(ACCESS_WIFI_STATE)
             launchAddNetworkScreen()
+
+            // When
             addOpenNetwork()
 
             // Then
@@ -142,6 +144,7 @@ internal class AddNetworkFragmentTest : AbstractEspressoTestClass() {
             )
 
             // Then
+            dismissErrorDialog()
             verifyTriedToAddOpenNetwork()
         }
     }
@@ -161,6 +164,7 @@ internal class AddNetworkFragmentTest : AbstractEspressoTestClass() {
             )
 
             // Then
+            dismissErrorDialog()
             verifyTriedToAddOpenNetwork()
         }
     }
@@ -256,6 +260,8 @@ internal class AddNetworkFragmentTest : AbstractEspressoTestClass() {
             // Given
             withPermissionDeniedOnce(ACCESS_WIFI_STATE)
             launchAddNetworkScreen()
+
+            // When
             addWEPNetwork()
 
             // Then
@@ -277,6 +283,7 @@ internal class AddNetworkFragmentTest : AbstractEspressoTestClass() {
             )
 
             // Then
+            dismissErrorDialog()
             verifyTriedToAddWEPNetwork()
         }
     }
@@ -296,6 +303,7 @@ internal class AddNetworkFragmentTest : AbstractEspressoTestClass() {
             )
 
             // Then
+            dismissErrorDialog()
             verifyTriedToAddWEPNetwork()
         }
     }
@@ -390,6 +398,8 @@ internal class AddNetworkFragmentTest : AbstractEspressoTestClass() {
             // Given
             withPermissionDeniedOnce(ACCESS_WIFI_STATE)
             launchAddNetworkScreen()
+
+            // When
             addWPA2Network()
 
             // Then
@@ -411,6 +421,7 @@ internal class AddNetworkFragmentTest : AbstractEspressoTestClass() {
             )
 
             // Then
+            dismissErrorDialog()
             verifyTriedToAddWPA2Network()
         }
     }
@@ -430,6 +441,7 @@ internal class AddNetworkFragmentTest : AbstractEspressoTestClass() {
             )
 
             // Then
+            dismissErrorDialog()
             verifyTriedToAddWPA2Network()
         }
     }

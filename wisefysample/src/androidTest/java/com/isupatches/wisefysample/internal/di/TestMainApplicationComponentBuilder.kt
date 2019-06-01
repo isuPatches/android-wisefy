@@ -11,6 +11,7 @@ import com.isupatches.wisefysample.internal.preferences.RemoveNetworkStore
 import com.isupatches.wisefysample.internal.preferences.SearchStore
 import com.isupatches.wisefysample.internal.util.PermissionUtil
 import com.isupatches.wisefysample.internal.util.RxSchedulersProvider
+import com.isupatches.wisefysample.internal.util.SdkUtil
 import com.isupatches.wisefysample.ui.add.AddNetworkMvp
 import com.isupatches.wisefysample.ui.misc.MiscMvp
 import com.isupatches.wisefysample.ui.remove.RemoveNetworkMvp
@@ -30,6 +31,7 @@ internal interface TestMainApplicationComponentBuilder<THIS : TestMainApplicatio
     @BindsInstance fun miscPresenter(impl: MiscMvp.Presenter): THIS
     @BindsInstance fun searchPresenter(impl: SearchMvp.Presenter): THIS
     @BindsInstance fun searchStore(impl: SearchStore): THIS
+    @BindsInstance fun sdkUtil(impl: SdkUtil): THIS
     @BindsInstance fun rxSchedulersProv(prov: RxSchedulersProvider): THIS
 }
 
@@ -44,6 +46,7 @@ internal fun <T : TestMainApplicationComponentBuilder<*>> T.addCommonComponents(
     miscPresenter: MiscMvp.Presenter,
     searchPresenter: SearchMvp.Presenter,
     searchStore: SearchStore,
+    sdkUtil: SdkUtil,
     rxSchedulersProvider: RxSchedulersProvider = TestRxSchedulersProvider()
 ): T = apply {
     application(app)
@@ -57,5 +60,6 @@ internal fun <T : TestMainApplicationComponentBuilder<*>> T.addCommonComponents(
     miscPresenter(miscPresenter)
     searchPresenter(searchPresenter)
     searchStore(searchStore)
+    sdkUtil(sdkUtil)
     rxSchedulersProv(rxSchedulersProvider)
 }

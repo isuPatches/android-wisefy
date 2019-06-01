@@ -7,13 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 
 import com.isupatches.wisefy.constants.WiseFyCode
 import com.isupatches.wisefysample.R
 import com.isupatches.wisefysample.internal.util.PermissionUtil
-import com.isupatches.wisefysample.ui.dialogs.ErrorDialogFragment
+import com.isupatches.wisefysample.ui.dialogs.NoticeDialogFragment
 
 import dagger.android.support.AndroidSupportInjection
 
@@ -37,21 +36,19 @@ internal abstract class BaseFragment : Fragment() {
     }
 
     protected fun displayInfo(@StringRes infoMessageResId: Int) {
-        activity?.let {
-            AlertDialog.Builder(it)
-                .setTitle(R.string.info)
-                .setMessage(infoMessageResId)
-                .setPositiveButton(R.string.ok) { dialog, _ ->
-                    dialog.dismiss()
-                }
-                .show()
-        }
+        showDialogNoDuplicates(
+            tag = NoticeDialogFragment.TAG,
+            dialog = NoticeDialogFragment.newInstance(
+                title = getString(R.string.info),
+                message = getString(infoMessageResId)
+            )
+        )
     }
 
     protected fun displayPermissionErrorDialog(@StringRes permissionErrorMessageResId: Int) {
         showDialogNoDuplicates(
-            tag = ErrorDialogFragment.TAG,
-            dialog = ErrorDialogFragment.newInstance(
+            tag = NoticeDialogFragment.TAG,
+            dialog = NoticeDialogFragment.newInstance(
                 title = getString(R.string.permission_error),
                 message = getString(permissionErrorMessageResId)
             )
@@ -60,8 +57,8 @@ internal abstract class BaseFragment : Fragment() {
 
     protected fun displayPermissionErrorDialog(permissionErrorMessage: String) {
         showDialogNoDuplicates(
-            tag = ErrorDialogFragment.TAG,
-            dialog = ErrorDialogFragment.newInstance(
+            tag = NoticeDialogFragment.TAG,
+            dialog = NoticeDialogFragment.newInstance(
                 title = getString(R.string.permission_error),
                 message = permissionErrorMessage
             )
@@ -75,8 +72,8 @@ internal abstract class BaseFragment : Fragment() {
 
     protected fun displayWiseFyFailureWithCode(@WiseFyCode wiseFyFailureCode: Int) {
         showDialogNoDuplicates(
-            tag = ErrorDialogFragment.TAG,
-            dialog = ErrorDialogFragment.newInstance(
+            tag = NoticeDialogFragment.TAG,
+            dialog = NoticeDialogFragment.newInstance(
                 title = getString(R.string.wisefy_error),
                 message = getString(R.string.wisefy_error_descriptions_args, wiseFyFailureCode)
             )

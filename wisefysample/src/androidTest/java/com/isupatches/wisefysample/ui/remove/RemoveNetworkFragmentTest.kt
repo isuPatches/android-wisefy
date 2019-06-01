@@ -15,7 +15,7 @@ import org.junit.Test
 internal class RemoveNetworkFragmentTest : AbstractEspressoTestClass() {
 
     @get:Rule
-    var activityTestRule = IntentsTestRule(MainActivity::class.java, false, false)
+    val activityTestRule = IntentsTestRule(MainActivity::class.java, false, false)
 
     private lateinit var removeNetworkRobot: RemoveNetworkRobot
 
@@ -29,7 +29,7 @@ internal class RemoveNetworkFragmentTest : AbstractEspressoTestClass() {
         )
     }
 
-    @Test fun loadFromStore() {
+    @Test fun loadsFromStore() {
         with(removeNetworkRobot) {
             // Given
             withDetailsInStore()
@@ -64,6 +64,8 @@ internal class RemoveNetworkFragmentTest : AbstractEspressoTestClass() {
             // Given
             withPermissionDeniedOnce(ACCESS_WIFI_STATE)
             launchRemoveNetworkScreen()
+
+            // When
             removeNetwork()
 
             // Then
@@ -85,6 +87,7 @@ internal class RemoveNetworkFragmentTest : AbstractEspressoTestClass() {
             )
 
             // Then
+            dismissErrorDialog()
             verifyTriedToRemoveNetwork()
         }
     }
@@ -104,6 +107,7 @@ internal class RemoveNetworkFragmentTest : AbstractEspressoTestClass() {
             )
 
             // Then
+            dismissErrorDialog()
             verifyTriedToRemoveNetwork()
         }
     }

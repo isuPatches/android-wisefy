@@ -27,6 +27,7 @@
                 android:layout_margin="@dimen/default_margin"
                 android:hint="@string/regex_for_network"
                 android:inputType="text"
+                android:textSize="@dimen/font_size_large"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -37,12 +38,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/search_for"
-            android:textSize="18sp"
-            android:paddingTop="8dp"
-            android:paddingStart="16dp"
-            android:paddingLeft="16dp"
-            android:paddingEnd="16dp"
-            android:paddingRight="16dp"
+            android:textSize="@dimen/font_size_large"
+            android:paddingTop="@dimen/default_padding"
+            android:paddingStart="@dimen/padding_big"
+            android:paddingLeft="@dimen/padding_big"
+            android:paddingEnd="@dimen/padding_big"
+            android:paddingRight="@dimen/padding_big"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -66,6 +67,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/default_margin"
                 android:text="@string/access_point"
+                android:textSize="@dimen/font_size_small"
                 />
 
             <RadioButton
@@ -74,6 +76,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/default_margin"
                 android:text="@string/ssid"
+                android:textSize="@dimen/font_size_small"
                 />
 
             <RadioButton
@@ -82,6 +85,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/default_margin"
                 android:text="@string/saved_network"
+                android:textSize="@dimen/font_size_small"
                 />
 
         </RadioGroup>
@@ -91,12 +95,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/return_full_list_label"
-            android:textSize="18sp"
-            android:paddingTop="8dp"
-            android:paddingStart="16dp"
-            android:paddingLeft="16dp"
-            android:paddingEnd="16dp"
-            android:paddingRight="16dp"
+            android:textSize="@dimen/font_size_large"
+            android:paddingTop="@dimen/default_padding"
+            android:paddingStart="@dimen/padding_big"
+            android:paddingLeft="@dimen/padding_big"
+            android:paddingEnd="@dimen/padding_big"
+            android:paddingRight="@dimen/padding_big"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -108,12 +112,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/return_full_list_description"
-            android:textSize="14sp"
-            android:paddingTop="8dp"
-            android:paddingStart="16dp"
-            android:paddingLeft="16dp"
-            android:paddingEnd="16dp"
-            android:paddingRight="16dp"
+            android:textSize="@dimen/font_size_medium"
+            android:paddingTop="@dimen/default_padding"
+            android:paddingStart="@dimen/padding_big"
+            android:paddingLeft="@dimen/padding_big"
+            android:paddingEnd="@dimen/padding_big"
+            android:paddingRight="@dimen/padding_big"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/returnFullListTxt"
@@ -136,6 +140,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/default_margin"
                 android:text="@string/yes"
+                android:textSize="@dimen/font_size_small"
                 />
 
             <RadioButton
@@ -144,6 +149,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/default_margin"
                 android:text="@string/no"
+                android:textSize="@dimen/font_size_small"
                 />
 
         </RadioGroup>
@@ -153,12 +159,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/filter_duplicates"
-            android:textSize="18sp"
-            android:paddingTop="8dp"
-            android:paddingStart="16dp"
-            android:paddingLeft="16dp"
-            android:paddingEnd="16dp"
-            android:paddingRight="16dp"
+            android:textSize="@dimen/font_size_large"
+            android:paddingTop="@dimen/default_padding"
+            android:paddingStart="@dimen/padding_big"
+            android:paddingLeft="@dimen/padding_big"
+            android:paddingEnd="@dimen/padding_big"
+            android:paddingRight="@dimen/padding_big"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -182,6 +188,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/default_margin"
                 android:text="@string/yes"
+                android:textSize="@dimen/font_size_small"
                 />
 
             <RadioButton
@@ -190,6 +197,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/default_margin"
                 android:text="@string/no"
+                android:textSize="@dimen/font_size_small"
                 />
 
         </RadioGroup>
@@ -206,17 +214,17 @@
 
         <TextView
             android:id="@+id/timeoutTxt"
-            android:textSize="14sp"
-            android:paddingBottom="16dp"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
+            tools:text="@string/timeout_after_x_seconds_args_html"
+            android:textSize="@dimen/font_size_small"
+            android:paddingBottom="@dimen/padding_big"
+            android:paddingStart="@dimen/padding_big"
+            android:paddingEnd="@dimen/padding_big"
             android:gravity="center"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/timeoutSeek"
-            tools:text="@string/timeout_after_x_seconds_args_html"
             />
 
         <Button
@@ -226,6 +234,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/default_margin"
             android:text="@string/search"
+            android:textSize="@dimen/font_size_large"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/timeoutTxt" />

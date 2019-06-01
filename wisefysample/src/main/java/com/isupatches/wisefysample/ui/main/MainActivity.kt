@@ -11,12 +11,15 @@ import com.isupatches.wisefy.WiseFyPublicApi
 import com.isupatches.wisefysample.R
 import com.isupatches.wisefysample.internal.nav.openFragment
 import com.isupatches.wisefysample.internal.nav.selectItem
+import com.isupatches.wisefysample.internal.util.SdkUtil
+import com.isupatches.wisefysample.internal.util.SdkUtilImpl
 import com.isupatches.wisefysample.internal.util.createWiseFy
 import com.isupatches.wisefysample.ui.add.AddNetworkFragment
 import com.isupatches.wisefysample.ui.misc.MiscFragment
 import com.isupatches.wisefysample.ui.remove.RemoveNetworkFragment
 import com.isupatches.wisefysample.ui.search.SearchFragment
 
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.android.AndroidInjection
@@ -101,7 +104,13 @@ internal class MainActivity : AppCompatActivity(),
     }
 
     @Suppress("unused")
-    @Module internal object MainActivityModule {
-        @Provides @JvmStatic fun provideWiseFy(activity: MainActivity) = createWiseFy(activity)
+    @Module internal abstract class MainActivityModule {
+
+        @Binds abstract fun bindSdkUtil(impl: SdkUtilImpl): SdkUtil
+
+        @Module companion object {
+            @Provides @JvmStatic
+            fun provideWiseFy(activity: MainActivity) = createWiseFy(activity)
+        }
     }
 }
