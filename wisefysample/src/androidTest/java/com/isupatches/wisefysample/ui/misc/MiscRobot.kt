@@ -57,76 +57,9 @@ internal class MiscRobot(
         private val SAVED_NETWORK = mock<WifiConfiguration>()
     }
 
-    fun permissionCallbackTriggered(requestCode: Int, permissionResult: Int) {
-        val activity = activityTestRule.activity
-        val fragment: MiscFragment? = activity
-            .supportFragmentManager
-            .findFragmentByTag(
-                MiscFragment.TAG
-            ) as? MiscFragment
-
-        activity.runOnUiThread {
-            fragment?.onRequestPermissionsResult(
-                requestCode,
-                emptyArray(),
-                intArrayOf(permissionResult)
-            )
-        }
-    }
-
-    fun permissionCallbackTriggeredWithEmptyArray(requestCode: Int) {
-        val activity = activityTestRule.activity
-        val fragment: MiscFragment? = activity
-            .supportFragmentManager
-            .findFragmentByTag(
-                MiscFragment.TAG
-            ) as? MiscFragment
-
-        activity.runOnUiThread {
-            fragment?.onRequestPermissionsResult(
-                requestCode,
-                emptyArray(),
-                intArrayOf()
-            )
-        }
-    }
-
-    fun disableWifi() {
-        onView(withId(R.id.disableWifiBtn)).performScrollToAndClick()
-    }
-
-    fun enableWifi() {
-        onView(withId(R.id.enableWifiBtn)).performScrollToAndClick()
-    }
-
-    fun getCurrentNetwork() {
-        onView(withId(R.id.getCurrentNetworkBtn)).performScrollToAndClick()
-    }
-
-    fun getCurrentNetworkInfo() {
-        onView(withId(R.id.getCurrentNetworkInfoBtn)).performScrollToAndClick()
-    }
-
-    fun getFrequency() {
-        onView(withId(R.id.getFrequencyBtn)).performScrollToAndClick()
-    }
-
-    fun getIP() {
-        onView(withId(R.id.getIPBtn)).performScrollToAndClick()
-    }
-
-    fun getNearbyAccessPoints() {
-        onView(withId(R.id.getNearbyAccessPointsBtn)).performScrollToAndClick()
-    }
-
-    fun getSavedNetworks() {
-        onView(withId(R.id.getSavedNetworksBtn)).performScrollToAndClick()
-    }
-
-    fun launchMiscScreen() {
-        activityTestRule.launchActivity(Intent())
-        onView(withId(R.id.menu_misc)).performClick()
-    }
+    /*
+     * Preconditions
+     */
 
     fun withSuccessDisablingWifi() {
         doAnswer { invocationOnMock ->
@@ -327,6 +260,89 @@ internal class MiscRobot(
     fun withDeviceLollipopOrHigher() {
         `when`(sdkUtil.isAtLeastLollipop()).thenReturn(true)
     }
+
+    /*
+     * Actions
+     */
+
+    fun disableWifi() {
+        onView(withId(R.id.disableWifiBtn)).performScrollToAndClick()
+    }
+
+    fun enableWifi() {
+        onView(withId(R.id.enableWifiBtn)).performScrollToAndClick()
+    }
+
+    fun getCurrentNetwork() {
+        onView(withId(R.id.getCurrentNetworkBtn)).performScrollToAndClick()
+    }
+
+    fun getCurrentNetworkInfo() {
+        onView(withId(R.id.getCurrentNetworkInfoBtn)).performScrollToAndClick()
+    }
+
+    fun getFrequency() {
+        onView(withId(R.id.getFrequencyBtn)).performScrollToAndClick()
+    }
+
+    fun getIP() {
+        onView(withId(R.id.getIPBtn)).performScrollToAndClick()
+    }
+
+    fun getNearbyAccessPoints() {
+        onView(withId(R.id.getNearbyAccessPointsBtn)).performScrollToAndClick()
+    }
+
+    fun getSavedNetworks() {
+        onView(withId(R.id.getSavedNetworksBtn)).performScrollToAndClick()
+    }
+
+    fun launchMiscScreen() {
+        activityTestRule.launchActivity(Intent())
+        onView(withId(R.id.menu_misc)).performClick()
+    }
+
+    /*
+     * Permission Helpers
+     */
+
+    fun permissionCallbackTriggered(requestCode: Int, permissionResult: Int) {
+        val activity = activityTestRule.activity
+        val fragment: MiscFragment? = activity
+            .supportFragmentManager
+            .findFragmentByTag(
+                MiscFragment.TAG
+            ) as? MiscFragment
+
+        activity.runOnUiThread {
+            fragment?.onRequestPermissionsResult(
+                requestCode,
+                emptyArray(),
+                intArrayOf(permissionResult)
+            )
+        }
+    }
+
+    fun permissionCallbackTriggeredWithEmptyArray(requestCode: Int) {
+        val activity = activityTestRule.activity
+        val fragment: MiscFragment? = activity
+                .supportFragmentManager
+                .findFragmentByTag(
+                        MiscFragment.TAG
+                ) as? MiscFragment
+
+        activity.runOnUiThread {
+            fragment?.onRequestPermissionsResult(
+                    requestCode,
+                    emptyArray(),
+                    intArrayOf()
+            )
+        }
+    }
+
+    /*
+     * Verification
+     */
 
     fun verifyTriedToDisableWifi(times: Int = 1) {
         verify(wiseFyPublicApi, timeout(3000).times(times)).disableWifi(any())

@@ -48,74 +48,9 @@ internal class AddNetworkRobot(
         private val SAVED_NETWORK = mock<WifiConfiguration>()
     }
 
-    fun permissionCallbackTriggered(requestCode: Int, permissionResult: Int) {
-        val activity = activityTestRule.activity
-        val fragment: AddNetworkFragment? = activity
-            .supportFragmentManager
-            .findFragmentByTag(
-                    AddNetworkFragment.TAG
-            ) as? AddNetworkFragment
-
-        activity.runOnUiThread {
-            fragment?.onRequestPermissionsResult(
-                    requestCode,
-                    emptyArray(),
-                    intArrayOf(permissionResult)
-            )
-        }
-    }
-
-    fun permissionCallbackTriggeredWithEmptyArray(requestCode: Int) {
-        val activity = activityTestRule.activity
-        val fragment: AddNetworkFragment? = activity
-            .supportFragmentManager
-            .findFragmentByTag(
-                    AddNetworkFragment.TAG
-            ) as? AddNetworkFragment
-
-        activity.runOnUiThread {
-            fragment?.onRequestPermissionsResult(
-                requestCode,
-                emptyArray(),
-                intArrayOf()
-            )
-        }
-    }
-
-    fun launchAddNetworkScreen() {
-        activityTestRule.launchActivity(Intent())
-        onView(withId(R.id.menu_add)).performClick()
-    }
-
-    fun addOpenNetwork() {
-        onView(withId(R.id.openNetworkRdb)).performClick()
-        onView(withId(R.id.networkNameEdt)).performScrollToAndReplaceText(TEST_SSID_1)
-        onView((withId(R.id.addNetworkBtn))).performScrollToAndClick()
-    }
-
-    fun addWEPNetwork() {
-        onView(withId(R.id.wepNetworkRdb)).performClick()
-        enterNetworkNameAndPassword()
-        onView((withId(R.id.addNetworkBtn))).performScrollToAndClick()
-    }
-
-    fun addWPA2Network() {
-        onView(withId(R.id.wpa2NetworkRdb)).performClick()
-        enterNetworkNameAndPassword()
-        onView((withId(R.id.addNetworkBtn))).performScrollToAndClick()
-    }
-
-    fun checkOpenNetwork() {
-        onView(withId(R.id.openNetworkRdb)).performClick()
-    }
-
-    fun checkWEPNetwork() {
-        onView(withId(R.id.wepNetworkRdb)).performClick()
-    }
-
-    fun checkWPA2Network() {
-        onView(withId(R.id.wpa2NetworkRdb)).performClick()
-    }
+    /*
+     * Preconditions
+     */
 
     fun withSuccessAddingOpenNetwork() {
         doAnswer { invocationOnMock ->
@@ -236,6 +171,88 @@ internal class AddNetworkRobot(
         }
     }
 
+    /*
+     * Actions
+     */
+
+
+    fun launchAddNetworkScreen() {
+        activityTestRule.launchActivity(Intent())
+        onView(withId(R.id.menu_add)).performClick()
+    }
+
+    fun addOpenNetwork() {
+        onView(withId(R.id.openNetworkRdb)).performClick()
+        onView(withId(R.id.networkNameEdt)).performScrollToAndReplaceText(TEST_SSID_1)
+        onView((withId(R.id.addNetworkBtn))).performScrollToAndClick()
+    }
+
+    fun addWEPNetwork() {
+        onView(withId(R.id.wepNetworkRdb)).performClick()
+        enterNetworkNameAndPassword()
+        onView((withId(R.id.addNetworkBtn))).performScrollToAndClick()
+    }
+
+    fun addWPA2Network() {
+        onView(withId(R.id.wpa2NetworkRdb)).performClick()
+        enterNetworkNameAndPassword()
+        onView((withId(R.id.addNetworkBtn))).performScrollToAndClick()
+    }
+
+    fun checkOpenNetwork() {
+        onView(withId(R.id.openNetworkRdb)).performClick()
+    }
+
+    fun checkWEPNetwork() {
+        onView(withId(R.id.wepNetworkRdb)).performClick()
+    }
+
+    fun checkWPA2Network() {
+        onView(withId(R.id.wpa2NetworkRdb)).performClick()
+    }
+
+    /*
+     * Permission Helpers
+     */
+
+    fun permissionCallbackTriggered(requestCode: Int, permissionResult: Int) {
+        val activity = activityTestRule.activity
+        val fragment: AddNetworkFragment? = activity
+                .supportFragmentManager
+                .findFragmentByTag(
+                        AddNetworkFragment.TAG
+                ) as? AddNetworkFragment
+
+        activity.runOnUiThread {
+            fragment?.onRequestPermissionsResult(
+                    requestCode,
+                    emptyArray(),
+                    intArrayOf(permissionResult)
+            )
+        }
+    }
+
+    fun permissionCallbackTriggeredWithEmptyArray(requestCode: Int) {
+        val activity = activityTestRule.activity
+        val fragment: AddNetworkFragment? = activity
+            .supportFragmentManager
+            .findFragmentByTag(
+                AddNetworkFragment.TAG
+            ) as? AddNetworkFragment
+
+        activity.runOnUiThread {
+            fragment?.onRequestPermissionsResult(
+                requestCode,
+                emptyArray(),
+                intArrayOf()
+            )
+        }
+    }
+
+    /*
+     * Verification
+     */
+
     fun verifyOpenNetworkIsChecked() {
         onView(withId(R.id.openNetworkRdb)).checkIsChecked()
     }
@@ -286,7 +303,7 @@ internal class AddNetworkRobot(
     }
 
     /*
-     * Helpers
+     * Form Helpers
      */
 
     private fun enterNetworkNameAndPassword() {

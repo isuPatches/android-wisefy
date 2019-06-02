@@ -238,7 +238,7 @@ internal class SearchPresenterTest {
         verify(view, times(1)).displayWiseFyFailure(MISSING_PARAMETER)
     }
 
-    @Test fun searchForSSID_accessPointFound() {
+    @Test fun searchForSSID_ssidFound() {
         // Given
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[2] as SearchForSSIDCallbacks

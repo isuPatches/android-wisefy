@@ -1,6 +1,6 @@
 package com.isupatches.wisefysample.ui.search
 
-import android.Manifest
+import android.Manifest.permission.ACCESS_COARSE_LOCATION
 import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.content.pm.PackageManager
 import android.net.wifi.ScanResult
@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.SeekBar
+import androidx.annotation.VisibleForTesting
 
 import com.isupatches.wisefysample.R
 import com.isupatches.wisefysample.internal.models.SearchType
@@ -51,12 +52,12 @@ internal class SearchFragment : BaseFragment(), SearchMvp.View {
 
         private const val SEEK_MILLI_OFFSET = 1000
 
-        private const val WISEFY_SEARCH_FOR_SAVED_NETWORK_REQUEST_CODE = 1
-        private const val WISEFY_SEARCH_FOR_SAVED_NETWORKS_REQUEST_CODE = 2
-        private const val WISEFY_SEARCH_FOR_ACCESS_POINT_REQUEST_CODE = 3
-        private const val WISEFY_SEARCH_FOR_ACCESS_POINTS_REQUEST_CODE = 4
-        private const val WISEFY_SEARCH_FOR_SSID_REQUEST_CODE = 5
-        private const val WISEFY_SEARCH_FOR_SSIDS_REQUEST_CODE = 6
+        @VisibleForTesting internal const val WISEFY_SEARCH_FOR_SAVED_NETWORK_REQUEST_CODE = 1
+        @VisibleForTesting internal const val WISEFY_SEARCH_FOR_SAVED_NETWORKS_REQUEST_CODE = 2
+        @VisibleForTesting internal const val WISEFY_SEARCH_FOR_ACCESS_POINT_REQUEST_CODE = 3
+        @VisibleForTesting internal const val WISEFY_SEARCH_FOR_ACCESS_POINTS_REQUEST_CODE = 4
+        @VisibleForTesting internal const val WISEFY_SEARCH_FOR_SSID_REQUEST_CODE = 5
+        @VisibleForTesting internal const val WISEFY_SEARCH_FOR_SSIDS_REQUEST_CODE = 6
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -165,7 +166,7 @@ internal class SearchFragment : BaseFragment(), SearchMvp.View {
         val fullListCheckedId = if (searchStore.shouldReturnFullList()) {
             R.id.yesFullListRdb
         } else {
-            R.id.noReturnFullListRdb
+            R.id.noFullListRdb
         }
         returnFullListRdg.check(fullListCheckedId)
 
@@ -192,19 +193,19 @@ internal class SearchFragment : BaseFragment(), SearchMvp.View {
             R.id.accessPointRdb -> {
                 when (returnFullListRdg.checkedRadioButtonId) {
                     R.id.yesFullListRdb -> searchForAccessPoints()
-                    R.id.noReturnFullListRdb -> searchForAccessPoint()
+                    R.id.noFullListRdb -> searchForAccessPoint()
                 }
             }
             R.id.savedNetworkRdb -> {
                 when (returnFullListRdg.checkedRadioButtonId) {
-                    R.id.yesFullListRdb -> searchForSavedNetwork()
-                    R.id.noReturnFullListRdb -> searchForSavedNetworks()
+                    R.id.yesFullListRdb -> searchForSavedNetworks()
+                    R.id.noFullListRdb -> searchForSavedNetwork()
                 }
             }
             R.id.ssidRdb -> {
                 when (returnFullListRdg.checkedRadioButtonId) {
                     R.id.yesFullListRdb -> searchForSSIDs()
-                    R.id.noReturnFullListRdb -> searchForSSID()
+                    R.id.noFullListRdb -> searchForSSID()
                 }
             }
         }
@@ -228,7 +229,7 @@ internal class SearchFragment : BaseFragment(), SearchMvp.View {
     private fun toggleSeekVisibility() {
         when (returnFullListRdg.checkedRadioButtonId) {
             R.id.yesFullListRdb -> adjustTimeoutVisibility(View.INVISIBLE)
-            R.id.noReturnFullListRdb -> adjustTimeoutVisibility(View.VISIBLE)
+            R.id.noFullListRdb -> adjustTimeoutVisibility(View.VISIBLE)
         }
     }
 
@@ -354,22 +355,22 @@ internal class SearchFragment : BaseFragment(), SearchMvp.View {
 
     private fun checkSearchForAccessPointPermissions(): Boolean {
         return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_SEARCH_FOR_ACCESS_POINT_REQUEST_CODE) &&
-                isPermissionGranted(Manifest.permission.ACCESS_COARSE_LOCATION, WISEFY_SEARCH_FOR_ACCESS_POINT_REQUEST_CODE)
+                isPermissionGranted(ACCESS_COARSE_LOCATION, WISEFY_SEARCH_FOR_ACCESS_POINT_REQUEST_CODE)
     }
 
     private fun checkSearchForAccessPointsPermissions(): Boolean {
         return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_SEARCH_FOR_ACCESS_POINTS_REQUEST_CODE) &&
-                isPermissionGranted(Manifest.permission.ACCESS_COARSE_LOCATION, WISEFY_SEARCH_FOR_ACCESS_POINTS_REQUEST_CODE)
+                isPermissionGranted(ACCESS_COARSE_LOCATION, WISEFY_SEARCH_FOR_ACCESS_POINTS_REQUEST_CODE)
     }
 
     private fun checkSearchForSSIDPermissions(): Boolean {
         return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_SEARCH_FOR_SSID_REQUEST_CODE) &&
-                isPermissionGranted(Manifest.permission.ACCESS_COARSE_LOCATION, WISEFY_SEARCH_FOR_SSID_REQUEST_CODE)
+                isPermissionGranted(ACCESS_COARSE_LOCATION, WISEFY_SEARCH_FOR_SSID_REQUEST_CODE)
     }
 
     private fun checkSearchForSSIDsPermissions(): Boolean {
         return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_SEARCH_FOR_SSIDS_REQUEST_CODE) &&
-                isPermissionGranted(Manifest.permission.ACCESS_COARSE_LOCATION, WISEFY_SEARCH_FOR_SSIDS_REQUEST_CODE)
+                isPermissionGranted(ACCESS_COARSE_LOCATION, WISEFY_SEARCH_FOR_SSIDS_REQUEST_CODE)
     }
 
     @Suppress("LongMethod", "ComplexMethod")
@@ -424,8 +425,10 @@ internal class SearchFragment : BaseFragment(), SearchMvp.View {
                 }
             }
             else -> {
-                // Display permission error here
                 Log.wtf(TAG, "Weird permission requested, not handled")
+                displayPermissionErrorDialog(
+                    getString(R.string.permission_error_unhandled_request_code_args, requestCode)
+                )
             }
         }
     }

@@ -32,49 +32,9 @@ internal class RemoveNetworkRobot(
     permissionUtil: PermissionUtil
 ) : BaseRobot(activityTestRule, permissionUtil) {
 
-    fun launchRemoveNetworkScreen() {
-        activityTestRule.launchActivity(Intent())
-        onView(withId(R.id.menu_remove)).performClick()
-    }
-
-    fun permissionCallbackTriggered(requestCode: Int, permissionResult: Int) {
-        val activity = activityTestRule.activity
-        val fragment: RemoveNetworkFragment? = activity
-            .supportFragmentManager
-            .findFragmentByTag(
-                RemoveNetworkFragment.TAG
-            ) as? RemoveNetworkFragment
-
-        activity.runOnUiThread {
-            fragment?.onRequestPermissionsResult(
-                requestCode,
-                emptyArray(),
-                intArrayOf(permissionResult)
-            )
-        }
-    }
-
-    fun permissionCallbackTriggeredWithEmptyArray(requestCode: Int) {
-        val activity = activityTestRule.activity
-        val fragment: RemoveNetworkFragment? = activity
-            .supportFragmentManager
-            .findFragmentByTag(
-                RemoveNetworkFragment.TAG
-            ) as? RemoveNetworkFragment
-
-        activity.runOnUiThread {
-            fragment?.onRequestPermissionsResult(
-                requestCode,
-                emptyArray(),
-                intArrayOf()
-            )
-        }
-    }
-
-    fun removeNetwork() {
-        onView(withId(R.id.networkNameEdt)).performScrollToAndReplaceText(TEST_SSID_1)
-        onView(withId(R.id.removeNetworkBtn)).performScrollToAndClick()
-    }
+    /*
+     * Preconditions
+     */
 
     fun withDetailsInStore() {
         with(removeNetworkStore) {
@@ -125,6 +85,62 @@ internal class RemoveNetworkRobot(
             any()
         )
     }
+
+    /*
+     * Actions
+     */
+
+    fun launchRemoveNetworkScreen() {
+        activityTestRule.launchActivity(Intent())
+        onView(withId(R.id.menu_remove)).performClick()
+    }
+
+    fun removeNetwork() {
+        onView(withId(R.id.networkNameEdt)).performScrollToAndReplaceText(TEST_SSID_1)
+        onView(withId(R.id.removeNetworkBtn)).performScrollToAndClick()
+    }
+
+    /*
+     * Permission Helpers
+     */
+
+    fun permissionCallbackTriggered(requestCode: Int, permissionResult: Int) {
+        val activity = activityTestRule.activity
+        val fragment: RemoveNetworkFragment? = activity
+            .supportFragmentManager
+            .findFragmentByTag(
+                RemoveNetworkFragment.TAG
+            ) as? RemoveNetworkFragment
+
+        activity.runOnUiThread {
+            fragment?.onRequestPermissionsResult(
+                requestCode,
+                emptyArray(),
+                intArrayOf(permissionResult)
+            )
+        }
+    }
+
+    fun permissionCallbackTriggeredWithEmptyArray(requestCode: Int) {
+        val activity = activityTestRule.activity
+        val fragment: RemoveNetworkFragment? = activity
+            .supportFragmentManager
+            .findFragmentByTag(
+                RemoveNetworkFragment.TAG
+            ) as? RemoveNetworkFragment
+
+        activity.runOnUiThread {
+            fragment?.onRequestPermissionsResult(
+                requestCode,
+                emptyArray(),
+                intArrayOf()
+            )
+        }
+    }
+
+    /*
+     * Verification
+     */
 
     fun verifyTriedToRemoveNetwork(times: Int = 1) {
         verify(wiseFyPublicApi, timeout(3000).times(times)).removeNetwork(eq(TEST_SSID_1), any())
