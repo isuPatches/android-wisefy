@@ -57,7 +57,6 @@ internal class MiscPresenterTest {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as DisableWifiCallbacks
             callback.wifiDisabled()
-            null
         }.whenever(model).disableWifi(any())
 
         // When
@@ -73,7 +72,6 @@ internal class MiscPresenterTest {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as DisableWifiCallbacks
             callback.failureDisablingWifi()
-            null
         }.whenever(model).disableWifi(any())
 
         // When
@@ -89,7 +87,6 @@ internal class MiscPresenterTest {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as DisableWifiCallbacks
             callback.wisefyFailure(MISSING_PARAMETER)
-            null
         }.whenever(model).disableWifi(any())
 
         // When
@@ -105,7 +102,6 @@ internal class MiscPresenterTest {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as EnableWifiCallbacks
             callback.wifiEnabled()
-            null
         }.whenever(model).enableWifi(any())
 
         // When
@@ -121,7 +117,6 @@ internal class MiscPresenterTest {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as EnableWifiCallbacks
             callback.failureEnablingWifi()
-            null
         }.whenever(model).enableWifi(any())
 
         // When
@@ -137,7 +132,6 @@ internal class MiscPresenterTest {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as EnableWifiCallbacks
             callback.wisefyFailure(MISSING_PARAMETER)
-            null
         }.whenever(model).enableWifi(any())
 
         // When
@@ -153,7 +147,6 @@ internal class MiscPresenterTest {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as GetCurrentNetworkCallbacks
             callback.retrievedCurrentNetwork(CURRENT_NETWORK)
-            null
         }.whenever(model).getCurrentNetwork(any())
 
         // When
@@ -169,7 +162,6 @@ internal class MiscPresenterTest {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as GetCurrentNetworkCallbacks
             callback.noCurrentNetwork()
-            null
         }.whenever(model).getCurrentNetwork(any())
 
         // When
@@ -185,7 +177,6 @@ internal class MiscPresenterTest {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as GetCurrentNetworkCallbacks
             callback.wisefyFailure(MISSING_PARAMETER)
-            null
         }.whenever(model).getCurrentNetwork(any())
 
         // When
@@ -201,7 +192,6 @@ internal class MiscPresenterTest {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as GetCurrentNetworkInfoCallbacks
             callback.retrievedCurrentNetworkInfo(CURRENT_NETWORK_INFO)
-            null
         }.whenever(model).getCurrentNetworkInfo(any())
 
         // When
@@ -217,7 +207,6 @@ internal class MiscPresenterTest {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as GetCurrentNetworkInfoCallbacks
             callback.noCurrentNetworkInfo()
-            null
         }.whenever(model).getCurrentNetworkInfo(any())
 
         // When
@@ -233,7 +222,6 @@ internal class MiscPresenterTest {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as GetCurrentNetworkInfoCallbacks
             callback.wisefyFailure(MISSING_PARAMETER)
-            null
         }.whenever(model).getCurrentNetworkInfo(any())
 
         // When
@@ -249,7 +237,6 @@ internal class MiscPresenterTest {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as GetFrequencyCallbacks
             callback.retrievedFrequency(MIN_FREQUENCY_5GHZ)
-            null
         }.whenever(model).getFrequency(any())
 
         // When
@@ -265,7 +252,6 @@ internal class MiscPresenterTest {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as GetFrequencyCallbacks
             callback.failureGettingFrequency()
-            null
         }.whenever(model).getFrequency(any())
 
         // When
@@ -281,7 +267,6 @@ internal class MiscPresenterTest {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as GetFrequencyCallbacks
             callback.wisefyFailure(MISSING_PARAMETER)
-            null
         }.whenever(model).getFrequency(any())
 
         // When
@@ -297,7 +282,6 @@ internal class MiscPresenterTest {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as GetIPCallbacks
             callback.retrievedIP(TEST_IP)
-            null
         }.whenever(model).getIP(any())
 
         // When
@@ -313,7 +297,6 @@ internal class MiscPresenterTest {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as GetIPCallbacks
             callback.failureRetrievingIP()
-            null
         }.whenever(model).getIP(any())
 
         // When
@@ -329,7 +312,6 @@ internal class MiscPresenterTest {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as GetIPCallbacks
             callback.wisefyFailure(MISSING_PARAMETER)
-            null
         }.whenever(model).getIP(any())
 
         // When
@@ -345,7 +327,6 @@ internal class MiscPresenterTest {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as GetNearbyAccessPointsCallbacks
             callback.retrievedNearbyAccessPoints(listOf(ACCESS_POINT))
-            null
         }.whenever(model).getNearbyAccessPoints(any())
 
         // When
@@ -361,7 +342,6 @@ internal class MiscPresenterTest {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as GetNearbyAccessPointsCallbacks
             callback.noAccessPointsFound()
-            null
         }.whenever(model).getNearbyAccessPoints(any())
 
         // When
@@ -377,7 +357,6 @@ internal class MiscPresenterTest {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as GetNearbyAccessPointsCallbacks
             callback.wisefyFailure(MISSING_PARAMETER)
-            null
         }.whenever(model).getNearbyAccessPoints(any())
 
         // When
@@ -393,7 +372,6 @@ internal class MiscPresenterTest {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as GetSavedNetworksCallbacks
             callback.retrievedSavedNetworks(listOf(SAVED_NETWORK))
-            null
         }.whenever(model).getSavedNetworks(any())
 
         // When
@@ -409,7 +387,6 @@ internal class MiscPresenterTest {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as GetSavedNetworksCallbacks
             callback.noSavedNetworksFound()
-            null
         }.whenever(model).getSavedNetworks(any())
 
         // When
@@ -425,7 +402,6 @@ internal class MiscPresenterTest {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as GetSavedNetworksCallbacks
             callback.wisefyFailure(MISSING_PARAMETER)
-            null
         }.whenever(model).getSavedNetworks(any())
 
         // When

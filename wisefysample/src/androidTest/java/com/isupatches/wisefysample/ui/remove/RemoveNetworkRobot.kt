@@ -46,7 +46,6 @@ internal class RemoveNetworkRobot(
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[1] as RemoveNetworkCallbacks
             callback.networkRemoved()
-            null
         }.whenever(wiseFyPublicApi).removeNetwork(
             eq(TEST_SSID_1),
             any()
@@ -57,7 +56,6 @@ internal class RemoveNetworkRobot(
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[1] as RemoveNetworkCallbacks
             callback.networkNotFoundToRemove()
-            null
         }.whenever(wiseFyPublicApi).removeNetwork(
             eq(TEST_SSID_1),
             any()
@@ -68,7 +66,6 @@ internal class RemoveNetworkRobot(
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[1] as RemoveNetworkCallbacks
             callback.failureRemovingNetwork()
-            null
         }.whenever(wiseFyPublicApi).removeNetwork(
             eq(TEST_SSID_1),
             any()
@@ -79,7 +76,6 @@ internal class RemoveNetworkRobot(
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[1] as RemoveNetworkCallbacks
             callback.wisefyFailure(MISSING_PARAMETER)
-            null
         }.whenever(wiseFyPublicApi).removeNetwork(
             eq(TEST_SSID_1),
             any()

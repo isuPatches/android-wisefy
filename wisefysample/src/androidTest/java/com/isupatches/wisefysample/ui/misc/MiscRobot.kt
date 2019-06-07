@@ -65,7 +65,6 @@ internal class MiscRobot(
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as DisableWifiCallbacks
             callback.wifiDisabled()
-            null
         }.whenever(wiseFyPublicApi).disableWifi(any())
     }
 
@@ -73,7 +72,6 @@ internal class MiscRobot(
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as DisableWifiCallbacks
             callback.failureDisablingWifi()
-            null
         }.whenever(wiseFyPublicApi).disableWifi(any())
     }
 
@@ -81,7 +79,6 @@ internal class MiscRobot(
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as DisableWifiCallbacks
             callback.wisefyFailure(MISSING_PARAMETER)
-            null
         }.whenever(wiseFyPublicApi).disableWifi(any())
     }
 
@@ -89,7 +86,6 @@ internal class MiscRobot(
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as EnableWifiCallbacks
             callback.wifiEnabled()
-            null
         }.whenever(wiseFyPublicApi).enableWifi(any())
     }
 
@@ -97,7 +93,6 @@ internal class MiscRobot(
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as EnableWifiCallbacks
             callback.failureEnablingWifi()
-            null
         }.whenever(wiseFyPublicApi).enableWifi(any())
     }
 
@@ -105,7 +100,6 @@ internal class MiscRobot(
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as EnableWifiCallbacks
             callback.wisefyFailure(MISSING_PARAMETER)
-            null
         }.whenever(wiseFyPublicApi).enableWifi(any())
     }
 
@@ -113,7 +107,6 @@ internal class MiscRobot(
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as GetCurrentNetworkCallbacks
             callback.retrievedCurrentNetwork(CURRENT_NETWORK)
-            null
         }.whenever(wiseFyPublicApi).getCurrentNetwork(any())
     }
 
@@ -121,7 +114,6 @@ internal class MiscRobot(
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as GetCurrentNetworkCallbacks
             callback.noCurrentNetwork()
-            null
         }.whenever(wiseFyPublicApi).getCurrentNetwork(any())
     }
 
@@ -129,7 +121,6 @@ internal class MiscRobot(
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as GetCurrentNetworkCallbacks
             callback.wisefyFailure(MISSING_PARAMETER)
-            null
         }.whenever(wiseFyPublicApi).getCurrentNetwork(any())
     }
 
@@ -137,7 +128,6 @@ internal class MiscRobot(
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as GetCurrentNetworkInfoCallbacks
             callback.retrievedCurrentNetworkInfo(CURRENT_NETWORK_INFO)
-            null
         }.whenever(wiseFyPublicApi).getCurrentNetworkInfo(any())
     }
 
@@ -145,7 +135,6 @@ internal class MiscRobot(
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as GetCurrentNetworkInfoCallbacks
             callback.noCurrentNetworkInfo()
-            null
         }.whenever(wiseFyPublicApi).getCurrentNetworkInfo(any())
     }
 
@@ -153,7 +142,6 @@ internal class MiscRobot(
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as GetCurrentNetworkInfoCallbacks
             callback.wisefyFailure(MISSING_PARAMETER)
-            null
         }.whenever(wiseFyPublicApi).getCurrentNetworkInfo(any())
     }
 
@@ -161,7 +149,6 @@ internal class MiscRobot(
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as GetFrequencyCallbacks
             callback.retrievedFrequency(MIN_FREQUENCY_5GHZ)
-            null
         }.whenever(wiseFyPublicApi).getFrequency(any<GetFrequencyCallbacks>())
     }
 
@@ -169,7 +156,6 @@ internal class MiscRobot(
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as GetFrequencyCallbacks
             callback.failureGettingFrequency()
-            null
         }.whenever(wiseFyPublicApi).getFrequency(any<GetFrequencyCallbacks>())
     }
 
@@ -177,7 +163,6 @@ internal class MiscRobot(
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as GetFrequencyCallbacks
             callback.wisefyFailure(MISSING_PARAMETER)
-            null
         }.whenever(wiseFyPublicApi).getFrequency(any<GetFrequencyCallbacks>())
     }
 
@@ -185,7 +170,6 @@ internal class MiscRobot(
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as GetIPCallbacks
             callback.retrievedIP(TEST_IP)
-            null
         }.whenever(wiseFyPublicApi).getIP(any())
     }
 
@@ -193,7 +177,6 @@ internal class MiscRobot(
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as GetIPCallbacks
             callback.failureRetrievingIP()
-            null
         }.whenever(wiseFyPublicApi).getIP(any())
     }
 
@@ -201,7 +184,6 @@ internal class MiscRobot(
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as GetIPCallbacks
             callback.wisefyFailure(MISSING_PARAMETER)
-            null
         }.whenever(wiseFyPublicApi).getIP(any())
     }
 
@@ -209,7 +191,6 @@ internal class MiscRobot(
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[1] as GetNearbyAccessPointsCallbacks
             callback.retrievedNearbyAccessPoints(listOf(ACCESS_POINT))
-            null
         }.whenever(wiseFyPublicApi).getNearbyAccessPoints(eq(true), any())
     }
 
@@ -217,7 +198,6 @@ internal class MiscRobot(
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[1] as GetNearbyAccessPointsCallbacks
             callback.noAccessPointsFound()
-            null
         }.whenever(wiseFyPublicApi).getNearbyAccessPoints(eq(true), any())
     }
 
@@ -225,7 +205,6 @@ internal class MiscRobot(
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[1] as GetNearbyAccessPointsCallbacks
             callback.wisefyFailure(MISSING_PARAMETER)
-            null
         }.whenever(wiseFyPublicApi).getNearbyAccessPoints(eq(true), any())
     }
 
@@ -233,7 +212,6 @@ internal class MiscRobot(
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as GetSavedNetworksCallbacks
             callback.retrievedSavedNetworks(listOf(SAVED_NETWORK))
-            null
         }.whenever(wiseFyPublicApi).getSavedNetworks(any())
     }
 
@@ -241,7 +219,6 @@ internal class MiscRobot(
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as GetSavedNetworksCallbacks
             callback.noSavedNetworksFound()
-            null
         }.whenever(wiseFyPublicApi).getSavedNetworks(any())
     }
 
@@ -249,7 +226,6 @@ internal class MiscRobot(
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as GetSavedNetworksCallbacks
             callback.wisefyFailure(MISSING_PARAMETER)
-            null
         }.whenever(wiseFyPublicApi).getSavedNetworks(any())
     }
 

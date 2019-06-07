@@ -56,7 +56,6 @@ internal class AddNetworkRobot(
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[1] as AddNetworkCallbacks
             callback.networkAdded(NETWORK_ID, SAVED_NETWORK)
-            null
         }.whenever(wiseFyPublicApi).addOpenNetwork(eq(TEST_SSID_1), any())
     }
 
@@ -64,7 +63,6 @@ internal class AddNetworkRobot(
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[1] as AddNetworkCallbacks
             callback.failureAddingNetwork(BAD_WIFI_MANAGER_RETURN)
-            null
         }.whenever(wiseFyPublicApi).addOpenNetwork(eq(TEST_SSID_1), any())
     }
 
@@ -72,7 +70,6 @@ internal class AddNetworkRobot(
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[1] as AddNetworkCallbacks
             callback.wisefyFailure(MISSING_PARAMETER)
-            null
         }.whenever(wiseFyPublicApi).addOpenNetwork(eq(TEST_SSID_1), any())
     }
 
@@ -80,7 +77,6 @@ internal class AddNetworkRobot(
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[2] as AddNetworkCallbacks
             callback.networkAdded(NETWORK_ID, SAVED_NETWORK)
-            null
         }.whenever(wiseFyPublicApi).addWEPNetwork(
             eq(TEST_SSID_1),
             eq(TEST_PASSWORD_1),
@@ -92,7 +88,6 @@ internal class AddNetworkRobot(
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[2] as AddNetworkCallbacks
             callback.failureAddingNetwork(BAD_WIFI_MANAGER_RETURN)
-            null
         }.whenever(wiseFyPublicApi).addWEPNetwork(
             eq(TEST_SSID_1),
             eq(TEST_PASSWORD_1),
@@ -104,7 +99,6 @@ internal class AddNetworkRobot(
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[2] as AddNetworkCallbacks
             callback.wisefyFailure(MISSING_PARAMETER)
-            null
         }.whenever(wiseFyPublicApi).addWEPNetwork(
             eq(TEST_SSID_1),
             eq(TEST_PASSWORD_1),
@@ -116,7 +110,6 @@ internal class AddNetworkRobot(
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[2] as AddNetworkCallbacks
             callback.networkAdded(NETWORK_ID, SAVED_NETWORK)
-            null
         }.whenever(wiseFyPublicApi).addWPA2Network(
             eq(TEST_SSID_1),
             eq(TEST_PASSWORD_1),
@@ -128,7 +121,6 @@ internal class AddNetworkRobot(
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[2] as AddNetworkCallbacks
             callback.failureAddingNetwork(BAD_WIFI_MANAGER_RETURN)
-            null
         }.whenever(wiseFyPublicApi).addWPA2Network(
             eq(TEST_SSID_1),
             eq(TEST_PASSWORD_1),
@@ -140,7 +132,6 @@ internal class AddNetworkRobot(
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[2] as AddNetworkCallbacks
             callback.wisefyFailure(MISSING_PARAMETER)
-            null
         }.whenever(wiseFyPublicApi).addWPA2Network(
             eq(TEST_SSID_1),
             eq(TEST_PASSWORD_1),
@@ -174,7 +165,6 @@ internal class AddNetworkRobot(
     /*
      * Actions
      */
-
 
     fun launchAddNetworkScreen() {
         activityTestRule.launchActivity(Intent())
@@ -220,14 +210,14 @@ internal class AddNetworkRobot(
         val fragment: AddNetworkFragment? = activity
                 .supportFragmentManager
                 .findFragmentByTag(
-                        AddNetworkFragment.TAG
+                    AddNetworkFragment.TAG
                 ) as? AddNetworkFragment
 
         activity.runOnUiThread {
             fragment?.onRequestPermissionsResult(
-                    requestCode,
-                    emptyArray(),
-                    intArrayOf(permissionResult)
+                requestCode,
+                emptyArray(),
+                intArrayOf(permissionResult)
             )
         }
     }

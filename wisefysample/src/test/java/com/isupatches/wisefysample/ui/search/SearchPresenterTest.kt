@@ -51,7 +51,6 @@ internal class SearchPresenterTest {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[3] as SearchForAccessPointCallbacks
             callback.accessPointFound(ACCESS_POINT)
-            null
         }.whenever(model).searchForAccessPoint(eq(TEST_SSID_1), eq(TEST_TIMEOUT), eq(true), any())
 
         // When
@@ -67,7 +66,6 @@ internal class SearchPresenterTest {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[3] as SearchForAccessPointCallbacks
             callback.accessPointNotFound()
-            null
         }.whenever(model).searchForAccessPoint(eq(TEST_SSID_1), eq(TEST_TIMEOUT), eq(true), any())
 
         // When
@@ -83,7 +81,6 @@ internal class SearchPresenterTest {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[3] as SearchForAccessPointCallbacks
             callback.wisefyFailure(MISSING_PARAMETER)
-            null
         }.whenever(model).searchForAccessPoint(eq(TEST_SSID_1), eq(TEST_TIMEOUT), eq(true), any())
 
         // When
@@ -99,7 +96,6 @@ internal class SearchPresenterTest {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[2] as SearchForAccessPointsCallbacks
             callback.foundAccessPoints(listOf(ACCESS_POINT))
-            null
         }.whenever(model).searchForAccessPoints(eq(TEST_SSID_1), eq(true), any())
 
         // When
@@ -115,7 +111,6 @@ internal class SearchPresenterTest {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[2] as SearchForAccessPointsCallbacks
             callback.noAccessPointsFound()
-            null
         }.whenever(model).searchForAccessPoints(eq(TEST_SSID_1), eq(true), any())
 
         // When
@@ -131,7 +126,6 @@ internal class SearchPresenterTest {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[2] as SearchForAccessPointsCallbacks
             callback.wisefyFailure(MISSING_PARAMETER)
-            null
         }.whenever(model).searchForAccessPoints(eq(TEST_SSID_1), eq(true), any())
 
         // When
@@ -147,7 +141,6 @@ internal class SearchPresenterTest {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[1] as SearchForSavedNetworkCallbacks
             callback.retrievedSavedNetwork(SAVED_NETWORK)
-            null
         }.whenever(model).searchForSavedNetwork(eq(TEST_SSID_1), any())
 
         // When
@@ -163,7 +156,6 @@ internal class SearchPresenterTest {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[1] as SearchForSavedNetworkCallbacks
             callback.savedNetworkNotFound()
-            null
         }.whenever(model).searchForSavedNetwork(eq(TEST_SSID_1), any())
 
         // When
@@ -179,7 +171,6 @@ internal class SearchPresenterTest {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[1] as SearchForSavedNetworkCallbacks
             callback.wisefyFailure(MISSING_PARAMETER)
-            null
         }.whenever(model).searchForSavedNetwork(eq(TEST_SSID_1), any())
 
         // When
@@ -195,7 +186,6 @@ internal class SearchPresenterTest {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[1] as SearchForSavedNetworksCallbacks
             callback.retrievedSavedNetworks(listOf(SAVED_NETWORK))
-            null
         }.whenever(model).searchForSavedNetworks(eq(TEST_SSID_1), any())
 
         // When
@@ -211,7 +201,6 @@ internal class SearchPresenterTest {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[1] as SearchForSavedNetworksCallbacks
             callback.noSavedNetworksFound()
-            null
         }.whenever(model).searchForSavedNetworks(eq(TEST_SSID_1), any())
 
         // When
@@ -227,7 +216,6 @@ internal class SearchPresenterTest {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[1] as SearchForSavedNetworksCallbacks
             callback.wisefyFailure(MISSING_PARAMETER)
-            null
         }.whenever(model).searchForSavedNetworks(eq(TEST_SSID_1), any())
 
         // When
@@ -243,7 +231,6 @@ internal class SearchPresenterTest {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[2] as SearchForSSIDCallbacks
             callback.ssidFound(TEST_SSID_1)
-            null
         }.whenever(model).searchForSSID(eq(TEST_SSID_1), eq(TEST_TIMEOUT), any())
 
         // When
@@ -259,7 +246,6 @@ internal class SearchPresenterTest {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[2] as SearchForSSIDCallbacks
             callback.ssidNotFound()
-            null
         }.whenever(model).searchForSSID(eq(TEST_SSID_1), eq(TEST_TIMEOUT), any())
 
         // When
@@ -275,7 +261,6 @@ internal class SearchPresenterTest {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[2] as SearchForSSIDCallbacks
             callback.wisefyFailure(MISSING_PARAMETER)
-            null
         }.whenever(model).searchForSSID(eq(TEST_SSID_1), eq(TEST_TIMEOUT), any())
 
         // When
@@ -291,7 +276,6 @@ internal class SearchPresenterTest {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[1] as SearchForSSIDsCallbacks
             callback.retrievedSSIDs(listOf(TEST_SSID_1))
-            null
         }.whenever(model).searchForSSIDs(eq(TEST_SSID_1), any())
 
         // When
@@ -307,7 +291,6 @@ internal class SearchPresenterTest {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[1] as SearchForSSIDsCallbacks
             callback.noSSIDsFound()
-            null
         }.whenever(model).searchForSSIDs(eq(TEST_SSID_1), any())
 
         // When
@@ -323,7 +306,6 @@ internal class SearchPresenterTest {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[1] as SearchForSSIDsCallbacks
             callback.wisefyFailure(MISSING_PARAMETER)
-            null
         }.whenever(model).searchForSSIDs(eq(TEST_SSID_1), any())
 
         // When

@@ -38,7 +38,6 @@ internal class RemovePresenterTest {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[1] as RemoveNetworkCallbacks
             callback.networkRemoved()
-            null
         }.whenever(model).removeNetwork(eq(TEST_SSID_1), any())
 
         // When
@@ -54,7 +53,6 @@ internal class RemovePresenterTest {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[1] as RemoveNetworkCallbacks
             callback.failureRemovingNetwork()
-            null
         }.whenever(model).removeNetwork(eq(TEST_SSID_1), any())
 
         // When
@@ -70,7 +68,6 @@ internal class RemovePresenterTest {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[1] as RemoveNetworkCallbacks
             callback.networkNotFoundToRemove()
-            null
         }.whenever(model).removeNetwork(eq(TEST_SSID_1), any())
 
         // When
@@ -86,7 +83,6 @@ internal class RemovePresenterTest {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[1] as RemoveNetworkCallbacks
             callback.wisefyFailure(MISSING_PARAMETER)
-            null
         }.whenever(model).removeNetwork(eq(TEST_SSID_1), any())
 
         // When

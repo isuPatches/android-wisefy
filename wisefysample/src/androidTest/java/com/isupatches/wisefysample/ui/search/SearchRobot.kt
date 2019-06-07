@@ -50,15 +50,14 @@ internal class SearchRobot(
      * Preconditions
      */
 
-    fun withSuccessSearchingForAccessPoint() {
+    fun withSuccessSearchingForAccessPoint(filterDuplicates: Boolean) {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[3] as SearchForAccessPointCallbacks
             callback.accessPointFound(ACCESS_POINT)
-            null
         }.whenever(wiseFyPublicApi).searchForAccessPoint(
             eq(TEST_SSID_1),
             eq(TEST_TIMEOUT),
-            eq(true),
+            eq(filterDuplicates),
             any()
         )
     }
@@ -67,24 +66,22 @@ internal class SearchRobot(
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[3] as SearchForAccessPointCallbacks
             callback.accessPointNotFound()
-            null
         }.whenever(wiseFyPublicApi).searchForAccessPoint(
             eq(TEST_SSID_1),
-            eq(TEST_TIMEOUT),
+            eq(TEST_TIMEOUT * 1000),
             eq(true),
             any()
         )
     }
 
-    fun withWiseFyFailureSearchingForAccessPoint() {
+    fun withWiseFyFailureSearchingForAccessPoint(filterDuplicates: Boolean) {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[3] as SearchForAccessPointCallbacks
             callback.wisefyFailure(MISSING_PARAMETER)
-            null
         }.whenever(wiseFyPublicApi).searchForAccessPoint(
             eq(TEST_SSID_1),
-            eq(TEST_TIMEOUT),
-            eq(true),
+            eq(TEST_TIMEOUT * 1000),
+            eq(filterDuplicates),
             any()
         )
     }
@@ -93,23 +90,20 @@ internal class SearchRobot(
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[2] as SearchForAccessPointsCallbacks
             callback.foundAccessPoints(listOf(ACCESS_POINT))
-            null
         }.whenever(wiseFyPublicApi).searchForAccessPoints(eq(TEST_SSID_1), eq(true), any())
     }
 
-    fun withNoAccessPointsFound() {
+    fun withNoAccessPointsFound(filterDuplicates: Boolean) {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[2] as SearchForAccessPointsCallbacks
             callback.noAccessPointsFound()
-            null
-        }.whenever(wiseFyPublicApi).searchForAccessPoints(eq(TEST_SSID_1), eq(true), any())
+        }.whenever(wiseFyPublicApi).searchForAccessPoints(eq(TEST_SSID_1), eq(filterDuplicates), any())
     }
 
     fun withWiseFyFailureSearchingForAccessPoints() {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[2] as SearchForAccessPointsCallbacks
             callback.wisefyFailure(MISSING_PARAMETER)
-            null
         }.whenever(wiseFyPublicApi).searchForAccessPoints(eq(TEST_SSID_1), eq(true), any())
     }
 
@@ -117,7 +111,6 @@ internal class SearchRobot(
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[1] as SearchForSavedNetworkCallbacks
             callback.retrievedSavedNetwork(SAVED_NETWORK)
-            null
         }.whenever(wiseFyPublicApi).searchForSavedNetwork(eq(TEST_SSID_1), any())
     }
 
@@ -125,7 +118,6 @@ internal class SearchRobot(
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[1] as SearchForSavedNetworkCallbacks
             callback.savedNetworkNotFound()
-            null
         }.whenever(wiseFyPublicApi).searchForSavedNetwork(eq(TEST_SSID_1), any())
     }
 
@@ -133,7 +125,6 @@ internal class SearchRobot(
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[1] as SearchForSavedNetworkCallbacks
             callback.wisefyFailure(MISSING_PARAMETER)
-            null
         }.whenever(wiseFyPublicApi).searchForSavedNetwork(eq(TEST_SSID_1), any())
     }
 
@@ -141,7 +132,6 @@ internal class SearchRobot(
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[1] as SearchForSavedNetworksCallbacks
             callback.retrievedSavedNetworks(listOf(SAVED_NETWORK))
-            null
         }.whenever(wiseFyPublicApi).searchForSavedNetworks(eq(TEST_SSID_1), any())
     }
 
@@ -149,7 +139,6 @@ internal class SearchRobot(
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[1] as SearchForSavedNetworksCallbacks
             callback.noSavedNetworksFound()
-            null
         }.whenever(wiseFyPublicApi).searchForSavedNetworks(eq(TEST_SSID_1), any())
     }
 
@@ -157,7 +146,6 @@ internal class SearchRobot(
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[1] as SearchForSavedNetworksCallbacks
             callback.wisefyFailure(MISSING_PARAMETER)
-            null
         }.whenever(wiseFyPublicApi).searchForSavedNetworks(eq(TEST_SSID_1), any())
     }
 
@@ -165,31 +153,39 @@ internal class SearchRobot(
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[2] as SearchForSSIDCallbacks
             callback.ssidFound(TEST_SSID_1)
-            null
-        }.whenever(wiseFyPublicApi).searchForSSID(eq(TEST_SSID_1), eq(TEST_TIMEOUT), any())
+        }.whenever(wiseFyPublicApi).searchForSSID(
+            eq(TEST_SSID_1),
+            eq(TEST_TIMEOUT * 1000),
+            any()
+        )
     }
 
     fun withSSIDNotFound() {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[2] as SearchForSSIDCallbacks
             callback.ssidNotFound()
-            null
-        }.whenever(wiseFyPublicApi).searchForSSID(eq(TEST_SSID_1), eq(TEST_TIMEOUT), any())
+        }.whenever(wiseFyPublicApi).searchForSSID(
+            eq(TEST_SSID_1),
+            eq(TEST_TIMEOUT * 1000),
+            any()
+        )
     }
 
     fun withWiseFyFailureSearchForSSID() {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[2] as SearchForSSIDCallbacks
             callback.wisefyFailure(MISSING_PARAMETER)
-            null
-        }.whenever(wiseFyPublicApi).searchForSSID(eq(TEST_SSID_1), eq(TEST_TIMEOUT), any())
+        }.whenever(wiseFyPublicApi).searchForSSID(
+            eq(TEST_SSID_1),
+            eq(TEST_TIMEOUT * 1000),
+            any()
+        )
     }
 
     fun withSuccessSearchForSSIDs() {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[1] as SearchForSSIDsCallbacks
             callback.retrievedSSIDs(listOf(TEST_SSID_1))
-            null
         }.whenever(wiseFyPublicApi).searchForSSIDs(eq(TEST_SSID_1), any())
     }
 
@@ -197,7 +193,6 @@ internal class SearchRobot(
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[1] as SearchForSSIDsCallbacks
             callback.noSSIDsFound()
-            null
         }.whenever(wiseFyPublicApi).searchForSSIDs(eq(TEST_SSID_1), any())
     }
 
@@ -205,7 +200,6 @@ internal class SearchRobot(
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[1] as SearchForSSIDsCallbacks
             callback.wisefyFailure(MISSING_PARAMETER)
-            null
         }.whenever(wiseFyPublicApi).searchForSSIDs(eq(TEST_SSID_1), any())
     }
 
@@ -219,62 +213,83 @@ internal class SearchRobot(
     }
 
     fun searchForAccessPoint(filterDuplicates: Boolean) {
-        onView(withId(R.id.accessPointRdb)).performClick()
-        onView(withId(R.id.searchRegexEdt)).performScrollToAndReplaceText(TEST_SSID_1)
+        fillOutFormForAccessPoint()
         onView(withId(R.id.noFullListRdb)).performScrollToAndClick()
         if (filterDuplicates) {
             onView(withId(R.id.yesFilterDupesRdb)).performScrollToAndClick()
         } else {
             onView(withId(R.id.noFilterDupesRdb)).performScrollToAndClick()
         }
-        onView(withId(R.id.timeoutSeek)).perform(scrollTo()).perform(setProgress(TEST_TIMEOUT))
-        onView(withId(R.id.searchBtn)).performScrollToAndClick()
+        setTimeoutSeek()
+        clickSearchButton()
     }
 
     fun searchForAccessPoints(filterDuplicates: Boolean) {
-        onView(withId(R.id.accessPointRdb)).performClick()
-        onView(withId(R.id.searchRegexEdt)).performScrollToAndReplaceText(TEST_SSID_1)
+        fillOutFormForAccessPoint()
         onView(withId(R.id.yesFullListRdb)).performScrollToAndClick()
         if (filterDuplicates) {
             onView(withId(R.id.yesFilterDupesRdb)).performScrollToAndClick()
         } else {
             onView(withId(R.id.noFilterDupesRdb)).performScrollToAndClick()
         }
-        onView(withId(R.id.searchBtn)).performScrollToAndClick()
+        clickSearchButton()
     }
 
     fun searchForSavedNetwork() {
-        onView(withId(R.id.savedNetworkRdb)).performClick()
-        onView(withId(R.id.searchRegexEdt)).performScrollToAndReplaceText(TEST_SSID_1)
+        fillOutFormForForSavedNetwork()
         onView(withId(R.id.noFullListRdb)).performScrollToAndClick()
-        onView(withId(R.id.searchBtn)).performScrollToAndClick()
+        clickSearchButton()
     }
 
     fun searchForSavedNetworks() {
-        onView(withId(R.id.savedNetworkRdb)).performClick()
-        onView(withId(R.id.searchRegexEdt)).performScrollToAndReplaceText(TEST_SSID_1)
+        fillOutFormForForSavedNetwork()
         onView(withId(R.id.yesFullListRdb)).performScrollToAndClick()
-        onView(withId(R.id.searchBtn)).performScrollToAndClick()
+        clickSearchButton()
     }
 
     fun searchForSSID() {
-        onView(withId(R.id.ssidRdb)).performClick()
-        onView(withId(R.id.searchRegexEdt)).performScrollToAndReplaceText(TEST_SSID_1)
+        fillOutFormFormForSSID()
         onView(withId(R.id.noFullListRdb)).performScrollToAndClick()
-        onView(withId(R.id.timeoutSeek)).perform(scrollTo()).perform(setProgress(TEST_TIMEOUT))
-        onView(withId(R.id.searchBtn)).performScrollToAndClick()
+        setTimeoutSeek()
+        clickSearchButton()
     }
 
     fun searchForSSIDs() {
-        onView(withId(R.id.ssidRdb)).performClick()
-        onView(withId(R.id.searchRegexEdt)).performScrollToAndReplaceText(TEST_SSID_1)
+        fillOutFormFormForSSID()
         onView(withId(R.id.yesFullListRdb)).performScrollToAndClick()
-        onView(withId(R.id.searchBtn)).performScrollToAndClick()
+        clickSearchButton()
     }
 
     /*
-     * Permission Helpers
+     * View Helpers
      */
+
+    private fun clickSearchButton() {
+        onView(withId(R.id.searchBtn)).performScrollToAndClick()
+    }
+
+    private fun fillOutFormForAccessPoint() {
+        onView(withId(R.id.accessPointRdb)).performClick()
+        setSearchRegex()
+    }
+
+    private fun fillOutFormForForSavedNetwork() {
+        onView(withId(R.id.savedNetworkRdb)).performClick()
+        setSearchRegex()
+    }
+
+    private fun fillOutFormFormForSSID() {
+        onView(withId(R.id.ssidRdb)).performClick()
+        setSearchRegex()
+    }
+
+    private fun setSearchRegex() {
+        onView(withId(R.id.searchRegexEdt)).performScrollToAndReplaceText(TEST_SSID_1)
+    }
+
+    private fun setTimeoutSeek() {
+        onView(withId(R.id.timeoutSeek)).perform(scrollTo()).perform(setProgress(TEST_TIMEOUT))
+    }
 
     /*
     * Permission Helpers
