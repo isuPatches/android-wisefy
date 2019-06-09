@@ -1,7 +1,7 @@
 version: 2.0
 
-orbs:
-  codecov: codecov/codecov@1.0.2
+#orbs:
+#  codecov: codecov/codecov@1.0.2
 
 references:
   android_config: &android_config
@@ -46,12 +46,12 @@ references:
         name: Unit tests
         command: ./gradlew :wisefy:jacocoDebugUnitTest :wisefysample:jacocoDebugAndroidTest --stacktrace
 
-    report-to-codecov: &report-to-codecov
-      run:
-        - codecov/upload:
-            file: reports/wisefy/jacoco/jacocoDebugCombinedTestReport/html/
-        - codecov/upload:
-            file: reports/wisefysample/jacoco/jacocoDebugCombinedTestReport/html/
+#    report-to-codecov: &report-to-codecov
+#      run:
+#        - codecov/upload:
+#            file: reports/wisefy/jacoco/jacocoDebugCombinedTestReport/html/
+#        - codecov/upload:
+#            file: reports/wisefysample/jacoco/jacocoDebugCombinedTestReport/html/
 jobs:
 
   ci_checks:
@@ -104,7 +104,7 @@ jobs:
             sudo gsutil -m cp -r -U gs://${GCLOUD_BUCKET_LOCATION}/${CIRCLE_BRANCH}_${CIRCLE_BUILD_NUM}/Pixel2-28-en-portrait/artifacts/wisefysample-coverage.ec wisefysample/build/outputs/code-coverage/connected/wisefy-sample-coverage.ec
             sudo gsutil rm -r gs://${GCLOUD_BUCKET_LOCATION}/${CIRCLE_BRANCH}_${CIRCLE_BUILD_NUM}
       - *generate-combined-coverage-reports
-      - *report-to-codecov
+#      - *report-to-codecov
       - store_artifacts:
           path: wisefy/build/reports
           destination: reports/wisefy
