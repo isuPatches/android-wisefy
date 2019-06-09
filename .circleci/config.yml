@@ -40,7 +40,7 @@ jobs:
             sudo gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
             sudo gcloud firebase test android run \
                           --type instrumentation \
-                          --app wisefy/build/outputs/aar/debug/wisefy-debug.aar \
+                          --app wisefy/build/outputs/aar/wisefy-debug.aar \
                           --test wisefy/build/outputs/apk/androidTest/debug/wisefy-debug-androidTest.apk \
                           --device model=Pixel2,version=28,locale=en,orientation=portrait \
                           --environment-variables coverage=true,coverageFile="/sdcard/wisefy-new-coverage.ec" \
@@ -48,7 +48,7 @@ jobs:
                           --results-dir=${CIRCLE_BRANCH}_${CIRCLE_BUILD_NUM}
             sudo gcloud firebase test android run \
                           --type instrumentation \
-                          --app wisefy/build/outputs/aar/debug/wisefy-debug.aar \
+                          --app wisefy/build/outputs/aar/wisefy-debug.aar \
                           --test wisefy/build/outputs/apk/androidTest/debug/wisefy-debug-androidTest.apk \
                           --device model=Nexus5,version=19,locale=en,orientation=portrait \
                           --environment-variables coverage=true,coverageFile="/sdcard/wisefy-legacy-coverage.ec" \
@@ -68,7 +68,7 @@ jobs:
             sudo gsutil rm -r gs://${GCLOUD_BUCKET_LOCATION}/${CIRCLE_BRANCH}_${CIRCLE_BUILD_NUM}
       - run:
           name: Generate coverage report
-          command: ./gradlew :wisefy:jacocoDebugCombinedTestReport :wisefysample:jacocoDebugCombinedTestReport jacocoDebugRootReport --stacktrace
+          command: ./gradlew :wisefy:jacocoDebugCombinedTestReport :wisefysample:jacocoDebugCombinedTestReport --stacktrace
       - codecov/upload:
           file: /reports/jacoco/*.xml
       - store_artifacts:
