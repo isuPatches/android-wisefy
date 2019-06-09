@@ -38,22 +38,15 @@ jobs:
             sudo pip install -U crcmod
             sudo gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
             sudo gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
-            sudo gcloud firebase test android run \
-                          --type instrumentation \
-                          --app wisefy/build/outputs/aar/wisefy-debug.aar \
-                          --test wisefy/build/outputs/apk/androidTest/debug/wisefy-debug-androidTest.apk \
-                          --device model=Pixel2,version=28,locale=en,orientation=portrait \
-                          --environment-variables coverage=true,coverageFile="/sdcard/wisefy-new-coverage.ec" \
-                          --directories-to-pull=/sdcard \
-                          --results-dir=${CIRCLE_BRANCH}_${CIRCLE_BUILD_NUM}
-            sudo gcloud firebase test android run \
-                          --type instrumentation \
-                          --app wisefy/build/outputs/aar/wisefy-debug.aar \
-                          --test wisefy/build/outputs/apk/androidTest/debug/wisefy-debug-androidTest.apk \
-                          --device model=Nexus5,version=19,locale=en,orientation=portrait \
-                          --environment-variables coverage=true,coverageFile="/sdcard/wisefy-legacy-coverage.ec" \
-                          --directories-to-pull=/sdcard \
-                          --results-dir=${CIRCLE_BRANCH}_${CIRCLE_BUILD_NUM}
+#            sudo gcloud firebase test android run \
+#                          --type instrumentation \
+#                          --app wisefy/build/outputs/aar/wisefy-debug.aar \
+#                          --test wisefy/build/outputs/apk/androidTest/debug/wisefy-debug-androidTest.apk \
+#                          --device model=Pixel2,version=28,locale=en,orientation=portrait \
+#                          --device model=Nexus5,version=19,locale=en,orientation=portrait \
+#                          --environment-variables coverage=true,coverageFile="/sdcard/coverage.ec" \
+#                          --directories-to-pull=/sdcard \
+#                          --results-dir=${CIRCLE_BRANCH}_${CIRCLE_BUILD_NUM}
             sudo gcloud firebase test android run \
                           --type instrumentation \
                           --app wisefysample/build/outputs/apk/debug/wisefysample-debug.apk \
@@ -62,9 +55,9 @@ jobs:
                           --environment-variables coverage=true,coverageFile="/sdcard/wisefysample-coverage.ec" \
                           --directories-to-pull=/sdcard \
                           --results-dir=${CIRCLE_BRANCH}_${CIRCLE_BUILD_NUM}
-            sudo gsutil -m cp -r -U gs://${GCLOUD_BUCKET_LOCATION}/${CIRCLE_BRANCH}_${CIRCLE_BUILD_NUM}/Pixel2-28-en-portrait/artifacts/wisefy-new-coverage.ec wisefy/build/outputs/code-coverage/connected/wisefy-new-coverage.ec
-            sudo gsutil -m cp -r -U gs://${GCLOUD_BUCKET_LOCATION}/${CIRCLE_BRANCH}_${CIRCLE_BUILD_NUM}/Nexus5-19-en-portrait/artifacts/wisefy-legacy-coverage.ec wisefy/build/outputs/code-coverage/connected/wisefy-legacy-coverage.ec
-            sudo gsutil -m cp -r -U gs://${GCLOUD_BUCKET_LOCATION}/${CIRCLE_BRANCH}_${CIRCLE_BUILD_NUM}/Pixel2-28-en-portrait/artifacts/wisefysample-coverage.ec wisefysample/build/outputs/code-coverage/connected/wisefy-sample-coverage.ec
+#            sudo gsutil -m cp -r -U gs://${GCLOUD_BUCKET_LOCATION}/${CIRCLE_BRANCH}_${CIRCLE_BUILD_NUM}/Pixel2-28-en-portrait/artifacts/coverage.ec wisefy/build/outputs/code-coverage/connected/wisefy-new-coverage.ec
+#            sudo gsutil -m cp -r -U gs://${GCLOUD_BUCKET_LOCATION}/${CIRCLE_BRANCH}_${CIRCLE_BUILD_NUM}/Nexus5-19-en-portrait/artifacts/coverage.ec wisefy/build/outputs/code-coverage/connected/wisefy-legacy-coverage.ec
+            sudo gsutil -m cp -r -U gs://${GCLOUD_BUCKET_LOCATION}/${CIRCLE_BRANCH}_${CIRCLE_BUILD_NUM}/Pixel2-28-en-portrait/artifacts/coverage.ec wisefysample/build/outputs/code-coverage/connected/wisefy-sample-coverage.ec
             sudo gsutil rm -r gs://${GCLOUD_BUCKET_LOCATION}/${CIRCLE_BRANCH}_${CIRCLE_BUILD_NUM}
       - run:
           name: Generate coverage report
