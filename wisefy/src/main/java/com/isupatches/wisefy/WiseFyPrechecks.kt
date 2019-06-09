@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Patches Klinefelter
+ * Copyright 2019 Patches Klinefelter
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -197,14 +197,14 @@ internal class WiseFyPrechecksImpl private constructor(
         checkForParam(regexForSSID)
 
     /**
-     * Used internally to make sure perquisites for getting the saved networks on a device are met.
+     * Used internally to make sure perquisites for searching for a saved network on a device are met.
      *
-     * @param regexForSSID The regexForSSID param from [com.isupatches.wisefy.WiseFy.getSavedNetwork]
+     * @param regexForSSID The regexForSSID param from [com.isupatches.wisefy.WiseFy.searchForSavedNetwork]
      *
      * @return PrecheckResult - [DEFAULT_PRECHECK_RESULT] or a [PrecheckResult] with an error code.
      *
      * @see [checkForParam]
-     * @see [com.isupatches.wisefy.WiseFy.getSavedNetwork]
+     * @see [com.isupatches.wisefy.WiseFy.searchForSavedNetwork]
      *
      * @author Patches
      * @since 3.0

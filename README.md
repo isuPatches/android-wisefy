@@ -30,8 +30,7 @@ Wifi configuration and util library built for Android.
     - getSavedNetwork(regex: String?): List<WifiConfiguration>? refactored to searchForSavedNetwork(regexForSSID: String?): WifiConfiguration?
     - getSavedNetwork(regexForSSID: String?, callbacks: GetSavedNetworkCallbacks?) refactored to searchForSavedNetwork(regexForSSID: String?, callbacks: SearchForSavedNetworkCallbacks?)
     - getSavedNetworks(regexForSSID: String?, callbacks: GetSavedNetworksCallbacks?) refactored to searchForSavedNetworks(regexForSSID: String?, callbacks: SearchForSavedNetworksCallbacks?)
-- Introduction of [RoboElectric](https://github.com/robolectric/robolectric) for better unit testing
-    - This may be controversial, but please check this [issue](https://github.com/isuPatches/WiseFy/issues/133) for rationale
+- Tests are now run on Google's Firebase TestLab
 - Removal of Checkstyle and FindBugs since project is no longer Java
 - Removal of GCM support due to GCM being sunset
 - New [sample app](/wisefysample) included as part of the repo

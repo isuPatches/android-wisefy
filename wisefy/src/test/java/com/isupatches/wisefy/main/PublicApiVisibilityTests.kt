@@ -53,8 +53,8 @@ import org.mockito.Mockito.verify
  *
  * @author Patches
  */
-@Suppress("LargeClass", "UndocumentedPublicFunction")
-class PublicApiVisibilityTests {
+@Suppress("LargeClass")
+internal class PublicApiVisibilityTests {
 
     private val wisefy = mock(WiseFyPublicApi::class.java)
 

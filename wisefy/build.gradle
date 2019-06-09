@@ -91,10 +91,18 @@ dependencies {
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
-    testImplementation "org.robolectric:robolectric:$robo_electric_version"
+    // Unit Tests
     testImplementation "androidx.test:core:$androidx_core_test_version"
     testImplementation "org.mockito:mockito-core:$mockito_version"
     testImplementation "junit:junit:$junit_version"
+
+    // Instrumentation Tests
+    androidTestImplementation "androidx.test.espresso:espresso-core:$androidx_espresso_core_version"
+    androidTestImplementation "androidx.test:runner:$androidx_test_runner_version"
+    androidTestImplementation "androidx.test:rules:$androidx_test_runner_version"
+    androidTestImplementation "org.mockito:mockito-core:$mockito_version"
+    androidTestImplementation "org.mockito:mockito-android:$mockito_version"
+    androidTestImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockito_kotlin_version"
 }
 
 apply from: rootProject.file("$rootProject.projectDir/gradle/gradle-bintray-install.gradle")

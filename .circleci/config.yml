@@ -1,0 +1,120 @@
+version: 2.1
+
+orbs:
+  codecov: codecov/codecov@1.0.2
+
+references:
+  android_config: &android_config
+    working_directory: ~/code
+    docker:
+      - image: circleci/android:api-28-alpha
+    environment:
+      JVM_OPTS: -Xmx3200m
+
+    chmod-gradle: &chmod-gradle
+      run:
+        name: Chmod permissions
+        command: sudo chmod +x ./gradlew
+
+    clean-build: &clean-build
+      run:
+        name: Clean build
+        command: ./gradlew clean assembleDebug wisefy:assembleDebugAndroidTest wisefysample:assembleDebugAndroidTest --stacktrace
+
+    download-dependencies: &download-dependencies
+      run:
+        name: Download Dependencies
+        command: ./gradlew androidDependencies
+
+    generate-combined-coverage-reports: &generate-combined-coverage-reports
+      run:
+        name: Generate coverage report
+        command: ./gradlew :wisefy:jacocoDebugCombinedTestReport :wisefysample:jacocoDebugCombinedTestReport --stacktrace
+
+    restore-cache: &restore-cache
+      restore_cache:
+        key: jars-{{ checksum "build.gradle" }}-{{ checksum  "wisefy/build.gradle" }}-{{ checksum  "wisefysample/build.gradle" }}
+
+    save-cache: &save-cache
+      save_cache:
+        key: jars-{{ checksum "build.gradle" }}-{{ checksum  "wisefy/build.gradle" }}-{{ checksum  "wisefysample/build.gradle" }}
+        paths:
+          - ~/.gradle
+
+    unit-tests: &unit-tests
+      run:
+        name: Unit tests
+        command: ./gradlew :wisefy:jacocoDebugUnitTest :wisefysample:jacocoDebugAndroidTest --stacktrace
+
+    report-to-codecov: &report-to-codecov
+      run:
+        - codecov/upload:
+            file: reports/wisefy/jacoco/jacocoDebugCombinedTestReport/html/
+        - codecov/upload:
+            file: reports/wisefysample/jacoco/jacocoDebugCombinedTestReport/html/
+jobs:
+
+  ci_checks:
+    <<: *android_config
+    steps:
+      - checkout
+      - *restore-cache
+      - *chmod-gradle
+      - *download-dependencies
+      - *clean-build
+      - run:
+          name: Static code analysis
+          command: ./gradlew staticAnalysisSanityCheck
+      - *unit-tests
+      - run:
+          name: Store Service Account
+          command: echo $GCLOUD_SERVICE_KEY > ${HOME}/gcloud-service-key.json
+      - run:
+          name: Firebase Testing
+          command: |
+            sudo pip install -U crcmod
+            sudo gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
+            sudo gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
+            sudo gcloud firebase test android run \
+                          --type instrumentation \
+                          --app wisefy/build/outputs/apk/debug/wisefy-debug.apk \
+                          --test app/build/outputs/apk/androidTest/debug/wisefy-debug-androidTest.apk \
+                          --device model=Pixel2,version=28,locale=en,orientation=portrait \
+                          --environment-variables coverage=true,coverageFile="/sdcard/wisefy-new-coverage.ec" \
+                          --directories-to-pull=/sdcard \
+                          --results-dir=${CIRCLE_BRANCH}_${CIRCLE_BUILD_NUM}
+            sudo gcloud firebase test android run \
+                          --type instrumentation \
+                          --app wisefy/build/outputs/apk/debug/wisefy-debug.apk \
+                          --test database/build/outputs/apk/androidTest/debug/database-debug-androidTest.apk \
+                          --device model=Nexus5,version=19,locale=en,orientation=portrait \
+                          --environment-variables coverage=true,coverageFile="/sdcard/wisefy-legacy-coverage.ec" \
+                          --directories-to-pull=/sdcard \
+                          --results-dir=${CIRCLE_BRANCH}_${CIRCLE_BUILD_NUM}
+            sudo gcloud firebase test android run \
+                          --type instrumentation \
+                          --app wisefysample/build/outputs/apk/debug/wisefysample-debug.apk \
+                          --test wisefysample/build/outputs/apk/androidTest/debug/wisefysample-debug-androidTest.apk \
+                          --device model=Pixel2,version=28,locale=en,orientation=portrait \
+                          --environment-variables coverage=true,coverageFile="/sdcard/wisefysample-coverage.ec" \
+                          --directories-to-pull=/sdcard \
+                          --results-dir=${CIRCLE_BRANCH}_${CIRCLE_BUILD_NUM}
+            sudo gsutil -m cp -r -U gs://${GCLOUD_BUCKET_LOCATION}/${CIRCLE_BRANCH}_${CIRCLE_BUILD_NUM}/Pixel2-28-en-portrait/artifacts/wisefy-new-coverage.ec wisefy/build/outputs/code-coverage/connected/wisefy-new-coverage.ec
+            sudo gsutil -m cp -r -U gs://${GCLOUD_BUCKET_LOCATION}/${CIRCLE_BRANCH}_${CIRCLE_BUILD_NUM}/Nexus5-19-en-portrait/artifacts/wisefy-legacy-coverage.ec wisefy/build/outputs/code-coverage/connected/wisefy-legacy-coverage.ec
+            sudo gsutil -m cp -r -U gs://${GCLOUD_BUCKET_LOCATION}/${CIRCLE_BRANCH}_${CIRCLE_BUILD_NUM}/Pixel2-28-en-portrait/artifacts/wisefysample-coverage.ec wisefysample/build/outputs/code-coverage/connected/wisefy-sample-coverage.ec
+            sudo gsutil rm -r gs://${GCLOUD_BUCKET_LOCATION}/${CIRCLE_BRANCH}_${CIRCLE_BUILD_NUM}
+      - *generate-combined-coverage-reports
+      - *report-to-codecov
+      - store_artifacts:
+          path: wisefy/build/reports
+          destination: reports/wisefy
+      - store_artifacts:
+          path: wisefysample/build/reports
+          destination: reports/wisefysample
+      - *save-cache
+
+workflows:
+  version: 2
+  workflow:
+    jobs:
+      - ci_checks

@@ -33,6 +33,18 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <Button
+            android:id="@+id/searchBtn"
+            style="@style/Button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_margin"
+            android:text="@string/search"
+            android:textSize="@dimen/font_size_large"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/searchRegexTil" />
+
         <TextView
             android:id="@+id/searchTypeTxt"
             android:layout_width="0dp"
@@ -47,7 +59,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/searchRegexTil"
+            app:layout_constraintTop_toBottomOf="@+id/searchBtn"
             />
 
         <RadioGroup
@@ -226,18 +238,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/timeoutSeek"
             />
-
-        <Button
-            android:id="@+id/searchBtn"
-            style="@style/Button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/default_margin"
-            android:text="@string/search"
-            android:textSize="@dimen/font_size_large"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/timeoutTxt" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

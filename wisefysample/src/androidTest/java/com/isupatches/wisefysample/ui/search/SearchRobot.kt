@@ -6,6 +6,7 @@ import android.net.wifi.WifiConfiguration
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.rule.ActivityTestRule
 
 import com.isupatches.wisefy.WiseFyPublicApi
@@ -20,10 +21,16 @@ import com.isupatches.wisefysample.R
 import com.isupatches.wisefysample.TEST_SSID_1
 import com.isupatches.wisefysample.TEST_TIMEOUT
 import com.isupatches.wisefysample.internal.base.BaseRobot
+import com.isupatches.wisefysample.internal.espresso.checkIsChecked
+import com.isupatches.wisefysample.internal.espresso.checkIsDisplayed
+import com.isupatches.wisefysample.internal.espresso.checkIsInvisible
+import com.isupatches.wisefysample.internal.espresso.checkIsNotChecked
 import com.isupatches.wisefysample.internal.espresso.performClick
 import com.isupatches.wisefysample.internal.espresso.performScrollToAndClick
 import com.isupatches.wisefysample.internal.espresso.performScrollToAndReplaceText
 import com.isupatches.wisefysample.internal.espresso.setProgress
+import com.isupatches.wisefysample.internal.models.SearchType
+import com.isupatches.wisefysample.internal.preferences.SearchStore
 import com.isupatches.wisefysample.internal.util.PermissionUtil
 import com.isupatches.wisefysample.ui.main.MainActivity
 
@@ -34,10 +41,12 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.timeout
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
+import org.hamcrest.CoreMatchers.allOf
 
 internal class SearchRobot(
     private val activityTestRule: ActivityTestRule<MainActivity>,
     private val wiseFyPublicApi: WiseFyPublicApi,
+    private val searchStore: SearchStore,
     permissionUtil: PermissionUtil
 ) : BaseRobot(activityTestRule, permissionUtil) {
 
@@ -56,20 +65,20 @@ internal class SearchRobot(
             callback.accessPointFound(ACCESS_POINT)
         }.whenever(wiseFyPublicApi).searchForAccessPoint(
             eq(TEST_SSID_1),
-            eq(TEST_TIMEOUT),
+            eq(TEST_TIMEOUT * 1000),
             eq(filterDuplicates),
             any()
         )
     }
 
-    fun withAccessPointNotFound() {
+    fun withAccessPointNotFound(filterDuplicates: Boolean) {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[3] as SearchForAccessPointCallbacks
             callback.accessPointNotFound()
         }.whenever(wiseFyPublicApi).searchForAccessPoint(
             eq(TEST_SSID_1),
             eq(TEST_TIMEOUT * 1000),
-            eq(true),
+            eq(filterDuplicates),
             any()
         )
     }
@@ -86,11 +95,15 @@ internal class SearchRobot(
         )
     }
 
-    fun withSuccessSearchingForAccessPoints() {
+    fun withSuccessSearchingForAccessPoints(filterDuplicates: Boolean) {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[2] as SearchForAccessPointsCallbacks
             callback.foundAccessPoints(listOf(ACCESS_POINT))
-        }.whenever(wiseFyPublicApi).searchForAccessPoints(eq(TEST_SSID_1), eq(true), any())
+        }.whenever(wiseFyPublicApi).searchForAccessPoints(
+            eq(TEST_SSID_1),
+            eq(filterDuplicates),
+            any()
+        )
     }
 
     fun withNoAccessPointsFound(filterDuplicates: Boolean) {
@@ -100,11 +113,11 @@ internal class SearchRobot(
         }.whenever(wiseFyPublicApi).searchForAccessPoints(eq(TEST_SSID_1), eq(filterDuplicates), any())
     }
 
-    fun withWiseFyFailureSearchingForAccessPoints() {
+    fun withWiseFyFailureSearchingForAccessPoints(filterDuplicates: Boolean) {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[2] as SearchForAccessPointsCallbacks
             callback.wisefyFailure(MISSING_PARAMETER)
-        }.whenever(wiseFyPublicApi).searchForAccessPoints(eq(TEST_SSID_1), eq(true), any())
+        }.whenever(wiseFyPublicApi).searchForAccessPoints(eq(TEST_SSID_1), eq(filterDuplicates), any())
     }
 
     fun withSuccessSearchingForSavedNetwork() {
@@ -171,7 +184,7 @@ internal class SearchRobot(
         )
     }
 
-    fun withWiseFyFailureSearchForSSID() {
+    fun withWiseFyFailureSearchingForSSID() {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[2] as SearchForSSIDCallbacks
             callback.wisefyFailure(MISSING_PARAMETER)
@@ -182,7 +195,7 @@ internal class SearchRobot(
         )
     }
 
-    fun withSuccessSearchForSSIDs() {
+    fun withSuccessSearchingForSSIDs() {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[1] as SearchForSSIDsCallbacks
             callback.retrievedSSIDs(listOf(TEST_SSID_1))
@@ -203,6 +216,50 @@ internal class SearchRobot(
         }.whenever(wiseFyPublicApi).searchForSSIDs(eq(TEST_SSID_1), any())
     }
 
+    fun withAccessPointInStore(filterDuplicates: Boolean) {
+        searchStore.setLastUsedRegex(TEST_SSID_1)
+        searchStore.setSearchType(SearchType.ACCESS_POINT)
+        searchStore.setFilterDuplicates(filterDuplicates)
+        searchStore.setReturnFullList(false)
+        searchStore.setTimeout(TEST_TIMEOUT)
+    }
+
+    fun withAccessPointsInStore(filterDuplicates: Boolean) {
+        searchStore.setLastUsedRegex(TEST_SSID_1)
+        searchStore.setSearchType(SearchType.ACCESS_POINT)
+        searchStore.setFilterDuplicates(filterDuplicates)
+        searchStore.setReturnFullList(true)
+        searchStore.setTimeout(TEST_TIMEOUT)
+    }
+
+    fun withSSIDInStore() {
+        searchStore.setLastUsedRegex(TEST_SSID_1)
+        searchStore.setSearchType(SearchType.SSID)
+        searchStore.setReturnFullList(false)
+        searchStore.setTimeout(TEST_TIMEOUT)
+    }
+
+    fun withSSIDsInStore() {
+        searchStore.setLastUsedRegex(TEST_SSID_1)
+        searchStore.setSearchType(SearchType.SSID)
+        searchStore.setReturnFullList(true)
+        searchStore.setTimeout(TEST_TIMEOUT)
+    }
+
+    fun withSavedNetworkInStore() {
+        searchStore.setLastUsedRegex(TEST_SSID_1)
+        searchStore.setSearchType(SearchType.SAVED_NETWORK)
+        searchStore.setReturnFullList(false)
+        searchStore.setTimeout(TEST_TIMEOUT)
+    }
+
+    fun withSavedNetworksInStore() {
+        searchStore.setLastUsedRegex(TEST_SSID_1)
+        searchStore.setSearchType(SearchType.SAVED_NETWORK)
+        searchStore.setReturnFullList(true)
+        searchStore.setTimeout(TEST_TIMEOUT)
+    }
+
     /*
      * Actions
      */
@@ -210,6 +267,14 @@ internal class SearchRobot(
     fun launchSearchScreen() {
         activityTestRule.launchActivity(Intent())
         onView(withId(R.id.menu_search)).performClick()
+    }
+
+    fun setFilterDupesToNo() {
+        onView(withId(R.id.noFilterDupesRdb)).performClick()
+    }
+
+    fun setFilterDupesToYes() {
+        onView(withId(R.id.yesFilterDupesRdb)).performClick()
     }
 
     fun searchForAccessPoint(filterDuplicates: Boolean) {
@@ -258,6 +323,36 @@ internal class SearchRobot(
         fillOutFormFormForSSID()
         onView(withId(R.id.yesFullListRdb)).performScrollToAndClick()
         clickSearchButton()
+    }
+
+    fun selectAccessPoint() {
+        fillOutFormForAccessPoint()
+        onView(withId(R.id.noFullListRdb)).performScrollToAndClick()
+    }
+
+    fun selectAccessPoints() {
+        fillOutFormForAccessPoint()
+        onView(withId(R.id.yesFullListRdb)).performScrollToAndClick()
+    }
+
+    fun selectSSID() {
+        fillOutFormFormForSSID()
+        onView(withId(R.id.noFullListRdb)).performScrollToAndClick()
+    }
+
+    fun selectSSIDs() {
+        fillOutFormFormForSSID()
+        onView(withId(R.id.yesFullListRdb)).performScrollToAndClick()
+    }
+
+    fun selectSavedNetwork() {
+        fillOutFormForForSavedNetwork()
+        onView(withId(R.id.noFullListRdb)).performScrollToAndClick()
+    }
+
+    fun selectSavedNetworks() {
+        fillOutFormForForSavedNetwork()
+        onView(withId(R.id.yesFullListRdb)).performScrollToAndClick()
     }
 
     /*
@@ -377,5 +472,57 @@ internal class SearchRobot(
             eq(TEST_SSID_1),
             any()
         )
+    }
+
+    fun verifySearchRegexIsPopulated() {
+        onView(allOf(withId(R.id.searchRegexEdt), withText(TEST_SSID_1))).checkIsDisplayed()
+    }
+
+    fun verifyAccessPointIsChecked() {
+        onView(withId(R.id.accessPointRdb)).checkIsChecked()
+    }
+
+    fun verifySSIDsChecked() {
+        onView(withId(R.id.ssidRdb)).checkIsChecked()
+    }
+
+    fun verifySavedNetworkIsChecked() {
+        onView(withId(R.id.savedNetworkRdb)).checkIsChecked()
+    }
+
+    fun verifyFilterDupesSetToYes() {
+        onView(withId(R.id.yesFilterDupesRdb)).checkIsChecked()
+        onView((withId(R.id.noFilterDupesRdb))).checkIsNotChecked()
+    }
+
+    fun verifyFilterDupesSetToNo() {
+        onView(withId(R.id.noFilterDupesRdb)).checkIsChecked()
+        onView((withId(R.id.yesFilterDupesRdb))).checkIsNotChecked()
+    }
+
+    fun verifyReturnFullListIsSetToYes() {
+        onView(withId(R.id.yesFullListRdb)).checkIsChecked()
+        onView((withId(R.id.noFullListRdb))).checkIsNotChecked()
+    }
+
+    fun verifyReturnFullListIsSetToNo() {
+        onView(withId(R.id.noFullListRdb)).checkIsChecked()
+        onView((withId(R.id.yesFullListRdb))).checkIsNotChecked()
+    }
+
+    fun verifyTimeoutIsDisplayed() {
+        onView(withId(R.id.timeoutSeek)).checkIsDisplayed()
+    }
+
+    fun verifyTimeoutIsNotDisplayed() {
+        onView(withId(R.id.timeoutSeek)).checkIsInvisible()
+    }
+
+    fun verifyFilterDuplicatesIsDisplayed() {
+        onView(withId(R.id.filterDupesRdg)).checkIsDisplayed()
+    }
+
+    fun verifyFilterDuplicatesIsNotDisplayed() {
+        onView(withId(R.id.filterDupesRdg)).checkIsInvisible()
     }
 }

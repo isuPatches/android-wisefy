@@ -36,9 +36,6 @@ internal const val TEST_IP_ADDRESS_STRING = "127.0.0.1"
 
 internal const val TEST_REGEX = ".*Test.*"
 
-internal const val TEST_TYPE1 = "TYPE 1"
-internal const val TEST_TYPE2 = "TYPE 2"
-
 internal const val TEST_SSID2 = "Test Network 2"
 internal const val TEST_SSID3 = "Test Network 3"
 
