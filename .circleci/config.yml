@@ -69,6 +69,8 @@ jobs:
       - run:
           name: Generate coverage report
           command: ./gradlew :wisefy:jacocoDebugCombinedTestReport :wisefysample:jacocoDebugCombinedTestReport jacocoDebugRootReport --stacktrace
+      - codecov/upload:
+          file: /reports/jacoco/*.xml
       - store_artifacts:
           path: wisefy/build/reports
           destination: reports/wisefy
