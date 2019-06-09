@@ -19,6 +19,7 @@ import org.mockito.Mockito.verify
  * @author Patches
  * @since 3.0
  */
+@Suppress("deprecation")
 internal class AddWEPNetworkTests : BaseInstrumentationTest() {
 
     @Test fun sync_failure_prechecks() {
