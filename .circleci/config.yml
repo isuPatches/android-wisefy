@@ -2,61 +2,33 @@ version: 2.1
 
 orbs:
   codecov: codecov/codecov@1.0.5
-
-references:
-  android_config: &android_config
-    working_directory: ~/code
-    docker:
-      - image: circleci/android:api-28-alpha
-    environment:
-      JVM_OPTS: -Xmx3200m
-
-    chmod-gradle: &chmod-gradle
-      run:
-        name: Chmod permissions
-        command: sudo chmod +x ./gradlew
-
-    clean-build: &clean-build
-      run:
-        name: Clean build
-        command: ./gradlew clean assembleDebug wisefy:assembleDebugAndroidTest wisefysample:assembleDebugAndroidTest --stacktrace
-
-    generate-combined-coverage-reports: &generate-combined-coverage-reports
-      run:
-        name: Generate coverage report
-        command: ./gradlew :wisefy:jacocoDebugCombinedTestReport :wisefysample:jacocoDebugCombinedTestReport jacocoDebugRootReport --stacktrace
-
-    restore-cache: &restore-cache
-      restore_cache:
-        key: jars-{{ checksum "build.gradle" }}-{{ checksum  "wisefy/build.gradle" }}-{{ checksum  "wisefysample/build.gradle" }}
-
-    save-cache: &save-cache
-      save_cache:
-        key: jars-{{ checksum "build.gradle" }}-{{ checksum  "wisefy/build.gradle" }}-{{ checksum  "wisefysample/build.gradle" }}
-        paths:
-          - ~/.gradle
-
-    unit-tests: &unit-tests
-      run:
-        name: Unit tests
-        command: ./gradlew :wisefy:jacocoDebugUnitTest :wisefysample:jacocoDebugUnitTest --stacktrace
-
+  
 jobs:
-
   ci_checks:
-    <<: *android_config
+    working_directory: ~/code
+      docker:
+          - image: circleci/android:api-28-alpha
+      environment:
+        JVM_OPTS: -Xmx3200m
     steps:
       - checkout
-      - *restore-cache
-      - *chmod-gradle
+      - restore_cache:
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "wisefy/build.gradle" }}-{{ checksum  "wisefysample/build.gradle" }}
+      - run:
+          name: Chmod permissions
+          command: sudo chmod +x ./gradlew
       - run:
           name: Download dependencies
           command: ./gradlew androidDependencies
-      - *clean-build
+      - run:
+          name: Clean build
+          command: ./gradlew clean assembleDebug wisefy:assembleDebugAndroidTest wisefysample:assembleDebugAndroidTest --stacktrace
       - run:
           name: Static code analysis
           command: ./gradlew staticAnalysisSanityCheck
-      - *unit-tests
+      - run:
+          name: Unit tests
+          command: ./gradlew :wisefy:jacocoDebugUnitTest :wisefysample:jacocoDebugUnitTest --stacktrace
       - run:
           name: Store Service Account
           command: echo $GCLOUD_SERVICE_KEY > ${HOME}/gcloud-service-key.json
@@ -94,14 +66,19 @@ jobs:
             sudo gsutil -m cp -r -U gs://${GCLOUD_BUCKET_LOCATION}/${CIRCLE_BRANCH}_${CIRCLE_BUILD_NUM}/Nexus5-19-en-portrait/artifacts/wisefy-legacy-coverage.ec wisefy/build/outputs/code-coverage/connected/wisefy-legacy-coverage.ec
             sudo gsutil -m cp -r -U gs://${GCLOUD_BUCKET_LOCATION}/${CIRCLE_BRANCH}_${CIRCLE_BUILD_NUM}/Pixel2-28-en-portrait/artifacts/wisefysample-coverage.ec wisefysample/build/outputs/code-coverage/connected/wisefy-sample-coverage.ec
             sudo gsutil rm -r gs://${GCLOUD_BUCKET_LOCATION}/${CIRCLE_BRANCH}_${CIRCLE_BUILD_NUM}
-      - *generate-combined-coverage-reports
+      - run:
+          - name: Generate coverage report
+          - command: ./gradlew :wisefy:jacocoDebugCombinedTestReport :wisefysample:jacocoDebugCombinedTestReport jacocoDebugRootReport --stacktrace
       - store_artifacts:
           path: wisefy/build/reports
           destination: reports/wisefy
       - store_artifacts:
           path: wisefysample/build/reports
           destination: reports/wisefysample
-      - *save-cache
+      - save_cache:
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "wisefy/build.gradle" }}-{{ checksum  "wisefysample/build.gradle" }}
+          paths:
+            - ~/.gradle
 
 workflows:
   version: 2
