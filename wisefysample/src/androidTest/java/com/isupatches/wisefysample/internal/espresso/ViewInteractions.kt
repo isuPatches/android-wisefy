@@ -14,6 +14,10 @@ import androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
 fun ViewInteraction.checkIsDisplayed(): ViewInteraction =
         check(matches(isDisplayed()))
 
+fun ViewInteraction.performScrollToAndCheckIsDisplayed(): ViewInteraction =
+        perform(scrollTo())
+        .check(matches(isDisplayed()))
+
 fun ViewInteraction.checkIsVisible(): ViewInteraction =
         check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
 

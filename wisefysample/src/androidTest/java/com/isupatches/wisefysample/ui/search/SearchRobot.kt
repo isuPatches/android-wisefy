@@ -22,10 +22,10 @@ import com.isupatches.wisefysample.TEST_SSID_1
 import com.isupatches.wisefysample.TEST_TIMEOUT
 import com.isupatches.wisefysample.internal.base.BaseRobot
 import com.isupatches.wisefysample.internal.espresso.checkIsChecked
-import com.isupatches.wisefysample.internal.espresso.checkIsDisplayed
 import com.isupatches.wisefysample.internal.espresso.checkIsInvisible
 import com.isupatches.wisefysample.internal.espresso.checkIsNotChecked
 import com.isupatches.wisefysample.internal.espresso.performClick
+import com.isupatches.wisefysample.internal.espresso.performScrollToAndCheckIsDisplayed
 import com.isupatches.wisefysample.internal.espresso.performScrollToAndClick
 import com.isupatches.wisefysample.internal.espresso.performScrollToAndReplaceText
 import com.isupatches.wisefysample.internal.espresso.setProgress
@@ -270,11 +270,11 @@ internal class SearchRobot(
     }
 
     fun setFilterDupesToNo() {
-        onView(withId(R.id.noFilterDupesRdb)).performClick()
+        onView(withId(R.id.noFilterDupesRdb)).performScrollToAndClick()
     }
 
     fun setFilterDupesToYes() {
-        onView(withId(R.id.yesFilterDupesRdb)).performClick()
+        onView(withId(R.id.yesFilterDupesRdb)).performScrollToAndClick()
     }
 
     fun searchForAccessPoint(filterDuplicates: Boolean) {
@@ -364,17 +364,17 @@ internal class SearchRobot(
     }
 
     private fun fillOutFormForAccessPoint() {
-        onView(withId(R.id.accessPointRdb)).performClick()
+        onView(withId(R.id.accessPointRdb)).performScrollToAndClick()
         setSearchRegex()
     }
 
     private fun fillOutFormForForSavedNetwork() {
-        onView(withId(R.id.savedNetworkRdb)).performClick()
+        onView(withId(R.id.savedNetworkRdb)).performScrollToAndClick()
         setSearchRegex()
     }
 
     private fun fillOutFormFormForSSID() {
-        onView(withId(R.id.ssidRdb)).performClick()
+        onView(withId(R.id.ssidRdb)).performScrollToAndClick()
         setSearchRegex()
     }
 
@@ -475,7 +475,7 @@ internal class SearchRobot(
     }
 
     fun verifySearchRegexIsPopulated() {
-        onView(allOf(withId(R.id.searchRegexEdt), withText(TEST_SSID_1))).checkIsDisplayed()
+        onView(allOf(withId(R.id.searchRegexEdt), withText(TEST_SSID_1))).performScrollToAndCheckIsDisplayed()
     }
 
     fun verifyAccessPointIsChecked() {
@@ -511,7 +511,7 @@ internal class SearchRobot(
     }
 
     fun verifyTimeoutIsDisplayed() {
-        onView(withId(R.id.timeoutSeek)).checkIsDisplayed()
+        onView(withId(R.id.timeoutSeek)).performScrollToAndCheckIsDisplayed()
     }
 
     fun verifyTimeoutIsNotDisplayed() {
@@ -519,7 +519,7 @@ internal class SearchRobot(
     }
 
     fun verifyFilterDuplicatesIsDisplayed() {
-        onView(withId(R.id.filterDupesRdg)).checkIsDisplayed()
+        onView(withId(R.id.filterDupesRdg)).performScrollToAndCheckIsDisplayed()
     }
 
     fun verifyFilterDuplicatesIsNotDisplayed() {

@@ -16,10 +16,10 @@ import com.isupatches.wisefysample.TEST_PASSWORD_1
 import com.isupatches.wisefysample.TEST_SSID_1
 import com.isupatches.wisefysample.internal.base.BaseRobot
 import com.isupatches.wisefysample.internal.espresso.checkIsChecked
-import com.isupatches.wisefysample.internal.espresso.checkIsDisplayed
 import com.isupatches.wisefysample.internal.espresso.checkIsInvisible
 import com.isupatches.wisefysample.internal.espresso.checkIsVisible
 import com.isupatches.wisefysample.internal.espresso.performClick
+import com.isupatches.wisefysample.internal.espresso.performScrollToAndCheckIsDisplayed
 import com.isupatches.wisefysample.internal.espresso.performScrollToAndClick
 import com.isupatches.wisefysample.internal.espresso.performScrollToAndReplaceText
 import com.isupatches.wisefysample.internal.models.NetworkType
@@ -172,33 +172,33 @@ internal class AddNetworkRobot(
     }
 
     fun addOpenNetwork() {
-        onView(withId(R.id.openNetworkRdb)).performClick()
+        onView(withId(R.id.openNetworkRdb)).performScrollToAndClick()
         onView(withId(R.id.networkNameEdt)).performScrollToAndReplaceText(TEST_SSID_1)
         onView((withId(R.id.addNetworkBtn))).performScrollToAndClick()
     }
 
     fun addWEPNetwork() {
-        onView(withId(R.id.wepNetworkRdb)).performClick()
+        onView(withId(R.id.wepNetworkRdb)).performScrollToAndClick()
         enterNetworkNameAndPassword()
         onView((withId(R.id.addNetworkBtn))).performScrollToAndClick()
     }
 
     fun addWPA2Network() {
-        onView(withId(R.id.wpa2NetworkRdb)).performClick()
+        onView(withId(R.id.wpa2NetworkRdb)).performScrollToAndClick()
         enterNetworkNameAndPassword()
         onView((withId(R.id.addNetworkBtn))).performScrollToAndClick()
     }
 
     fun checkOpenNetwork() {
-        onView(withId(R.id.openNetworkRdb)).performClick()
+        onView(withId(R.id.openNetworkRdb)).performScrollToAndClick()
     }
 
     fun checkWEPNetwork() {
-        onView(withId(R.id.wepNetworkRdb)).performClick()
+        onView(withId(R.id.wepNetworkRdb)).performScrollToAndClick()
     }
 
     fun checkWPA2Network() {
-        onView(withId(R.id.wpa2NetworkRdb)).performClick()
+        onView(withId(R.id.wpa2NetworkRdb)).performScrollToAndClick()
     }
 
     /*
@@ -266,10 +266,10 @@ internal class AddNetworkRobot(
     }
 
     fun verifyNetworkNameAndPasswordIsPopulated() {
-        onView(allOf(withId(R.id.networkNameEdt), withText(TEST_SSID_1))).checkIsDisplayed()
+        onView(allOf(withId(R.id.networkNameEdt), withText(TEST_SSID_1))).performScrollToAndCheckIsDisplayed()
         onView(
             allOf(withId(R.id.networkPasswordEdt), withText(TEST_PASSWORD_1))
-        ).checkIsDisplayed()
+        ).performScrollToAndCheckIsDisplayed()
     }
 
     fun verifyTriedToAddOpenNetwork(times: Int = 1) {

@@ -12,6 +12,7 @@ import com.isupatches.wisefysample.TEST_SSID_1
 import com.isupatches.wisefysample.internal.espresso.checkIsDisplayed
 import com.isupatches.wisefysample.internal.espresso.getString
 import com.isupatches.wisefysample.internal.espresso.performClick
+import com.isupatches.wisefysample.internal.espresso.performScrollToAndCheckIsDisplayed
 import com.isupatches.wisefysample.internal.util.PermissionUtil
 
 import com.nhaarman.mockitokotlin2.any
@@ -49,7 +50,7 @@ internal abstract class BaseRobot(
     }
 
     fun verifyNetworkNameIsPopulated() {
-        onView(allOf(withId(R.id.networkNameEdt), withText(TEST_SSID_1))).checkIsDisplayed()
+        onView(allOf(withId(R.id.networkNameEdt), withText(TEST_SSID_1))).performScrollToAndCheckIsDisplayed()
     }
 
     fun verifyPermissionErrorShown() {
