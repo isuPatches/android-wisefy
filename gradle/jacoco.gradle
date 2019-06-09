@@ -1,7 +1,7 @@
 apply plugin: 'jacoco'
 
 jacoco {
-toolVersion = "$jacoco_version"
+    toolVersion = "$jacoco_version"
 }
 
 def srcDirs = ["src/main/java"]
@@ -40,7 +40,7 @@ project.afterEvaluate {
                 ]))
 
                 reports {
-                    xml.enabled = true // Enabled for CodeCov
+                    xml.enabled = false
                     html.enabled = true
                 }
             }
@@ -132,7 +132,7 @@ project.afterEvaluate {
                 ]))
 
                 reports {
-                    xml.enabled = false
+                    xml.enabled = true // Enabled for CodeCov
                     html.enabled = true
                 }
             }
