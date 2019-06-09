@@ -86,7 +86,7 @@ jobs:
             sudo gcloud firebase test android run \
                           --type instrumentation \
                           --app wisefy/build/outputs/apk/debug/wisefy-debug.apk \
-                          --test database/build/outputs/apk/androidTest/debug/database-debug-androidTest.apk \
+                          --test database/build/outputs/apk/androidTest/debug/wisefy-debug-androidTest.apk \
                           --device model=Nexus5,version=19,locale=en,orientation=portrait \
                           --environment-variables coverage=true,coverageFile="/sdcard/wisefy-legacy-coverage.ec" \
                           --directories-to-pull=/sdcard \
