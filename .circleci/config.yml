@@ -52,10 +52,10 @@ jobs:
                           --app wisefysample/build/outputs/apk/debug/wisefysample-debug.apk \
                           --test wisefysample/build/outputs/apk/androidTest/debug/wisefysample-debug-androidTest.apk \
                           --device model=Pixel2,version=28,locale=en,orientation=portrait \
-                          --environment-variables coverage=true,coverageFile="/sdcard/wisefysample-coverage.ec" \
+                          --environment-variables coverage=true,coverageFile="/sdcard/coverage.ec" \
                           --directories-to-pull=/sdcard \
                           --results-dir=${CIRCLE_BRANCH}_${CIRCLE_BUILD_NUM}
-            sudo gsutil -m cp -r -U gs://${GCLOUD_BUCKET_LOCATION}/${CIRCLE_BRANCH}_${CIRCLE_BUILD_NUM}/Pixel2-28-en-portrait/artifacts/wisefysample-coverage.ec wisefysample/build/outputs/code-coverage/connected/wisefysample-coverage.ec
+            sudo gsutil -m cp -r -U gs://${GCLOUD_BUCKET_LOCATION}/${CIRCLE_BRANCH}_${CIRCLE_BUILD_NUM}/Pixel2-28-en-portrait/artifacts/coverage.ec wisefysample/build/outputs/code-coverage/connected/wisefysample-coverage.ec
             sudo gsutil rm -r gs://${GCLOUD_BUCKET_LOCATION}/${CIRCLE_BRANCH}_${CIRCLE_BUILD_NUM}
       - run:
           name: Generate coverage report
