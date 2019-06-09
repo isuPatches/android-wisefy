@@ -31,7 +31,7 @@ Wifi configuration and util library built for Android.
     - getSavedNetwork(regexForSSID: String?, callbacks: GetSavedNetworkCallbacks?) refactored to searchForSavedNetwork(regexForSSID: String?, callbacks: SearchForSavedNetworkCallbacks?)
     - getSavedNetworks(regexForSSID: String?, callbacks: GetSavedNetworksCallbacks?) refactored to searchForSavedNetworks(regexForSSID: String?, callbacks: SearchForSavedNetworksCallbacks?)
 - Moved from TravisCI to CircleCI
-- Tests are now run on Google's Firebase TestLab
+- Instrumentation tests are now run on Google's Firebase TestLab
 - Removal of Checkstyle and FindBugs since project is no longer Java
 - Removal of GCM support due to GCM being sunset
 - New [sample app](/wisefysample) included as part of the repo

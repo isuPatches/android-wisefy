@@ -41,7 +41,7 @@ jobs:
             sudo gcloud firebase test android run \
                           --type instrumentation \
                           --app wisefysample/build/outputs/apk/debug/wisefysample-debug.apk \
-                          --test wisefy/build/outputs/apk/androidTest/debug/wisefysample-debug-androidTest.apk \
+                          --test wisefy/build/outputs/apk/androidTest/debug/wisefy-debug-androidTest.apk \
                           --device model=Pixel2,version=28,locale=en,orientation=portrait \
                           --device model=Nexus5,version=19,locale=en,orientation=portrait \
                           --environment-variables coverage=true,coverageFile="/sdcard/coverage.ec" \
