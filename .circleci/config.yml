@@ -1,4 +1,7 @@
-version: 2.0
+version: 2.1
+
+orbs:
+  codecov: codecov/codecov@1.0.5
 
 references:
   android_config: &android_config
@@ -17,11 +20,6 @@ references:
       run:
         name: Clean build
         command: ./gradlew clean assembleDebug wisefy:assembleDebugAndroidTest wisefysample:assembleDebugAndroidTest --stacktrace
-
-    download-dependencies: &download-dependencies
-      run:
-        name: Download Dependencies
-        command: ./gradlew androidDependencies
 
     generate-combined-coverage-reports: &generate-combined-coverage-reports
       run:
@@ -51,7 +49,9 @@ jobs:
       - checkout
       - *restore-cache
       - *chmod-gradle
-      - *download-dependencies
+      - run:
+          name: Download dependencies
+          command: ./gradlew androidDependencies
       - *clean-build
       - run:
           name: Static code analysis
