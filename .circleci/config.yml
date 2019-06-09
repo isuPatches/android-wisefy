@@ -67,8 +67,8 @@ jobs:
             sudo gsutil -m cp -r -U gs://${GCLOUD_BUCKET_LOCATION}/${CIRCLE_BRANCH}_${CIRCLE_BUILD_NUM}/Pixel2-28-en-portrait/artifacts/wisefysample-coverage.ec wisefysample/build/outputs/code-coverage/connected/wisefy-sample-coverage.ec
             sudo gsutil rm -r gs://${GCLOUD_BUCKET_LOCATION}/${CIRCLE_BRANCH}_${CIRCLE_BUILD_NUM}
       - run:
-          - name: Generate coverage report
-          - command: ./gradlew :wisefy:jacocoDebugCombinedTestReport :wisefysample:jacocoDebugCombinedTestReport jacocoDebugRootReport --stacktrace
+          name: Generate coverage report
+          command: ./gradlew :wisefy:jacocoDebugCombinedTestReport :wisefysample:jacocoDebugCombinedTestReport jacocoDebugRootReport --stacktrace
       - store_artifacts:
           path: wisefy/build/reports
           destination: reports/wisefy
