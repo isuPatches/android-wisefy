@@ -47,8 +47,8 @@ jobs:
                           --environment-variables coverage=true,coverageFile="/sdcard/coverage.ec" \
                           --directories-to-pull=/sdcard \
                           --results-dir=${CIRCLE_BRANCH}_${CIRCLE_BUILD_NUM}
-            sudo gsutil -m cp -r -U gs://${GCLOUD_BUCKET_LOCATION}/${CIRCLE_BRANCH}_${CIRCLE_BUILD_NUM}/Nexus5-19-en-portrait/artifacts/wisefy-legacy-coverage.ec wisefy/build/outputs/code-coverage/connected/wisefy-legacy-coverage.ec
-            sudo gsutil -m cp -r -U gs://${GCLOUD_BUCKET_LOCATION}/${CIRCLE_BRANCH}_${CIRCLE_BUILD_NUM}/Pixel2-28-en-portrait/artifacts/wisefy-new-coverage.ec wisefy/build/outputs/code-coverage/connected/wisefy-new-coverage.ec
+            sudo gsutil -m cp -r -U gs://${GCLOUD_BUCKET_LOCATION}/${CIRCLE_BRANCH}_${CIRCLE_BUILD_NUM}/Nexus5-19-en-portrait/artifacts/coverage.ec wisefy/build/outputs/code-coverage/connected/wisefy-legacy-coverage.ec
+            sudo gsutil -m cp -r -U gs://${GCLOUD_BUCKET_LOCATION}/${CIRCLE_BRANCH}_${CIRCLE_BUILD_NUM}/Pixel2-28-en-portrait/artifacts/coverage.ec wisefy/build/outputs/code-coverage/connected/wisefy-new-coverage.ec
             sudo gcloud firebase test android run \
                           --type instrumentation \
                           --app wisefysample/build/outputs/apk/debug/wisefysample-debug.apk \
