@@ -22,6 +22,7 @@ import com.isupatches.wisefysample.TEST_SSID_1
 import com.isupatches.wisefysample.TEST_TIMEOUT
 import com.isupatches.wisefysample.internal.base.BaseRobot
 import com.isupatches.wisefysample.internal.espresso.checkIsChecked
+import com.isupatches.wisefysample.internal.espresso.checkIsDisplayed
 import com.isupatches.wisefysample.internal.espresso.checkIsInvisible
 import com.isupatches.wisefysample.internal.espresso.checkIsNotChecked
 import com.isupatches.wisefysample.internal.espresso.performClick
@@ -42,6 +43,7 @@ import com.nhaarman.mockitokotlin2.timeout
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import org.hamcrest.CoreMatchers.allOf
+import org.hamcrest.CoreMatchers.containsString
 
 internal class SearchRobot(
     private val activityTestRule: ActivityTestRule<MainActivity>,
@@ -427,6 +429,38 @@ internal class SearchRobot(
     /*
      * Verification
      */
+
+    fun verifyAccessPointIsDisplayed() {
+        onView(withText(containsString("Access point"))).checkIsDisplayed()
+    }
+
+    fun verifyAccessPointNotFoundIsDisplayed() {
+        onView(withText(R.string.access_point_not_found)).checkIsDisplayed()
+    }
+
+    fun verifySavedNetworkIsDisplayed() {
+        onView(withText(containsString("Saved network"))).checkIsDisplayed()
+    }
+
+    fun verifySavedNetworkNotFoundIsDisplayed() {
+        onView(withText(R.string.saved_network_not_found)).checkIsDisplayed()
+    }
+
+    fun verifySSIDIsDisplayed() {
+        onView(withText(containsString("SSID"))).checkIsDisplayed()
+    }
+
+    fun verifySSIDNotFoundIsDisplayed() {
+        onView(withText(R.string.ssid_not_found)).checkIsDisplayed()
+    }
+
+    fun verifySSIDsAreDisplayed() {
+        onView(withText(containsString("SSIDs"))).checkIsDisplayed()
+    }
+
+    fun verifyNotSSIDsFoundIsDisplayed() {
+        onView(withText(R.string.no_ssids_found)).checkIsDisplayed()
+    }
 
     fun verifySearchedForAccessPoint(filterDuplicates: Boolean, times: Int = 1) {
         verify(wiseFyPublicApi, timeout(3000).times(times)).searchForAccessPoint(

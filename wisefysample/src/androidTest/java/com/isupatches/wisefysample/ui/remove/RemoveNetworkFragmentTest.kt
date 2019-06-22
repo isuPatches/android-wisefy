@@ -59,9 +59,11 @@ internal class RemoveNetworkFragmentTest : AbstractEspressoTestClass() {
             dismissErrorDialog()
         }
     }
+
     @Test fun removeNetwork_permissionError_once() {
         with(removeNetworkRobot) {
             // Given
+            withSuccessRemovingNetwork()
             withPermissionDeniedOnce(ACCESS_WIFI_STATE)
             launchRemoveNetworkScreen()
 
@@ -70,6 +72,8 @@ internal class RemoveNetworkFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifyTriedToRemoveNetwork()
+            verifyNetworkRemovedIsDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -128,6 +132,8 @@ internal class RemoveNetworkFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifyTriedToRemoveNetwork(times = 2)
+            verifyNetworkRemovedIsDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -143,6 +149,8 @@ internal class RemoveNetworkFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifyTriedToRemoveNetwork()
+            verifyNetworkRemovedIsDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -158,6 +166,8 @@ internal class RemoveNetworkFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifyTriedToRemoveNetwork()
+            verifyFailureToRemovingNetworkIsDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -173,6 +183,8 @@ internal class RemoveNetworkFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifyTriedToRemoveNetwork()
+            verifyNetworkNotFoundToRemoveIsDisplayed()
+            dismissResultsDialog()
         }
     }
 

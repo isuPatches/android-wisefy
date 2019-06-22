@@ -31,7 +31,6 @@ import com.isupatches.wisefysample.internal.models.SearchType
 import com.isupatches.wisefysample.internal.preferences.SearchStore
 import com.isupatches.wisefysample.internal.base.BaseFragment
 import com.isupatches.wisefysample.internal.util.asHtmlSpanned
-import com.isupatches.wisefysample.internal.util.displayShortToast
 import com.isupatches.wisefysample.internal.util.getTrimmedInput
 import com.isupatches.wisefysample.internal.util.hideKeyboardFrom
 
@@ -305,51 +304,51 @@ internal class SearchFragment : BaseFragment(), SearchMvp.View {
      */
 
     override fun displaySavedNetwork(savedNetwork: WifiConfiguration) {
-        displayShortToast("Saved network: $savedNetwork")
+        displayInfoFullScreen(getString(R.string.saved_network_args, savedNetwork), R.string.search_result)
     }
 
     override fun displaySavedNetworkNotFound() {
-        displayShortToast("Saved network not found")
+        displayInfo(R.string.saved_network_not_found, R.string.search_result)
     }
 
     override fun displaySavedNetworks(savedNetworks: List<WifiConfiguration>) {
-        displayShortToast("Saved networks: $savedNetworks")
+        displayInfo(getString(R.string.saved_networks_args, savedNetworks), R.string.search_result)
     }
 
     override fun displayNoSavedNetworksFound() {
-        displayShortToast("No saved networks found")
+        displayInfo(R.string.no_saved_networks_found, R.string.search_result)
     }
 
     override fun displayAccessPoint(accessPoint: ScanResult) {
-        displayShortToast("Access point: $accessPoint")
+        displayInfoFullScreen(getString(R.string.access_point_args, accessPoint), R.string.search_result)
     }
 
     override fun displayAccessPointNotFound() {
-        displayShortToast("Access point not found")
+        displayInfo(R.string.access_point_not_found, R.string.search_result)
     }
 
     override fun displayAccessPoints(accessPoints: List<ScanResult>) {
-        displayShortToast("Access points: $accessPoints")
+        displayInfoFullScreen(getString(R.string.access_points_args, accessPoints), R.string.search_result)
     }
 
     override fun displayNoAccessPointsFound() {
-        displayShortToast("No access points found")
+        displayInfo(R.string.no_access_points_found, R.string.search_result)
     }
 
     override fun displaySSID(ssid: String) {
-        displayShortToast("SSID: $ssid")
+        displayInfoFullScreen(getString(R.string.ssid_args, ssid), R.string.search_result)
     }
 
     override fun displaySSIDNotFound() {
-        displayShortToast("SSID not found")
+        displayInfo(R.string.ssid_not_found, R.string.search_result)
     }
 
     override fun displaySSIDs(ssids: List<String>) {
-        displayShortToast("SSIDs: $ssids")
+        displayInfoFullScreen(getString(R.string.ssids_args, ssids), R.string.search_result)
     }
 
     override fun displayNoSSIDsFound() {
-        displayShortToast("No SSIDs found")
+        displayInfo(R.string.no_ssids_found, R.string.search_result)
     }
 
     override fun displayWiseFyFailure(wiseFyFailureCode: Int) {

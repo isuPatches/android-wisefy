@@ -43,12 +43,14 @@ jobs:
                           --app wisefysample/build/outputs/apk/debug/wisefysample-debug.apk \
                           --test wisefy/build/outputs/apk/androidTest/debug/wisefy-debug-androidTest.apk \
                           --device model=Pixel2,version=28,locale=en,orientation=portrait \
+                          --device model=Nexus6p,version=23,locale=en,orientation=portrait \
                           --device model=Nexus5,version=19,locale=en,orientation=portrait \
                           --environment-variables coverage=true,coverageFile="/sdcard/coverage.ec" \
                           --directories-to-pull=/sdcard \
                           --results-dir=${CIRCLE_BRANCH}_${CIRCLE_BUILD_NUM}
-            sudo gsutil -m cp -r -U gs://${GCLOUD_BUCKET_LOCATION}/${CIRCLE_BRANCH}_${CIRCLE_BUILD_NUM}/Nexus5-19-en-portrait/artifacts/coverage.ec wisefy/build/outputs/code-coverage/connected/wisefy-legacy-coverage.ec
-            sudo gsutil -m cp -r -U gs://${GCLOUD_BUCKET_LOCATION}/${CIRCLE_BRANCH}_${CIRCLE_BUILD_NUM}/Pixel2-28-en-portrait/artifacts/coverage.ec wisefy/build/outputs/code-coverage/connected/wisefy-new-coverage.ec
+            sudo gsutil -m cp -r -U gs://${GCLOUD_BUCKET_LOCATION}/${CIRCLE_BRANCH}_${CIRCLE_BUILD_NUM}/Nexus5-19-en-portrait/artifacts/coverage.ec wisefy/build/outputs/code-coverage/connected/wisefy-Nexus5-sdk19-coverage.ec
+            sudo gsutil -m cp -r -U gs://${GCLOUD_BUCKET_LOCATION}/${CIRCLE_BRANCH}_${CIRCLE_BUILD_NUM}/Nexus6p-23-en-portrait/artifacts/coverage.ec wisefy/build/outputs/code-coverage/connected/wisefy-Nexus6p-sdk23-coverage.ec
+            sudo gsutil -m cp -r -U gs://${GCLOUD_BUCKET_LOCATION}/${CIRCLE_BRANCH}_${CIRCLE_BUILD_NUM}/Pixel2-28-en-portrait/artifacts/coverage.ec wisefy/build/outputs/code-coverage/connected/wisefy-Pixel2-sdk28-coverage.ec
             sudo gcloud firebase test android run \
                           --type instrumentation \
                           --app wisefysample/build/outputs/apk/debug/wisefysample-debug.apk \

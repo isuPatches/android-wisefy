@@ -52,6 +52,7 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
     @Test fun disableWifi_permissionError_once() {
         with(miscRobot) {
             // Given
+            withSuccessDisablingWifi()
             withPermissionDeniedOnce(CHANGE_WIFI_STATE)
             launchMiscScreen()
 
@@ -60,6 +61,8 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifyTriedToDisableWifi()
+            verifyWifiDisabledIsDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -118,6 +121,8 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifyTriedToDisableWifi(times = 2)
+            verifyWifiDisabledIsDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -133,6 +138,8 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifyTriedToDisableWifi()
+            verifyWifiDisabledIsDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -148,6 +155,8 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifyTriedToDisableWifi()
+            verifyFailureDisablingWifiIsDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -191,6 +200,7 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
     @Test fun enableWifi_permissionError_once() {
         with(miscRobot) {
             // Given
+            withSuccessEnablingWifi()
             withPermissionDeniedOnce(CHANGE_WIFI_STATE)
             launchMiscScreen()
 
@@ -199,6 +209,8 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifyTriedToEnableWifi()
+            verifyWifiEnabledIsDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -257,6 +269,8 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifyTriedToEnableWifi(times = 2)
+            verifyWifiEnabledIsDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -272,6 +286,8 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifyTriedToEnableWifi()
+            verifyWifiEnabledIsDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -287,6 +303,8 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifyTriedToEnableWifi()
+            verifyFailureEnablingWifiIsDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -330,6 +348,7 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
     @Test fun getCurrentNetwork_permissionError_once() {
         with(miscRobot) {
             // Given
+            withSuccessGettingCurrentNetwork()
             withPermissionDeniedOnce(ACCESS_WIFI_STATE)
             withPermissionDeniedOnce(ACCESS_COARSE_LOCATION)
             launchMiscScreen()
@@ -339,12 +358,15 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifyTriedToGetCurrentNetwork()
+            verifyCurrentNetworkIsDisplayed()
+            dismissResultsDialog()
         }
     }
 
     @Test fun getCurrentNetwork_permissionError_once_accessWifiState() {
         with(miscRobot) {
             // Given
+            withSuccessGettingCurrentNetwork()
             withPermissionDeniedOnce(ACCESS_WIFI_STATE)
             withPermission(ACCESS_COARSE_LOCATION)
             launchMiscScreen()
@@ -354,12 +376,15 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifyTriedToGetCurrentNetwork()
+            verifyCurrentNetworkIsDisplayed()
+            dismissResultsDialog()
         }
     }
 
     @Test fun getCurrentNetwork_permissionError_once_accessCoarseLocation() {
         with(miscRobot) {
             // Given
+            withSuccessGettingCurrentNetwork()
             withPermission(ACCESS_WIFI_STATE)
             withPermissionDeniedOnce(ACCESS_COARSE_LOCATION)
             launchMiscScreen()
@@ -369,6 +394,8 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifyTriedToGetCurrentNetwork()
+            verifyCurrentNetworkIsDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -427,6 +454,8 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifyTriedToGetCurrentNetwork(times = 2)
+            verifyCurrentNetworkIsDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -442,6 +471,8 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifyTriedToGetCurrentNetwork()
+            verifyCurrentNetworkIsDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -457,6 +488,8 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifyTriedToGetCurrentNetwork()
+            verifyNoCurrentNetworkIsDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -500,6 +533,7 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
     @Test fun getCurrentNetworkInfo_permissionError_once() {
         with(miscRobot) {
             // Given
+            withSuccessGettingCurrentNetworkInfo()
             withPermissionDeniedOnce(ACCESS_NETWORK_STATE)
             launchMiscScreen()
 
@@ -508,6 +542,8 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifyTriedToGetCurrentNetworkInfo()
+            verifyCurrentNetworkInfoIsDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -566,6 +602,8 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifyTriedToGetCurrentNetworkInfo(times = 2)
+            verifyCurrentNetworkInfoIsDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -581,6 +619,8 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifyTriedToGetCurrentNetworkInfo()
+            verifyCurrentNetworkInfoIsDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -596,6 +636,8 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifyTriedToGetCurrentNetworkInfo()
+            verifyNoCurrentNetworkInfoIsDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -657,6 +699,7 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
         with(miscRobot) {
             // Given
             withDeviceLollipopOrHigher()
+            withSuccessGettingFrequency()
             withPermissionDeniedOnce(ACCESS_WIFI_STATE)
             withPermissionDeniedOnce(ACCESS_COARSE_LOCATION)
             launchMiscScreen()
@@ -666,6 +709,7 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifyTriedToGetFrequency()
+            dismissResultsDialog()
         }
     }
 
@@ -673,6 +717,7 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
         with(miscRobot) {
             // Given
             withDeviceLollipopOrHigher()
+            withSuccessGettingFrequency()
             withPermissionDeniedOnce(ACCESS_WIFI_STATE)
             withPermission(ACCESS_COARSE_LOCATION)
             launchMiscScreen()
@@ -682,6 +727,8 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifyTriedToGetFrequency()
+            verifyFrequencyIsDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -689,6 +736,7 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
         with(miscRobot) {
             // Given
             withDeviceLollipopOrHigher()
+            withSuccessGettingFrequency()
             withPermission(ACCESS_WIFI_STATE)
             withPermissionDeniedOnce(ACCESS_COARSE_LOCATION)
             launchMiscScreen()
@@ -698,6 +746,8 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifyTriedToGetFrequency()
+            verifyFrequencyIsDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -759,6 +809,7 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifyTriedToGetFrequency(times = 2)
+            dismissResultsDialog()
         }
     }
 
@@ -775,6 +826,8 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifyTriedToGetFrequency()
+            verifyFrequencyIsDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -791,6 +844,8 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifyTriedToGetFrequency()
+            verifyFailureRetrievingFrequencyIsDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -835,6 +890,7 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
     @Test fun getIP_permissionError_once() {
         with(miscRobot) {
             // Given
+            withSuccessGettingIP()
             withPermissionDeniedOnce(ACCESS_WIFI_STATE)
             withPermissionDeniedOnce(ACCESS_COARSE_LOCATION)
             launchMiscScreen()
@@ -844,12 +900,15 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifyTriedToGetIP()
+            verifyIPIsDisplayed()
+            dismissResultsDialog()
         }
     }
 
     @Test fun getIP_permissionError_once_accessWifiState() {
         with(miscRobot) {
             // Given
+            withSuccessGettingIP()
             withPermissionDeniedOnce(ACCESS_WIFI_STATE)
             withPermission(ACCESS_COARSE_LOCATION)
             launchMiscScreen()
@@ -859,12 +918,15 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifyTriedToGetIP()
+            verifyIPIsDisplayed()
+            dismissResultsDialog()
         }
     }
 
     @Test fun getIP_permissionError_once_accessCoarseLocation() {
         with(miscRobot) {
             // Given
+            withSuccessGettingIP()
             withPermission(ACCESS_WIFI_STATE)
             withPermissionDeniedOnce(ACCESS_COARSE_LOCATION)
             launchMiscScreen()
@@ -874,6 +936,8 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifyTriedToGetIP()
+            verifyIPIsDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -932,6 +996,8 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifyTriedToGetIP(times = 2)
+            verifyIPIsDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -947,10 +1013,12 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifyTriedToGetIP()
+            verifyIPIsDisplayed()
+            dismissResultsDialog()
         }
     }
 
-    @Test fun getIP_noSavedNetworks() {
+    @Test fun getIP_failureGettingIp() {
         with(miscRobot) {
             // Given
             withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
@@ -962,6 +1030,8 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifyTriedToGetIP()
+            verifyFailureRetrievingIPIsDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -1005,6 +1075,7 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
     @Test fun getNearbyAccessPoints_permissionError_once() {
         with(miscRobot) {
             // Given
+            withSuccessGettingNearbyAccessPoints()
             withPermissionDeniedOnce(ACCESS_WIFI_STATE)
             withPermissionDeniedOnce(ACCESS_COARSE_LOCATION)
             launchMiscScreen()
@@ -1014,12 +1085,15 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifyTriedToGetNearbyAccessPoints()
+            verifyAccessPointsAreDisplayed()
+            dismissResultsDialog()
         }
     }
 
     @Test fun getNearbyAccessPoints_permissionError_once_accessWifiState() {
         with(miscRobot) {
             // Given
+            withSuccessGettingNearbyAccessPoints()
             withPermissionDeniedOnce(ACCESS_WIFI_STATE)
             withPermission(ACCESS_COARSE_LOCATION)
             launchMiscScreen()
@@ -1029,12 +1103,15 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifyTriedToGetNearbyAccessPoints()
+            verifyAccessPointsAreDisplayed()
+            dismissResultsDialog()
         }
     }
 
     @Test fun getNearbyAccessPoints_permissionError_once_accessCoarseLocation() {
         with(miscRobot) {
             // Given
+            withSuccessGettingNearbyAccessPoints()
             withPermission(ACCESS_WIFI_STATE)
             withPermissionDeniedOnce(ACCESS_COARSE_LOCATION)
             launchMiscScreen()
@@ -1044,6 +1121,8 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifyTriedToGetNearbyAccessPoints()
+            verifyAccessPointsAreDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -1102,6 +1181,8 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifyTriedToGetNearbyAccessPoints(times = 2)
+            verifyAccessPointsAreDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -1117,6 +1198,8 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifyTriedToGetNearbyAccessPoints()
+            verifyAccessPointsAreDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -1132,6 +1215,8 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifyTriedToGetNearbyAccessPoints()
+            verifyNoAccessPointsFoundIsDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -1175,6 +1260,7 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
     @Test fun getSavedNetworks_permissionError_once() {
         with(miscRobot) {
             // Given
+            withSuccessGettingSavedNetworks()
             withPermissionDeniedOnce(ACCESS_WIFI_STATE)
             launchMiscScreen()
 
@@ -1183,6 +1269,8 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifyTriedToGetSavedNetworks()
+            verifySavedNetworksAreDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -1241,6 +1329,8 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifyTriedToGetSavedNetworks(times = 2)
+            verifySavedNetworksAreDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -1256,6 +1346,8 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifyTriedToGetSavedNetworks()
+            verifySavedNetworksAreDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -1271,6 +1363,8 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifyTriedToGetSavedNetworks()
+            verifyNoSavedNetworksFoundIsDisplayed()
+            dismissResultsDialog()
         }
     }
 

@@ -27,6 +27,7 @@ import androidx.fragment.app.Fragment
 import com.isupatches.wisefy.constants.WiseFyCode
 import com.isupatches.wisefysample.R
 import com.isupatches.wisefysample.internal.util.PermissionUtil
+import com.isupatches.wisefysample.ui.dialogs.FullScreenNoticeDialogFragment
 import com.isupatches.wisefysample.ui.dialogs.NoticeDialogFragment
 
 import dagger.android.support.AndroidSupportInjection
@@ -50,12 +51,32 @@ internal abstract class BaseFragment : Fragment() {
         return inflater.inflate(layoutRes, container, false)
     }
 
-    protected fun displayInfo(@StringRes infoMessageResId: Int) {
+    protected fun displayInfo(@StringRes infoMessageResId: Int, @StringRes infoTitleResId: Int = R.string.info) {
         showDialogNoDuplicates(
             tag = NoticeDialogFragment.TAG,
             dialog = NoticeDialogFragment.newInstance(
-                title = getString(R.string.info),
+                title = getString(infoTitleResId),
                 message = getString(infoMessageResId)
+            )
+        )
+    }
+
+    protected fun displayInfo(infoMessage: String, @StringRes infoTitleResId: Int) {
+        showDialogNoDuplicates(
+            tag = NoticeDialogFragment.TAG,
+            dialog = NoticeDialogFragment.newInstance(
+                title = getString(infoTitleResId),
+                message = infoMessage
+            )
+        )
+    }
+
+    protected fun displayInfoFullScreen(infoMessage: String, @StringRes infoTitleResId: Int) {
+        showDialogNoDuplicates(
+            tag = FullScreenNoticeDialogFragment.TAG,
+            dialog = FullScreenNoticeDialogFragment.newInstance(
+                title = getString(infoTitleResId),
+                message = infoMessage
             )
         )
     }
@@ -97,12 +118,8 @@ internal abstract class BaseFragment : Fragment() {
 
     protected fun isPermissionGranted(permission: String, requestCode: Int): Boolean {
         return if (!permissionUtil.isPermissionGranted(activity!!, permission)) {
-            if (permissionUtil.shouldShowRequestPermissionRationale(this, permission)) {
-                // Display dialog or rationale for requesting permission here
-                requestPermissions(arrayOf(permission), requestCode)
-            } else {
-                requestPermissions(arrayOf(permission), requestCode)
-            }
+            // Logic may be added here to display rationale if needed
+            requestPermissions(arrayOf(permission), requestCode)
             false
         } else {
             true

@@ -28,7 +28,6 @@ import com.isupatches.wisefysample.R
 import com.isupatches.wisefysample.internal.base.BaseFragment
 import com.isupatches.wisefysample.internal.models.NetworkType
 import com.isupatches.wisefysample.internal.preferences.AddNetworkStore
-import com.isupatches.wisefysample.internal.util.displayShortToast
 import com.isupatches.wisefysample.internal.util.getTrimmedInput
 import com.isupatches.wisefysample.internal.util.hideKeyboardFrom
 
@@ -138,11 +137,14 @@ internal class AddNetworkFragment : BaseFragment(), AddNetworkMvp.View {
      */
 
     override fun displayFailureAddingNetwork(wifiManagerReturn: Int) {
-        displayShortToast("Failure adding network. WifiManager return: $wifiManagerReturn")
+        displayInfo(getString(R.string.failure_adding_network, wifiManagerReturn), R.string.add_network_result)
     }
 
     override fun displayNetworkAdded(newNetworkId: Int, networkConfig: WifiConfiguration) {
-        displayShortToast("Network added. Id: $newNetworkId, Config: $networkConfig")
+        displayInfoFullScreen(
+            getString(R.string.network_added, newNetworkId, networkConfig),
+            R.string.add_network_result
+        )
     }
 
     override fun displayWiseFyFailure(@WiseFyCode wiseFyFailureCode: Int) {

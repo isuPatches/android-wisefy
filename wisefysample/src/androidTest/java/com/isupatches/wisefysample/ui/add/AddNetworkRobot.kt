@@ -16,8 +16,10 @@ import com.isupatches.wisefysample.TEST_PASSWORD_1
 import com.isupatches.wisefysample.TEST_SSID_1
 import com.isupatches.wisefysample.internal.base.BaseRobot
 import com.isupatches.wisefysample.internal.espresso.checkIsChecked
+import com.isupatches.wisefysample.internal.espresso.checkIsDisplayed
 import com.isupatches.wisefysample.internal.espresso.checkIsInvisible
 import com.isupatches.wisefysample.internal.espresso.checkIsVisible
+import com.isupatches.wisefysample.internal.espresso.getString
 import com.isupatches.wisefysample.internal.espresso.performClick
 import com.isupatches.wisefysample.internal.espresso.performScrollToAndCheckIsDisplayed
 import com.isupatches.wisefysample.internal.espresso.performScrollToAndClick
@@ -35,6 +37,7 @@ import com.nhaarman.mockitokotlin2.timeout
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import org.hamcrest.CoreMatchers.allOf
+import org.hamcrest.CoreMatchers.containsString
 
 internal class AddNetworkRobot(
     private val activityTestRule: ActivityTestRule<MainActivity>,
@@ -242,6 +245,16 @@ internal class AddNetworkRobot(
     /*
      * Verification
      */
+
+    fun verifyNewNetworkIsDisplayed() {
+        onView(withText(containsString("Network added"))).checkIsDisplayed()
+    }
+
+    fun verifyFailureAddingNetworkIsDisplayed() {
+        onView(withText(
+            activityTestRule.getString(R.string.failure_adding_network, -1)
+        )).checkIsDisplayed()
+    }
 
     fun verifyOpenNetworkIsChecked() {
         onView(withId(R.id.openNetworkRdb)).checkIsChecked()

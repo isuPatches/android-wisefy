@@ -51,6 +51,7 @@
             android:layout_height="wrap_content"
             android:text="@string/search_for"
             android:textSize="@dimen/font_size_large"
+            android:layout_marginTop="@dimen/default_margin"
             android:paddingTop="@dimen/default_padding"
             android:paddingStart="@dimen/padding_big"
             android:paddingLeft="@dimen/padding_big"

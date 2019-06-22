@@ -33,7 +33,6 @@ import com.isupatches.wisefy.constants.WiseFyCode
 import com.isupatches.wisefysample.R
 import com.isupatches.wisefysample.internal.base.BaseFragment
 import com.isupatches.wisefysample.internal.util.SdkUtil
-import com.isupatches.wisefysample.internal.util.displayShortToast
 
 import dagger.Binds
 import dagger.Module
@@ -116,67 +115,79 @@ internal class MiscFragment : BaseFragment(), MiscMvp.View {
      */
 
     override fun displayWifiDisabled() {
-        displayShortToast("Wifi disabled!")
+        displayInfo(R.string.wifi_disabled, R.string.wisefy_action_result)
     }
 
     override fun displayFailureDisablingWifi() {
-        displayShortToast("Failure disabling wifi")
+        displayInfo(R.string.failure_disabling_wifi, R.string.wisefy_action_result)
     }
 
     override fun displayWifiEnabled() {
-        displayShortToast("Wifi enabled!")
+        displayInfo(R.string.wifi_enabled, R.string.wisefy_action_result)
     }
 
     override fun displayFailureEnablingWifi() {
-        displayShortToast("Failure enabling wifi")
+        displayInfo(R.string.failure_enabling_wifi, R.string.wisefy_action_result)
     }
 
     override fun displayCurrentNetwork(currentNetwork: WifiInfo) {
-        displayShortToast("Current network: $currentNetwork")
+        displayInfoFullScreen(
+            getString(R.string.current_network_args, currentNetwork),
+            R.string.wisefy_action_result
+        )
     }
 
     override fun displayNoCurrentNetwork() {
-        displayShortToast("No current network")
+        displayInfo(R.string.no_current_network, R.string.wisefy_action_result)
     }
 
-    override fun displayCurrentNetworkInfo(currentNetworkDetails: NetworkInfo) {
-        displayShortToast("Current network info: $currentNetworkDetails")
+    override fun displayCurrentNetworkInfo(currentNetworkInfo: NetworkInfo) {
+        displayInfoFullScreen(
+            getString(R.string.current_network_info_args, currentNetworkInfo),
+            R.string.wisefy_action_result
+        )
     }
 
     override fun displayNoCurrentNetworkInfo() {
-        displayShortToast("No current network info")
+        displayInfo(R.string.no_current_network_info, R.string.wisefy_action_result)
     }
 
     override fun displayFrequency(frequency: Int) {
-        displayShortToast("Frequency: $frequency")
+        displayInfo(getString(R.string.frequency_args, frequency), R.string.wisefy_action_result)
     }
 
     override fun displayFailureRetrievingFrequency() {
-        displayShortToast("Failure retrieving frequency")
+        displayInfo(R.string.failure_retrieving_frequency, R.string.wisefy_action_result)
     }
 
     override fun displayIP(ip: String) {
-        displayShortToast("IP: $ip")
+        displayInfo(getString(R.string.ip_args, ip), R.string.wisefy_action_result)
     }
 
     override fun displayFailureRetrievingIP() {
-        displayShortToast("Failure retrieving IP")
+        displayInfo(R.string.failure_retrieving_ip, R.string.wisefy_action_result)
     }
 
     override fun displayNearbyAccessPoints(accessPoints: List<ScanResult>) {
-        displayShortToast("Nearby access points: $accessPoints")
+        displayInfoFullScreen(
+            getString(R.string.access_points_args, accessPoints),
+            R.string.wisefy_action_result
+        )
     }
 
     override fun displayNoAccessPointsFound() {
-        displayShortToast("No access points found!")
+        displayInfo(R.string.no_access_points_found, R.string.wisefy_action_result)
     }
 
     override fun displaySavedNetworks(savedNetworks: List<WifiConfiguration>) {
-        displayShortToast("Saved networks: $savedNetworks")
+        displayInfoFullScreen(
+            getString(R.string.saved_networks_args, savedNetworks),
+            R.string.wisefy_action_result
+        )
     }
 
     override fun displayNoSavedNetworksFound() {
-        displayShortToast("No saved networks found!")
+        displayInfo(R.string.no_saved_networks_found, R.string.wisefy_action_result)
     }
 
     override fun displayWiseFyFailure(@WiseFyCode wiseFyFailureCode: Int) {

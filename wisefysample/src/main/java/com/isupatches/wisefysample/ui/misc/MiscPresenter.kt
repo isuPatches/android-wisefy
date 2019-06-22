@@ -103,8 +103,8 @@ internal class MiscPresenter @Inject constructor(
     @RequiresPermission(allOf = [ACCESS_NETWORK_STATE])
     override fun getCurrentNetworkInfo() {
         model.getCurrentNetworkInfo(object : GetCurrentNetworkInfoCallbacks {
-            override fun retrievedCurrentNetworkInfo(currentNetworkDetails: NetworkInfo) {
-                displayCurrentNetworkInfo(currentNetworkDetails)
+            override fun retrievedCurrentNetworkInfo(currentNetworkInfo: NetworkInfo) {
+                displayCurrentNetworkInfo(currentNetworkInfo)
             }
 
             override fun noCurrentNetworkInfo() {

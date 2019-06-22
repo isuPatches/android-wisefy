@@ -40,7 +40,7 @@ internal interface MiscMvp {
         fun displayFailureEnablingWifi()
         fun displayCurrentNetwork(currentNetwork: WifiInfo)
         fun displayNoCurrentNetwork()
-        fun displayCurrentNetworkInfo(currentNetworkDetails: NetworkInfo)
+        fun displayCurrentNetworkInfo(currentNetworkInfo: NetworkInfo)
         fun displayNoCurrentNetworkInfo()
         fun displayFrequency(frequency: Int)
         fun displayFailureRetrievingFrequency()

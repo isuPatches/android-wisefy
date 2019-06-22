@@ -152,11 +152,12 @@ wisefy.dump();
 For the sake of transparency and because you're probably curious as to what permissions this library adds to your app, here are the additional expected permissions:
 
 ```xml
- <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
- <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
- <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+<uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
 
- <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
+<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 ```
 
 <strong> * NOTE * </strong>

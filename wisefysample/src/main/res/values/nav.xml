@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="add">Add</string>
+    <string name="remove">Remove</string>
+    <string name="home">Home</string>
+    <string name="misc">Misc.</string>
+    <string name="search">Search</string>
+</resources>

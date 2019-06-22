@@ -3,6 +3,7 @@ package com.isupatches.wisefysample.ui.remove
 import android.content.Intent
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.rule.ActivityTestRule
 
 import com.isupatches.wisefy.WiseFyPublicApi
@@ -11,6 +12,7 @@ import com.isupatches.wisefy.constants.MISSING_PARAMETER
 import com.isupatches.wisefysample.R
 import com.isupatches.wisefysample.TEST_SSID_1
 import com.isupatches.wisefysample.internal.base.BaseRobot
+import com.isupatches.wisefysample.internal.espresso.checkIsDisplayed
 import com.isupatches.wisefysample.internal.espresso.performClick
 import com.isupatches.wisefysample.internal.espresso.performScrollToAndClick
 import com.isupatches.wisefysample.internal.espresso.performScrollToAndReplaceText
@@ -137,6 +139,18 @@ internal class RemoveNetworkRobot(
     /*
      * Verification
      */
+
+    fun verifyFailureToRemovingNetworkIsDisplayed() {
+        onView(withText(R.string.failure_removing_network)).checkIsDisplayed()
+    }
+
+    fun verifyNetworkNotFoundToRemoveIsDisplayed() {
+        onView(withText(R.string.network_not_found_to_remove)).checkIsDisplayed()
+    }
+
+    fun verifyNetworkRemovedIsDisplayed() {
+        onView(withText("Network removed")).checkIsDisplayed()
+    }
 
     fun verifyTriedToRemoveNetwork(times: Int = 1) {
         verify(wiseFyPublicApi, timeout(3000).times(times)).removeNetwork(eq(TEST_SSID_1), any())

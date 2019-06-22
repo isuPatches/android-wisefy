@@ -19,6 +19,7 @@ import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.eq
 
 import org.hamcrest.CoreMatchers.allOf
+import org.hamcrest.CoreMatchers.containsString
 
 import org.mockito.Mockito.`when`
 
@@ -26,6 +27,10 @@ internal abstract class BaseRobot(
     private val activityTestRule: ActivityTestRule<*>,
     private val permissionUtil: PermissionUtil
 ) {
+
+    fun dismissResultsDialog() {
+        onView(withText(R.string.ok)).performClick()
+    }
 
     fun dismissErrorDialog() {
         onView(withText(R.string.ok)).performClick()
@@ -69,5 +74,21 @@ internal abstract class BaseRobot(
             activityTestRule.getString(
             R.string.wisefy_error_descriptions_args, MISSING_PARAMETER)
         )).checkIsDisplayed()
+    }
+
+    fun verifyAccessPointsAreDisplayed() {
+        onView(withText(containsString("Access points"))).checkIsDisplayed()
+    }
+
+    fun verifyNoAccessPointsFoundIsDisplayed() {
+        onView(withText(R.string.no_access_points_found)).checkIsDisplayed()
+    }
+
+    fun verifySavedNetworksAreDisplayed() {
+        onView(withText(containsString("Saved networks"))).checkIsDisplayed()
+    }
+
+    fun verifyNoSavedNetworksFoundIsDisplayed() {
+        onView(withText(R.string.no_saved_networks_found)).checkIsDisplayed()
     }
 }

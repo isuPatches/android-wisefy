@@ -39,6 +39,7 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.timeout
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
+import org.hamcrest.CoreMatchers.containsString
 
 import org.mockito.Mockito.`when`
 
@@ -319,6 +320,54 @@ internal class MiscRobot(
     /*
      * Verification
      */
+
+    fun verifyWifiDisabledIsDisplayed() {
+        onView(withText(R.string.wifi_disabled)).checkIsDisplayed()
+    }
+
+    fun verifyFailureDisablingWifiIsDisplayed() {
+        onView(withText(R.string.failure_disabling_wifi)).checkIsDisplayed()
+    }
+
+    fun verifyWifiEnabledIsDisplayed() {
+        onView(withText(R.string.wifi_enabled)).checkIsDisplayed()
+    }
+
+    fun verifyFailureEnablingWifiIsDisplayed() {
+        onView(withText(R.string.failure_enabling_wifi)).checkIsDisplayed()
+    }
+
+    fun verifyCurrentNetworkIsDisplayed() {
+        onView(withText(containsString("Current network"))).checkIsDisplayed()
+    }
+
+    fun verifyNoCurrentNetworkIsDisplayed() {
+        onView(withText(R.string.no_current_network)).checkIsDisplayed()
+    }
+
+    fun verifyCurrentNetworkInfoIsDisplayed() {
+        onView(withText(containsString("Current network info"))).checkIsDisplayed()
+    }
+
+    fun verifyNoCurrentNetworkInfoIsDisplayed() {
+        onView(withText(R.string.no_current_network_info)).checkIsDisplayed()
+    }
+
+    fun verifyFrequencyIsDisplayed() {
+        onView(withText(containsString("$MIN_FREQUENCY_5GHZ"))).checkIsDisplayed()
+    }
+
+    fun verifyFailureRetrievingFrequencyIsDisplayed() {
+        onView(withText(R.string.failure_retrieving_frequency)).checkIsDisplayed()
+    }
+
+    fun verifyIPIsDisplayed() {
+        onView(withText(containsString(TEST_IP))).checkIsDisplayed()
+    }
+
+    fun verifyFailureRetrievingIPIsDisplayed() {
+        onView(withText(R.string.failure_retrieving_ip)).checkIsDisplayed()
+    }
 
     fun verifyTriedToDisableWifi(times: Int = 1) {
         verify(wiseFyPublicApi, timeout(3000).times(times)).disableWifi(any())

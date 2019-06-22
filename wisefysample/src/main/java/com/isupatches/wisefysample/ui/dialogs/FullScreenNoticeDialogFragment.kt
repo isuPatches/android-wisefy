@@ -15,20 +15,32 @@
  */
 package com.isupatches.wisefysample.ui.dialogs
 
+import android.app.Dialog
+import android.os.Bundle
+import android.view.ViewGroup
+
 import com.isupatches.wisefysample.R
 import com.isupatches.wisefysample.internal.util.applyArguments
 
-internal class NoticeDialogFragment : BaseNoticeDialogFragment() {
+internal class FullScreenNoticeDialogFragment : BaseNoticeDialogFragment() {
 
-    override val layoutRes = R.layout.dialog_base
+    override val layoutRes = R.layout.dialog_base_fullscreen
 
     companion object {
-        val TAG: String = NoticeDialogFragment::class.java.simpleName
+        val TAG: String = FullScreenNoticeDialogFragment::class.java.simpleName
 
         fun newInstance(title: String, message: String) =
-            NoticeDialogFragment().applyArguments {
+            FullScreenNoticeDialogFragment().applyArguments {
                 putString(EXTRA_DIALOG_TITLE, title)
                 putString(EXTRA_DIALOG_MESSAGE, message)
             }
+    }
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        dialog?.window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT
+        )
+        return super.onCreateDialog(savedInstanceState)
     }
 }

@@ -278,6 +278,7 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
     @Test fun searchForAccessPoint_permissionError_once_filterDuplicates_true() {
         with(searchRobot) {
             // Given
+            withSuccessSearchingForAccessPoint(true)
             withPermissionDeniedOnce(ACCESS_WIFI_STATE)
             withPermissionDeniedOnce(ACCESS_COARSE_LOCATION)
             launchSearchScreen()
@@ -287,12 +288,15 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifySearchedForAccessPoint(true)
+            verifyAccessPointIsDisplayed()
+            dismissResultsDialog()
         }
     }
 
     @Test fun searchForAccessPoint_permissionError_once_accessWifiState_filterDuplicates_true() {
         with(searchRobot) {
             // Given
+            withSuccessSearchingForAccessPoint(true)
             withPermissionDeniedOnce(ACCESS_WIFI_STATE)
             withPermission(ACCESS_COARSE_LOCATION)
             launchSearchScreen()
@@ -302,12 +306,15 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifySearchedForAccessPoint(true)
+            verifyAccessPointIsDisplayed()
+            dismissResultsDialog()
         }
     }
 
     @Test fun searchForAccessPoint_permissionError_once_accessCourseLocation_filterDuplicates_true() {
         with(searchRobot) {
             // Given
+            withSuccessSearchingForAccessPoint(true)
             withPermission(ACCESS_WIFI_STATE)
             withPermissionDeniedOnce(ACCESS_COARSE_LOCATION)
             launchSearchScreen()
@@ -317,6 +324,8 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifySearchedForAccessPoint(true)
+            verifyAccessPointIsDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -375,6 +384,8 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifySearchedForAccessPoint(true, times = 2)
+            verifyAccessPointIsDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -390,6 +401,8 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifySearchedForAccessPoint(true)
+            verifyAccessPointIsDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -405,6 +418,8 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifySearchedForAccessPoint(true)
+            verifyAccessPointNotFoundIsDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -448,6 +463,7 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
     @Test fun searchForAccessPoint_permissionError_once_filterDuplicates_false() {
         with(searchRobot) {
             // Given
+            withSuccessSearchingForAccessPoint(false)
             withPermissionDeniedOnce(ACCESS_WIFI_STATE)
             withPermissionDeniedOnce(ACCESS_COARSE_LOCATION)
             launchSearchScreen()
@@ -457,12 +473,15 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifySearchedForAccessPoint(false)
+            verifyAccessPointIsDisplayed()
+            dismissResultsDialog()
         }
     }
 
     @Test fun searchForAccessPoint_permissionError_once_accessWifiState_filterDuplicates_false() {
         with(searchRobot) {
             // Given
+            withSuccessSearchingForAccessPoint(false)
             withPermissionDeniedOnce(ACCESS_WIFI_STATE)
             withPermission(ACCESS_COARSE_LOCATION)
             launchSearchScreen()
@@ -472,12 +491,15 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifySearchedForAccessPoint(false)
+            verifyAccessPointIsDisplayed()
+            dismissResultsDialog()
         }
     }
 
     @Test fun searchForAccessPoint_permissionError_once_accessCourseLocation_filterDuplicates_false() {
         with(searchRobot) {
             // Given
+            withSuccessSearchingForAccessPoint(false)
             withPermission(ACCESS_WIFI_STATE)
             withPermissionDeniedOnce(ACCESS_COARSE_LOCATION)
             launchSearchScreen()
@@ -487,6 +509,8 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifySearchedForAccessPoint(false)
+            verifyAccessPointIsDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -545,6 +569,8 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifySearchedForAccessPoint(false, times = 2)
+            verifyAccessPointIsDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -560,6 +586,8 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifySearchedForAccessPoint(false)
+            verifyAccessPointIsDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -575,6 +603,8 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifySearchedForAccessPoint(false)
+            verifyAccessPointNotFoundIsDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -618,6 +648,7 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
     @Test fun searchForAccessPoints_permissionError_once_filterDuplicates_true() {
         with(searchRobot) {
             // Given
+            withSuccessSearchingForAccessPoints(true)
             withPermissionDeniedOnce(ACCESS_WIFI_STATE)
             withPermissionDeniedOnce(ACCESS_COARSE_LOCATION)
             launchSearchScreen()
@@ -627,12 +658,15 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifySearchedForAccessPoints(true)
+            verifyAccessPointsAreDisplayed()
+            dismissResultsDialog()
         }
     }
 
     @Test fun searchForAccessPoints_permissionError_once_accessWifiState_filterDuplicates_true() {
         with(searchRobot) {
             // Given
+            withSuccessSearchingForAccessPoints(true)
             withPermissionDeniedOnce(ACCESS_WIFI_STATE)
             withPermission(ACCESS_COARSE_LOCATION)
             launchSearchScreen()
@@ -642,12 +676,15 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifySearchedForAccessPoints(true)
+            verifyAccessPointsAreDisplayed()
+            dismissResultsDialog()
         }
     }
 
     @Test fun searchForAccessPoints_permissionError_once_accessCourseLocation_filterDuplicates_true() {
         with(searchRobot) {
             // Given
+            withSuccessSearchingForAccessPoints(true)
             withPermission(ACCESS_WIFI_STATE)
             withPermissionDeniedOnce(ACCESS_COARSE_LOCATION)
             launchSearchScreen()
@@ -657,6 +694,8 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifySearchedForAccessPoints(true)
+            verifyAccessPointsAreDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -715,6 +754,8 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifySearchedForAccessPoints(true, times = 2)
+            verifyAccessPointsAreDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -730,6 +771,8 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifySearchedForAccessPoints(true)
+            verifyAccessPointsAreDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -745,6 +788,8 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifySearchedForAccessPoints(true)
+            verifyNoAccessPointsFoundIsDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -788,6 +833,7 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
     @Test fun searchForAccessPoints_permissionError_once_filterDuplicates_false() {
         with(searchRobot) {
             // Given
+            withSuccessSearchingForAccessPoints(false)
             withPermission(ACCESS_WIFI_STATE)
             withPermissionDeniedOnce(ACCESS_COARSE_LOCATION)
             launchSearchScreen()
@@ -797,12 +843,15 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifySearchedForAccessPoints(false)
+            verifyAccessPointsAreDisplayed()
+            dismissResultsDialog()
         }
     }
 
     @Test fun searchForAccessPoints_permissionError_once_accessWifiState_filterDuplicates_false() {
         with(searchRobot) {
             // Given
+            withSuccessSearchingForAccessPoints(false)
             withPermissionDeniedOnce(ACCESS_WIFI_STATE)
             withPermission(ACCESS_COARSE_LOCATION)
             launchSearchScreen()
@@ -812,12 +861,15 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifySearchedForAccessPoints(false)
+            verifyAccessPointsAreDisplayed()
+            dismissResultsDialog()
         }
     }
 
     @Test fun searchForAccessPoints_permissionError_once_accessCourseLocation_filterDuplicates_false() {
         with(searchRobot) {
             // Given
+            withSuccessSearchingForAccessPoints(false)
             withPermission(ACCESS_WIFI_STATE)
             withPermissionDeniedOnce(ACCESS_COARSE_LOCATION)
             launchSearchScreen()
@@ -827,6 +879,8 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifySearchedForAccessPoints(false)
+            verifyAccessPointsAreDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -885,6 +939,8 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifySearchedForAccessPoints(false, times = 2)
+            verifyAccessPointsAreDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -900,6 +956,8 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifySearchedForAccessPoints(false)
+            verifyAccessPointsAreDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -915,6 +973,8 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifySearchedForAccessPoints(false)
+            verifyNoAccessPointsFoundIsDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -958,6 +1018,7 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
     @Test fun searchForSSID_permissionError_once() {
         with(searchRobot) {
             // Given
+            withSuccessSearchingForSSID()
             withPermissionDeniedOnce(ACCESS_WIFI_STATE)
             withPermissionDeniedOnce(ACCESS_COARSE_LOCATION)
             launchSearchScreen()
@@ -967,12 +1028,15 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifySearchedForSSID()
+            verifySSIDIsDisplayed()
+            dismissResultsDialog()
         }
     }
 
     @Test fun searchForSSID_permissionError_once_accessWifiState() {
         with(searchRobot) {
             // Given
+            withSuccessSearchingForSSID()
             withPermissionDeniedOnce(ACCESS_WIFI_STATE)
             withPermission(ACCESS_COARSE_LOCATION)
             launchSearchScreen()
@@ -982,12 +1046,15 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifySearchedForSSID()
+            verifySSIDIsDisplayed()
+            dismissResultsDialog()
         }
     }
 
     @Test fun searchForSSID_permissionError_once_accessCoarseLocation() {
         with(searchRobot) {
             // Given
+            withSuccessSearchingForSSID()
             withPermission(ACCESS_WIFI_STATE)
             withPermissionDeniedOnce(ACCESS_COARSE_LOCATION)
             launchSearchScreen()
@@ -997,6 +1064,8 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifySearchedForSSID()
+            verifySSIDIsDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -1055,6 +1124,8 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifySearchedForSSID(times = 2)
+            verifySSIDIsDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -1070,6 +1141,8 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifySearchedForSSID()
+            verifySSIDIsDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -1085,6 +1158,8 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifySearchedForSSID()
+            verifySSIDNotFoundIsDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -1128,6 +1203,7 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
     @Test fun searchForSSIDs_permissionError_once() {
         with(searchRobot) {
             // Given
+            withSuccessSearchingForSSIDs()
             withPermissionDeniedOnce(ACCESS_WIFI_STATE)
             withPermissionDeniedOnce(ACCESS_COARSE_LOCATION)
             launchSearchScreen()
@@ -1137,12 +1213,15 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifySearchedForSSIDs()
+            verifySSIDsAreDisplayed()
+            dismissResultsDialog()
         }
     }
 
     @Test fun searchForSSIDs_permissionError_once_accessWifiState() {
         with(searchRobot) {
             // Given
+            withSuccessSearchingForSSIDs()
             withPermissionDeniedOnce(ACCESS_WIFI_STATE)
             withPermission(ACCESS_COARSE_LOCATION)
             launchSearchScreen()
@@ -1152,12 +1231,15 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifySearchedForSSIDs()
+            verifySSIDsAreDisplayed()
+            dismissResultsDialog()
         }
     }
 
     @Test fun searchForSSIDs_permissionError_once_accessCoarseLocation() {
         with(searchRobot) {
             // Given
+            withSuccessSearchingForSSIDs()
             withPermission(ACCESS_WIFI_STATE)
             withPermissionDeniedOnce(ACCESS_COARSE_LOCATION)
             launchSearchScreen()
@@ -1167,6 +1249,8 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifySearchedForSSIDs()
+            verifySSIDsAreDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -1225,6 +1309,8 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifySearchedForSSIDs(times = 2)
+            verifySSIDsAreDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -1240,6 +1326,8 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifySearchedForSSIDs()
+            verifySSIDsAreDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -1255,6 +1343,8 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifySearchedForSSIDs()
+            withNoSSIDsFound()
+            dismissResultsDialog()
         }
     }
 
@@ -1298,6 +1388,7 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
     @Test fun searchForSavedNetwork_permissionError_once() {
         with(searchRobot) {
             // Given
+            withSuccessSearchingForSavedNetwork()
             withPermissionDeniedOnce(ACCESS_WIFI_STATE)
             launchSearchScreen()
 
@@ -1306,6 +1397,8 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifySearchedForSavedNetwork()
+            verifySavedNetworkIsDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -1364,6 +1457,8 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifySearchedForSavedNetwork(times = 2)
+            verifySavedNetworkIsDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -1379,6 +1474,8 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifySearchedForSavedNetwork()
+            verifySavedNetworkIsDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -1394,6 +1491,8 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifySearchedForSavedNetwork()
+            verifySavedNetworkNotFoundIsDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -1437,6 +1536,7 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
     @Test fun searchForSavedNetworks_permissionError_once() {
         with(searchRobot) {
             // Given
+            withSuccessSearchingForSavedNetworks()
             withPermissionDeniedOnce(ACCESS_WIFI_STATE)
             launchSearchScreen()
 
@@ -1445,6 +1545,8 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifySearchedForSavedNetworks()
+            verifySavedNetworksAreDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -1503,6 +1605,8 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifySearchedForSavedNetworks(times = 2)
+            verifySavedNetworksAreDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -1518,6 +1622,8 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifySearchedForSavedNetworks()
+            verifySavedNetworksAreDisplayed()
+            dismissResultsDialog()
         }
     }
 
@@ -1533,6 +1639,8 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifySearchedForSavedNetworks()
+            verifyNoSavedNetworksFoundIsDisplayed()
+            dismissResultsDialog()
         }
     }
 

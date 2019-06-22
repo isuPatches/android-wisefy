@@ -39,16 +39,16 @@ internal class WisefyConnectionSDK23Tests : BaseInstrumentationTest() {
         "Can only run on API Level 23 or newer",
         Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
         )
-        if (BuildConfig.VERSION_CODE >= Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             wisefyConnection.init()
         }
     }
 
     @After override fun tearDown() {
-        super.tearDown()
-        if (BuildConfig.VERSION_CODE >= Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             wisefyConnection.destroy()
         }
+        super.tearDown()
     }
 
     /*

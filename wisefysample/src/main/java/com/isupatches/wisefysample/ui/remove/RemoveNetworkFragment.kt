@@ -26,7 +26,6 @@ import com.isupatches.wisefy.constants.WiseFyCode
 import com.isupatches.wisefysample.R
 import com.isupatches.wisefysample.internal.base.BaseFragment
 import com.isupatches.wisefysample.internal.preferences.RemoveNetworkStore
-import com.isupatches.wisefysample.internal.util.displayShortToast
 import com.isupatches.wisefysample.internal.util.getTrimmedInput
 import com.isupatches.wisefysample.internal.util.hideKeyboardFrom
 
@@ -92,15 +91,15 @@ internal class RemoveNetworkFragment : BaseFragment(), RemoveNetworkMvp.View {
      */
 
     override fun displayNetworkRemoved() {
-        displayShortToast("Network removed")
+        displayInfo(R.string.network_removed, R.string.remover_network_result)
     }
 
     override fun displayNetworkNotFoundToRemove() {
-        displayShortToast("Network not found to remove")
+        displayInfo(R.string.network_not_found_to_remove, R.string.remover_network_result)
     }
 
     override fun displayFailureRemovingNetwork() {
-        displayShortToast("Failure removing network!")
+        displayInfo(R.string.failure_removing_network, R.string.remover_network_result)
     }
 
     override fun displayWiseFyFailure(@WiseFyCode wiseFyFailureCode: Int) {
