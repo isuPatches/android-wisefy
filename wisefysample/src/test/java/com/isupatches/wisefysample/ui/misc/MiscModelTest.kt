@@ -162,6 +162,6 @@ internal class MiscModelTest {
         })
 
         // Then
-        verify(wiseFy, times(1)).getSavedNetworks(any<GetSavedNetworksCallbacks>())
+        verify(wiseFy, times(1)).getSavedNetworks(any())
     }
 }

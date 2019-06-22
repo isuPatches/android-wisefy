@@ -458,7 +458,7 @@ internal class SearchRobot(
         onView(withText(containsString("SSIDs"))).checkIsDisplayed()
     }
 
-    fun verifyNotSSIDsFoundIsDisplayed() {
+    fun verifyNoSSIDsFoundIsDisplayed() {
         onView(withText(R.string.no_ssids_found)).checkIsDisplayed()
     }
 

@@ -47,7 +47,7 @@ To remove a configured network:
 _With Kotlin_
 
 ```kotlin
-val removedSuccessfully = wisefy.removeNetwork("SSID to remove");
+val removedSuccessfully = wisefy.removeNetwork("SSID to remove")
 ```
 
 _With Java_

@@ -1,0 +1,67 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>WifiApi - wisefy</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">wisefy</a>&nbsp;/&nbsp;<a href="../index.html">com.isupatches.wisefy</a>&nbsp;/&nbsp;<a href="./index.html">WifiApi</a><br/>
+<br/>
+<h1>WifiApi</h1>
+<code><span class="keyword">interface </span><span class="identifier">WifiApi</span></code>
+<p>An API for functionality relating to Wifi.</p>
+<p><strong>Author</strong><br/>
+Patches</p>
+<p><strong>Since</strong><br/>
+3.0</p>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="disable-wifi.html">disableWifi</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">disableWifi</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code><br/>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">disableWifi</span><span class="symbol">(</span><span class="identifier" id="com.isupatches.wisefy.WifiApi$disableWifi(com.isupatches.wisefy.callbacks.DisableWifiCallbacks)/callbacks">callbacks</span><span class="symbol">:</span>&nbsp;<a href="../../com.isupatches.wisefy.callbacks/-disable-wifi-callbacks/index.html"><span class="identifier">DisableWifiCallbacks</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>To disable Wifi on a user's device.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="enable-wifi.html">enableWifi</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">enableWifi</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code><br/>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">enableWifi</span><span class="symbol">(</span><span class="identifier" id="com.isupatches.wisefy.WifiApi$enableWifi(com.isupatches.wisefy.callbacks.EnableWifiCallbacks)/callbacks">callbacks</span><span class="symbol">:</span>&nbsp;<a href="../../com.isupatches.wisefy.callbacks/-enable-wifi-callbacks/index.html"><span class="identifier">EnableWifiCallbacks</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>To enable Wifi on a user's device.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="is-wifi-enabled.html">isWifiEnabled</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">isWifiEnabled</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code>
+<p>To check if Wifi is enabled on the device or not.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Inheritors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="../-wise-fy-public-api/index.html">WiseFyPublicApi</a></p>
+</td>
+<td>
+<code><span class="keyword">interface </span><span class="identifier">WiseFyPublicApi</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-access-point-api/index.html"><span class="identifier">AccessPointApi</span></a><span class="symbol">, </span><a href="../-add-network-api/index.html"><span class="identifier">AddNetworkApi</span></a><span class="symbol">, </span><a href="../-connection-api/index.html"><span class="identifier">ConnectionApi</span></a><span class="symbol">, </span><a href="../-device-api/index.html"><span class="identifier">DeviceApi</span></a><span class="symbol">, </span><a href="../-frequency-api/index.html"><span class="identifier">FrequencyApi</span></a><span class="symbol">, </span><a href="../-network-info-api/index.html"><span class="identifier">NetworkInfoApi</span></a><span class="symbol">, </span><a href="../-remove-network-api/index.html"><span class="identifier">RemoveNetworkApi</span></a><span class="symbol">, </span><a href="../-saved-network-api/index.html"><span class="identifier">SavedNetworkApi</span></a><span class="symbol">, </span><a href="../-security-api/index.html"><span class="identifier">SecurityApi</span></a><span class="symbol">, </span><a href="../-signal-strength-api/index.html"><span class="identifier">SignalStrengthApi</span></a><span class="symbol">, </span><a href="./index.html"><span class="identifier">WifiApi</span></a></code>
+<p>The interface that is the public facing API for WiseFy.  It is composed of various other sub-apis for separation
+of functionality.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

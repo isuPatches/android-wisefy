@@ -1,0 +1,77 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>SavedNetworkApi - wisefy</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">wisefy</a>&nbsp;/&nbsp;<a href="../index.html">com.isupatches.wisefy</a>&nbsp;/&nbsp;<a href="./index.html">SavedNetworkApi</a><br/>
+<br/>
+<h1>SavedNetworkApi</h1>
+<code><span class="keyword">interface </span><span class="identifier">SavedNetworkApi</span></code>
+<p>An API for querying saved network information on a device.</p>
+<p><strong>Author</strong><br/>
+Patches</p>
+<p><strong>Since</strong><br/>
+3.0</p>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="get-saved-networks.html">getSavedNetworks</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">getSavedNetworks</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="https://developer.android.com/reference/android/net/wifi/WifiConfiguration.html"><span class="identifier">WifiConfiguration</span></a><span class="symbol">&gt;</span><span class="symbol">?</span></code><br/>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">getSavedNetworks</span><span class="symbol">(</span><span class="identifier" id="com.isupatches.wisefy.SavedNetworkApi$getSavedNetworks(com.isupatches.wisefy.callbacks.GetSavedNetworksCallbacks)/callbacks">callbacks</span><span class="symbol">:</span>&nbsp;<a href="../../com.isupatches.wisefy.callbacks/-get-saved-networks-callbacks/index.html"><span class="identifier">GetSavedNetworksCallbacks</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>To retrieve a list of saved networks on a user's device.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="is-network-saved.html">isNetworkSaved</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">isNetworkSaved</span><span class="symbol">(</span><span class="identifier" id="com.isupatches.wisefy.SavedNetworkApi$isNetworkSaved(kotlin.String)/ssid">ssid</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code>
+<p>To check if an SSID is in the list of configured networks.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="search-for-saved-network.html">searchForSavedNetwork</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">searchForSavedNetwork</span><span class="symbol">(</span><span class="identifier" id="com.isupatches.wisefy.SavedNetworkApi$searchForSavedNetwork(kotlin.String)/regexForSSID">regexForSSID</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://developer.android.com/reference/android/net/wifi/WifiConfiguration.html"><span class="identifier">WifiConfiguration</span></a><span class="symbol">?</span></code><br/>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">searchForSavedNetwork</span><span class="symbol">(</span><span class="identifier" id="com.isupatches.wisefy.SavedNetworkApi$searchForSavedNetwork(kotlin.String, com.isupatches.wisefy.callbacks.SearchForSavedNetworkCallbacks)/regexForSSID">regexForSSID</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span><span class="symbol">, </span><span class="identifier" id="com.isupatches.wisefy.SavedNetworkApi$searchForSavedNetwork(kotlin.String, com.isupatches.wisefy.callbacks.SearchForSavedNetworkCallbacks)/callbacks">callbacks</span><span class="symbol">:</span>&nbsp;<a href="../../com.isupatches.wisefy.callbacks/-search-for-saved-network-callbacks/index.html"><span class="identifier">SearchForSavedNetworkCallbacks</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>To search for and return a saved WiFiConfiguration given an SSID.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="search-for-saved-networks.html">searchForSavedNetworks</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">searchForSavedNetworks</span><span class="symbol">(</span><span class="identifier" id="com.isupatches.wisefy.SavedNetworkApi$searchForSavedNetworks(kotlin.String)/regexForSSID">regexForSSID</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="https://developer.android.com/reference/android/net/wifi/WifiConfiguration.html"><span class="identifier">WifiConfiguration</span></a><span class="symbol">&gt;</span><span class="symbol">?</span></code><br/>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">searchForSavedNetworks</span><span class="symbol">(</span><span class="identifier" id="com.isupatches.wisefy.SavedNetworkApi$searchForSavedNetworks(kotlin.String, com.isupatches.wisefy.callbacks.SearchForSavedNetworksCallbacks)/regexForSSID">regexForSSID</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span><span class="symbol">, </span><span class="identifier" id="com.isupatches.wisefy.SavedNetworkApi$searchForSavedNetworks(kotlin.String, com.isupatches.wisefy.callbacks.SearchForSavedNetworksCallbacks)/callbacks">callbacks</span><span class="symbol">:</span>&nbsp;<a href="../../com.isupatches.wisefy.callbacks/-search-for-saved-networks-callbacks/index.html"><span class="identifier">SearchForSavedNetworksCallbacks</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>To retrieve a list of saved networks on a user's device that match a given regex.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Inheritors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="../-wise-fy-public-api/index.html">WiseFyPublicApi</a></p>
+</td>
+<td>
+<code><span class="keyword">interface </span><span class="identifier">WiseFyPublicApi</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-access-point-api/index.html"><span class="identifier">AccessPointApi</span></a><span class="symbol">, </span><a href="../-add-network-api/index.html"><span class="identifier">AddNetworkApi</span></a><span class="symbol">, </span><a href="../-connection-api/index.html"><span class="identifier">ConnectionApi</span></a><span class="symbol">, </span><a href="../-device-api/index.html"><span class="identifier">DeviceApi</span></a><span class="symbol">, </span><a href="../-frequency-api/index.html"><span class="identifier">FrequencyApi</span></a><span class="symbol">, </span><a href="../-network-info-api/index.html"><span class="identifier">NetworkInfoApi</span></a><span class="symbol">, </span><a href="../-remove-network-api/index.html"><span class="identifier">RemoveNetworkApi</span></a><span class="symbol">, </span><a href="./index.html"><span class="identifier">SavedNetworkApi</span></a><span class="symbol">, </span><a href="../-security-api/index.html"><span class="identifier">SecurityApi</span></a><span class="symbol">, </span><a href="../-signal-strength-api/index.html"><span class="identifier">SignalStrengthApi</span></a><span class="symbol">, </span><a href="../-wifi-api/index.html"><span class="identifier">WifiApi</span></a></code>
+<p>The interface that is the public facing API for WiseFy.  It is composed of various other sub-apis for separation
+of functionality.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

@@ -1,0 +1,58 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>SearchForSavedNetworkCallbacks - wisefy</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">wisefy</a>&nbsp;/&nbsp;<a href="../index.html">com.isupatches.wisefy.callbacks</a>&nbsp;/&nbsp;<a href="./index.html">SearchForSavedNetworkCallbacks</a><br/>
+<br/>
+<h1>SearchForSavedNetworkCallbacks</h1>
+<code><span class="keyword">interface </span><span class="identifier">SearchForSavedNetworkCallbacks</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-base-callback/index.html"><span class="identifier">BaseCallback</span></a></code>
+<p>Callbacks for retrieving a saved network on a device.</p>
+<p><strong>See Also</strong><br/>
+<p><a href="../-base-callback/index.html">BaseCallback</a></p>
+<p><a href="../../com.isupatches.wisefy/-wise-fy/search-for-saved-network.html">com.isupatches.wisefy.WiseFy.searchForSavedNetwork</a></p>
+</p>
+<p><strong>Author</strong><br/>
+Patches</p>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="retrieved-saved-network.html">retrievedSavedNetwork</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">retrievedSavedNetwork</span><span class="symbol">(</span><span class="identifier" id="com.isupatches.wisefy.callbacks.SearchForSavedNetworkCallbacks$retrievedSavedNetwork(android.net.wifi.WifiConfiguration)/savedNetwork">savedNetwork</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/net/wifi/WifiConfiguration.html"><span class="identifier">WifiConfiguration</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Called when WiseFy has successfully retrieved a matching saved network configuration.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="saved-network-not-found.html">savedNetworkNotFound</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">savedNetworkNotFound</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Called when there are no saved network configurations matching search criteria.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Inherited Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="../-base-callback/wisefy-failure.html">wisefyFailure</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">wisefyFailure</span><span class="symbol">(</span><span class="identifier" id="com.isupatches.wisefy.callbacks.BaseCallback$wisefyFailure(kotlin.Int)/wisefyFailureCode">wisefyFailureCode</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Called when <a href="#">com.isupatches.wisefy.WiseFyPrechecks</a> determines that there
+is an issue and an operation cannot be completed.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

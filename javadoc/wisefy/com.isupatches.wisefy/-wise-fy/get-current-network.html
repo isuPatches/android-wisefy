@@ -10,10 +10,8 @@
 <h1>getCurrentNetwork</h1>
 <a name="com.isupatches.wisefy.WiseFy$getCurrentNetwork()"></a>
 <code><span class="identifier">@Sync</span> <span class="identifier">@CallingThread</span> <span class="keyword">fun </span><span class="identifier">getCurrentNetwork</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://developer.android.com/reference/android/net/wifi/WifiInfo.html"><span class="identifier">WifiInfo</span></a><span class="symbol">?</span></code>
+<p>Overrides <a href="../-network-info-api/get-current-network.html">NetworkInfoApi.getCurrentNetwork</a></p>
 <p>To retrieve the user's current network.</p>
-<h3>Exceptions</h3>
-<p><a name="SecurityException"></a>
-<code>SecurityException</code> - Without necessary permissions granted</p>
 <p><strong>Return</strong><br/>
 WifiInfo|null - The user's current network information</p>
 <p><strong>See Also</strong><br/>
@@ -27,13 +25,11 @@ Patches</p>
 3.0</p>
 <a name="com.isupatches.wisefy.WiseFy$getCurrentNetwork(com.isupatches.wisefy.callbacks.GetCurrentNetworkCallbacks)"></a>
 <code><span class="identifier">@Async</span> <span class="identifier">@WiseFyThread</span> <span class="keyword">fun </span><span class="identifier">getCurrentNetwork</span><span class="symbol">(</span><span class="identifier" id="com.isupatches.wisefy.WiseFy$getCurrentNetwork(com.isupatches.wisefy.callbacks.GetCurrentNetworkCallbacks)/callbacks">callbacks</span><span class="symbol">:</span>&nbsp;<a href="../../com.isupatches.wisefy.callbacks/-get-current-network-callbacks/index.html"><span class="identifier">GetCurrentNetworkCallbacks</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Overrides <a href="../-network-info-api/get-current-network.html">NetworkInfoApi.getCurrentNetwork</a></p>
 <p>To retrieve the user's current network.</p>
 <h3>Parameters</h3>
 <p><a name="callbacks"></a>
 <code>callbacks</code> - The listener to return results to</p>
-<h3>Exceptions</h3>
-<p><a name="SecurityException"></a>
-<code>SecurityException</code> - Without necessary permissions granted</p>
 <p><strong>See Also</strong><br/>
 <p><a href="../../com.isupatches.wisefy.callbacks/-get-current-network-callbacks/index.html">GetCurrentNetworkCallbacks</a></p>
 <p><a href="#">runOnWiseFyThread</a></p>

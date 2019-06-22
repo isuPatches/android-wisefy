@@ -5,7 +5,7 @@ To connect to a network given an SSID:
 _With Kotlin_
 
 ```kotlin
-val connectedSuccessfully = wisefy.connectToNetwork("SSID to connect to", 3000);
+val connectedSuccessfully = wisefy.connectToNetwork("SSID to connect to", 3000)
 ```
 
 _With Java_
@@ -19,7 +19,7 @@ To disconnect from current network:
 _With Kotlin_
 
 ```kotlin
-val disconnectedSuccessfully = wisefy.disconnectFromCurrentNetwork();
+val disconnectedSuccessfully = wisefy.disconnectFromCurrentNetwork()
 ```
 
 _With Java_

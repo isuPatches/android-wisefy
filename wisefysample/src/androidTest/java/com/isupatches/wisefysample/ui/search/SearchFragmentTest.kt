@@ -1343,7 +1343,7 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             verifySearchedForSSIDs()
-            withNoSSIDsFound()
+            verifyNoSSIDsFoundIsDisplayed()
             dismissResultsDialog()
         }
     }
