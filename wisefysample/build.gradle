@@ -12,8 +12,8 @@ android {
         applicationId "com.isupatches.wisefysample"
         minSdkVersion rootProject.ext.MIN_SDK_VERSION
         targetSdkVersion rootProject.ext.MAX_SDK_VERSION
-        versionCode rootProject.ext.VERSION_CODE
-        versionName rootProject.ext.VERSION_NAME
+        versionCode 1
+        versionName '1.0'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
