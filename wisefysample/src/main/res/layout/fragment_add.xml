@@ -29,6 +29,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text="@string/open"
+                android:textSize="@dimen/font_size_small"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -41,6 +42,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text="@string/wep"
+                android:textSize="@dimen/font_size_small"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -53,6 +55,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text="@string/wpa2"
+                android:textSize="@dimen/font_size_small"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -74,6 +77,7 @@
                 android:layout_margin="@dimen/default_padding"
                 android:hint="@string/network_name"
                 android:inputType="text"
+                android:textSize="@dimen/font_size_large"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -95,6 +99,7 @@
                 android:layout_margin="@dimen/default_padding"
                 android:hint="@string/network_password"
                 android:inputType="text"
+                android:textSize="@dimen/font_size_large"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -110,6 +115,7 @@
             android:layout_marginRight="@dimen/default_margin"
             android:layout_marginTop="@dimen/margin_big"
             android:text="@string/add_network"
+            android:textSize="@dimen/font_size_medium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/networkPasswordTil" />

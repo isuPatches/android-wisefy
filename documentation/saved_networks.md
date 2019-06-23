@@ -1,17 +1,17 @@
 #### Via The Synchronous API
 
-To get the first saved network that matches a given regex:
+To search for the first saved network that matches a given regex:
 
 _With Kotlin_
 
 ```kotlin
-val savedNetwork = wisefy.getSavedNetwork("regex for SSID")
+val savedNetwork = wisefy.searchForSavedNetwork("regex for SSID")
 ```
 
 _With Java_
 
 ```java
-WifiConfiguration savedNetwork = wisefy.getSavedNetwork("regex for SSID");
+WifiConfiguration savedNetwork = wisefy.searchForSavedNetwork("regex for SSID");
 ```
 
 To retrieve all of the saved networks:
@@ -33,13 +33,13 @@ To return all saved networks that match a given regex:
 _With Kotlin_
 
 ```kotlin
-val savedNetworks = wisefy.getSavedNetworks("regex for SSID")
+val savedNetworks = wisefy.searchForSavedNetworks("regex for SSID")
 ```
 
 _With Java_
 
 ```java
-List<WifiConfiguration> savedNetworks = wisefy.getSavedNetworks("regex for SSID");
+List<WifiConfiguration> savedNetworks = wisefy.searchForSavedNetworks("regex for SSID");
 ```
 
 To check and see if a given SSID is in the devices set of configured networks:
@@ -63,7 +63,7 @@ To get the first saved network that matches a given regex:
 _With Kotlin_
 
 ```kotlin
-wisefy.getSavedNetwork("regex for SSID", object: GetSavedNetworkCallbacks {
+wisefy.searchForSavedNetwork("regex for SSID", object: SearchForSavedNetworkCallbacks {
     override fun retrievedSavedNetwork(savedNetwork: WifiConfiguration) {
 
     }
@@ -81,7 +81,7 @@ wisefy.getSavedNetwork("regex for SSID", object: GetSavedNetworkCallbacks {
 _With Java_
 
 ```java
-wisefy.getSavedNetwork("regex for SSID", new GetSavedNetworkCallbacks() {
+wisefy.searchForSavedNetwork("regex for SSID", new SearchForSavedNetworkCallbacks() {
     @Override
     public void retrievedSavedNetwork(WifiConfiguration savedNetwork) {
     
@@ -145,7 +145,7 @@ To return all saved networks that match a given regex:
 _With Kotlin_
 
 ```kotlin
-wisefy.getSavedNetworks("regex for SSID", object: GetSavedNetworksCallbacks {
+wisefy.searchForSavedNetworks("regex for SSID", object: SearchForSavedNetworksCallbacks {
     override fun retrievedSavedNetworks(savedNetworks: List<WifiConfiguration>) {
 
     }
@@ -163,7 +163,7 @@ wisefy.getSavedNetworks("regex for SSID", object: GetSavedNetworksCallbacks {
 _With Java_
 
 ```java
-wisefy.getSavedNetworks("regex for SSID", new GetSavedNetworksCallbacks() {
+wisefy.searchForSavedNetworks("regex for SSID", new SearchForSavedNetworksCallbacks() {
     @Override
     public void retrievedSavedNetworks(List<WifiConfiguration> savedNetworks) {
 

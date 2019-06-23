@@ -1,18 +1,29 @@
+/*
+ * Copyright 2019 Patches Klinefelter
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.isupatches.wisefysample.ui.misc
 
 import android.Manifest.permission.ACCESS_COARSE_LOCATION
 import android.Manifest.permission.ACCESS_NETWORK_STATE
 import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.Manifest.permission.CHANGE_WIFI_STATE
-import android.net.NetworkInfo
-import android.net.wifi.ScanResult
-import android.net.wifi.WifiConfiguration
-import android.net.wifi.WifiInfo
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 
-import com.isupatches.wisefy.WiseFy
+import com.isupatches.wisefy.WiseFyPublicApi
 import com.isupatches.wisefy.callbacks.DisableWifiCallbacks
 import com.isupatches.wisefy.callbacks.EnableWifiCallbacks
 import com.isupatches.wisefy.callbacks.GetCurrentNetworkCallbacks
@@ -22,145 +33,50 @@ import com.isupatches.wisefy.callbacks.GetIPCallbacks
 import com.isupatches.wisefy.callbacks.GetNearbyAccessPointsCallbacks
 import com.isupatches.wisefy.callbacks.GetSavedNetworksCallbacks
 
-internal class MiscModel(
-    private val presenter: MiscMvp.Presenter,
-    private val wiseFy: WiseFy
-): MiscMvp.Model {
+import javax.inject.Inject
+
+internal class MiscModel @Inject constructor(
+    private val wiseFy: WiseFyPublicApi
+) : MiscMvp.Model {
 
     @RequiresPermission(allOf = [CHANGE_WIFI_STATE])
-    override fun disableWifi() {
-        wiseFy.disableWifi(object : DisableWifiCallbacks {
-            override fun wifiDisabled() {
-                presenter.displayWifiDisabled()
-            }
-
-            override fun failureDisablingWifi() {
-                presenter.displayFailureDisablingWifi()
-            }
-
-            override fun wisefyFailure(wisefyFailureCode: Int) {
-                presenter.displayWiseFyFailure(wisefyFailureCode)
-            }
-        })
+    override fun disableWifi(callbacks: DisableWifiCallbacks) {
+        wiseFy.disableWifi(callbacks)
     }
 
     @RequiresPermission(allOf = [CHANGE_WIFI_STATE])
-    override fun enableWifi() {
-        wiseFy.enableWifi(object : EnableWifiCallbacks {
-            override fun wifiEnabled() {
-                presenter.displayWifiEnabled()
-            }
-
-            override fun failureEnablingWifi() {
-                presenter.displayFailureEnablingWifi()
-            }
-
-            override fun wisefyFailure(wisefyFailureCode: Int) {
-                presenter.displayWiseFyFailure(wisefyFailureCode)
-            }
-        })
+    override fun enableWifi(callbacks: EnableWifiCallbacks) {
+        wiseFy.enableWifi(callbacks)
     }
 
     @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
-    override fun getCurrentNetwork() {
-        wiseFy.getCurrentNetwork(object : GetCurrentNetworkCallbacks {
-            override fun retrievedCurrentNetwork(currentNetwork: WifiInfo) {
-                presenter.displayCurrentNetwork(currentNetwork)
-            }
-
-            override fun noCurrentNetwork() {
-                presenter.displayNoCurrentNetwork()
-            }
-
-            override fun wisefyFailure(wisefyFailureCode: Int) {
-                presenter.displayWiseFyFailure(wisefyFailureCode)
-            }
-        })
+    override fun getCurrentNetwork(callbacks: GetCurrentNetworkCallbacks) {
+        wiseFy.getCurrentNetwork(callbacks)
     }
 
     @RequiresPermission(allOf = [ACCESS_NETWORK_STATE])
-    override fun getCurrentNetworkInfo() {
-        wiseFy.getCurrentNetworkInfo(object : GetCurrentNetworkInfoCallbacks {
-            override fun retrievedCurrentNetworkInfo(currentNetworkDetails: NetworkInfo) {
-                presenter.displayCurrentNetworkInfo(currentNetworkDetails)
-            }
-
-            override fun noCurrentNetworkInfo() {
-                presenter.displayNoCurrentNetworkInfo()
-            }
-
-            override fun wisefyFailure(wisefyFailureCode: Int) {
-                presenter.displayWiseFyFailure(wisefyFailureCode)
-            }
-        })
+    override fun getCurrentNetworkInfo(callbacks: GetCurrentNetworkInfoCallbacks) {
+        wiseFy.getCurrentNetworkInfo(callbacks)
     }
 
     @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    override fun getFrequency() {
-        wiseFy.getFrequency(object : GetFrequencyCallbacks {
-            override fun retrievedFrequency(frequency: Int) {
-                presenter.displayFrequency(frequency)
-            }
-
-            override fun failureGettingFrequency() {
-                presenter.displayFailureRetrievingFrequency()
-            }
-
-            override fun wisefyFailure(wisefyFailureCode: Int) {
-                presenter.displayWiseFyFailure(wisefyFailureCode)
-            }
-        })
+    override fun getFrequency(callbacks: GetFrequencyCallbacks) {
+        wiseFy.getFrequency(callbacks)
     }
 
     @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
-    override fun getIP() {
-        wiseFy.getIP(object : GetIPCallbacks {
-            override fun retrievedIP(ip: String) {
-                presenter.displayIP(ip)
-            }
-
-            override fun failureRetrievingIP() {
-                presenter.displayFailureRetrievingIP()
-            }
-
-            override fun wisefyFailure(wisefyFailureCode: Int) {
-                presenter.displayWiseFyFailure(wisefyFailureCode)
-            }
-        })
+    override fun getIP(callbacks: GetIPCallbacks) {
+        wiseFy.getIP(callbacks)
     }
 
     @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
-    override fun getNearbyAccessPoints() {
-        wiseFy.getNearbyAccessPoints(true, object : GetNearbyAccessPointsCallbacks {
-            override fun retrievedNearbyAccessPoints(nearbyAccessPoints: List<ScanResult>) {
-                presenter.displayNearbyAccessPoints(nearbyAccessPoints)
-            }
-
-            override fun noAccessPointsFound() {
-                presenter.displayNoAccessPointsFound()
-            }
-
-            override fun wisefyFailure(wisefyFailureCode: Int) {
-                presenter.displayWiseFyFailure(wisefyFailureCode)
-            }
-        })
+    override fun getNearbyAccessPoints(callbacks: GetNearbyAccessPointsCallbacks) {
+        wiseFy.getNearbyAccessPoints(true, callbacks)
     }
 
     @RequiresPermission(allOf = [ACCESS_WIFI_STATE])
-    override fun getSavedNetworks() {
-        wiseFy.getSavedNetworks(object : GetSavedNetworksCallbacks {
-            override fun noSavedNetworksFound() {
-                presenter.displayNoSavedNetworksFound()
-            }
-
-            override fun retrievedSavedNetworks(savedNetworks: List<WifiConfiguration>) {
-                presenter.displaySavedNetworks(savedNetworks)
-            }
-
-            override fun wisefyFailure(wisefyFailureCode: Int) {
-                presenter.displayWiseFyFailure(wisefyFailureCode)
-            }
-        })
+    override fun getSavedNetworks(callbacks: GetSavedNetworksCallbacks) {
+        wiseFy.getSavedNetworks(callbacks)
     }
 }

@@ -1,3 +1,18 @@
+/*
+ * Copyright 2019 Patches Klinefelter
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.isupatches.wisefysample.ui.add
 
 import android.Manifest.permission.ACCESS_WIFI_STATE
@@ -6,15 +21,18 @@ import android.net.wifi.WifiConfiguration
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.annotation.VisibleForTesting
 
 import com.isupatches.wisefy.constants.WiseFyCode
 import com.isupatches.wisefysample.R
 import com.isupatches.wisefysample.internal.base.BaseFragment
 import com.isupatches.wisefysample.internal.models.NetworkType
 import com.isupatches.wisefysample.internal.preferences.AddNetworkStore
-import com.isupatches.wisefysample.internal.util.displayShortToast
 import com.isupatches.wisefysample.internal.util.getTrimmedInput
 import com.isupatches.wisefysample.internal.util.hideKeyboardFrom
+
+import dagger.Binds
+import dagger.Module
 
 import kotlinx.android.synthetic.main.fragment_add.addNetworkBtn
 import kotlinx.android.synthetic.main.fragment_add.addNetworkTypeRdg
@@ -28,8 +46,7 @@ internal class AddNetworkFragment : BaseFragment(), AddNetworkMvp.View {
 
     override val layoutRes = R.layout.fragment_add
 
-    private val presenter by lazy { AddNetworkPresenter(wiseFy) }
-
+    @Inject lateinit var presenter: AddNetworkMvp.Presenter
     @Inject lateinit var addNetworkStore: AddNetworkStore
 
     companion object {
@@ -37,9 +54,9 @@ internal class AddNetworkFragment : BaseFragment(), AddNetworkMvp.View {
 
         fun newInstance() = AddNetworkFragment()
 
-        private const val WISEFY_ADD_OPEN_NETWORK_REQUEST_CODE = 1
-        private const val WISEFY_ADD_WEP_NETWORK_REQUEST_CODE = 2
-        private const val WISEFY_ADD_WPA2_NETWORK_REQUEST_CODE = 3
+        @VisibleForTesting internal const val WISEFY_ADD_OPEN_NETWORK_REQUEST_CODE = 1
+        @VisibleForTesting internal const val WISEFY_ADD_WEP_NETWORK_REQUEST_CODE = 2
+        @VisibleForTesting internal const val WISEFY_ADD_WPA2_NETWORK_REQUEST_CODE = 3
     }
 
     override fun onStart() {
@@ -94,7 +111,7 @@ internal class AddNetworkFragment : BaseFragment(), AddNetworkMvp.View {
         networkPasswordEdt.setText(addNetworkStore.getLastUsedNetworkPassword())
 
         // Restore checked state
-        val checkedId = when(addNetworkStore.getNetworkType()) {
+        val checkedId = when (addNetworkStore.getNetworkType()) {
             NetworkType.OPEN -> R.id.openNetworkRdb
             NetworkType.WEP -> R.id.wepNetworkRdb
             NetworkType.WPA2 -> R.id.wpa2NetworkRdb
@@ -102,14 +119,14 @@ internal class AddNetworkFragment : BaseFragment(), AddNetworkMvp.View {
         addNetworkTypeRdg.check(checkedId)
 
         // Show/hide password edit
-        when(addNetworkStore.getNetworkType()) {
+        when (addNetworkStore.getNetworkType()) {
             NetworkType.OPEN -> adjustNetworkPasswordVisibility(View.INVISIBLE)
             else -> adjustNetworkPasswordVisibility(View.VISIBLE)
         }
     }
 
     private fun updateUI() {
-        when(addNetworkTypeRdg.checkedRadioButtonId) {
+        when (addNetworkTypeRdg.checkedRadioButtonId) {
             R.id.openNetworkRdb -> adjustNetworkPasswordVisibility(View.INVISIBLE)
             else -> adjustNetworkPasswordVisibility(View.VISIBLE)
         }
@@ -120,11 +137,14 @@ internal class AddNetworkFragment : BaseFragment(), AddNetworkMvp.View {
      */
 
     override fun displayFailureAddingNetwork(wifiManagerReturn: Int) {
-        displayShortToast("Failure adding network. WifiManager return: $wifiManagerReturn")
+        displayInfo(getString(R.string.failure_adding_network, wifiManagerReturn), R.string.add_network_result)
     }
 
     override fun displayNetworkAdded(newNetworkId: Int, networkConfig: WifiConfiguration) {
-        displayShortToast("Network added. Id: $newNetworkId, Config: $networkConfig")
+        displayInfoFullScreen(
+            getString(R.string.network_added, newNetworkId, networkConfig),
+            R.string.add_network_result
+        )
     }
 
     override fun displayWiseFyFailure(@WiseFyCode wiseFyFailureCode: Int) {
@@ -182,7 +202,7 @@ internal class AddNetworkFragment : BaseFragment(), AddNetworkMvp.View {
                     addOpenNetwork()
                 } else {
                     Log.w(TAG, "Permissions for adding an open network are denied")
-                    // Display permission error here
+                    displayPermissionErrorDialog(R.string.permission_error_add_open_network)
                 }
             }
             WISEFY_ADD_WEP_NETWORK_REQUEST_CODE -> {
@@ -190,7 +210,7 @@ internal class AddNetworkFragment : BaseFragment(), AddNetworkMvp.View {
                     addWEPNetwork()
                 } else {
                     Log.w(TAG, "Permissions for adding a WEP network are denied")
-                    // Display permission error here
+                    displayPermissionErrorDialog(R.string.permission_error_add_wep_network)
                 }
             }
             WISEFY_ADD_WPA2_NETWORK_REQUEST_CODE -> {
@@ -198,13 +218,25 @@ internal class AddNetworkFragment : BaseFragment(), AddNetworkMvp.View {
                     addWPA2Network()
                 } else {
                     Log.w(TAG, "Permissions for adding a WPA2 network are denied")
-                    // Display permission error here
+                    displayPermissionErrorDialog(R.string.permission_error_add_wpa2_network)
                 }
             }
             else -> {
-                // Display permission error here
                 Log.wtf(TAG, "Weird permission requested, not handled")
+                displayPermissionErrorDialog(
+                    getString(R.string.permission_error_unhandled_request_code_args, requestCode)
+                )
             }
         }
+    }
+
+    /*
+     * Dagger
+     */
+
+    @Suppress("unused")
+    @Module internal interface AddNetworkFragmentModule {
+        @Binds fun bindAddNetworkModel(impl: AddNetworkModel): AddNetworkMvp.Model
+        @Binds fun bindAddNetworkPresenter(impl: AddNetworkPresenter): AddNetworkMvp.Presenter
     }
 }

@@ -5,7 +5,7 @@ To check and see if the device is connected to a mobile network:
 _With Kotlin_
 
 ```Kotlin
-val isConnected = wisefy.isDeviceConnectedToMobileNetwork();
+val isConnected = wisefy.isDeviceConnectedToMobileNetwork()
 ```
 
 _With Java_
@@ -19,7 +19,7 @@ To check and see if the device is connected to a mobile or wifi network:
 _With Kotlin_
 
 ```kotlin
-val isConnected = wisefy.isDeviceConnectedToMobileOrWifiNetwork();
+val isConnected = wisefy.isDeviceConnectedToMobileOrWifiNetwork()
 ```
 
 _With Java_
@@ -33,7 +33,7 @@ To check and see if the device is connected to a given SSID:
 _With Kotlin_
 
 ```kotlin
-val isConnected = wisefy.isDeviceConnectedToSSID("SSID");
+val isConnected = wisefy.isDeviceConnectedToSSID("SSID")
 ```
 
 _With Java_
@@ -47,7 +47,7 @@ To check and see if the device is connected to a wifi network:
 _With Kotlin_
 
 ```kotlin
-val isConnected = wisefy.isDeviceConnectedToWifiNetwork();
+val isConnected = wisefy.isDeviceConnectedToWifiNetwork()
 ```
 
 _With Java_
@@ -61,7 +61,7 @@ To check and see if the device is roaming:
 _With Kotlin_
 
 ```kotlin
-val isDeviceRoaming = wisefy.isDeviceRoaming();
+val isDeviceRoaming = wisefy.isDeviceRoaming()
 ```
 
 _With Java_
@@ -75,7 +75,7 @@ To check and see if Wifi is enabled on a device:
 _With Kotlin_
 
 ```kotlin
-boolean wifiEnabled = wisefy.isWifiEnabled();
+boolean wifiEnabled = wisefy.isWifiEnabled()
 ```
 
 _With Java_

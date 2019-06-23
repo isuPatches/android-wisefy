@@ -1,3 +1,18 @@
+/*
+ * Copyright 2019 Patches Klinefelter
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.isupatches.wisefysample.ui.search
 
 import android.Manifest.permission.ACCESS_COARSE_LOCATION
@@ -6,96 +21,184 @@ import android.net.wifi.ScanResult
 import android.net.wifi.WifiConfiguration
 import androidx.annotation.RequiresPermission
 
-import com.isupatches.wisefy.WiseFy
+import com.isupatches.wisefy.callbacks.SearchForAccessPointCallbacks
+import com.isupatches.wisefy.callbacks.SearchForAccessPointsCallbacks
+import com.isupatches.wisefy.callbacks.SearchForSSIDCallbacks
+import com.isupatches.wisefy.callbacks.SearchForSSIDsCallbacks
+import com.isupatches.wisefy.callbacks.SearchForSavedNetworkCallbacks
+import com.isupatches.wisefy.callbacks.SearchForSavedNetworksCallbacks
+import com.isupatches.wisefy.constants.WiseFyCode
 import com.isupatches.wisefysample.internal.base.BasePresenter
+import com.isupatches.wisefysample.internal.util.RxSchedulersProvider
 
-internal class SearchPresenter(
-    wiseFy: WiseFy
-) : BasePresenter<SearchMvp.View>(), SearchMvp.Presenter {
+import javax.inject.Inject
 
-    private val model = SearchModel(this, wiseFy)
+internal class SearchPresenter @Inject constructor(
+    private val model: SearchMvp.Model,
+    rxSchedulersProvider: RxSchedulersProvider
+) : BasePresenter<SearchMvp.View>(rxSchedulersProvider), SearchMvp.Presenter {
 
     /*
      * Model call-throughs
      */
 
-    override fun getSavedNetwork(regexForSSID: String) {
-        model.getSavedNetwork(regexForSSID)
-    }
-
-    override fun getSavedNetworks(regexForSSID: String) {
-        model.getSavedNetworks(regexForSSID)
-    }
-
     @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
-    override fun searchForAccessPoint(regexForSSID: String, timeout: Int, filterDuplicates: Boolean) {
-        model.searchForAccessPoint(regexForSSID, timeout, filterDuplicates)
+    override fun searchForAccessPoint(
+        regexForSSID: String,
+        timeout: Int,
+        filterDuplicates: Boolean
+    ) {
+        model.searchForAccessPoint(
+            regexForSSID,
+            timeout,
+            filterDuplicates,
+            object : SearchForAccessPointCallbacks {
+                override fun accessPointFound(accessPoint: ScanResult) {
+                    displayAccessPoint(accessPoint)
+                }
+
+                override fun accessPointNotFound() {
+                    displayAccessPointNotFound()
+                }
+
+                override fun wisefyFailure(@WiseFyCode wisefyFailureCode: Int) {
+                    displayWiseFyFailure(wisefyFailureCode)
+                }
+            })
     }
 
     @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
     override fun searchForAccessPoints(regexForSSID: String, filterDuplicates: Boolean) {
-        model.searchForAccessPoints(regexForSSID, filterDuplicates)
+        model.searchForAccessPoints(regexForSSID, filterDuplicates, object : SearchForAccessPointsCallbacks {
+            override fun foundAccessPoints(accessPoints: List<ScanResult>) {
+                displayAccessPoints(accessPoints)
+            }
+
+            override fun noAccessPointsFound() {
+                displayNoAccessPointsFound()
+            }
+
+            override fun wisefyFailure(@WiseFyCode wisefyFailureCode: Int) {
+                displayWiseFyFailure(wisefyFailureCode)
+            }
+        })
+    }
+
+    override fun searchForSavedNetwork(regexForSSID: String) {
+        model.searchForSavedNetwork(regexForSSID, object : SearchForSavedNetworkCallbacks {
+            override fun retrievedSavedNetwork(savedNetwork: WifiConfiguration) {
+                displaySavedNetwork(savedNetwork)
+            }
+
+            override fun savedNetworkNotFound() {
+                displaySavedNetworkNotFound()
+            }
+
+            override fun wisefyFailure(@WiseFyCode wisefyFailureCode: Int) {
+                displayWiseFyFailure(wisefyFailureCode)
+            }
+        })
+    }
+
+    override fun searchForSavedNetworks(regexForSSID: String) {
+        model.searchForSavedNetworks(regexForSSID, object : SearchForSavedNetworksCallbacks {
+            override fun retrievedSavedNetworks(savedNetworks: List<WifiConfiguration>) {
+                displaySavedNetworks(savedNetworks)
+            }
+
+            override fun noSavedNetworksFound() {
+                displayNoSavedNetworksFound()
+            }
+
+            override fun wisefyFailure(@WiseFyCode wisefyFailureCode: Int) {
+                displayWiseFyFailure(wisefyFailureCode)
+            }
+        })
     }
 
     @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
     override fun searchForSSID(regexForSSID: String, timeout: Int) {
-        model.searchForSSID(regexForSSID, timeout)
+        model.searchForSSID(regexForSSID, timeout, object : SearchForSSIDCallbacks {
+            override fun ssidFound(ssid: String) {
+                displaySSID(ssid)
+            }
+
+            override fun ssidNotFound() {
+                displaySSIDNotFound()
+            }
+
+            override fun wisefyFailure(@WiseFyCode wisefyFailureCode: Int) {
+                displayWiseFyFailure(wisefyFailureCode)
+            }
+        })
     }
 
     @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
     override fun searchForSSIDs(regexForSSID: String) {
-        model.searchForSSIDs(regexForSSID)
+        model.searchForSSIDs(regexForSSID, object : SearchForSSIDsCallbacks {
+            override fun retrievedSSIDs(ssids: List<String>) {
+                displaySSIDs(ssids)
+            }
+
+            override fun noSSIDsFound() {
+                displayNoSSIDsFound()
+            }
+
+            override fun wisefyFailure(@WiseFyCode wisefyFailureCode: Int) {
+                displayWiseFyFailure(wisefyFailureCode)
+            }
+        })
     }
 
     /*
      * View callbacks
      */
 
-    override fun displaySavedNetwork(savedNetwork: WifiConfiguration) {
+    private fun displaySavedNetwork(savedNetwork: WifiConfiguration) {
         doSafelyWithView { view -> view.displaySavedNetwork(savedNetwork) }
     }
 
-    override fun displaySavedNetworkNotFound() {
+    private fun displaySavedNetworkNotFound() {
         doSafelyWithView { view -> view.displaySavedNetworkNotFound() }
     }
 
-    override fun displaySavedNetworks(savedNetworks: List<WifiConfiguration>) {
+    private fun displaySavedNetworks(savedNetworks: List<WifiConfiguration>) {
         doSafelyWithView { view -> view.displaySavedNetworks(savedNetworks) }
     }
 
-    override fun displayNoSavedNetworksFound() {
+    private fun displayNoSavedNetworksFound() {
         doSafelyWithView { view -> view.displayNoSavedNetworksFound() }
     }
 
-    override fun displayAccessPoint(accessPoint: ScanResult) {
+    private fun displayAccessPoint(accessPoint: ScanResult) {
         doSafelyWithView { view -> view.displayAccessPoint(accessPoint) }
     }
 
-    override fun displayAccessPointNotFound() {
+    private fun displayAccessPointNotFound() {
         doSafelyWithView { view -> view.displayAccessPointNotFound() }
     }
 
-    override fun displayAccessPoints(accessPoints: List<ScanResult>) {
+    private fun displayAccessPoints(accessPoints: List<ScanResult>) {
         doSafelyWithView { view -> view.displayAccessPoints(accessPoints) }
     }
 
-    override fun displayNoAccessPointsFound() {
+    private fun displayNoAccessPointsFound() {
         doSafelyWithView { view -> view.displayNoAccessPointsFound() }
     }
 
-    override fun displaySSID(ssid: String) {
+    private fun displaySSID(ssid: String) {
         doSafelyWithView { view -> view.displaySSID(ssid) }
     }
 
-    override fun displaySSIDNotFound() {
+    private fun displaySSIDNotFound() {
         doSafelyWithView { view -> view.displaySSIDNotFound() }
     }
 
-    override fun displaySSIDs(ssids: List<String>) {
+    private fun displaySSIDs(ssids: List<String>) {
         doSafelyWithView { view -> view.displaySSIDs(ssids) }
     }
 
-    override fun displayNoSSIDsFound() {
+    private fun displayNoSSIDsFound() {
         doSafelyWithView { view -> view.displayNoSSIDsFound() }
     }
 }

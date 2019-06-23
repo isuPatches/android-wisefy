@@ -1,8 +1,8 @@
 buildscript {
     project.ext {
-        agp_version = '3.4.0'
+        agp_version = '3.4.1'
         bintray_version = '1.8.4'
-        cpd_version = '2.0-SNAPSHOT'
+        cpd_version = '2.0'
         dokka_version = '0.9.18'
         dexcount_version = '0.8.5'
         jacoco_version = '0.8.3'
@@ -14,7 +14,6 @@ buildscript {
         jcenter()
         google()
         maven { url "https://plugins.gradle.org/m2/" }
-        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
     }
 
     dependencies {
@@ -24,7 +23,6 @@ buildscript {
         // Static Analysis
         classpath "com.getkeepsafe.dexcount:dexcount-gradle-plugin:$dexcount_version"
         classpath "de.aaschmid:gradle-cpd-plugin:$cpd_version"
-
 
         // Code Coverage
         classpath "org.jacoco:org.jacoco.core:$jacoco_version"
@@ -141,7 +139,8 @@ task makeGoodChoices {
 
     outputs.upToDateWhen { false }
 
-    dependsOn 'staticAnalysisSanityCheck', ':wisefy:jacocoDebugUnitTest'
+    dependsOn 'staticAnalysisSanityCheck',
+            ':wisefy:jacocoDebugUnitTest', ':wisefysample:jacocoDebugUnitTest'
     doLast {
         println "\n#############################################" +
                 "\n# All checks passed! You are doing so good! #" +

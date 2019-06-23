@@ -1,3 +1,18 @@
+/*
+ * Copyright 2019 Patches Klinefelter
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.isupatches.wisefysample.ui.misc
 
 import android.Manifest.permission.ACCESS_COARSE_LOCATION
@@ -9,44 +24,51 @@ import android.net.NetworkInfo
 import android.net.wifi.ScanResult
 import android.net.wifi.WifiConfiguration
 import android.net.wifi.WifiInfo
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.annotation.VisibleForTesting
 
 import com.isupatches.wisefy.constants.WiseFyCode
 import com.isupatches.wisefysample.R
 import com.isupatches.wisefysample.internal.base.BaseFragment
-import com.isupatches.wisefysample.internal.util.displayShortToast
+import com.isupatches.wisefysample.internal.util.SdkUtil
+
+import dagger.Binds
+import dagger.Module
 
 import kotlinx.android.synthetic.main.fragment_misc.enableWifiBtn
 import kotlinx.android.synthetic.main.fragment_misc.disableWifiBtn
 import kotlinx.android.synthetic.main.fragment_misc.getCurrentNetworkBtn
-import kotlinx.android.synthetic.main.fragment_misc.getCurrentNetworkDetailsBtn
+import kotlinx.android.synthetic.main.fragment_misc.getCurrentNetworkInfoBtn
 import kotlinx.android.synthetic.main.fragment_misc.getFrequencyBtn
 import kotlinx.android.synthetic.main.fragment_misc.getIPBtn
 import kotlinx.android.synthetic.main.fragment_misc.getNearbyAccessPointsBtn
 import kotlinx.android.synthetic.main.fragment_misc.getSavedNetworksBtn
 
+import javax.inject.Inject
+
+@Suppress("LargeClass")
 internal class MiscFragment : BaseFragment(), MiscMvp.View {
 
     override val layoutRes = R.layout.fragment_misc
 
-    private val presenter by lazy { MiscPresenter(wiseFy) }
+    @Inject lateinit var presenter: MiscMvp.Presenter
+    @Inject lateinit var sdkUtil: SdkUtil
 
     companion object {
         val TAG: String = MiscFragment::class.java.simpleName
 
         fun newInstance() = MiscFragment()
 
-        private const val WISEFY_DISABLE_WIFI_REQUEST_CODE = 1
-        private const val WISEFY_ENABLE_WIFI_REQUEST_CODE = 2
-        private const val WISEFY_GET_CURRENT_NETWORK_REQUEST_CODE = 3
-        private const val WISEFY_GET_CURRENT_NETWORK_INFO_REQUEST_CODE = 4
-        private const val WISEFY_GET_FREQUENCY_REQUEST_CODE = 5
-        private const val WISEFY_GET_IP_REQUEST_CODE = 6
-        private const val WISEFY_GET_NEARBY_ACCESS_POINTS_REQUEST_CODE = 7
-        private const val WISEFY_GET_SAVED_NETWORKS_REQUEST_CODE = 8
+        @VisibleForTesting internal const val WISEFY_DISABLE_WIFI_REQUEST_CODE = 1
+        @VisibleForTesting internal const val WISEFY_ENABLE_WIFI_REQUEST_CODE = 2
+        @VisibleForTesting internal const val WISEFY_GET_CURRENT_NETWORK_REQUEST_CODE = 3
+        @VisibleForTesting internal const val WISEFY_GET_CURRENT_NETWORK_INFO_REQUEST_CODE = 4
+        @VisibleForTesting internal const val WISEFY_GET_FREQUENCY_REQUEST_CODE = 5
+        @VisibleForTesting internal const val WISEFY_GET_IP_REQUEST_CODE = 6
+        @VisibleForTesting internal const val WISEFY_GET_NEARBY_ACCESS_POINTS_REQUEST_CODE = 7
+        @VisibleForTesting internal const val WISEFY_GET_SAVED_NETWORKS_REQUEST_CODE = 8
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -61,7 +83,7 @@ internal class MiscFragment : BaseFragment(), MiscMvp.View {
         getCurrentNetworkBtn.setOnClickListener {
             getCurrentNetwork()
         }
-        getCurrentNetworkDetailsBtn.setOnClickListener {
+        getCurrentNetworkInfoBtn.setOnClickListener {
             getCurrentNetworkInfo()
         }
         getFrequencyBtn.setOnClickListener {
@@ -93,67 +115,79 @@ internal class MiscFragment : BaseFragment(), MiscMvp.View {
      */
 
     override fun displayWifiDisabled() {
-        displayShortToast("Wifi disabled!")
+        displayInfo(R.string.wifi_disabled, R.string.wisefy_action_result)
     }
 
     override fun displayFailureDisablingWifi() {
-        displayShortToast("Failure disabling wifi")
+        displayInfo(R.string.failure_disabling_wifi, R.string.wisefy_action_result)
     }
 
     override fun displayWifiEnabled() {
-        displayShortToast("Wifi enabled!")
+        displayInfo(R.string.wifi_enabled, R.string.wisefy_action_result)
     }
 
     override fun displayFailureEnablingWifi() {
-        displayShortToast("Failure enabling wifi")
+        displayInfo(R.string.failure_enabling_wifi, R.string.wisefy_action_result)
     }
 
     override fun displayCurrentNetwork(currentNetwork: WifiInfo) {
-        displayShortToast("Current network: $currentNetwork")
+        displayInfoFullScreen(
+            getString(R.string.current_network_args, currentNetwork),
+            R.string.wisefy_action_result
+        )
     }
 
     override fun displayNoCurrentNetwork() {
-        displayShortToast("No current network")
+        displayInfo(R.string.no_current_network, R.string.wisefy_action_result)
     }
 
-    override fun displayCurrentNetworkInfo(currentNetworkDetails: NetworkInfo) {
-        displayShortToast("Current network info: $currentNetworkDetails")
+    override fun displayCurrentNetworkInfo(currentNetworkInfo: NetworkInfo) {
+        displayInfoFullScreen(
+            getString(R.string.current_network_info_args, currentNetworkInfo),
+            R.string.wisefy_action_result
+        )
     }
 
     override fun displayNoCurrentNetworkInfo() {
-        displayShortToast("No current network info")
+        displayInfo(R.string.no_current_network_info, R.string.wisefy_action_result)
     }
 
     override fun displayFrequency(frequency: Int) {
-        displayShortToast("Frequency: $frequency")
+        displayInfo(getString(R.string.frequency_args, frequency), R.string.wisefy_action_result)
     }
 
     override fun displayFailureRetrievingFrequency() {
-        displayShortToast("Failure retrieving frequency")
+        displayInfo(R.string.failure_retrieving_frequency, R.string.wisefy_action_result)
     }
 
     override fun displayIP(ip: String) {
-        displayShortToast("IP: $ip")
+        displayInfo(getString(R.string.ip_args, ip), R.string.wisefy_action_result)
     }
 
     override fun displayFailureRetrievingIP() {
-        displayShortToast("Failure retrieving IP")
+        displayInfo(R.string.failure_retrieving_ip, R.string.wisefy_action_result)
     }
 
     override fun displayNearbyAccessPoints(accessPoints: List<ScanResult>) {
-        displayShortToast("Nearby access points: $accessPoints")
+        displayInfoFullScreen(
+            getString(R.string.access_points_args, accessPoints),
+            R.string.wisefy_action_result
+        )
     }
 
     override fun displayNoAccessPointsFound() {
-        displayShortToast("No access points found!")
+        displayInfo(R.string.no_access_points_found, R.string.wisefy_action_result)
     }
 
     override fun displaySavedNetworks(savedNetworks: List<WifiConfiguration>) {
-        displayShortToast("Saved networks: $savedNetworks")
+        displayInfoFullScreen(
+            getString(R.string.saved_networks_args, savedNetworks),
+            R.string.wisefy_action_result
+        )
     }
 
     override fun displayNoSavedNetworksFound() {
-        displayShortToast("No saved networks found!")
+        displayInfo(R.string.no_saved_networks_found, R.string.wisefy_action_result)
     }
 
     override fun displayWiseFyFailure(@WiseFyCode wiseFyFailureCode: Int) {
@@ -191,12 +225,12 @@ internal class MiscFragment : BaseFragment(), MiscMvp.View {
 
     @Throws(SecurityException::class)
     private fun getFrequency() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (sdkUtil.isAtLeastLollipop()) {
             if (checkGetFrequencyPermissions()) {
                 presenter.getFrequency()
             }
         } else {
-            displayShortToast("getFrequency is a Lollipop and above feature")
+            displayInfo(R.string.frequency_lollipop_notice)
         }
     }
 
@@ -233,8 +267,8 @@ internal class MiscFragment : BaseFragment(), MiscMvp.View {
     }
 
     private fun checkGetCurrentNetworkPermissions(): Boolean {
-        return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_GET_CURRENT_NETWORK_REQUEST_CODE)
-                && isPermissionGranted(ACCESS_COARSE_LOCATION, WISEFY_GET_CURRENT_NETWORK_REQUEST_CODE)
+        return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_GET_CURRENT_NETWORK_REQUEST_CODE) &&
+                isPermissionGranted(ACCESS_COARSE_LOCATION, WISEFY_GET_CURRENT_NETWORK_REQUEST_CODE)
     }
 
     private fun checkGetCurrentNetworkInfoPermissions(): Boolean {
@@ -242,40 +276,41 @@ internal class MiscFragment : BaseFragment(), MiscMvp.View {
     }
 
     private fun checkGetFrequencyPermissions(): Boolean {
-        return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_GET_FREQUENCY_REQUEST_CODE)
-                && isPermissionGranted(ACCESS_COARSE_LOCATION, WISEFY_GET_FREQUENCY_REQUEST_CODE)
+        return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_GET_FREQUENCY_REQUEST_CODE) &&
+                isPermissionGranted(ACCESS_COARSE_LOCATION, WISEFY_GET_FREQUENCY_REQUEST_CODE)
     }
 
-    private fun  checkGetIPPermissions(): Boolean {
-        return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_GET_IP_REQUEST_CODE)
-                && isPermissionGranted(ACCESS_COARSE_LOCATION, WISEFY_GET_IP_REQUEST_CODE)
+    private fun checkGetIPPermissions(): Boolean {
+        return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_GET_IP_REQUEST_CODE) &&
+                isPermissionGranted(ACCESS_COARSE_LOCATION, WISEFY_GET_IP_REQUEST_CODE)
     }
 
     private fun checkGetNearbyAccessPointsPermissions(): Boolean {
-        return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_GET_NEARBY_ACCESS_POINTS_REQUEST_CODE)
-                && isPermissionGranted(ACCESS_COARSE_LOCATION, WISEFY_GET_NEARBY_ACCESS_POINTS_REQUEST_CODE)
+        return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_GET_NEARBY_ACCESS_POINTS_REQUEST_CODE) &&
+                isPermissionGranted(ACCESS_COARSE_LOCATION, WISEFY_GET_NEARBY_ACCESS_POINTS_REQUEST_CODE)
     }
 
     private fun checkGetSavedNetworksPermissions(): Boolean {
         return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_GET_SAVED_NETWORKS_REQUEST_CODE)
     }
 
+    @Suppress("LongMethod", "ComplexMethod")
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         when (requestCode) {
             WISEFY_DISABLE_WIFI_REQUEST_CODE -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    getIP()
+                    disableWifi()
                 } else {
                     Log.w(TAG, "Permissions for disabling wifi are denied")
-                    // Display permission error here
+                    displayPermissionErrorDialog(R.string.permission_error_disable_wifi)
                 }
             }
             WISEFY_ENABLE_WIFI_REQUEST_CODE -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    getIP()
+                    enableWifi()
                 } else {
                     Log.w(TAG, "Permissions for enabling wifi are denied")
-                    // Display permission error here
+                    displayPermissionErrorDialog(R.string.permission_error_enable_wifi)
                 }
             }
             WISEFY_GET_CURRENT_NETWORK_REQUEST_CODE -> {
@@ -283,7 +318,7 @@ internal class MiscFragment : BaseFragment(), MiscMvp.View {
                     getCurrentNetwork()
                 } else {
                     Log.w(TAG, "Permissions for getting current network are denied")
-                    // Display permission error here
+                    displayPermissionErrorDialog(R.string.permission_error_get_current_network)
                 }
             }
             WISEFY_GET_CURRENT_NETWORK_INFO_REQUEST_CODE -> {
@@ -291,7 +326,7 @@ internal class MiscFragment : BaseFragment(), MiscMvp.View {
                     getCurrentNetworkInfo()
                 } else {
                     Log.w(TAG, "Permissions for getting current network info are denied")
-                    // Display permission error here
+                    displayPermissionErrorDialog(R.string.permission_error_get_current_network_info)
                 }
             }
             WISEFY_GET_FREQUENCY_REQUEST_CODE -> {
@@ -299,7 +334,7 @@ internal class MiscFragment : BaseFragment(), MiscMvp.View {
                     getFrequency()
                 } else {
                     Log.w(TAG, "Permissions for getting frequency are denied")
-                    // Display permission error here
+                    displayPermissionErrorDialog(R.string.permission_error_get_frequency)
                 }
             }
             WISEFY_GET_IP_REQUEST_CODE -> {
@@ -307,7 +342,7 @@ internal class MiscFragment : BaseFragment(), MiscMvp.View {
                     getIP()
                 } else {
                     Log.w(TAG, "Permissions for getting ip are denied")
-                    // Display permission error here
+                    displayPermissionErrorDialog(R.string.permission_error_get_ip)
                 }
             }
             WISEFY_GET_NEARBY_ACCESS_POINTS_REQUEST_CODE -> {
@@ -315,21 +350,33 @@ internal class MiscFragment : BaseFragment(), MiscMvp.View {
                     getNearbyAccessPoints()
                 } else {
                     Log.w(TAG, "Permissions for getting nearby access points are denied")
-                    // Display permission error here
+                    displayPermissionErrorDialog(R.string.permission_error_get_nearby_access_points)
                 }
             }
             WISEFY_GET_SAVED_NETWORKS_REQUEST_CODE -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    getIP()
+                    getSavedNetworks()
                 } else {
                     Log.w(TAG, "Permissions for getting saved networks are denied")
-                    // Display permission error here
+                    displayPermissionErrorDialog(R.string.permission_error_get_saved_networks)
                 }
             }
             else -> {
-                // Display permission error here
                 Log.wtf(TAG, "Weird permission requested, not handled")
+                displayPermissionErrorDialog(
+                    getString(R.string.permission_error_unhandled_request_code_args, requestCode)
+                )
             }
         }
+    }
+
+    /*
+     * Dagger
+     */
+
+    @Suppress("unused")
+    @Module internal interface MiscFragmentModule {
+        @Binds fun bindMiscModel(impl: MiscModel): MiscMvp.Model
+        @Binds fun bindMiscPresenter(impl: MiscPresenter): MiscMvp.Presenter
     }
 }

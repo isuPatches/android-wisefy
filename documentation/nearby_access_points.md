@@ -21,7 +21,7 @@ To search for an access point given a regex (will return first match):<br/><br/>
 _With Kotlin_
 
 ```kotlin
-val wisefy.searchForAccessPoint("regex for SSID", 3000, true);
+val wisefy.searchForAccessPoint("regex for SSID", 3000, true)
 ```
 
 _With Java_

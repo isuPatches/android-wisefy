@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Patches Klinefelter
+ * Copyright 2019 Patches Klinefelter
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -197,14 +197,14 @@ internal class WiseFyPrechecksImpl private constructor(
         checkForParam(regexForSSID)
 
     /**
-     * Used internally to make sure perquisites for getting the saved networks on a device are met.
+     * Used internally to make sure perquisites for searching for a saved network on a device are met.
      *
-     * @param regexForSSID The regexForSSID param from [com.isupatches.wisefy.WiseFy.getSavedNetwork]
+     * @param regexForSSID The regexForSSID param from [com.isupatches.wisefy.WiseFy.searchForSavedNetwork]
      *
      * @return PrecheckResult - [DEFAULT_PRECHECK_RESULT] or a [PrecheckResult] with an error code.
      *
      * @see [checkForParam]
-     * @see [com.isupatches.wisefy.WiseFy.getSavedNetwork]
+     * @see [com.isupatches.wisefy.WiseFy.searchForSavedNetwork]
      *
      * @author Patches
      * @since 3.0
@@ -390,6 +390,39 @@ internal class WiseFyPrechecksImpl private constructor(
         checkForParam(regexForSSID)
 
     /**
+     * Used internally to make sure prerequisites for searching for an individual saved network
+     * are met.
+     *
+     * @param regexForSSID The regexForSsid param from [com.isupatches.wisefy.WiseFy.searchForSavedNetwork]
+     *
+     * @return PrecheckResult - [DEFAULT_PRECHECK_RESULT] or a [PrecheckResult] with an error code.
+     *
+     * @see [checkForParam]
+     * @see [com.isupatches.wisefy.WiseFy.searchForSavedNetwork]
+     *
+     * @author Patches
+     * @since 4.0
+     */
+    override fun searchForSavedNetworkChecks(regexForSSID: String?): PrecheckResult =
+            checkForParam(regexForSSID)
+
+    /**
+     * Used internally to make sure prerequisites for searching for saved networks are met.
+     *
+     * @param regexForSSID The regexForSsid param from [com.isupatches.wisefy.WiseFy.searchForSavedNetworks]
+     *
+     * @return PrecheckResult - [DEFAULT_PRECHECK_RESULT] or a [PrecheckResult] with an error code.
+     *
+     * @see [checkForParam]
+     * @see [com.isupatches.wisefy.WiseFy.searchForSavedNetworks]
+     *
+     * @author Patches
+     * @since 4.0
+     */
+    override fun searchForSavedNetworksChecks(regexForSSID: String?): PrecheckResult =
+            checkForParam(regexForSSID)
+
+    /**
      * Used internally to make sure prerequisites for searching for an individual SSID are met.
      *
      * @param regexForSSID The regexForSsid param from [com.isupatches.wisefy.WiseFy.searchForSSID]
@@ -562,6 +595,10 @@ internal interface WiseFyPrechecks {
     fun searchForAccessPointChecks(regexForSSID: String?): PrecheckResult
 
     fun searchForAccessPointsChecks(regexForSSID: String?): PrecheckResult
+
+    fun searchForSavedNetworkChecks(regexForSSID: String?): PrecheckResult
+
+    fun searchForSavedNetworksChecks(regexForSSID: String?): PrecheckResult
 
     fun searchForSSIDChecks(regexForSSID: String?): PrecheckResult
 

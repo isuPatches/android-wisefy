@@ -10,6 +10,7 @@
 <h1>getSavedNetworks</h1>
 <a name="com.isupatches.wisefy.WiseFy$getSavedNetworks()"></a>
 <code><span class="identifier">@Sync</span> <span class="identifier">@CallingThread</span> <span class="keyword">fun </span><span class="identifier">getSavedNetworks</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="https://developer.android.com/reference/android/net/wifi/WifiConfiguration.html"><span class="identifier">WifiConfiguration</span></a><span class="symbol">&gt;</span><span class="symbol">?</span></code>
+<p>Overrides <a href="../-saved-network-api/get-saved-networks.html">SavedNetworkApi.getSavedNetworks</a></p>
 <p>To retrieve a list of saved networks on a user's device.</p>
 <p><strong>Return</strong><br/>
 List of WifiConfiguration|null - List of saved networks on a users device</p>
@@ -24,45 +25,9 @@ Patches</p>
 3.0</p>
 <a name="com.isupatches.wisefy.WiseFy$getSavedNetworks(com.isupatches.wisefy.callbacks.GetSavedNetworksCallbacks)"></a>
 <code><span class="identifier">@Async</span> <span class="identifier">@WiseFyThread</span> <span class="keyword">fun </span><span class="identifier">getSavedNetworks</span><span class="symbol">(</span><span class="identifier" id="com.isupatches.wisefy.WiseFy$getSavedNetworks(com.isupatches.wisefy.callbacks.GetSavedNetworksCallbacks)/callbacks">callbacks</span><span class="symbol">:</span>&nbsp;<a href="../../com.isupatches.wisefy.callbacks/-get-saved-networks-callbacks/index.html"><span class="identifier">GetSavedNetworksCallbacks</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Overrides <a href="../-saved-network-api/get-saved-networks.html">SavedNetworkApi.getSavedNetworks</a></p>
 <p>To retrieve a list of saved networks on a user's device.</p>
 <h3>Parameters</h3>
-<p><a name="callbacks"></a>
-<code>callbacks</code> - The listener to return results to</p>
-<p><strong>See Also</strong><br/>
-<p><a href="../../com.isupatches.wisefy.callbacks/-get-saved-networks-callbacks/index.html">GetSavedNetworksCallbacks</a></p>
-<p><a href="#">runOnWiseFyThread</a></p>
-<p><a href="https://developer.android.com/reference/android/net/wifi/WifiConfiguration.html">WifiConfiguration</a></p>
-<p><a href="../-wise-fy-lock.html">WiseFyLock</a></p>
-<p><a href="#">WiseFyPrechecks.getSavedNetworksChecks</a></p>
-<p><a href="#">WiseFySearch.findSavedNetworksMatchingRegex</a></p>
-</p>
-<p><strong>Author</strong><br/>
-Patches</p>
-<p><strong>Since</strong><br/>
-3.0</p>
-<a name="com.isupatches.wisefy.WiseFy$getSavedNetworks(kotlin.String)"></a>
-<code><span class="identifier">@Sync</span> <span class="identifier">@CallingThread</span> <span class="keyword">fun </span><span class="identifier">getSavedNetworks</span><span class="symbol">(</span><span class="identifier" id="com.isupatches.wisefy.WiseFy$getSavedNetworks(kotlin.String)/regexForSSID">regexForSSID</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html"><span class="identifier">List</span></a><span class="symbol">&lt;</span><a href="https://developer.android.com/reference/android/net/wifi/WifiConfiguration.html"><span class="identifier">WifiConfiguration</span></a><span class="symbol">&gt;</span><span class="symbol">?</span></code>
-<p>To retrieve a list of saved networks on a user's device that match a given regex.</p>
-<h3>Parameters</h3>
-<p><a name="regexForSSID"></a>
-<code>regexForSSID</code> - The ssid to use while searching for saved configurations</p>
-<p><strong>Return</strong><br/>
-List of WifiConfigurations|null - The list of saved network configurations that match the given regex</p>
-<p><strong>See Also</strong><br/>
-<p><a href="https://developer.android.com/reference/android/net/wifi/WifiConfiguration.html">WifiConfiguration</a></p>
-<p><a href="#">WiseFyPrechecks.getSavedNetworksChecks</a></p>
-<p><a href="#">WiseFySearch.findSavedNetworksMatchingRegex</a></p>
-</p>
-<p><strong>Author</strong><br/>
-Patches</p>
-<p><strong>Since</strong><br/>
-3.0</p>
-<a name="com.isupatches.wisefy.WiseFy$getSavedNetworks(kotlin.String, com.isupatches.wisefy.callbacks.GetSavedNetworksCallbacks)"></a>
-<code><span class="identifier">@Async</span> <span class="identifier">@WiseFyThread</span> <span class="keyword">fun </span><span class="identifier">getSavedNetworks</span><span class="symbol">(</span><span class="identifier" id="com.isupatches.wisefy.WiseFy$getSavedNetworks(kotlin.String, com.isupatches.wisefy.callbacks.GetSavedNetworksCallbacks)/regexForSSID">regexForSSID</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span><span class="symbol">, </span><span class="identifier" id="com.isupatches.wisefy.WiseFy$getSavedNetworks(kotlin.String, com.isupatches.wisefy.callbacks.GetSavedNetworksCallbacks)/callbacks">callbacks</span><span class="symbol">:</span>&nbsp;<a href="../../com.isupatches.wisefy.callbacks/-get-saved-networks-callbacks/index.html"><span class="identifier">GetSavedNetworksCallbacks</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
-<p>To retrieve a list of saved networks on a user's device that match a given regex.</p>
-<h3>Parameters</h3>
-<p><a name="regexForSSID"></a>
-<code>regexForSSID</code> - The ssid to use while searching for saved configurations</p>
 <p><a name="callbacks"></a>
 <code>callbacks</code> - The listener to return results to</p>
 <p><strong>See Also</strong><br/>

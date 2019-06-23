@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Actions -->
+    <string name="regex_for_network">Regex for network…</string>
+
+    <string name="search_for">Search for…</string>
+    <string name="access_point">Access Point</string>
+    <string name="ssid">SSID</string>
+    <string name="saved_network">Saved Network</string>
+
+    <string name="return_full_list_label">Return full list of results?</string>
+    <string name="return_full_list_description">This option will return a list of results instead of an individual item when enabled.</string>
+
+    <string name="filter_duplicates">Filter Duplicates</string>
+
+    <string name="timeout_after_x_seconds_args_html">Timeout after <![CDATA[<b>%d</b>]]> seconds</string>
+
+    <!-- Results -->
+    <string name="search_result">Search Result</string>
+
+    <string name="ssids_args">SSIDs: %s</string>
+    <string name="no_ssids_found">No SSIDs found</string>
+
+    <string name="ssid_args">SSID: %s</string>
+    <string name="ssid_not_found">SSID not found</string>
+
+    <string name="access_point_args">Access point: %s</string>
+    <string name="access_point_not_found">Access point not found</string>
+
+    <string name="saved_network_args">Saved network: %s</string>
+    <string name="saved_network_not_found">Saved network not found</string>
+
+    <!-- Permissions -->
+    <string name="permission_error_search_for_saved_network">Permissions for searching for a saved network are denied</string>
+    <string name="permission_error_search_for_saved_networks">Permissions for searching for saved networks are denied</string>
+
+    <string name="permission_error_search_for_access_point">Permissions for searching for an access point are denied</string>
+    <string name="permission_error_search_for_access_points">Permissions for searching for access points are denied</string>
+
+    <string name="permission_error_search_for_ssid">Permissions for searching for an SSID are denied</string>
+    <string name="permission_error_search_for_ssids">Permissions for searching for SSIDs are denied</string>
+
+</resources>

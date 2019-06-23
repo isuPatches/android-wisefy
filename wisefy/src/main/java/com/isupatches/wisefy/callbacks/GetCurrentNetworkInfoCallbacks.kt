@@ -47,5 +47,5 @@ interface GetCurrentNetworkInfoCallbacks : BaseCallback {
      * @author Patches
      * @since 3.0
      */
-    fun retrievedCurrentNetworkInfo(currentNetworkDetails: NetworkInfo)
+    fun retrievedCurrentNetworkInfo(currentNetworkInfo: NetworkInfo)
 }

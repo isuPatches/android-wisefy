@@ -1,21 +1,41 @@
+/*
+ * Copyright 2019 Patches Klinefelter
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.isupatches.wisefysample.ui.search
 
-import android.Manifest
+import android.Manifest.permission.ACCESS_COARSE_LOCATION
 import android.Manifest.permission.ACCESS_WIFI_STATE
+import android.content.pm.PackageManager
 import android.net.wifi.ScanResult
 import android.net.wifi.WifiConfiguration
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.SeekBar
+import androidx.annotation.VisibleForTesting
 
 import com.isupatches.wisefysample.R
 import com.isupatches.wisefysample.internal.models.SearchType
 import com.isupatches.wisefysample.internal.preferences.SearchStore
 import com.isupatches.wisefysample.internal.base.BaseFragment
 import com.isupatches.wisefysample.internal.util.asHtmlSpanned
-import com.isupatches.wisefysample.internal.util.displayShortToast
 import com.isupatches.wisefysample.internal.util.getTrimmedInput
 import com.isupatches.wisefysample.internal.util.hideKeyboardFrom
+
+import dagger.Binds
+import dagger.Module
 
 import kotlinx.android.synthetic.main.fragment_search.filterDupesRdg
 import kotlinx.android.synthetic.main.fragment_search.filterDupesTxt
@@ -28,12 +48,12 @@ import kotlinx.android.synthetic.main.fragment_search.timeoutTxt
 
 import javax.inject.Inject
 
+@Suppress("LargeClass")
 internal class SearchFragment : BaseFragment(), SearchMvp.View {
 
     override val layoutRes = R.layout.fragment_search
 
-    private val presenter by lazy { SearchPresenter(wiseFy) }
-
+    @Inject lateinit var presenter: SearchMvp.Presenter
     @Inject lateinit var searchStore: SearchStore
 
     companion object {
@@ -44,12 +64,14 @@ internal class SearchFragment : BaseFragment(), SearchMvp.View {
         private const val TIMEOUT_MIN = 1
         private const val TIMEOUT_MAX = 60
 
-        private const val WISEFY_SEARCH_FOR_SAVED_NETWORK_REQUEST_CODE = 1
-        private const val WISEFY_SEARCH_FOR_SAVED_NETWORKS_REQUEST_CODE = 2
-        private const val WISEFY_SEARCH_FOR_ACCESS_POINT_REQUEST_CODE = 3
-        private const val WISEFY_SEARCH_FOR_ACCESS_POINTS_REQUEST_CODE = 4
-        private const val WISEFY_SEARCH_FOR_SSID_REQUEST_CODE = 5
-        private const val WISEFY_SEARCH_FOR_SSIDS_REQUEST_CODE = 6
+        private const val SEEK_MILLI_OFFSET = 1000
+
+        @VisibleForTesting internal const val WISEFY_SEARCH_FOR_SAVED_NETWORK_REQUEST_CODE = 1
+        @VisibleForTesting internal const val WISEFY_SEARCH_FOR_SAVED_NETWORKS_REQUEST_CODE = 2
+        @VisibleForTesting internal const val WISEFY_SEARCH_FOR_ACCESS_POINT_REQUEST_CODE = 3
+        @VisibleForTesting internal const val WISEFY_SEARCH_FOR_ACCESS_POINTS_REQUEST_CODE = 4
+        @VisibleForTesting internal const val WISEFY_SEARCH_FOR_SSID_REQUEST_CODE = 5
+        @VisibleForTesting internal const val WISEFY_SEARCH_FOR_SSIDS_REQUEST_CODE = 6
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -131,7 +153,7 @@ internal class SearchFragment : BaseFragment(), SearchMvp.View {
     private fun getFilterDuplicates(): Boolean =
         filterDupesRdg.checkedRadioButtonId == R.id.yesFilterDupesRdb
 
-    private fun getSelectedTimeout(): Int = timeoutSeek.progress * 1000
+    private fun getSelectedTimeout(): Int = timeoutSeek.progress * SEEK_MILLI_OFFSET
 
     private fun restoreUI() {
         // Restore edit text value
@@ -158,7 +180,7 @@ internal class SearchFragment : BaseFragment(), SearchMvp.View {
         val fullListCheckedId = if (searchStore.shouldReturnFullList()) {
             R.id.yesFullListRdb
         } else {
-            R.id.noReturnFullListRdb
+            R.id.noFullListRdb
         }
         returnFullListRdg.check(fullListCheckedId)
 
@@ -174,7 +196,7 @@ internal class SearchFragment : BaseFragment(), SearchMvp.View {
         val timeout = searchStore.getTimeout()
         timeoutSeek.progress = timeout
         timeoutTxt.text = getString(R.string.timeout_after_x_seconds_args_html, timeout).asHtmlSpanned()
-        when(searchStore.getSearchType()) {
+        when (searchStore.getSearchType()) {
             SearchType.SAVED_NETWORK -> adjustTimeoutVisibility(View.INVISIBLE)
             else -> toggleSeekVisibility()
         }
@@ -185,19 +207,19 @@ internal class SearchFragment : BaseFragment(), SearchMvp.View {
             R.id.accessPointRdb -> {
                 when (returnFullListRdg.checkedRadioButtonId) {
                     R.id.yesFullListRdb -> searchForAccessPoints()
-                    R.id.noReturnFullListRdb -> searchForAccessPoint()
+                    R.id.noFullListRdb -> searchForAccessPoint()
+                }
+            }
+            R.id.savedNetworkRdb -> {
+                when (returnFullListRdg.checkedRadioButtonId) {
+                    R.id.yesFullListRdb -> searchForSavedNetworks()
+                    R.id.noFullListRdb -> searchForSavedNetwork()
                 }
             }
             R.id.ssidRdb -> {
                 when (returnFullListRdg.checkedRadioButtonId) {
                     R.id.yesFullListRdb -> searchForSSIDs()
-                    R.id.noReturnFullListRdb -> searchForSSID()
-                }
-            }
-            R.id.savedNetworkRdb -> {
-                when (returnFullListRdg.checkedRadioButtonId) {
-                    R.id.yesFullListRdb -> getSavedNetworks()
-                    R.id.noReturnFullListRdb -> getSavedNetwork()
+                    R.id.noFullListRdb -> searchForSSID()
                 }
             }
         }
@@ -221,7 +243,7 @@ internal class SearchFragment : BaseFragment(), SearchMvp.View {
     private fun toggleSeekVisibility() {
         when (returnFullListRdg.checkedRadioButtonId) {
             R.id.yesFullListRdb -> adjustTimeoutVisibility(View.INVISIBLE)
-            R.id.noReturnFullListRdb -> adjustTimeoutVisibility(View.VISIBLE)
+            R.id.noFullListRdb -> adjustTimeoutVisibility(View.VISIBLE)
         }
     }
 
@@ -237,18 +259,6 @@ internal class SearchFragment : BaseFragment(), SearchMvp.View {
      * WiseFy helpers
      */
 
-    private fun getSavedNetwork() {
-        if (checkSearchForSavedNetworkPermissions()) {
-            presenter.getSavedNetwork(searchRegexEdt.getTrimmedInput())
-        }
-    }
-
-    private fun getSavedNetworks() {
-        if (checkSearchForSavedNetworksPermissions()) {
-            presenter.getSavedNetworks(searchRegexEdt.getTrimmedInput())
-        }
-    }
-
     @Throws(SecurityException::class)
     private fun searchForAccessPoint() {
         if (checkSearchForAccessPointPermissions()) {
@@ -260,6 +270,18 @@ internal class SearchFragment : BaseFragment(), SearchMvp.View {
     private fun searchForAccessPoints() {
         if (checkSearchForAccessPointsPermissions()) {
             presenter.searchForAccessPoints(searchRegexEdt.getTrimmedInput(), getFilterDuplicates())
+        }
+    }
+
+    private fun searchForSavedNetwork() {
+        if (checkSearchForSavedNetworkPermissions()) {
+            presenter.searchForSavedNetwork(searchRegexEdt.getTrimmedInput())
+        }
+    }
+
+    private fun searchForSavedNetworks() {
+        if (checkSearchForSavedNetworksPermissions()) {
+            presenter.searchForSavedNetworks(searchRegexEdt.getTrimmedInput())
         }
     }
 
@@ -282,51 +304,51 @@ internal class SearchFragment : BaseFragment(), SearchMvp.View {
      */
 
     override fun displaySavedNetwork(savedNetwork: WifiConfiguration) {
-        displayShortToast("Saved network: $savedNetwork")
+        displayInfoFullScreen(getString(R.string.saved_network_args, savedNetwork), R.string.search_result)
     }
 
     override fun displaySavedNetworkNotFound() {
-        displayShortToast("Saved network not found")
+        displayInfo(R.string.saved_network_not_found, R.string.search_result)
     }
 
     override fun displaySavedNetworks(savedNetworks: List<WifiConfiguration>) {
-        displayShortToast("Saved networks: $savedNetworks")
+        displayInfo(getString(R.string.saved_networks_args, savedNetworks), R.string.search_result)
     }
 
     override fun displayNoSavedNetworksFound() {
-        displayShortToast("No saved networks found")
+        displayInfo(R.string.no_saved_networks_found, R.string.search_result)
     }
 
     override fun displayAccessPoint(accessPoint: ScanResult) {
-        displayShortToast("Access point: $accessPoint")
+        displayInfoFullScreen(getString(R.string.access_point_args, accessPoint), R.string.search_result)
     }
 
     override fun displayAccessPointNotFound() {
-        displayShortToast("Access point not found")
+        displayInfo(R.string.access_point_not_found, R.string.search_result)
     }
 
     override fun displayAccessPoints(accessPoints: List<ScanResult>) {
-        displayShortToast("Access points: $accessPoints")
+        displayInfoFullScreen(getString(R.string.access_points_args, accessPoints), R.string.search_result)
     }
 
     override fun displayNoAccessPointsFound() {
-        displayShortToast("No access points found")
+        displayInfo(R.string.no_access_points_found, R.string.search_result)
     }
 
     override fun displaySSID(ssid: String) {
-        displayShortToast("SSID: $ssid")
+        displayInfoFullScreen(getString(R.string.ssid_args, ssid), R.string.search_result)
     }
 
     override fun displaySSIDNotFound() {
-        displayShortToast("SSID not found")
+        displayInfo(R.string.ssid_not_found, R.string.search_result)
     }
 
     override fun displaySSIDs(ssids: List<String>) {
-        displayShortToast("SSIDs: $ssids")
+        displayInfoFullScreen(getString(R.string.ssids_args, ssids), R.string.search_result)
     }
 
     override fun displayNoSSIDsFound() {
-        displayShortToast("No SSIDs found")
+        displayInfo(R.string.no_ssids_found, R.string.search_result)
     }
 
     override fun displayWiseFyFailure(wiseFyFailureCode: Int) {
@@ -346,22 +368,92 @@ internal class SearchFragment : BaseFragment(), SearchMvp.View {
     }
 
     private fun checkSearchForAccessPointPermissions(): Boolean {
-        return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_SEARCH_FOR_ACCESS_POINT_REQUEST_CODE)
-                && isPermissionGranted(Manifest.permission.ACCESS_COARSE_LOCATION, WISEFY_SEARCH_FOR_ACCESS_POINT_REQUEST_CODE)
+        return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_SEARCH_FOR_ACCESS_POINT_REQUEST_CODE) &&
+                isPermissionGranted(ACCESS_COARSE_LOCATION, WISEFY_SEARCH_FOR_ACCESS_POINT_REQUEST_CODE)
     }
 
     private fun checkSearchForAccessPointsPermissions(): Boolean {
-        return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_SEARCH_FOR_ACCESS_POINTS_REQUEST_CODE)
-                && isPermissionGranted(Manifest.permission.ACCESS_COARSE_LOCATION, WISEFY_SEARCH_FOR_ACCESS_POINTS_REQUEST_CODE)
+        return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_SEARCH_FOR_ACCESS_POINTS_REQUEST_CODE) &&
+                isPermissionGranted(ACCESS_COARSE_LOCATION, WISEFY_SEARCH_FOR_ACCESS_POINTS_REQUEST_CODE)
     }
 
     private fun checkSearchForSSIDPermissions(): Boolean {
-        return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_SEARCH_FOR_SSID_REQUEST_CODE)
-                && isPermissionGranted(Manifest.permission.ACCESS_COARSE_LOCATION, WISEFY_SEARCH_FOR_SSID_REQUEST_CODE)
+        return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_SEARCH_FOR_SSID_REQUEST_CODE) &&
+                isPermissionGranted(ACCESS_COARSE_LOCATION, WISEFY_SEARCH_FOR_SSID_REQUEST_CODE)
     }
 
     private fun checkSearchForSSIDsPermissions(): Boolean {
-        return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_SEARCH_FOR_SSIDS_REQUEST_CODE)
-                && isPermissionGranted(Manifest.permission.ACCESS_COARSE_LOCATION, WISEFY_SEARCH_FOR_SSIDS_REQUEST_CODE)
+        return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_SEARCH_FOR_SSIDS_REQUEST_CODE) &&
+                isPermissionGranted(ACCESS_COARSE_LOCATION, WISEFY_SEARCH_FOR_SSIDS_REQUEST_CODE)
+    }
+
+    @Suppress("LongMethod", "ComplexMethod")
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        when (requestCode) {
+            WISEFY_SEARCH_FOR_SAVED_NETWORK_REQUEST_CODE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    searchForSavedNetwork()
+                } else {
+                    Log.w(TAG, "Permissions for getting a saved network are denied")
+                    displayPermissionErrorDialog(R.string.permission_error_search_for_saved_network)
+                }
+            }
+            WISEFY_SEARCH_FOR_SAVED_NETWORKS_REQUEST_CODE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    searchForSavedNetworks()
+                } else {
+                    Log.w(TAG, "Permissions for getting saved networks are denied")
+                    displayPermissionErrorDialog(R.string.permission_error_search_for_saved_networks)
+                }
+            }
+            WISEFY_SEARCH_FOR_ACCESS_POINT_REQUEST_CODE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    searchForAccessPoint()
+                } else {
+                    Log.w(TAG, "Permissions for searching for an access point are denied")
+                    displayPermissionErrorDialog(R.string.permission_error_search_for_access_point)
+                }
+            }
+            WISEFY_SEARCH_FOR_ACCESS_POINTS_REQUEST_CODE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    searchForAccessPoints()
+                } else {
+                    Log.w(TAG, "Permissions for searching for access points are denied")
+                    displayPermissionErrorDialog(R.string.permission_error_search_for_access_points)
+                }
+            }
+            WISEFY_SEARCH_FOR_SSID_REQUEST_CODE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    searchForSSID()
+                } else {
+                    Log.w(TAG, "Permissions for searching for an SSID are denied")
+                    displayPermissionErrorDialog(R.string.permission_error_search_for_ssid)
+                }
+            }
+            WISEFY_SEARCH_FOR_SSIDS_REQUEST_CODE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    searchForSSIDs()
+                } else {
+                    Log.w(TAG, "Permissions for searching for SSIDs are denied")
+                    displayPermissionErrorDialog(R.string.permission_error_search_for_ssids)
+                }
+            }
+            else -> {
+                Log.wtf(TAG, "Weird permission requested, not handled")
+                displayPermissionErrorDialog(
+                    getString(R.string.permission_error_unhandled_request_code_args, requestCode)
+                )
+            }
+        }
+    }
+
+    /*
+     * Dagger
+     */
+
+    @Suppress("unused")
+    @Module internal interface SearchFragmentModule {
+        @Binds fun bindSearchModel(impl: SearchModel): SearchMvp.Model
+        @Binds fun bindSearchPresenter(impl: SearchPresenter): SearchMvp.Presenter
     }
 }

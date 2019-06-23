@@ -24,8 +24,14 @@ Wifi configuration and util library built for Android.
 - Update to gradle 5.x
 - Static analysis tools updated
 - WEP is now deprecated due to security and other issues with this network type and will be phased out
-- Introduction of [RoboElectric](https://github.com/robolectric/robolectric) for better unit testing
-    - This may be controversial, but please check this [issue](https://github.com/isuPatches/WiseFy/issues/133) for rationale
+- Better naming for some saved network functions
+    - GetSavedNetworkCallbacks renamed SearchForSavedNetworkCallbacks
+    - Added SearchForSavedNetworksCallbacks
+    - getSavedNetwork(regex: String?): List<WifiConfiguration>? refactored to searchForSavedNetwork(regexForSSID: String?): WifiConfiguration?
+    - getSavedNetwork(regexForSSID: String?, callbacks: GetSavedNetworkCallbacks?) refactored to searchForSavedNetwork(regexForSSID: String?, callbacks: SearchForSavedNetworkCallbacks?)
+    - getSavedNetworks(regexForSSID: String?, callbacks: GetSavedNetworksCallbacks?) refactored to searchForSavedNetworks(regexForSSID: String?, callbacks: SearchForSavedNetworksCallbacks?)
+- Moved from TravisCI to CircleCI
+- Instrumentation tests are now run on Google's Firebase TestLab
 - Removal of Checkstyle and FindBugs since project is no longer Java
 - Removal of GCM support due to GCM being sunset
 - New [sample app](/wisefysample) included as part of the repo
@@ -146,12 +152,12 @@ wisefy.dump();
 For the sake of transparency and because you're probably curious as to what permissions this library adds to your app, here are the additional expected permissions:
 
 ```xml
- <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
- <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
- <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+<uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
 
- <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
- <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
+<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 ```
 
 <strong> * NOTE * </strong>

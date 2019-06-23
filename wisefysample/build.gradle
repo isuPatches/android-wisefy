@@ -14,14 +14,35 @@ android {
         targetSdkVersion rootProject.ext.MAX_SDK_VERSION
         versionCode rootProject.ext.VERSION_CODE
         versionName rootProject.ext.VERSION_NAME
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        debug {
+            testCoverageEnabled true
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            testProguardFile file("proguard-test-rules.pro.pro")
         }
+
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
+    sourceSets {
+        def commonTestDir = 'src/commonTest/java'
+
+        test { java.srcDir commonTestDir }
+
+        androidTest { java.srcDir commonTestDir }
+
+        main { jni.srcDirs = [] }
     }
 }
 
@@ -51,6 +72,9 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxjava:$rxjava_version"
 
     // Unit test dependencies
+    testImplementation "androidx.test:core:$androidx_core_test_version"
+    testImplementation "org.mockito:mockito-core:$mockito_version"
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockito_kotlin_version"
     testImplementation "junit:junit:$junit_version"
 
     // Instrumentation test dependencies
@@ -58,4 +82,9 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-intents:$androidx_espresso_core_version"
     androidTestImplementation "androidx.test:runner:$androidx_test_runner_version"
     androidTestImplementation "androidx.test:rules:$androidx_test_runner_version"
+    androidTestImplementation "org.mockito:mockito-core:$mockito_version"
+    androidTestImplementation "org.mockito:mockito-android:$mockito_version"
+    androidTestImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockito_kotlin_version"
+    kaptAndroidTest "com.google.dagger:dagger-compiler:$dagger_version"
+    kaptAndroidTest "com.google.dagger:dagger-android-processor:$dagger_version"
 }

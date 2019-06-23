@@ -51,13 +51,14 @@ import com.isupatches.wisefy.callbacks.GetFrequencyCallbacks
 import com.isupatches.wisefy.callbacks.GetIPCallbacks
 import com.isupatches.wisefy.callbacks.GetNearbyAccessPointsCallbacks
 import com.isupatches.wisefy.callbacks.GetRSSICallbacks
-import com.isupatches.wisefy.callbacks.GetSavedNetworkCallbacks
 import com.isupatches.wisefy.callbacks.GetSavedNetworksCallbacks
 import com.isupatches.wisefy.callbacks.RemoveNetworkCallbacks
 import com.isupatches.wisefy.callbacks.SearchForAccessPointCallbacks
 import com.isupatches.wisefy.callbacks.SearchForAccessPointsCallbacks
 import com.isupatches.wisefy.callbacks.SearchForSSIDCallbacks
 import com.isupatches.wisefy.callbacks.SearchForSSIDsCallbacks
+import com.isupatches.wisefy.callbacks.SearchForSavedNetworkCallbacks
+import com.isupatches.wisefy.callbacks.SearchForSavedNetworksCallbacks
 import com.isupatches.wisefy.connection.WiseFyConnection
 import com.isupatches.wisefy.connection.WiseFyConnectionLegacy
 import com.isupatches.wisefy.connection.WiseFyConnectionSDK23
@@ -685,7 +686,7 @@ class WiseFy private constructor(
      * @see [runOnWiseFyThread]
      * @see [WifiManager.disconnect]
      * @see [WiseFyLock]
-     * @see [WiseFyPrechecks.disconnectFromCurrentNetworkChecks
+     * @see [WiseFyPrechecks.disconnectFromCurrentNetworkChecks]
      *
      * @author Patches
      * @since 3.0
@@ -714,8 +715,8 @@ class WiseFy private constructor(
      * Used to cleanup the thread started by WiseFy.
      *
      * @see [WiseFyConnection.destroy]
-     * @see WiseFyHandlerThread
-     * @see WiseFyLock
+     * @see [WiseFyHandlerThread]
+     * @see [WiseFyLock]
      *
      * Updates
      * - 05/12/2019: Added new call to [WiseFyConnection.destroy]
@@ -809,8 +810,6 @@ class WiseFy private constructor(
      *
      * @return WifiInfo|null - The user's current network information
      *
-     * @throws SecurityException Without necessary permissions granted
-     *
      * @see [WifiInfo]
      * @see [WifiManager.getConnectionInfo]
      * @see [WiseFyPrechecks.getCurrentNetworkChecks]
@@ -821,7 +820,6 @@ class WiseFy private constructor(
     @Sync
     @CallingThread
     @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
-    @Throws(SecurityException::class)
     override fun getCurrentNetwork(): WifiInfo? {
         return if (wisefyPrechecks.getCurrentNetworkChecks().passed()) {
             wifiManager.connectionInfo
@@ -832,8 +830,6 @@ class WiseFy private constructor(
      * To retrieve the user's current network.
      *
      * @param callbacks The listener to return results to
-     *
-     * @throws SecurityException Without necessary permissions granted
      *
      * @see [GetCurrentNetworkCallbacks]
      * @see [runOnWiseFyThread]
@@ -936,8 +932,6 @@ class WiseFy private constructor(
      *
      * @return Integer - The frequency of the devices current network or null if no network
      *
-     * @throws SecurityException Without necessary permissions granted
-     *
      * @see [getCurrentNetwork]
      * @see [WifiInfo.getFrequency]
      *
@@ -948,7 +942,6 @@ class WiseFy private constructor(
     @CallingThread
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
-    @Throws(SecurityException::class)
     override fun getFrequency(): Int? {
         val currentNetwork = getCurrentNetwork()
         return currentNetwork?.frequency
@@ -958,8 +951,6 @@ class WiseFy private constructor(
      * To retrieve the frequency of the device's current network.
      *
      * @param callbacks The listener to return results to
-     *
-     * @throws SecurityException Without necessary permissions granted
      *
      * @see [getCurrentNetwork]
      * @see [GetFrequencyCallbacks]
@@ -974,7 +965,6 @@ class WiseFy private constructor(
     @WiseFyThread
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
-    @Throws(SecurityException::class)
     override fun getFrequency(callbacks: GetFrequencyCallbacks?) {
         runOnWiseFyThread(Runnable {
             synchronized(wisefyLock) {
@@ -1113,8 +1103,6 @@ class WiseFy private constructor(
      *
      * @return List of ScanResults|null - List of nearby access points
      *
-     * @throws SecurityException Without necessary permissions granted
-     *
      * @see [ScanResult]
      * @see [WiseFySearch.getNearbyAccessPoints]
      * @see [WiseFyPrechecks.getNearbyAccessPointsChecks]
@@ -1128,7 +1116,6 @@ class WiseFy private constructor(
     @Sync
     @CallingThread
     @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
-    @Throws(SecurityException::class)
     override fun getNearbyAccessPoints(filterDuplicates: Boolean): List<ScanResult>? {
         if (wisefyPrechecks.getNearbyAccessPointsChecks().failed()) {
             return null
@@ -1140,7 +1127,8 @@ class WiseFy private constructor(
     /**
      * To retrieve a list of nearby access points.
      *
-     * *NOTE* Setting filterDuplicates to true will not return SSIDs with a weaker signal strength (will always take the highest).
+     * *NOTE* Setting filterDuplicates to true will not return SSIDs with a weaker signal strength
+     * (will always take the highest).
      *
      * @param filterDuplicates If you want to exclude SSIDs with that same name that have a weaker signal strength
      * @param callbacks The listener to return results to
@@ -1260,67 +1248,6 @@ class WiseFy private constructor(
     }
 
     /**
-     * To search for and return a saved WiFiConfiguration given an SSID.
-     *
-     * @param regexForSSID The ssid to use while searching for saved configuration
-     *
-     * @return WifiConfiguration|null - Saved network that matches the ssid
-     *
-     * @see [WifiConfiguration]
-     * @see [WiseFyPrechecks.getSavedNetworkChecks]
-     * @see [WiseFySearch.findSavedNetworkByRegex]
-     *
-     * @author Patches
-     * @since 3.0
-     */
-    @Sync
-    @CallingThread
-    @RequiresPermission(ACCESS_WIFI_STATE)
-    override fun getSavedNetwork(regexForSSID: String?): WifiConfiguration? {
-        return if (wisefyPrechecks.getSavedNetworkChecks(regexForSSID).passed()) {
-            wisefySearch.findSavedNetworkByRegex(regexForSSID!!)
-        } else null
-    }
-
-    /**
-     * To search for and return a saved WiFiConfiguration given an SSID.
-     *
-     * @param regexForSSID The ssid to use while searching for saved configuration
-     * @param callbacks The listener to return results to
-     *
-     * @see [GetSavedNetworkCallbacks]
-     * @see [runOnWiseFyThread]
-     * @see [WifiConfiguration]
-     * @see [WiseFyLock]
-     * @see [WiseFyPrechecks.getSavedNetworkChecks]
-     * @see [WiseFySearch.findSavedNetworkByRegex]
-     *
-     * @author Patches
-     * @since 3.0
-     */
-    @Async
-    @WiseFyThread
-    @RequiresPermission(ACCESS_WIFI_STATE)
-    override fun getSavedNetwork(regexForSSID: String?, callbacks: GetSavedNetworkCallbacks?) {
-        runOnWiseFyThread(Runnable {
-            synchronized(wisefyLock) {
-                val precheck = wisefyPrechecks.getSavedNetworkChecks(regexForSSID)
-                if (precheck.failed()) {
-                    callbacks?.wisefyFailure(precheck.code)
-                    return@Runnable
-                }
-
-                val savedNetwork = wisefySearch.findSavedNetworkByRegex(regexForSSID!!)
-                if (savedNetwork != null) {
-                    callbacks?.retrievedSavedNetwork(savedNetwork)
-                } else {
-                    callbacks?.savedNetworkNotFound()
-                }
-            }
-        })
-    }
-
-    /**
      * To retrieve a list of saved networks on a user's device.
      *
      * @return List of WifiConfiguration|null - List of saved networks on a users device
@@ -1379,70 +1306,9 @@ class WiseFy private constructor(
     }
 
     /**
-     * To retrieve a list of saved networks on a user's device that match a given regex.
-     *
-     * @param regexForSSID The ssid to use while searching for saved configurations
-     *
-     * @return List of WifiConfigurations|null - The list of saved network configurations that match the given regex
-     *
-     * @see [WifiConfiguration]
-     * @see [WiseFyPrechecks.getSavedNetworksChecks]
-     * @see [WiseFySearch.findSavedNetworksMatchingRegex]
-     *
-     * @author Patches
-     * @since 3.0
-     */
-    @Sync
-    @CallingThread
-    @RequiresPermission(ACCESS_WIFI_STATE)
-    override fun getSavedNetworks(regexForSSID: String?): List<WifiConfiguration>? {
-        return if (wisefyPrechecks.getSavedNetworksChecks(regexForSSID).passed()) {
-            wisefySearch.findSavedNetworksMatchingRegex(regexForSSID!!)
-        } else null
-    }
-
-    /**
-     * To retrieve a list of saved networks on a user's device that match a given regex.
-     *
-     * @param regexForSSID The ssid to use while searching for saved configurations
-     * @param callbacks The listener to return results to
-     *
-     * @see [GetSavedNetworksCallbacks]
-     * @see [runOnWiseFyThread]
-     * @see [WifiConfiguration]
-     * @see [WiseFyLock]
-     * @see [WiseFyPrechecks.getSavedNetworksChecks]
-     * @see [WiseFySearch.findSavedNetworksMatchingRegex]
-     *
-     * @author Patches
-     * @since 3.0
-     */
-    @Async
-    @WiseFyThread
-    @RequiresPermission(ACCESS_WIFI_STATE)
-    override fun getSavedNetworks(regexForSSID: String?, callbacks: GetSavedNetworksCallbacks?) {
-        runOnWiseFyThread(Runnable {
-            synchronized(wisefyLock) {
-                val precheck = wisefyPrechecks.getSavedNetworksChecks(regexForSSID)
-                if (precheck.failed()) {
-                    callbacks?.wisefyFailure(precheck.code)
-                    return@Runnable
-                }
-
-                val savedNetworks = wisefySearch.findSavedNetworksMatchingRegex(regexForSSID!!)
-                if (savedNetworks != null && savedNetworks.isNotEmpty()) {
-                    callbacks?.retrievedSavedNetworks(savedNetworks)
-                } else {
-                    callbacks?.noSavedNetworksFound()
-                }
-            }
-        })
-    }
-
-    /**
      * To retrieve the lock in use by WiseFy for synchronization.
      *
-     * @return WiseFyLock - The instance of the lock in use by WiseFy
+     * @return WiseFyLock - The instance of the lock in-use by WiseFy
      *
      * @see WiseFyLock
      *
@@ -1575,8 +1441,6 @@ class WiseFy private constructor(
      *
      * @return boolean - If the network is 5gHz
      *
-     * @throws SecurityException Without necessary permissions granted
-     *
      * @see [getFrequency]
      * @see [MAX_FREQUENCY_5GHZ]
      * @see [MIN_FREQUENCY_5GHZ]
@@ -1588,7 +1452,6 @@ class WiseFy private constructor(
     @CallingThread
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
-    @Throws(SecurityException::class)
     override fun isNetwork5gHz(): Boolean {
         val frequency = getFrequency()
         return frequency != null && frequency > MIN_FREQUENCY_5GHZ && frequency < MAX_FREQUENCY_5GHZ
@@ -1853,7 +1716,6 @@ class WiseFy private constructor(
     /**
      * To return the first access point that matches a given regex.
      *
-     *
      * *NOTE* Setting filterDuplicates to true will not return an access point with a weaker signal strength (will always take the highest).
      *
      * @param regexForSSID The regex to use when iterating through nearby access points
@@ -1884,7 +1746,6 @@ class WiseFy private constructor(
 
     /**
      * To return the first access point that matches a given regex.
-     *
      *
      * *NOTE* Setting filterDuplicates to true will not return an access point with a weaker signal strength (will always take the highest).
      *
@@ -1933,7 +1794,6 @@ class WiseFy private constructor(
     /**
      * To return nearby access points that match a given regex.
      *
-     *
      * *NOTE* Setting filterDuplicates to true will not return access points with a weaker signal strength (will always take the highest).
      *
      * @param regexForSSID The regex to use when iterating through nearby access points
@@ -1959,7 +1819,6 @@ class WiseFy private constructor(
 
     /**
      * To return nearby access points that match a given regex.
-     *
      *
      * *NOTE* Setting filterDuplicates to true will not return access points with a weaker signal strength (will always take the highest).
      *
@@ -1998,6 +1857,128 @@ class WiseFy private constructor(
                     callbacks?.foundAccessPoints(networks)
                 } else {
                     callbacks?.noAccessPointsFound()
+                }
+            }
+        })
+    }
+
+    /**
+     * To search for and return a saved WiFiConfiguration given an SSID.
+     *
+     * @param regexForSSID The ssid to use while searching for saved configuration
+     *
+     * @return WifiConfiguration|null - Saved network that matches the ssid
+     *
+     * @see [WifiConfiguration]
+     * @see [WiseFyPrechecks.searchForSavedNetworkChecks]
+     * @see [WiseFySearch.findSavedNetworkByRegex]
+     *
+     * @author Patches
+     * @since 3.0
+     */
+    @Sync
+    @CallingThread
+    @RequiresPermission(ACCESS_WIFI_STATE)
+    override fun searchForSavedNetwork(regexForSSID: String?): WifiConfiguration? {
+        return if (wisefyPrechecks.searchForSavedNetworkChecks(regexForSSID).passed()) {
+            wisefySearch.findSavedNetworkByRegex(regexForSSID!!)
+        } else null
+    }
+
+    /**
+     * To search for and return a saved WiFiConfiguration given an SSID.
+     *
+     * @param regexForSSID The ssid to use while searching for saved configuration
+     * @param callbacks The listener to return results to
+     *
+     * @see [SearchForSavedNetworkCallbacks]
+     * @see [runOnWiseFyThread]
+     * @see [WifiConfiguration]
+     * @see [WiseFyLock]
+     * @see [WiseFyPrechecks.searchForSavedNetworkChecks]
+     * @see [WiseFySearch.findSavedNetworkByRegex]
+     *
+     * @author Patches
+     * @since 3.0
+     */
+    @Async
+    @WiseFyThread
+    @RequiresPermission(ACCESS_WIFI_STATE)
+    override fun searchForSavedNetwork(regexForSSID: String?, callbacks: SearchForSavedNetworkCallbacks?) {
+        runOnWiseFyThread(Runnable {
+            synchronized(wisefyLock) {
+                val precheck = wisefyPrechecks.searchForSavedNetworkChecks(regexForSSID)
+                if (precheck.failed()) {
+                    callbacks?.wisefyFailure(precheck.code)
+                    return@Runnable
+                }
+
+                val savedNetwork = wisefySearch.findSavedNetworkByRegex(regexForSSID!!)
+                if (savedNetwork != null) {
+                    callbacks?.retrievedSavedNetwork(savedNetwork)
+                } else {
+                    callbacks?.savedNetworkNotFound()
+                }
+            }
+        })
+    }
+
+    /**
+     * To retrieve a list of saved networks on a user's device that match a given regex.
+     *
+     * @param regexForSSID The ssid to use while searching for saved configurations
+     *
+     * @return List of WifiConfigurations|null - The list of saved network configurations that match the given regex
+     *
+     * @see [WifiConfiguration]
+     * @see [WiseFyPrechecks.searchForSavedNetworksChecks]
+     * @see [WiseFySearch.findSavedNetworksMatchingRegex]
+     *
+     * @author Patches
+     * @since 3.0
+     */
+    @Sync
+    @CallingThread
+    @RequiresPermission(ACCESS_WIFI_STATE)
+    override fun searchForSavedNetworks(regexForSSID: String?): List<WifiConfiguration>? {
+        return if (wisefyPrechecks.searchForSavedNetworksChecks(regexForSSID).passed()) {
+            wisefySearch.findSavedNetworksMatchingRegex(regexForSSID!!)
+        } else null
+    }
+
+    /**
+     * To retrieve a list of saved networks on a user's device that match a given regex.
+     *
+     * @param regexForSSID The ssid to use while searching for saved configurations
+     * @param callbacks The listener to return results to
+     *
+     * @see [SearchForSavedNetworksCallbacks]
+     * @see [runOnWiseFyThread]
+     * @see [WifiConfiguration]
+     * @see [WiseFyLock]
+     * @see [WiseFyPrechecks.searchForSavedNetworksChecks]
+     * @see [WiseFySearch.findSavedNetworksMatchingRegex]
+     *
+     * @author Patches
+     * @since 3.0
+     */
+    @Async
+    @WiseFyThread
+    @RequiresPermission(ACCESS_WIFI_STATE)
+    override fun searchForSavedNetworks(regexForSSID: String?, callbacks: SearchForSavedNetworksCallbacks?) {
+        runOnWiseFyThread(Runnable {
+            synchronized(wisefyLock) {
+                val precheck = wisefyPrechecks.searchForSavedNetworksChecks(regexForSSID)
+                if (precheck.failed()) {
+                    callbacks?.wisefyFailure(precheck.code)
+                    return@Runnable
+                }
+
+                val savedNetworks = wisefySearch.findSavedNetworksMatchingRegex(regexForSSID!!)
+                if (savedNetworks != null && savedNetworks.isNotEmpty()) {
+                    callbacks?.retrievedSavedNetworks(savedNetworks)
+                } else {
+                    callbacks?.noSavedNetworksFound()
                 }
             }
         })

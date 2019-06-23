@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:minWidth="@dimen/dialog_min_width"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/dialogTitleTxt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textIsSelectable="true"
+        android:textSize="@dimen/font_size_large"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimary"
+        android:paddingTop="@dimen/padding_big"
+        android:paddingStart="@dimen/padding_big"
+        android:paddingEnd="@dimen/padding_big"
+        android:paddingBottom="@dimen/default_padding"
+        tools:text="@string/permission_error"
+        />
+
+    <ScrollView
+        android:id="@+id/dialogScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/dialogMessageTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/default_padding"
+            android:paddingBottom="@dimen/padding_big"
+            android:paddingStart="@dimen/padding_big"
+            android:paddingEnd="@dimen/padding_big"
+            android:textSize="@dimen/font_size_large"
+            android:textIsSelectable="true"
+            android:gravity="center"
+            tools:text="@string/permission_error_add_open_network"
+            />
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/okBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/ok"
+        android:background="@drawable/button_selector"
+        android:textColor="@color/white"
+        android:textSize="@dimen/font_size_medium"
+        android:layout_marginTop="@dimen/default_margin"
+        android:layout_marginEnd="@dimen/margin_big"
+        android:layout_marginStart="@dimen/margin_big"
+        android:layout_marginBottom="@dimen/margin_big"
+        />
+
+</LinearLayout>

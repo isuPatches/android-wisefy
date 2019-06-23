@@ -1,3 +1,18 @@
+/*
+ * Copyright 2019 Patches Klinefelter
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.isupatches.wisefysample.ui.remove
 
 import android.Manifest.permission.ACCESS_WIFI_STATE
@@ -5,17 +20,20 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.annotation.VisibleForTesting
 
 import com.isupatches.wisefy.constants.WiseFyCode
 import com.isupatches.wisefysample.R
 import com.isupatches.wisefysample.internal.base.BaseFragment
 import com.isupatches.wisefysample.internal.preferences.RemoveNetworkStore
-import com.isupatches.wisefysample.internal.util.displayShortToast
 import com.isupatches.wisefysample.internal.util.getTrimmedInput
 import com.isupatches.wisefysample.internal.util.hideKeyboardFrom
 
+import dagger.Binds
+import dagger.Module
+
 import kotlinx.android.synthetic.main.fragment_remove.removeNetworkBtn
-import kotlinx.android.synthetic.main.fragment_remove.removeNetworkEdt
+import kotlinx.android.synthetic.main.fragment_remove.networkNameEdt
 
 import javax.inject.Inject
 
@@ -23,8 +41,7 @@ internal class RemoveNetworkFragment : BaseFragment(), RemoveNetworkMvp.View {
 
     override val layoutRes = R.layout.fragment_remove
 
-    private val presenter by lazy { RemoveNetworkPresenter(wiseFy) }
-
+    @Inject lateinit var presenter: RemoveNetworkMvp.Presenter
     @Inject lateinit var removeNetworkStore: RemoveNetworkStore
 
     companion object {
@@ -32,7 +49,7 @@ internal class RemoveNetworkFragment : BaseFragment(), RemoveNetworkMvp.View {
 
         fun newInstance() = RemoveNetworkFragment()
 
-        private const val WISEFY_REMOVE_NETWORK_REQUEST_CODE = 1
+        @VisibleForTesting internal const val WISEFY_REMOVE_NETWORK_REQUEST_CODE = 1
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -56,7 +73,7 @@ internal class RemoveNetworkFragment : BaseFragment(), RemoveNetworkMvp.View {
     override fun onStop() {
         presenter.detachView()
         super.onStop()
-        removeNetworkStore.setLastUsedRegex(removeNetworkEdt.getTrimmedInput())
+        removeNetworkStore.setLastUsedRegex(networkNameEdt.getTrimmedInput())
         hideKeyboardFrom(removeNetworkBtn)
     }
 
@@ -66,7 +83,7 @@ internal class RemoveNetworkFragment : BaseFragment(), RemoveNetworkMvp.View {
 
     private fun restoreUI() {
         // Restore edit text value
-        removeNetworkEdt.setText(removeNetworkStore.getLastUsedRegex())
+        networkNameEdt.setText(removeNetworkStore.getLastUsedRegex())
     }
 
     /*
@@ -74,15 +91,15 @@ internal class RemoveNetworkFragment : BaseFragment(), RemoveNetworkMvp.View {
      */
 
     override fun displayNetworkRemoved() {
-        displayShortToast("Network removed")
+        displayInfo(R.string.network_removed, R.string.remover_network_result)
     }
 
     override fun displayNetworkNotFoundToRemove() {
-        displayShortToast("Network not found to remove")
+        displayInfo(R.string.network_not_found_to_remove, R.string.remover_network_result)
     }
 
     override fun displayFailureRemovingNetwork() {
-        displayShortToast("Failure removing network!")
+        displayInfo(R.string.failure_removing_network, R.string.remover_network_result)
     }
 
     override fun displayWiseFyFailure(@WiseFyCode wiseFyFailureCode: Int) {
@@ -95,7 +112,7 @@ internal class RemoveNetworkFragment : BaseFragment(), RemoveNetworkMvp.View {
 
     private fun removeNetwork() {
         if (checkRemoveNetworkPermissions()) {
-            presenter.removeNetwork(removeNetworkEdt.getTrimmedInput())
+            presenter.removeNetwork(networkNameEdt.getTrimmedInput())
         }
     }
 
@@ -114,13 +131,25 @@ internal class RemoveNetworkFragment : BaseFragment(), RemoveNetworkMvp.View {
                     removeNetwork()
                 } else {
                     Log.w(TAG, "Permissions for remove saved network are denied")
-                    // Display permission error here
+                    displayPermissionErrorDialog(R.string.permission_error_remove_network)
                 }
             }
             else -> {
-                // Display permission error here
                 Log.wtf(TAG, "Weird permission requested, not handled")
+                displayPermissionErrorDialog(
+                    getString(R.string.permission_error_unhandled_request_code_args, requestCode)
+                )
             }
         }
+    }
+
+    /*
+     * Dagger
+     */
+
+    @Suppress("unused")
+    @Module internal interface RemoveNetworkFragmentModule {
+        @Binds fun bindRemoveNetworkModel(impl: RemoveNetworkModel): RemoveNetworkMvp.Model
+        @Binds fun bindRemoveNetworkPresenter(impl: RemoveNetworkPresenter): RemoveNetworkMvp.Presenter
     }
 }

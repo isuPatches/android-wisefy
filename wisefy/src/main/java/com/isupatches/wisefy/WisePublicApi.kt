@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Patches Klinefelter
+ * Copyright 2019 Patches Klinefelter
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,19 +31,19 @@ import com.isupatches.wisefy.callbacks.GetFrequencyCallbacks
 import com.isupatches.wisefy.callbacks.GetIPCallbacks
 import com.isupatches.wisefy.callbacks.GetNearbyAccessPointsCallbacks
 import com.isupatches.wisefy.callbacks.GetRSSICallbacks
-import com.isupatches.wisefy.callbacks.GetSavedNetworkCallbacks
 import com.isupatches.wisefy.callbacks.GetSavedNetworksCallbacks
 import com.isupatches.wisefy.callbacks.RemoveNetworkCallbacks
 import com.isupatches.wisefy.callbacks.SearchForAccessPointCallbacks
 import com.isupatches.wisefy.callbacks.SearchForAccessPointsCallbacks
 import com.isupatches.wisefy.callbacks.SearchForSSIDCallbacks
 import com.isupatches.wisefy.callbacks.SearchForSSIDsCallbacks
+import com.isupatches.wisefy.callbacks.SearchForSavedNetworkCallbacks
+import com.isupatches.wisefy.callbacks.SearchForSavedNetworksCallbacks
 
 /**
  * The interface that is the public facing API for WiseFy.  It is composed of various other sub-apis for separation
  * of functionality.
  *
- * @see [WiseFy]
  * @see [AccessPointApi]
  * @see [AddNetworkApi]
  * @see [ConnectionApi]
@@ -59,13 +59,42 @@ import com.isupatches.wisefy.callbacks.SearchForSSIDsCallbacks
  * @author Patches
  * @since 3.0
  */
-internal interface WiseFyPublicApi : AccessPointApi, AddNetworkApi, ConnectionApi, DeviceApi, FrequencyApi,
+interface WiseFyPublicApi : AccessPointApi, AddNetworkApi, ConnectionApi, DeviceApi, FrequencyApi,
     NetworkInfoApi, RemoveNetworkApi, SavedNetworkApi, SecurityApi, SignalStrengthApi, WifiApi {
 
+    /**
+     * Used to cleanup the thread started by WiseFy.
+     *
+     * @see [WiseFy.dump]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     fun dump()
 
+    /**
+     * To retrieve the lock in use by WiseFy for synchronization.
+     *
+     * @return WiseFyLock - The instance of the lock in-use by WiseFy
+     *
+     * @see [WiseFy.getWiseFyLock]
+     * @see [WiseFyLock]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     fun getWiseFyLock(): WiseFyLock
 
+    /**
+     * To query if logging is enabled or disabled for a WiseFy instance.
+     *
+     * @return boolean - If logging is enabled for the WiseFy instance
+     *
+     * @see [WiseFy.isLoggingEnabled]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     fun isLoggingEnabled(): Boolean
 }
 
@@ -75,14 +104,77 @@ internal interface WiseFyPublicApi : AccessPointApi, AddNetworkApi, ConnectionAp
  * @author Patches
  * @since 3.0
  */
-internal interface AccessPointApi {
+interface AccessPointApi {
 
+    /**
+     * To retrieve a list of nearby access points.
+     *
+     * *NOTE* Setting filterDuplicates to true will exclude access points for an SSID that have a weaker RSSI
+     * (will always take the highest signal strength).
+     *
+     * @param filterDuplicates If you want to exclude SSIDs with that same name that have a weaker signal strength
+     *
+     * @return List of ScanResults|null - List of nearby access points
+     *
+     * @see [WiseFy.getNearbyAccessPoints]
+     * @see [ScanResult]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     fun getNearbyAccessPoints(filterDuplicates: Boolean): List<ScanResult>?
 
+    /**
+     * To retrieve a list of nearby access points.
+     *
+     * *NOTE* Setting filterDuplicates to true will not return SSIDs with a weaker signal strength
+     * (will always take the highest).
+     *
+     * @param filterDuplicates If you want to exclude SSIDs with that same name that have a weaker signal strength
+     * @param callbacks The listener to return results to
+     *
+     * @see [WiseFy.getNearbyAccessPoints]
+     * @see [GetNearbyAccessPointsCallbacks]
+
+     * @author Patches
+     * @since 3.0
+     */
     fun getNearbyAccessPoints(filterDuplicates: Boolean, callbacks: GetNearbyAccessPointsCallbacks?)
 
+    /**
+     * To retrieve the RSSI of the first network matching a given regex.
+     *
+     * *NOTE* Setting takeHighest to true will return the access point with the highest RSSI for the given SSID.
+     *
+     * @param regexForSSID The regex to be used to search for the ssid
+     * @param takeHighest Whether to return the access point with the highest RSSI for the given SSID
+     * @param timeoutInMillis The amount of time to search for a matching SSID
+     *
+     * @return Integer - The RSSI value for the found SSID or null if no matching network found
+     *
+     * @see [WiseFy.getRSSI]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     fun getRSSI(regexForSSID: String?, takeHighest: Boolean, timeoutInMillis: Int): Int?
 
+    /**
+     * To retrieve the RSSI of the first network matching a given regex.
+     *
+     * *NOTE* Setting takeHighest to true will return the access point with the highest RSSI for the given SSID.
+     *
+     * @param regexForSSID The regex to be used to search for the ssid
+     * @param takeHighest Whether to return the access point with the highest RSSI for the given SSID
+     * @param timeoutInMillis The amount of time to search for a matching SSID
+     * @param callbacks The listener to return results to
+     *
+     * @see [WiseFy.getRSSI]
+     * @see [GetRSSICallbacks]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     fun getRSSI(
         regexForSSID: String?,
         takeHighest: Boolean,
@@ -90,12 +182,45 @@ internal interface AccessPointApi {
         callbacks: GetRSSICallbacks?
     )
 
+    /**
+     * To return the first access point that matches a given regex.
+     *
+     * *NOTE* Setting filterDuplicates to true will not return an access point with a weaker signal strength (will always take the highest).
+     *
+     * @param regexForSSID The regex to use when iterating through nearby access points
+     * @param timeoutInMillis The amount of time (in milliseconds) to wait for a matching access point
+     * @param filterDuplicates If you want to exclude access points with the same name that have a weaker signal strength
+     *
+     * @return ScanResult|null - The first access point or access point with the highest signal strength matching the regex
+     *
+     * @see [WiseFy.searchForAccessPoint]
+     * @see [ScanResult]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     fun searchForAccessPoint(
         regexForSSID: String?,
         timeoutInMillis: Int,
         filterDuplicates: Boolean
     ): ScanResult?
 
+    /**
+     * To return the first access point that matches a given regex.
+     *
+     * *NOTE* Setting filterDuplicates to true will not return an access point with a weaker signal strength (will always take the highest).
+     *
+     * @param regexForSSID The regex to use when iterating through nearby access points
+     * @param timeoutInMillis The amount of time (in milliseconds) to wait for a matching access point
+     * @param filterDuplicates If you want to exclude access points with the same name that have a weaker signal strength
+     * @param callbacks The listener to return results to
+     *
+     * @see [WiseFy.searchForAccessPoint]
+     * @see [SearchForAccessPointCallbacks]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     fun searchForAccessPoint(
         regexForSSID: String?,
         timeoutInMillis: Int,
@@ -103,20 +228,101 @@ internal interface AccessPointApi {
         callbacks: SearchForAccessPointCallbacks?
     )
 
+    /**
+     * To return nearby access points that match a given regex.
+     *
+     * *NOTE* Setting filterDuplicates to true will not return access points with a weaker signal strength (will always take the highest).
+     *
+     * @param regexForSSID The regex to use when iterating through nearby access points
+     * @param filterDuplicates If you want to exclude access points with the same name that have a weaker signal strength
+     *
+     * @return List of ScanResult|null - The list of matching access points or null if none match the given regex
+     *
+     * @see [WiseFy.searchForAccessPoints]
+     * @see [ScanResult]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     fun searchForAccessPoints(regexForSSID: String?, filterDuplicates: Boolean): List<ScanResult>?
 
+    /**
+     * To return nearby access points that match a given regex.
+     *
+     * *NOTE* Setting filterDuplicates to true will not return access points with a weaker signal strength (will always take the highest).
+     *
+     * @param regexForSSID The regex to use when iterating through nearby access points
+     * @param filterDuplicates If you want to exclude access points with the same name that have a weaker signal strength
+     * @param callbacks The listener to return results to
+     *
+     * @see [WiseFy.searchForAccessPoints]
+     * @see [SearchForAccessPointsCallbacks]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     fun searchForAccessPoints(
         regexForSSID: String?,
         filterDuplicates: Boolean,
         callbacks: SearchForAccessPointsCallbacks?
     )
 
+    /**
+     * To search local networks and return the first one that contains a given ssid.
+     *
+     * @param regexForSSID The regex to be used to search for the ssid
+     * @param timeoutInMillis The number of milliseconds to keep searching for the SSID
+     *
+     * @return String|null - The first SSID that contains the search ssid (if any, else null)
+     *
+     * @see [WiseFy.searchForSSID]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     fun searchForSSID(regexForSSID: String?, timeoutInMillis: Int): String?
 
+    /**
+     * To search local networks and return the first one that contains a given ssid.
+     *
+     * @param regexForSSID The regex to be used to search for the ssid
+     * @param timeoutInMillis The number of milliseconds to keep searching for the SSID
+     * @param callbacks The listener to return results to
+     *
+     * @see [WiseFy.searchForSSID]
+     * @see [SearchForSSIDCallbacks]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     fun searchForSSID(regexForSSID: String?, timeoutInMillis: Int, callbacks: SearchForSSIDCallbacks?)
 
+    /**
+     * To search local networks and return the first one that contains a given ssid.
+     *
+     * @param regexForSSID The regex to be used to search for the ssid
+     *
+     * @return String|null - The first SSID that contains the search ssid (if any, else null)
+     *
+     * @see [WiseFy.searchForSSIDs]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     fun searchForSSIDs(regexForSSID: String?): List<String>?
 
+    /**
+     * To search local networks and return the first one that contains a given ssid.
+     *
+     * @param regexForSSID The regex to be used to search for the ssid
+     * @param callbacks The listener to return results to
+     *
+     * @see [WiseFy.searchForSSIDs]
+     * @see [SearchForSSIDsCallbacks]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     fun searchForSSIDs(regexForSSID: String?, callbacks: SearchForSSIDsCallbacks?)
 }
 
@@ -126,18 +332,94 @@ internal interface AccessPointApi {
  * @author Patches
  * @since 3.0
  */
-internal interface AddNetworkApi {
+interface AddNetworkApi {
 
+    /**
+     * To add an open network to the user's configured network list.
+     *
+     * @param ssid The ssid of the open network you want to add
+     *
+     * @return int - The return code from WifiManager for network creation (-1 for failure)
+     *
+     * @see [WiseFy.addOpenNetwork]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     fun addOpenNetwork(ssid: String?): Int
 
+    /**
+     * To add an open network to the user's configured network list.
+     *
+     * @param ssid The ssid of the open network you want to add
+     * @param callbacks The listener to return results to
+     *
+     * @see [WiseFy.addOpenNetwork]
+     * @see [AddNetworkCallbacks]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     fun addOpenNetwork(ssid: String?, callbacks: AddNetworkCallbacks?)
 
+    /**
+     * To add a WEP network to the user's configured network list.
+     *
+     * @param ssid The ssid of the WEP network you want to add
+     * @param password The password for the WEP network being added
+     *
+     * @return int - The return code from WifiManager for network creation (-1 for failure)
+     *
+     * @see [WiseFy.addWEPNetwork]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     fun addWEPNetwork(ssid: String?, password: String?): Int
 
+    /**
+     * To add a WEP network to the user's configured network list.
+     *
+     * @param ssid The ssid of the WEP network you want to add
+     * @param password The password for the WEP network being added
+     * @param callbacks The listener to return results to
+     *
+     * @see [WiseFy.addWEPNetwork]
+     * @see [AddNetworkCallbacks]
+
+     * @author Patches
+     * @since 3.0
+     */
     fun addWEPNetwork(ssid: String?, password: String?, callbacks: AddNetworkCallbacks?)
 
+    /**
+     * To add a WPA2 network to the user's configured network list.
+     *
+     * @param ssid The ssid of the WPA2 network you want to add
+     * @param password The password for the WPA2 network being added
+     *
+     * @return int - The return code from WifiManager for network creation (-1 for failure)
+     *
+     * @see [WiseFy.addWPA2Network]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     fun addWPA2Network(ssid: String?, password: String?): Int
 
+    /**
+     * To add a WPA2 network to the user's configured network list.
+     *
+     * @param ssid The ssid of the WPA2 network you want to add
+     * @param password The password for the WPA2 network being added
+     * @param callbacks The listener to return results to
+     *
+     * @see [WiseFy.addWPA2Network]
+     * @see [AddNetworkCallbacks]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     fun addWPA2Network(ssid: String?, password: String?, callbacks: AddNetworkCallbacks?)
 }
 
@@ -147,18 +429,65 @@ internal interface AddNetworkApi {
  * @author Patches
  * @since 3.0
  */
-internal interface ConnectionApi {
+interface ConnectionApi {
 
+    /**
+     * Used to connect to a network.
+     *
+     * @param ssidToConnectTo The ssid to connect/reconnect to
+     * @param timeoutInMillis The number of milliseconds to continue waiting for the device to connect to the given SSID
+     *
+     * @return boolean - If the network was successfully reconnected
+     *
+     * @see [WiseFy.connectToNetwork]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     fun connectToNetwork(ssidToConnectTo: String?, timeoutInMillis: Int): Boolean
 
+    /**
+     * Used to connect to a network.
+     *
+     * @param ssidToConnectTo The ssid to connect/reconnect to
+     * @param timeoutInMillis The number of milliseconds to continue waiting for the device to connect to the given SSID
+     * @param callbacks The listener to return results to
+     *
+     * @see [WiseFy.connectToNetwork]
+     * @see [ConnectToNetworkCallbacks]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     fun connectToNetwork(
         ssidToConnectTo: String?,
         timeoutInMillis: Int,
         callbacks: ConnectToNetworkCallbacks?
     )
 
+    /**
+     * To disconnect the user from their current network.
+     *
+     * @return boolean - If the command succeeded in disconnecting the device from the current network
+     *
+     * @see [WiseFy.disconnectFromCurrentNetwork]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     fun disconnectFromCurrentNetwork(): Boolean
 
+    /**
+     * To disconnect the user from their current network.
+     *
+     * @param callbacks The listener to return results to
+     *
+     * @see [WiseFy.disconnectFromCurrentNetwork]
+     * @see [DisconnectFromCurrentNetworkCallbacks]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     fun disconnectFromCurrentNetwork(callbacks: DisconnectFromCurrentNetworkCallbacks?)
 }
 
@@ -168,16 +497,68 @@ internal interface ConnectionApi {
  * @author Patches
  * @since 3.0
  */
-internal interface DeviceApi {
+interface DeviceApi {
 
+    /**
+     * To check if the device is connected to a mobile network.
+     *
+     * @return bool - If the device is currently connected to a mobile network
+     *
+     * @see [WiseFy.isDeviceConnectedToMobileNetwork]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     fun isDeviceConnectedToMobileNetwork(): Boolean
 
+    /**
+     * To check if the device is connected to a mobile or wifi network.
+     *
+     * @return bool - If the device is currently connected to a mobile or wifi network
+     *
+     * @see [WiseFy.isDeviceConnectedToMobileOrWifiNetwork]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     fun isDeviceConnectedToMobileOrWifiNetwork(): Boolean
 
+    /**
+     * To check if the device is connected to a given SSID.
+     *
+     * @param ssid The SSID to check if the device is attached to
+     *
+     * @return bool - If the device is currently attached to the given SSID
+     *
+     * @see [WiseFy.isDeviceConnectedToSSID]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     fun isDeviceConnectedToSSID(ssid: String?): Boolean
 
+    /**
+     * To check if the device is connected to a wifi network.
+     *
+     * @return bool - If the device is currently connected to a wifi network
+     *
+     * @see [WiseFy.isDeviceConnectedToWifiNetwork]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     fun isDeviceConnectedToWifiNetwork(): Boolean
 
+    /**
+     * To query if the device is roaming.
+     *
+     * @return boolean - If the current network is roaming
+     *
+     * @see [WiseFy.isDeviceRoaming]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     fun isDeviceRoaming(): Boolean
 }
 
@@ -187,18 +568,89 @@ internal interface DeviceApi {
  * @author Patches
  * @since 3.0
  */
-internal interface FrequencyApi {
+interface FrequencyApi {
 
+    /**
+     * To retrieve the frequency of the device's current network.
+     *
+     * @return Integer - The frequency of the devices current network or null if no network
+     *
+     * @see [WiseFy.getFrequency]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     fun getFrequency(): Int?
 
+    /**
+     * To retrieve the frequency of the device's current network.
+     *
+     * @param callbacks The listener to return results to
+     *
+     * @see [WiseFy.getFrequency]
+     * @see [GetFrequencyCallbacks]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     fun getFrequency(callbacks: GetFrequencyCallbacks?)
 
+    /**
+     * To retrieve the frequency of a network.
+     *
+     * @param network The network to return the frequency of
+     *
+     * @return Integer - The frequency of the devices current network or null if no network
+     *
+     * @see [WiseFy.getFrequency]
+     * @see [WifiInfo]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     fun getFrequency(network: WifiInfo?): Int?
 
+    /**
+     * To retrieve the frequency of a network.
+     *
+     * @param network The network to return the frequency of
+     * @param callbacks The listener to return results to
+     *
+     * @see [WiseFy.getFrequency]
+     * @see [GetFrequencyCallbacks]
+     * @see [WifiInfo]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     fun getFrequency(network: WifiInfo?, callbacks: GetFrequencyCallbacks?)
 
+    /**
+     * To check if the device's current network is 5gHz.
+     *
+     * @return boolean - If the network is 5gHz
+     *
+     * @see [WiseFy.isNetwork5gHz]
+     * @see [getFrequency]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     fun isNetwork5gHz(): Boolean
 
+    /**
+     * To check if a given network is 5gHz.
+     *
+     * @param network The network to check if it's 5gHz
+     *
+     * @return boolean - If the network is 5gHz
+     *
+     * @see [WiseFy.isNetwork5gHz]
+     * @see [WifiInfo]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     fun isNetwork5gHz(network: WifiInfo?): Boolean
 }
 
@@ -208,18 +660,83 @@ internal interface FrequencyApi {
  * @author Patches
  * @since 3.0
  */
-internal interface NetworkInfoApi {
+interface NetworkInfoApi {
 
+    /**
+     * To retrieve the user's current network.
+     *
+     * @return WifiInfo|null - The user's current network information
+     *
+     * @see [WiseFy.getCurrentNetwork]
+     * @see [WifiInfo]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     fun getCurrentNetwork(): WifiInfo?
 
+    /**
+     * To retrieve the user's current network.
+     *
+     * @param callbacks The listener to return results to
+     *
+     * @see [WiseFy.getCurrentNetwork]
+     * @see [GetCurrentNetworkCallbacks]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     fun getCurrentNetwork(callbacks: GetCurrentNetworkCallbacks?)
 
+    /**
+     * To retrieve the details of the phones active network.
+     *
+     * @return NetworkInfo
+     *
+     * @see [WiseFy.getCurrentNetworkInfo]
+     * @see [NetworkInfo]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     fun getCurrentNetworkInfo(): NetworkInfo?
 
+    /**
+     * To retrieve the details of the phones active network.
+     *
+     * @param callbacks The listener to return results to
+     *
+     * @see [WiseFy.getCurrentNetworkInfo]
+     * @see [GetCurrentNetworkInfoCallbacks]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     fun getCurrentNetworkInfo(callbacks: GetCurrentNetworkInfoCallbacks?)
 
+    /**
+     * To retrieve the IPv4 or IPv6 of a device.
+     *
+     * @return String - The IPv4 or IPv6 address
+     *
+     * @see [WiseFy.getIP]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     fun getIP(): String?
 
+    /**
+     * To retrieve the IPv4 or IPv6 of a device.
+     *
+     * @param callbacks The listener to return results to
+     *
+     * @see [WiseFy.getIP]
+     * @see [GetIPCallbacks]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     fun getIP(callbacks: GetIPCallbacks?)
 }
 
@@ -229,10 +746,34 @@ internal interface NetworkInfoApi {
  * @author Patches
  * @since 3.0
  */
-internal interface RemoveNetworkApi {
+interface RemoveNetworkApi {
 
+    /**
+     * To remove a configured network.
+     *
+     * @param ssidToRemove The ssid of the network you want to remove from the configured network list
+     *
+     * @return boolean - If the command succeeded in removing the network
+     *
+     * @see [WiseFy.removeNetwork]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     fun removeNetwork(ssidToRemove: String?): Boolean
 
+    /**
+     * To remove a configured network.
+     *
+     * @param ssidToRemove The ssid of the network you want to remove from the configured network list
+     * @param callbacks The listener to return results to
+     *
+     * @see [WiseFy.removeNetwork]
+     * @see [RemoveNetworkCallbacks]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     fun removeNetwork(ssidToRemove: String?, callbacks: RemoveNetworkCallbacks?)
 }
 
@@ -242,21 +783,105 @@ internal interface RemoveNetworkApi {
  * @author Patches
  * @since 3.0
  */
-internal interface SavedNetworkApi {
+interface SavedNetworkApi {
 
-    fun getSavedNetwork(regexForSSID: String?): WifiConfiguration?
-
-    fun getSavedNetwork(regexForSSID: String?, callbacks: GetSavedNetworkCallbacks?)
-
+    /**
+     * To retrieve a list of saved networks on a user's device.
+     *
+     * @return List of WifiConfiguration|null - List of saved networks on a users device
+     *
+     * @see [WiseFy.getSavedNetworks]
+     * @see [WifiConfiguration]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     fun getSavedNetworks(): List<WifiConfiguration>?
 
+    /**
+     * To retrieve a list of saved networks on a user's device.
+     *
+     * @param callbacks The listener to return results to
+     *
+     * @see [WiseFy.getSavedNetworks]
+     * @see [GetSavedNetworksCallbacks]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     fun getSavedNetworks(callbacks: GetSavedNetworksCallbacks?)
 
-    fun getSavedNetworks(regexForSSID: String?): List<WifiConfiguration>?
-
-    fun getSavedNetworks(regexForSSID: String?, callbacks: GetSavedNetworksCallbacks?)
-
+    /**
+     * To check if an SSID is in the list of configured networks.
+     *
+     * @param ssid The SSID to check and see if it's in the list of configured networks
+     *
+     * @return boolean - If the SSID is in the list of configured networks
+     *
+     * @see [WiseFy.isNetworkSaved]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     fun isNetworkSaved(ssid: String?): Boolean
+
+    /**
+     * To search for and return a saved WiFiConfiguration given an SSID.
+     *
+     * @param regexForSSID The ssid to use while searching for saved configuration
+     *
+     * @return WifiConfiguration|null - Saved network that matches the ssid
+     *
+     * @see [WiseFy.searchForSavedNetwork]
+     * @see [WifiConfiguration]
+     *
+     * @author Patches
+     * @since 3.0
+     */
+    fun searchForSavedNetwork(regexForSSID: String?): WifiConfiguration?
+
+    /**
+     * To search for and return a saved WiFiConfiguration given an SSID.
+     *
+     * @param regexForSSID The ssid to use while searching for saved configuration
+     * @param callbacks The listener to return results to
+     *
+     * @see [WiseFy.searchForSavedNetwork]
+     * @see [SearchForSavedNetworkCallbacks]
+     *
+     * @author Patches
+     * @since 3.0
+     */
+    fun searchForSavedNetwork(regexForSSID: String?, callbacks: SearchForSavedNetworkCallbacks?)
+
+    /**
+     * To retrieve a list of saved networks on a user's device that match a given regex.
+     *
+     * @param regexForSSID The ssid to use while searching for saved configurations
+     *
+     * @return List of WifiConfigurations|null - The list of saved network configurations that match the given regex
+     *
+     * @see [WiseFy.searchForSavedNetworks]
+     * @see [WifiConfiguration]
+     *
+     * @author Patches
+     * @since 3.0
+     */
+    fun searchForSavedNetworks(regexForSSID: String?): List<WifiConfiguration>?
+
+    /**
+     * To retrieve a list of saved networks on a user's device that match a given regex.
+     *
+     * @param regexForSSID The ssid to use while searching for saved configurations
+     * @param callbacks The listener to return results to
+     *
+     * @see [WiseFy.searchForSavedNetworks]
+     * @see [SearchForSavedNetworksCallbacks]
+     *
+     * @author Patches
+     * @since 3.0
+     */
+    fun searchForSavedNetworks(regexForSSID: String?, callbacks: SearchForSavedNetworksCallbacks?)
 }
 
 /**
@@ -265,18 +890,96 @@ internal interface SavedNetworkApi {
  * @author Patches
  * @since 3.0
  */
-internal interface SecurityApi {
+interface SecurityApi {
 
+    /**
+     * To check and return if a network is a EAP network.
+     *
+     * @param scanResult The network to check
+     *
+     * @return boolean - Whether the network has EAP capabilities listed
+     *
+     * @see [WiseFy.isNetworkEAP]
+     * @see [ScanResult]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     fun isNetworkEAP(scanResult: ScanResult?): Boolean
 
+    /**
+     * To check and return if a network is a PSK network.
+     *
+     * @param scanResult The network to check
+     *
+     * @return boolean - Whether the network has PSK capabilities listed
+     *
+     * @see [WiseFy.isNetworkPSK]
+     * @see [ScanResult]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     fun isNetworkPSK(scanResult: ScanResult?): Boolean
 
+    /**
+     * To check and return if a network is secure (contains EAP/PSK/WEP/WPA/WPA2 capabilities).
+     *
+     * @param scanResult The network to see if it is secure
+     *
+     * @return boolean - Whether the network is secure
+     *
+     * @see [WiseFy.isNetworkSecure]
+     * @see [ScanResult]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     fun isNetworkSecure(scanResult: ScanResult?): Boolean
 
+    /**
+     * To check and return if a network is a WEP network.
+     *
+     * @param scanResult The network to check
+     *
+     * @return boolean - Whether the network has WEP capabilities listed
+     *
+     * @see [WiseFy.isNetworkWEP]
+     * @see [ScanResult]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     fun isNetworkWEP(scanResult: ScanResult?): Boolean
 
+    /**
+     * To check and return if a network is a WPA network.
+     *
+     * @param scanResult The network to check
+     *
+     * @return boolean - Whether the network has WPA capabilities listed
+     *
+     * @see [WiseFy.isNetworkWPA]
+     * @see [ScanResult]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     fun isNetworkWPA(scanResult: ScanResult?): Boolean
 
+    /**
+     * To check and return if a network is a WPA2 network.
+     *
+     * @param scanResult The network to check
+     *
+     * @return boolean - Whether the network has WPA2 capabilities listed
+     *
+     * @see [WiseFy.isNetworkWPA2]
+     * @see [ScanResult]]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     fun isNetworkWPA2(scanResult: ScanResult?): Boolean
 }
 
@@ -286,10 +989,41 @@ internal interface SecurityApi {
  * @author Patches
  * @since 3.0
  */
-internal interface SignalStrengthApi {
+interface SignalStrengthApi {
 
+    /**
+     * To convert an RSSI level for a network to a number of bars.
+     *
+     * @param rssiLevel The signal strength of the network
+     * @param targetNumberOfBars How many bars or levels there will be total
+     *
+     * @return int - The number of bars for the given RSSI value
+     *
+     * @see [WiseFy.calculateBars]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     fun calculateBars(rssiLevel: Int, targetNumberOfBars: Int): Int
 
+    /**
+     * To compare the signal strength of two networks.
+     *
+     * This method will return:
+     * - Negative value if the first signal is weaker than the second signal
+     * - 0 if the two signals have the same strength
+     * - Positive value if the first signal is stronger than the second signal
+     *
+     * @param rssi1 The signal strength of network 1
+     * @param rssi2 The signal strength of network 2
+     *
+     * @return int - The result of the comparison
+     *
+     * @see [WiseFy.compareSignalLevel]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     fun compareSignalLevel(rssi1: Int, rssi2: Int): Int
 }
 
@@ -299,15 +1033,65 @@ internal interface SignalStrengthApi {
  * @author Patches
  * @since 3.0
  */
-internal interface WifiApi {
+interface WifiApi {
 
+    /**
+     * To disable Wifi on a user's device.
+     *
+     * @return boolean - True if the command succeeded in disabling wifi
+     *
+     * @see [WiseFy.disableWifi]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     fun disableWifi(): Boolean
 
+    /**
+     * To disable Wifi on a user's device.
+     *
+     * @see [WiseFy.disableWifi]
+     * @see [DisableWifiCallbacks]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     fun disableWifi(callbacks: DisableWifiCallbacks?)
 
+    /**
+     * To enable Wifi on a user's device.
+     *
+     * @return boolean - If the command succeeded in enabling wifi
+     *
+     * @see [WiseFy.enableWifi]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     fun enableWifi(): Boolean
 
+    /**
+     * To enable Wifi on a user's device.
+     *
+     * @param callbacks The listener to return results to
+     *
+     * @see [WiseFy.enableWifi]
+     * @see [EnableWifiCallbacks]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     fun enableWifi(callbacks: EnableWifiCallbacks?)
 
+    /**
+     * To check if Wifi is enabled on the device or not.
+     *
+     * @return boolean - if Wifi is enabled on device
+     *
+     * @see [WiseFy.isWifiEnabled]
+     *
+     * @author Patches
+     * @since 3.0
+     */
     fun isWifiEnabled(): Boolean
 }

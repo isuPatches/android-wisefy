@@ -1,50 +1,31 @@
 <resources>
+
     <string name="app_name">WiseFy Sample</string>
 
-    <!-- Permissions -->
-    <string name="access_coarse_location_rationale">To search for nearby network, we need to know about your location</string>
-
-    <!-- Add Network -->
-    <string name="add_network">Add Network</string>
-    <string name="wpa2">WPA2</string>
-    <string name="wep">WEP</string>
-    <string name="open">Open</string>
-
-    <!-- Remove Network -->
-    <string name="remove_network">Remove Network</string>
-
-    <!-- Search -->
-    <string name="regex_for_network">Regex for network…</string>
-    <string name="search_for">Search for…</string>
-    <string name="access_point">Access Point</string>
-    <string name="ssid">SSID</string>
-    <string name="saved_network">Saved Network</string>
-    <string name="return_full_list_label">Return full list of results?</string>
-    <string name="return_full_list_description">This option will return a list of results instead of an individual item when enabled.</string>
-    <string name="filter_duplicates">Filter Duplicates</string>
-    <string name="timeout_after_x_seconds_args_html">Timeout after <![CDATA[<b>%d</b>]]> seconds</string>
-
-    <!-- Misc. -->
-    <string name="disable_wifi">Disable Wifi</string>
-    <string name="enabled_wifi">Enabled Wifi</string>
-    <string name="get_current_network">Get Current Network</string>
-    <string name="get_current_network_details">Get Current Network Details</string>
-    <string name="get_frequency">Get Frequency</string>
-    <string name="get_ip">Get IP</string>
-    <string name="get_nearby_access_points">Get Nearby Access Points</string>
-    <string name="get_saved_networks">Get Saved Networks</string>
-
-    <!-- Nav -->
-    <string name="add">Add</string>
-    <string name="remove">Remove</string>
-    <string name="home">Home</string>
-    <string name="misc">Misc.</string>
-    <string name="search">Search</string>
+    <!-- Main Screen -->
+    <string name="wisefy">WiseFy</string>
+    <string name="wisefy_sample_description">Explore the various uses for WiseFy by poking around this sample app based on MVP architecture.</string>
 
     <!-- Shared -->
     <string name="network_password">Network Password</string>
     <string name="network_name">Network Name</string>
+
     <string name="no">No</string>
     <string name="yes">Yes</string>
+    <string name="ok">OK</string>
+    <string name="info">Info</string>
+
+    <string name="wisefy_error">WiseFy Error</string>
+    <string name="wisefy_error_descriptions_args">An error occurred with WiseFy.  Error code: %d</string>
+
+    <string name="access_points_args">Access points: %s</string>
+    <string name="no_access_points_found">No access points found</string>
+
+    <string name="saved_networks_args">Saved networks: %s</string>
+    <string name="no_saved_networks_found">No saved networks found</string>
+
+    <!-- Permissions -->
+    <string name="permission_error">Permission Error</string>
+    <string name="permission_error_unhandled_request_code_args">Unhandled permission requested.  Request code: %d</string>
 
 </resources>

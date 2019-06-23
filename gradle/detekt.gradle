@@ -2,5 +2,6 @@ apply plugin: "io.gitlab.arturbosch.detekt"
 
 detekt {
     version = "$detekt_version"
+    failFast = false
     config = files("$project.rootDir/config/detekt-config.yml")
 }

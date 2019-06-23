@@ -10,6 +10,7 @@
 <h1>disconnectFromCurrentNetwork</h1>
 <a name="com.isupatches.wisefy.WiseFy$disconnectFromCurrentNetwork()"></a>
 <code><span class="identifier">@Sync</span> <span class="identifier">@CallingThread</span> <span class="keyword">fun </span><span class="identifier">disconnectFromCurrentNetwork</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code>
+<p>Overrides <a href="../-connection-api/disconnect-from-current-network.html">ConnectionApi.disconnectFromCurrentNetwork</a></p>
 <p>To disconnect the user from their current network.</p>
 <p><strong>Return</strong><br/>
 boolean - If the command succeeded in disconnecting the device from the current network</p>
@@ -23,6 +24,7 @@ Patches</p>
 3.0</p>
 <a name="com.isupatches.wisefy.WiseFy$disconnectFromCurrentNetwork(com.isupatches.wisefy.callbacks.DisconnectFromCurrentNetworkCallbacks)"></a>
 <code><span class="identifier">@Async</span> <span class="identifier">@WiseFyThread</span> <span class="keyword">fun </span><span class="identifier">disconnectFromCurrentNetwork</span><span class="symbol">(</span><span class="identifier" id="com.isupatches.wisefy.WiseFy$disconnectFromCurrentNetwork(com.isupatches.wisefy.callbacks.DisconnectFromCurrentNetworkCallbacks)/callbacks">callbacks</span><span class="symbol">:</span>&nbsp;<a href="../../com.isupatches.wisefy.callbacks/-disconnect-from-current-network-callbacks/index.html"><span class="identifier">DisconnectFromCurrentNetworkCallbacks</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Overrides <a href="../-connection-api/disconnect-from-current-network.html">ConnectionApi.disconnectFromCurrentNetwork</a></p>
 <p>To disconnect the user from their current network.</p>
 <h3>Parameters</h3>
 <p><a name="callbacks"></a>
@@ -32,6 +34,7 @@ Patches</p>
 <p><a href="#">runOnWiseFyThread</a></p>
 <p><a href="https://developer.android.com/reference/android/net/wifi/WifiManager.html#disconnect()">WifiManager.disconnect</a></p>
 <p><a href="../-wise-fy-lock.html">WiseFyLock</a></p>
+<p><a href="#">WiseFyPrechecks.disconnectFromCurrentNetworkChecks</a></p>
 </p>
 <p><strong>Author</strong><br/>
 Patches</p>
