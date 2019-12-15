@@ -2,9 +2,6 @@
 
 -dontobfuscate
 
--keep class com.isupatches.wisefysample.** { *; }
--keep public interface com.isupatches.wisefysample.** { *; }
-
 -keep class kotlin.** { *; }
 -keep class kotlin.Metadata { *; }
 -dontwarn kotlin.**

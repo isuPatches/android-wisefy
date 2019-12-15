@@ -85,7 +85,6 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "androidx.annotation:annotation:$androidx_support_annotations_version"
 
     // Kotlin

@@ -47,6 +47,7 @@ import kotlinx.android.synthetic.main.fragment_search.timeoutSeek
 import kotlinx.android.synthetic.main.fragment_search.timeoutTxt
 
 import javax.inject.Inject
+import kotlin.math.max
 
 @Suppress("LargeClass")
 internal class SearchFragment : BaseFragment(), SearchMvp.View {
@@ -108,7 +109,7 @@ internal class SearchFragment : BaseFragment(), SearchMvp.View {
             max = TIMEOUT_MAX
             setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                    val timeout = Math.max(TIMEOUT_MIN, progress)
+                    val timeout = max(TIMEOUT_MIN, progress)
                     searchStore.setTimeout(timeout)
                     timeoutTxt.text = getString(R.string.timeout_after_x_seconds_args_html, timeout).asHtmlSpanned()
                 }

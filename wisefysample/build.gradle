@@ -35,6 +35,11 @@ android {
         unitTests.returnDefaultValues = true
     }
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
     sourceSets {
         def commonTestDir = 'src/commonTest/java'
 
@@ -48,8 +53,6 @@ android {
 
 dependencies {
     implementation project(':wisefy')
-
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 

@@ -1,25 +1,25 @@
 ext {
-    androidx_appcompat_version = "1.1.0-beta01"
-    androidx_constraintlayout_version = "2.0.0-beta2"
+    androidx_appcompat_version = "1.1.0"
+    androidx_constraintlayout_version = "2.0.0-beta3"
     androidx_support_annotations_version = '1.0.0'
-    androidx_core_ktx_version = '1.0.2'
+    androidx_core_ktx_version = '1.1.0'
     androidx_core_test_version = '1.1.0'
 
-    google_android_material_version = "1.1.0-alpha07"
+    google_android_material_version = "1.2.0-alpha02"
 
-    dagger_version = "2.23.2"
+    dagger_version = "2.25.2"
 
-    detekt_version = "1.0.0-RC15"
-    ktlint_version = "0.33.0"
+    detekt_version = "1.2.2"
+    ktlint_version = "0.36.0"
 
     rxandroid_version = '2.1.1'
-    rxjava_version = '2.2.10'
+    rxjava_version = '2.2.15'
 
     // Test deps
     junit_version = '4.12'
     mockito_version = '2.28.2'
-    mockito_kotlin_version = '2.1.0'
+    mockito_kotlin_version = '2.2.0'
 
-    androidx_espresso_core_version = '3.1.1'
-    androidx_test_runner_version = "1.1.1"
+    androidx_espresso_core_version = '3.2.0'
+    androidx_test_runner_version = '1.2.0'
 }
