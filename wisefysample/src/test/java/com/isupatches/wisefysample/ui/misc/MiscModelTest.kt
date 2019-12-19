@@ -4,7 +4,6 @@ import android.net.NetworkInfo
 import android.net.wifi.ScanResult
 import android.net.wifi.WifiConfiguration
 import android.net.wifi.WifiInfo
-
 import com.isupatches.wisefy.WiseFyPublicApi
 import com.isupatches.wisefy.callbacks.DisableWifiCallbacks
 import com.isupatches.wisefy.callbacks.EnableWifiCallbacks
@@ -14,13 +13,11 @@ import com.isupatches.wisefy.callbacks.GetFrequencyCallbacks
 import com.isupatches.wisefy.callbacks.GetIPCallbacks
 import com.isupatches.wisefy.callbacks.GetNearbyAccessPointsCallbacks
 import com.isupatches.wisefy.callbacks.GetSavedNetworksCallbacks
-
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.eq
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.times
 import com.nhaarman.mockitokotlin2.verify
-
 import org.junit.Test
 
 internal class MiscModelTest {

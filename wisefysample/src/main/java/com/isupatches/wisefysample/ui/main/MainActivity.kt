@@ -17,9 +17,7 @@ package com.isupatches.wisefysample.ui.main
 
 import android.os.Bundle
 import android.view.MenuItem
-
 import com.google.android.material.bottomnavigation.BottomNavigationView
-
 import com.isupatches.wisefy.WiseFyPublicApi
 import com.isupatches.wisefysample.R
 import com.isupatches.wisefysample.internal.nav.openFragment
@@ -31,17 +29,14 @@ import com.isupatches.wisefysample.ui.add.AddNetworkFragment
 import com.isupatches.wisefysample.ui.misc.MiscFragment
 import com.isupatches.wisefysample.ui.remove.RemoveNetworkFragment
 import com.isupatches.wisefysample.ui.search.SearchFragment
-
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.android.AndroidInjection
 import dagger.android.ContributesAndroidInjector
 import dagger.android.support.DaggerAppCompatActivity
-
-import kotlinx.android.synthetic.main.activity_main.bottomNavigationView
-
 import javax.inject.Inject
+import kotlinx.android.synthetic.main.activity_main.bottomNavigationView
 
 internal class MainActivity : DaggerAppCompatActivity(),
     BottomNavigationView.OnNavigationItemSelectedListener {

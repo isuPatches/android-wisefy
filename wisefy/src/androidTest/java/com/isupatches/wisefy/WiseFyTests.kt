@@ -1,9 +1,7 @@
 package com.isupatches.wisefy
 
 import androidx.test.platform.app.InstrumentationRegistry
-
 import com.isupatches.wisefy.internal.base.BaseInstrumentationTest
-
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Test

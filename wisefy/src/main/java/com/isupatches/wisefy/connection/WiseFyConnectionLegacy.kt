@@ -18,7 +18,6 @@ package com.isupatches.wisefy.connection
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.net.wifi.WifiManager
-
 import com.isupatches.wisefy.constants.MOBILE
 import com.isupatches.wisefy.constants.NetworkType
 import com.isupatches.wisefy.constants.WIFI

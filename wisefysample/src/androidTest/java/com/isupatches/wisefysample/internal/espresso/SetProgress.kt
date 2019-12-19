@@ -3,9 +3,8 @@ package com.isupatches.wisefysample.internal.espresso
 import android.view.View
 import android.widget.SeekBar
 import androidx.test.espresso.UiController
-import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.ViewAction
-
+import androidx.test.espresso.matcher.ViewMatchers
 import org.hamcrest.Matcher
 
 fun setProgress(progress: Int): ViewAction {

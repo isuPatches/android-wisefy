@@ -1,16 +1,13 @@
 package com.isupatches.wisefy
 
 import android.net.NetworkInfo
-
 import com.isupatches.wisefy.callbacks.GetCurrentNetworkInfoCallbacks
 import com.isupatches.wisefy.constants.MISSING_PARAMETER
 import com.isupatches.wisefy.internal.base.BaseInstrumentationTest
-
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.fail
 import org.junit.Test
-
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.timeout
 import org.mockito.Mockito.verify

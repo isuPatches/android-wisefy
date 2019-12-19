@@ -17,6 +17,7 @@
 package com.isupatches.wisefy
 
 import android.Manifest.permission.ACCESS_COARSE_LOCATION
+import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.ACCESS_NETWORK_STATE
 import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.Manifest.permission.CHANGE_WIFI_STATE
@@ -33,7 +34,6 @@ import android.os.Looper
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import androidx.annotation.VisibleForTesting
-
 import com.isupatches.wisefy.annotations.Async
 import com.isupatches.wisefy.annotations.CallingThread
 import com.isupatches.wisefy.annotations.PublicAPI
@@ -77,7 +77,6 @@ import com.isupatches.wisefy.threads.WiseFyHandlerThread
 import com.isupatches.wisefy.utils.generateOpenNetworkConfiguration
 import com.isupatches.wisefy.utils.generateWEPNetworkConfiguration
 import com.isupatches.wisefy.utils.generateWPA2NetworkConfiguration
-
 import java.math.BigInteger
 import java.net.InetAddress
 import java.net.UnknownHostException
@@ -163,7 +162,7 @@ class WiseFy private constructor(
         private var wisefySearch: WiseFySearch
 
         init {
-            connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            connectivityManager = context.applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
             wifiManager = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
 
             // We'll use SDK 23 logic for WiseFyConnection if client is on at least an SDK 23 device
@@ -535,13 +534,16 @@ class WiseFy private constructor(
      * @see [WiseFyPrechecks.connectToNetworkPrechecks]
      * @see [WiseFySearch.findSavedNetworkByRegex]
      *
+     * Updates
+     * - 12/19/2019: Added ACCESS_FINE_LOCATION requirement
+     *
      * @author Patches
      * @since 3.0
      */
     @Sync
     @CallingThread
     @WaitsForTimeout
-    @RequiresPermission(ACCESS_WIFI_STATE)
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun connectToNetwork(ssidToConnectTo: String?, timeoutInMillis: Int): Boolean {
         if (wisefyPrechecks.connectToNetworkPrechecks(ssidToConnectTo).failed()) {
             return false
@@ -573,13 +575,16 @@ class WiseFy private constructor(
      * @see [WiseFyPrechecks.connectToNetworkPrechecks]
      * @see [WiseFySearch.findSavedNetworkByRegex]
      *
+     * Updates
+     * - 12/19/2019: Added ACCESS_FINE_LOCATION requirement
+     *
      * @author Patches
      * @since 3.0
      */
     @Async
     @WiseFyThread
     @WaitsForTimeout
-    @RequiresPermission(ACCESS_WIFI_STATE)
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun connectToNetwork(
         ssidToConnectTo: String?,
         timeoutInMillis: Int,
@@ -1256,12 +1261,15 @@ class WiseFy private constructor(
      * @see [WiseFyPrechecks.getSavedNetworksChecks]
      * @see [WiseFySearch.findSavedNetworksMatchingRegex]
      *
+     * Updates
+     * - 12/19/2019: Added ACCESS_FINE_LOCATION requirement
+     *
      * @author Patches
      * @since 3.0
      */
     @Sync
     @CallingThread
-    @RequiresPermission(ACCESS_WIFI_STATE)
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun getSavedNetworks(): List<WifiConfiguration>? {
         return if (wisefyPrechecks.getSavedNetworksChecks().passed()) {
             wifiManager.configuredNetworks
@@ -1280,12 +1288,15 @@ class WiseFy private constructor(
      * @see [WiseFyPrechecks.getSavedNetworksChecks]
      * @see [WiseFySearch.findSavedNetworksMatchingRegex]
      *
+     * Updates
+     * - 12/19/2019: Added ACCESS_FINE_LOCATION requirement
+     *
      * @author Patches
      * @since 3.0
      */
     @Async
     @WiseFyThread
-    @RequiresPermission(ACCESS_WIFI_STATE)
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun getSavedNetworks(callbacks: GetSavedNetworksCallbacks?) {
         runOnWiseFyThread(Runnable {
             synchronized(wisefyLock) {
@@ -1650,12 +1661,15 @@ class WiseFy private constructor(
      * @see [WiseFyPrechecks.removeNetworkCheck]
      * @sse [WiseFySearch.findSavedNetworkByRegex]
      *
+     * Updates
+     * - 12/19/2019: Added ACCESS_FINE_LOCATION requirement
+     *
      * @author Patches
      * @since 3.0
      */
     @Sync
     @CallingThread
-    @RequiresPermission(ACCESS_WIFI_STATE)
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun removeNetwork(ssidToRemove: String?): Boolean {
         if (wisefyPrechecks.removeNetworkCheck(ssidToRemove).failed()) {
             return false
@@ -1684,12 +1698,15 @@ class WiseFy private constructor(
      * @see [WiseFyPrechecks.removeNetworkCheck]
      * @sse [WiseFySearch.findSavedNetworkByRegex]
      *
+     * Updates
+     * - 12/19/2019: Added ACCESS_FINE_LOCATION requirement
+     *
      * @author Patches
      * @since 3.0
      */
     @Async
     @WiseFyThread
-    @RequiresPermission(ACCESS_WIFI_STATE)
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun removeNetwork(ssidToRemove: String?, callbacks: RemoveNetworkCallbacks?) {
         runOnWiseFyThread(Runnable {
             synchronized(wisefyLock) {
@@ -1873,12 +1890,15 @@ class WiseFy private constructor(
      * @see [WiseFyPrechecks.searchForSavedNetworkChecks]
      * @see [WiseFySearch.findSavedNetworkByRegex]
      *
+     * Updates
+     * - 12/19/2019: Added ACCESS_FINE_LOCATION requirement
+     *
      * @author Patches
      * @since 3.0
      */
     @Sync
     @CallingThread
-    @RequiresPermission(ACCESS_WIFI_STATE)
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun searchForSavedNetwork(regexForSSID: String?): WifiConfiguration? {
         return if (wisefyPrechecks.searchForSavedNetworkChecks(regexForSSID).passed()) {
             wisefySearch.findSavedNetworkByRegex(regexForSSID!!)
@@ -1898,12 +1918,15 @@ class WiseFy private constructor(
      * @see [WiseFyPrechecks.searchForSavedNetworkChecks]
      * @see [WiseFySearch.findSavedNetworkByRegex]
      *
+     * Updates
+     * - 12/19/2019: Added ACCESS_FINE_LOCATION requirement
+     *
      * @author Patches
      * @since 3.0
      */
     @Async
     @WiseFyThread
-    @RequiresPermission(ACCESS_WIFI_STATE)
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun searchForSavedNetwork(regexForSSID: String?, callbacks: SearchForSavedNetworkCallbacks?) {
         runOnWiseFyThread(Runnable {
             synchronized(wisefyLock) {
@@ -1934,12 +1957,15 @@ class WiseFy private constructor(
      * @see [WiseFyPrechecks.searchForSavedNetworksChecks]
      * @see [WiseFySearch.findSavedNetworksMatchingRegex]
      *
+     * Updates
+     * - 12/19/2019: Added ACCESS_FINE_LOCATION requirement
+     *
      * @author Patches
      * @since 3.0
      */
     @Sync
     @CallingThread
-    @RequiresPermission(ACCESS_WIFI_STATE)
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun searchForSavedNetworks(regexForSSID: String?): List<WifiConfiguration>? {
         return if (wisefyPrechecks.searchForSavedNetworksChecks(regexForSSID).passed()) {
             wisefySearch.findSavedNetworksMatchingRegex(regexForSSID!!)
@@ -1959,12 +1985,15 @@ class WiseFy private constructor(
      * @see [WiseFyPrechecks.searchForSavedNetworksChecks]
      * @see [WiseFySearch.findSavedNetworksMatchingRegex]
      *
+     * Updates
+     * - 12/19/2019: Added ACCESS_FINE_LOCATION requirement
+     *
      * @author Patches
      * @since 3.0
      */
     @Async
     @WiseFyThread
-    @RequiresPermission(ACCESS_WIFI_STATE)
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun searchForSavedNetworks(regexForSSID: String?, callbacks: SearchForSavedNetworksCallbacks?) {
         runOnWiseFyThread(Runnable {
             synchronized(wisefyLock) {

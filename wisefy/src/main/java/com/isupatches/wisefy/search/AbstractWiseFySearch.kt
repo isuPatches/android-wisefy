@@ -15,16 +15,15 @@
  */
 package com.isupatches.wisefy.search
 
+import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.net.wifi.ScanResult
 import android.net.wifi.WifiConfiguration
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
-
 import com.isupatches.wisefy.constants.QUOTE
 import com.isupatches.wisefy.logging.WiseFyLogger
 import com.isupatches.wisefy.utils.rest
-
 import java.util.Locale
 
 /**
@@ -64,11 +63,12 @@ internal abstract class AbstractWiseFySearch(
      *
      * Updates
      * - 05/12/2019: Moved here from previous WiseFySearchImpl class
+     * - 12/19/2019: Added ACCESS_FINE_LOCATION requirement
      *
      * @author Patches
      * @since 3.0
      */
-    @RequiresPermission(ACCESS_WIFI_STATE)
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun findSavedNetworkByRegex(regexForSSID: String): WifiConfiguration? {
         val savedNetworks = wifiManager.configuredNetworks
         if (savedNetworks == null || savedNetworks.isEmpty()) {
@@ -97,11 +97,12 @@ internal abstract class AbstractWiseFySearch(
      *
      * Updates
      * - 05/12/2019: Moved here from previous WiseFySearchImpl class
+     * - 12/19/2019: Added ACCESS_FINE_LOCATION requirement
      *
      * @author Patches
      * @since 3.0
      */
-    @RequiresPermission(ACCESS_WIFI_STATE)
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun findSavedNetworksMatchingRegex(regexForSSID: String): List<WifiConfiguration>? {
         val savedNetworks = wifiManager.configuredNetworks
         val matchingSavedNetworks = ArrayList<WifiConfiguration>()
@@ -130,11 +131,12 @@ internal abstract class AbstractWiseFySearch(
      *
      * Updates
      * - 05/12/2019: Moved here from previous WiseFySearchImpl class
+     * - 12/19/2019: Added ACCESS_FINE_LOCATION requirement
      *
      * @author Patches
      * @since 3.0
      */
-    @RequiresPermission(ACCESS_WIFI_STATE)
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun isNetworkASavedConfiguration(ssid: String?): Boolean =
             !ssid.isNullOrEmpty() && findSavedNetworkByRegex(ssid) != null
 

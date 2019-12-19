@@ -3,9 +3,7 @@ package com.isupatches.wisefysample.ui.main
 import android.Manifest.permission.ACCESS_COARSE_LOCATION
 import androidx.test.espresso.intent.rule.IntentsTestRule
 import androidx.test.rule.GrantPermissionRule
-
 import com.isupatches.wisefysample.internal.base.AbstractEspressoTestClass
-
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

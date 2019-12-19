@@ -17,7 +17,6 @@ package com.isupatches.wisefy
 
 import android.Manifest.permission.ACCESS_WIFI_STATE
 import androidx.annotation.RequiresPermission
-
 import com.isupatches.wisefy.constants.DEFAULT_PRECHECK_RETURN_CODE
 import com.isupatches.wisefy.constants.MISSING_PARAMETER
 import com.isupatches.wisefy.constants.NETWORK_ALREADY_CONFIGURED

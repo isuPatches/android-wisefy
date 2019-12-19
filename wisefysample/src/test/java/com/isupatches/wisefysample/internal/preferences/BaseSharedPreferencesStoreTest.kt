@@ -1,12 +1,9 @@
 package com.isupatches.wisefysample.internal.preferences
 
 import android.content.SharedPreferences
-
 import com.isupatches.wisefysample.TEST_SSID_1
-
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
-
 import org.mockito.Mockito
 
 abstract class BaseSharedPreferencesStoreTest {

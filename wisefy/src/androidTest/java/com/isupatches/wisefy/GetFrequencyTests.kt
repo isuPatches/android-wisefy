@@ -2,17 +2,14 @@ package com.isupatches.wisefy
 
 import android.net.wifi.WifiInfo
 import android.os.Build
-
 import com.isupatches.wisefy.callbacks.GetFrequencyCallbacks
 import com.isupatches.wisefy.constants.MISSING_PARAMETER
 import com.isupatches.wisefy.internal.base.BaseInstrumentationTest
-
 import org.junit.Assert.assertEquals
 import org.junit.Assert.fail
 import org.junit.Assume
 import org.junit.Before
 import org.junit.Test
-
 import org.mockito.Mockito.after
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.timeout

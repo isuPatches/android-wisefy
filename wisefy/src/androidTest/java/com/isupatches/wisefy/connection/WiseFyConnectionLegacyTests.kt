@@ -6,7 +6,6 @@ import com.isupatches.wisefy.TEST_TIMEOUT
 import com.isupatches.wisefy.constants.MOBILE
 import com.isupatches.wisefy.constants.WIFI
 import com.isupatches.wisefy.internal.base.BaseInstrumentationTest
-
 import org.junit.After
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue

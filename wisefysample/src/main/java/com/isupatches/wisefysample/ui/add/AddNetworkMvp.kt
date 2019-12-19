@@ -16,7 +16,6 @@
 package com.isupatches.wisefysample.ui.add
 
 import android.net.wifi.WifiConfiguration
-
 import com.isupatches.wisefy.callbacks.AddNetworkCallbacks
 import com.isupatches.wisefysample.internal.base.BaseMvp
 

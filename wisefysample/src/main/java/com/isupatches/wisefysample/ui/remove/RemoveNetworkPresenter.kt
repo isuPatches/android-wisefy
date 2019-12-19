@@ -17,12 +17,10 @@ package com.isupatches.wisefysample.ui.remove
 
 import android.Manifest.permission.ACCESS_WIFI_STATE
 import androidx.annotation.RequiresPermission
-
 import com.isupatches.wisefy.callbacks.RemoveNetworkCallbacks
 import com.isupatches.wisefy.constants.WiseFyCode
 import com.isupatches.wisefysample.internal.base.BasePresenter
 import com.isupatches.wisefysample.internal.util.RxSchedulersProvider
-
 import javax.inject.Inject
 
 internal class RemoveNetworkPresenter @Inject constructor(

@@ -4,7 +4,6 @@ import com.isupatches.wisefy.DEFAULT_PRECHECK_RESULT
 import com.isupatches.wisefy.PrecheckResult
 import com.isupatches.wisefy.WiseFyPrechecks
 import com.isupatches.wisefy.constants.MISSING_PARAMETER
-
 import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mockito.`when`
 

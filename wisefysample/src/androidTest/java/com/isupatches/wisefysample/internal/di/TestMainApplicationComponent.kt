@@ -1,9 +1,7 @@
 package com.isupatches.wisefysample.internal.di
 
 import com.isupatches.wisefysample.MainApplication
-
 import dagger.Component
-
 import javax.inject.Singleton
 
 @Suppress("unused")

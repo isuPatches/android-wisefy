@@ -6,7 +6,6 @@ import android.net.wifi.ScanResult
 import android.net.wifi.WifiConfiguration
 import android.net.wifi.WifiInfo
 import android.net.wifi.WifiManager
-
 import com.isupatches.wisefy.TEST_IP_ADDRESS_INT
 import com.isupatches.wisefy.TEST_RSSI_LEVEL
 import com.isupatches.wisefy.TEST_RSSI_LEVEL_HIGH
@@ -18,7 +17,6 @@ import com.isupatches.wisefy.WiseFy.Companion.WIFI_MANAGER_FAILURE
 import com.isupatches.wisefy.internal.createMockAccessPointWithSSID
 import com.isupatches.wisefy.internal.createMockAccessPointWithSSIDAndRSSI
 import com.isupatches.wisefy.internal.createSavedNetwork
-
 import org.mockito.ArgumentMatchers.any
 import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.Mockito.`when`

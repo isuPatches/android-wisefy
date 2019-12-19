@@ -4,7 +4,6 @@ import android.net.NetworkInfo
 import android.net.wifi.ScanResult
 import android.net.wifi.WifiConfiguration
 import android.net.wifi.WifiInfo
-
 import com.isupatches.wisefy.OPEN_NETWORK_SSID
 import com.isupatches.wisefy.TEST_DELAY
 import com.isupatches.wisefy.TEST_NUMBER_OF_BARS
@@ -37,10 +36,8 @@ import com.isupatches.wisefy.callbacks.SearchForSSIDCallbacks
 import com.isupatches.wisefy.callbacks.SearchForSSIDsCallbacks
 import com.isupatches.wisefy.callbacks.SearchForSavedNetworkCallbacks
 import com.isupatches.wisefy.callbacks.SearchForSavedNetworksCallbacks
-
 import org.junit.Assert.assertEquals
 import org.junit.Test
-
 import org.mockito.ArgumentMatchers.any
 import org.mockito.ArgumentMatchers.anyBoolean
 import org.mockito.ArgumentMatchers.anyInt

@@ -7,7 +7,6 @@ import com.isupatches.wisefy.constants.WPA
 import com.isupatches.wisefy.constants.WPA2
 import com.isupatches.wisefy.internal.base.BaseInstrumentationTest
 import com.isupatches.wisefy.internal.createMockAccessPointWithCapabilities
-
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

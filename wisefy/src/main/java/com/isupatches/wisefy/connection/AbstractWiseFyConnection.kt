@@ -19,7 +19,6 @@ import android.Manifest.permission.ACCESS_NETWORK_STATE
 import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
-
 import com.isupatches.wisefy.annotations.WaitsForTimeout
 import com.isupatches.wisefy.constants.QUOTE
 import com.isupatches.wisefy.logging.WiseFyLogger

@@ -22,7 +22,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.annotation.VisibleForTesting
-
 import com.isupatches.wisefy.constants.WiseFyCode
 import com.isupatches.wisefysample.R
 import com.isupatches.wisefysample.internal.base.BaseFragment
@@ -30,17 +29,14 @@ import com.isupatches.wisefysample.internal.models.NetworkType
 import com.isupatches.wisefysample.internal.preferences.AddNetworkStore
 import com.isupatches.wisefysample.internal.util.getTrimmedInput
 import com.isupatches.wisefysample.internal.util.hideKeyboardFrom
-
 import dagger.Binds
 import dagger.Module
-
+import javax.inject.Inject
 import kotlinx.android.synthetic.main.fragment_add.addNetworkBtn
 import kotlinx.android.synthetic.main.fragment_add.addNetworkTypeRdg
 import kotlinx.android.synthetic.main.fragment_add.networkNameEdt
-import kotlinx.android.synthetic.main.fragment_add.networkPasswordTil
 import kotlinx.android.synthetic.main.fragment_add.networkPasswordEdt
-
-import javax.inject.Inject
+import kotlinx.android.synthetic.main.fragment_add.networkPasswordTil
 
 internal class AddNetworkFragment : BaseFragment(), AddNetworkMvp.View {
 

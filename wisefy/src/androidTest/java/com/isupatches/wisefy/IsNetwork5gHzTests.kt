@@ -1,9 +1,7 @@
 package com.isupatches.wisefy
 
 import android.os.Build
-
 import com.isupatches.wisefy.internal.base.BaseInstrumentationTest
-
 import org.junit.Assert.assertEquals
 import org.junit.Assume.assumeTrue
 import org.junit.Before

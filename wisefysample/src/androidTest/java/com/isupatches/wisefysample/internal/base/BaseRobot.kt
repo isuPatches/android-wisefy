@@ -4,7 +4,6 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.rule.ActivityTestRule
-
 import com.isupatches.wisefy.constants.MISSING_PARAMETER
 import com.isupatches.wisefysample.R
 import com.isupatches.wisefysample.RANDO_PERMISSION_REQUEST_CODE
@@ -14,13 +13,10 @@ import com.isupatches.wisefysample.internal.espresso.getString
 import com.isupatches.wisefysample.internal.espresso.performClick
 import com.isupatches.wisefysample.internal.espresso.performScrollToAndCheckIsDisplayed
 import com.isupatches.wisefysample.internal.util.PermissionUtil
-
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.eq
-
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.containsString
-
 import org.mockito.Mockito.`when`
 
 internal abstract class BaseRobot(

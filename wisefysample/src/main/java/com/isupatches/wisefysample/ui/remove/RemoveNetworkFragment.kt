@@ -21,21 +21,17 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.annotation.VisibleForTesting
-
 import com.isupatches.wisefy.constants.WiseFyCode
 import com.isupatches.wisefysample.R
 import com.isupatches.wisefysample.internal.base.BaseFragment
 import com.isupatches.wisefysample.internal.preferences.RemoveNetworkStore
 import com.isupatches.wisefysample.internal.util.getTrimmedInput
 import com.isupatches.wisefysample.internal.util.hideKeyboardFrom
-
 import dagger.Binds
 import dagger.Module
-
-import kotlinx.android.synthetic.main.fragment_remove.removeNetworkBtn
-import kotlinx.android.synthetic.main.fragment_remove.networkNameEdt
-
 import javax.inject.Inject
+import kotlinx.android.synthetic.main.fragment_remove.networkNameEdt
+import kotlinx.android.synthetic.main.fragment_remove.removeNetworkBtn
 
 internal class RemoveNetworkFragment : BaseFragment(), RemoveNetworkMvp.View {
 

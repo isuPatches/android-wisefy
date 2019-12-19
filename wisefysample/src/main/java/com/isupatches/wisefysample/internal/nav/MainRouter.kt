@@ -18,7 +18,6 @@ package com.isupatches.wisefysample.internal.nav
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
-
 import com.isupatches.wisefysample.R
 
 internal fun BottomNavigationView.selectItem(actionId: Int) {

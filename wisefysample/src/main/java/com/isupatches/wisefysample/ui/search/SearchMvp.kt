@@ -17,7 +17,6 @@ package com.isupatches.wisefysample.ui.search
 
 import android.net.wifi.ScanResult
 import android.net.wifi.WifiConfiguration
-
 import com.isupatches.wisefy.callbacks.SearchForAccessPointCallbacks
 import com.isupatches.wisefy.callbacks.SearchForAccessPointsCallbacks
 import com.isupatches.wisefy.callbacks.SearchForSSIDCallbacks

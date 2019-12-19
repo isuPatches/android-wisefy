@@ -1,7 +1,6 @@
 package com.isupatches.wisefy.internal.mock
 
 import com.isupatches.wisefy.connection.WiseFyConnection
-
 import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mockito.`when`

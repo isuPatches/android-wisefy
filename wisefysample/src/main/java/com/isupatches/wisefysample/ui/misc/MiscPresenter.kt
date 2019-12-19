@@ -26,7 +26,6 @@ import android.net.wifi.WifiInfo
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
-
 import com.isupatches.wisefy.callbacks.DisableWifiCallbacks
 import com.isupatches.wisefy.callbacks.EnableWifiCallbacks
 import com.isupatches.wisefy.callbacks.GetCurrentNetworkCallbacks
@@ -37,7 +36,6 @@ import com.isupatches.wisefy.callbacks.GetNearbyAccessPointsCallbacks
 import com.isupatches.wisefy.callbacks.GetSavedNetworksCallbacks
 import com.isupatches.wisefysample.internal.base.BasePresenter
 import com.isupatches.wisefysample.internal.util.RxSchedulersProvider
-
 import javax.inject.Inject
 
 internal class MiscPresenter @Inject constructor(

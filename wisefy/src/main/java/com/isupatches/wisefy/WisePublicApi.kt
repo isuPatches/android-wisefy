@@ -19,7 +19,6 @@ import android.net.NetworkInfo
 import android.net.wifi.ScanResult
 import android.net.wifi.WifiConfiguration
 import android.net.wifi.WifiInfo
-
 import com.isupatches.wisefy.callbacks.AddNetworkCallbacks
 import com.isupatches.wisefy.callbacks.ConnectToNetworkCallbacks
 import com.isupatches.wisefy.callbacks.DisableWifiCallbacks

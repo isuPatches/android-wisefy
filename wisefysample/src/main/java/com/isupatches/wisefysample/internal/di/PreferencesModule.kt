@@ -17,7 +17,6 @@ package com.isupatches.wisefysample.internal.di
 
 import android.content.Context
 import androidx.annotation.StringRes
-
 import com.isupatches.wisefysample.R
 import com.isupatches.wisefysample.internal.preferences.AddNetworkStore
 import com.isupatches.wisefysample.internal.preferences.RemoveNetworkStore
@@ -25,10 +24,8 @@ import com.isupatches.wisefysample.internal.preferences.SearchStore
 import com.isupatches.wisefysample.internal.preferences.SharedPreferencesAddNetworkStore
 import com.isupatches.wisefysample.internal.preferences.SharedPreferencesRemoveNetworkStore
 import com.isupatches.wisefysample.internal.preferences.SharedPreferencesSearchStore
-
 import dagger.Module
 import dagger.Provides
-
 import javax.inject.Singleton
 
 @Suppress("unused", "UndocumentedPublicClass", "UndocumentedPublicFunction")

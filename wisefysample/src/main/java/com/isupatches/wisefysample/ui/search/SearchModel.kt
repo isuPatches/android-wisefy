@@ -18,7 +18,6 @@ package com.isupatches.wisefysample.ui.search
 import android.Manifest.permission.ACCESS_COARSE_LOCATION
 import android.Manifest.permission.ACCESS_WIFI_STATE
 import androidx.annotation.RequiresPermission
-
 import com.isupatches.wisefy.WiseFyPublicApi
 import com.isupatches.wisefy.callbacks.SearchForAccessPointCallbacks
 import com.isupatches.wisefy.callbacks.SearchForAccessPointsCallbacks
@@ -26,7 +25,6 @@ import com.isupatches.wisefy.callbacks.SearchForSSIDCallbacks
 import com.isupatches.wisefy.callbacks.SearchForSSIDsCallbacks
 import com.isupatches.wisefy.callbacks.SearchForSavedNetworkCallbacks
 import com.isupatches.wisefy.callbacks.SearchForSavedNetworksCallbacks
-
 import javax.inject.Inject
 
 internal class SearchModel @Inject constructor(

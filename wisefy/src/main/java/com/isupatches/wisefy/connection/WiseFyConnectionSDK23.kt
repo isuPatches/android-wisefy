@@ -25,7 +25,6 @@ import android.net.wifi.WifiManager
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.VisibleForTesting
-
 import com.isupatches.wisefy.logging.WiseFyLogger
 
 /**

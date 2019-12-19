@@ -4,7 +4,6 @@ import android.net.ConnectivityManager
 import android.net.wifi.WifiConfiguration
 import android.net.wifi.WifiManager
 import androidx.test.platform.app.InstrumentationRegistry
-
 import com.isupatches.wisefy.VERIFICATION_SUCCESS_TIMEOUT
 import com.isupatches.wisefy.WiseFy
 import com.isupatches.wisefy.WiseFyPrechecks
@@ -17,9 +16,7 @@ import com.isupatches.wisefy.internal.mock.MockWiseFyConnectionUtil
 import com.isupatches.wisefy.internal.mock.MockWiseFyPrechecksUtil
 import com.isupatches.wisefy.internal.mock.MockWiseFySearchUtil
 import com.isupatches.wisefy.search.WiseFySearch
-
 import org.junit.After
-
 import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.Mockito
 import org.mockito.Mockito.mock

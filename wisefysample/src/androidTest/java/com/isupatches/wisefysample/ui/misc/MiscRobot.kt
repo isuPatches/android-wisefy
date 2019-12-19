@@ -9,7 +9,6 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.rule.ActivityTestRule
-
 import com.isupatches.wisefy.WiseFy.Companion.MIN_FREQUENCY_5GHZ
 import com.isupatches.wisefy.WiseFyPublicApi
 import com.isupatches.wisefy.callbacks.DisableWifiCallbacks
@@ -31,7 +30,6 @@ import com.isupatches.wisefysample.internal.espresso.performScrollToAndClick
 import com.isupatches.wisefysample.internal.util.PermissionUtil
 import com.isupatches.wisefysample.internal.util.SdkUtil
 import com.isupatches.wisefysample.ui.main.MainActivity
-
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.doAnswer
 import com.nhaarman.mockitokotlin2.eq
@@ -40,7 +38,6 @@ import com.nhaarman.mockitokotlin2.timeout
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import org.hamcrest.CoreMatchers.containsString
-
 import org.mockito.Mockito.`when`
 
 internal class MiscRobot(

@@ -17,9 +17,7 @@ package com.isupatches.wisefysample.ui.dialogs
 
 import android.os.Bundle
 import android.view.View
-
 import com.isupatches.wisefysample.internal.base.BaseDialogFragment
-
 import kotlinx.android.synthetic.main.dialog_base.dialogMessageTxt
 import kotlinx.android.synthetic.main.dialog_base.dialogTitleTxt
 import kotlinx.android.synthetic.main.dialog_base.okBtn

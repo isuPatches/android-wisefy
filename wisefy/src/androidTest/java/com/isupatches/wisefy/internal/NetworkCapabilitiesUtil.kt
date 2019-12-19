@@ -3,9 +3,7 @@ package com.isupatches.wisefy.internal
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
-
 import com.isupatches.wisefy.connection.WiseFyConnectionSDK23
-
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
 

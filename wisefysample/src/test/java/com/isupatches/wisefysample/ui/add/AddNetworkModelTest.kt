@@ -1,18 +1,15 @@
 package com.isupatches.wisefysample.ui.add
 
 import android.net.wifi.WifiConfiguration
-
 import com.isupatches.wisefy.WiseFyPublicApi
 import com.isupatches.wisefy.callbacks.AddNetworkCallbacks
 import com.isupatches.wisefysample.TEST_PASSWORD_1
 import com.isupatches.wisefysample.TEST_SSID_1
-
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.eq
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.times
 import com.nhaarman.mockitokotlin2.verify
-
 import org.junit.Test
 
 internal class AddNetworkModelTest {

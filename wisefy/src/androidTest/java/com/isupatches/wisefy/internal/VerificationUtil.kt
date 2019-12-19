@@ -5,7 +5,6 @@ import android.net.wifi.WifiConfiguration
 import android.net.wifi.WifiManager
 import com.isupatches.wisefy.VERIFICATION_FAILURE_TIMEOUT
 import com.isupatches.wisefy.VERIFICATION_SUCCESS_TIMEOUT
-
 import org.mockito.ArgumentMatchers.any
 import org.mockito.ArgumentMatchers.anyBoolean
 import org.mockito.ArgumentMatchers.anyInt

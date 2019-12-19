@@ -3,11 +3,9 @@ package com.isupatches.wisefy
 import com.isupatches.wisefy.callbacks.GetRSSICallbacks
 import com.isupatches.wisefy.constants.MISSING_PARAMETER
 import com.isupatches.wisefy.internal.base.BaseInstrumentationTest
-
 import org.junit.Assert.assertEquals
 import org.junit.Assert.fail
 import org.junit.Test
-
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.timeout
 import org.mockito.Mockito.verify

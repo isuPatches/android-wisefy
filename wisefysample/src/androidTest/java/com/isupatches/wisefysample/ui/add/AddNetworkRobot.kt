@@ -6,7 +6,6 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.rule.ActivityTestRule
-
 import com.isupatches.wisefy.WiseFyPublicApi
 import com.isupatches.wisefy.callbacks.AddNetworkCallbacks
 import com.isupatches.wisefy.constants.MISSING_PARAMETER
@@ -28,7 +27,6 @@ import com.isupatches.wisefysample.internal.models.NetworkType
 import com.isupatches.wisefysample.internal.preferences.AddNetworkStore
 import com.isupatches.wisefysample.internal.util.PermissionUtil
 import com.isupatches.wisefysample.ui.main.MainActivity
-
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.doAnswer
 import com.nhaarman.mockitokotlin2.eq

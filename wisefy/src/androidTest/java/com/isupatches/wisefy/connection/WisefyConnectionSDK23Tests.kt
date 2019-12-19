@@ -2,21 +2,18 @@ package com.isupatches.wisefy.connection
 
 import android.net.Network
 import android.os.Build
-
 import com.isupatches.wisefy.TEST_SSID
 import com.isupatches.wisefy.TEST_SSID2
 import com.isupatches.wisefy.TEST_TIMEOUT
 import com.isupatches.wisefy.internal.base.BaseInstrumentationTest
 import com.isupatches.wisefy.internal.getNetworkCapabilities
 import com.isupatches.wisefy.internal.setUpNetworkCapabilities
-
 import org.junit.After
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Assume.assumeTrue
 import org.junit.Before
 import org.junit.Test
-
 import org.mockito.Mockito.mock
 
 /**

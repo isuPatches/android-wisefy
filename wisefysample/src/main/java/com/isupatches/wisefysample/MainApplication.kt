@@ -17,18 +17,15 @@ package com.isupatches.wisefysample
 
 import android.app.Application
 import android.content.Context
-
 import com.isupatches.wisefysample.internal.di.PermissionsModule
 import com.isupatches.wisefysample.internal.di.PreferencesModule
 import com.isupatches.wisefysample.internal.di.ScreenBindingsModule
 import com.isupatches.wisefysample.internal.util.RxSchedulersProvider
-
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
-
 import javax.inject.Inject
 import javax.inject.Singleton
 

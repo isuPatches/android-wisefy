@@ -18,11 +18,9 @@ package com.isupatches.wisefysample.ui.add
 import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.net.wifi.WifiConfiguration
 import androidx.annotation.RequiresPermission
-
 import com.isupatches.wisefy.callbacks.AddNetworkCallbacks
 import com.isupatches.wisefysample.internal.base.BasePresenter
 import com.isupatches.wisefysample.internal.util.RxSchedulersProvider
-
 import javax.inject.Inject
 
 internal class AddNetworkPresenter @Inject constructor(

@@ -8,7 +8,6 @@ import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.rule.ActivityTestRule
-
 import com.isupatches.wisefy.WiseFyPublicApi
 import com.isupatches.wisefy.callbacks.SearchForAccessPointCallbacks
 import com.isupatches.wisefy.callbacks.SearchForAccessPointsCallbacks
@@ -34,7 +33,6 @@ import com.isupatches.wisefysample.internal.models.SearchType
 import com.isupatches.wisefysample.internal.preferences.SearchStore
 import com.isupatches.wisefysample.internal.util.PermissionUtil
 import com.isupatches.wisefysample.ui.main.MainActivity
-
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.doAnswer
 import com.nhaarman.mockitokotlin2.eq

@@ -25,18 +25,17 @@ import android.util.Log
 import android.view.View
 import android.widget.SeekBar
 import androidx.annotation.VisibleForTesting
-
 import com.isupatches.wisefysample.R
+import com.isupatches.wisefysample.internal.base.BaseFragment
 import com.isupatches.wisefysample.internal.models.SearchType
 import com.isupatches.wisefysample.internal.preferences.SearchStore
-import com.isupatches.wisefysample.internal.base.BaseFragment
 import com.isupatches.wisefysample.internal.util.asHtmlSpanned
 import com.isupatches.wisefysample.internal.util.getTrimmedInput
 import com.isupatches.wisefysample.internal.util.hideKeyboardFrom
-
 import dagger.Binds
 import dagger.Module
-
+import javax.inject.Inject
+import kotlin.math.max
 import kotlinx.android.synthetic.main.fragment_search.filterDupesRdg
 import kotlinx.android.synthetic.main.fragment_search.filterDupesTxt
 import kotlinx.android.synthetic.main.fragment_search.returnFullListRdg
@@ -45,9 +44,6 @@ import kotlinx.android.synthetic.main.fragment_search.searchRegexEdt
 import kotlinx.android.synthetic.main.fragment_search.searchTypeRdg
 import kotlinx.android.synthetic.main.fragment_search.timeoutSeek
 import kotlinx.android.synthetic.main.fragment_search.timeoutTxt
-
-import javax.inject.Inject
-import kotlin.math.max
 
 @Suppress("LargeClass")
 internal class SearchFragment : BaseFragment(), SearchMvp.View {

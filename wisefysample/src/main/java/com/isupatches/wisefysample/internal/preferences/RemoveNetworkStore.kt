@@ -16,7 +16,6 @@
 package com.isupatches.wisefysample.internal.preferences
 
 import android.content.SharedPreferences
-
 import androidx.core.content.edit
 
 internal interface RemoveNetworkStore {

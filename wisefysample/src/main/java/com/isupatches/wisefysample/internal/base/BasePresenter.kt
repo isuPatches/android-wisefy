@@ -16,7 +16,6 @@
 package com.isupatches.wisefysample.internal.base
 
 import android.util.Log
-
 import com.isupatches.wisefy.constants.WiseFyCode
 import com.isupatches.wisefysample.internal.util.RxSchedulersProvider
 

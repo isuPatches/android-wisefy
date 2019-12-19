@@ -4,9 +4,7 @@ import android.os.Build
 import com.isupatches.wisefy.TEST_REGEX
 import com.isupatches.wisefy.TEST_SSID
 import com.isupatches.wisefy.TEST_TIMEOUT
-
 import com.isupatches.wisefy.internal.base.BaseInstrumentationTest
-
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Assume.assumeTrue

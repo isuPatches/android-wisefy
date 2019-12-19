@@ -3,9 +3,7 @@ package com.isupatches.wisefysample.internal.preferences
 import com.isupatches.wisefysample.TEST_PASSWORD_1
 import com.isupatches.wisefysample.TEST_SSID_1
 import com.isupatches.wisefysample.internal.models.NetworkType
-
 import com.nhaarman.mockitokotlin2.verify
-
 import org.junit.Test
 
 internal class SharedPreferencesAddNetworkStoreTest : BaseSharedPreferencesStoreTest() {

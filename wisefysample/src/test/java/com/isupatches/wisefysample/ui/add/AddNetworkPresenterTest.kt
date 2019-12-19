@@ -1,14 +1,12 @@
 package com.isupatches.wisefysample.ui.add
 
 import android.net.wifi.WifiConfiguration
-
 import com.isupatches.wisefy.callbacks.AddNetworkCallbacks
 import com.isupatches.wisefy.constants.MISSING_PARAMETER
 import com.isupatches.wisefysample.BAD_WIFI_MANAGER_RETURN
 import com.isupatches.wisefysample.TEST_PASSWORD_1
 import com.isupatches.wisefysample.TEST_SSID_1
 import com.isupatches.wisefysample.TestRxSchedulersProvider
-
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.doAnswer
 import com.nhaarman.mockitokotlin2.eq
@@ -16,7 +14,6 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.times
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
-
 import org.junit.After
 import org.junit.Before
 import org.junit.Test

@@ -28,25 +28,21 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.annotation.VisibleForTesting
-
 import com.isupatches.wisefy.constants.WiseFyCode
 import com.isupatches.wisefysample.R
 import com.isupatches.wisefysample.internal.base.BaseFragment
 import com.isupatches.wisefysample.internal.util.SdkUtil
-
 import dagger.Binds
 import dagger.Module
-
-import kotlinx.android.synthetic.main.fragment_misc.enableWifiBtn
+import javax.inject.Inject
 import kotlinx.android.synthetic.main.fragment_misc.disableWifiBtn
+import kotlinx.android.synthetic.main.fragment_misc.enableWifiBtn
 import kotlinx.android.synthetic.main.fragment_misc.getCurrentNetworkBtn
 import kotlinx.android.synthetic.main.fragment_misc.getCurrentNetworkInfoBtn
 import kotlinx.android.synthetic.main.fragment_misc.getFrequencyBtn
 import kotlinx.android.synthetic.main.fragment_misc.getIPBtn
 import kotlinx.android.synthetic.main.fragment_misc.getNearbyAccessPointsBtn
 import kotlinx.android.synthetic.main.fragment_misc.getSavedNetworksBtn
-
-import javax.inject.Inject
 
 @Suppress("LargeClass")
 internal class MiscFragment : BaseFragment(), MiscMvp.View {

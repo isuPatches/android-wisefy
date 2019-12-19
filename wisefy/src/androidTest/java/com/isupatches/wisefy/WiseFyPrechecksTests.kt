@@ -4,7 +4,6 @@ import com.isupatches.wisefy.constants.DEFAULT_PRECHECK_RETURN_CODE
 import com.isupatches.wisefy.constants.MISSING_PARAMETER
 import com.isupatches.wisefy.constants.NETWORK_ALREADY_CONFIGURED
 import com.isupatches.wisefy.internal.base.BaseInstrumentationTest
-
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

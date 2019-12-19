@@ -16,7 +16,6 @@
 package com.isupatches.wisefysample.internal.util
 
 import android.os.Build
-
 import javax.inject.Inject
 
 internal interface SdkUtil {

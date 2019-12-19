@@ -5,11 +5,9 @@ import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.content.pm.PackageManager
 import androidx.test.espresso.intent.rule.IntentsTestRule
 import androidx.test.rule.GrantPermissionRule
-
 import com.isupatches.wisefysample.RANDO_PERMISSION_REQUEST_CODE
 import com.isupatches.wisefysample.internal.base.AbstractEspressoTestClass
 import com.isupatches.wisefysample.ui.main.MainActivity
-
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
