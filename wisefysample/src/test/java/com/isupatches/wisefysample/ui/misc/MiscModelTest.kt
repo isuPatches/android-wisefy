@@ -86,7 +86,7 @@ internal class MiscModelTest {
             override fun noCurrentNetworkInfo() {
             }
 
-            override fun retrievedCurrentNetworkInfo(currentNetworkDetails: NetworkInfo) {
+            override fun retrievedCurrentNetworkInfo(currentNetworkInfo: NetworkInfo) {
             }
 
             override fun wisefyFailure(wisefyFailureCode: Int) {

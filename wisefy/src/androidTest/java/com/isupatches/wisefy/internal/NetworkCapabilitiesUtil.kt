@@ -76,9 +76,9 @@ internal fun getNetworkCapabilities(transportType: Int, capabilities: Array<Int>
     )
     for (capability in capabilities) {
         ReflectionHelpers.callInstanceMethod<Any>(
-                networkCapabilities,
-                "addCapability",
-                ReflectionHelpers.ClassParameter.from(Int::class.java, capability)
+            networkCapabilities,
+            "addCapability",
+            ReflectionHelpers.ClassParameter.from(Int::class.java, capability)
         )
     }
     return networkCapabilities

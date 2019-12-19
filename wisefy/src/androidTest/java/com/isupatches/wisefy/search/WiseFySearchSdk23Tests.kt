@@ -30,8 +30,8 @@ internal class WiseFySearchSdk23Tests : BaseInstrumentationTest() {
 
     @Before fun setUp() {
         assumeTrue(
-        "Can only run on API Level 23 or newer",
-        Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+            "Can only run on API Level 23 or newer",
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
         )
     }
 

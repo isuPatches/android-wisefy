@@ -17,7 +17,7 @@ ext {
 
     // Test deps
     junit_version = '4.12'
-    mockito_version = '2.28.2'
+    mockito_version = '3.2.4'
     mockito_kotlin_version = '2.2.0'
 
     androidx_espresso_core_version = '3.2.0'
