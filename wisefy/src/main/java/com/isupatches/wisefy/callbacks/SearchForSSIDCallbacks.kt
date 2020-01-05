@@ -29,6 +29,8 @@ interface SearchForSSIDCallbacks : BaseCallback {
     /**
      * Called when WiseFy has successfully found an access point with a matching SSID.
      *
+     * @param ssid The found SSID
+     *
      * @author Patches
      * @since 3.0
      */

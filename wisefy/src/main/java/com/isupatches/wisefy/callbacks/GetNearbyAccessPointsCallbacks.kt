@@ -34,6 +34,8 @@ interface GetNearbyAccessPointsCallbacks : BaseCallback {
     /**
      * Called when WiseFy has successfully retrieved a list of nearby access points.
      *
+     * @param nearbyAccessPoints The list of nearby access points
+     *
      * @see [ScanResult]
      *
      * @author Patches

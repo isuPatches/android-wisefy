@@ -197,6 +197,32 @@ internal class MockWiseFyPrechecksUtil internal constructor(private val mockWise
     }
 
     /**
+     * Mocks a precheck failure getting the current network's frequency.
+     *
+     * @see WiseFyPrechecks.getFrequencyChecks
+     * @see DEFAULT_PRECHECK_RESULT
+     *
+     * @author Patches
+     * @since 4.1
+     */
+    fun getFrequency_failure() {
+        `when`(mockWiseFyPrechecks.getFrequencyChecks()).thenReturn(PRECHECK_RESULT_FAILURE)
+    }
+
+    /**
+     * Mocks a precheck success getting the current network's frequency.
+     *
+     * @see WiseFyPrechecks.getFrequencyChecks
+     * @see DEFAULT_PRECHECK_RESULT
+     *
+     * @author Patches
+     * @since 4.1
+     */
+    fun getFrequency_success() {
+        `when`(mockWiseFyPrechecks.getFrequencyChecks()).thenReturn(DEFAULT_PRECHECK_RESULT)
+    }
+
+    /**
      * Mocks a precheck failure getting the ip of the device.
      *
      * @see WiseFyPrechecks.getIPChecks

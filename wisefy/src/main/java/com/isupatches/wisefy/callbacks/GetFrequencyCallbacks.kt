@@ -29,7 +29,7 @@ interface GetFrequencyCallbacks : BaseCallback {
     /**
      * Called when there is an issue retrieving the frequency of a network.
      *
-     * i.e. Unable to retrieve current network or no current network
+     * f.e. Unable to retrieve current network or no current network
      *
      * @author Patches
      * @since 3.0
@@ -38,6 +38,8 @@ interface GetFrequencyCallbacks : BaseCallback {
 
     /**
      * Called when WiseFy has successfully retrieved the frequency of a network.
+     *
+     * @param frequency The frequency of the network (either the current one or one that is passed in)
      *
      * @author Patches
      * @since 3.0

@@ -495,7 +495,7 @@ internal class WiseFyPrechecksImpl private constructor(
 
     /**
      * Used internally as an abstracted layer that checks if all of the prerequisites for adding
-     * a network are met. i.e. ssid is not null or empty, network is not already saved, etc.
+     * a network are met. f.e. ssid is not null or empty, network is not already saved, etc.
      *
      * @param ssid The ssid of the network to add
      *
@@ -521,7 +521,7 @@ internal class WiseFyPrechecksImpl private constructor(
 
     /**
      * Used internally as an abstracted layer that checks if all of the prerequisites for adding
-     * a network are met. i.e. ssid and password are not null or empty, network is not already saved, etc.
+     * a network are met. f.e. ssid and password are not null or empty, network is not already saved, etc.
      *
      * @param ssid The ssid of the network to add
      * @param password The password of the network to add
@@ -631,7 +631,7 @@ internal interface WiseFyPrechecks {
 /**
  * A return from WiseFyPrechecks that includes a relevant detail code.
  *
- * @param code The return code from prechecks (i.e. [DEFAULT_PRECHECK_RETURN_CODE] or
+ * @param code The return code from prechecks (f.e. [DEFAULT_PRECHECK_RETURN_CODE] or
  * an error code such as [MISSING_PARAMETER].  This code will also be used by the extension
  * functions [passed] and [failed].
  *

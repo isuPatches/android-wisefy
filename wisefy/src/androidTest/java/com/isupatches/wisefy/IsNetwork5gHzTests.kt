@@ -25,6 +25,7 @@ internal class IsNetwork5gHzTests : BaseInstrumentationTest() {
 
     @Test
     fun currentNetwork_failure_above5ghz() {
+        mockWiseFyPrechecksUtil.getFrequency_success()
         mockWiseFyPrechecksUtil.getCurrentNetwork_success()
         mockNetworkUtil.networkWithFrequency(TEST_NETWORK_FREQUENCY_ABOVE_5GHZ)
         assertEquals(false, wisefy.isNetwork5gHz())
@@ -32,6 +33,7 @@ internal class IsNetwork5gHzTests : BaseInstrumentationTest() {
 
     @Test
     fun currentNetwork_failure_below5ghz() {
+        mockWiseFyPrechecksUtil.getFrequency_success()
         mockWiseFyPrechecksUtil.getCurrentNetwork_success()
         mockNetworkUtil.networkWithFrequency(TEST_NETWORK_FREQUENCY_BELOW_5GHZ)
         assertEquals(false, wisefy.isNetwork5gHz())
@@ -39,6 +41,7 @@ internal class IsNetwork5gHzTests : BaseInstrumentationTest() {
 
     @Test
     fun currentNetwork_failure_null() {
+        mockWiseFyPrechecksUtil.getFrequency_success()
         mockWiseFyPrechecksUtil.getCurrentNetwork_success()
         mockNetworkUtil.currentNetwork_null()
         assertEquals(false, wisefy.isNetwork5gHz())
@@ -46,6 +49,7 @@ internal class IsNetwork5gHzTests : BaseInstrumentationTest() {
 
     @Test
     fun currentNetwork_success() {
+        mockWiseFyPrechecksUtil.getFrequency_success()
         mockWiseFyPrechecksUtil.getCurrentNetwork_success()
         mockNetworkUtil.networkWithFrequency(TEST_NETWORK_FREQUENCY_5GHZ)
         assertEquals(true, wisefy.isNetwork5gHz())

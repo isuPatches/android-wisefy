@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Patches Klinefelter
+ * Copyright 2019 Patches Klinefelter
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -85,7 +85,7 @@ internal class WiseFyConnectionLegacy private constructor(
     }
 
     /**
-     * Used internally to check if a network is connected to a mobile network (i.e. non-Wifi)
+     * Used internally to check if a network is connected to a mobile network (f.e. non-Wifi)
      *
      * @return boolean - True if the device is using a mobile network, false otherwise
      *
@@ -101,7 +101,7 @@ internal class WiseFyConnectionLegacy private constructor(
     }
 
     /**
-     * Used internally to check if a network is connected to a wifi network (i.e. not using
+     * Used internally to check if a network is connected to a wifi network (f.e. not using
      * mobile data)
      *
      * @return boolean - True if the device is using a wifi network, false otherwise

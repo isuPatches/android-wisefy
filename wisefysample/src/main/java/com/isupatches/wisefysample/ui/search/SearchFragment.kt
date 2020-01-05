@@ -314,7 +314,7 @@ internal class SearchFragment : BaseFragment(), SearchMvp.View {
     }
 
     override fun displaySavedNetworks(savedNetworks: List<WifiConfiguration>) {
-        displayInfo(getString(R.string.saved_networks_args, savedNetworks), R.string.search_result)
+        displayInfoFullScreen(getString(R.string.saved_networks_args, savedNetworks), R.string.search_result)
     }
 
     override fun displayNoSavedNetworksFound() {

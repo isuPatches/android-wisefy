@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Patches Klinefelter
+ * Copyright 2019 Patches Klinefelter
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -140,7 +140,7 @@ internal class WiseFyConnectionSDK23 private constructor(
     }
 
     /**
-     * Used internally to check if a network is connected to a mobile network (i.e. non-Wifi)
+     * Used internally to check if a network is connected to a mobile network (f.e. non-Wifi)
      *
      * @return boolean - True if the device is using a mobile network, false otherwise
      *
@@ -148,16 +148,20 @@ internal class WiseFyConnectionSDK23 private constructor(
      * @see [isNetworkConnected]
      * @see [NetworkCapabilities.TRANSPORT_CELLULAR]
      *
+     * Updates
+     * - 01/05/2020: Formatting update
+     *
      * @author Patches
      * @since 4.0
      */
-    override fun isDeviceConnectedToMobileNetwork(): Boolean =
-        doesNetworkHaveTransportTypeAndInternetCapability(
+    override fun isDeviceConnectedToMobileNetwork(): Boolean {
+        return doesNetworkHaveTransportTypeAndInternetCapability(
             transportType = NetworkCapabilities.TRANSPORT_CELLULAR
         ) && isNetworkConnected()
+    }
 
     /**
-     * Used internally to check if a network is connected to a wifi network (i.e. not using
+     * Used internally to check if a network is connected to a wifi network (f.e. not using
      * mobile data)
      *
      * @return boolean - True if the device is using a wifi network, false otherwise
@@ -166,13 +170,17 @@ internal class WiseFyConnectionSDK23 private constructor(
      * @see [isNetworkConnected]
      * @see [NetworkCapabilities.TRANSPORT_WIFI]
      *
+     * Updates
+     * - 01/05/2020: Formatting update
+     *
      * @author Patches
      * @since 4.0
      */
-    override fun isDeviceConnectedToWifiNetwork(): Boolean =
-        doesNetworkHaveTransportTypeAndInternetCapability(
+    override fun isDeviceConnectedToWifiNetwork(): Boolean {
+        return doesNetworkHaveTransportTypeAndInternetCapability(
             transportType = NetworkCapabilities.TRANSPORT_WIFI
         ) && isNetworkConnected()
+    }
 
     /**
      * Used internally to check if a network is in a roaming state.
@@ -185,11 +193,14 @@ internal class WiseFyConnectionSDK23 private constructor(
      * @see [ConnectivityManager.getActiveNetworkInfo]
      * @see [NetworkInfo.isRoaming]
      *
+     * Updates
+     * - 01/05/2020: Formatting update
+     *
      * @author Patches
      * @since 4.0
      */
-    override fun isDeviceRoaming(): Boolean =
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+    override fun isDeviceRoaming(): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             // NET_CAPABILITY_NOT_ROAMING only available for P and above devices :'(
             !doesNetworkHaveCapability(capability = NetworkCapabilities.NET_CAPABILITY_NOT_ROAMING)
         } else {
@@ -197,6 +208,7 @@ internal class WiseFyConnectionSDK23 private constructor(
             @Suppress("deprecation")
             networkInfo != null && networkInfo.isRoaming
         }
+    }
 
     /**
      * Used internally to check if a network is connected.
@@ -216,23 +228,27 @@ internal class WiseFyConnectionSDK23 private constructor(
      * Used internally to check if the active network has a certain transport type as well as
      * internet capability.
      *
-     * @param transportType
+     * @param transportType The transport capability to check and see if the current network has
      *
      * @see [getActiveNetworkCapabilities]
      * @see [NetworkCapabilities.hasTransport]
      * @see [NetworkCapabilities.hasCapability]
      * @see [NetworkCapabilities.NET_CAPABILITY_INTERNET]
      *
+     * Updates
+     * - 01/05/2020: Formatting update
+     *
      * @author Patches
      * @since 4.0
      */
-    private fun doesNetworkHaveTransportTypeAndInternetCapability(transportType: Int): Boolean =
-        getActiveNetworkCapabilities()?.let {
+    private fun doesNetworkHaveTransportTypeAndInternetCapability(transportType: Int): Boolean {
+        return getActiveNetworkCapabilities()?.let {
             it.hasTransport(transportType) && it.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
         } ?: false
+    }
 
     /**
-     * Used internally to check if the active network has a certain capability (i.e. to check if the
+     * Used internally to check if the active network has a certain capability (f.e. to check if the
      * device has [NetworkCapabilities.NET_CAPABILITY_NOT_ROAMING] capability listed)
      *
      * @param capability The capability to check and see if the current network has
@@ -240,6 +256,9 @@ internal class WiseFyConnectionSDK23 private constructor(
      * @see [getActiveNetworkCapabilities]
      * @see [NetworkCapabilities.hasCapability]
      * @see NetworkCapabilities
+     *
+     * Updates
+     * - 01/04/2020: Formatting update
      *
      * @author Patches
      * @since 4.0
@@ -255,6 +274,9 @@ internal class WiseFyConnectionSDK23 private constructor(
      * @see [ConnectivityManager.getNetworkCapabilities]
      * @see [ConnectivityManager.getActiveNetwork]
      *
+     * Updates
+     * - 01/04/2020: Formatting update
+     *
      * @author Patches
      * @since 4.0
      */
@@ -265,7 +287,8 @@ internal class WiseFyConnectionSDK23 private constructor(
     /**
      * Used internally to start listening for network changes
      *
-     * @param connectivityManager
+     * @param connectivityManager The connectivity manager instance to use to listen for network
+     *  callbacks
      *
      * @see [ConnectivityManager.registerNetworkCallback]
      * @see [NetworkRequest.Builder]
@@ -282,7 +305,8 @@ internal class WiseFyConnectionSDK23 private constructor(
     /**
      * Used internally to stop listening for network changes
      *
-     * @param connectivityManager
+     * @param connectivityManager The connectivity manager instance to use to stop
+     *  listening  for networ callbacks
      *
      * @see [ConnectivityManager.unregisterNetworkCallback]
      * @see [networkChangeCallbacks]

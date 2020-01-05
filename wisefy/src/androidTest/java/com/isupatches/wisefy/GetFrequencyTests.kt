@@ -33,6 +33,7 @@ internal class GetFrequencyTests : BaseInstrumentationTest() {
 
     @Test
     fun sync_getFrequency_currentNetwork_failure() {
+        mockWiseFyPrechecksUtil.getFrequency_success()
         mockWiseFyPrechecksUtil.getCurrentNetwork_success()
         mockNetworkUtil.currentNetwork_null()
         assertEquals(null, wisefy.getFrequency())
@@ -41,6 +42,7 @@ internal class GetFrequencyTests : BaseInstrumentationTest() {
 
     @Test
     fun sync_getFrequency_currentNetwork_success() {
+        mockWiseFyPrechecksUtil.getFrequency_success()
         mockWiseFyPrechecksUtil.getCurrentNetwork_success()
         val wifiInfo = mockNetworkUtil.networkWithFrequency(TEST_NETWORK_FREQUENCY_24GHZ)
         val frequency = wisefy.getFrequency()
@@ -54,7 +56,15 @@ internal class GetFrequencyTests : BaseInstrumentationTest() {
     }
 
     @Test
+    fun sync_getFrequency_failure_prechecks() {
+        mockWiseFyPrechecksUtil.getFrequency_failure()
+        assertEquals(null, wisefy.getFrequency())
+        verificationUtil.didNotTryToGetCurrentNetwork()
+    }
+
+    @Test
     fun async_getFrequency_currentNetwork_failure() {
+        mockWiseFyPrechecksUtil.getFrequency_success()
         mockWiseFyPrechecksUtil.getCurrentNetwork_success()
         mockNetworkUtil.currentNetwork_null()
         val mockCallbacks = mock(GetFrequencyCallbacks::class.java)
@@ -65,6 +75,7 @@ internal class GetFrequencyTests : BaseInstrumentationTest() {
 
     @Test
     fun async_getFrequency_currentNetwork_failure_nullCallback() {
+        mockWiseFyPrechecksUtil.getFrequency_success()
         mockWiseFyPrechecksUtil.getCurrentNetwork_success()
         mockNetworkUtil.currentNetwork_null()
         nullCallbackUtil.callGetFrequency()
@@ -73,6 +84,7 @@ internal class GetFrequencyTests : BaseInstrumentationTest() {
 
     @Test
     fun async_getFrequency_currentNetwork_success() {
+        mockWiseFyPrechecksUtil.getFrequency_success()
         mockWiseFyPrechecksUtil.getCurrentNetwork_success()
         val mockWifiInfo = mockNetworkUtil.networkWithFrequency(TEST_NETWORK_FREQUENCY_24GHZ)
         val mockCallbacks = mock(GetFrequencyCallbacks::class.java)
@@ -84,10 +96,27 @@ internal class GetFrequencyTests : BaseInstrumentationTest() {
 
     @Test
     fun async_getFrequency_currentNetwork_success_nullCallback() {
+        mockWiseFyPrechecksUtil.getFrequency_success()
         mockWiseFyPrechecksUtil.getCurrentNetwork_success()
         mockNetworkUtil.networkWithFrequency(TEST_NETWORK_FREQUENCY_24GHZ)
         nullCallbackUtil.callGetFrequency()
         verificationUtil.triedToGetCurrentNetwork()
+    }
+
+    @Test
+    fun async_getFrequency_failure_prechecks() {
+        mockWiseFyPrechecksUtil.getFrequency_failure()
+        val mockCallbacks = mock(GetFrequencyCallbacks::class.java)
+        wisefy.getFrequency(mockCallbacks)
+        verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).wisefyFailure(MISSING_PARAMETER)
+        verificationUtil.didNotTryToGetCurrentNetwork()
+    }
+
+    @Test
+    fun async_getFrequency_failure_prechecks_nullCallback() {
+        mockWiseFyPrechecksUtil.getFrequency_failure()
+        nullCallbackUtil.callGetFrequency()
+        verificationUtil.didNotTryToGetCurrentNetwork()
     }
 
     @Test

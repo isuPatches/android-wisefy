@@ -932,6 +932,10 @@ class WiseFy private constructor(
      *
      * @see [getCurrentNetwork]
      * @see [WifiInfo.getFrequency]
+     * @see [WiseFyPrechecks.getFrequencyChecks]
+     *
+     * Updates
+     * - 01/04/2020: Added getFrequencyChecks call
      *
      * @author Patches
      * @since 3.0
@@ -957,6 +961,10 @@ class WiseFy private constructor(
      * @see [runOnWiseFyThread]
      * @see [WifiInfo.getFrequency]
      * @see [WiseFyLock]
+     * @see [WiseFyPrechecks.getFrequencyChecks]
+     *
+     * Updates
+     * - 01/04/2020: Added getFrequencyChecks call
      *
      * @author Patches
      * @since 3.0
