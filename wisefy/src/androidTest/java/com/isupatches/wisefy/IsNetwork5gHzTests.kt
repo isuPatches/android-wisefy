@@ -15,52 +15,61 @@ import org.junit.Test
  */
 internal class IsNetwork5gHzTests : BaseInstrumentationTest() {
 
-    @Before fun setUp() {
+    @Before
+    fun setUp() {
         assumeTrue(
-        "Can only run on API Level 21 or newer",
-        Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
+            "Can only run on API Level 21 or newer",
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
         )
     }
 
-    @Test fun currentNetwork_failure_above5ghz() {
+    @Test
+    fun currentNetwork_failure_above5ghz() {
         mockWiseFyPrechecksUtil.getCurrentNetwork_success()
         mockNetworkUtil.networkWithFrequency(TEST_NETWORK_FREQUENCY_ABOVE_5GHZ)
         assertEquals(false, wisefy.isNetwork5gHz())
     }
 
-    @Test fun currentNetwork_failure_below5ghz() {
+    @Test
+    fun currentNetwork_failure_below5ghz() {
         mockWiseFyPrechecksUtil.getCurrentNetwork_success()
         mockNetworkUtil.networkWithFrequency(TEST_NETWORK_FREQUENCY_BELOW_5GHZ)
         assertEquals(false, wisefy.isNetwork5gHz())
     }
 
-    @Test fun currentNetwork_failure_null() {
+    @Test
+    fun currentNetwork_failure_null() {
         mockWiseFyPrechecksUtil.getCurrentNetwork_success()
         mockNetworkUtil.currentNetwork_null()
         assertEquals(false, wisefy.isNetwork5gHz())
     }
 
-    @Test fun currentNetwork_success() {
+    @Test
+    fun currentNetwork_success() {
         mockWiseFyPrechecksUtil.getCurrentNetwork_success()
         mockNetworkUtil.networkWithFrequency(TEST_NETWORK_FREQUENCY_5GHZ)
         assertEquals(true, wisefy.isNetwork5gHz())
     }
 
-    @Test fun provideWifiInfo_failure_above5ghz() {
+    @Test
+    fun provideWifiInfo_failure_above5ghz() {
         val network = mockNetworkUtil.networkWithFrequency(TEST_NETWORK_FREQUENCY_ABOVE_5GHZ)
         assertEquals(false, wisefy.isNetwork5gHz(network))
     }
 
-    @Test fun provideWifiInfo_failure_below5ghz() {
+    @Test
+    fun provideWifiInfo_failure_below5ghz() {
         val network = mockNetworkUtil.networkWithFrequency(TEST_NETWORK_FREQUENCY_BELOW_5GHZ)
         assertEquals(false, wisefy.isNetwork5gHz(network))
     }
 
-    @Test fun provideWifiInfo_failure_null() {
+    @Test
+    fun provideWifiInfo_failure_null() {
         assertEquals(false, wisefy.isNetwork5gHz(null))
     }
 
-    @Test fun provideWifiInfo_success() {
+    @Test
+    fun provideWifiInfo_success() {
         val mockWifiInfo = mockNetworkUtil.networkWithFrequency(TEST_NETWORK_FREQUENCY_5GHZ)
         assertEquals(true, wisefy.isNetwork5gHz(mockWifiInfo))
     }

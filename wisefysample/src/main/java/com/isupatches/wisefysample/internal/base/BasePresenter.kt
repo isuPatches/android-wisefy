@@ -46,7 +46,9 @@ internal abstract class BasePresenter<V : BaseMvp.View> constructor(
         if (isViewAttached) {
             rxSchedulersProvider.main.scheduleDirect {
                 if (isViewAttached) {
-                    viewCommand(view!!)
+                    val view = view
+                    requireNotNull(view)
+                    viewCommand(view)
                 } else {
                     Log.w(TAG, "ViewCommand was scheduled., but view is now detached!")
                 }

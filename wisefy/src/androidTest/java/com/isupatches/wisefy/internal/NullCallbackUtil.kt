@@ -42,7 +42,7 @@ internal class NullCallbackUtil internal constructor(private val wisefy: WiseFy)
      * @author Patches
      * @since 3.0
      */
-    @Suppress("DEPRECATION")
+    @Suppress("deprecation")
     fun callAddWEPNetwork(ssid: String?, password: String?) {
         try {
             wisefy.addWEPNetwork(ssid, password, null)

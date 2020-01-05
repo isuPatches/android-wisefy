@@ -16,7 +16,6 @@
 package com.isupatches.wisefy.search
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
-import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.net.wifi.ScanResult
 import android.net.wifi.WifiConfiguration
 import android.net.wifi.WifiManager
@@ -63,12 +62,12 @@ internal abstract class AbstractWiseFySearch(
      *
      * Updates
      * - 05/12/2019: Moved here from previous WiseFySearchImpl class
-     * - 12/19/2019: Added ACCESS_FINE_LOCATION requirement
+     * - 01/04/2020: Refined permissions
      *
      * @author Patches
      * @since 3.0
      */
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun findSavedNetworkByRegex(regexForSSID: String): WifiConfiguration? {
         val savedNetworks = wifiManager.configuredNetworks
         if (savedNetworks == null || savedNetworks.isEmpty()) {
@@ -97,12 +96,12 @@ internal abstract class AbstractWiseFySearch(
      *
      * Updates
      * - 05/12/2019: Moved here from previous WiseFySearchImpl class
-     * - 12/19/2019: Added ACCESS_FINE_LOCATION requirement
+     * - 01/04/2020: Refined permissions
      *
      * @author Patches
      * @since 3.0
      */
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun findSavedNetworksMatchingRegex(regexForSSID: String): List<WifiConfiguration>? {
         val savedNetworks = wifiManager.configuredNetworks
         val matchingSavedNetworks = ArrayList<WifiConfiguration>()
@@ -131,14 +130,14 @@ internal abstract class AbstractWiseFySearch(
      *
      * Updates
      * - 05/12/2019: Moved here from previous WiseFySearchImpl class
-     * - 12/19/2019: Added ACCESS_FINE_LOCATION requirement
+     * - 01/04/2020: Refined permissions
      *
      * @author Patches
      * @since 3.0
      */
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun isNetworkASavedConfiguration(ssid: String?): Boolean =
-            !ssid.isNullOrEmpty() && findSavedNetworkByRegex(ssid) != null
+        !ssid.isNullOrEmpty() && findSavedNetworkByRegex(ssid) != null
 
     /**
      * Used internally to wait for a given time and return the first ScanResult whose SSID matches a given regex.
@@ -164,11 +163,12 @@ internal abstract class AbstractWiseFySearch(
      *      * Moved here from previous WiseFySearchImpl class
      *      * Fixed bad behavior with empty access point list
      *      * Started using scanResultsProvider for various SDK level support
+     * - 01/04/2020: Refined permissions
      *
      * @author Patches
      * @since 3.0
      */
-    @RequiresPermission(ACCESS_WIFI_STATE)
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun findAccessPointByRegex(
         regexForSSID: String,
         timeoutInMillis: Int,
@@ -189,7 +189,7 @@ internal abstract class AbstractWiseFySearch(
                 for (accessPoint in accessPointsTemp) {
                     if (takeHighest) {
                         if (accessPointMatchesRegex(accessPoint, regexForSSID) &&
-                                hasHighestSignalStrength(accessPointsTemp, accessPoint)
+                            hasHighestSignalStrength(accessPointsTemp, accessPoint)
                         ) {
                             accessPointToReturn = accessPoint
                             // Need to continue through rest of the list since
@@ -235,11 +235,12 @@ internal abstract class AbstractWiseFySearch(
      * - 05/12/2019
      *      * Moved here from previous WiseFySearchImpl class
      *      * Started using scanResultsProvider for various SDK level support
+     * - 01/04/2020: Refined permissions
      *
      * @author Patches
      * @since 3.0
      */
-    @RequiresPermission(ACCESS_WIFI_STATE)
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun findAccessPointsMatchingRegex(
         regexForSSID: String,
         takeHighest: Boolean
@@ -282,11 +283,12 @@ internal abstract class AbstractWiseFySearch(
      * - 05/12/2019
      *      * Moved here from previous WiseFySearchImpl class
      *      * Started using scanResultsProvider for various SDK level support
+     * - 01/04/2020: Refined permissions
      *
      * @author Patches
      * @since 3.0
      */
-    @RequiresPermission(ACCESS_WIFI_STATE)
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun findSSIDsMatchingRegex(
         regexForSSID: String
     ): List<String>? {
@@ -314,10 +316,13 @@ internal abstract class AbstractWiseFySearch(
      * @see [ScanResult]
      * @see [removeEntriesWithLowerSignalStrength]
      *
+     * Updates
+     * - 01/04/2020: Refined permissions
+     *
      * @author Patches
      * @since 4.0
      */
-    @RequiresPermission(ACCESS_WIFI_STATE)
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun getNearbyAccessPoints(
         filterDuplicates: Boolean
     ): List<ScanResult>? {

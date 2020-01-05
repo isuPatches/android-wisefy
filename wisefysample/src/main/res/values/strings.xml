@@ -4,7 +4,9 @@
 
     <!-- Main Screen -->
     <string name="wisefy">WiseFy</string>
-    <string name="wisefy_sample_description">Explore the various uses for WiseFy by poking around this sample app based on MVP architecture.</string>
+    <string name="wisefy_sample_description">
+        Explore the various uses for WiseFy by poking around this sample app based on MVP architecture.
+    </string>
 
     <!-- Shared -->
     <string name="network_password">Network Password</string>
@@ -26,6 +28,8 @@
 
     <!-- Permissions -->
     <string name="permission_error">Permission Error</string>
-    <string name="permission_error_unhandled_request_code_args">Unhandled permission requested.  Request code: %d</string>
+    <string name="permission_error_unhandled_request_code_args">
+        Unhandled permission requested.  Request code: %d
+    </string>
 
 </resources>

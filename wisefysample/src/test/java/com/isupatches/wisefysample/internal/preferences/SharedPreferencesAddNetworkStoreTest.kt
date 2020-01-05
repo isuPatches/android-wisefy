@@ -12,7 +12,8 @@ internal class SharedPreferencesAddNetworkStoreTest : BaseSharedPreferencesStore
         SharedPreferencesAddNetworkStore(sharedPreferences)
     }
 
-    @Test fun clearsAddNetworkStoreData() {
+    @Test
+    fun clearsAddNetworkStoreData() {
         store.clear()
         verify(editor).clear()
     }
@@ -21,12 +22,14 @@ internal class SharedPreferencesAddNetworkStoreTest : BaseSharedPreferencesStore
      * Network Type
      */
 
-    @Test fun setNetworkType() {
+    @Test
+    fun setNetworkType() {
         store.setNetworkType(NetworkType.WPA2)
         verify(editor).putInt(PREF_NETWORK_TYPE, NetworkType.WPA2.intVal)
     }
 
-    @Test fun getNetworkType() {
+    @Test
+    fun getNetworkType() {
         store.getNetworkType()
         verify(sharedPreferences).getInt(PREF_NETWORK_TYPE, NetworkType.WPA2.intVal)
     }
@@ -35,12 +38,14 @@ internal class SharedPreferencesAddNetworkStoreTest : BaseSharedPreferencesStore
      * Last Used Network Name
      */
 
-    @Test fun setLastUsedNetworkName() {
+    @Test
+    fun setLastUsedNetworkName() {
         store.setLastUsedNetworkName(TEST_SSID_1)
         verify(editor).putString(PREF_LAST_USED_NETWORK_NAME, TEST_SSID_1)
     }
 
-    @Test fun getLastUsedNetworkName() {
+    @Test
+    fun getLastUsedNetworkName() {
         store.getLastUsedNetworkName()
         verify(sharedPreferences).getString(PREF_LAST_USED_NETWORK_NAME, "")
     }
@@ -49,12 +54,14 @@ internal class SharedPreferencesAddNetworkStoreTest : BaseSharedPreferencesStore
      * Last Used Network Password
      */
 
-    @Test fun setLastUsedNetworkPassword() {
+    @Test
+    fun setLastUsedNetworkPassword() {
         store.setLastUsedNetworkPassword(TEST_PASSWORD_1)
         verify(editor).putString(PREF_LAST_USED_NETWORK_PASSWORD, TEST_PASSWORD_1)
     }
 
-    @Test fun getLastUsedNetworkPassword() {
+    @Test
+    fun getLastUsedNetworkPassword() {
         store.getLastUsedNetworkPassword()
         verify(sharedPreferences).getString(PREF_LAST_USED_NETWORK_PASSWORD, "")
     }

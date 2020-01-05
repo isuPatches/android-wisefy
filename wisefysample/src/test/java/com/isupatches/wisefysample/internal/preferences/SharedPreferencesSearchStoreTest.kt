@@ -16,7 +16,8 @@ internal class SharedPreferencesSearchStoreTest : BaseSharedPreferencesStoreTest
         SharedPreferencesSearchStore(sharedPreferences)
     }
 
-    @Test fun clearsSearchStoreData() {
+    @Test
+    fun clearsSearchStoreData() {
         store.clear()
         verify(editor).clear()
     }
@@ -25,12 +26,14 @@ internal class SharedPreferencesSearchStoreTest : BaseSharedPreferencesStoreTest
      * Last Used Regex
      */
 
-    @Test fun setLastUsedRegex_search() {
+    @Test
+    fun setLastUsedRegex_search() {
         store.setLastUsedRegex(TEST_SSID_1)
         verifyUpdatedLastUsedRegex()
     }
 
-    @Test fun getLastUsedRegex_search() {
+    @Test
+    fun getLastUsedRegex_search() {
         store.getLastUsedRegex()
         verifyRetrievedLastUsedRegex()
     }
@@ -39,12 +42,14 @@ internal class SharedPreferencesSearchStoreTest : BaseSharedPreferencesStoreTest
      * Search Type
      */
 
-    @Test fun setSearchType() {
+    @Test
+    fun setSearchType() {
         store.setSearchType(SearchType.ACCESS_POINT)
         verify(editor).putInt(PREF_SEARCH_TYPE, SearchType.ACCESS_POINT.intVal)
     }
 
-    @Test fun getSearchType() {
+    @Test
+    fun getSearchType() {
         store.getSearchType()
         verify(sharedPreferences).getInt(PREF_SEARCH_TYPE, SearchType.ACCESS_POINT.intVal)
     }
@@ -53,12 +58,14 @@ internal class SharedPreferencesSearchStoreTest : BaseSharedPreferencesStoreTest
      * Filter Duplicates
      */
 
-    @Test fun setFilterDuplicates() {
+    @Test
+    fun setFilterDuplicates() {
         store.setFilterDuplicates(true)
         verify(editor).putBoolean(PREF_FILTER_DUPLICATES, true)
     }
 
-    @Test fun shouldFilterDuplicates() {
+    @Test
+    fun shouldFilterDuplicates() {
         store.shouldFilterDuplicates()
         verify(sharedPreferences).getBoolean(PREF_FILTER_DUPLICATES, true)
     }
@@ -67,12 +74,14 @@ internal class SharedPreferencesSearchStoreTest : BaseSharedPreferencesStoreTest
      * Return Full List
      */
 
-    @Test fun setReturnFullList() {
+    @Test
+    fun setReturnFullList() {
         store.setReturnFullList(true)
         verify(editor).putBoolean(PREF_RETURN_FULL_LIST, true)
     }
 
-    @Test fun shouldReturnFullList() {
+    @Test
+    fun shouldReturnFullList() {
         store.shouldReturnFullList()
         verify(sharedPreferences).getBoolean(PREF_RETURN_FULL_LIST, true)
     }
@@ -81,12 +90,14 @@ internal class SharedPreferencesSearchStoreTest : BaseSharedPreferencesStoreTest
      * Timeout
      */
 
-    @Test fun setTimeout() {
+    @Test
+    fun setTimeout() {
         store.setTimeout(TIMEOUT)
         verify(editor).putInt(PREF_TIMEOUT, TIMEOUT)
     }
 
-    @Test fun getTimeout() {
+    @Test
+    fun getTimeout() {
         store.getTimeout()
         verify(sharedPreferences).getInt(PREF_TIMEOUT, TEST_TIMEOUT)
     }

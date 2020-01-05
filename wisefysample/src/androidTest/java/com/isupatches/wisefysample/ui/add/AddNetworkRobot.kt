@@ -74,6 +74,7 @@ internal class AddNetworkRobot(
         }.whenever(wiseFyPublicApi).addOpenNetwork(eq(TEST_SSID_1), any())
     }
 
+    @Suppress("deprecation")
     fun withSuccessAddingWEPNetwork() {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[2] as AddNetworkCallbacks
@@ -85,6 +86,7 @@ internal class AddNetworkRobot(
         )
     }
 
+    @Suppress("deprecation")
     fun withWifiManagerFailureAddingWEPNetwork() {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[2] as AddNetworkCallbacks
@@ -96,6 +98,7 @@ internal class AddNetworkRobot(
         )
     }
 
+    @Suppress("deprecation")
     fun withWiseFyFailureAddingWEPNetwork() {
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[2] as AddNetworkCallbacks
@@ -167,6 +170,21 @@ internal class AddNetworkRobot(
      * Actions
      */
 
+    fun enterOpenNetworkDetails() {
+        onView(withId(R.id.openNetworkRdb)).performScrollToAndClick()
+        onView(withId(R.id.networkNameEdt)).performScrollToAndReplaceText(TEST_SSID_1)
+    }
+
+    fun enterWEPNetworkDetails() {
+        onView(withId(R.id.wepNetworkRdb)).performScrollToAndClick()
+        enterNetworkNameAndPassword()
+    }
+
+    fun enterWPA2NetworkDetails() {
+        onView(withId(R.id.wpa2NetworkRdb)).performScrollToAndClick()
+        enterNetworkNameAndPassword()
+    }
+
     fun launchAddNetworkScreen() {
         activityTestRule.launchActivity(Intent())
         onView(withId(R.id.menu_add)).performClick()
@@ -209,10 +227,10 @@ internal class AddNetworkRobot(
     fun permissionCallbackTriggered(requestCode: Int, permissionResult: Int) {
         val activity = activityTestRule.activity
         val fragment: AddNetworkFragment? = activity
-                .supportFragmentManager
-                .findFragmentByTag(
-                    AddNetworkFragment.TAG
-                ) as? AddNetworkFragment
+            .supportFragmentManager
+            .findFragmentByTag(
+                AddNetworkFragment.TAG
+            ) as? AddNetworkFragment
 
         activity.runOnUiThread {
             fragment?.onRequestPermissionsResult(
@@ -287,6 +305,7 @@ internal class AddNetworkRobot(
         verify(wiseFyPublicApi, timeout(3000).times(times)).addOpenNetwork(eq(TEST_SSID_1), any())
     }
 
+    @Suppress("deprecation")
     fun verifyTriedToAddWEPNetwork(times: Int = 1) {
         verify(wiseFyPublicApi, timeout(3000).times(times)).addWEPNetwork(
             eq(TEST_SSID_1),

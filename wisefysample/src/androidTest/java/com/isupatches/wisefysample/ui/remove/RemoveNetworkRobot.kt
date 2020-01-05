@@ -86,6 +86,10 @@ internal class RemoveNetworkRobot(
      * Actions
      */
 
+    fun enterNetworkDetails() {
+        onView(withId(R.id.networkNameEdt)).performScrollToAndReplaceText(TEST_SSID_1)
+    }
+
     fun launchRemoveNetworkScreen() {
         activityTestRule.launchActivity(Intent())
         onView(withId(R.id.menu_remove)).performClick()

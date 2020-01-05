@@ -42,6 +42,8 @@ interface GetCurrentNetworkInfoCallbacks : BaseCallback {
     /**
      * Called when WiseFy has successfully retrieved the device's current network info.
      *
+     * @param currentNetworkInfo
+     *
      * @see [NetworkInfo]
      *
      * @author Patches

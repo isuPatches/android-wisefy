@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Patches Klinefelter
+ * Copyright 2020 Patches Klinefelter
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -49,14 +49,32 @@ internal class WiseFyConnectionSDK23 private constructor(
         // Internal to avoid SyntheticAccessor error within networkChangeCallback
         internal val TAG = WiseFyConnectionSDK23::class.java.simpleName
 
-        fun create(connectivityManager: ConnectivityManager, wifiManager: WifiManager): WiseFyConnection =
-                WiseFyConnectionSDK23(connectivityManager, wifiManager)
+        /**
+         * Used internally to create an instance of a WiseFyConnection for SDK 23.
+         *
+         * @param connectivityManager The instance of ConnectivityManager to use
+         * @param wifiManager The instance of WifiManager to use
+         *
+         * @return WiseFyConnectionSDK23
+         *
+         * @see [WiseFyConnection]
+         *
+         * Updates
+         * - 01/04/2020: Formatting update
+         *
+         * @author Patches
+         * @since 4.0
+         */
+        fun create(connectivityManager: ConnectivityManager, wifiManager: WifiManager): WiseFyConnection {
+            return WiseFyConnectionSDK23(connectivityManager, wifiManager)
+        }
     }
 
     // Internal to avoid SyntheticAccessor error within networkChangeCallback
     internal var connectionStatus: WiseFyConnectionStatus? = null
 
-    @VisibleForTesting internal val networkChangeCallbacks by lazy {
+    @VisibleForTesting
+    internal val networkChangeCallbacks by lazy {
         object : ConnectivityManager.NetworkCallback() {
             override fun onAvailable(network: Network?) {
                 super.onAvailable(network)
@@ -66,7 +84,10 @@ internal class WiseFyConnectionSDK23 private constructor(
 
             override fun onCapabilitiesChanged(network: Network?, networkCapabilities: NetworkCapabilities?) {
                 super.onCapabilitiesChanged(network, networkCapabilities)
-                WiseFyLogger.debug(TAG, "onCapabilitiesChanged, network: $network, networkCapabilities: $networkCapabilities")
+                WiseFyLogger.debug(
+                    TAG,
+                    "onCapabilitiesChanged, network: $network, networkCapabilities: $networkCapabilities"
+                )
             }
 
             override fun onLinkPropertiesChanged(network: Network?, linkProperties: LinkProperties?) {
@@ -173,7 +194,7 @@ internal class WiseFyConnectionSDK23 private constructor(
             !doesNetworkHaveCapability(capability = NetworkCapabilities.NET_CAPABILITY_NOT_ROAMING)
         } else {
             val networkInfo = connectivityManager.activeNetworkInfo
-            @Suppress("DEPRECATION")
+            @Suppress("deprecation")
             networkInfo != null && networkInfo.isRoaming
         }
 
@@ -195,6 +216,8 @@ internal class WiseFyConnectionSDK23 private constructor(
      * Used internally to check if the active network has a certain transport type as well as
      * internet capability.
      *
+     * @param transportType
+     *
      * @see [getActiveNetworkCapabilities]
      * @see [NetworkCapabilities.hasTransport]
      * @see [NetworkCapabilities.hasCapability]
@@ -205,22 +228,25 @@ internal class WiseFyConnectionSDK23 private constructor(
      */
     private fun doesNetworkHaveTransportTypeAndInternetCapability(transportType: Int): Boolean =
         getActiveNetworkCapabilities()?.let {
-            it.hasTransport(transportType) &&
-            it.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+            it.hasTransport(transportType) && it.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
         } ?: false
 
     /**
      * Used internally to check if the active network has a certain capability (i.e. to check if the
      * device has [NetworkCapabilities.NET_CAPABILITY_NOT_ROAMING] capability listed)
      *
+     * @param capability The capability to check and see if the current network has
+     *
      * @see [getActiveNetworkCapabilities]
      * @see [NetworkCapabilities.hasCapability]
+     * @see NetworkCapabilities
      *
      * @author Patches
      * @since 4.0
      */
-    private fun doesNetworkHaveCapability(capability: Int): Boolean =
-        getActiveNetworkCapabilities()?.hasCapability(capability) ?: false
+    private fun doesNetworkHaveCapability(capability: Int): Boolean {
+        return getActiveNetworkCapabilities()?.hasCapability(capability) ?: false
+    }
 
     /**
      * Used internally to return the capabilities of the active network.
@@ -232,11 +258,14 @@ internal class WiseFyConnectionSDK23 private constructor(
      * @author Patches
      * @since 4.0
      */
-    private fun getActiveNetworkCapabilities(): NetworkCapabilities? =
-        connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+    private fun getActiveNetworkCapabilities(): NetworkCapabilities? {
+        return connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+    }
 
     /**
      * Used internally to start listening for network changes
+     *
+     * @param connectivityManager
      *
      * @see [ConnectivityManager.registerNetworkCallback]
      * @see [NetworkRequest.Builder]
@@ -252,6 +281,8 @@ internal class WiseFyConnectionSDK23 private constructor(
 
     /**
      * Used internally to stop listening for network changes
+     *
+     * @param connectivityManager
      *
      * @see [ConnectivityManager.unregisterNetworkCallback]
      * @see [networkChangeCallbacks]

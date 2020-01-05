@@ -15,8 +15,10 @@
  */
 package com.isupatches.wisefysample.ui.search
 
+import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.net.wifi.ScanResult
 import android.net.wifi.WifiConfiguration
+import androidx.annotation.RequiresPermission
 import com.isupatches.wisefy.callbacks.SearchForAccessPointCallbacks
 import com.isupatches.wisefy.callbacks.SearchForAccessPointsCallbacks
 import com.isupatches.wisefy.callbacks.SearchForSSIDCallbacks
@@ -44,29 +46,52 @@ internal interface SearchMvp {
     }
 
     interface Presenter : BaseMvp.Presenter<View> {
+        @RequiresPermission(ACCESS_FINE_LOCATION)
         fun searchForAccessPoint(regexForSSID: String, timeout: Int, filterDuplicates: Boolean)
+
+        @RequiresPermission(ACCESS_FINE_LOCATION)
         fun searchForAccessPoints(regexForSSID: String, filterDuplicates: Boolean)
+
+        @RequiresPermission(ACCESS_FINE_LOCATION)
         fun searchForSavedNetwork(regexForSSID: String)
+
+        @RequiresPermission(ACCESS_FINE_LOCATION)
         fun searchForSavedNetworks(regexForSSID: String)
+
+        @RequiresPermission(ACCESS_FINE_LOCATION)
         fun searchForSSID(regexForSSID: String, timeout: Int)
+
+        @RequiresPermission(ACCESS_FINE_LOCATION)
         fun searchForSSIDs(regexForSSID: String)
     }
 
     interface Model {
+
+        @RequiresPermission(ACCESS_FINE_LOCATION)
         fun searchForAccessPoint(
             regexForSSID: String,
             timeout: Int,
             filterDuplicates: Boolean,
             callbacks: SearchForAccessPointCallbacks
         )
+
+        @RequiresPermission(ACCESS_FINE_LOCATION)
         fun searchForAccessPoints(
             regexForSSID: String,
             filterDuplicates: Boolean,
             callbacks: SearchForAccessPointsCallbacks
         )
+
+        @RequiresPermission(ACCESS_FINE_LOCATION)
         fun searchForSavedNetwork(regexForSSID: String, callbacks: SearchForSavedNetworkCallbacks)
+
+        @RequiresPermission(ACCESS_FINE_LOCATION)
         fun searchForSavedNetworks(regexForSSID: String, callbacks: SearchForSavedNetworksCallbacks)
+
+        @RequiresPermission(ACCESS_FINE_LOCATION)
         fun searchForSSID(regexForSSID: String, timeout: Int, callbacks: SearchForSSIDCallbacks)
+
+        @RequiresPermission(ACCESS_FINE_LOCATION)
         fun searchForSSIDs(regexForSSID: String, callbacks: SearchForSSIDsCallbacks)
     }
 }

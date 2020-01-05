@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 @file:JvmName("NetworkTypes")
+
 package com.isupatches.wisefy.constants
 
 import androidx.annotation.StringDef

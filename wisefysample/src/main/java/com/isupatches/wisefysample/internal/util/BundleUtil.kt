@@ -19,7 +19,11 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 
 /**
+ * A syntactic-sugar function used to apply arguments to a Fragment's bundle
  *
+ * @param block The arguments to add to the bundle
+ *
+ * @return The fragment whose bundle was altered
  */
 fun <T : Fragment> T.applyArguments(block: Bundle.() -> Unit): T {
     arguments = Bundle().apply(block)

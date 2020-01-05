@@ -14,13 +14,10 @@
  * limitations under the License.
  */
 @file:JvmName("WiseFy")
+
 package com.isupatches.wisefy
 
-import android.Manifest.permission.ACCESS_COARSE_LOCATION
 import android.Manifest.permission.ACCESS_FINE_LOCATION
-import android.Manifest.permission.ACCESS_NETWORK_STATE
-import android.Manifest.permission.ACCESS_WIFI_STATE
-import android.Manifest.permission.CHANGE_WIFI_STATE
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
@@ -162,7 +159,9 @@ class WiseFy private constructor(
         private var wisefySearch: WiseFySearch
 
         init {
-            connectivityManager = context.applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            connectivityManager = context.applicationContext.getSystemService(
+                Context.CONNECTIVITY_SERVICE
+            ) as ConnectivityManager
             wifiManager = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
 
             // We'll use SDK 23 logic for WiseFyConnection if client is on at least an SDK 23 device
@@ -307,7 +306,7 @@ class WiseFy private constructor(
      */
     @Sync
     @CallingThread
-    @RequiresPermission(ACCESS_WIFI_STATE)
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun addOpenNetwork(ssid: String?): Int {
         val precheck = wisefyPrechecks.addNetworkPrechecks(ssid)
         return if (precheck.failed()) {
@@ -333,7 +332,7 @@ class WiseFy private constructor(
      */
     @Async
     @WiseFyThread
-    @RequiresPermission(ACCESS_WIFI_STATE)
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun addOpenNetwork(ssid: String?, callbacks: AddNetworkCallbacks?) {
         runOnWiseFyThread(Runnable {
             synchronized(wisefyLock) {
@@ -371,11 +370,11 @@ class WiseFy private constructor(
      */
     @Sync
     @CallingThread
-    @RequiresPermission(ACCESS_WIFI_STATE)
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     @Deprecated("Due to security and performance limitations, WEP networks are discouraged")
-    @Suppress("deprecation")
     override fun addWEPNetwork(ssid: String?, password: String?): Int {
         val precheck = wisefyPrechecks.addNetworkPrechecks(ssid, password)
+        @Suppress("deprecation")
         return if (precheck.failed()) {
             precheck.code
         } else addNetworkConfiguration(generateWEPNetworkConfiguration(ssid!!, password!!))
@@ -402,16 +401,18 @@ class WiseFy private constructor(
      */
     @Async
     @WiseFyThread
-    @RequiresPermission(ACCESS_WIFI_STATE)
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     @Deprecated("Due to security and performance limitations, WEP networks are discouraged")
-    @Suppress("deprecation")
     override fun addWEPNetwork(ssid: String?, password: String?, callbacks: AddNetworkCallbacks?) {
         runOnWiseFyThread(Runnable {
             synchronized(wisefyLock) {
                 addNetworkWithPasswordAsync(
                     ssid = ssid,
                     password = password,
-                    wifiConfigurationProvider = { generateWEPNetworkConfiguration(ssid!!, password!!) },
+                    wifiConfigurationProvider = {
+                        @Suppress("deprecation")
+                        generateWEPNetworkConfiguration(ssid!!, password!!)
+                    },
                     callbacks = callbacks
                 )
             }
@@ -435,7 +436,7 @@ class WiseFy private constructor(
      */
     @Sync
     @CallingThread
-    @RequiresPermission(ACCESS_WIFI_STATE)
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun addWPA2Network(ssid: String?, password: String?): Int {
         val precheck = wisefyPrechecks.addNetworkPrechecks(ssid, password)
         return if (precheck.failed()) {
@@ -464,7 +465,7 @@ class WiseFy private constructor(
      */
     @Async
     @WiseFyThread
-    @RequiresPermission(ACCESS_WIFI_STATE)
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun addWPA2Network(ssid: String?, password: String?, callbacks: AddNetworkCallbacks?) {
         runOnWiseFyThread(Runnable {
             synchronized(wisefyLock) {
@@ -543,7 +544,7 @@ class WiseFy private constructor(
     @Sync
     @CallingThread
     @WaitsForTimeout
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun connectToNetwork(ssidToConnectTo: String?, timeoutInMillis: Int): Boolean {
         if (wisefyPrechecks.connectToNetworkPrechecks(ssidToConnectTo).failed()) {
             return false
@@ -584,7 +585,7 @@ class WiseFy private constructor(
     @Async
     @WiseFyThread
     @WaitsForTimeout
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun connectToNetwork(
         ssidToConnectTo: String?,
         timeoutInMillis: Int,
@@ -627,7 +628,6 @@ class WiseFy private constructor(
      */
     @Sync
     @CallingThread
-    @RequiresPermission(CHANGE_WIFI_STATE)
     override fun disableWifi(): Boolean =
         wisefyPrechecks.disableWifiChecks().passed() && wifiManager.setWifiEnabled(false)
 
@@ -647,7 +647,6 @@ class WiseFy private constructor(
      */
     @Async
     @WiseFyThread
-    @RequiresPermission(CHANGE_WIFI_STATE)
     override fun disableWifi(callbacks: DisableWifiCallbacks?) {
         runOnWiseFyThread(Runnable {
             synchronized(wisefyLock) {
@@ -771,7 +770,6 @@ class WiseFy private constructor(
      */
     @Sync
     @CallingThread
-    @RequiresPermission(CHANGE_WIFI_STATE)
     override fun enableWifi(): Boolean =
         wisefyPrechecks.enableWifiChecks().passed() && wifiManager.setWifiEnabled(true)
 
@@ -791,7 +789,6 @@ class WiseFy private constructor(
      */
     @Async
     @WiseFyThread
-    @RequiresPermission(CHANGE_WIFI_STATE)
     override fun enableWifi(callbacks: EnableWifiCallbacks?) {
         runOnWiseFyThread(Runnable {
             synchronized(wisefyLock) {
@@ -824,7 +821,6 @@ class WiseFy private constructor(
      */
     @Sync
     @CallingThread
-    @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
     override fun getCurrentNetwork(): WifiInfo? {
         return if (wisefyPrechecks.getCurrentNetworkChecks().passed()) {
             wifiManager.connectionInfo
@@ -851,7 +847,6 @@ class WiseFy private constructor(
      */
     @Async
     @WiseFyThread
-    @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
     override fun getCurrentNetwork(callbacks: GetCurrentNetworkCallbacks?) {
         runOnWiseFyThread(Runnable {
             synchronized(wisefyLock) {
@@ -885,7 +880,6 @@ class WiseFy private constructor(
      */
     @Sync
     @CallingThread
-    @RequiresPermission(ACCESS_NETWORK_STATE)
     override fun getCurrentNetworkInfo(): NetworkInfo? {
         return if (wisefyPrechecks.getCurrentNetworkInfoChecks().passed()) {
             connectivityManager.activeNetworkInfo
@@ -912,7 +906,6 @@ class WiseFy private constructor(
      */
     @Async
     @WiseFyThread
-    @RequiresPermission(ACCESS_NETWORK_STATE)
     override fun getCurrentNetworkInfo(callbacks: GetCurrentNetworkInfoCallbacks?) {
         runOnWiseFyThread(Runnable {
             synchronized(wisefyLock) {
@@ -946,7 +939,7 @@ class WiseFy private constructor(
     @Sync
     @CallingThread
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun getFrequency(): Int? {
         val currentNetwork = getCurrentNetwork()
         return currentNetwork?.frequency
@@ -969,7 +962,7 @@ class WiseFy private constructor(
     @Async
     @WiseFyThread
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun getFrequency(callbacks: GetFrequencyCallbacks?) {
         runOnWiseFyThread(Runnable {
             synchronized(wisefyLock) {
@@ -1044,7 +1037,6 @@ class WiseFy private constructor(
      */
     @Sync
     @CallingThread
-    @RequiresPermission(ACCESS_WIFI_STATE)
     override fun getIP(): String? {
         if (wisefyPrechecks.getIPChecks().failed()) {
             return null
@@ -1077,7 +1069,7 @@ class WiseFy private constructor(
      */
     @Async
     @WiseFyThread
-    @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun getIP(callbacks: GetIPCallbacks?) {
         runOnWiseFyThread(Runnable {
             synchronized(wisefyLock) {
@@ -1120,7 +1112,7 @@ class WiseFy private constructor(
      */
     @Sync
     @CallingThread
-    @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun getNearbyAccessPoints(filterDuplicates: Boolean): List<ScanResult>? {
         if (wisefyPrechecks.getNearbyAccessPointsChecks().failed()) {
             return null
@@ -1154,7 +1146,7 @@ class WiseFy private constructor(
      */
     @Async
     @WiseFyThread
-    @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun getNearbyAccessPoints(filterDuplicates: Boolean, callbacks: GetNearbyAccessPointsCallbacks?) {
         runOnWiseFyThread(Runnable {
             synchronized(wisefyLock) {
@@ -1195,13 +1187,13 @@ class WiseFy private constructor(
     @Sync
     @CallingThread
     @WaitsForTimeout
-    @RequiresPermission(ACCESS_WIFI_STATE)
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun getRSSI(regexForSSID: String?, takeHighest: Boolean, timeoutInMillis: Int): Int? {
         if (wisefyPrechecks.getRSSIChecks(regexForSSID).failed()) {
             return null
         }
-
-        return wisefySearch.findAccessPointByRegex(regexForSSID!!, timeoutInMillis, takeHighest)?.level
+        requireNotNull(regexForSSID)
+        return wisefySearch.findAccessPointByRegex(regexForSSID, timeoutInMillis, takeHighest)?.level
     }
 
     /**
@@ -1227,7 +1219,7 @@ class WiseFy private constructor(
     @Async
     @WiseFyThread
     @WaitsForTimeout
-    @RequiresPermission(ACCESS_WIFI_STATE)
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun getRSSI(
         regexForSSID: String?,
         takeHighest: Boolean,
@@ -1269,7 +1261,7 @@ class WiseFy private constructor(
      */
     @Sync
     @CallingThread
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun getSavedNetworks(): List<WifiConfiguration>? {
         return if (wisefyPrechecks.getSavedNetworksChecks().passed()) {
             wifiManager.configuredNetworks
@@ -1296,7 +1288,7 @@ class WiseFy private constructor(
      */
     @Async
     @WiseFyThread
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun getSavedNetworks(callbacks: GetSavedNetworksCallbacks?) {
         runOnWiseFyThread(Runnable {
             synchronized(wisefyLock) {
@@ -1344,7 +1336,6 @@ class WiseFy private constructor(
      */
     @Sync
     @CallingThread
-    @RequiresPermission(ACCESS_NETWORK_STATE)
     override fun isDeviceConnectedToMobileNetwork(): Boolean =
         wisefyPrechecks.isDeviceConnectedToMobileNetworkChecks().passed() &&
             wisefyConnection.isDeviceConnectedToMobileNetwork()
@@ -1362,7 +1353,6 @@ class WiseFy private constructor(
      */
     @Sync
     @CallingThread
-    @RequiresPermission(ACCESS_NETWORK_STATE)
     override fun isDeviceConnectedToMobileOrWifiNetwork(): Boolean =
         wisefyPrechecks.isDeviceConnectedToMobileOrWifiNetworkChecks().passed() &&
             wisefyConnection.isNetworkConnected()
@@ -1382,7 +1372,6 @@ class WiseFy private constructor(
      */
     @Sync
     @CallingThread
-    @RequiresPermission(allOf = [ACCESS_NETWORK_STATE, ACCESS_WIFI_STATE])
     override fun isDeviceConnectedToSSID(ssid: String?): Boolean =
         wisefyPrechecks.isDeviceConnectedToSSIDChecks(ssid).passed() &&
             wisefyConnection.isCurrentNetworkConnectedToSSID(ssid)
@@ -1404,7 +1393,6 @@ class WiseFy private constructor(
      */
     @Sync
     @CallingThread
-    @RequiresPermission(ACCESS_NETWORK_STATE)
     override fun isDeviceConnectedToWifiNetwork(): Boolean =
         wisefyPrechecks.isDeviceConnectedToWifiNetworkChecks().passed() &&
             wisefyConnection.isDeviceConnectedToWifiNetwork()
@@ -1425,7 +1413,6 @@ class WiseFy private constructor(
      */
     @Sync
     @CallingThread
-    @RequiresPermission(ACCESS_NETWORK_STATE)
     override fun isDeviceRoaming(): Boolean {
         if (wisefyPrechecks.isDeviceRoamingChecks().failed()) {
             return false
@@ -1462,7 +1449,7 @@ class WiseFy private constructor(
     @Sync
     @CallingThread
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun isNetwork5gHz(): Boolean {
         val frequency = getFrequency()
         return frequency != null && frequency > MIN_FREQUENCY_5GHZ && frequency < MAX_FREQUENCY_5GHZ
@@ -1542,7 +1529,7 @@ class WiseFy private constructor(
      */
     @Sync
     @CallingThread
-    @RequiresPermission(ACCESS_WIFI_STATE)
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun isNetworkSaved(ssid: String?): Boolean =
         wisefyPrechecks.isNetworkSavedChecks().passed() && wisefySearch.isNetworkASavedConfiguration(ssid)
 
@@ -1669,7 +1656,7 @@ class WiseFy private constructor(
      */
     @Sync
     @CallingThread
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun removeNetwork(ssidToRemove: String?): Boolean {
         if (wisefyPrechecks.removeNetworkCheck(ssidToRemove).failed()) {
             return false
@@ -1706,7 +1693,7 @@ class WiseFy private constructor(
      */
     @Async
     @WiseFyThread
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun removeNetwork(ssidToRemove: String?, callbacks: RemoveNetworkCallbacks?) {
         runOnWiseFyThread(Runnable {
             synchronized(wisefyLock) {
@@ -1733,13 +1720,16 @@ class WiseFy private constructor(
     /**
      * To return the first access point that matches a given regex.
      *
-     * *NOTE* Setting filterDuplicates to true will not return an access point with a weaker signal strength (will always take the highest).
+     * *NOTE* Setting filterDuplicates to true will not return an access point with a weaker signal strength.
+     *  It will always take the highest.
      *
      * @param regexForSSID The regex to use when iterating through nearby access points
      * @param timeoutInMillis The amount of time (in milliseconds) to wait for a matching access point
-     * @param filterDuplicates If you want to exclude access points with the same name that have a weaker signal strength
+     * @param filterDuplicates If you want to exclude access points with the same name that have a weaker signal
+     *  strength
      *
-     * @return ScanResult|null - The first access point or access point with the highest signal strength matching the regex
+     * @return ScanResult|null - The first access point or access point with the highest signal strength matching the
+     *  regex
      *
      * @see [ScanResult]
      * @see [WiseFyPrechecks.searchForAccessPointChecks]
@@ -1750,25 +1740,28 @@ class WiseFy private constructor(
      */
     @Sync
     @CallingThread
-    @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun searchForAccessPoint(
         regexForSSID: String?,
         timeoutInMillis: Int,
         filterDuplicates: Boolean
     ): ScanResult? {
         return if (wisefyPrechecks.searchForAccessPointChecks(regexForSSID).passed()) {
-            wisefySearch.findAccessPointByRegex(regexForSSID!!, timeoutInMillis, filterDuplicates)
+            requireNotNull(regexForSSID)
+            wisefySearch.findAccessPointByRegex(regexForSSID, timeoutInMillis, filterDuplicates)
         } else null
     }
 
     /**
      * To return the first access point that matches a given regex.
      *
-     * *NOTE* Setting filterDuplicates to true will not return an access point with a weaker signal strength (will always take the highest).
+     * *NOTE* Setting filterDuplicates to true will not return an access point with a weaker signal strength.
+     *  It will always take the highest.
      *
      * @param regexForSSID The regex to use when iterating through nearby access points
      * @param timeoutInMillis The amount of time (in milliseconds) to wait for a matching access point
-     * @param filterDuplicates If you want to exclude access points with the same name that have a weaker signal strength
+     * @param filterDuplicates If you want to exclude access points with the same name that have a weaker signal
+     *  strength
      * @param callbacks The listener to return results to
      *
      * @see [runOnWiseFyThread]
@@ -1783,7 +1776,7 @@ class WiseFy private constructor(
      */
     @Async
     @WiseFyThread
-    @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun searchForAccessPoint(
         regexForSSID: String?,
         timeoutInMillis: Int,
@@ -1811,10 +1804,12 @@ class WiseFy private constructor(
     /**
      * To return nearby access points that match a given regex.
      *
-     * *NOTE* Setting filterDuplicates to true will not return access points with a weaker signal strength (will always take the highest).
+     * *NOTE* Setting filterDuplicates to true will not return access points with a weaker signal strength.
+     *  It will always take the highest.
      *
      * @param regexForSSID The regex to use when iterating through nearby access points
-     * @param filterDuplicates If you want to exclude access points with the same name that have a weaker signal strength
+     * @param filterDuplicates If you want to exclude access points with the same name that have a weaker signal
+     *  strength
      *
      * @return List of ScanResult|null - The list of matching access points or null if none match the given regex
      *
@@ -1827,20 +1822,23 @@ class WiseFy private constructor(
      */
     @Sync
     @CallingThread
-    @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun searchForAccessPoints(regexForSSID: String?, filterDuplicates: Boolean): List<ScanResult>? {
         return if (wisefyPrechecks.searchForAccessPointsChecks(regexForSSID).passed()) {
-            wisefySearch.findAccessPointsMatchingRegex(regexForSSID!!, filterDuplicates)
+            requireNotNull(regexForSSID)
+            wisefySearch.findAccessPointsMatchingRegex(regexForSSID, filterDuplicates)
         } else null
     }
 
     /**
      * To return nearby access points that match a given regex.
      *
-     * *NOTE* Setting filterDuplicates to true will not return access points with a weaker signal strength (will always take the highest).
+     * *NOTE* Setting filterDuplicates to true will not return access points with a weaker signal strength.
+     *  It will always take the highest.
      *
      * @param regexForSSID The regex to use when iterating through nearby access points
-     * @param filterDuplicates If you want to exclude access points with the same name that have a weaker signal strength
+     * @param filterDuplicates If you want to exclude access points with the same name that have a weaker signal
+     *  strength
      * @param callbacks The listener to return results to
      *
      * @see [runOnWiseFyThread]
@@ -1855,7 +1853,7 @@ class WiseFy private constructor(
      */
     @Async
     @WiseFyThread
-    @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun searchForAccessPoints(
         regexForSSID: String?,
         filterDuplicates: Boolean,
@@ -1898,10 +1896,11 @@ class WiseFy private constructor(
      */
     @Sync
     @CallingThread
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun searchForSavedNetwork(regexForSSID: String?): WifiConfiguration? {
         return if (wisefyPrechecks.searchForSavedNetworkChecks(regexForSSID).passed()) {
-            wisefySearch.findSavedNetworkByRegex(regexForSSID!!)
+            requireNotNull(regexForSSID)
+            wisefySearch.findSavedNetworkByRegex(regexForSSID)
         } else null
     }
 
@@ -1926,7 +1925,7 @@ class WiseFy private constructor(
      */
     @Async
     @WiseFyThread
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun searchForSavedNetwork(regexForSSID: String?, callbacks: SearchForSavedNetworkCallbacks?) {
         runOnWiseFyThread(Runnable {
             synchronized(wisefyLock) {
@@ -1965,10 +1964,11 @@ class WiseFy private constructor(
      */
     @Sync
     @CallingThread
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun searchForSavedNetworks(regexForSSID: String?): List<WifiConfiguration>? {
         return if (wisefyPrechecks.searchForSavedNetworksChecks(regexForSSID).passed()) {
-            wisefySearch.findSavedNetworksMatchingRegex(regexForSSID!!)
+            requireNotNull(regexForSSID)
+            wisefySearch.findSavedNetworksMatchingRegex(regexForSSID)
         } else null
     }
 
@@ -1993,7 +1993,7 @@ class WiseFy private constructor(
      */
     @Async
     @WiseFyThread
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun searchForSavedNetworks(regexForSSID: String?, callbacks: SearchForSavedNetworksCallbacks?) {
         runOnWiseFyThread(Runnable {
             synchronized(wisefyLock) {
@@ -2031,13 +2031,14 @@ class WiseFy private constructor(
     @Sync
     @CallingThread
     @WaitsForTimeout
-    @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun searchForSSID(regexForSSID: String?, timeoutInMillis: Int): String? {
         if (wisefyPrechecks.searchForSSIDChecks(regexForSSID).failed()) {
             return null
         }
 
-        val scanResult = wisefySearch.findAccessPointByRegex(regexForSSID!!, timeoutInMillis, false)
+        requireNotNull(regexForSSID)
+        val scanResult = wisefySearch.findAccessPointByRegex(regexForSSID, timeoutInMillis, false)
         return scanResult?.SSID
     }
 
@@ -2061,7 +2062,7 @@ class WiseFy private constructor(
     @Async
     @WiseFyThread
     @WaitsForTimeout
-    @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun searchForSSID(regexForSSID: String?, timeoutInMillis: Int, callbacks: SearchForSSIDCallbacks?) {
         runOnWiseFyThread(Runnable {
             synchronized(wisefyLock) {
@@ -2096,10 +2097,11 @@ class WiseFy private constructor(
      */
     @Sync
     @CallingThread
-    @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun searchForSSIDs(regexForSSID: String?): List<String>? {
         return if (wisefyPrechecks.searchForSSIDsChecks(regexForSSID).passed()) {
-            wisefySearch.findSSIDsMatchingRegex(regexForSSID!!)
+            requireNotNull(regexForSSID)
+            wisefySearch.findSSIDsMatchingRegex(regexForSSID)
         } else null
     }
 
@@ -2120,7 +2122,7 @@ class WiseFy private constructor(
      */
     @Async
     @WiseFyThread
-    @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun searchForSSIDs(regexForSSID: String?, callbacks: SearchForSSIDsCallbacks?) {
         runOnWiseFyThread(Runnable {
             synchronized(wisefyLock) {
@@ -2162,6 +2164,7 @@ class WiseFy private constructor(
      * @author Patches
      * @since 4.0
      */
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     private fun addNetworkWithPasswordAsync(
         ssid: String?,
         password: String?,

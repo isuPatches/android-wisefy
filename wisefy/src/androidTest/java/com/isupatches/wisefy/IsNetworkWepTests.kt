@@ -14,26 +14,31 @@ import org.junit.Test
  */
 internal class IsNetworkWepTests : BaseInstrumentationTest() {
 
-    @Test fun failure_differentCapability() {
+    @Test
+    fun failure_differentCapability() {
         val scanResult = createMockAccessPointWithCapabilities("Other")
         assertEquals(false, wisefy.isNetworkWEP(scanResult))
     }
 
-    @Test fun failure_emptyCapabilities() {
+    @Test
+    fun failure_emptyCapabilities() {
         val scanResult = createMockAccessPointWithCapabilities("")
         assertEquals(false, wisefy.isNetworkWEP(scanResult))
     }
 
-    @Test fun failure_nullCapabilities() {
+    @Test
+    fun failure_nullCapabilities() {
         val scanResult = createMockAccessPointWithCapabilities(null)
         assertEquals(false, wisefy.isNetworkWEP(scanResult))
     }
 
-    @Test fun failure_nullScanResult() {
+    @Test
+    fun failure_nullScanResult() {
         assertEquals(false, wisefy.isNetworkWEP(null))
     }
 
-    @Test fun success() {
+    @Test
+    fun success() {
         val scanResult = createMockAccessPointWithCapabilities(WEP)
         assertEquals(true, wisefy.isNetworkWEP(scanResult))
     }

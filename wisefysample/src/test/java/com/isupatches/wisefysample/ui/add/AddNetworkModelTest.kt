@@ -29,7 +29,8 @@ internal class AddNetworkModelTest {
         }
     }
 
-    @Test fun addOpenNetwork() {
+    @Test
+    fun addOpenNetwork() {
         // When
         model.addOpenNetwork(TEST_SSID_1, addNetworkCallbacks)
 
@@ -37,7 +38,8 @@ internal class AddNetworkModelTest {
         verify(wiseFy, times(1)).addOpenNetwork(eq(TEST_SSID_1), any())
     }
 
-    @Test fun addWepNetwork() {
+    @Test
+    fun addWepNetwork() {
         // When
         model.addWEPNetwork(TEST_SSID_1, TEST_PASSWORD_1, addNetworkCallbacks)
 
@@ -49,7 +51,8 @@ internal class AddNetworkModelTest {
         )
     }
 
-    @Test fun addWPA2Network() {
+    @Test
+    fun addWPA2Network() {
         // When
         model.addWPA2Network(TEST_SSID_1, TEST_PASSWORD_1, addNetworkCallbacks)
 

@@ -17,27 +17,31 @@ import org.mockito.Mockito.verify
  */
 internal class DisconnectFromCurrentNetworkTests : BaseInstrumentationTest() {
 
-    @Test fun sync_failure_prechecks() {
+    @Test
+    fun sync_failure_prechecks() {
         mockWiseFyPrechecksUtil.disconnectFromCurrentNetwork_failure()
         assertEquals(false, wisefy.disconnectFromCurrentNetwork())
         verificationUtil.didNotTryToDisconnectFromCurrentNetwork()
     }
 
-    @Test fun sync_failure() {
+    @Test
+    fun sync_failure() {
         mockWiseFyPrechecksUtil.disconnectFromCurrentNetwork_success()
         mockNetworkUtil.disconnectFromCurrentNetwork_failure()
         assertEquals(false, wisefy.disconnectFromCurrentNetwork())
         verificationUtil.triedToDisconnectFromCurrentNetwork()
     }
 
-    @Test fun sync_success() {
+    @Test
+    fun sync_success() {
         mockWiseFyPrechecksUtil.disconnectFromCurrentNetwork_success()
         mockNetworkUtil.disconnectFromCurrentNetwork_success()
         assertEquals(true, wisefy.disconnectFromCurrentNetwork())
         verificationUtil.triedToDisconnectFromCurrentNetwork()
     }
 
-    @Test fun async_failure_prechecks() {
+    @Test
+    fun async_failure_prechecks() {
         mockWiseFyPrechecksUtil.disconnectFromCurrentNetwork_failure()
         val mockCallbacks = mock(DisconnectFromCurrentNetworkCallbacks::class.java)
         wisefy.disconnectFromCurrentNetwork(mockCallbacks)
@@ -45,13 +49,15 @@ internal class DisconnectFromCurrentNetworkTests : BaseInstrumentationTest() {
         verificationUtil.didNotTryToDisconnectFromCurrentNetwork()
     }
 
-    @Test fun async_failure_prechecks_nullCallback() {
+    @Test
+    fun async_failure_prechecks_nullCallback() {
         mockWiseFyPrechecksUtil.disconnectFromCurrentNetwork_failure()
         nullCallbackUtil.callDisconnectFromCurrentNetwork()
         verificationUtil.didNotTryToDisconnectFromCurrentNetwork()
     }
 
-    @Test fun async_failure() {
+    @Test
+    fun async_failure() {
         mockWiseFyPrechecksUtil.disconnectFromCurrentNetwork_success()
         mockNetworkUtil.disconnectFromCurrentNetwork_failure()
         val mockCallbacks = mock(DisconnectFromCurrentNetworkCallbacks::class.java)
@@ -60,14 +66,16 @@ internal class DisconnectFromCurrentNetworkTests : BaseInstrumentationTest() {
         verificationUtil.triedToDisconnectFromCurrentNetwork()
     }
 
-    @Test fun async_failure_nullCallback() {
+    @Test
+    fun async_failure_nullCallback() {
         mockWiseFyPrechecksUtil.disconnectFromCurrentNetwork_success()
         mockNetworkUtil.disconnectFromCurrentNetwork_failure()
         nullCallbackUtil.callDisconnectFromCurrentNetwork()
         verificationUtil.triedToDisconnectFromCurrentNetwork()
     }
 
-    @Test fun async_success() {
+    @Test
+    fun async_success() {
         mockWiseFyPrechecksUtil.disconnectFromCurrentNetwork_success()
         mockNetworkUtil.disconnectFromCurrentNetwork_success()
         val mockCallbacks = mock(DisconnectFromCurrentNetworkCallbacks::class.java)
@@ -76,7 +84,8 @@ internal class DisconnectFromCurrentNetworkTests : BaseInstrumentationTest() {
         verificationUtil.triedToDisconnectFromCurrentNetwork()
     }
 
-    @Test fun async_success_nullCallback() {
+    @Test
+    fun async_success_nullCallback() {
         mockWiseFyPrechecksUtil.disconnectFromCurrentNetwork_success()
         mockNetworkUtil.disconnectFromCurrentNetwork_success()
         nullCallbackUtil.callDisconnectFromCurrentNetwork()

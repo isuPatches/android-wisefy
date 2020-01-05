@@ -1,7 +1,7 @@
 /*
- * This logic/class was borrowed from Robolectric.
+ * This logic/class was borrowed from Robolectric's ReflectionHelpers.java.
  *
- * https://github.com/robolectric/robolectric/blob/master/shadowapi/src/main/java/org/robolectric/util/ReflectionHelpers.java
+ * https://github.com/robolectric/robolectric/blob/master/shadowapi/src/main/java/org/robolectric/util/
  */
 package com.isupatches.wisefy.internal;
 
@@ -21,7 +21,11 @@ public class ReflectionHelpers {
      * @param <R> The return type.
      * @return The return value of the method.
      */
-    public static <R> R callInstanceMethod(final Object instance, final String methodName, ClassParameter<?>... classParameters) {
+    public static <R> R callInstanceMethod(
+            final Object instance,
+            final String methodName,
+            ClassParameter<?>... classParameters
+    ) {
         try {
             final Class<?>[] classes = ClassParameter.getClasses(classParameters);
             final Object[] values = ClassParameter.getValues(classParameters);
@@ -44,7 +48,11 @@ public class ReflectionHelpers {
         }
     }
 
-    private static <R, E extends Exception> R traverseClassHierarchy(Class<?> targetClass, Class<? extends E> exceptionClass, InsideTraversal<R> insideTraversal) throws Exception {
+    private static <R, E extends Exception> R traverseClassHierarchy(
+            Class<?> targetClass,
+            Class<? extends E> exceptionClass,
+            InsideTraversal<R> insideTraversal
+    ) throws Exception {
         Class<?> hierarchyTraversalClass = targetClass;
         while (true) {
             try {

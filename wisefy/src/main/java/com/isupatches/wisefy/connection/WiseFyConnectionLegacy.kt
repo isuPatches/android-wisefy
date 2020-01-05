@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Patches Klinefelter
+ * Copyright 2020 Patches Klinefelter
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,8 +43,25 @@ internal class WiseFyConnectionLegacy private constructor(
     internal companion object {
         private val TAG = WiseFyConnectionLegacy::class.java.simpleName
 
-        fun create(connectivityManager: ConnectivityManager, wifiManager: WifiManager): WiseFyConnection =
-                WiseFyConnectionLegacy(connectivityManager, wifiManager)
+        /**
+         * Used internally to create an instance of a legacy WiseFyConnection.
+         *
+         * @param connectivityManager The instance of ConnectivityManager to use
+         * @param wifiManager The instance of WifiManager to use
+         *
+         * @return WiseFyConnectionLegacy
+         *
+         * @see [WiseFyConnection]
+         *
+         * Updates
+         * - 01/04/2020: Formatting update
+         *
+         * @author Patches
+         * @since 4.0
+         */
+        fun create(connectivityManager: ConnectivityManager, wifiManager: WifiManager): WiseFyConnection {
+            return WiseFyConnectionLegacy(connectivityManager, wifiManager)
+        }
     }
 
     /**
@@ -79,8 +96,9 @@ internal class WiseFyConnectionLegacy private constructor(
      * @author Patches
      * @since 4.0
      */
-    override fun isDeviceConnectedToMobileNetwork(): Boolean =
-        isNetworkConnectedAndMatchesType(connectivityManager.activeNetworkInfo, MOBILE)
+    override fun isDeviceConnectedToMobileNetwork(): Boolean {
+        return isNetworkConnectedAndMatchesType(connectivityManager.activeNetworkInfo, MOBILE)
+    }
 
     /**
      * Used internally to check if a network is connected to a wifi network (i.e. not using
@@ -92,11 +110,15 @@ internal class WiseFyConnectionLegacy private constructor(
      * @see [isNetworkConnectedAndMatchesType]
      * @see [WIFI]
      *
+     * Updates
+     * - 01/04/2020: Formatting update
+     *
      * @author Patches
      * @since 4.0
      */
-    override fun isDeviceConnectedToWifiNetwork(): Boolean =
-        isNetworkConnectedAndMatchesType(connectivityManager.activeNetworkInfo, WIFI)
+    override fun isDeviceConnectedToWifiNetwork(): Boolean {
+        return isNetworkConnectedAndMatchesType(connectivityManager.activeNetworkInfo, WIFI)
+    }
 
     /**
      * Used internally to check if a network is in a roaming state.
@@ -140,7 +162,7 @@ internal class WiseFyConnectionLegacy private constructor(
      * *NOTE* Case insensitive
      *
      * @param networkInfo The network to check
-     * @param type The type of network
+     * @param type The type of network (f.e. Mobile or Wifi)
      *
      * @return boolean - True if the network matches the given type
      *
@@ -149,18 +171,20 @@ internal class WiseFyConnectionLegacy private constructor(
      *
      * Updates
      * - 05/12/2019: Made networkInfo expectation non-null
+     * - 01/04/2020: Formatting update
      *
      * @author Patches
      * @since 3.0
      */
-    private fun doesNetworkMatchType(networkInfo: NetworkInfo, @NetworkType type: String): Boolean =
-        type.equals(networkInfo.typeName, ignoreCase = true)
+    private fun doesNetworkMatchType(networkInfo: NetworkInfo, @NetworkType type: String): Boolean {
+        return type.equals(networkInfo.typeName, ignoreCase = true)
+    }
 
     /**
      * Used internally to check if a given network matches a given type and is connected.
      *
      * @param networkInfo The network to check
-     * @param type The type of network (i.error. Mobile or Wifi)
+     * @param type The type of network (f.e. Mobile or Wifi)
      *
      * @return boolean - True if the network is both connected and matches the given type of network
      *
@@ -170,12 +194,14 @@ internal class WiseFyConnectionLegacy private constructor(
      *
      * Updates
      * - 05/12/2019: Switched to using [isConnectedAndAvailable] over [isNetworkConnected]
+     * - 01/04/2020: Formatting update
      *
      * @author Patches
      * @since 3.0
      */
-    private fun isNetworkConnectedAndMatchesType(networkInfo: NetworkInfo?, @NetworkType type: String): Boolean =
-        networkInfo?.let { doesNetworkMatchType(it, type) && it.isConnectedAndAvailable() } ?: false
+    private fun isNetworkConnectedAndMatchesType(networkInfo: NetworkInfo?, @NetworkType type: String): Boolean {
+        return networkInfo?.let { doesNetworkMatchType(it, type) && it.isConnectedAndAvailable() } ?: false
+    }
 
     /**
      * Used within legacy class to determine if a given network is in a connected state.

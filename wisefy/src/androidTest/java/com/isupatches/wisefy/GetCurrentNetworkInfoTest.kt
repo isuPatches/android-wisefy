@@ -20,19 +20,22 @@ import org.mockito.Mockito.verify
  */
 internal class GetCurrentNetworkInfoTest : BaseInstrumentationTest() {
 
-    @Test fun sync_failure_prechecks() {
+    @Test
+    fun sync_failure_prechecks() {
         mockWiseFyPrechecksUtil.getCurrentNetworkInfo_failure()
         assertEquals(null, wisefy.getCurrentNetworkInfo())
         verificationUtil.didNotTryToGetCurrentNetworkInfo()
     }
 
-    @Test fun sync_failure_nullCurrentNetwork() {
+    @Test
+    fun sync_failure_nullCurrentNetwork() {
         mockWiseFyPrechecksUtil.getCurrentNetworkInfo_success()
         assertEquals(null, wisefy.getCurrentNetworkInfo())
         verificationUtil.triedToGetCurrentNetworkInfo()
     }
 
-    @Test fun sync_success() {
+    @Test
+    fun sync_success() {
         mockWiseFyPrechecksUtil.getCurrentNetworkInfo_success()
         mockNetworkUtil.activeNetwork()
         val currentNetworkInfo = wisefy.getCurrentNetworkInfo()
@@ -44,7 +47,8 @@ internal class GetCurrentNetworkInfoTest : BaseInstrumentationTest() {
         }
     }
 
-    @Test fun async_failure_prechecks() {
+    @Test
+    fun async_failure_prechecks() {
         mockWiseFyPrechecksUtil.getCurrentNetworkInfo_failure()
         val mockCallbacks = mock(GetCurrentNetworkInfoCallbacks::class.java)
         wisefy.getCurrentNetworkInfo(mockCallbacks)
@@ -52,13 +56,15 @@ internal class GetCurrentNetworkInfoTest : BaseInstrumentationTest() {
         verificationUtil.didNotTryToGetCurrentNetworkInfo()
     }
 
-    @Test fun async_failure_prechecks_nullCallbacks() {
+    @Test
+    fun async_failure_prechecks_nullCallbacks() {
         mockWiseFyPrechecksUtil.getCurrentNetworkInfo_failure()
         nullCallbackUtil.callGetCurrentNetworkInfo()
         verificationUtil.didNotTryToGetCurrentNetworkInfo()
     }
 
-    @Test fun async_failure_nullCurrentNetwork() {
+    @Test
+    fun async_failure_nullCurrentNetwork() {
         mockWiseFyPrechecksUtil.getCurrentNetworkInfo_success()
         val mockCallbacks = mock(GetCurrentNetworkInfoCallbacks::class.java)
         wisefy.getCurrentNetworkInfo(mockCallbacks)
@@ -66,22 +72,27 @@ internal class GetCurrentNetworkInfoTest : BaseInstrumentationTest() {
         verificationUtil.triedToGetCurrentNetworkInfo()
     }
 
-    @Test fun async_failure_nullCurrentNetwork_nullCallbacks() {
+    @Test
+    fun async_failure_nullCurrentNetwork_nullCallbacks() {
         mockWiseFyPrechecksUtil.getCurrentNetworkInfo_success()
         nullCallbackUtil.callGetCurrentNetworkInfo()
         verificationUtil.triedToGetCurrentNetworkInfo()
     }
 
-    @Test fun async_success() {
+    @Test
+    fun async_success() {
         mockWiseFyPrechecksUtil.getCurrentNetworkInfo_success()
         mockNetworkUtil.activeNetwork()
         val mockCallbacks = mock(GetCurrentNetworkInfoCallbacks::class.java)
         wisefy.getCurrentNetworkInfo(mockCallbacks)
-        verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).retrievedCurrentNetworkInfo(any(NetworkInfo::class.java))
+        verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).retrievedCurrentNetworkInfo(
+            any(NetworkInfo::class.java)
+        )
         verificationUtil.triedToGetCurrentNetworkInfo()
     }
 
-    @Test fun async_success_nullCallback() {
+    @Test
+    fun async_success_nullCallback() {
         mockWiseFyPrechecksUtil.getCurrentNetworkInfo_success()
         mockNetworkUtil.activeNetwork()
         nullCallbackUtil.callGetCurrentNetworkInfo()

@@ -15,8 +15,7 @@
  */
 package com.isupatches.wisefysample.ui.search
 
-import android.Manifest.permission.ACCESS_COARSE_LOCATION
-import android.Manifest.permission.ACCESS_WIFI_STATE
+import android.Manifest.permission.ACCESS_FINE_LOCATION
 import androidx.annotation.RequiresPermission
 import com.isupatches.wisefy.WiseFyPublicApi
 import com.isupatches.wisefy.callbacks.SearchForAccessPointCallbacks
@@ -31,7 +30,7 @@ internal class SearchModel @Inject constructor(
     private val wiseFy: WiseFyPublicApi
 ) : SearchMvp.Model {
 
-    @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun searchForAccessPoint(
         regexForSSID: String,
         timeout: Int,
@@ -41,7 +40,7 @@ internal class SearchModel @Inject constructor(
         wiseFy.searchForAccessPoint(regexForSSID, timeout, filterDuplicates, callbacks)
     }
 
-    @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun searchForAccessPoints(
         regexForSSID: String,
         filterDuplicates: Boolean,
@@ -50,7 +49,7 @@ internal class SearchModel @Inject constructor(
         wiseFy.searchForAccessPoints(regexForSSID, filterDuplicates, callbacks)
     }
 
-    @RequiresPermission(ACCESS_WIFI_STATE)
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun searchForSavedNetwork(
         regexForSSID: String,
         callbacks: SearchForSavedNetworkCallbacks
@@ -58,7 +57,7 @@ internal class SearchModel @Inject constructor(
         wiseFy.searchForSavedNetwork(regexForSSID, callbacks)
     }
 
-    @RequiresPermission(ACCESS_WIFI_STATE)
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun searchForSavedNetworks(
         regexForSSID: String,
         callbacks: SearchForSavedNetworksCallbacks
@@ -66,7 +65,7 @@ internal class SearchModel @Inject constructor(
         wiseFy.searchForSavedNetworks(regexForSSID, callbacks)
     }
 
-    @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun searchForSSID(
         regexForSSID: String,
         timeout: Int,
@@ -75,7 +74,7 @@ internal class SearchModel @Inject constructor(
         wiseFy.searchForSSID(regexForSSID, timeout, callbacks)
     }
 
-    @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_WIFI_STATE])
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun searchForSSIDs(regexForSSID: String, callbacks: SearchForSSIDsCallbacks) {
         wiseFy.searchForSSIDs(regexForSSID, callbacks)
     }

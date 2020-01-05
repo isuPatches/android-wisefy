@@ -33,12 +33,12 @@ import com.isupatches.wisefysample.ui.main.MainActivity
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.doAnswer
 import com.nhaarman.mockitokotlin2.eq
+import com.nhaarman.mockitokotlin2.given
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.timeout
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import org.hamcrest.CoreMatchers.containsString
-import org.mockito.Mockito.`when`
 
 internal class MiscRobot(
     private val activityTestRule: ActivityTestRule<MainActivity>,
@@ -228,11 +228,11 @@ internal class MiscRobot(
     }
 
     fun withDeviceBelowLollipop() {
-        `when`(sdkUtil.isAtLeastLollipop()).thenReturn(false)
+        given(sdkUtil.isAtLeastLollipop()).willReturn(false)
     }
 
     fun withDeviceLollipopOrHigher() {
-        `when`(sdkUtil.isAtLeastLollipop()).thenReturn(true)
+        given(sdkUtil.isAtLeastLollipop()).willReturn(true)
     }
 
     /*
@@ -300,16 +300,16 @@ internal class MiscRobot(
     fun permissionCallbackTriggeredWithEmptyArray(requestCode: Int) {
         val activity = activityTestRule.activity
         val fragment: MiscFragment? = activity
-                .supportFragmentManager
-                .findFragmentByTag(
-                        MiscFragment.TAG
-                ) as? MiscFragment
+            .supportFragmentManager
+            .findFragmentByTag(
+                MiscFragment.TAG
+            ) as? MiscFragment
 
         activity.runOnUiThread {
             fragment?.onRequestPermissionsResult(
-                    requestCode,
-                    emptyArray(),
-                    intArrayOf()
+                requestCode,
+                emptyArray(),
+                intArrayOf()
             )
         }
     }
@@ -401,7 +401,6 @@ internal class MiscRobot(
     fun verifyFrequencyLollipopNoticeIsDisplayed() {
         onView(withText(
             activityTestRule.getString(R.string.frequency_lollipop_notice)
-        ))
-        .checkIsDisplayed()
+        )).checkIsDisplayed()
     }
 }

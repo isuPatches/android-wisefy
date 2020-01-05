@@ -54,8 +54,7 @@ android {
         showAll true
         explainIssues true
         abortOnError true
-        // UnusedIds is disabled for Kotlin synthetics and MissingRegistered is disabled for androidx.
-        disable 'UnusedIds', 'MissingRegistered'
+        disable 'UnusedIds' // UnusedIds is disabled for Kotlin synthetics
     }
 
     testOptions {
@@ -74,7 +73,7 @@ android {
     }
 
     sourceSets {
-        def commonTestDir = 'src/commonTest/java'
+        final def commonTestDir = 'src/commonTest/java'
 
         test { java.srcDir commonTestDir }
 

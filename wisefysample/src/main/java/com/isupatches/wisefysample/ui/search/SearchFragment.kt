@@ -15,8 +15,7 @@
  */
 package com.isupatches.wisefysample.ui.search
 
-import android.Manifest.permission.ACCESS_COARSE_LOCATION
-import android.Manifest.permission.ACCESS_WIFI_STATE
+import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.content.pm.PackageManager
 import android.net.wifi.ScanResult
 import android.net.wifi.WifiConfiguration
@@ -259,7 +258,11 @@ internal class SearchFragment : BaseFragment(), SearchMvp.View {
     @Throws(SecurityException::class)
     private fun searchForAccessPoint() {
         if (checkSearchForAccessPointPermissions()) {
-            presenter.searchForAccessPoint(searchRegexEdt.getTrimmedInput(), getSelectedTimeout(), getFilterDuplicates())
+            presenter.searchForAccessPoint(
+                searchRegexEdt.getTrimmedInput(),
+                getSelectedTimeout(),
+                getFilterDuplicates()
+            )
         }
     }
 
@@ -270,12 +273,14 @@ internal class SearchFragment : BaseFragment(), SearchMvp.View {
         }
     }
 
+    @Throws(SecurityException::class)
     private fun searchForSavedNetwork() {
         if (checkSearchForSavedNetworkPermissions()) {
             presenter.searchForSavedNetwork(searchRegexEdt.getTrimmedInput())
         }
     }
 
+    @Throws(SecurityException::class)
     private fun searchForSavedNetworks() {
         if (checkSearchForSavedNetworksPermissions()) {
             presenter.searchForSavedNetworks(searchRegexEdt.getTrimmedInput())
@@ -357,31 +362,27 @@ internal class SearchFragment : BaseFragment(), SearchMvp.View {
      */
 
     private fun checkSearchForSavedNetworkPermissions(): Boolean {
-        return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_SEARCH_FOR_SAVED_NETWORK_REQUEST_CODE)
+        return isPermissionGranted(ACCESS_FINE_LOCATION, WISEFY_SEARCH_FOR_SAVED_NETWORK_REQUEST_CODE)
     }
 
     private fun checkSearchForSavedNetworksPermissions(): Boolean {
-        return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_SEARCH_FOR_SAVED_NETWORKS_REQUEST_CODE)
+        return isPermissionGranted(ACCESS_FINE_LOCATION, WISEFY_SEARCH_FOR_SAVED_NETWORKS_REQUEST_CODE)
     }
 
     private fun checkSearchForAccessPointPermissions(): Boolean {
-        return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_SEARCH_FOR_ACCESS_POINT_REQUEST_CODE) &&
-                isPermissionGranted(ACCESS_COARSE_LOCATION, WISEFY_SEARCH_FOR_ACCESS_POINT_REQUEST_CODE)
+        return isPermissionGranted(ACCESS_FINE_LOCATION, WISEFY_SEARCH_FOR_ACCESS_POINT_REQUEST_CODE)
     }
 
     private fun checkSearchForAccessPointsPermissions(): Boolean {
-        return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_SEARCH_FOR_ACCESS_POINTS_REQUEST_CODE) &&
-                isPermissionGranted(ACCESS_COARSE_LOCATION, WISEFY_SEARCH_FOR_ACCESS_POINTS_REQUEST_CODE)
+        return isPermissionGranted(ACCESS_FINE_LOCATION, WISEFY_SEARCH_FOR_ACCESS_POINTS_REQUEST_CODE)
     }
 
     private fun checkSearchForSSIDPermissions(): Boolean {
-        return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_SEARCH_FOR_SSID_REQUEST_CODE) &&
-                isPermissionGranted(ACCESS_COARSE_LOCATION, WISEFY_SEARCH_FOR_SSID_REQUEST_CODE)
+        return isPermissionGranted(ACCESS_FINE_LOCATION, WISEFY_SEARCH_FOR_SSID_REQUEST_CODE)
     }
 
     private fun checkSearchForSSIDsPermissions(): Boolean {
-        return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_SEARCH_FOR_SSIDS_REQUEST_CODE) &&
-                isPermissionGranted(ACCESS_COARSE_LOCATION, WISEFY_SEARCH_FOR_SSIDS_REQUEST_CODE)
+        return isPermissionGranted(ACCESS_FINE_LOCATION, WISEFY_SEARCH_FOR_SSIDS_REQUEST_CODE)
     }
 
     @Suppress("LongMethod", "ComplexMethod")

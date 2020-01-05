@@ -39,7 +39,9 @@ internal class VerificationUtil internal constructor(
      * @since 3.0
      */
     fun didNoTryToAddNetwork() {
-        verify(mockWifiManager, after(VERIFICATION_FAILURE_TIMEOUT).times(0)).addNetwork(any(WifiConfiguration::class.java))
+        verify(mockWifiManager, after(VERIFICATION_FAILURE_TIMEOUT).times(0)).addNetwork(
+            any(WifiConfiguration::class.java)
+        )
     }
 
     /**
@@ -136,7 +138,7 @@ internal class VerificationUtil internal constructor(
      * @author Patches
      * @since 3.0
      */
-    @Suppress("DEPRECATION")
+    @Suppress("deprecation")
     fun didNotTryToScanForAccessPoints() {
         verify(mockWifiManager, after(VERIFICATION_FAILURE_TIMEOUT).times(0)).startScan()
     }
@@ -287,7 +289,7 @@ internal class VerificationUtil internal constructor(
      * @author Patches
      * @since 3.0
      */
-    @Suppress("DEPRECATION")
+    @Suppress("deprecation")
     fun triedToScanForAccessPoints() {
         verify(mockWifiManager, atLeastOnce()).startScan()
     }

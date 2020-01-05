@@ -30,17 +30,19 @@ internal class WisefyConnectionSDK23Tests : BaseInstrumentationTest() {
         WiseFyConnectionSDK23.create(mockConnectivityManager, mockWifiManager)
     }
 
-    @Before fun setUp() {
+    @Before
+    fun setUp() {
         assumeTrue(
-        "Can only run on API Level 23 or newer",
-        Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+            "Can only run on API Level 23 or newer",
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
         )
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             wisefyConnection.init()
         }
     }
 
-    @After override fun tearDown() {
+    @After
+    override fun tearDown() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             wisefyConnection.destroy()
         }
@@ -51,48 +53,56 @@ internal class WisefyConnectionSDK23Tests : BaseInstrumentationTest() {
      * isCurrentNetworkConnectedToSSID tests
      */
 
-    @Test fun isCurrentNetworkConnectedToSSID_failure_nullSSIDParam() {
+    @Test
+    fun isCurrentNetworkConnectedToSSID_failure_nullSSIDParam() {
         withAvailableNetwork()
         assertFalse(wisefyConnection.isCurrentNetworkConnectedToSSID(null))
     }
 
-    @Test fun isCurrentNetworkConnectedToSSID_failure_nullConnectionInfo() {
+    @Test
+    fun isCurrentNetworkConnectedToSSID_failure_nullConnectionInfo() {
         withAvailableNetwork()
         mockNetworkUtil.currentNetwork_null()
         assertFalse(wisefyConnection.isCurrentNetworkConnectedToSSID(TEST_SSID))
     }
 
-    @Test fun isCurrentNetworkConnectedToSSID_failure_nullSSID() {
+    @Test
+    fun isCurrentNetworkConnectedToSSID_failure_nullSSID() {
         withAvailableNetwork()
         mockNetworkUtil.currentNetwork(null)
         assertFalse(wisefyConnection.isCurrentNetworkConnectedToSSID(TEST_SSID))
     }
 
-    @Test fun isCurrentNetworkConnectedToSSID_failure_differentSSID() {
+    @Test
+    fun isCurrentNetworkConnectedToSSID_failure_differentSSID() {
         withAvailableNetwork()
         mockNetworkUtil.currentNetwork(TEST_SSID2)
         assertFalse(wisefyConnection.isCurrentNetworkConnectedToSSID(TEST_SSID))
     }
 
-    @Test fun isCurrentNetworkConnectedToSSID_failure_unavailable() {
+    @Test
+    fun isCurrentNetworkConnectedToSSID_failure_unavailable() {
         mockNetworkUtil.currentNetwork(TEST_SSID)
         withUnavailableNetwork()
         assertFalse(wisefyConnection.isCurrentNetworkConnectedToSSID(TEST_SSID))
     }
 
-    @Test fun isCurrentNetworkConnectedToSSID_failure_lost() {
+    @Test
+    fun isCurrentNetworkConnectedToSSID_failure_lost() {
         mockNetworkUtil.currentNetwork(TEST_SSID)
         withLostNetwork()
         assertFalse(wisefyConnection.isCurrentNetworkConnectedToSSID(TEST_SSID))
     }
 
-    @Test fun isCurrentNetworkConnectedToSSID_failure_losing() {
+    @Test
+    fun isCurrentNetworkConnectedToSSID_failure_losing() {
         mockNetworkUtil.currentNetwork(TEST_SSID)
         withLosingNetwork()
         assertFalse(wisefyConnection.isCurrentNetworkConnectedToSSID(TEST_SSID))
     }
 
-    @Test fun isCurrentNetworkConnectedToSSID_success() {
+    @Test
+    fun isCurrentNetworkConnectedToSSID_success() {
         mockNetworkUtil.currentNetwork(TEST_SSID)
         withAvailableNetwork()
         assertTrue(wisefyConnection.isCurrentNetworkConnectedToSSID(TEST_SSID))
@@ -102,22 +112,26 @@ internal class WisefyConnectionSDK23Tests : BaseInstrumentationTest() {
      * isNetworkConnected tests
      */
 
-    @Test fun isNetworkConnected_failure_unavailable() {
+    @Test
+    fun isNetworkConnected_failure_unavailable() {
         withUnavailableNetwork()
         assertFalse(wisefyConnection.isNetworkConnected())
     }
 
-    @Test fun isNetworkConnected_failure_lost() {
+    @Test
+    fun isNetworkConnected_failure_lost() {
         withLostNetwork()
         assertFalse(wisefyConnection.isNetworkConnected())
     }
 
-    @Test fun isNetworkConnected_failure_losing() {
+    @Test
+    fun isNetworkConnected_failure_losing() {
         withLosingNetwork()
         assertFalse(wisefyConnection.isNetworkConnected())
     }
 
-    @Test fun isNetworkConnected_success() {
+    @Test
+    fun isNetworkConnected_success() {
         withAvailableNetwork()
         assertTrue(wisefyConnection.isNetworkConnected())
     }
@@ -126,16 +140,19 @@ internal class WisefyConnectionSDK23Tests : BaseInstrumentationTest() {
      * isDeviceConnectedToMobileNetwork tests
      */
 
-    @Test fun isDeviceConnectedToMobileNetwork_failure_noActiveNetwork() {
+    @Test
+    fun isDeviceConnectedToMobileNetwork_failure_noActiveNetwork() {
         assertFalse(wisefyConnection.isDeviceConnectedToMobileNetwork())
     }
 
-    @Test fun isDeviceConnectedToMobileNetwork_failure_noCapabilities() {
+    @Test
+    fun isDeviceConnectedToMobileNetwork_failure_noCapabilities() {
         withAvailableNetwork()
         assertFalse(wisefyConnection.isDeviceConnectedToMobileNetwork())
     }
 
-    @Test fun isDeviceConnectedToMobileNetwork_failure_differentTransport() {
+    @Test
+    fun isDeviceConnectedToMobileNetwork_failure_differentTransport() {
         withAvailableNetwork()
         val networkCapabilities = getNetworkCapabilities(
             android.net.NetworkCapabilities.TRANSPORT_WIFI,
@@ -149,7 +166,8 @@ internal class WisefyConnectionSDK23Tests : BaseInstrumentationTest() {
         assertFalse(wisefyConnection.isDeviceConnectedToMobileNetwork())
     }
 
-    @Test fun isDeviceConnectedToMobileNetwork_failure_noInternetCapability() {
+    @Test
+    fun isDeviceConnectedToMobileNetwork_failure_noInternetCapability() {
         withAvailableNetwork()
         val networkCapabilities = getNetworkCapabilities(
             android.net.NetworkCapabilities.TRANSPORT_CELLULAR
@@ -162,7 +180,8 @@ internal class WisefyConnectionSDK23Tests : BaseInstrumentationTest() {
         assertFalse(wisefyConnection.isDeviceConnectedToMobileNetwork())
     }
 
-    @Test fun isDeviceConnectedToMobileNetwork_failure_unavailable() {
+    @Test
+    fun isDeviceConnectedToMobileNetwork_failure_unavailable() {
         withUnavailableNetwork()
         val networkCapabilities = getNetworkCapabilities(
             android.net.NetworkCapabilities.TRANSPORT_CELLULAR,
@@ -176,7 +195,8 @@ internal class WisefyConnectionSDK23Tests : BaseInstrumentationTest() {
         assertFalse(wisefyConnection.isDeviceConnectedToMobileNetwork())
     }
 
-    @Test fun isDeviceConnectedToMobileNetwork_failure_lost() {
+    @Test
+    fun isDeviceConnectedToMobileNetwork_failure_lost() {
         withLostNetwork()
         val networkCapabilities = getNetworkCapabilities(
             android.net.NetworkCapabilities.TRANSPORT_CELLULAR,
@@ -190,7 +210,8 @@ internal class WisefyConnectionSDK23Tests : BaseInstrumentationTest() {
         assertFalse(wisefyConnection.isDeviceConnectedToMobileNetwork())
     }
 
-    @Test fun isDeviceConnectedToMobileNetwork_failure_losing() {
+    @Test
+    fun isDeviceConnectedToMobileNetwork_failure_losing() {
         withLosingNetwork()
         val networkCapabilities = getNetworkCapabilities(
             android.net.NetworkCapabilities.TRANSPORT_CELLULAR,
@@ -204,7 +225,8 @@ internal class WisefyConnectionSDK23Tests : BaseInstrumentationTest() {
         assertFalse(wisefyConnection.isDeviceConnectedToMobileNetwork())
     }
 
-    @Test fun isDeviceConnectedToMobileNetwork_success() {
+    @Test
+    fun isDeviceConnectedToMobileNetwork_success() {
         withAvailableNetwork()
         val networkCapabilities = getNetworkCapabilities(
             android.net.NetworkCapabilities.TRANSPORT_CELLULAR,
@@ -222,16 +244,19 @@ internal class WisefyConnectionSDK23Tests : BaseInstrumentationTest() {
      * isDeviceConnectedToWifiNetwork tests
      */
 
-    @Test fun isDeviceConnectedToWifiNetwork_failure_noActiveNetwork() {
+    @Test
+    fun isDeviceConnectedToWifiNetwork_failure_noActiveNetwork() {
         assertFalse(wisefyConnection.isDeviceConnectedToWifiNetwork())
     }
 
-    @Test fun isDeviceConnectedToWifiNetwork_failure_noCapabilities() {
+    @Test
+    fun isDeviceConnectedToWifiNetwork_failure_noCapabilities() {
         withAvailableNetwork()
         assertFalse(wisefyConnection.isDeviceConnectedToWifiNetwork())
     }
 
-    @Test fun isDeviceConnectedToWifiNetwork_failure_differentTransport() {
+    @Test
+    fun isDeviceConnectedToWifiNetwork_failure_differentTransport() {
         withAvailableNetwork()
         val networkCapabilities = getNetworkCapabilities(
             android.net.NetworkCapabilities.TRANSPORT_CELLULAR,
@@ -245,7 +270,8 @@ internal class WisefyConnectionSDK23Tests : BaseInstrumentationTest() {
         assertFalse(wisefyConnection.isDeviceConnectedToWifiNetwork())
     }
 
-    @Test fun isDeviceConnectedToWifiNetwork_failure_noInternetCapability() {
+    @Test
+    fun isDeviceConnectedToWifiNetwork_failure_noInternetCapability() {
         withAvailableNetwork()
         val networkCapabilities = getNetworkCapabilities(
             android.net.NetworkCapabilities.TRANSPORT_WIFI
@@ -258,7 +284,8 @@ internal class WisefyConnectionSDK23Tests : BaseInstrumentationTest() {
         assertFalse(wisefyConnection.isDeviceConnectedToWifiNetwork())
     }
 
-    @Test fun isDeviceConnectedToWifiNetwork_failure_unavailable() {
+    @Test
+    fun isDeviceConnectedToWifiNetwork_failure_unavailable() {
         withUnavailableNetwork()
         val networkCapabilities = getNetworkCapabilities(
             android.net.NetworkCapabilities.TRANSPORT_WIFI,
@@ -272,7 +299,8 @@ internal class WisefyConnectionSDK23Tests : BaseInstrumentationTest() {
         assertFalse(wisefyConnection.isDeviceConnectedToWifiNetwork())
     }
 
-    @Test fun isDeviceConnectedToWifiNetwork_failure_lost() {
+    @Test
+    fun isDeviceConnectedToWifiNetwork_failure_lost() {
         withLostNetwork()
         val networkCapabilities = getNetworkCapabilities(
             android.net.NetworkCapabilities.TRANSPORT_WIFI,
@@ -286,7 +314,8 @@ internal class WisefyConnectionSDK23Tests : BaseInstrumentationTest() {
         assertFalse(wisefyConnection.isDeviceConnectedToWifiNetwork())
     }
 
-    @Test fun isDeviceConnectedToWifiNetwork_failure_losing() {
+    @Test
+    fun isDeviceConnectedToWifiNetwork_failure_losing() {
         withLosingNetwork()
         val networkCapabilities = getNetworkCapabilities(
             android.net.NetworkCapabilities.TRANSPORT_WIFI,
@@ -300,7 +329,8 @@ internal class WisefyConnectionSDK23Tests : BaseInstrumentationTest() {
         assertFalse(wisefyConnection.isDeviceConnectedToWifiNetwork())
     }
 
-    @Test fun isDeviceConnectedToWifiNetwork_success() {
+    @Test
+    fun isDeviceConnectedToWifiNetwork_success() {
         withAvailableNetwork()
         val networkCapabilities = getNetworkCapabilities(
             android.net.NetworkCapabilities.TRANSPORT_WIFI,
@@ -318,15 +348,17 @@ internal class WisefyConnectionSDK23Tests : BaseInstrumentationTest() {
      * isDeviceRoaming tests
      */
 
-    @Test fun isDeviceRoaming_failure_nullNetworkInfo() {
+    @Test
+    fun isDeviceRoaming_failure_nullNetworkInfo() {
         assumeTrue(
-        "Can only run on API's before Level 28",
-        Build.VERSION.SDK_INT < Build.VERSION_CODES.P
+            "Can only run on API's before Level 28",
+            Build.VERSION.SDK_INT < Build.VERSION_CODES.P
         )
         assertFalse(wisefyConnection.isDeviceRoaming())
     }
 
-    @Test fun isDeviceRoaming_failure() {
+    @Test
+    fun isDeviceRoaming_failure() {
         assumeTrue(
             "Can only run on API's before Level 28",
             Build.VERSION.SDK_INT < Build.VERSION_CODES.P
@@ -336,29 +368,32 @@ internal class WisefyConnectionSDK23Tests : BaseInstrumentationTest() {
         assertFalse(wisefyConnection.isDeviceRoaming())
     }
 
-    @Test fun isDeviceRoaming_success() {
+    @Test
+    fun isDeviceRoaming_success() {
         assumeTrue(
-        "Can only run on API's before Level 28",
-        Build.VERSION.SDK_INT < Build.VERSION_CODES.P
+            "Can only run on API's before Level 28",
+            Build.VERSION.SDK_INT < Build.VERSION_CODES.P
         )
         mockNetworkUtil.currentNetwork(TEST_SSID)
         mockNetworkUtil.isDeviceRoaming(true)
         assertTrue(wisefyConnection.isDeviceRoaming())
     }
 
-    @Test fun isDeviceRoaming_sdk28_failure_nullNetwork() {
+    @Test
+    fun isDeviceRoaming_sdk28_failure_nullNetwork() {
         assumeTrue(
-        "Can only run on API Level 28 or newer",
-        Build.VERSION.SDK_INT >= Build.VERSION_CODES.P
+            "Can only run on API Level 28 or newer",
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.P
         )
         mockNetworkUtil.isDeviceRoaming(false)
         assertTrue(wisefyConnection.isDeviceRoaming())
     }
 
-    @Test fun isDeviceRoaming_sdk28_failure_missingNotRoamingCapability() {
+    @Test
+    fun isDeviceRoaming_sdk28_failure_missingNotRoamingCapability() {
         assumeTrue(
-        "Can only run on API Level 28 or newer",
-        Build.VERSION.SDK_INT >= Build.VERSION_CODES.P
+            "Can only run on API Level 28 or newer",
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.P
         )
         val networkCapabilities = android.net.NetworkCapabilities(null)
         setUpNetworkCapabilities(
@@ -370,10 +405,11 @@ internal class WisefyConnectionSDK23Tests : BaseInstrumentationTest() {
         assertTrue(wisefyConnection.isDeviceRoaming())
     }
 
-    @Test fun isDeviceRoaming_sdk28_success() {
+    @Test
+    fun isDeviceRoaming_sdk28_success() {
         assumeTrue(
-        "Can only run on API Level 28 or newer",
-        Build.VERSION.SDK_INT >= Build.VERSION_CODES.P
+            "Can only run on API Level 28 or newer",
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.P
         )
         val networkCapabilities = getNetworkCapabilities(
             arrayOf(android.net.NetworkCapabilities.NET_CAPABILITY_NOT_ROAMING)
@@ -391,48 +427,56 @@ internal class WisefyConnectionSDK23Tests : BaseInstrumentationTest() {
      * waitToConnectToSSID tests
      */
 
-    @Test fun waitToConnectToSSID_failure_nullSSIDParam() {
+    @Test
+    fun waitToConnectToSSID_failure_nullSSIDParam() {
         withAvailableNetwork()
         assertFalse(wisefyConnection.waitToConnectToSSID(null, TEST_TIMEOUT))
     }
 
-    @Test fun waitToConnectToSSID_failure_nullConnectionInfo() {
+    @Test
+    fun waitToConnectToSSID_failure_nullConnectionInfo() {
         withAvailableNetwork()
         mockNetworkUtil.currentNetwork_null()
         assertFalse(wisefyConnection.waitToConnectToSSID(TEST_SSID, TEST_TIMEOUT))
     }
 
-    @Test fun waitToConnectToSSID_failure_nullSSID() {
+    @Test
+    fun waitToConnectToSSID_failure_nullSSID() {
         withAvailableNetwork()
         mockNetworkUtil.currentNetwork(null)
         assertFalse(wisefyConnection.waitToConnectToSSID(null, TEST_TIMEOUT))
     }
 
-    @Test fun waitToConnectToSSID_failure_differentSSID() {
+    @Test
+    fun waitToConnectToSSID_failure_differentSSID() {
         withAvailableNetwork()
         mockNetworkUtil.currentNetwork(TEST_SSID2)
         assertFalse(wisefyConnection.waitToConnectToSSID(TEST_SSID, TEST_TIMEOUT))
     }
 
-    @Test fun waitToConnectToSSID_failure_unavailable() {
+    @Test
+    fun waitToConnectToSSID_failure_unavailable() {
         withUnavailableNetwork()
         mockNetworkUtil.currentNetwork(TEST_SSID)
         assertFalse(wisefyConnection.waitToConnectToSSID(TEST_SSID, TEST_TIMEOUT))
     }
 
-    @Test fun waitToConnectToSSID_failure_losing() {
+    @Test
+    fun waitToConnectToSSID_failure_losing() {
         withLosingNetwork()
         mockNetworkUtil.currentNetwork(TEST_SSID)
         assertFalse(wisefyConnection.waitToConnectToSSID(TEST_SSID, TEST_TIMEOUT))
     }
 
-    @Test fun waitToConnectToSSID_failure_lost() {
+    @Test
+    fun waitToConnectToSSID_failure_lost() {
         withLostNetwork()
         mockNetworkUtil.currentNetwork(TEST_SSID)
         assertFalse(wisefyConnection.waitToConnectToSSID(TEST_SSID, TEST_TIMEOUT))
     }
 
-    @Test fun waitToConnectToSSID_success() {
+    @Test
+    fun waitToConnectToSSID_success() {
         withAvailableNetwork()
         mockNetworkUtil.currentNetwork(TEST_SSID)
         assertTrue(wisefyConnection.waitToConnectToSSID(TEST_SSID, TEST_TIMEOUT))

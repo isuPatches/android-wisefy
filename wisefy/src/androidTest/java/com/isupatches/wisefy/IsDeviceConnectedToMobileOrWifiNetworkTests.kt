@@ -13,18 +13,21 @@ import org.junit.Test
  */
 internal class IsDeviceConnectedToMobileOrWifiNetworkTests : BaseInstrumentationTest() {
 
-    @Test fun failure_missingPrerequisite() {
+    @Test
+    fun failure_missingPrerequisite() {
         mockWiseFyPrechecksUtil.isDeviceConnectedToMobileOrWifiNetwork_failure()
         assertFalse(wisefy.isDeviceConnectedToMobileOrWifiNetwork())
     }
 
-    @Test fun failure() {
+    @Test
+    fun failure() {
         mockWiseFyPrechecksUtil.isDeviceConnectedToMobileOrWifiNetwork_success()
         mockWiseFyConnectionUtil.isNetworkConnected(false)
         assertFalse(wisefy.isDeviceConnectedToMobileOrWifiNetwork())
     }
 
-    @Test fun success() {
+    @Test
+    fun success() {
         mockWiseFyPrechecksUtil.isDeviceConnectedToMobileOrWifiNetwork_success()
         mockNetworkUtil.activeNetwork()
         mockWiseFyConnectionUtil.isNetworkConnected(true)

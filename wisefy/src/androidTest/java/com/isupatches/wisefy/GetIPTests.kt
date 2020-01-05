@@ -17,18 +17,21 @@ import org.mockito.Mockito.verify
  */
 internal class GetIPTests : BaseInstrumentationTest() {
 
-    @Test fun sync_getIP_failure_missingPrerequisites() {
+    @Test
+    fun sync_getIP_failure_missingPrerequisites() {
         mockWiseFyPrechecksUtil.getIP_failure()
         assertEquals(null, wisefy.getIP())
     }
 
-    @Test fun sync_getIP_failure() {
+    @Test
+    fun sync_getIP_failure() {
         mockWiseFyPrechecksUtil.getIP_success()
         mockNetworkUtil.ip_failure()
         assertEquals(null, wisefy.getIP())
     }
 
-    @Test fun sync_getIP_success() {
+    @Test
+    fun sync_getIP_success() {
         mockWiseFyPrechecksUtil.getIP_success()
         mockNetworkUtil.ip_success()
         assertEquals(TEST_IP_ADDRESS_STRING, wisefy.getIP())

@@ -22,15 +22,18 @@ internal class RemovePresenterTest {
 
     private val presenter = RemoveNetworkPresenter(model, TestRxSchedulersProvider())
 
-    @Before fun setUp() {
+    @Before
+    fun setUp() {
         presenter.attachView(view)
     }
 
-    @After fun tearDown() {
+    @After
+    fun tearDown() {
         presenter.detachView()
     }
 
-    @Test fun removeNetwork_networkRemoved() {
+    @Test
+    fun removeNetwork_networkRemoved() {
         // Given
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[1] as RemoveNetworkCallbacks
@@ -45,7 +48,8 @@ internal class RemovePresenterTest {
         verify(view, times(1)).displayNetworkRemoved()
     }
 
-    @Test fun removeNetwork_failureRemovingNetwork() {
+    @Test
+    fun removeNetwork_failureRemovingNetwork() {
         // Then
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[1] as RemoveNetworkCallbacks
@@ -60,7 +64,8 @@ internal class RemovePresenterTest {
         verify(view, times(1)).displayFailureRemovingNetwork()
     }
 
-    @Test fun removeNetwork_networkNotFoundToRemove() {
+    @Test
+    fun removeNetwork_networkNotFoundToRemove() {
         // Given
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[1] as RemoveNetworkCallbacks
@@ -75,7 +80,8 @@ internal class RemovePresenterTest {
         verify(view, times(1)).displayNetworkNotFoundToRemove()
     }
 
-    @Test fun removeNetwork_wisefyFailure() {
+    @Test
+    fun removeNetwork_wisefyFailure() {
         // Given
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[1] as RemoveNetworkCallbacks

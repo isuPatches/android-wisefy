@@ -16,7 +16,8 @@ internal class RemoveModelTest {
 
     private val model = RemoveNetworkModel(wiseFy)
 
-    @Test fun removeNetwork() {
+    @Test
+    fun removeNetwork() {
         // When
         model.removeNetwork(TEST_SSID_1, object : RemoveNetworkCallbacks {
             override fun failureRemovingNetwork() {

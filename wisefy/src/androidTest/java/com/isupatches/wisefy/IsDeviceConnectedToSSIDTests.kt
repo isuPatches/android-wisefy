@@ -13,18 +13,21 @@ import org.junit.Test
  */
 internal class IsDeviceConnectedToSSIDTests : BaseInstrumentationTest() {
 
-    @Test fun failure_prechecks() {
+    @Test
+    fun failure_prechecks() {
         mockWiseFyPrechecksUtil.isDeviceConnectedToSSIDChecks_failure()
         assertFalse(wisefy.isDeviceConnectedToSSID(TEST_SSID))
     }
 
-    @Test fun failure() {
+    @Test
+    fun failure() {
         mockWiseFyPrechecksUtil.isDeviceConnectedToSSIDChecks_success()
         mockWiseFyConnectionUtil.isCurrentNetworkConnectedToSSID(false)
         assertFalse(wisefy.isDeviceConnectedToSSID(TEST_SSID))
     }
 
-    @Test fun success() {
+    @Test
+    fun success() {
         mockWiseFyPrechecksUtil.isDeviceConnectedToSSIDChecks_success()
         mockWiseFyConnectionUtil.isCurrentNetworkConnectedToSSID(true)
         assertTrue(wisefy.isDeviceConnectedToSSID(TEST_SSID))

@@ -15,10 +15,7 @@
  */
 package com.isupatches.wisefy.connection
 
-import android.Manifest.permission.ACCESS_NETWORK_STATE
-import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.net.wifi.WifiManager
-import androidx.annotation.RequiresPermission
 import com.isupatches.wisefy.annotations.WaitsForTimeout
 import com.isupatches.wisefy.constants.QUOTE
 import com.isupatches.wisefy.logging.WiseFyLogger
@@ -59,7 +56,6 @@ internal abstract class AbstractWiseFyConnection(
      * @author Patches
      * @since 3.0
      */
-    @RequiresPermission(allOf = [ACCESS_NETWORK_STATE, ACCESS_WIFI_STATE])
     override fun isCurrentNetworkConnectedToSSID(ssid: String?): Boolean {
         if (ssid.isNullOrEmpty()) {
             return false
@@ -91,14 +87,19 @@ internal abstract class AbstractWiseFyConnection(
      *
      * Updates
      * - 05/12/2019: Moved here from previous WiseFyConnectionImpl class
+     * - 01/04/2020: Formatting update
      *
      * @author Patches
      * @since 3.0
      */
     @WaitsForTimeout
-    @RequiresPermission(allOf = [ACCESS_NETWORK_STATE, ACCESS_WIFI_STATE])
     override fun waitToConnectToSSID(ssid: String?, timeoutInMillis: Int): Boolean {
-        WiseFyLogger.debug(TAG, "Waiting %d milliseconds to connect to network with ssid %s", timeoutInMillis, ssid ?: "")
+        WiseFyLogger.debug(
+            TAG,
+            "Waiting %d milliseconds to connect to network with ssid %s",
+            timeoutInMillis,
+            ssid ?: ""
+        )
         var currentTime: Long
         val endTime = System.currentTimeMillis() + timeoutInMillis
         do {

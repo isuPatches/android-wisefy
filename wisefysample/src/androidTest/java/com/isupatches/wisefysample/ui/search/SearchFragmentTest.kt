@@ -1,11 +1,11 @@
 package com.isupatches.wisefysample.ui.search
 
-import android.Manifest.permission.ACCESS_COARSE_LOCATION
-import android.Manifest.permission.ACCESS_WIFI_STATE
+import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.content.pm.PackageManager
 import androidx.test.espresso.intent.rule.IntentsTestRule
 import androidx.test.rule.GrantPermissionRule
 import com.isupatches.wisefysample.RANDO_PERMISSION_REQUEST_CODE
+import com.isupatches.wisefysample.TEST_SSID_1
 import com.isupatches.wisefysample.internal.base.AbstractEspressoTestClass
 import com.isupatches.wisefysample.ui.main.MainActivity
 import org.junit.Before
@@ -18,24 +18,25 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
     var activityTestRule = IntentsTestRule(MainActivity::class.java, false, false)
 
     @get:Rule
-    val grantPermissionRule: GrantPermissionRule = GrantPermissionRule.grant(ACCESS_COARSE_LOCATION)
+    val grantPermissionRule: GrantPermissionRule = GrantPermissionRule.grant(ACCESS_FINE_LOCATION)
 
     private lateinit var searchRobot: SearchRobot
 
-    @Before override fun setUp() {
+    @Before
+    override fun setUp() {
         super.setUp()
         searchRobot = SearchRobot(activityTestRule, wiseFy, searchStore, permissionUtil)
     }
 
-    @Test fun adaptiveUI() {
+    @Test
+    fun adaptiveUI() {
         with(searchRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
             withAccessPointInStore(false)
             launchSearchScreen()
 
             // When
-            selectAccessPoint()
+            fillOutForAccessPoint()
 
             // Then - Access Point
             verifyAccessPointIsChecked()
@@ -50,7 +51,7 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
             verifyTimeoutIsDisplayed()
 
             // And When
-            selectAccessPoints()
+            fillOutForAccessPoints()
 
             // Then - Access Points
             verifyAccessPointIsChecked()
@@ -65,7 +66,7 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
             verifyTimeoutIsNotDisplayed()
 
             // And When
-            selectSSID()
+            fillOutForSSID()
 
             // Then - SSID
             verifySSIDsChecked()
@@ -74,7 +75,7 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
             verifyTimeoutIsDisplayed()
 
             // And When
-            selectSSIDs()
+            fillOutForSSIDs()
 
             // Then - SSIDS
             verifySSIDsChecked()
@@ -83,7 +84,7 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
             verifyTimeoutIsNotDisplayed()
 
             // And When
-            selectSavedNetwork()
+            fillOutForSavedNetwork()
 
             // Then - Saved Network
             verifySavedNetworkIsChecked()
@@ -92,7 +93,7 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
             verifyTimeoutIsNotDisplayed()
 
             // And When
-            selectSavedNetworks()
+            fillOutForSavedNetworks()
 
             // Then - Saved Networks
             verifySavedNetworkIsChecked()
@@ -101,7 +102,7 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
             verifyTimeoutIsNotDisplayed()
 
             // And When
-            selectAccessPoint()
+            fillOutForAccessPoint()
 
             // Then Finally - Access Point
             verifyAccessPointIsChecked()
@@ -111,10 +112,10 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun loadsAccessPointFromStore_filterDuplicates_false() {
+    @Test
+    fun loadsAccessPointFromStore_filterDuplicates_false() {
         with(searchRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
             withAccessPointInStore(false)
 
             // When
@@ -129,10 +130,10 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun loadsAccessPointFromStore_filterDuplicates_true() {
+    @Test
+    fun loadsAccessPointFromStore_filterDuplicates_true() {
         with(searchRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
             withAccessPointInStore(true)
 
             // When
@@ -147,10 +148,10 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun loadsAccessPointsFromStore_filterDuplicates_false() {
+    @Test
+    fun loadsAccessPointsFromStore_filterDuplicates_false() {
         with(searchRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
             withAccessPointsInStore(false)
 
             // When
@@ -165,10 +166,10 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun loadsAccessPointsFromStore_filterDuplicates_true() {
+    @Test
+    fun loadsAccessPointsFromStore_filterDuplicates_true() {
         with(searchRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
             withAccessPointsInStore(true)
 
             // When
@@ -183,10 +184,10 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun loadsSSIDFromStore() {
+    @Test
+    fun loadsSSIDFromStore() {
         with(searchRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
             withSSIDInStore()
 
             // When
@@ -201,10 +202,10 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun loadsSSIDSFromStore() {
+    @Test
+    fun loadsSSIDSFromStore() {
         with(searchRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
             withSSIDsInStore()
 
             // When
@@ -219,10 +220,10 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun loadsSavedNetworkFromStore() {
+    @Test
+    fun loadsSavedNetworkFromStore() {
         with(searchRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
             withSavedNetworkInStore()
 
             // When
@@ -237,10 +238,10 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun loadsSavedNetworksFromStore() {
+    @Test
+    fun loadsSavedNetworksFromStore() {
         with(searchRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
             withSavedNetworksInStore()
 
             // When
@@ -255,12 +256,11 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun searchForAccessPoint_permissionErrorDialog_filterDuplicates_true() {
+    @Test
+    fun searchForAccessPoint_permissionErrorDialog_filterDuplicates_true() {
         with(searchRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
             launchSearchScreen()
-            searchForAccessPoint(true)
 
             // When
             permissionCallbackTriggered(
@@ -273,16 +273,16 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun searchForAccessPoint_permissionError_once_filterDuplicates_true() {
+    @Test
+    fun searchForAccessPoint_permissionError_once_accessFineLocation_filterDuplicates_true() {
         with(searchRobot) {
             // Given
             withSuccessSearchingForAccessPoint(true)
-            withPermissionDeniedOnce(ACCESS_WIFI_STATE)
-            withPermissionDeniedOnce(ACCESS_COARSE_LOCATION)
+            withPermissionDeniedOnce(ACCESS_FINE_LOCATION)
             launchSearchScreen()
 
             // When
-            searchForAccessPoint(true)
+            searchForAccessPoint(TEST_SSID_1, true)
 
             // Then
             verifySearchedForAccessPoint(true)
@@ -291,49 +291,11 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun searchForAccessPoint_permissionError_once_accessWifiState_filterDuplicates_true() {
+    @Test
+    fun searchForAccessPoint_permissionError_emptyList_filterDuplicates_true() {
         with(searchRobot) {
             // Given
-            withSuccessSearchingForAccessPoint(true)
-            withPermissionDeniedOnce(ACCESS_WIFI_STATE)
-            withPermission(ACCESS_COARSE_LOCATION)
             launchSearchScreen()
-
-            // When
-            searchForAccessPoint(true)
-
-            // Then
-            verifySearchedForAccessPoint(true)
-            verifyAccessPointIsDisplayed()
-            dismissResultsDialog()
-        }
-    }
-
-    @Test fun searchForAccessPoint_permissionError_once_accessCourseLocation_filterDuplicates_true() {
-        with(searchRobot) {
-            // Given
-            withSuccessSearchingForAccessPoint(true)
-            withPermission(ACCESS_WIFI_STATE)
-            withPermissionDeniedOnce(ACCESS_COARSE_LOCATION)
-            launchSearchScreen()
-
-            // When
-            searchForAccessPoint(true)
-
-            // Then
-            verifySearchedForAccessPoint(true)
-            verifyAccessPointIsDisplayed()
-            dismissResultsDialog()
-        }
-    }
-
-    @Test fun searchForAccessPoint_permissionError_emptyList_filterDuplicates_true() {
-        with(searchRobot) {
-            // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
-            withSuccessSearchingForAccessPoint(true)
-            launchSearchScreen()
-            searchForAccessPoint(true)
 
             // When
             permissionCallbackTriggeredWithEmptyArray(
@@ -342,17 +304,14 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             dismissErrorDialog()
-            verifySearchedForAccessPoint(true)
         }
     }
 
-    @Test fun searchForAccessPoint_permissionError_permissionDenied_filterDuplicates_true() {
+    @Test
+    fun searchForAccessPoint_permissionError_permissionDenied_filterDuplicates_true() {
         with(searchRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
-            withSuccessSearchingForAccessPoint(true)
             launchSearchScreen()
-            searchForAccessPoint(true)
 
             // When
             permissionCallbackTriggered(
@@ -362,17 +321,17 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             dismissErrorDialog()
-            verifySearchedForAccessPoint(true)
         }
     }
 
-    @Test fun searchForAccessPoint_success_afterPermissionGranted_filterDuplicates_true() {
+    @Test
+    fun searchForAccessPoint_success_afterPermissionGranted_filterDuplicates_true() {
         with(searchRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
+            withPermission(ACCESS_FINE_LOCATION)
             withSuccessSearchingForAccessPoint(true)
             launchSearchScreen()
-            searchForAccessPoint(true)
+            fillOutForAccessPoint(TEST_SSID_1, true)
 
             // When
             permissionCallbackTriggered(
@@ -381,21 +340,22 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
             )
 
             // Then
-            verifySearchedForAccessPoint(true, times = 2)
+            verifySearchedForAccessPoint(true)
             verifyAccessPointIsDisplayed()
             dismissResultsDialog()
         }
     }
 
-    @Test fun searchForAccessPoint_success_filterDuplicates_true() {
+    @Test
+    fun searchForAccessPoint_success_filterDuplicates_true() {
         with(searchRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
+            withPermission(ACCESS_FINE_LOCATION)
             withSuccessSearchingForAccessPoint(true)
             launchSearchScreen()
 
             // When
-            searchForAccessPoint(true)
+            searchForAccessPoint(TEST_SSID_1, true)
 
             // Then
             verifySearchedForAccessPoint(true)
@@ -404,15 +364,16 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun searchForAccessPoint_accessPointNotFound_filterDuplicates_true() {
+    @Test
+    fun searchForAccessPoint_accessPointNotFound_filterDuplicates_true() {
         with(searchRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
+            withPermission(ACCESS_FINE_LOCATION)
             withAccessPointNotFound(true)
             launchSearchScreen()
 
             // When
-            searchForAccessPoint(true)
+            searchForAccessPoint(TEST_SSID_1, true)
 
             // Then
             verifySearchedForAccessPoint(true)
@@ -421,15 +382,16 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun searchForAccessPoint_wiseFyFailure_filterDuplicates_true() {
+    @Test
+    fun searchForAccessPoint_wiseFyFailure_filterDuplicates_true() {
         with(searchRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
+            withPermission(ACCESS_FINE_LOCATION)
             withWiseFyFailureSearchingForAccessPoint(true)
             launchSearchScreen()
 
             // When
-            searchForAccessPoint(true)
+            searchForAccessPoint(TEST_SSID_1, true)
 
             // Then
             verifyWiseFyFailureIsDisplayed()
@@ -440,12 +402,11 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun searchForAccessPoint_permissionErrorDialog_filterDuplicates_false() {
+    @Test
+    fun searchForAccessPoint_permissionErrorDialog_filterDuplicates_false() {
         with(searchRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
             launchSearchScreen()
-            searchForAccessPoint(false)
 
             // When
             permissionCallbackTriggered(
@@ -458,16 +419,16 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun searchForAccessPoint_permissionError_once_filterDuplicates_false() {
+    @Test
+    fun searchForAccessPoint_permissionError_once_accessFineLocation_filterDuplicates_false() {
         with(searchRobot) {
             // Given
             withSuccessSearchingForAccessPoint(false)
-            withPermissionDeniedOnce(ACCESS_WIFI_STATE)
-            withPermissionDeniedOnce(ACCESS_COARSE_LOCATION)
+            withPermissionDeniedOnce(ACCESS_FINE_LOCATION)
             launchSearchScreen()
 
             // When
-            searchForAccessPoint(false)
+            searchForAccessPoint(TEST_SSID_1, false)
 
             // Then
             verifySearchedForAccessPoint(false)
@@ -476,49 +437,11 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun searchForAccessPoint_permissionError_once_accessWifiState_filterDuplicates_false() {
+    @Test
+    fun searchForAccessPoint_permissionError_emptyList_filterDuplicates_false() {
         with(searchRobot) {
             // Given
-            withSuccessSearchingForAccessPoint(false)
-            withPermissionDeniedOnce(ACCESS_WIFI_STATE)
-            withPermission(ACCESS_COARSE_LOCATION)
             launchSearchScreen()
-
-            // When
-            searchForAccessPoint(false)
-
-            // Then
-            verifySearchedForAccessPoint(false)
-            verifyAccessPointIsDisplayed()
-            dismissResultsDialog()
-        }
-    }
-
-    @Test fun searchForAccessPoint_permissionError_once_accessCourseLocation_filterDuplicates_false() {
-        with(searchRobot) {
-            // Given
-            withSuccessSearchingForAccessPoint(false)
-            withPermission(ACCESS_WIFI_STATE)
-            withPermissionDeniedOnce(ACCESS_COARSE_LOCATION)
-            launchSearchScreen()
-
-            // When
-            searchForAccessPoint(false)
-
-            // Then
-            verifySearchedForAccessPoint(false)
-            verifyAccessPointIsDisplayed()
-            dismissResultsDialog()
-        }
-    }
-
-    @Test fun searchForAccessPoint_permissionError_emptyList_filterDuplicates_false() {
-        with(searchRobot) {
-            // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
-            withSuccessSearchingForAccessPoint(false)
-            launchSearchScreen()
-            searchForAccessPoint(false)
 
             // When
             permissionCallbackTriggeredWithEmptyArray(
@@ -527,17 +450,14 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             dismissErrorDialog()
-            verifySearchedForAccessPoint(false)
         }
     }
 
-    @Test fun searchForAccessPoint_permissionError_permissionDenied_filterDuplicates_false() {
+    @Test
+    fun searchForAccessPoint_permissionError_permissionDenied_filterDuplicates_false() {
         with(searchRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
-            withSuccessSearchingForAccessPoint(false)
             launchSearchScreen()
-            searchForAccessPoint(false)
 
             // When
             permissionCallbackTriggered(
@@ -547,17 +467,17 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             dismissErrorDialog()
-            verifySearchedForAccessPoint(false)
         }
     }
 
-    @Test fun searchForAccessPoint_success_afterPermissionGranted_filterDuplicates_false() {
+    @Test
+    fun searchForAccessPoint_success_afterPermissionGranted_filterDuplicates_false() {
         with(searchRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
+            withPermission(ACCESS_FINE_LOCATION)
             withSuccessSearchingForAccessPoint(false)
             launchSearchScreen()
-            searchForAccessPoint(false)
+            fillOutForAccessPoint(TEST_SSID_1, false)
 
             // When
             permissionCallbackTriggered(
@@ -566,21 +486,22 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
             )
 
             // Then
-            verifySearchedForAccessPoint(false, times = 2)
+            verifySearchedForAccessPoint(false)
             verifyAccessPointIsDisplayed()
             dismissResultsDialog()
         }
     }
 
-    @Test fun searchForAccessPoint_success_filterDuplicates_false() {
+    @Test
+    fun searchForAccessPoint_success_filterDuplicates_false() {
         with(searchRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
+            withPermission(ACCESS_FINE_LOCATION)
             withSuccessSearchingForAccessPoint(false)
             launchSearchScreen()
 
             // When
-            searchForAccessPoint(false)
+            searchForAccessPoint(TEST_SSID_1, false)
 
             // Then
             verifySearchedForAccessPoint(false)
@@ -589,15 +510,16 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun searchForAccessPoint_accessPointNotFound_filterDuplicates_false() {
+    @Test
+    fun searchForAccessPoint_accessPointNotFound_filterDuplicates_false() {
         with(searchRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
+            withPermission(ACCESS_FINE_LOCATION)
             withAccessPointNotFound(false)
             launchSearchScreen()
 
             // When
-            searchForAccessPoint(false)
+            searchForAccessPoint(TEST_SSID_1, false)
 
             // Then
             verifySearchedForAccessPoint(false)
@@ -606,15 +528,16 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun searchForAccessPoint_wiseFyFailure_filterDuplicates_false() {
+    @Test
+    fun searchForAccessPoint_wiseFyFailure_filterDuplicates_false() {
         with(searchRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
+            withPermission(ACCESS_FINE_LOCATION)
             withWiseFyFailureSearchingForAccessPoint(false)
             launchSearchScreen()
 
             // When
-            searchForAccessPoint(false)
+            searchForAccessPoint(TEST_SSID_1, false)
 
             // Then
             verifyWiseFyFailureIsDisplayed()
@@ -625,12 +548,11 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun searchForAccessPoints_permissionErrorDialog_filterDuplicates_true() {
+    @Test
+    fun searchForAccessPoints_permissionErrorDialog_filterDuplicates_true() {
         with(searchRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
             launchSearchScreen()
-            searchForAccessPoints(true)
 
             // When
             permissionCallbackTriggered(
@@ -643,16 +565,16 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun searchForAccessPoints_permissionError_once_filterDuplicates_true() {
+    @Test
+    fun searchForAccessPoints_permissionError_once_accessFineLocation_filterDuplicates_true() {
         with(searchRobot) {
             // Given
             withSuccessSearchingForAccessPoints(true)
-            withPermissionDeniedOnce(ACCESS_WIFI_STATE)
-            withPermissionDeniedOnce(ACCESS_COARSE_LOCATION)
+            withPermissionDeniedOnce(ACCESS_FINE_LOCATION)
             launchSearchScreen()
 
             // When
-            searchForAccessPoints(true)
+            searchForAccessPoints(TEST_SSID_1, true)
 
             // Then
             verifySearchedForAccessPoints(true)
@@ -661,49 +583,11 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun searchForAccessPoints_permissionError_once_accessWifiState_filterDuplicates_true() {
+    @Test
+    fun searchForAccessPoints_permissionError_emptyList_filterDuplicates_true() {
         with(searchRobot) {
             // Given
-            withSuccessSearchingForAccessPoints(true)
-            withPermissionDeniedOnce(ACCESS_WIFI_STATE)
-            withPermission(ACCESS_COARSE_LOCATION)
             launchSearchScreen()
-
-            // When
-            searchForAccessPoints(true)
-
-            // Then
-            verifySearchedForAccessPoints(true)
-            verifyAccessPointsAreDisplayed()
-            dismissResultsDialog()
-        }
-    }
-
-    @Test fun searchForAccessPoints_permissionError_once_accessCourseLocation_filterDuplicates_true() {
-        with(searchRobot) {
-            // Given
-            withSuccessSearchingForAccessPoints(true)
-            withPermission(ACCESS_WIFI_STATE)
-            withPermissionDeniedOnce(ACCESS_COARSE_LOCATION)
-            launchSearchScreen()
-
-            // When
-            searchForAccessPoints(true)
-
-            // Then
-            verifySearchedForAccessPoints(true)
-            verifyAccessPointsAreDisplayed()
-            dismissResultsDialog()
-        }
-    }
-
-    @Test fun searchForAccessPoints_permissionError_emptyList_filterDuplicates_true() {
-        with(searchRobot) {
-            // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
-            withSuccessSearchingForAccessPoints(true)
-            launchSearchScreen()
-            searchForAccessPoints(true)
 
             // When
             permissionCallbackTriggeredWithEmptyArray(
@@ -712,17 +596,14 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             dismissErrorDialog()
-            verifySearchedForAccessPoints(true)
         }
     }
 
-    @Test fun searchForAccessPoints_permissionError_permissionDenied_filterDuplicates_true() {
+    @Test
+    fun searchForAccessPoints_permissionError_permissionDenied_filterDuplicates_true() {
         with(searchRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
-            withSuccessSearchingForAccessPoints(true)
             launchSearchScreen()
-            searchForAccessPoints(true)
 
             // When
             permissionCallbackTriggered(
@@ -732,17 +613,17 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             dismissErrorDialog()
-            verifySearchedForAccessPoints(true)
         }
     }
 
-    @Test fun searchForAccessPoints_success_afterPermissionGranted_filterDuplicates_true() {
+    @Test
+    fun searchForAccessPoints_success_afterPermissionGranted_filterDuplicates_true() {
         with(searchRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
+            withPermission(ACCESS_FINE_LOCATION)
             withSuccessSearchingForAccessPoints(true)
             launchSearchScreen()
-            searchForAccessPoints(true)
+            fillOutForAccessPoints(TEST_SSID_1, true)
 
             // When
             permissionCallbackTriggered(
@@ -751,21 +632,22 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
             )
 
             // Then
-            verifySearchedForAccessPoints(true, times = 2)
+            verifySearchedForAccessPoints(true)
             verifyAccessPointsAreDisplayed()
             dismissResultsDialog()
         }
     }
 
-    @Test fun searchForAccessPoints_success_filterDuplicates_true() {
+    @Test
+    fun searchForAccessPoints_success_filterDuplicates_true() {
         with(searchRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
+            withPermission(ACCESS_FINE_LOCATION)
             withSuccessSearchingForAccessPoints(true)
             launchSearchScreen()
 
             // When
-            searchForAccessPoints(true)
+            searchForAccessPoints(TEST_SSID_1, true)
 
             // Then
             verifySearchedForAccessPoints(true)
@@ -774,15 +656,16 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun searchForAccessPoints_noAccessPointsFound_filterDuplicates_true() {
+    @Test
+    fun searchForAccessPoints_noAccessPointsFound_filterDuplicates_true() {
         with(searchRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
+            withPermission(ACCESS_FINE_LOCATION)
             withNoAccessPointsFound(true)
             launchSearchScreen()
 
             // When
-            searchForAccessPoints(true)
+            searchForAccessPoints(TEST_SSID_1, true)
 
             // Then
             verifySearchedForAccessPoints(true)
@@ -791,15 +674,16 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun searchForAccessPoints_wiseFyFailure_filterDuplicates_true() {
+    @Test
+    fun searchForAccessPoints_wiseFyFailure_filterDuplicates_true() {
         with(searchRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
+            withPermission(ACCESS_FINE_LOCATION)
             withWiseFyFailureSearchingForAccessPoints(true)
             launchSearchScreen()
 
             // When
-            searchForAccessPoints(true)
+            searchForAccessPoints(TEST_SSID_1, true)
 
             // Then
             verifyWiseFyFailureIsDisplayed()
@@ -810,12 +694,11 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun searchForAccessPoints_permissionErrorDialog_filterDuplicates_false() {
+    @Test
+    fun searchForAccessPoints_permissionErrorDialog_filterDuplicates_false() {
         with(searchRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
             launchSearchScreen()
-            searchForAccessPoints(false)
 
             // When
             permissionCallbackTriggered(
@@ -828,16 +711,16 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun searchForAccessPoints_permissionError_once_filterDuplicates_false() {
+    @Test
+    fun searchForAccessPoints_permissionError_once_accessFineLocation_filterDuplicates_false() {
         with(searchRobot) {
             // Given
             withSuccessSearchingForAccessPoints(false)
-            withPermission(ACCESS_WIFI_STATE)
-            withPermissionDeniedOnce(ACCESS_COARSE_LOCATION)
+            withPermissionDeniedOnce(ACCESS_FINE_LOCATION)
             launchSearchScreen()
 
             // When
-            searchForAccessPoints(false)
+            searchForAccessPoints(TEST_SSID_1, false)
 
             // Then
             verifySearchedForAccessPoints(false)
@@ -846,49 +729,11 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun searchForAccessPoints_permissionError_once_accessWifiState_filterDuplicates_false() {
+    @Test
+    fun searchForAccessPoints_permissionError_emptyList_filterDuplicates_false() {
         with(searchRobot) {
             // Given
-            withSuccessSearchingForAccessPoints(false)
-            withPermissionDeniedOnce(ACCESS_WIFI_STATE)
-            withPermission(ACCESS_COARSE_LOCATION)
             launchSearchScreen()
-
-            // When
-            searchForAccessPoints(false)
-
-            // Then
-            verifySearchedForAccessPoints(false)
-            verifyAccessPointsAreDisplayed()
-            dismissResultsDialog()
-        }
-    }
-
-    @Test fun searchForAccessPoints_permissionError_once_accessCourseLocation_filterDuplicates_false() {
-        with(searchRobot) {
-            // Given
-            withSuccessSearchingForAccessPoints(false)
-            withPermission(ACCESS_WIFI_STATE)
-            withPermissionDeniedOnce(ACCESS_COARSE_LOCATION)
-            launchSearchScreen()
-
-            // When
-            searchForAccessPoints(false)
-
-            // Then
-            verifySearchedForAccessPoints(false)
-            verifyAccessPointsAreDisplayed()
-            dismissResultsDialog()
-        }
-    }
-
-    @Test fun searchForAccessPoints_permissionError_emptyList_filterDuplicates_false() {
-        with(searchRobot) {
-            // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
-            withSuccessSearchingForAccessPoints(false)
-            launchSearchScreen()
-            searchForAccessPoints(false)
 
             // When
             permissionCallbackTriggeredWithEmptyArray(
@@ -897,17 +742,14 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             dismissErrorDialog()
-            verifySearchedForAccessPoints(false)
         }
     }
 
-    @Test fun searchForAccessPoints_permissionError_permissionDenied_filterDuplicates_false() {
+    @Test
+    fun searchForAccessPoints_permissionError_permissionDenied_filterDuplicates_false() {
         with(searchRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
-            withSuccessSearchingForAccessPoints(false)
             launchSearchScreen()
-            searchForAccessPoints(false)
 
             // When
             permissionCallbackTriggered(
@@ -917,17 +759,17 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             dismissErrorDialog()
-            verifySearchedForAccessPoints(false)
         }
     }
 
-    @Test fun searchForAccessPoints_success_afterPermissionGranted_filterDuplicates_false() {
+    @Test
+    fun searchForAccessPoints_success_afterPermissionGranted_filterDuplicates_false() {
         with(searchRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
+            withPermission(ACCESS_FINE_LOCATION)
             withSuccessSearchingForAccessPoints(false)
             launchSearchScreen()
-            searchForAccessPoints(false)
+            fillOutForAccessPoints(TEST_SSID_1, false)
 
             // When
             permissionCallbackTriggered(
@@ -936,21 +778,22 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
             )
 
             // Then
-            verifySearchedForAccessPoints(false, times = 2)
+            verifySearchedForAccessPoints(false)
             verifyAccessPointsAreDisplayed()
             dismissResultsDialog()
         }
     }
 
-    @Test fun searchForAccessPoints_success_filterDuplicates_false() {
+    @Test
+    fun searchForAccessPoints_success_filterDuplicates_false() {
         with(searchRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
+            withPermission(ACCESS_FINE_LOCATION)
             withSuccessSearchingForAccessPoints(false)
             launchSearchScreen()
 
             // When
-            searchForAccessPoints(false)
+            searchForAccessPoints(TEST_SSID_1, false)
 
             // Then
             verifySearchedForAccessPoints(false)
@@ -959,15 +802,16 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun searchForAccessPoints_noAccessPointsFound_filterDuplicates_false() {
+    @Test
+    fun searchForAccessPoints_noAccessPointsFound_filterDuplicates_false() {
         with(searchRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
+            withPermission(ACCESS_FINE_LOCATION)
             withNoAccessPointsFound(false)
             launchSearchScreen()
 
             // When
-            searchForAccessPoints(false)
+            searchForAccessPoints(TEST_SSID_1, false)
 
             // Then
             verifySearchedForAccessPoints(false)
@@ -976,15 +820,16 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun searchForAccessPoints_wiseFyFailure_filterDuplicates_false() {
+    @Test
+    fun searchForAccessPoints_wiseFyFailure_filterDuplicates_false() {
         with(searchRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
+            withPermission(ACCESS_FINE_LOCATION)
             withWiseFyFailureSearchingForAccessPoints(false)
             launchSearchScreen()
 
             // When
-            searchForAccessPoints(false)
+            searchForAccessPoints(TEST_SSID_1, false)
 
             // Then
             verifyWiseFyFailureIsDisplayed()
@@ -995,12 +840,11 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun searchForSSID_permissionErrorDialog() {
+    @Test
+    fun searchForSSID_permissionErrorDialog() {
         with(searchRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
             launchSearchScreen()
-            searchForSSID()
 
             // When
             permissionCallbackTriggered(
@@ -1013,16 +857,16 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun searchForSSID_permissionError_once() {
+    @Test
+    fun searchForSSID_permissionError_once_accessFineLocation() {
         with(searchRobot) {
             // Given
             withSuccessSearchingForSSID()
-            withPermissionDeniedOnce(ACCESS_WIFI_STATE)
-            withPermissionDeniedOnce(ACCESS_COARSE_LOCATION)
+            withPermissionDeniedOnce(ACCESS_FINE_LOCATION)
             launchSearchScreen()
 
             // When
-            searchForSSID()
+            searchForSSID(TEST_SSID_1)
 
             // Then
             verifySearchedForSSID()
@@ -1031,49 +875,11 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun searchForSSID_permissionError_once_accessWifiState() {
+    @Test
+    fun searchForSSID_permissionError_emptyList() {
         with(searchRobot) {
             // Given
-            withSuccessSearchingForSSID()
-            withPermissionDeniedOnce(ACCESS_WIFI_STATE)
-            withPermission(ACCESS_COARSE_LOCATION)
             launchSearchScreen()
-
-            // When
-            searchForSSID()
-
-            // Then
-            verifySearchedForSSID()
-            verifySSIDIsDisplayed()
-            dismissResultsDialog()
-        }
-    }
-
-    @Test fun searchForSSID_permissionError_once_accessCoarseLocation() {
-        with(searchRobot) {
-            // Given
-            withSuccessSearchingForSSID()
-            withPermission(ACCESS_WIFI_STATE)
-            withPermissionDeniedOnce(ACCESS_COARSE_LOCATION)
-            launchSearchScreen()
-
-            // When
-            searchForSSID()
-
-            // Then
-            verifySearchedForSSID()
-            verifySSIDIsDisplayed()
-            dismissResultsDialog()
-        }
-    }
-
-    @Test fun searchForSSID_permissionError_emptyList() {
-        with(searchRobot) {
-            // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
-            withSuccessSearchingForSSID()
-            launchSearchScreen()
-            searchForSSID()
 
             // When
             permissionCallbackTriggeredWithEmptyArray(
@@ -1082,17 +888,14 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             dismissErrorDialog()
-            verifySearchedForSSID()
         }
     }
 
-    @Test fun searchForSSID_permissionError_permissionDenied() {
+    @Test
+    fun searchForSSID_permissionError_permissionDenied() {
         with(searchRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
-            withSuccessSearchingForSSID()
             launchSearchScreen()
-            searchForSSID()
 
             // When
             permissionCallbackTriggered(
@@ -1102,17 +905,17 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             dismissErrorDialog()
-            verifySearchedForSSID()
         }
     }
 
-    @Test fun searchForSSID_success_afterPermissionGranted() {
+    @Test
+    fun searchForSSID_success_afterPermissionGranted() {
         with(searchRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
+            withPermission(ACCESS_FINE_LOCATION)
             withSuccessSearchingForSSID()
             launchSearchScreen()
-            searchForSSID()
+            fillOutForSSID(TEST_SSID_1)
 
             // When
             permissionCallbackTriggered(
@@ -1121,21 +924,22 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
             )
 
             // Then
-            verifySearchedForSSID(times = 2)
+            verifySearchedForSSID()
             verifySSIDIsDisplayed()
             dismissResultsDialog()
         }
     }
 
-    @Test fun searchForSSID_success() {
+    @Test
+    fun searchForSSID_success() {
         with(searchRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
+            withPermission(ACCESS_FINE_LOCATION)
             withSuccessSearchingForSSID()
             launchSearchScreen()
 
             // When
-            searchForSSID()
+            searchForSSID(TEST_SSID_1)
 
             // Then
             verifySearchedForSSID()
@@ -1144,15 +948,16 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun searchForSSID_SSIDNotFound() {
+    @Test
+    fun searchForSSID_SSIDNotFound() {
         with(searchRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
+            withPermission(ACCESS_FINE_LOCATION)
             withSSIDNotFound()
             launchSearchScreen()
 
             // When
-            searchForSSID()
+            searchForSSID(TEST_SSID_1)
 
             // Then
             verifySearchedForSSID()
@@ -1161,15 +966,16 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun searchForSSID_wiseFyFailure() {
+    @Test
+    fun searchForSSID_wiseFyFailure() {
         with(searchRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
+            withPermission(ACCESS_FINE_LOCATION)
             withWiseFyFailureSearchingForSSID()
             launchSearchScreen()
 
             // When
-            searchForSSID()
+            searchForSSID(TEST_SSID_1)
 
             // Then
             verifyWiseFyFailureIsDisplayed()
@@ -1180,12 +986,11 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun searchForSSIDs_permissionErrorDialog() {
+    @Test
+    fun searchForSSIDs_permissionErrorDialog() {
         with(searchRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
             launchSearchScreen()
-            searchForSSIDs()
 
             // When
             permissionCallbackTriggered(
@@ -1198,16 +1003,16 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun searchForSSIDs_permissionError_once() {
+    @Test
+    fun searchForSSIDs_permissionError_once_accessFineLocation() {
         with(searchRobot) {
             // Given
             withSuccessSearchingForSSIDs()
-            withPermissionDeniedOnce(ACCESS_WIFI_STATE)
-            withPermissionDeniedOnce(ACCESS_COARSE_LOCATION)
+            withPermissionDeniedOnce(ACCESS_FINE_LOCATION)
             launchSearchScreen()
 
             // When
-            searchForSSIDs()
+            searchForSSIDs(TEST_SSID_1)
 
             // Then
             verifySearchedForSSIDs()
@@ -1216,49 +1021,11 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun searchForSSIDs_permissionError_once_accessWifiState() {
+    @Test
+    fun searchForSSIDs_permissionError_emptyList() {
         with(searchRobot) {
             // Given
-            withSuccessSearchingForSSIDs()
-            withPermissionDeniedOnce(ACCESS_WIFI_STATE)
-            withPermission(ACCESS_COARSE_LOCATION)
             launchSearchScreen()
-
-            // When
-            searchForSSIDs()
-
-            // Then
-            verifySearchedForSSIDs()
-            verifySSIDsAreDisplayed()
-            dismissResultsDialog()
-        }
-    }
-
-    @Test fun searchForSSIDs_permissionError_once_accessCoarseLocation() {
-        with(searchRobot) {
-            // Given
-            withSuccessSearchingForSSIDs()
-            withPermission(ACCESS_WIFI_STATE)
-            withPermissionDeniedOnce(ACCESS_COARSE_LOCATION)
-            launchSearchScreen()
-
-            // When
-            searchForSSIDs()
-
-            // Then
-            verifySearchedForSSIDs()
-            verifySSIDsAreDisplayed()
-            dismissResultsDialog()
-        }
-    }
-
-    @Test fun searchForSSIDs_permissionError_emptyList() {
-        with(searchRobot) {
-            // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
-            withSuccessSearchingForSSIDs()
-            launchSearchScreen()
-            searchForSSIDs()
 
             // When
             permissionCallbackTriggeredWithEmptyArray(
@@ -1267,17 +1034,14 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             dismissErrorDialog()
-            verifySearchedForSSIDs()
         }
     }
 
-    @Test fun searchForSSIDs_permissionError_permissionDenied() {
+    @Test
+    fun searchForSSIDs_permissionError_permissionDenied() {
         with(searchRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
-            withSuccessSearchingForSSIDs()
             launchSearchScreen()
-            searchForSSIDs()
 
             // When
             permissionCallbackTriggered(
@@ -1287,17 +1051,17 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             dismissErrorDialog()
-            verifySearchedForSSIDs()
         }
     }
 
-    @Test fun searchForSSIDs_success_afterPermissionGranted() {
+    @Test
+    fun searchForSSIDs_success_afterPermissionGranted() {
         with(searchRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
+            withPermission(ACCESS_FINE_LOCATION)
             withSuccessSearchingForSSIDs()
             launchSearchScreen()
-            searchForSSIDs()
+            fillOutForSSIDs(TEST_SSID_1)
 
             // When
             permissionCallbackTriggered(
@@ -1306,21 +1070,22 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
             )
 
             // Then
-            verifySearchedForSSIDs(times = 2)
+            verifySearchedForSSIDs()
             verifySSIDsAreDisplayed()
             dismissResultsDialog()
         }
     }
 
-    @Test fun searchForSSIDs_success() {
+    @Test
+    fun searchForSSIDs_success() {
         with(searchRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
+            withPermission(ACCESS_FINE_LOCATION)
             withSuccessSearchingForSSIDs()
             launchSearchScreen()
 
             // When
-            searchForSSIDs()
+            searchForSSIDs(TEST_SSID_1)
 
             // Then
             verifySearchedForSSIDs()
@@ -1329,15 +1094,16 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun searchForSSIDs_noSSIDsFound() {
+    @Test
+    fun searchForSSIDs_noSSIDsFound() {
         with(searchRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
+            withPermission(ACCESS_FINE_LOCATION)
             withNoSSIDsFound()
             launchSearchScreen()
 
             // When
-            searchForSSIDs()
+            searchForSSIDs(TEST_SSID_1)
 
             // Then
             verifySearchedForSSIDs()
@@ -1346,15 +1112,16 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun searchForSSIDs_wiseFyFailure() {
+    @Test
+    fun searchForSSIDs_wiseFyFailure() {
         with(searchRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
+            withPermission(ACCESS_FINE_LOCATION)
             withWiseFyFailureSearchingForSSIDs()
             launchSearchScreen()
 
             // When
-            searchForSSIDs()
+            searchForSSIDs(TEST_SSID_1)
 
             // Then
             verifyWiseFyFailureIsDisplayed()
@@ -1365,12 +1132,11 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun searchForSavedNetwork_permissionErrorDialog() {
+    @Test
+    fun searchForSavedNetwork_permissionErrorDialog() {
         with(searchRobot) {
             // Given
-            withPermission(ACCESS_WIFI_STATE)
             launchSearchScreen()
-            searchForSavedNetwork()
 
             // When
             permissionCallbackTriggered(
@@ -1383,15 +1149,16 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun searchForSavedNetwork_permissionError_once() {
+    @Test
+    fun searchForSavedNetwork_permissionError_once() {
         with(searchRobot) {
             // Given
             withSuccessSearchingForSavedNetwork()
-            withPermissionDeniedOnce(ACCESS_WIFI_STATE)
+            withPermissionDeniedOnce(ACCESS_FINE_LOCATION)
             launchSearchScreen()
 
             // When
-            searchForSavedNetwork()
+            searchForSavedNetwork(TEST_SSID_1)
 
             // Then
             verifySearchedForSavedNetwork()
@@ -1400,13 +1167,11 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun searchForSavedNetwork_permissionError_emptyList() {
+    @Test
+    fun searchForSavedNetwork_permissionError_emptyList() {
         with(searchRobot) {
             // Given
-            withPermission(ACCESS_WIFI_STATE)
-            withSuccessSearchingForSavedNetwork()
             launchSearchScreen()
-            searchForSavedNetwork()
 
             // When
             permissionCallbackTriggeredWithEmptyArray(
@@ -1415,17 +1180,14 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             dismissErrorDialog()
-            verifySearchedForSavedNetwork()
         }
     }
 
-    @Test fun searchForSavedNetwork_permissionError_permissionDenied() {
+    @Test
+    fun searchForSavedNetwork_permissionError_permissionDenied() {
         with(searchRobot) {
             // Given
-            withPermission(ACCESS_WIFI_STATE)
-            withSuccessSearchingForSavedNetwork()
             launchSearchScreen()
-            searchForSavedNetwork()
 
             // When
             permissionCallbackTriggered(
@@ -1435,17 +1197,17 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             dismissErrorDialog()
-            verifySearchedForSavedNetwork()
         }
     }
 
-    @Test fun searchForSavedNetwork_success_afterPermissionGranted() {
+    @Test
+    fun searchForSavedNetwork_success_afterPermissionGranted() {
         with(searchRobot) {
             // Given
-            withPermission(ACCESS_WIFI_STATE)
+            withPermission(ACCESS_FINE_LOCATION)
             withSuccessSearchingForSavedNetwork()
             launchSearchScreen()
-            searchForSavedNetwork()
+            fillOutForSavedNetwork(TEST_SSID_1)
 
             // When
             permissionCallbackTriggered(
@@ -1454,21 +1216,22 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
             )
 
             // Then
-            verifySearchedForSavedNetwork(times = 2)
+            verifySearchedForSavedNetwork()
             verifySavedNetworkIsDisplayed()
             dismissResultsDialog()
         }
     }
 
-    @Test fun searchForSavedNetwork_success() {
+    @Test
+    fun searchForSavedNetwork_success() {
         with(searchRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE)
+            withPermission(ACCESS_FINE_LOCATION)
             withSuccessSearchingForSavedNetwork()
             launchSearchScreen()
 
             // When
-            searchForSavedNetwork()
+            searchForSavedNetwork(TEST_SSID_1)
 
             // Then
             verifySearchedForSavedNetwork()
@@ -1477,15 +1240,16 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun searchForSavedNetwork_savedNetworkNotFound() {
+    @Test
+    fun searchForSavedNetwork_savedNetworkNotFound() {
         with(searchRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE)
+            withPermission(ACCESS_FINE_LOCATION)
             withSavedNetworkNotFound()
             launchSearchScreen()
 
             // When
-            searchForSavedNetwork()
+            searchForSavedNetwork(TEST_SSID_1)
 
             // Then
             verifySearchedForSavedNetwork()
@@ -1494,15 +1258,16 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun searchForSavedNetwork_wiseFyFailure() {
+    @Test
+    fun searchForSavedNetwork_wiseFyFailure() {
         with(searchRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE)
+            withPermission(ACCESS_FINE_LOCATION)
             withWiseFyFailureSearchingForSavedNetwork()
             launchSearchScreen()
 
             // When
-            searchForSavedNetwork()
+            searchForSavedNetwork(TEST_SSID_1)
 
             // Then
             verifyWiseFyFailureIsDisplayed()
@@ -1513,12 +1278,11 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun searchForSavedNetworks_permissionErrorDialog() {
+    @Test
+    fun searchForSavedNetworks_permissionErrorDialog() {
         with(searchRobot) {
             // Given
-            withPermission(ACCESS_WIFI_STATE)
             launchSearchScreen()
-            searchForSavedNetworks()
 
             // When
             permissionCallbackTriggered(
@@ -1531,15 +1295,16 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun searchForSavedNetworks_permissionError_once() {
+    @Test
+    fun searchForSavedNetworks_permissionError_once() {
         with(searchRobot) {
             // Given
             withSuccessSearchingForSavedNetworks()
-            withPermissionDeniedOnce(ACCESS_WIFI_STATE)
+            withPermissionDeniedOnce(ACCESS_FINE_LOCATION)
             launchSearchScreen()
 
             // When
-            searchForSavedNetworks()
+            searchForSavedNetworks(TEST_SSID_1)
 
             // Then
             verifySearchedForSavedNetworks()
@@ -1548,13 +1313,11 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun searchForSavedNetworks_permissionError_emptyList() {
+    @Test
+    fun searchForSavedNetworks_permissionError_emptyList() {
         with(searchRobot) {
             // Given
-            withPermission(ACCESS_WIFI_STATE)
-            withSuccessSearchingForSavedNetworks()
             launchSearchScreen()
-            searchForSavedNetworks()
 
             // When
             permissionCallbackTriggeredWithEmptyArray(
@@ -1563,17 +1326,14 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             dismissErrorDialog()
-            verifySearchedForSavedNetworks()
         }
     }
 
-    @Test fun searchForSavedNetworks_permissionError_permissionDenied() {
+    @Test
+    fun searchForSavedNetworks_permissionError_permissionDenied() {
         with(searchRobot) {
             // Given
-            withPermission(ACCESS_WIFI_STATE)
-            withSuccessSearchingForSavedNetworks()
             launchSearchScreen()
-            searchForSavedNetworks()
 
             // When
             permissionCallbackTriggered(
@@ -1583,17 +1343,17 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             dismissErrorDialog()
-            verifySearchedForSavedNetworks()
         }
     }
 
-    @Test fun searchForSavedNetworks_success_afterPermissionGranted() {
+    @Test
+    fun searchForSavedNetworks_success_afterPermissionGranted() {
         with(searchRobot) {
             // Given
-            withPermission(ACCESS_WIFI_STATE)
+            withPermission(ACCESS_FINE_LOCATION)
             withSuccessSearchingForSavedNetworks()
             launchSearchScreen()
-            searchForSavedNetworks()
+            fillOutForSavedNetworks(TEST_SSID_1)
 
             // When
             permissionCallbackTriggered(
@@ -1602,21 +1362,22 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
             )
 
             // Then
-            verifySearchedForSavedNetworks(times = 2)
+            verifySearchedForSavedNetworks()
             verifySavedNetworksAreDisplayed()
             dismissResultsDialog()
         }
     }
 
-    @Test fun searchForSavedNetworks_success() {
+    @Test
+    fun searchForSavedNetworks_success() {
         with(searchRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE)
+            withPermission(ACCESS_FINE_LOCATION)
             withSuccessSearchingForSavedNetworks()
             launchSearchScreen()
 
             // When
-            searchForSavedNetworks()
+            searchForSavedNetworks(TEST_SSID_1)
 
             // Then
             verifySearchedForSavedNetworks()
@@ -1625,15 +1386,16 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun searchForSavedNetworks_noSavedNetworksFound() {
+    @Test
+    fun searchForSavedNetworks_noSavedNetworksFound() {
         with(searchRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE)
+            withPermission(ACCESS_FINE_LOCATION)
             withNotSavedNetworksFound()
             launchSearchScreen()
 
             // When
-            searchForSavedNetworks()
+            searchForSavedNetworks(TEST_SSID_1)
 
             // Then
             verifySearchedForSavedNetworks()
@@ -1642,15 +1404,16 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun searchForSavedNetworks_wiseFyFailure() {
+    @Test
+    fun searchForSavedNetworks_wiseFyFailure() {
         with(searchRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE)
+            withPermission(ACCESS_FINE_LOCATION)
             withWiseFyFailureSearchingForSavedNetworks()
             launchSearchScreen()
 
             // When
-            searchForSavedNetworks()
+            searchForSavedNetworks(TEST_SSID_1)
 
             // Then
             verifyWiseFyFailureIsDisplayed()
@@ -1661,7 +1424,8 @@ internal class SearchFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun ridiculousPermissionRequested() {
+    @Test
+    fun ridiculousPermissionRequested() {
         with(searchRobot) {
             // Given
             launchSearchScreen()

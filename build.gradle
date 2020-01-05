@@ -85,7 +85,7 @@ task clean(type: Delete) {
 project.ext.preDexLibs = !project.hasProperty('disablePreDex')
 
 subprojects {
-    project.plugins.whenPluginAdded { plugin ->
+    project.plugins.whenPluginAdded { final plugin ->
         if (rootProject.ext.has('preDexLibs')) {
             if ("com.android.build.gradle.AppPlugin" == plugin.class.name) {
                 project.android.dexOptions.preDexLibraries = rootProject.ext.preDexLibs

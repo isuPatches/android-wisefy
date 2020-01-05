@@ -41,15 +41,18 @@ internal class MiscPresenterTest {
         private val SAVED_NETWORK = mock<WifiConfiguration>()
     }
 
-    @Before fun setUp() {
+    @Before
+    fun setUp() {
         presenter.attachView(view)
     }
 
-    @After fun tearDown() {
+    @After
+    fun tearDown() {
         presenter.detachView()
     }
 
-    @Test fun disableWifi_wifiDisabled() {
+    @Test
+    fun disableWifi_wifiDisabled() {
         // Given
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as DisableWifiCallbacks
@@ -64,7 +67,8 @@ internal class MiscPresenterTest {
         verify(view, times(1)).displayWifiDisabled()
     }
 
-    @Test fun disableWifi_failureDisablingWifi() {
+    @Test
+    fun disableWifi_failureDisablingWifi() {
         // Given
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as DisableWifiCallbacks
@@ -79,7 +83,8 @@ internal class MiscPresenterTest {
         verify(view, times(1)).displayFailureDisablingWifi()
     }
 
-    @Test fun disableWifi_wisefyFailure() {
+    @Test
+    fun disableWifi_wisefyFailure() {
         // Given
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as DisableWifiCallbacks
@@ -94,7 +99,8 @@ internal class MiscPresenterTest {
         verify(view, times(1)).displayWiseFyFailure(MISSING_PARAMETER)
     }
 
-    @Test fun enableWifi_wifiEnabled() {
+    @Test
+    fun enableWifi_wifiEnabled() {
         // Given
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as EnableWifiCallbacks
@@ -109,7 +115,8 @@ internal class MiscPresenterTest {
         verify(view, times(1)).displayWifiEnabled()
     }
 
-    @Test fun enableWifi_failureEnablingWifi() {
+    @Test
+    fun enableWifi_failureEnablingWifi() {
         // Given
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as EnableWifiCallbacks
@@ -124,7 +131,8 @@ internal class MiscPresenterTest {
         verify(view, times(1)).displayFailureEnablingWifi()
     }
 
-    @Test fun enableWifi_wisefyFailure() {
+    @Test
+    fun enableWifi_wisefyFailure() {
         // Given
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as EnableWifiCallbacks
@@ -139,7 +147,8 @@ internal class MiscPresenterTest {
         verify(view, times(1)).displayWiseFyFailure(MISSING_PARAMETER)
     }
 
-    @Test fun getCurrentNetwork_retrievedCurrentNetwork() {
+    @Test
+    fun getCurrentNetwork_retrievedCurrentNetwork() {
         // Given
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as GetCurrentNetworkCallbacks
@@ -154,7 +163,8 @@ internal class MiscPresenterTest {
         verify(view, times(1)).displayCurrentNetwork(CURRENT_NETWORK)
     }
 
-    @Test fun getCurrentNetwork_noCurrentNetwork() {
+    @Test
+    fun getCurrentNetwork_noCurrentNetwork() {
         // Given
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as GetCurrentNetworkCallbacks
@@ -169,7 +179,8 @@ internal class MiscPresenterTest {
         verify(view, times(1)).displayNoCurrentNetwork()
     }
 
-    @Test fun getCurrentNetwork_wisefyFailure() {
+    @Test
+    fun getCurrentNetwork_wisefyFailure() {
         // Given
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as GetCurrentNetworkCallbacks
@@ -184,7 +195,8 @@ internal class MiscPresenterTest {
         verify(view, times(1)).displayWiseFyFailure(MISSING_PARAMETER)
     }
 
-    @Test fun getCurrentNetworkInfo_retrievedCurrentNetworkInfo() {
+    @Test
+    fun getCurrentNetworkInfo_retrievedCurrentNetworkInfo() {
         // Given
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as GetCurrentNetworkInfoCallbacks
@@ -199,7 +211,8 @@ internal class MiscPresenterTest {
         verify(view, times(1)).displayCurrentNetworkInfo(CURRENT_NETWORK_INFO)
     }
 
-    @Test fun getCurrentNetworkInfo_noCurrentNetworkInfo() {
+    @Test
+    fun getCurrentNetworkInfo_noCurrentNetworkInfo() {
         // Given
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as GetCurrentNetworkInfoCallbacks
@@ -214,7 +227,8 @@ internal class MiscPresenterTest {
         verify(view, times(1)).displayNoCurrentNetworkInfo()
     }
 
-    @Test fun getCurrentNetworkInfo_wisefyFailure() {
+    @Test
+    fun getCurrentNetworkInfo_wisefyFailure() {
         // Given
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as GetCurrentNetworkInfoCallbacks
@@ -229,7 +243,8 @@ internal class MiscPresenterTest {
         verify(view, times(1)).displayWiseFyFailure(MISSING_PARAMETER)
     }
 
-    @Test fun getFrequency_retrievedFrequency() {
+    @Test
+    fun getFrequency_retrievedFrequency() {
         // Given
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as GetFrequencyCallbacks
@@ -244,7 +259,8 @@ internal class MiscPresenterTest {
         verify(view, times(1)).displayFrequency(MIN_FREQUENCY_5GHZ)
     }
 
-    @Test fun getFrequency_failureGettingFrequency() {
+    @Test
+    fun getFrequency_failureGettingFrequency() {
         // Given
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as GetFrequencyCallbacks
@@ -259,7 +275,8 @@ internal class MiscPresenterTest {
         verify(view, times(1)).displayFailureRetrievingFrequency()
     }
 
-    @Test fun getFrequency_wisefyFailure() {
+    @Test
+    fun getFrequency_wisefyFailure() {
         // Given
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as GetFrequencyCallbacks
@@ -274,7 +291,8 @@ internal class MiscPresenterTest {
         verify(view, times(1)).displayWiseFyFailure(MISSING_PARAMETER)
     }
 
-    @Test fun getIP_retrievedIP() {
+    @Test
+    fun getIP_retrievedIP() {
         // Given
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as GetIPCallbacks
@@ -289,7 +307,8 @@ internal class MiscPresenterTest {
         verify(view, times(1)).displayIP(TEST_IP)
     }
 
-    @Test fun getIP_failureRetrievingIP() {
+    @Test
+    fun getIP_failureRetrievingIP() {
         // Given
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as GetIPCallbacks
@@ -304,7 +323,8 @@ internal class MiscPresenterTest {
         verify(view, times(1)).displayFailureRetrievingIP()
     }
 
-    @Test fun getIP_wisefyFailure() {
+    @Test
+    fun getIP_wisefyFailure() {
         // Given
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as GetIPCallbacks
@@ -319,7 +339,8 @@ internal class MiscPresenterTest {
         verify(view, times(1)).displayWiseFyFailure(MISSING_PARAMETER)
     }
 
-    @Test fun getNearbyAccessPoints_retrievedNearbyAccessPoints() {
+    @Test
+    fun getNearbyAccessPoints_retrievedNearbyAccessPoints() {
         // Given
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as GetNearbyAccessPointsCallbacks
@@ -334,7 +355,8 @@ internal class MiscPresenterTest {
         verify(view, times(1)).displayNearbyAccessPoints(listOf(ACCESS_POINT))
     }
 
-    @Test fun getNearbyAccessPoints_noAccessPointsFound() {
+    @Test
+    fun getNearbyAccessPoints_noAccessPointsFound() {
         // Given
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as GetNearbyAccessPointsCallbacks
@@ -349,7 +371,8 @@ internal class MiscPresenterTest {
         verify(view, times(1)).displayNoAccessPointsFound()
     }
 
-    @Test fun getNearbyAccessPoints_wisefyFailure() {
+    @Test
+    fun getNearbyAccessPoints_wisefyFailure() {
         // Given
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as GetNearbyAccessPointsCallbacks
@@ -364,7 +387,8 @@ internal class MiscPresenterTest {
         verify(view, times(1)).displayWiseFyFailure(MISSING_PARAMETER)
     }
 
-    @Test fun getSavedNetworks_retrievedSavedNetworks() {
+    @Test
+    fun getSavedNetworks_retrievedSavedNetworks() {
         // Given
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as GetSavedNetworksCallbacks
@@ -379,7 +403,8 @@ internal class MiscPresenterTest {
         verify(view, times(1)).displaySavedNetworks(listOf(SAVED_NETWORK))
     }
 
-    @Test fun getSavedNetworks_noSavedNetworksFound() {
+    @Test
+    fun getSavedNetworks_noSavedNetworksFound() {
         // Given
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as GetSavedNetworksCallbacks
@@ -394,7 +419,8 @@ internal class MiscPresenterTest {
         verify(view, times(1)).displayNoSavedNetworksFound()
     }
 
-    @Test fun getSavedNetworks_wisefyFailure() {
+    @Test
+    fun getSavedNetworks_wisefyFailure() {
         // Given
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[0] as GetSavedNetworksCallbacks

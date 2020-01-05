@@ -18,46 +18,55 @@ import org.junit.Test
  */
 internal class IsNetworkSecureTests : BaseInstrumentationTest() {
 
-    @Test fun failure_emptyCapabilities() {
+    @Test
+    fun failure_emptyCapabilities() {
         val scanResult = createMockAccessPointWithCapabilities("")
         assertEquals(false, wisefy.isNetworkSecure(scanResult))
     }
 
-    @Test fun failure_nullCapabilities() {
+    @Test
+    fun failure_nullCapabilities() {
         val scanResult = createMockAccessPointWithCapabilities(null)
         assertEquals(false, wisefy.isNetworkSecure(scanResult))
     }
 
-    @Test fun failure_nullScanResult() {
+    @Test
+    fun failure_nullScanResult() {
         assertEquals(false, wisefy.isNetworkSecure(null))
     }
 
-    @Test fun success_withEAP() {
+    @Test
+    fun success_withEAP() {
         val scanResult = createMockAccessPointWithCapabilities(EAP)
         assertEquals(true, wisefy.isNetworkSecure(scanResult))
     }
 
-    @Test fun success_withPSK() {
+    @Test
+    fun success_withPSK() {
         val scanResult = createMockAccessPointWithCapabilities(PSK)
         assertEquals(true, wisefy.isNetworkSecure(scanResult))
     }
 
-    @Test fun success_withWEP() {
+    @Test
+    fun success_withWEP() {
         val scanResult = createMockAccessPointWithCapabilities(WEP)
         assertEquals(true, wisefy.isNetworkSecure(scanResult))
     }
 
-    @Test fun success_withWPA() {
+    @Test
+    fun success_withWPA() {
         val scanResult = createMockAccessPointWithCapabilities(WPA)
         assertEquals(true, wisefy.isNetworkSecure(scanResult))
     }
 
-    @Test fun success_withWPA2() {
+    @Test
+    fun success_withWPA2() {
         val scanResult = createMockAccessPointWithCapabilities(WPA2)
         assertEquals(true, wisefy.isNetworkSecure(scanResult))
     }
 
-    @Test fun failure_otherCapabilities() {
+    @Test
+    fun failure_otherCapabilities() {
         val scanResult = createMockAccessPointWithCapabilities("Other")
         assertEquals(false, wisefy.isNetworkSecure(scanResult))
     }

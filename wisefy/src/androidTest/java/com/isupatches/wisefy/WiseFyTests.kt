@@ -19,27 +19,36 @@ internal class WiseFyTests : BaseInstrumentationTest() {
         private const val EXPECTED_SIGNAL_RESULT = 35
     }
 
-    @Test fun brains_loggingFalse() {
-        val wisefy = WiseFy.Brains(InstrumentationRegistry.getInstrumentation().targetContext).logging(false).getSmarts()
+    @Test
+    fun brains_loggingFalse() {
+        val wisefy = WiseFy.Brains(InstrumentationRegistry.getInstrumentation().targetContext)
+            .logging(false)
+            .getSmarts()
         assertEquals(false, wisefy.isLoggingEnabled())
     }
 
-    @Test fun brains_loggingTrue() {
-        val wisefy = WiseFy.Brains(InstrumentationRegistry.getInstrumentation().targetContext).logging(true).getSmarts()
+    @Test
+    fun brains_loggingTrue() {
+        val wisefy = WiseFy.Brains(InstrumentationRegistry.getInstrumentation().targetContext)
+            .logging(true)
+            .getSmarts()
         assertEquals(true, wisefy.isLoggingEnabled())
     }
 
-    @Test fun calculateBars() {
+    @Test
+    fun calculateBars() {
         val result = wisefy.calculateBars(TEST_RSSI_LEVEL_HIGH, TEST_NUMBER_OF_BARS)
         assertEquals(EXPECTED_NUMBER_OF_BARS.toLong(), result.toLong())
     }
 
-    @Test fun compareSignalLevel() {
+    @Test
+    fun compareSignalLevel() {
         val result = wisefy.compareSignalLevel(TEST_RSSI_LEVEL_HIGH, TEST_RSSI_LEVEL_LOW)
         assertEquals(EXPECTED_SIGNAL_RESULT.toLong(), result.toLong())
     }
 
-    @Test fun getWiseFyLock() {
+    @Test
+    fun getWiseFyLock() {
         assertNotNull(wisefy.getWiseFyLock())
     }
 }

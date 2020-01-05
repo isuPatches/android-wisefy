@@ -12,18 +12,21 @@ import org.junit.Test
  */
 internal class IsWifiEnabledTests : BaseInstrumentationTest() {
 
-    @Test fun failure_prechecks() {
+    @Test
+    fun failure_prechecks() {
         mockWiseFyPrechecksUtil.isWifiEnabled_failure()
         assertEquals(false, wisefy.isWifiEnabled())
     }
 
-    @Test fun failure() {
+    @Test
+    fun failure() {
         mockWiseFyPrechecksUtil.isWifiEnabled_success()
         mockNetworkUtil.isWifiEnabled(false)
         assertEquals(false, wisefy.isWifiEnabled())
     }
 
-    @Test fun success() {
+    @Test
+    fun success() {
         mockWiseFyPrechecksUtil.isWifiEnabled_success()
         mockNetworkUtil.isWifiEnabled(true)
         assertEquals(true, wisefy.isWifiEnabled())

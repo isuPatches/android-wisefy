@@ -39,9 +39,9 @@ internal open class MainApplication : Application(), HasAndroidInjector {
 
     private fun initializeDependencyInjection() {
         mainApplicationComponent = DaggerMainApplication_MainApplicationComponent.builder()
-                .application(this)
-                .rxSchedulersProvider(RxSchedulersProvider())
-                .build()
+            .application(this)
+            .rxSchedulersProvider(RxSchedulersProvider())
+            .build()
         mainApplicationComponent.inject(this)
     }
 

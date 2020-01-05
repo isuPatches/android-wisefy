@@ -116,7 +116,7 @@ internal class MockNetworkUtil internal constructor(
      * @author Patches
      * @since 3.0
      */
-    @Suppress("DEPRECATION")
+    @Suppress("deprecation")
     internal fun currentNetworkConnectionStatus(isAvailable: Boolean, isConnected: Boolean, type: String?) {
         val networkInfo = mock(NetworkInfo::class.java)
         `when`(networkInfo.isAvailable).thenReturn(isAvailable)
@@ -280,7 +280,7 @@ internal class MockNetworkUtil internal constructor(
      * @author Patches
      * @since 3.0
      */
-    @Suppress("DEPRECATION")
+    @Suppress("deprecation")
     internal fun isDeviceRoaming(roaming: Boolean) {
         val networkInfo = mock(NetworkInfo::class.java)
         `when`(networkInfo.isRoaming).thenReturn(roaming)
@@ -823,41 +823,48 @@ internal class MockNetworkUtil internal constructor(
     private fun addToExpectedNearbyAccessPoints(accessPoint: ScanResult) {
         expectedNearbyAccessPoint = accessPoint
 
-        expectedNearbyAccessPoints = ArrayList()
-        expectedNearbyAccessPoints!!.add(accessPoint)
+        val accessPoints = ArrayList<ScanResult>()
+        accessPoints.add(accessPoint)
+        expectedNearbyAccessPoints = accessPoints
     }
 
     private fun addToExpectedNearbyAccessPoints(accessPoint1: ScanResult, accessPoint2: ScanResult) {
         expectedNearbyAccessPoint = accessPoint1
 
-        expectedNearbyAccessPoints = ArrayList()
-        expectedNearbyAccessPoints!!.add(accessPoint1)
-        expectedNearbyAccessPoints!!.add(accessPoint2)
+        val accessPoints = ArrayList<ScanResult>()
+        accessPoints.add(accessPoint1)
+        accessPoints.add(accessPoint2)
+        expectedNearbyAccessPoints = accessPoints
     }
 
     private fun addToExpectedSavedNetworks(savedNetwork: WifiConfiguration) {
         expectedSavedNetwork = savedNetwork
 
-        expectedSavedNetworks = ArrayList()
-        expectedSavedNetworks!!.add(savedNetwork)
+        val savedNetworks = ArrayList<WifiConfiguration>()
+        savedNetworks.add(savedNetwork)
+        expectedSavedNetworks = savedNetworks
     }
 
     private fun addToExpectedSavedNetworks(savedNetwork1: WifiConfiguration, savedNetwork2: WifiConfiguration) {
         expectedSavedNetwork = savedNetwork1
 
         expectedSavedNetworks = ArrayList()
-        expectedSavedNetworks!!.add(savedNetwork1)
-        expectedSavedNetworks!!.add(savedNetwork2)
+        val savedNetworks = ArrayList<WifiConfiguration>()
+        savedNetworks.add(savedNetwork1)
+        savedNetworks.add(savedNetwork2)
+        expectedSavedNetworks = savedNetworks
     }
 
     private fun addToExpectedSSIDs(accessPoint: ScanResult) {
-        expectedSSIDs = ArrayList()
-        expectedSSIDs!!.add(accessPoint.SSID)
+        val ssids = ArrayList<String>()
+        ssids.add(accessPoint.SSID)
+        expectedSSIDs = ssids
     }
 
     private fun addToExpectedSSIDs(accessPoint1: ScanResult, accessPoint2: ScanResult) {
-        expectedSSIDs = ArrayList()
-        expectedSSIDs!!.add(accessPoint1.SSID)
-        expectedSSIDs!!.add(accessPoint2.SSID)
+        val ssids = ArrayList<String>()
+        ssids.add(accessPoint1.SSID)
+        ssids.add(accessPoint2.SSID)
+        expectedSSIDs = ssids
     }
 }

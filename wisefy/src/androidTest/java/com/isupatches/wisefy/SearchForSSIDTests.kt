@@ -17,36 +17,42 @@ import org.mockito.Mockito.verify
  */
 internal class SearchForSSIDTests : BaseInstrumentationTest() {
 
-    @Test fun sync_failure_missingPrerequisite() {
+    @Test
+    fun sync_failure_missingPrerequisite() {
         mockWiseFyPrechecksUtil.searchForSSID_failure()
         assertEquals(null, wisefy.searchForSSID(TEST_SSID, TEST_TIMEOUT))
     }
 
-    @Test fun sync_failure() {
+    @Test
+    fun sync_failure() {
         mockWiseFyPrechecksUtil.searchForSSID_success()
         mockWiseFySearchUtil.findAccessPointByRegex_null()
         assertEquals(null, wisefy.searchForSSID(TEST_SSID, TEST_TIMEOUT))
     }
 
-    @Test fun sync_success() {
+    @Test
+    fun sync_success() {
         mockWiseFyPrechecksUtil.searchForSSID_success()
         mockWiseFySearchUtil.findAccessPointByRegex_success()
         assertEquals(TEST_SSID, wisefy.searchForSSID(TEST_SSID, TEST_TIMEOUT))
     }
 
-    @Test fun async_failure_missingPrerequisite() {
+    @Test
+    fun async_failure_missingPrerequisite() {
         mockWiseFyPrechecksUtil.searchForSSID_failure()
         val mockCallbacks = mock(SearchForSSIDCallbacks::class.java)
         wisefy.searchForSSID(TEST_SSID, TEST_TIMEOUT, mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).wisefyFailure(MISSING_PARAMETER)
     }
 
-    @Test fun async_failure_missingPrerequisite_nullCallback() {
+    @Test
+    fun async_failure_missingPrerequisite_nullCallback() {
         mockWiseFyPrechecksUtil.searchForSSID_failure()
         nullCallbackUtil.callSearchForSSID(TEST_SSID)
     }
 
-    @Test fun async_failure() {
+    @Test
+    fun async_failure() {
         mockWiseFyPrechecksUtil.searchForSSID_success()
         mockWiseFySearchUtil.findAccessPointByRegex_null()
         val mockCallbacks = mock(SearchForSSIDCallbacks::class.java)
@@ -54,13 +60,15 @@ internal class SearchForSSIDTests : BaseInstrumentationTest() {
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).ssidNotFound()
     }
 
-    @Test fun async_failure_nullCallback() {
+    @Test
+    fun async_failure_nullCallback() {
         mockWiseFyPrechecksUtil.searchForSSID_success()
         mockWiseFySearchUtil.findAccessPointByRegex_null()
         nullCallbackUtil.callSearchForSSID(TEST_SSID)
     }
 
-    @Test fun async_success() {
+    @Test
+    fun async_success() {
         mockWiseFyPrechecksUtil.searchForSSID_success()
         mockWiseFySearchUtil.findAccessPointByRegex_success()
         val mockCallbacks = mock(SearchForSSIDCallbacks::class.java)
@@ -68,7 +76,8 @@ internal class SearchForSSIDTests : BaseInstrumentationTest() {
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).ssidFound(TEST_SSID)
     }
 
-    @Test fun async_success_nullCallback() {
+    @Test
+    fun async_success_nullCallback() {
         mockWiseFyPrechecksUtil.searchForSSID_success()
         mockWiseFySearchUtil.findAccessPointByRegex_success()
         nullCallbackUtil.callSearchForSSID(TEST_SSID)

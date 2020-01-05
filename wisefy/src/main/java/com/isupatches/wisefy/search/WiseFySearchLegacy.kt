@@ -25,6 +25,9 @@ import android.net.wifi.WifiManager
  * @see [WifiManager]
  * @see [AbstractWiseFySearch]
  *
+ * Updates
+ * - 01/04/2020: Formatting update
+ *
  * @author Patches
  * @since 3.0
  */
@@ -39,8 +42,10 @@ internal class WiseFySearchLegacy private constructor(
 
     // For SDK 23 and below, devices are still allowed to trigger a scan for nearby access points,
     // so we'll continue to do that to preserve previous behavior.
-    override val scanResultsProvider by lazy { {
-        wifiManager.startScan()
-        wifiManager.scanResults
-    } }
+    override val scanResultsProvider by lazy {
+        {
+            wifiManager.startScan()
+            wifiManager.scanResults
+        }
+    }
 }

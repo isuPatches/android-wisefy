@@ -10,7 +10,9 @@
     <string name="saved_network">Saved Network</string>
 
     <string name="return_full_list_label">Return full list of results?</string>
-    <string name="return_full_list_description">This option will return a list of results instead of an individual item when enabled.</string>
+    <string name="return_full_list_description">
+        This option will return a list of results instead of an individual item when enabled.
+    </string>
 
     <string name="filter_duplicates">Filter Duplicates</string>
 
@@ -32,11 +34,19 @@
     <string name="saved_network_not_found">Saved network not found</string>
 
     <!-- Permissions -->
-    <string name="permission_error_search_for_saved_network">Permissions for searching for a saved network are denied</string>
-    <string name="permission_error_search_for_saved_networks">Permissions for searching for saved networks are denied</string>
+    <string name="permission_error_search_for_saved_network">
+        Permissions for searching for a saved network are denied
+    </string>
+    <string name="permission_error_search_for_saved_networks">
+        Permissions for searching for saved networks are denied
+    </string>
 
-    <string name="permission_error_search_for_access_point">Permissions for searching for an access point are denied</string>
-    <string name="permission_error_search_for_access_points">Permissions for searching for access points are denied</string>
+    <string name="permission_error_search_for_access_point">
+        Permissions for searching for an access point are denied
+    </string>
+    <string name="permission_error_search_for_access_points">
+        Permissions for searching for access points are denied
+    </string>
 
     <string name="permission_error_search_for_ssid">Permissions for searching for an SSID are denied</string>
     <string name="permission_error_search_for_ssids">Permissions for searching for SSIDs are denied</string>

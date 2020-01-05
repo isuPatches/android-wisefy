@@ -1,6 +1,6 @@
 package com.isupatches.wisefysample.ui.main
 
-import android.Manifest.permission.ACCESS_COARSE_LOCATION
+import android.Manifest.permission.ACCESS_FINE_LOCATION
 import androidx.test.espresso.intent.rule.IntentsTestRule
 import androidx.test.rule.GrantPermissionRule
 import com.isupatches.wisefysample.internal.base.AbstractEspressoTestClass
@@ -14,16 +14,18 @@ internal class MainFragmentTest : AbstractEspressoTestClass() {
     val activityTestRule = IntentsTestRule(MainActivity::class.java, false, false)
 
     @get:Rule
-    val grantPermissionRule: GrantPermissionRule = GrantPermissionRule.grant(ACCESS_COARSE_LOCATION)
+    val grantPermissionRule: GrantPermissionRule = GrantPermissionRule.grant(ACCESS_FINE_LOCATION)
 
     private lateinit var mainRobot: MainRobot
 
-    @Before override fun setUp() {
+    @Before
+    override fun setUp() {
         super.setUp()
         mainRobot = MainRobot(activityTestRule, permissionUtil)
     }
 
-    @Test fun verifyOpensAddNetwork() {
+    @Test
+    fun verifyOpensAddNetwork() {
         with(mainRobot) {
             // Given
             launchActivity()
@@ -42,7 +44,8 @@ internal class MainFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun verifyOpensRemoveNetwork() {
+    @Test
+    fun verifyOpensRemoveNetwork() {
         with(mainRobot) {
             // Given
             launchActivity()
@@ -61,7 +64,8 @@ internal class MainFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun verifyOpensMisc() {
+    @Test
+    fun verifyOpensMisc() {
         with(mainRobot) {
             // Given
             launchActivity()
@@ -80,7 +84,8 @@ internal class MainFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun verifyOpensSearch() {
+    @Test
+    fun verifyOpensSearch() {
         with(mainRobot) {
             // Given
             launchActivity()

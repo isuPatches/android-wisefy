@@ -15,7 +15,7 @@
  */
 package com.isupatches.wisefysample.ui.add
 
-import android.Manifest.permission.ACCESS_WIFI_STATE
+import android.Manifest.permission.ACCESS_FINE_LOCATION
 import androidx.annotation.RequiresPermission
 import com.isupatches.wisefy.WiseFyPublicApi
 import com.isupatches.wisefy.callbacks.AddNetworkCallbacks
@@ -25,13 +25,13 @@ internal class AddNetworkModel @Inject constructor(
     private val wiseFy: WiseFyPublicApi
 ) : AddNetworkMvp.Model {
 
-    @RequiresPermission(ACCESS_WIFI_STATE)
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun addOpenNetwork(ssid: String, callbacks: AddNetworkCallbacks) {
         wiseFy.addOpenNetwork(ssid, callbacks)
     }
 
-    @RequiresPermission(ACCESS_WIFI_STATE)
-    @Suppress("DEPRECATION")
+    @RequiresPermission(ACCESS_FINE_LOCATION)
+    @Suppress("deprecation")
     override fun addWEPNetwork(
         ssid: String,
         password: String,
@@ -40,7 +40,7 @@ internal class AddNetworkModel @Inject constructor(
         wiseFy.addWEPNetwork(ssid, password, callbacks)
     }
 
-    @RequiresPermission(ACCESS_WIFI_STATE)
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun addWPA2Network(
         ssid: String,
         password: String,

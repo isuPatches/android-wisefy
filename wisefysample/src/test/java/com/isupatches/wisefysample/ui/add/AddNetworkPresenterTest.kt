@@ -30,15 +30,18 @@ internal class AddNetworkPresenterTest {
         private val SAVED_NETWORK = mock<WifiConfiguration>()
     }
 
-    @Before fun setUp() {
+    @Before
+    fun setUp() {
         presenter.attachView(view)
     }
 
-    @After fun tearDown() {
+    @After
+    fun tearDown() {
         presenter.detachView()
     }
 
-    @Test fun addOpenNetwork_networkAdded() {
+    @Test
+    fun addOpenNetwork_networkAdded() {
         // Given
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[1] as AddNetworkCallbacks
@@ -53,7 +56,8 @@ internal class AddNetworkPresenterTest {
         verify(view, times(1)).displayNetworkAdded(NETWORK_ID, SAVED_NETWORK)
     }
 
-    @Test fun addOpenNetwork_failureAddingNetwork() {
+    @Test
+    fun addOpenNetwork_failureAddingNetwork() {
         // Given
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[1] as AddNetworkCallbacks
@@ -68,7 +72,8 @@ internal class AddNetworkPresenterTest {
         verify(view, times(1)).displayFailureAddingNetwork(BAD_WIFI_MANAGER_RETURN)
     }
 
-    @Test fun addOpenNetwork_wisefyFailure() {
+    @Test
+    fun addOpenNetwork_wisefyFailure() {
         // Given
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[1] as AddNetworkCallbacks
@@ -83,7 +88,8 @@ internal class AddNetworkPresenterTest {
         verify(view, times(1)).displayWiseFyFailure(MISSING_PARAMETER)
     }
 
-    @Test fun addWEPNetwork_networkAdded() {
+    @Test
+    fun addWEPNetwork_networkAdded() {
         // Given
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[2] as AddNetworkCallbacks
@@ -98,7 +104,8 @@ internal class AddNetworkPresenterTest {
         verify(view, times(1)).displayNetworkAdded(NETWORK_ID, SAVED_NETWORK)
     }
 
-    @Test fun addWEPNetwork_failureAddingNetwork() {
+    @Test
+    fun addWEPNetwork_failureAddingNetwork() {
         // Given
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[2] as AddNetworkCallbacks
@@ -113,7 +120,8 @@ internal class AddNetworkPresenterTest {
         verify(view, times(1)).displayFailureAddingNetwork(BAD_WIFI_MANAGER_RETURN)
     }
 
-    @Test fun addWEPNetwork_wisefyFailure() {
+    @Test
+    fun addWEPNetwork_wisefyFailure() {
         // Given
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[2] as AddNetworkCallbacks
@@ -128,7 +136,8 @@ internal class AddNetworkPresenterTest {
         verify(view, times(1)).displayWiseFyFailure(MISSING_PARAMETER)
     }
 
-    @Test fun addWPA2Network_networkAdded() {
+    @Test
+    fun addWPA2Network_networkAdded() {
         // Given
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[2] as AddNetworkCallbacks
@@ -143,7 +152,8 @@ internal class AddNetworkPresenterTest {
         verify(view, times(1)).displayNetworkAdded(NETWORK_ID, SAVED_NETWORK)
     }
 
-    @Test fun addWPA2Network_failureAddingNetwork() {
+    @Test
+    fun addWPA2Network_failureAddingNetwork() {
         // Given
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[2] as AddNetworkCallbacks
@@ -158,7 +168,8 @@ internal class AddNetworkPresenterTest {
         verify(view, times(1)).displayFailureAddingNetwork(BAD_WIFI_MANAGER_RETURN)
     }
 
-    @Test fun addWPA2Network_wisefyFailure() {
+    @Test
+    fun addWPA2Network_wisefyFailure() {
         // Given
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[2] as AddNetworkCallbacks

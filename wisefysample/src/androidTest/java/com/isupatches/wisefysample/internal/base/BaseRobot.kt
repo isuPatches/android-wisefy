@@ -37,13 +37,6 @@ internal abstract class BaseRobot(
             .thenReturn(true)
     }
 
-    fun withPermissions(vararg permissions: String) {
-        for (permission in permissions) {
-            `when`(permissionUtil.isPermissionGranted(any(), eq(permission)))
-                .thenReturn(true)
-        }
-    }
-
     fun withPermissionDeniedOnce(permission: String) {
         `when`(permissionUtil.isPermissionGranted(any(), eq(permission)))
             .thenReturn(false)
@@ -60,15 +53,13 @@ internal abstract class BaseRobot(
                 R.string.permission_error_unhandled_request_code_args,
                 RANDO_PERMISSION_REQUEST_CODE
             )
-        ))
-        .checkIsDisplayed()
+        )).checkIsDisplayed()
     }
 
     fun verifyWiseFyFailureIsDisplayed() {
         onView(withText(R.string.wisefy_error)).checkIsDisplayed()
         onView(withText(
-            activityTestRule.getString(
-            R.string.wisefy_error_descriptions_args, MISSING_PARAMETER)
+            activityTestRule.getString(R.string.wisefy_error_descriptions_args, MISSING_PARAMETER)
         )).checkIsDisplayed()
     }
 

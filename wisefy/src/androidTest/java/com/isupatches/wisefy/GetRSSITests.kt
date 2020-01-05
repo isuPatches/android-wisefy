@@ -18,29 +18,34 @@ import org.mockito.Mockito.verify
  */
 internal class GetRSSITests : BaseInstrumentationTest() {
 
-    @Test fun sync_failure_prechecks_takeHighest_false() {
+    @Test
+    fun sync_failure_prechecks_takeHighest_false() {
         mockWiseFyPrechecksUtil.getRSSI_failure()
         assertEquals(null, wisefy.getRSSI(TEST_SSID, false, TEST_TIMEOUT))
     }
 
-    @Test fun sync_failure_prechecks_takeHighest_true() {
+    @Test
+    fun sync_failure_prechecks_takeHighest_true() {
         mockWiseFyPrechecksUtil.getRSSI_failure()
         assertEquals(null, wisefy.getRSSI(TEST_SSID, true, TEST_TIMEOUT))
     }
 
-    @Test fun sync_failure_noNetworkFound_takeHighest_false() {
+    @Test
+    fun sync_failure_noNetworkFound_takeHighest_false() {
         mockWiseFyPrechecksUtil.getRSSI_success()
         mockWiseFySearchUtil.findAccessPointByRegex_null()
         assertEquals(null, wisefy.getRSSI(TEST_SSID, false, TEST_TIMEOUT))
     }
 
-    @Test fun sync_failure_noNetworkFound_takeHighest_true() {
+    @Test
+    fun sync_failure_noNetworkFound_takeHighest_true() {
         mockWiseFyPrechecksUtil.getRSSI_success()
         mockWiseFySearchUtil.findAccessPointByRegex_null()
         assertEquals(null, wisefy.getRSSI(TEST_SSID, true, TEST_TIMEOUT))
     }
 
-    @Test fun sync_success_takeHighest_false() {
+    @Test
+    fun sync_success_takeHighest_false() {
         mockWiseFyPrechecksUtil.getRSSI_success()
         mockWiseFySearchUtil.findAccessPointByRegex_success()
 
@@ -52,7 +57,8 @@ internal class GetRSSITests : BaseInstrumentationTest() {
         }
     }
 
-    @Test fun sync_success_takeHighest_true() {
+    @Test
+    fun sync_success_takeHighest_true() {
         mockWiseFyPrechecksUtil.getRSSI_success()
         mockWiseFySearchUtil.findAccessPointByRegex_success()
 
@@ -64,31 +70,36 @@ internal class GetRSSITests : BaseInstrumentationTest() {
         }
     }
 
-    @Test fun async_failure_prechecks_takeHighest_false() {
+    @Test
+    fun async_failure_prechecks_takeHighest_false() {
         mockWiseFyPrechecksUtil.getRSSI_failure()
         val mockCallbacks = mock(GetRSSICallbacks::class.java)
         wisefy.getRSSI(TEST_SSID, false, TEST_TIMEOUT, mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).wisefyFailure(MISSING_PARAMETER)
     }
 
-    @Test fun async_failure_prechecks_takeHighest_false_nullCallback() {
+    @Test
+    fun async_failure_prechecks_takeHighest_false_nullCallback() {
         mockWiseFyPrechecksUtil.getRSSI_failure()
         nullCallbackUtil.callGetRSSI(false)
     }
 
-    @Test fun async_failure_prechecks_takeHighest_true() {
+    @Test
+    fun async_failure_prechecks_takeHighest_true() {
         mockWiseFyPrechecksUtil.getRSSI_failure()
         val mockCallbacks = mock(GetRSSICallbacks::class.java)
         wisefy.getRSSI(TEST_SSID, true, TEST_TIMEOUT, mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).wisefyFailure(MISSING_PARAMETER)
     }
 
-    @Test fun async_failure_prechecks_takeHighest_true_nullCallback() {
+    @Test
+    fun async_failure_prechecks_takeHighest_true_nullCallback() {
         mockWiseFyPrechecksUtil.getRSSI_failure()
         nullCallbackUtil.callGetRSSI(true)
     }
 
-    @Test fun async_failure_noNetworkFound_takeHighest_false() {
+    @Test
+    fun async_failure_noNetworkFound_takeHighest_false() {
         mockWiseFyPrechecksUtil.getRSSI_success()
         mockWiseFySearchUtil.findAccessPointByRegex_null()
         val mockCallbacks = mock(GetRSSICallbacks::class.java)
@@ -96,13 +107,15 @@ internal class GetRSSITests : BaseInstrumentationTest() {
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).networkNotFoundToRetrieveRSSI()
     }
 
-    @Test fun async_failure_noNetworkFound_takeHighest_false_nullCallback() {
+    @Test
+    fun async_failure_noNetworkFound_takeHighest_false_nullCallback() {
         mockWiseFyPrechecksUtil.getRSSI_success()
         mockWiseFySearchUtil.findAccessPointByRegex_null()
         nullCallbackUtil.callGetRSSI(false)
     }
 
-    @Test fun async_failure_noNetworkFound_takeHighest_true() {
+    @Test
+    fun async_failure_noNetworkFound_takeHighest_true() {
         mockWiseFyPrechecksUtil.getRSSI_success()
         mockWiseFySearchUtil.findAccessPointByRegex_null()
         val mockCallbacks = mock(GetRSSICallbacks::class.java)
@@ -110,13 +123,15 @@ internal class GetRSSITests : BaseInstrumentationTest() {
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).networkNotFoundToRetrieveRSSI()
     }
 
-    @Test fun async_failure_noNetworkFound_takeHighest_true_nullCallback() {
+    @Test
+    fun async_failure_noNetworkFound_takeHighest_true_nullCallback() {
         mockWiseFyPrechecksUtil.getRSSI_success()
         mockWiseFySearchUtil.findAccessPointByRegex_null()
         nullCallbackUtil.callGetRSSI(true)
     }
 
-    @Test fun async_success_takeHighest_false() {
+    @Test
+    fun async_success_takeHighest_false() {
         mockWiseFyPrechecksUtil.getRSSI_success()
         mockWiseFySearchUtil.findAccessPointByRegex_success()
         val mockCallbacks = mock(GetRSSICallbacks::class.java)
@@ -124,13 +139,15 @@ internal class GetRSSITests : BaseInstrumentationTest() {
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).retrievedRSSI(TEST_RSSI_LEVEL)
     }
 
-    @Test fun async_success_takeHighest_false_nullCallback() {
+    @Test
+    fun async_success_takeHighest_false_nullCallback() {
         mockWiseFyPrechecksUtil.getRSSI_success()
         mockWiseFySearchUtil.findAccessPointByRegex_success()
         nullCallbackUtil.callGetRSSI(false)
     }
 
-    @Test fun async_success_takeHighest_true() {
+    @Test
+    fun async_success_takeHighest_true() {
         mockWiseFyPrechecksUtil.getRSSI_success()
         mockWiseFySearchUtil.findAccessPointByRegex_success()
         val mockCallbacks = mock(GetRSSICallbacks::class.java)
@@ -138,7 +155,8 @@ internal class GetRSSITests : BaseInstrumentationTest() {
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).retrievedRSSI(TEST_RSSI_LEVEL)
     }
 
-    @Test fun async_success_takeHighest_true_nullCallback() {
+    @Test
+    fun async_success_takeHighest_true_nullCallback() {
         mockWiseFyPrechecksUtil.getRSSI_success()
         mockWiseFySearchUtil.findAccessPointByRegex_success()
         nullCallbackUtil.callGetRSSI(true)

@@ -15,10 +15,7 @@
  */
 package com.isupatches.wisefysample.ui.misc
 
-import android.Manifest.permission.ACCESS_COARSE_LOCATION
-import android.Manifest.permission.ACCESS_NETWORK_STATE
-import android.Manifest.permission.ACCESS_WIFI_STATE
-import android.Manifest.permission.CHANGE_WIFI_STATE
+import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.content.pm.PackageManager
 import android.net.NetworkInfo
 import android.net.wifi.ScanResult
@@ -57,30 +54,26 @@ internal class MiscFragment : BaseFragment(), MiscMvp.View {
 
         fun newInstance() = MiscFragment()
 
-        @VisibleForTesting internal const val WISEFY_DISABLE_WIFI_REQUEST_CODE = 1
-        @VisibleForTesting internal const val WISEFY_ENABLE_WIFI_REQUEST_CODE = 2
-        @VisibleForTesting internal const val WISEFY_GET_CURRENT_NETWORK_REQUEST_CODE = 3
-        @VisibleForTesting internal const val WISEFY_GET_CURRENT_NETWORK_INFO_REQUEST_CODE = 4
-        @VisibleForTesting internal const val WISEFY_GET_FREQUENCY_REQUEST_CODE = 5
-        @VisibleForTesting internal const val WISEFY_GET_IP_REQUEST_CODE = 6
-        @VisibleForTesting internal const val WISEFY_GET_NEARBY_ACCESS_POINTS_REQUEST_CODE = 7
-        @VisibleForTesting internal const val WISEFY_GET_SAVED_NETWORKS_REQUEST_CODE = 8
+        @VisibleForTesting internal const val WISEFY_GET_FREQUENCY_REQUEST_CODE = 1
+        @VisibleForTesting internal const val WISEFY_GET_IP_REQUEST_CODE = 2
+        @VisibleForTesting internal const val WISEFY_GET_NEARBY_ACCESS_POINTS_REQUEST_CODE = 3
+        @VisibleForTesting internal const val WISEFY_GET_SAVED_NETWORKS_REQUEST_CODE = 4
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         disableWifiBtn.setOnClickListener {
-            disableWifi()
+            presenter.disableWifi()
         }
         enableWifiBtn.setOnClickListener {
-            enableWifi()
+            presenter.enableWifi()
         }
         getCurrentNetworkBtn.setOnClickListener {
-            getCurrentNetwork()
+            presenter.getCurrentNetwork()
         }
         getCurrentNetworkInfoBtn.setOnClickListener {
-            getCurrentNetworkInfo()
+            presenter.getCurrentNetworkInfo()
         }
         getFrequencyBtn.setOnClickListener {
             getFrequency()
@@ -194,31 +187,6 @@ internal class MiscFragment : BaseFragment(), MiscMvp.View {
      * WiseFy helpers
      */
 
-    private fun disableWifi() {
-        if (checkDisableWifiPermissions()) {
-            presenter.disableWifi()
-        }
-    }
-
-    private fun enableWifi() {
-        if (checkEnableWifiPermissions()) {
-            presenter.enableWifi()
-        }
-    }
-
-    @Throws(SecurityException::class)
-    private fun getCurrentNetwork() {
-        if (checkGetCurrentNetworkPermissions()) {
-            presenter.getCurrentNetwork()
-        }
-    }
-
-    private fun getCurrentNetworkInfo() {
-        if (checkGetCurrentNetworkInfoPermissions()) {
-            presenter.getCurrentNetworkInfo()
-        }
-    }
-
     @Throws(SecurityException::class)
     private fun getFrequency() {
         if (sdkUtil.isAtLeastLollipop()) {
@@ -244,6 +212,7 @@ internal class MiscFragment : BaseFragment(), MiscMvp.View {
         }
     }
 
+    @Throws(SecurityException::class)
     private fun getSavedNetworks() {
         if (checkGetSavedNetworksPermissions()) {
             presenter.getSavedNetworks()
@@ -254,77 +223,24 @@ internal class MiscFragment : BaseFragment(), MiscMvp.View {
      * Permission helpers
      */
 
-    private fun checkDisableWifiPermissions(): Boolean {
-        return isPermissionGranted(CHANGE_WIFI_STATE, WISEFY_DISABLE_WIFI_REQUEST_CODE)
-    }
-
-    private fun checkEnableWifiPermissions(): Boolean {
-        return isPermissionGranted(CHANGE_WIFI_STATE, WISEFY_ENABLE_WIFI_REQUEST_CODE)
-    }
-
-    private fun checkGetCurrentNetworkPermissions(): Boolean {
-        return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_GET_CURRENT_NETWORK_REQUEST_CODE) &&
-                isPermissionGranted(ACCESS_COARSE_LOCATION, WISEFY_GET_CURRENT_NETWORK_REQUEST_CODE)
-    }
-
-    private fun checkGetCurrentNetworkInfoPermissions(): Boolean {
-        return isPermissionGranted(ACCESS_NETWORK_STATE, WISEFY_GET_CURRENT_NETWORK_INFO_REQUEST_CODE)
-    }
-
     private fun checkGetFrequencyPermissions(): Boolean {
-        return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_GET_FREQUENCY_REQUEST_CODE) &&
-                isPermissionGranted(ACCESS_COARSE_LOCATION, WISEFY_GET_FREQUENCY_REQUEST_CODE)
+        return isPermissionGranted(ACCESS_FINE_LOCATION, WISEFY_GET_FREQUENCY_REQUEST_CODE)
     }
 
     private fun checkGetIPPermissions(): Boolean {
-        return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_GET_IP_REQUEST_CODE) &&
-                isPermissionGranted(ACCESS_COARSE_LOCATION, WISEFY_GET_IP_REQUEST_CODE)
+        return isPermissionGranted(ACCESS_FINE_LOCATION, WISEFY_GET_IP_REQUEST_CODE)
     }
 
     private fun checkGetNearbyAccessPointsPermissions(): Boolean {
-        return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_GET_NEARBY_ACCESS_POINTS_REQUEST_CODE) &&
-                isPermissionGranted(ACCESS_COARSE_LOCATION, WISEFY_GET_NEARBY_ACCESS_POINTS_REQUEST_CODE)
+        return isPermissionGranted(ACCESS_FINE_LOCATION, WISEFY_GET_NEARBY_ACCESS_POINTS_REQUEST_CODE)
     }
 
     private fun checkGetSavedNetworksPermissions(): Boolean {
-        return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_GET_SAVED_NETWORKS_REQUEST_CODE)
+        return isPermissionGranted(ACCESS_FINE_LOCATION, WISEFY_GET_SAVED_NETWORKS_REQUEST_CODE)
     }
 
-    @Suppress("LongMethod", "ComplexMethod")
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         when (requestCode) {
-            WISEFY_DISABLE_WIFI_REQUEST_CODE -> {
-                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    disableWifi()
-                } else {
-                    Log.w(TAG, "Permissions for disabling wifi are denied")
-                    displayPermissionErrorDialog(R.string.permission_error_disable_wifi)
-                }
-            }
-            WISEFY_ENABLE_WIFI_REQUEST_CODE -> {
-                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    enableWifi()
-                } else {
-                    Log.w(TAG, "Permissions for enabling wifi are denied")
-                    displayPermissionErrorDialog(R.string.permission_error_enable_wifi)
-                }
-            }
-            WISEFY_GET_CURRENT_NETWORK_REQUEST_CODE -> {
-                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    getCurrentNetwork()
-                } else {
-                    Log.w(TAG, "Permissions for getting current network are denied")
-                    displayPermissionErrorDialog(R.string.permission_error_get_current_network)
-                }
-            }
-            WISEFY_GET_CURRENT_NETWORK_INFO_REQUEST_CODE -> {
-                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    getCurrentNetworkInfo()
-                } else {
-                    Log.w(TAG, "Permissions for getting current network info are denied")
-                    displayPermissionErrorDialog(R.string.permission_error_get_current_network_info)
-                }
-            }
             WISEFY_GET_FREQUENCY_REQUEST_CODE -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     getFrequency()

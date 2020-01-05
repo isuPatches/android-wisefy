@@ -93,13 +93,17 @@ internal class MainActivity : DaggerAppCompatActivity(),
         @ContributesAndroidInjector(modules = [
             AddNetworkFragment.AddNetworkFragmentModule::class
         ]) fun addNetworkFragment(): AddNetworkFragment
+
         @ContributesAndroidInjector(modules = [
             RemoveNetworkFragment.RemoveNetworkFragmentModule::class
         ]) fun removeNetworkFragment(): RemoveNetworkFragment
+
         @ContributesAndroidInjector fun mainFragment(): MainFragment
+
         @ContributesAndroidInjector(modules = [
             MiscFragment.MiscFragmentModule::class
         ]) fun miscFragment(): MiscFragment
+
         @ContributesAndroidInjector(modules = [
             SearchFragment.SearchFragmentModule::class
         ]) fun searchFragment(): SearchFragment

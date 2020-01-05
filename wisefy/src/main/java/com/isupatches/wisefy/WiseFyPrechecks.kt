@@ -15,7 +15,7 @@
  */
 package com.isupatches.wisefy
 
-import android.Manifest.permission.ACCESS_WIFI_STATE
+import android.Manifest.permission.ACCESS_FINE_LOCATION
 import androidx.annotation.RequiresPermission
 import com.isupatches.wisefy.constants.DEFAULT_PRECHECK_RETURN_CODE
 import com.isupatches.wisefy.constants.MISSING_PARAMETER
@@ -49,15 +49,17 @@ internal class WiseFyPrechecksImpl private constructor(
      * @author Patches
      * @since 3.0
      */
-    @RequiresPermission(ACCESS_WIFI_STATE)
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun addNetworkPrechecks(ssid: String?): PrecheckResult =
         checkAddNetworkPrerequisites(ssid)
 
     /**
      * Used internally to make sure perquisites for adding a network as a saved configuration are met.
      *
-     * @param ssid The ssid param from [com.isupatches.wisefy.WiseFy.addWEPNetwork] or [com.isupatches.wisefy.WiseFy.addWPA2Network]
-     * @param password The password from [com.isupatches.wisefy.WiseFy.addWEPNetwork] or [com.isupatches.wisefy.WiseFy.addWPA2Network]
+     * @param ssid The ssid param from [com.isupatches.wisefy.WiseFy.addWEPNetwork] or
+     *  [com.isupatches.wisefy.WiseFy.addWPA2Network]
+     * @param password The password from [com.isupatches.wisefy.WiseFy.addWEPNetwork] or
+     *  [com.isupatches.wisefy.WiseFy.addWPA2Network]
      *
      * @return PrecheckResult - [DEFAULT_PRECHECK_RESULT] or a [PrecheckResult] with an error code.
      *
@@ -68,7 +70,7 @@ internal class WiseFyPrechecksImpl private constructor(
      * @author Patches
      * @since 3.0
      */
-    @RequiresPermission(ACCESS_WIFI_STATE)
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun addNetworkPrechecks(ssid: String?, password: String?): PrecheckResult =
         checkAddNetworkPrerequisites(ssid, password)
 
@@ -403,7 +405,7 @@ internal class WiseFyPrechecksImpl private constructor(
      * @since 4.0
      */
     override fun searchForSavedNetworkChecks(regexForSSID: String?): PrecheckResult =
-            checkForParam(regexForSSID)
+        checkForParam(regexForSSID)
 
     /**
      * Used internally to make sure prerequisites for searching for saved networks are met.
@@ -419,7 +421,7 @@ internal class WiseFyPrechecksImpl private constructor(
      * @since 4.0
      */
     override fun searchForSavedNetworksChecks(regexForSSID: String?): PrecheckResult =
-            checkForParam(regexForSSID)
+        checkForParam(regexForSSID)
 
     /**
      * Used internally to make sure prerequisites for searching for an individual SSID are met.
@@ -494,6 +496,7 @@ internal class WiseFyPrechecksImpl private constructor(
      * @author Patches
      * @since 3.0
      */
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     private fun checkAddNetworkPrerequisites(ssid: String?): PrecheckResult =
         when {
             ssid.isNullOrEmpty() -> PrecheckResult(code = MISSING_PARAMETER)
@@ -520,6 +523,7 @@ internal class WiseFyPrechecksImpl private constructor(
      * @author Patches
      * @since 3.0
      */
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     private fun checkAddNetworkPrerequisites(ssid: String?, password: String?): PrecheckResult =
         when {
             ssid.isNullOrEmpty() || password.isNullOrEmpty() -> {
@@ -542,13 +546,18 @@ internal class WiseFyPrechecksImpl private constructor(
  *
  * @see [WiseFyPrechecksImpl]
  *
+ * Updates
+ * - 01/04/2020: Refined permissions
+ *
  * @author Patches
  * @since 3.0
  */
 internal interface WiseFyPrechecks {
 
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     fun addNetworkPrechecks(ssid: String?): PrecheckResult
 
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     fun addNetworkPrechecks(ssid: String?, password: String?): PrecheckResult
 
     fun connectToNetworkPrechecks(ssidToConnectTo: String?): PrecheckResult

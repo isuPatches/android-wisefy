@@ -20,27 +20,31 @@ import org.mockito.Mockito.verify
 @Suppress("deprecation")
 internal class AddWEPNetworkTests : BaseInstrumentationTest() {
 
-    @Test fun sync_failure_prechecks() {
+    @Test
+    fun sync_failure_prechecks() {
         mockWiseFyPrechecksUtil.addNetwork_failure()
         assertEquals(MISSING_PARAMETER, wisefy.addWEPNetwork(WEP_NETWORK_SSID, WEP_NETWORK_PASSWORD))
         verificationUtil.didNoTryToAddNetwork()
     }
 
-    @Test fun sync_failure() {
+    @Test
+    fun sync_failure() {
         mockWiseFyPrechecksUtil.addNetwork_success()
         mockNetworkUtil.addNetwork_failure()
         assertEquals(WIFI_MANAGER_FAILURE, wisefy.addWEPNetwork(WEP_NETWORK_SSID, WEP_NETWORK_PASSWORD))
         verificationUtil.triedToAddNetwork()
     }
 
-    @Test fun sync_success() {
+    @Test
+    fun sync_success() {
         mockWiseFyPrechecksUtil.addNetwork_success()
         mockNetworkUtil.addNetwork_success()
         assertNotEquals(1, wisefy.addWEPNetwork(WEP_NETWORK_SSID, WEP_NETWORK_PASSWORD))
         verificationUtil.triedToAddNetwork()
     }
 
-    @Test fun async_failure_prechecks() {
+    @Test
+    fun async_failure_prechecks() {
         mockWiseFyPrechecksUtil.addNetwork_failure()
         val mockCallbacks = mock(AddNetworkCallbacks::class.java)
         wisefy.addWEPNetwork(WEP_NETWORK_SSID, WEP_NETWORK_PASSWORD, mockCallbacks)
@@ -48,13 +52,15 @@ internal class AddWEPNetworkTests : BaseInstrumentationTest() {
         verificationUtil.didNoTryToAddNetwork()
     }
 
-    @Test fun async_failure_prechecks_nullCallback() {
+    @Test
+    fun async_failure_prechecks_nullCallback() {
         mockWiseFyPrechecksUtil.addNetwork_failure()
         nullCallbackUtil.callAddWEPNetwork(WEP_NETWORK_SSID, WEP_NETWORK_PASSWORD)
         verificationUtil.didNoTryToAddNetwork()
     }
 
-    @Test fun async_failure() {
+    @Test
+    fun async_failure() {
         mockWiseFyPrechecksUtil.addNetwork_success()
         mockNetworkUtil.addNetwork_failure()
         val mockCallbacks = mock(AddNetworkCallbacks::class.java)
@@ -63,14 +69,16 @@ internal class AddWEPNetworkTests : BaseInstrumentationTest() {
         verificationUtil.triedToAddNetwork()
     }
 
-    @Test fun async_failure_nullCallback() {
+    @Test
+    fun async_failure_nullCallback() {
         mockWiseFyPrechecksUtil.addNetwork_success()
         mockNetworkUtil.addNetwork_failure()
         nullCallbackUtil.callAddWEPNetwork(WEP_NETWORK_SSID, WEP_NETWORK_PASSWORD)
         verificationUtil.triedToAddNetwork()
     }
 
-    @Test fun async_success() {
+    @Test
+    fun async_success() {
         mockWiseFyPrechecksUtil.addNetwork_success()
         mockNetworkUtil.addNetwork_success()
         val mockCallbacks = mock(AddNetworkCallbacks::class.java)
@@ -79,7 +87,8 @@ internal class AddWEPNetworkTests : BaseInstrumentationTest() {
         verificationUtil.triedToAddNetwork()
     }
 
-    @Test fun async_success_nullCallback() {
+    @Test
+    fun async_success_nullCallback() {
         mockWiseFyPrechecksUtil.addNetwork_success()
         mockNetworkUtil.addNetwork_success()
         nullCallbackUtil.callAddWEPNetwork(WEP_NETWORK_SSID, WEP_NETWORK_PASSWORD)

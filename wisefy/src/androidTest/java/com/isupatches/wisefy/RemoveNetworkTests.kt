@@ -17,20 +17,23 @@ import org.mockito.Mockito.verify
  */
 internal class RemoveNetworkTests : BaseInstrumentationTest() {
 
-    @Test fun sync_failure_prechecks() {
+    @Test
+    fun sync_failure_prechecks() {
         mockWiseFyPrechecksUtil.removeNetwork_failure()
         assertEquals(false, wisefy.removeNetwork(TEST_SSID))
         verificationUtil.didNotTryToRemoveNetwork()
     }
 
-    @Test fun sync_failure_noSavedNetwork() {
+    @Test
+    fun sync_failure_noSavedNetwork() {
         mockWiseFyPrechecksUtil.removeNetwork_success()
         mockWiseFySearchUtil.findSavedNetworkByRegex_null()
         assertEquals(false, wisefy.removeNetwork(TEST_SSID))
         verificationUtil.didNotTryToRemoveNetwork()
     }
 
-    @Test fun sync_failure() {
+    @Test
+    fun sync_failure() {
         mockWiseFyPrechecksUtil.removeNetwork_success()
         mockWiseFySearchUtil.findSavedNetworkByRegex_success()
         mockNetworkUtil.removeNetwork(false)
@@ -38,7 +41,8 @@ internal class RemoveNetworkTests : BaseInstrumentationTest() {
         verificationUtil.triedToRemoveNetwork()
     }
 
-    @Test fun sync_success() {
+    @Test
+    fun sync_success() {
         mockWiseFyPrechecksUtil.removeNetwork_success()
         mockWiseFySearchUtil.findSavedNetworkByRegex_success()
         mockNetworkUtil.removeNetwork(true)
@@ -46,7 +50,8 @@ internal class RemoveNetworkTests : BaseInstrumentationTest() {
         verificationUtil.triedToRemoveNetwork()
     }
 
-    @Test fun async_failure_prechecks() {
+    @Test
+    fun async_failure_prechecks() {
         mockWiseFyPrechecksUtil.removeNetwork_failure()
         val mockCallbacks = mock(RemoveNetworkCallbacks::class.java)
         wisefy.removeNetwork(TEST_SSID, mockCallbacks)
@@ -54,13 +59,15 @@ internal class RemoveNetworkTests : BaseInstrumentationTest() {
         verificationUtil.didNotTryToRemoveNetwork()
     }
 
-    @Test fun async_failure_prechecks_nullCallback() {
+    @Test
+    fun async_failure_prechecks_nullCallback() {
         mockWiseFyPrechecksUtil.removeNetwork_failure()
         nullCallbackUtil.callRemoveNetwork(TEST_SSID)
         verificationUtil.didNotTryToRemoveNetwork()
     }
 
-    @Test fun async_failure_noSavedNetwork() {
+    @Test
+    fun async_failure_noSavedNetwork() {
         mockWiseFyPrechecksUtil.removeNetwork_success()
         mockWiseFySearchUtil.findSavedNetworkByRegex_null()
         val mockCallbacks = mock(RemoveNetworkCallbacks::class.java)
@@ -69,14 +76,16 @@ internal class RemoveNetworkTests : BaseInstrumentationTest() {
         verificationUtil.didNotTryToRemoveNetwork()
     }
 
-    @Test fun async_failure_noSavedNetwork_nullCallback() {
+    @Test
+    fun async_failure_noSavedNetwork_nullCallback() {
         mockWiseFyPrechecksUtil.removeNetwork_success()
         mockWiseFySearchUtil.findSavedNetworkByRegex_null()
         nullCallbackUtil.callRemoveNetwork(TEST_SSID)
         verificationUtil.didNotTryToRemoveNetwork()
     }
 
-    @Test fun async_failure() {
+    @Test
+    fun async_failure() {
         mockWiseFyPrechecksUtil.removeNetwork_success()
         mockWiseFySearchUtil.findSavedNetworkByRegex_success()
         mockNetworkUtil.removeNetwork(false)
@@ -86,7 +95,8 @@ internal class RemoveNetworkTests : BaseInstrumentationTest() {
         verificationUtil.triedToRemoveNetwork()
     }
 
-    @Test fun async_failure_nullCallback() {
+    @Test
+    fun async_failure_nullCallback() {
         mockWiseFyPrechecksUtil.removeNetwork_success()
         mockWiseFySearchUtil.findSavedNetworkByRegex_success()
         mockNetworkUtil.removeNetwork(false)
@@ -94,7 +104,8 @@ internal class RemoveNetworkTests : BaseInstrumentationTest() {
         verificationUtil.triedToRemoveNetwork()
     }
 
-    @Test fun async_success() {
+    @Test
+    fun async_success() {
         mockWiseFyPrechecksUtil.removeNetwork_success()
         mockWiseFySearchUtil.findSavedNetworkByRegex_success()
         mockNetworkUtil.removeNetwork(true)
@@ -104,7 +115,8 @@ internal class RemoveNetworkTests : BaseInstrumentationTest() {
         verificationUtil.triedToRemoveNetwork()
     }
 
-    @Test fun async_success_nullCallback() {
+    @Test
+    fun async_success_nullCallback() {
         mockWiseFyPrechecksUtil.removeNetwork_success()
         mockWiseFySearchUtil.findSavedNetworkByRegex_success()
         mockNetworkUtil.removeNetwork(true)

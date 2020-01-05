@@ -8,8 +8,8 @@ import org.mockito.Mockito
 
 abstract class BaseSharedPreferencesStoreTest {
 
-    protected val editor = mock<SharedPreferences.Editor>()
-    protected val sharedPreferences = mock<SharedPreferences>().also {
+    protected val editor: SharedPreferences.Editor = mock()
+    protected val sharedPreferences: SharedPreferences = mock<SharedPreferences>().also {
         Mockito.`when`(it.edit()).thenReturn(editor)
     }
 
