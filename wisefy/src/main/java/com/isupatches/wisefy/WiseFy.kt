@@ -941,8 +941,10 @@ class WiseFy private constructor(
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun getFrequency(): Int? {
-        val currentNetwork = getCurrentNetwork()
-        return currentNetwork?.frequency
+        return if (wisefyPrechecks.getFrequencyChecks().passed()) {
+            val currentNetwork = getCurrentNetwork()
+            currentNetwork?.frequency
+        } else null
     }
 
     /**
@@ -966,6 +968,12 @@ class WiseFy private constructor(
     override fun getFrequency(callbacks: GetFrequencyCallbacks?) {
         runOnWiseFyThread(Runnable {
             synchronized(wisefyLock) {
+                val precheck = wisefyPrechecks.getFrequencyChecks()
+                if (precheck.failed()) {
+                    callbacks?.wisefyFailure(precheck.code)
+                    return@Runnable
+                }
+
                 val currentNetwork = getCurrentNetwork()
                 if (currentNetwork != null) {
                     callbacks?.retrievedFrequency(currentNetwork.frequency)

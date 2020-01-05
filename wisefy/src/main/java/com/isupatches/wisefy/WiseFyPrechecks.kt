@@ -156,6 +156,19 @@ internal class WiseFyPrechecksImpl private constructor(
     override fun getCurrentNetworkInfoChecks() = DEFAULT_PRECHECK_RESULT
 
     /**
+     * Used internally to make sure perquisites for getting the frequency of the current network are met.
+     *
+     * @return PrecheckResult - [DEFAULT_PRECHECK_RESULT]
+     *
+     * @see [com.isupatches.wisefy.WiseFy.getFrequency]
+     * @see [DEFAULT_PRECHECK_RESULT]
+     *
+     * @author Patches
+     * @since 4.1
+     */
+    override fun getFrequencyChecks() = DEFAULT_PRECHECK_RESULT
+
+    /**
      * Used internally to make sure perquisites for getting the ip of the device are met.
      *
      * @return PrecheckResult - [DEFAULT_PRECHECK_RESULT]
@@ -571,6 +584,8 @@ internal interface WiseFyPrechecks {
     fun getCurrentNetworkChecks(): PrecheckResult
 
     fun getCurrentNetworkInfoChecks(): PrecheckResult
+
+    fun getFrequencyChecks(): PrecheckResult
 
     fun getIPChecks(): PrecheckResult
 

@@ -397,8 +397,8 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
             getFrequency()
 
             // Then
+            verifyWiseFyFailureIsDisplayed()
             verifyTriedToGetFrequency()
-            verifyFailureRetrievingFrequencyIsDisplayed()
             dismissResultsDialog()
         }
     }
