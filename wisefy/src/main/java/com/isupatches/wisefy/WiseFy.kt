@@ -1208,8 +1208,7 @@ class WiseFy private constructor(
         if (wisefyPrechecks.getRSSIChecks(regexForSSID).failed()) {
             return null
         }
-        requireNotNull(regexForSSID)
-        return wisefySearch.findAccessPointByRegex(regexForSSID, timeoutInMillis, takeHighest)?.level
+        return wisefySearch.findAccessPointByRegex(regexForSSID!!, timeoutInMillis, takeHighest)?.level
     }
 
     /**
@@ -1763,8 +1762,7 @@ class WiseFy private constructor(
         filterDuplicates: Boolean
     ): ScanResult? {
         return if (wisefyPrechecks.searchForAccessPointChecks(regexForSSID).passed()) {
-            requireNotNull(regexForSSID)
-            wisefySearch.findAccessPointByRegex(regexForSSID, timeoutInMillis, filterDuplicates)
+            wisefySearch.findAccessPointByRegex(regexForSSID!!, timeoutInMillis, filterDuplicates)
         } else null
     }
 
@@ -1841,8 +1839,7 @@ class WiseFy private constructor(
     @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun searchForAccessPoints(regexForSSID: String?, filterDuplicates: Boolean): List<ScanResult>? {
         return if (wisefyPrechecks.searchForAccessPointsChecks(regexForSSID).passed()) {
-            requireNotNull(regexForSSID)
-            wisefySearch.findAccessPointsMatchingRegex(regexForSSID, filterDuplicates)
+            wisefySearch.findAccessPointsMatchingRegex(regexForSSID!!, filterDuplicates)
         } else null
     }
 
@@ -1915,8 +1912,7 @@ class WiseFy private constructor(
     @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun searchForSavedNetwork(regexForSSID: String?): WifiConfiguration? {
         return if (wisefyPrechecks.searchForSavedNetworkChecks(regexForSSID).passed()) {
-            requireNotNull(regexForSSID)
-            wisefySearch.findSavedNetworkByRegex(regexForSSID)
+            wisefySearch.findSavedNetworkByRegex(regexForSSID!!)
         } else null
     }
 
@@ -1983,8 +1979,7 @@ class WiseFy private constructor(
     @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun searchForSavedNetworks(regexForSSID: String?): List<WifiConfiguration>? {
         return if (wisefyPrechecks.searchForSavedNetworksChecks(regexForSSID).passed()) {
-            requireNotNull(regexForSSID)
-            wisefySearch.findSavedNetworksMatchingRegex(regexForSSID)
+            wisefySearch.findSavedNetworksMatchingRegex(regexForSSID!!)
         } else null
     }
 
@@ -2053,8 +2048,7 @@ class WiseFy private constructor(
             return null
         }
 
-        requireNotNull(regexForSSID)
-        val scanResult = wisefySearch.findAccessPointByRegex(regexForSSID, timeoutInMillis, false)
+        val scanResult = wisefySearch.findAccessPointByRegex(regexForSSID!!, timeoutInMillis, false)
         return scanResult?.SSID
     }
 
@@ -2116,8 +2110,7 @@ class WiseFy private constructor(
     @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun searchForSSIDs(regexForSSID: String?): List<String>? {
         return if (wisefyPrechecks.searchForSSIDsChecks(regexForSSID).passed()) {
-            requireNotNull(regexForSSID)
-            wisefySearch.findSSIDsMatchingRegex(regexForSSID)
+            wisefySearch.findSSIDsMatchingRegex(regexForSSID!!)
         } else null
     }
 

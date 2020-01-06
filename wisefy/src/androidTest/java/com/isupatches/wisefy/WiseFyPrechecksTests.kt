@@ -84,6 +84,11 @@ internal class WiseFyPrechecksTests : BaseInstrumentationTest() {
     }
 
     @Test
+    fun connectToNetworkPrechecks_failure_emptyParam() {
+        assertEquals(MISSING_PARAMETER, wisefyPrechecks.connectToNetworkPrechecks("").code)
+    }
+
+    @Test
     fun connectToNetworkPrechecks_success() {
         assertEquals(DEFAULT_PRECHECK_RETURN_CODE, wisefyPrechecks.connectToNetworkPrechecks(TEST_SSID).code)
     }
@@ -114,6 +119,11 @@ internal class WiseFyPrechecksTests : BaseInstrumentationTest() {
     }
 
     @Test
+    fun getFrequencyChecks() {
+        assertEquals(DEFAULT_PRECHECK_RETURN_CODE, wisefyPrechecks.getFrequencyChecks().code)
+    }
+
+    @Test
     fun getIPChecks() {
         assertEquals(DEFAULT_PRECHECK_RETURN_CODE, wisefyPrechecks.getIPChecks().code)
     }
@@ -129,6 +139,11 @@ internal class WiseFyPrechecksTests : BaseInstrumentationTest() {
     }
 
     @Test
+    fun getRSSIChecks_failure_emptyRegexForSSIDParam() {
+        assertEquals(MISSING_PARAMETER, wisefyPrechecks.getRSSIChecks("").code)
+    }
+
+    @Test
     fun getRSSIChecks_success() {
         assertEquals(DEFAULT_PRECHECK_RETURN_CODE, wisefyPrechecks.getRSSIChecks(TEST_SSID).code)
     }
@@ -139,18 +154,28 @@ internal class WiseFyPrechecksTests : BaseInstrumentationTest() {
     }
 
     @Test
+    fun getSavedNetworkChecks_failure_emptyRegexForSSIDParam() {
+        assertEquals(MISSING_PARAMETER, wisefyPrechecks.getSavedNetworkChecks("").code)
+    }
+
+    @Test
     fun getSavedNetworkChecks_success() {
         assertEquals(DEFAULT_PRECHECK_RETURN_CODE, wisefyPrechecks.getSavedNetworkChecks(TEST_SSID).code)
     }
 
     @Test
-    fun getSavedNetworksChecks_success() {
-        assertEquals(DEFAULT_PRECHECK_RETURN_CODE, wisefyPrechecks.getSavedNetworksChecks().code)
+    fun getSavedNetworksChecks_withRegex_failure_nullRegexForSSIDParam() {
+        assertEquals(MISSING_PARAMETER, wisefyPrechecks.getSavedNetworksChecks(null).code)
     }
 
     @Test
-    fun getSavedNetworksChecks_withRegex_failure_nullRegexForSSIDParam() {
-        assertEquals(MISSING_PARAMETER, wisefyPrechecks.getSavedNetworksChecks(null).code)
+    fun getSavedNetworksChecks_withRegex_failure_emptyRegexForSSIDParam() {
+        assertEquals(MISSING_PARAMETER, wisefyPrechecks.getSavedNetworksChecks("").code)
+    }
+
+    @Test
+    fun getSavedNetworksChecks_success() {
+        assertEquals(DEFAULT_PRECHECK_RETURN_CODE, wisefyPrechecks.getSavedNetworksChecks().code)
     }
 
     @Test
@@ -171,6 +196,11 @@ internal class WiseFyPrechecksTests : BaseInstrumentationTest() {
     @Test
     fun isDeviceConnectedToSSIDChecks_failure_nullSSIDParam() {
         assertEquals(MISSING_PARAMETER, wisefyPrechecks.isDeviceConnectedToSSIDChecks(null).code)
+    }
+
+    @Test
+    fun isDeviceConnectedToSSIDChecks_failure_emptySSIDParam() {
+        assertEquals(MISSING_PARAMETER, wisefyPrechecks.isDeviceConnectedToSSIDChecks("").code)
     }
 
     @Test
@@ -204,6 +234,11 @@ internal class WiseFyPrechecksTests : BaseInstrumentationTest() {
     }
 
     @Test
+    fun removeNetworkCheck_failure_emptySSIDToRemoveParam() {
+        assertEquals(MISSING_PARAMETER, wisefyPrechecks.removeNetworkCheck("").code)
+    }
+
+    @Test
     fun removeNetworkCheck_success() {
         assertEquals(DEFAULT_PRECHECK_RETURN_CODE, wisefyPrechecks.removeNetworkCheck(TEST_SSID).code)
     }
@@ -211,6 +246,11 @@ internal class WiseFyPrechecksTests : BaseInstrumentationTest() {
     @Test
     fun searchForAccessPointChecks_failure_nullRegexForSSIDParam() {
         assertEquals(MISSING_PARAMETER, wisefyPrechecks.searchForAccessPointChecks(null).code)
+    }
+
+    @Test
+    fun searchForAccessPointChecks_failure_emptyRegexForSSIDParam() {
+        assertEquals(MISSING_PARAMETER, wisefyPrechecks.searchForAccessPointChecks("").code)
     }
 
     @Test
@@ -224,13 +264,53 @@ internal class WiseFyPrechecksTests : BaseInstrumentationTest() {
     }
 
     @Test
+    fun searchForAccessPointsChecks_failure_emptyRegexForSSIDParam() {
+        assertEquals(MISSING_PARAMETER, wisefyPrechecks.searchForAccessPointsChecks("").code)
+    }
+
+    @Test
     fun searchForAccessPointsChecks_success() {
         assertEquals(DEFAULT_PRECHECK_RETURN_CODE, wisefyPrechecks.searchForAccessPointsChecks(TEST_SSID).code)
     }
 
     @Test
+    fun searchForSavedNetwork_failure_nullRegexForSSIDParam() {
+        assertEquals(MISSING_PARAMETER, wisefyPrechecks.searchForSavedNetworkChecks(null).code)
+    }
+
+    @Test
+    fun searchForSavedNetwork_failure_emptyRegexForSSIDParam() {
+        assertEquals(MISSING_PARAMETER, wisefyPrechecks.searchForSavedNetworkChecks("").code)
+    }
+
+    @Test
+    fun searchForSavedNetworkChecks_success() {
+        assertEquals(DEFAULT_PRECHECK_RETURN_CODE, wisefyPrechecks.searchForSavedNetworkChecks(TEST_SSID).code)
+    }
+
+    @Test
+    fun searchForSavedNetworksChecks_failure_nullRegexForSSIDParam() {
+        assertEquals(MISSING_PARAMETER, wisefyPrechecks.searchForSavedNetworksChecks(null).code)
+    }
+
+    @Test
+    fun searchForSavedNetworksChecks_failure_emptyRegexForSSIDParam() {
+        assertEquals(MISSING_PARAMETER, wisefyPrechecks.searchForSavedNetworksChecks("").code)
+    }
+
+    @Test
+    fun searchForSavedNetworksChecks_success() {
+        assertEquals(DEFAULT_PRECHECK_RETURN_CODE, wisefyPrechecks.searchForSavedNetworksChecks(TEST_SSID).code)
+    }
+
+    @Test
     fun searchForSSIDChecks_failure_nullRegexForSSIDParam() {
         assertEquals(MISSING_PARAMETER, wisefyPrechecks.searchForSSIDChecks(null).code)
+    }
+
+    @Test
+    fun searchForSSIDChecks_failure_emptyRegexForSSIDParam() {
+        assertEquals(MISSING_PARAMETER, wisefyPrechecks.searchForSSIDChecks("").code)
     }
 
     @Test
@@ -241,6 +321,11 @@ internal class WiseFyPrechecksTests : BaseInstrumentationTest() {
     @Test
     fun searchForSSIDsChecks_failure_nullRegexForSSIDParam() {
         assertEquals(MISSING_PARAMETER, wisefyPrechecks.searchForSSIDsChecks(null).code)
+    }
+
+    @Test
+    fun searchForSSIDsChecks_failure_emptyRegexForSSIDParam() {
+        assertEquals(MISSING_PARAMETER, wisefyPrechecks.searchForSSIDsChecks("").code)
     }
 
     @Test
