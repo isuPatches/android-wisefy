@@ -18,6 +18,7 @@ package com.isupatches.wisefy.search
 import android.net.wifi.WifiManager
 import android.os.Build
 import androidx.annotation.RequiresApi
+import com.isupatches.wisefy.logging.WiseFyLogger
 
 /**
  * A class used internally to query and determine different parts of the connection state for a
@@ -27,16 +28,23 @@ import androidx.annotation.RequiresApi
  * @see [AbstractWiseFySearch]
  * @see [WifiManager]
  *
+ * Updates
+ * - 01/07/2020: Added WiseFyLogger
+ *
  * @author Patches
  * @since 4.0
  */
 @RequiresApi(Build.VERSION_CODES.M)
 internal class WiseFySearchSDK23 private constructor(
-    private val wifiManager: WifiManager
-) : AbstractWiseFySearch(wifiManager) {
+    private val wifiManager: WifiManager,
+    logger: WiseFyLogger?
+) : AbstractWiseFySearch(wifiManager, logger) {
 
     internal companion object {
-        fun create(wifiManager: WifiManager): WiseFySearch = WiseFySearchSDK23(wifiManager)
+        fun create(
+            wifiManager: WifiManager,
+            logger: WiseFyLogger? = null
+        ): WiseFySearch = WiseFySearchSDK23(wifiManager, logger)
     }
 
     // For SDK 23 and above, devices will be limited on ability to trigger scans and it's been

@@ -1,6 +1,5 @@
 package com.isupatches.wisefy
 
-import androidx.test.platform.app.InstrumentationRegistry
 import com.isupatches.wisefy.internal.base.BaseInstrumentationTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
@@ -17,22 +16,6 @@ internal class WiseFyTests : BaseInstrumentationTest() {
     companion object {
         private const val EXPECTED_NUMBER_OF_BARS = 4
         private const val EXPECTED_SIGNAL_RESULT = 35
-    }
-
-    @Test
-    fun brains_loggingFalse() {
-        val wisefy = WiseFy.Brains(InstrumentationRegistry.getInstrumentation().targetContext)
-            .logging(false)
-            .getSmarts()
-        assertEquals(false, wisefy.isLoggingEnabled())
-    }
-
-    @Test
-    fun brains_loggingTrue() {
-        val wisefy = WiseFy.Brains(InstrumentationRegistry.getInstrumentation().targetContext)
-            .logging(true)
-            .getSmarts()
-        assertEquals(true, wisefy.isLoggingEnabled())
     }
 
     @Test
