@@ -17,12 +17,8 @@ package com.isupatches.wisefysample.ui.main
 
 import android.os.Bundle
 import android.view.MenuItem
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.isupatches.wisefy.WiseFyPublicApi
-
 import com.isupatches.wisefysample.R
 import com.isupatches.wisefysample.internal.nav.openFragment
 import com.isupatches.wisefysample.internal.nav.selectItem
@@ -33,26 +29,17 @@ import com.isupatches.wisefysample.ui.add.AddNetworkFragment
 import com.isupatches.wisefysample.ui.misc.MiscFragment
 import com.isupatches.wisefysample.ui.remove.RemoveNetworkFragment
 import com.isupatches.wisefysample.ui.search.SearchFragment
-
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.android.AndroidInjection
-import dagger.android.AndroidInjector
 import dagger.android.ContributesAndroidInjector
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.support.HasSupportFragmentInjector
-
+import dagger.android.support.DaggerAppCompatActivity
+import javax.inject.Inject
 import kotlinx.android.synthetic.main.activity_main.bottomNavigationView
 
-import javax.inject.Inject
-
-internal class MainActivity : AppCompatActivity(),
-    BottomNavigationView.OnNavigationItemSelectedListener,
-    HasSupportFragmentInjector {
-
-    @Inject lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
-    override fun supportFragmentInjector(): AndroidInjector<Fragment> = fragmentInjector
+internal class MainActivity : DaggerAppCompatActivity(),
+    BottomNavigationView.OnNavigationItemSelectedListener {
 
     @Inject lateinit var wiseFy: WiseFyPublicApi
 
@@ -106,13 +93,17 @@ internal class MainActivity : AppCompatActivity(),
         @ContributesAndroidInjector(modules = [
             AddNetworkFragment.AddNetworkFragmentModule::class
         ]) fun addNetworkFragment(): AddNetworkFragment
+
         @ContributesAndroidInjector(modules = [
             RemoveNetworkFragment.RemoveNetworkFragmentModule::class
         ]) fun removeNetworkFragment(): RemoveNetworkFragment
+
         @ContributesAndroidInjector fun mainFragment(): MainFragment
+
         @ContributesAndroidInjector(modules = [
             MiscFragment.MiscFragmentModule::class
         ]) fun miscFragment(): MiscFragment
+
         @ContributesAndroidInjector(modules = [
             SearchFragment.SearchFragmentModule::class
         ]) fun searchFragment(): SearchFragment

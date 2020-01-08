@@ -29,7 +29,7 @@ interface GetIPCallbacks : BaseCallback {
     /**
      * Called when there is an issue retrieving the IP of a device.
      *
-     * i.e. No current IP for the device, bad formatting, etc.
+     * f.e. No current IP for the device, bad formatting, etc.
      *
      * @author Patches
      * @since 3.0
@@ -38,6 +38,8 @@ interface GetIPCallbacks : BaseCallback {
 
     /**
      * Called when WiseFy has successfully retrieved the IP of a device.
+     *
+     * @param ip The ip of the device
      *
      * @author Patches
      * @since 3.0

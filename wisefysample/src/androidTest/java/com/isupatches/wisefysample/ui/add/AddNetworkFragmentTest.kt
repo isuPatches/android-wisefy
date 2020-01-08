@@ -1,13 +1,12 @@
 package com.isupatches.wisefysample.ui.add
 
-import android.Manifest.permission.ACCESS_WIFI_STATE
+import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.content.pm.PackageManager
 import androidx.test.espresso.intent.rule.IntentsTestRule
-
+import androidx.test.rule.GrantPermissionRule
 import com.isupatches.wisefysample.RANDO_PERMISSION_REQUEST_CODE
 import com.isupatches.wisefysample.internal.base.AbstractEspressoTestClass
 import com.isupatches.wisefysample.ui.main.MainActivity
-
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -17,9 +16,13 @@ internal class AddNetworkFragmentTest : AbstractEspressoTestClass() {
     @get:Rule
     val activityTestRule = IntentsTestRule(MainActivity::class.java, false, false)
 
+    @get:Rule
+    val grantPermissionRule: GrantPermissionRule = GrantPermissionRule.grant(ACCESS_FINE_LOCATION)
+
     private lateinit var addNetworkRobot: AddNetworkRobot
 
-    @Before override fun setUp() {
+    @Before
+    override fun setUp() {
         super.setUp()
         addNetworkRobot = AddNetworkRobot(
             activityTestRule,
@@ -29,7 +32,8 @@ internal class AddNetworkFragmentTest : AbstractEspressoTestClass() {
         )
     }
 
-    @Test fun networkTypeSelector() {
+    @Test
+    fun networkTypeSelector() {
         with(addNetworkRobot) {
             // Given
             launchAddNetworkScreen()
@@ -56,7 +60,8 @@ internal class AddNetworkFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun loadsOpenNetworkFromStore() {
+    @Test
+    fun loadsOpenNetworkFromStore() {
         with(addNetworkRobot) {
             // Given
             withOpenNetworkInStore()
@@ -70,7 +75,8 @@ internal class AddNetworkFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun loadsWEPNetworkFromStore() {
+    @Test
+    fun loadsWEPNetworkFromStore() {
         with(addNetworkRobot) {
             // Given
             withWEPNetworkInStore()
@@ -84,7 +90,8 @@ internal class AddNetworkFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun loadsWPA2NetworkFromStore() {
+    @Test
+    fun loadsWPA2NetworkFromStore() {
         with(addNetworkRobot) {
             // Given
             withWPA2NetworkInStore()
@@ -98,12 +105,11 @@ internal class AddNetworkFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun addOpenNetwork_permissionErrorDialog() {
+    @Test
+    fun addOpenNetwork_permissionErrorDialog() {
         with(addNetworkRobot) {
             // Given
-            withPermission(ACCESS_WIFI_STATE)
             launchAddNetworkScreen()
-            addOpenNetwork()
 
             // When
             permissionCallbackTriggered(
@@ -116,11 +122,12 @@ internal class AddNetworkFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun addOpenNetwork_permissionError_once() {
+    @Test
+    fun addOpenNetwork_permissionError_once() {
         with(addNetworkRobot) {
             // Given
             withSuccessAddingOpenNetwork()
-            withPermissionDeniedOnce(ACCESS_WIFI_STATE)
+            withPermissionDeniedOnce(ACCESS_FINE_LOCATION)
             launchAddNetworkScreen()
 
             // When
@@ -133,13 +140,11 @@ internal class AddNetworkFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun addOpenNetwork_permissionError_emptyList() {
+    @Test
+    fun addOpenNetwork_permissionError_emptyList() {
         with(addNetworkRobot) {
             // Given
-            withPermission(ACCESS_WIFI_STATE)
-            withSuccessAddingOpenNetwork()
             launchAddNetworkScreen()
-            addOpenNetwork()
 
             // When
             permissionCallbackTriggeredWithEmptyArray(
@@ -148,17 +153,14 @@ internal class AddNetworkFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             dismissErrorDialog()
-            verifyTriedToAddOpenNetwork()
         }
     }
 
-    @Test fun addOpenNetwork_permissionError_permissionDenied() {
+    @Test
+    fun addOpenNetwork_permissionError_permissionDenied() {
         with(addNetworkRobot) {
             // Given
-            withPermission(ACCESS_WIFI_STATE)
-            withSuccessAddingOpenNetwork()
             launchAddNetworkScreen()
-            addOpenNetwork()
 
             // When
             permissionCallbackTriggered(
@@ -168,17 +170,17 @@ internal class AddNetworkFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             dismissErrorDialog()
-            verifyTriedToAddOpenNetwork()
         }
     }
 
-    @Test fun addOpenNetwork_success_afterPermissionGranted() {
+    @Test
+    fun addOpenNetwork_success_afterPermissionGranted() {
         with(addNetworkRobot) {
             // Given
-            withPermission(ACCESS_WIFI_STATE)
+            withPermission(ACCESS_FINE_LOCATION)
             withSuccessAddingOpenNetwork()
             launchAddNetworkScreen()
-            addOpenNetwork()
+            enterOpenNetworkDetails()
 
             // When
             permissionCallbackTriggered(
@@ -187,16 +189,17 @@ internal class AddNetworkFragmentTest : AbstractEspressoTestClass() {
             )
 
             // Then
-            verifyTriedToAddOpenNetwork(times = 2)
+            verifyTriedToAddOpenNetwork()
             verifyNewNetworkIsDisplayed()
             dismissResultsDialog()
         }
     }
 
-    @Test fun addOpenNetwork_success() {
+    @Test
+    fun addOpenNetwork_success() {
         with(addNetworkRobot) {
             // Given
-            withPermission(ACCESS_WIFI_STATE)
+            withPermission(ACCESS_FINE_LOCATION)
             withSuccessAddingOpenNetwork()
             launchAddNetworkScreen()
 
@@ -210,10 +213,11 @@ internal class AddNetworkFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun addOpenNetwork_wifiManagerFailure() {
+    @Test
+    fun addOpenNetwork_wifiManagerFailure() {
         with(addNetworkRobot) {
             // Given
-            withPermission(ACCESS_WIFI_STATE)
+            withPermission(ACCESS_FINE_LOCATION)
             withWifiManagerFailureAddingOpenNetwork()
             launchAddNetworkScreen()
 
@@ -227,10 +231,11 @@ internal class AddNetworkFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun addOpenNetwork_wiseFyFailure() {
+    @Test
+    fun addOpenNetwork_wiseFyFailure() {
         with(addNetworkRobot) {
             // Given
-            withPermission(ACCESS_WIFI_STATE)
+            withPermission(ACCESS_FINE_LOCATION)
             withWiseFyFailureAddingOpenNetwork()
             launchAddNetworkScreen()
 
@@ -246,12 +251,11 @@ internal class AddNetworkFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun addWEPNetwork_permissionErrorDialog() {
+    @Test
+    fun addWEPNetwork_permissionErrorDialog() {
         with(addNetworkRobot) {
             // Given
-            withPermission(ACCESS_WIFI_STATE)
             launchAddNetworkScreen()
-            addWEPNetwork()
 
             // When
             permissionCallbackTriggered(
@@ -264,11 +268,12 @@ internal class AddNetworkFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun addWEPNetwork_permissionError_once() {
+    @Test
+    fun addWEPNetwork_permissionError_once() {
         with(addNetworkRobot) {
             // Given
             withSuccessAddingWEPNetwork()
-            withPermissionDeniedOnce(ACCESS_WIFI_STATE)
+            withPermissionDeniedOnce(ACCESS_FINE_LOCATION)
             launchAddNetworkScreen()
 
             // When
@@ -281,13 +286,11 @@ internal class AddNetworkFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun addWEPNetwork_permissionError_emptyList() {
+    @Test
+    fun addWEPNetwork_permissionError_emptyList() {
         with(addNetworkRobot) {
             // Given
-            withPermission(ACCESS_WIFI_STATE)
-            withSuccessAddingWEPNetwork()
             launchAddNetworkScreen()
-            addWEPNetwork()
 
             // When
             permissionCallbackTriggeredWithEmptyArray(
@@ -296,17 +299,14 @@ internal class AddNetworkFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             dismissErrorDialog()
-            verifyTriedToAddWEPNetwork()
         }
     }
 
-    @Test fun addWEPNetwork_permissionError_permissionDenied() {
+    @Test
+    fun addWEPNetwork_permissionError_permissionDenied() {
         with(addNetworkRobot) {
             // Given
-            withPermission(ACCESS_WIFI_STATE)
-            withSuccessAddingWEPNetwork()
             launchAddNetworkScreen()
-            addWEPNetwork()
 
             // When
             permissionCallbackTriggered(
@@ -316,17 +316,17 @@ internal class AddNetworkFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             dismissErrorDialog()
-            verifyTriedToAddWEPNetwork()
         }
     }
 
-    @Test fun addWEPNetwork_success_afterPermissionGranted() {
+    @Test
+    fun addWEPNetwork_success_afterPermissionGranted() {
         with(addNetworkRobot) {
             // Given
-            withPermission(ACCESS_WIFI_STATE)
+            withPermission(ACCESS_FINE_LOCATION)
             withSuccessAddingWEPNetwork()
             launchAddNetworkScreen()
-            addWEPNetwork()
+            enterWEPNetworkDetails()
 
             // When
             permissionCallbackTriggered(
@@ -335,16 +335,17 @@ internal class AddNetworkFragmentTest : AbstractEspressoTestClass() {
             )
 
             // Then
-            verifyTriedToAddWEPNetwork(times = 2)
+            verifyTriedToAddWEPNetwork()
             verifyNewNetworkIsDisplayed()
             dismissResultsDialog()
         }
     }
 
-    @Test fun addWEPNetwork_success() {
+    @Test
+    fun addWEPNetwork_success() {
         with(addNetworkRobot) {
             // Given
-            withPermission(ACCESS_WIFI_STATE)
+            withPermission(ACCESS_FINE_LOCATION)
             withSuccessAddingWEPNetwork()
             launchAddNetworkScreen()
 
@@ -358,10 +359,11 @@ internal class AddNetworkFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun addWEPNetwork_wifiManagerFailure() {
+    @Test
+    fun addWEPNetwork_wifiManagerFailure() {
         with(addNetworkRobot) {
             // Given
-            withPermission(ACCESS_WIFI_STATE)
+            withPermission(ACCESS_FINE_LOCATION)
             withWifiManagerFailureAddingWEPNetwork()
             launchAddNetworkScreen()
 
@@ -375,10 +377,11 @@ internal class AddNetworkFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun addWEPNetwork_wiseFyFailure() {
+    @Test
+    fun addWEPNetwork_wiseFyFailure() {
         with(addNetworkRobot) {
             // Given
-            withPermission(ACCESS_WIFI_STATE)
+            withPermission(ACCESS_FINE_LOCATION)
             withWiseFyFailureAddingWEPNetwork()
             launchAddNetworkScreen()
 
@@ -394,12 +397,11 @@ internal class AddNetworkFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun addWPA2Network_permissionErrorDialog() {
+    @Test
+    fun addWPA2Network_permissionErrorDialog() {
         with(addNetworkRobot) {
             // Given
-            withPermission(ACCESS_WIFI_STATE)
             launchAddNetworkScreen()
-            addWPA2Network()
 
             // When
             permissionCallbackTriggered(
@@ -411,11 +413,13 @@ internal class AddNetworkFragmentTest : AbstractEspressoTestClass() {
             dismissErrorDialog()
         }
     }
-    @Test fun addWPA2Network_permissionError_once() {
+
+    @Test
+    fun addWPA2Network_permissionError_once() {
         with(addNetworkRobot) {
             // Given
             withSuccessAddingWPA2Network()
-            withPermissionDeniedOnce(ACCESS_WIFI_STATE)
+            withPermissionDeniedOnce(ACCESS_FINE_LOCATION)
             launchAddNetworkScreen()
 
             // When
@@ -428,13 +432,11 @@ internal class AddNetworkFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun addWPA2Network_permissionError_emptyList() {
+    @Test
+    fun addWPA2Network_permissionError_emptyList() {
         with(addNetworkRobot) {
             // Given
-            withPermission(ACCESS_WIFI_STATE)
-            withSuccessAddingWPA2Network()
             launchAddNetworkScreen()
-            addWPA2Network()
 
             // When
             permissionCallbackTriggeredWithEmptyArray(
@@ -443,17 +445,14 @@ internal class AddNetworkFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             dismissErrorDialog()
-            verifyTriedToAddWPA2Network()
         }
     }
 
-    @Test fun addWPA2Network_permissionError_permissionDenied() {
+    @Test
+    fun addWPA2Network_permissionError_permissionDenied() {
         with(addNetworkRobot) {
             // Given
-            withPermission(ACCESS_WIFI_STATE)
-            withSuccessAddingWEPNetwork()
             launchAddNetworkScreen()
-            addWPA2Network()
 
             // When
             permissionCallbackTriggered(
@@ -463,17 +462,17 @@ internal class AddNetworkFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             dismissErrorDialog()
-            verifyTriedToAddWPA2Network()
         }
     }
 
-    @Test fun addWPA2Network_success_afterPermissionGranted() {
+    @Test
+    fun addWPA2Network_success_afterPermissionGranted() {
         with(addNetworkRobot) {
             // Given
-            withPermission(ACCESS_WIFI_STATE)
+            withPermission(ACCESS_FINE_LOCATION)
             withSuccessAddingWPA2Network()
             launchAddNetworkScreen()
-            addWPA2Network()
+            enterWPA2NetworkDetails()
 
             // When
             permissionCallbackTriggered(
@@ -482,16 +481,17 @@ internal class AddNetworkFragmentTest : AbstractEspressoTestClass() {
             )
 
             // Then
-            verifyTriedToAddWPA2Network(times = 2)
+            verifyTriedToAddWPA2Network()
             verifyNewNetworkIsDisplayed()
             dismissResultsDialog()
         }
     }
 
-    @Test fun addWPA2Network_success() {
+    @Test
+    fun addWPA2Network_success() {
         with(addNetworkRobot) {
             // Given
-            withPermission(ACCESS_WIFI_STATE)
+            withPermission(ACCESS_FINE_LOCATION)
             withSuccessAddingWPA2Network()
             launchAddNetworkScreen()
 
@@ -504,10 +504,11 @@ internal class AddNetworkFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun addWPA2Network_wifiManagerFailure() {
+    @Test
+    fun addWPA2Network_wifiManagerFailure() {
         with(addNetworkRobot) {
             // Given
-            withPermission(ACCESS_WIFI_STATE)
+            withPermission(ACCESS_FINE_LOCATION)
             withWifiManagerFailureAddingWPA2Network()
             launchAddNetworkScreen()
 
@@ -521,10 +522,11 @@ internal class AddNetworkFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun addWPA2Network_wiseFyFailure() {
+    @Test
+    fun addWPA2Network_wiseFyFailure() {
         with(addNetworkRobot) {
             // Given
-            withPermission(ACCESS_WIFI_STATE)
+            withPermission(ACCESS_FINE_LOCATION)
             withWiseFyFailureAddingWPA2Network()
             launchAddNetworkScreen()
 
@@ -540,7 +542,8 @@ internal class AddNetworkFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun ridiculousPermissionRequested() {
+    @Test
+    fun ridiculousPermissionRequested() {
         with(addNetworkRobot) {
             // Given
             launchAddNetworkScreen()

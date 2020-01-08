@@ -12,34 +12,30 @@ import androidx.test.espresso.matcher.ViewMatchers.isNotChecked
 import androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
 
 fun ViewInteraction.checkIsDisplayed(): ViewInteraction =
-        check(matches(isDisplayed()))
+    check(matches(isDisplayed()))
 
-fun ViewInteraction.performScrollToAndCheckIsDisplayed(): ViewInteraction =
-        perform(scrollTo())
-        .check(matches(isDisplayed()))
+fun ViewInteraction.performScrollToAndCheckIsDisplayed(): ViewInteraction = perform(scrollTo())
+    .check(matches(isDisplayed()))
 
 fun ViewInteraction.checkIsVisible(): ViewInteraction =
-        check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
+    check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
 
 fun ViewInteraction.checkIsInvisible(): ViewInteraction =
-        check(matches(withEffectiveVisibility(ViewMatchers.Visibility.INVISIBLE)))
+    check(matches(withEffectiveVisibility(ViewMatchers.Visibility.INVISIBLE)))
 
 fun ViewInteraction.checkIsChecked(): ViewInteraction =
-        check(matches(isChecked()))
+    check(matches(isChecked()))
 
 fun ViewInteraction.checkIsNotChecked(): ViewInteraction =
-        check(matches(isNotChecked()))
+    check(matches(isNotChecked()))
 
-fun ViewInteraction.performClick(): ViewInteraction =
-        checkIsDisplayed()
-        .perform(click())
+fun ViewInteraction.performClick(): ViewInteraction = checkIsDisplayed()
+    .perform(click())
 
-fun ViewInteraction.performScrollToAndClick(): ViewInteraction =
-        perform(scrollTo())
-        .checkIsDisplayed()
-        .perform(click())
+fun ViewInteraction.performScrollToAndClick(): ViewInteraction = perform(scrollTo())
+    .checkIsDisplayed()
+    .perform(click())
 
-fun ViewInteraction.performScrollToAndReplaceText(text: String): ViewInteraction =
-        perform(scrollTo())
-        .checkIsDisplayed()
-        .perform(replaceText(text))
+fun ViewInteraction.performScrollToAndReplaceText(text: String): ViewInteraction = perform(scrollTo())
+    .checkIsDisplayed()
+    .perform(replaceText(text))

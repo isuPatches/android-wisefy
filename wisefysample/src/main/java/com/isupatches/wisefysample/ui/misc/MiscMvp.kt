@@ -15,11 +15,12 @@
  */
 package com.isupatches.wisefysample.ui.misc
 
+import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.net.NetworkInfo
 import android.net.wifi.ScanResult
 import android.net.wifi.WifiConfiguration
 import android.net.wifi.WifiInfo
-
+import androidx.annotation.RequiresPermission
 import com.isupatches.wisefy.callbacks.DisableWifiCallbacks
 import com.isupatches.wisefy.callbacks.EnableWifiCallbacks
 import com.isupatches.wisefy.callbacks.GetCurrentNetworkCallbacks
@@ -53,24 +54,48 @@ internal interface MiscMvp {
     }
 
     interface Presenter : BaseMvp.Presenter<View> {
+
         fun disableWifi()
+
         fun enableWifi()
+
         fun getCurrentNetwork()
+
         fun getCurrentNetworkInfo()
+
+        @RequiresPermission(ACCESS_FINE_LOCATION)
         fun getFrequency()
+
+        @RequiresPermission(ACCESS_FINE_LOCATION)
         fun getIP()
+
+        @RequiresPermission(ACCESS_FINE_LOCATION)
         fun getNearbyAccessPoints()
+
+        @RequiresPermission(ACCESS_FINE_LOCATION)
         fun getSavedNetworks()
     }
 
     interface Model {
+
         fun disableWifi(callbacks: DisableWifiCallbacks)
+
         fun enableWifi(callbacks: EnableWifiCallbacks)
+
         fun getCurrentNetwork(callbacks: GetCurrentNetworkCallbacks)
+
         fun getCurrentNetworkInfo(callbacks: GetCurrentNetworkInfoCallbacks)
+
+        @RequiresPermission(ACCESS_FINE_LOCATION)
         fun getFrequency(callbacks: GetFrequencyCallbacks)
+
+        @RequiresPermission(ACCESS_FINE_LOCATION)
         fun getIP(callbacks: GetIPCallbacks)
+
+        @RequiresPermission(ACCESS_FINE_LOCATION)
         fun getNearbyAccessPoints(callbacks: GetNearbyAccessPointsCallbacks)
+
+        @RequiresPermission(ACCESS_FINE_LOCATION)
         fun getSavedNetworks(callbacks: GetSavedNetworksCallbacks)
     }
 }

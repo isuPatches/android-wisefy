@@ -1,13 +1,11 @@
 package com.isupatches.wisefy.internal
 
 import android.net.wifi.WifiInfo
-
 import com.isupatches.wisefy.TEST_SSID
 import com.isupatches.wisefy.TEST_TIMEOUT
 import com.isupatches.wisefy.WiseFy
 import com.isupatches.wisefy.callbacks.GetFrequencyCallbacks
 import com.isupatches.wisefy.callbacks.GetSavedNetworksCallbacks
-
 import org.junit.Assert.fail
 
 /**
@@ -44,7 +42,7 @@ internal class NullCallbackUtil internal constructor(private val wisefy: WiseFy)
      * @author Patches
      * @since 3.0
      */
-    @Suppress("DEPRECATION")
+    @Suppress("deprecation")
     fun callAddWEPNetwork(ssid: String?, password: String?) {
         try {
             wisefy.addWEPNetwork(ssid, password, null)

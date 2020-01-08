@@ -16,13 +16,22 @@
 package com.isupatches.wisefysample.internal.util
 
 import io.reactivex.Scheduler
-import io.reactivex.schedulers.Schedulers
 import io.reactivex.android.schedulers.AndroidSchedulers
-
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-@Suppress("UndocumentedPublicClass")
+/**
+ * A classed used to provide appropriate Rx schedulers for both production and tests
+ */
 open class RxSchedulersProvider @Inject constructor() {
+
+    /**
+     * The UI/main thread for Rx subscriptions to use
+     */
     open val main: Scheduler by lazy { AndroidSchedulers.mainThread() }
+
+    /**
+     * The background thread for Rx subscriptions to use
+     */
     open val io: Scheduler by lazy { Schedulers.io() }
 }

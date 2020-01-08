@@ -2,7 +2,6 @@ package com.isupatches.wisefy.internal.mock
 
 import android.net.wifi.ScanResult
 import android.net.wifi.WifiConfiguration
-
 import com.isupatches.wisefy.TEST_RSSI_LEVEL
 import com.isupatches.wisefy.TEST_RSSI_LEVEL_HIGH
 import com.isupatches.wisefy.TEST_RSSI_LEVEL_LOW
@@ -12,7 +11,6 @@ import com.isupatches.wisefy.internal.createMockAccessPointList
 import com.isupatches.wisefy.internal.createMockAccessPointWithSSIDAndRSSI
 import com.isupatches.wisefy.internal.createSavedNetwork
 import com.isupatches.wisefy.search.WiseFySearch
-
 import org.mockito.ArgumentMatchers.anyBoolean
 import org.mockito.ArgumentMatchers.anyInt
 import org.mockito.ArgumentMatchers.anyString
@@ -31,6 +29,8 @@ internal class MockWiseFySearchUtil internal constructor(private val mockWiseFyS
     /**
      * Mocks no nearby access points.
      *
+     * @param filterDuplicates The filter duplicate param to use when trying
+     *
      * @see WiseFySearch.getNearbyAccessPoints
      *
      * @author Patches
@@ -42,6 +42,8 @@ internal class MockWiseFySearchUtil internal constructor(private val mockWiseFyS
 
     /**
      * Mocks a list of nearby access point.
+     *
+     * @param filterDuplicates The filter duplicate param to use when trying
      *
      * @return List of ScanResult - The mocked list of nearby access points
      *
@@ -65,7 +67,11 @@ internal class MockWiseFySearchUtil internal constructor(private val mockWiseFyS
      * @since 3.0
      */
     fun findAccessPointByRegex_null() {
-        `when`<ScanResult>(mockWiseFySearch.findAccessPointByRegex(anyString(), anyInt(), anyBoolean())).thenReturn(null)
+        `when`<ScanResult>(mockWiseFySearch.findAccessPointByRegex(
+            anyString(),
+            anyInt(),
+            anyBoolean()
+        )).thenReturn(null)
     }
 
     /**
@@ -80,7 +86,11 @@ internal class MockWiseFySearchUtil internal constructor(private val mockWiseFyS
      */
     fun findAccessPointByRegex_success(): ScanResult {
         val accessPoint = createMockAccessPointWithSSIDAndRSSI(TEST_SSID, TEST_RSSI_LEVEL)
-        `when`<ScanResult>(mockWiseFySearch.findAccessPointByRegex(anyString(), anyInt(), anyBoolean())).thenReturn(accessPoint)
+        `when`<ScanResult>(mockWiseFySearch.findAccessPointByRegex(
+            anyString(),
+            anyInt(),
+            anyBoolean()
+        )).thenReturn(accessPoint)
         return accessPoint
     }
 
@@ -93,7 +103,10 @@ internal class MockWiseFySearchUtil internal constructor(private val mockWiseFyS
      * @since 3.0
      */
     fun findAccessPointsMatchingRegex_null() {
-        `when`<List<ScanResult>>(mockWiseFySearch.findAccessPointsMatchingRegex(anyString(), anyBoolean())).thenReturn(null)
+        `when`<List<ScanResult>>(mockWiseFySearch.findAccessPointsMatchingRegex(
+            anyString(),
+            anyBoolean()
+        )).thenReturn(null)
     }
 
     /**
@@ -110,7 +123,10 @@ internal class MockWiseFySearchUtil internal constructor(private val mockWiseFyS
         val accessPoints = ArrayList<ScanResult>()
         val accessPoint = createMockAccessPointWithSSIDAndRSSI(TEST_SSID, TEST_RSSI_LEVEL)
         accessPoints.add(accessPoint)
-        `when`<List<ScanResult>>(mockWiseFySearch.findAccessPointsMatchingRegex(anyString(), anyBoolean())).thenReturn(accessPoints)
+        `when`<List<ScanResult>>(mockWiseFySearch.findAccessPointsMatchingRegex(
+            anyString(),
+            anyBoolean())
+        ).thenReturn(accessPoints)
         return accessPoints
     }
 
@@ -123,7 +139,9 @@ internal class MockWiseFySearchUtil internal constructor(private val mockWiseFyS
      * @since 3.0
      */
     fun findSavedNetworkByRegex_null() {
-        `when`<WifiConfiguration>(mockWiseFySearch.findSavedNetworkByRegex(anyString())).thenReturn(null)
+        `when`<WifiConfiguration>(mockWiseFySearch.findSavedNetworkByRegex(
+            anyString()
+        )).thenReturn(null)
     }
 
     /**
@@ -151,7 +169,9 @@ internal class MockWiseFySearchUtil internal constructor(private val mockWiseFyS
      * @since 3.0
      */
     fun findSavedNetworksByRegex_emptyList() {
-        `when`<List<WifiConfiguration>>(mockWiseFySearch.findSavedNetworksMatchingRegex(anyString())).thenReturn(ArrayList())
+        `when`<List<WifiConfiguration>>(mockWiseFySearch.findSavedNetworksMatchingRegex(
+            anyString()
+        )).thenReturn(ArrayList())
     }
 
     /**
@@ -163,7 +183,9 @@ internal class MockWiseFySearchUtil internal constructor(private val mockWiseFyS
      * @since 3.0
      */
     fun findSavedNetworksByRegex_null() {
-        `when`<List<WifiConfiguration>>(mockWiseFySearch.findSavedNetworksMatchingRegex(anyString())).thenReturn(null)
+        `when`<List<WifiConfiguration>>(mockWiseFySearch.findSavedNetworksMatchingRegex(
+            anyString()
+        )).thenReturn(null)
     }
 
     /**
@@ -181,7 +203,9 @@ internal class MockWiseFySearchUtil internal constructor(private val mockWiseFyS
         val wiFiConfiguration = createSavedNetwork(TEST_SSID)
         savedNetworks.add(wiFiConfiguration)
 
-        `when`<List<WifiConfiguration>>(mockWiseFySearch.findSavedNetworksMatchingRegex(anyString())).thenReturn(savedNetworks)
+        `when`<List<WifiConfiguration>>(mockWiseFySearch.findSavedNetworksMatchingRegex(
+            anyString()
+        )).thenReturn(savedNetworks)
         return savedNetworks
     }
 

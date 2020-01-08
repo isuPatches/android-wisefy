@@ -23,7 +23,6 @@ import com.isupatches.wisefysample.ui.remove.RemoveNetworkPresenter
 import com.isupatches.wisefysample.ui.search.SearchModel
 import com.isupatches.wisefysample.ui.search.SearchMvp
 import com.isupatches.wisefysample.ui.search.SearchPresenter
-
 import com.nhaarman.mockitokotlin2.mock
 
 internal abstract class AbstractEspressoTestClass {

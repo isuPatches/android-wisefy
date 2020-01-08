@@ -3,9 +3,7 @@ package com.isupatches.wisefy.internal
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
-
 import com.isupatches.wisefy.connection.WiseFyConnectionSDK23
-
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
 
@@ -24,15 +22,17 @@ import org.mockito.Mockito.mock
 internal fun getNetworkCapabilities(transportType: Int): NetworkCapabilities {
     val networkCapabilities = NetworkCapabilities(null)
     ReflectionHelpers.callInstanceMethod<Any>(
-            networkCapabilities,
-            "addTransportType",
-            ReflectionHelpers.ClassParameter.from(Int::class.java, transportType)
+        networkCapabilities,
+        "addTransportType",
+        ReflectionHelpers.ClassParameter.from(Int::class.java, transportType)
     )
     return networkCapabilities
 }
 
 /**
  * To create a NetworkCapabilities instance with a specified set of capabilities.
+ *
+ * @param capabilities The int array of capabilities for the NetworkCapabilities instance
  *
  * @return NetworkCapabilities - The network capabilities instance with a given transport type
  *
@@ -45,9 +45,9 @@ internal fun getNetworkCapabilities(capabilities: Array<Int>): NetworkCapabiliti
     val networkCapabilities = NetworkCapabilities(null)
     for (capability in capabilities) {
         ReflectionHelpers.callInstanceMethod<Any>(
-                networkCapabilities,
-                "addCapability",
-                ReflectionHelpers.ClassParameter.from(Int::class.java, capability)
+            networkCapabilities,
+            "addCapability",
+            ReflectionHelpers.ClassParameter.from(Int::class.java, capability)
         )
     }
     return networkCapabilities
@@ -70,15 +70,15 @@ internal fun getNetworkCapabilities(capabilities: Array<Int>): NetworkCapabiliti
 internal fun getNetworkCapabilities(transportType: Int, capabilities: Array<Int>): NetworkCapabilities {
     val networkCapabilities = NetworkCapabilities(null)
     ReflectionHelpers.callInstanceMethod<Any>(
-            networkCapabilities,
-            "addTransportType",
-            ReflectionHelpers.ClassParameter.from(Int::class.java, transportType)
+        networkCapabilities,
+        "addTransportType",
+        ReflectionHelpers.ClassParameter.from(Int::class.java, transportType)
     )
     for (capability in capabilities) {
         ReflectionHelpers.callInstanceMethod<Any>(
-                networkCapabilities,
-                "addCapability",
-                ReflectionHelpers.ClassParameter.from(Int::class.java, capability)
+            networkCapabilities,
+            "addCapability",
+            ReflectionHelpers.ClassParameter.from(Int::class.java, capability)
         )
     }
     return networkCapabilities

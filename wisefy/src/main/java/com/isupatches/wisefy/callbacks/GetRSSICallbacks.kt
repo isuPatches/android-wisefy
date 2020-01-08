@@ -29,6 +29,8 @@ interface GetRSSICallbacks : BaseCallback {
     /**
      * Called when WiseFy has successfully retrieved the RSSI level of a network.
      *
+     * @param rssi The RSSI of the network (either the current one or one that is passed in)
+     *
      * @author Patches
      * @since 3.0
      */

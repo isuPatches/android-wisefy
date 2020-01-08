@@ -32,6 +32,8 @@ interface BaseCallback {
      *
      * Example: A null or empty ssid is passed in but is a required parameter.
      *
+     * @param wisefyFailureCode The failure code defined by the WiseFy library
+     *
      * @see [com.isupatches.wisefy.WiseFyPrechecks]
      * @see [com.isupatches.wisefy.constants.WiseFyCode]
      *

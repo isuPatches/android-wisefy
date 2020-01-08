@@ -15,8 +15,10 @@
  */
 package com.isupatches.wisefy.search
 
+import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.net.wifi.ScanResult
 import android.net.wifi.WifiConfiguration
+import androidx.annotation.RequiresPermission
 
 /**
  * An interface that helps with searching.
@@ -29,23 +31,31 @@ import android.net.wifi.WifiConfiguration
  *      * Made more generic for pre and post SDK 23 classes
  *      * Added getNearbyAccessPoints
  *      * Removed removeEntriesWithLowerSignalStrength
+ * - 01/04/2020: Refined permissions
  *
  * @author Patches
  * @since 3.0
  */
 internal interface WiseFySearch {
 
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     fun findAccessPointByRegex(regexForSSID: String, timeoutInMillis: Int, takeHighest: Boolean): ScanResult?
 
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     fun findAccessPointsMatchingRegex(regexForSSID: String, takeHighest: Boolean): List<ScanResult>?
 
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     fun findSavedNetworkByRegex(regexForSSID: String): WifiConfiguration?
 
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     fun findSavedNetworksMatchingRegex(regexForSSID: String): List<WifiConfiguration>?
 
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     fun findSSIDsMatchingRegex(regexForSSID: String): List<String>?
 
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     fun getNearbyAccessPoints(filterDuplicates: Boolean): List<ScanResult>?
 
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     fun isNetworkASavedConfiguration(ssid: String?): Boolean
 }

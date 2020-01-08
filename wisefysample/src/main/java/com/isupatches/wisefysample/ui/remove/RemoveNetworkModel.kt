@@ -15,19 +15,17 @@
  */
 package com.isupatches.wisefysample.ui.remove
 
-import android.Manifest.permission.ACCESS_WIFI_STATE
+import android.Manifest.permission.ACCESS_FINE_LOCATION
 import androidx.annotation.RequiresPermission
-
 import com.isupatches.wisefy.WiseFyPublicApi
 import com.isupatches.wisefy.callbacks.RemoveNetworkCallbacks
-
 import javax.inject.Inject
 
 internal class RemoveNetworkModel @Inject constructor(
     private val wiseFy: WiseFyPublicApi
 ) : RemoveNetworkMvp.Model {
 
-    @RequiresPermission(ACCESS_WIFI_STATE)
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun removeNetwork(networkName: String, callbacks: RemoveNetworkCallbacks) {
         wiseFy.removeNetwork(networkName, callbacks)
     }

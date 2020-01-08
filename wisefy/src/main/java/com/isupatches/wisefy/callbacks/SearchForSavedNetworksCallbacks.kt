@@ -41,6 +41,8 @@ interface SearchForSavedNetworksCallbacks : BaseCallback {
      * Called when WiseFy has successfully retrieved a list of saved networks matching
      * the given search criteria.
      *
+     * @param savedNetworks The list of found saved networks
+     *
      * @see [WifiConfiguration]
      *
      * @author Patches

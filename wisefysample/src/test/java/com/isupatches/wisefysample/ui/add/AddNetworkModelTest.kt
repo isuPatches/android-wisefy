@@ -1,18 +1,15 @@
 package com.isupatches.wisefysample.ui.add
 
 import android.net.wifi.WifiConfiguration
-
 import com.isupatches.wisefy.WiseFyPublicApi
 import com.isupatches.wisefy.callbacks.AddNetworkCallbacks
 import com.isupatches.wisefysample.TEST_PASSWORD_1
 import com.isupatches.wisefysample.TEST_SSID_1
-
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.eq
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.times
 import com.nhaarman.mockitokotlin2.verify
-
 import org.junit.Test
 
 internal class AddNetworkModelTest {
@@ -32,7 +29,8 @@ internal class AddNetworkModelTest {
         }
     }
 
-    @Test fun addOpenNetwork() {
+    @Test
+    fun addOpenNetwork() {
         // When
         model.addOpenNetwork(TEST_SSID_1, addNetworkCallbacks)
 
@@ -40,7 +38,8 @@ internal class AddNetworkModelTest {
         verify(wiseFy, times(1)).addOpenNetwork(eq(TEST_SSID_1), any())
     }
 
-    @Test fun addWepNetwork() {
+    @Test
+    fun addWepNetwork() {
         // When
         model.addWEPNetwork(TEST_SSID_1, TEST_PASSWORD_1, addNetworkCallbacks)
 
@@ -52,7 +51,8 @@ internal class AddNetworkModelTest {
         )
     }
 
-    @Test fun addWPA2Network() {
+    @Test
+    fun addWPA2Network() {
         // When
         model.addWPA2Network(TEST_SSID_1, TEST_PASSWORD_1, addNetworkCallbacks)
 

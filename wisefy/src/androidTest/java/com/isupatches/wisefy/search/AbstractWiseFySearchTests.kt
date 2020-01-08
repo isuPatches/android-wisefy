@@ -2,9 +2,7 @@ package com.isupatches.wisefy.search
 
 import com.isupatches.wisefy.TEST_REGEX
 import com.isupatches.wisefy.TEST_SSID
-
 import com.isupatches.wisefy.internal.base.BaseInstrumentationTest
-
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -25,52 +23,62 @@ internal class AbstractWiseFySearchTests : BaseInstrumentationTest() {
      * findSavedNetworkByRegex tests
      */
 
-    @Test fun findSavedNetworkByRegex_failure_nullSavedNetworkList() {
+    @Test
+    fun findSavedNetworkByRegex_failure_nullSavedNetworkList() {
         mockNetworkUtil.savedNetworks_nullList()
         assertEquals(null, wisefySearch.findSavedNetworkByRegex(TEST_SSID))
     }
 
-    @Test fun findSavedNetworkByRegex_failure_emptySavedNetworkList() {
+    @Test
+    fun findSavedNetworkByRegex_failure_emptySavedNetworkList() {
         mockNetworkUtil.savedNetworks_emptyList()
         assertEquals(null, wisefySearch.findSavedNetworkByRegex(TEST_SSID))
     }
 
-    @Test fun findSavedNetworkByRegex_failure_nullSavedNetworkInList() {
+    @Test
+    fun findSavedNetworkByRegex_failure_nullSavedNetworkInList() {
         mockNetworkUtil.savedNetworks_listWithNull()
         assertEquals(null, wisefySearch.findSavedNetworksMatchingRegex(TEST_SSID))
     }
 
-    @Test fun findSavedNetworkByRegex_failure_nullSSID() {
+    @Test
+    fun findSavedNetworkByRegex_failure_nullSSID() {
         mockNetworkUtil.savedNetworks_nullSSID()
         assertEquals(null, wisefySearch.findSavedNetworkByRegex(TEST_SSID))
     }
 
-    @Test fun findSavedNetworkByRegex_failure_nonMatchingSSID() {
+    @Test
+    fun findSavedNetworkByRegex_failure_nonMatchingSSID() {
         mockNetworkUtil.savedNetworks_nonMatchingSSID()
         assertEquals(null, wisefySearch.findSavedNetworkByRegex(TEST_SSID))
     }
 
-    @Test fun findSavedNetworkByRegex_failure_multipleNonMatchingSSIDs() {
+    @Test
+    fun findSavedNetworkByRegex_failure_multipleNonMatchingSSIDs() {
         mockNetworkUtil.savedNetworks_multipleNonMatchingSSIDs()
         assertEquals(null, wisefySearch.findSavedNetworkByRegex(TEST_SSID))
     }
 
-    @Test fun findSavedNetworkByRegex_success() {
+    @Test
+    fun findSavedNetworkByRegex_success() {
         mockNetworkUtil.savedNetworks_matchingSSID()
         assertEquals(mockNetworkUtil.getExpectedSavedNetwork(), wisefySearch.findSavedNetworkByRegex(TEST_SSID))
     }
 
-    @Test fun findSavedNetworkByRegex_success_multipleMatchingSSIDs() {
+    @Test
+    fun findSavedNetworkByRegex_success_multipleMatchingSSIDs() {
         mockNetworkUtil.savedNetworks_multipleMatchingSSIDs()
         assertEquals(mockNetworkUtil.getExpectedSavedNetwork(), wisefySearch.findSavedNetworkByRegex(TEST_SSID))
     }
 
-    @Test fun findSavedNetworkByRegex_success_multipleSSIDs_nonRegex() {
+    @Test
+    fun findSavedNetworkByRegex_success_multipleSSIDs_nonRegex() {
         mockNetworkUtil.savedNetworks_multipleSSIDs(false)
         assertEquals(mockNetworkUtil.getExpectedSavedNetwork(), wisefySearch.findSavedNetworkByRegex(TEST_SSID))
     }
 
-    @Test fun findSavedNetworkByRegex_success_multipleSSIDs_regex() {
+    @Test
+    fun findSavedNetworkByRegex_success_multipleSSIDs_regex() {
         mockNetworkUtil.savedNetworks_multipleSSIDs(true)
         assertEquals(mockNetworkUtil.getExpectedSavedNetwork(), wisefySearch.findSavedNetworkByRegex(TEST_REGEX))
     }
@@ -79,111 +87,135 @@ internal class AbstractWiseFySearchTests : BaseInstrumentationTest() {
      * findSavedNetworksMatchingRegex tests
      */
 
-    @Test fun findSavedNetworksMatchingRegex_failure_nullSavedNetworkList() {
+    @Test
+    fun findSavedNetworksMatchingRegex_failure_nullSavedNetworkList() {
         mockNetworkUtil.savedNetworks_nullList()
         assertEquals(null, wisefySearch.findSavedNetworksMatchingRegex(TEST_SSID))
     }
 
-    @Test fun findSavedNetworksMatchingRegex_failure_emptySavedNetworkList() {
+    @Test
+    fun findSavedNetworksMatchingRegex_failure_emptySavedNetworkList() {
         mockNetworkUtil.savedNetworks_emptyList()
         assertEquals(null, wisefySearch.findSavedNetworksMatchingRegex(TEST_SSID))
     }
 
-    @Test fun findSavedNetworksMatchingRegex_failure_nullSavedNetworkInList() {
+    @Test
+    fun findSavedNetworksMatchingRegex_failure_nullSavedNetworkInList() {
         mockNetworkUtil.savedNetworks_listWithNull()
         assertEquals(null, wisefySearch.findSavedNetworksMatchingRegex(TEST_SSID))
     }
 
-    @Test fun findSavedNetworksMatchingRegex_failure_nullSSID() {
+    @Test
+    fun findSavedNetworksMatchingRegex_failure_nullSSID() {
         mockNetworkUtil.savedNetworks_nullSSID()
         assertEquals(null, wisefySearch.findSavedNetworksMatchingRegex(TEST_SSID))
     }
 
-    @Test fun findSavedNetworksMatchingRegex_failure_nonMatchingSSID() {
+    @Test
+    fun findSavedNetworksMatchingRegex_failure_nonMatchingSSID() {
         mockNetworkUtil.savedNetworks_nonMatchingSSID()
         assertEquals(null, wisefySearch.findSavedNetworksMatchingRegex(TEST_SSID))
     }
 
-    @Test fun findSavedNetworksMatchingRegex_failure_multipleNonMatchingSSIDs() {
+    @Test
+    fun findSavedNetworksMatchingRegex_failure_multipleNonMatchingSSIDs() {
         mockNetworkUtil.savedNetworks_multipleNonMatchingSSIDs()
         assertEquals(null, wisefySearch.findSavedNetworksMatchingRegex(TEST_SSID))
     }
 
-    @Test fun findSavedNetworksMatchingRegex_success() {
+    @Test
+    fun findSavedNetworksMatchingRegex_success() {
         mockNetworkUtil.savedNetworks_matchingSSID()
         assertEquals(mockNetworkUtil.getExpectedSavedNetworks(), wisefySearch.findSavedNetworksMatchingRegex(TEST_SSID))
     }
 
-    @Test fun findSavedNetworksMatchingRegex_success_multipleMatchingSSIDs() {
+    @Test
+    fun findSavedNetworksMatchingRegex_success_multipleMatchingSSIDs() {
         mockNetworkUtil.savedNetworks_multipleMatchingSSIDs()
         assertEquals(mockNetworkUtil.getExpectedSavedNetworks(), wisefySearch.findSavedNetworksMatchingRegex(TEST_SSID))
     }
 
-    @Test fun findSavedNetworksMatchingRegex_success_multipleSSIDs_nonRegex() {
+    @Test
+    fun findSavedNetworksMatchingRegex_success_multipleSSIDs_nonRegex() {
         mockNetworkUtil.savedNetworks_multipleSSIDs(false)
         assertEquals(mockNetworkUtil.getExpectedSavedNetworks(), wisefySearch.findSavedNetworksMatchingRegex(TEST_SSID))
     }
 
-    @Test fun findSavedNetworksMatchingRegex_success_multipleSSIDs_regex() {
+    @Test
+    fun findSavedNetworksMatchingRegex_success_multipleSSIDs_regex() {
         mockNetworkUtil.savedNetworks_multipleSSIDs(true)
-        assertEquals(mockNetworkUtil.getExpectedSavedNetworks(), wisefySearch.findSavedNetworksMatchingRegex(TEST_REGEX))
+        assertEquals(
+            mockNetworkUtil.getExpectedSavedNetworks(),
+            wisefySearch.findSavedNetworksMatchingRegex(TEST_REGEX)
+        )
     }
 
     /*
      *  isNetworkASavedConfiguration tests
      */
 
-    @Test fun isNetworkASavedConfiguration_failure_nullSSIDParam() {
+    @Test
+    fun isNetworkASavedConfiguration_failure_nullSSIDParam() {
         mockNetworkUtil.savedNetworks_nullList()
         assertEquals(false, wisefySearch.isNetworkASavedConfiguration(null))
     }
 
-    @Test fun isNetworkASavedConfiguration_failure_emptySSIDParam() {
+    @Test
+    fun isNetworkASavedConfiguration_failure_emptySSIDParam() {
         mockNetworkUtil.savedNetworks_nullList()
         assertEquals(false, wisefySearch.isNetworkASavedConfiguration(""))
     }
 
-    @Test fun isNetworkASavedConfiguration_failure_nullSavedNetworkList() {
+    @Test
+    fun isNetworkASavedConfiguration_failure_nullSavedNetworkList() {
         mockNetworkUtil.savedNetworks_nullList()
         assertEquals(false, wisefySearch.isNetworkASavedConfiguration(TEST_SSID))
     }
 
-    @Test fun isNetworkASavedConfiguration_failure_emptySavedNetworkList() {
+    @Test
+    fun isNetworkASavedConfiguration_failure_emptySavedNetworkList() {
         mockNetworkUtil.savedNetworks_emptyList()
         assertEquals(false, wisefySearch.isNetworkASavedConfiguration(TEST_SSID))
     }
 
-    @Test fun isNetworkASavedConfiguration_failure_nullSSID() {
+    @Test
+    fun isNetworkASavedConfiguration_failure_nullSSID() {
         mockNetworkUtil.savedNetworks_nullSSID()
         assertEquals(false, wisefySearch.isNetworkASavedConfiguration(TEST_SSID))
     }
 
-    @Test fun isNetworkASavedConfiguration_failure_nonMatchingSSID() {
+    @Test
+    fun isNetworkASavedConfiguration_failure_nonMatchingSSID() {
         mockNetworkUtil.savedNetworks_nonMatchingSSID()
         assertEquals(false, wisefySearch.isNetworkASavedConfiguration(TEST_SSID))
     }
 
-    @Test fun isNetworkASavedConfiguration_failure_multipleNonMatchingSSIDs() {
+    @Test
+    fun isNetworkASavedConfiguration_failure_multipleNonMatchingSSIDs() {
         mockNetworkUtil.savedNetworks_multipleNonMatchingSSIDs()
         assertEquals(false, wisefySearch.isNetworkASavedConfiguration(TEST_SSID))
     }
 
-    @Test fun isNetworkASavedConfiguration_success() {
+    @Test
+    fun isNetworkASavedConfiguration_success() {
         mockNetworkUtil.savedNetworks_matchingSSID()
         assertEquals(true, wisefySearch.isNetworkASavedConfiguration(TEST_SSID))
     }
 
-    @Test fun isNetworkASavedConfiguration_success_multipleMatchingSSIDs() {
+    @Test
+    fun isNetworkASavedConfiguration_success_multipleMatchingSSIDs() {
         mockNetworkUtil.savedNetworks_multipleMatchingSSIDs()
         assertEquals(true, wisefySearch.isNetworkASavedConfiguration(TEST_SSID))
     }
 
-    @Test fun isNetworkASavedConfiguration_success_multipleSSIDs_nonRegex() {
+    @Test
+    fun isNetworkASavedConfiguration_success_multipleSSIDs_nonRegex() {
         mockNetworkUtil.savedNetworks_multipleSSIDs(false)
         assertEquals(true, wisefySearch.isNetworkASavedConfiguration(TEST_SSID))
     }
 
-    @Test fun isNetworkASavedConfiguration_success_multipleSSIDs_regex() {
+    @Test
+    fun isNetworkASavedConfiguration_success_multipleSSIDs_regex() {
         mockNetworkUtil.savedNetworks_multipleSSIDs(true)
         assertEquals(true, wisefySearch.isNetworkASavedConfiguration(TEST_REGEX))
     }

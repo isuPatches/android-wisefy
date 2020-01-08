@@ -6,7 +6,6 @@ import com.isupatches.wisefy.TEST_TIMEOUT
 import com.isupatches.wisefy.constants.MOBILE
 import com.isupatches.wisefy.constants.WIFI
 import com.isupatches.wisefy.internal.base.BaseInstrumentationTest
-
 import org.junit.After
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -28,11 +27,13 @@ internal class WiseFyConnectionLegacyTests : BaseInstrumentationTest() {
         mockWifiManager
     )
 
-    @Before fun setUp() {
+    @Before
+    fun setUp() {
         wisefyConnection.init()
     }
 
-    @After override fun tearDown() {
+    @After
+    override fun tearDown() {
         super.tearDown()
         wisefyConnection.destroy()
     }
@@ -41,58 +42,68 @@ internal class WiseFyConnectionLegacyTests : BaseInstrumentationTest() {
      * isCurrentNetworkConnectedToSSID tests
      */
 
-    @Test fun isCurrentNetworkConnectedToSSID_failure_nullSSIDParam() {
+    @Test
+    fun isCurrentNetworkConnectedToSSID_failure_nullSSIDParam() {
         assertFalse(wisefyConnection.isCurrentNetworkConnectedToSSID(null))
     }
 
-    @Test fun isCurrentNetworkConnectedToSSID_failure_emptySSIDParam() {
+    @Test
+    fun isCurrentNetworkConnectedToSSID_failure_emptySSIDParam() {
         assertFalse(wisefyConnection.isCurrentNetworkConnectedToSSID(""))
     }
 
-    @Test fun isCurrentNetworkConnectedToSSID_failure_nullConnectionInfo() {
+    @Test
+    fun isCurrentNetworkConnectedToSSID_failure_nullConnectionInfo() {
         mockNetworkUtil.currentNetwork_null()
         assertFalse(wisefyConnection.isCurrentNetworkConnectedToSSID(TEST_SSID))
     }
 
-    @Test fun isCurrentNetworkConnectedToSSID_failure_nullSSID() {
+    @Test
+    fun isCurrentNetworkConnectedToSSID_failure_nullSSID() {
         mockNetworkUtil.currentNetwork(null)
-        mockNetworkUtil.currentNetworkConnectionStatus(true, true, null)
+        mockNetworkUtil.currentNetworkConnectionStatus(isAvailable = true, isConnected = true, type = null)
         assertFalse(wisefyConnection.isCurrentNetworkConnectedToSSID(TEST_SSID))
     }
 
-    @Test fun isCurrentNetworkConnectedToSSID_failure_emptySSID() {
+    @Test
+    fun isCurrentNetworkConnectedToSSID_failure_emptySSID() {
         mockNetworkUtil.currentNetwork("")
-        mockNetworkUtil.currentNetworkConnectionStatus(true, true, null)
+        mockNetworkUtil.currentNetworkConnectionStatus(isAvailable = true, isConnected = true, type = null)
         assertFalse(wisefyConnection.isCurrentNetworkConnectedToSSID(TEST_SSID))
     }
 
-    @Test fun isCurrentNetworkConnectedToSSID_failure_differentSSID() {
+    @Test
+    fun isCurrentNetworkConnectedToSSID_failure_differentSSID() {
         mockNetworkUtil.currentNetwork(TEST_SSID2)
-        mockNetworkUtil.currentNetworkConnectionStatus(true, true, null)
+        mockNetworkUtil.currentNetworkConnectionStatus(isAvailable = true, isConnected = true, type = null)
         assertFalse(wisefyConnection.isCurrentNetworkConnectedToSSID(TEST_SSID))
     }
 
-    @Test fun isCurrentNetworkConnectedToSSID_failure_notAvailable() {
+    @Test
+    fun isCurrentNetworkConnectedToSSID_failure_notAvailable() {
         mockNetworkUtil.currentNetwork(TEST_SSID)
-        mockNetworkUtil.currentNetworkConnectionStatus(false, true, null)
+        mockNetworkUtil.currentNetworkConnectionStatus(isAvailable = false, isConnected = true, type = null)
         assertFalse(wisefyConnection.isCurrentNetworkConnectedToSSID(TEST_SSID))
     }
 
-    @Test fun isCurrentNetworkConnectedToSSID_failure_notAvailableOrConnected() {
+    @Test
+    fun isCurrentNetworkConnectedToSSID_failure_notAvailableOrConnected() {
         mockNetworkUtil.currentNetwork(TEST_SSID)
-        mockNetworkUtil.currentNetworkConnectionStatus(false, false, null)
+        mockNetworkUtil.currentNetworkConnectionStatus(isAvailable = false, isConnected = false, type = null)
         assertFalse(wisefyConnection.isCurrentNetworkConnectedToSSID(TEST_SSID))
     }
 
-    @Test fun isCurrentNetworkConnectedToSSID_failure_notConnected() {
+    @Test
+    fun isCurrentNetworkConnectedToSSID_failure_notConnected() {
         mockNetworkUtil.currentNetwork(TEST_SSID)
-        mockNetworkUtil.currentNetworkConnectionStatus(true, false, null)
+        mockNetworkUtil.currentNetworkConnectionStatus(isAvailable = true, isConnected = false, type = null)
         assertFalse(wisefyConnection.isCurrentNetworkConnectedToSSID(TEST_SSID))
     }
 
-    @Test fun isCurrentNetworkConnectedToSSID_success() {
+    @Test
+    fun isCurrentNetworkConnectedToSSID_success() {
         mockNetworkUtil.currentNetwork(TEST_SSID)
-        mockNetworkUtil.currentNetworkConnectionStatus(true, true, null)
+        mockNetworkUtil.currentNetworkConnectionStatus(isAvailable = true, isConnected = true, type = null)
         assertTrue(wisefyConnection.isCurrentNetworkConnectedToSSID(TEST_SSID))
     }
 
@@ -100,27 +111,32 @@ internal class WiseFyConnectionLegacyTests : BaseInstrumentationTest() {
      * isNetworkConnected tests
      */
 
-    @Test fun isNetworkConnected_failure_nullNetworkInfoParam() {
+    @Test
+    fun isNetworkConnected_failure_nullNetworkInfoParam() {
         assertFalse(wisefyConnection.isNetworkConnected())
     }
 
-    @Test fun isNetworkConnected_failure_notAvailable() {
-        mockNetworkUtil.currentNetworkConnectionStatus(false, true, null)
+    @Test
+    fun isNetworkConnected_failure_notAvailable() {
+        mockNetworkUtil.currentNetworkConnectionStatus(isAvailable = false, isConnected = true, type = null)
         assertFalse(wisefyConnection.isNetworkConnected())
     }
 
-    @Test fun isNetworkConnected_failure_notAvailableOrConnected() {
-        mockNetworkUtil.currentNetworkConnectionStatus(false, false, null)
+    @Test
+    fun isNetworkConnected_failure_notAvailableOrConnected() {
+        mockNetworkUtil.currentNetworkConnectionStatus(isAvailable = false, isConnected = false, type = null)
         assertFalse(wisefyConnection.isNetworkConnected())
     }
 
-    @Test fun isNetworkConnected_failure_notConnected() {
-        mockNetworkUtil.currentNetworkConnectionStatus(true, false, null)
+    @Test
+    fun isNetworkConnected_failure_notConnected() {
+        mockNetworkUtil.currentNetworkConnectionStatus(isAvailable = true, isConnected = false, type = null)
         assertFalse(wisefyConnection.isNetworkConnected())
     }
 
-    @Test fun isNetworkConnected_success() {
-        mockNetworkUtil.currentNetworkConnectionStatus(true, true, null)
+    @Test
+    fun isNetworkConnected_success() {
+        mockNetworkUtil.currentNetworkConnectionStatus(isAvailable = true, isConnected = true, type = null)
         assertTrue(wisefyConnection.isNetworkConnected())
     }
 
@@ -128,55 +144,64 @@ internal class WiseFyConnectionLegacyTests : BaseInstrumentationTest() {
      * isDeviceConnectedToMobileNetwork tests
      */
 
-    @Test fun isDeviceConnectedToMobileNetwork_failure_nullNetworkInfo() {
+    @Test
+    fun isDeviceConnectedToMobileNetwork_failure_nullNetworkInfo() {
         assertFalse(wisefyConnection.isDeviceConnectedToMobileNetwork())
     }
 
-    @Test fun isDeviceConnectedToMobileNetwork_failure_notAvailableOrConnected() {
+    @Test
+    fun isDeviceConnectedToMobileNetwork_failure_notAvailableOrConnected() {
         mockNetworkUtil.currentNetwork(TEST_SSID)
-        mockNetworkUtil.currentNetworkConnectionStatus(false, false, MOBILE)
+        mockNetworkUtil.currentNetworkConnectionStatus(isAvailable = false, isConnected = false, type = MOBILE)
         assertFalse(wisefyConnection.isDeviceConnectedToMobileNetwork())
     }
 
-    @Test fun isDeviceConnectedToMobileNetwork_failure_notAvailable() {
+    @Test
+    fun isDeviceConnectedToMobileNetwork_failure_notAvailable() {
         mockNetworkUtil.currentNetwork(TEST_SSID)
-        mockNetworkUtil.currentNetworkConnectionStatus(false, true, MOBILE)
+        mockNetworkUtil.currentNetworkConnectionStatus(isAvailable = false, isConnected = true, type = MOBILE)
         assertFalse(wisefyConnection.isDeviceConnectedToMobileNetwork())
     }
 
-    @Test fun isDeviceConnectedToMobileNetwork_failure_notConnected() {
+    @Test
+    fun isDeviceConnectedToMobileNetwork_failure_notConnected() {
         mockNetworkUtil.currentNetwork(TEST_SSID)
-        mockNetworkUtil.currentNetworkConnectionStatus(true, false, MOBILE)
+        mockNetworkUtil.currentNetworkConnectionStatus(isAvailable = true, isConnected = false, type = MOBILE)
         assertFalse(wisefyConnection.isDeviceConnectedToMobileNetwork())
     }
 
-    @Test fun isDeviceConnectedToMobileNetwork_failure_nullTypeName() {
+    @Test
+    fun isDeviceConnectedToMobileNetwork_failure_nullTypeName() {
         mockNetworkUtil.currentNetwork(TEST_SSID)
-        mockNetworkUtil.currentNetworkConnectionStatus(true, true, null)
+        mockNetworkUtil.currentNetworkConnectionStatus(isAvailable = true, isConnected = true, type = null)
         assertFalse(wisefyConnection.isDeviceConnectedToMobileNetwork())
     }
 
-    @Test fun isDeviceConnectedToMobileNetwork_failure_differentTypeName() {
+    @Test
+    fun isDeviceConnectedToMobileNetwork_failure_differentTypeName() {
         mockNetworkUtil.currentNetwork(TEST_SSID)
-        mockNetworkUtil.currentNetworkConnectionStatus(true, true, WIFI)
+        mockNetworkUtil.currentNetworkConnectionStatus(isAvailable = true, isConnected = true, type = WIFI)
         assertFalse(wisefyConnection.isDeviceConnectedToMobileNetwork())
     }
 
-    @Test fun isDeviceConnectedToMobileNetwork_failure_differentTypeName_differentCase() {
+    @Test
+    fun isDeviceConnectedToMobileNetwork_failure_differentTypeName_differentCase() {
         mockNetworkUtil.currentNetwork(TEST_SSID)
-        mockNetworkUtil.currentNetworkConnectionStatus(true, true, "wifi")
+        mockNetworkUtil.currentNetworkConnectionStatus(isAvailable = true, isConnected = true, type = "wifi")
         assertFalse(wisefyConnection.isDeviceConnectedToMobileNetwork())
     }
 
-    @Test fun isDeviceConnectedToMobileNetwork_success() {
+    @Test
+    fun isDeviceConnectedToMobileNetwork_success() {
         mockNetworkUtil.currentNetwork(TEST_SSID)
-        mockNetworkUtil.currentNetworkConnectionStatus(true, true, MOBILE)
+        mockNetworkUtil.currentNetworkConnectionStatus(isAvailable = true, isConnected = true, type = MOBILE)
         assertTrue(wisefyConnection.isDeviceConnectedToMobileNetwork())
     }
 
-    @Test fun isDeviceConnectedToMobileNetwork_success_differentCase() {
+    @Test
+    fun isDeviceConnectedToMobileNetwork_success_differentCase() {
         mockNetworkUtil.currentNetwork(TEST_SSID)
-        mockNetworkUtil.currentNetworkConnectionStatus(true, true, "mobile")
+        mockNetworkUtil.currentNetworkConnectionStatus(isAvailable = true, isConnected = true, type = "mobile")
         assertTrue(wisefyConnection.isDeviceConnectedToMobileNetwork())
     }
 
@@ -184,55 +209,64 @@ internal class WiseFyConnectionLegacyTests : BaseInstrumentationTest() {
      * isDeviceConnectedToWifiNetwork tests
      */
 
-    @Test fun isDeviceConnectedToWifiNetwork_failure_nullNetworkInfo() {
+    @Test
+    fun isDeviceConnectedToWifiNetwork_failure_nullNetworkInfo() {
         assertFalse(wisefyConnection.isDeviceConnectedToWifiNetwork())
     }
 
-    @Test fun isDeviceConnectedToWifiNetwork_failure_notAvailableOrConnected() {
+    @Test
+    fun isDeviceConnectedToWifiNetwork_failure_notAvailableOrConnected() {
         mockNetworkUtil.currentNetwork(TEST_SSID)
-        mockNetworkUtil.currentNetworkConnectionStatus(false, false, WIFI)
+        mockNetworkUtil.currentNetworkConnectionStatus(isAvailable = false, isConnected = false, type = WIFI)
         assertFalse(wisefyConnection.isDeviceConnectedToWifiNetwork())
     }
 
-    @Test fun isDeviceConnectedToWifiNetwork_failure_notAvailable() {
+    @Test
+    fun isDeviceConnectedToWifiNetwork_failure_notAvailable() {
         mockNetworkUtil.currentNetwork(TEST_SSID)
-        mockNetworkUtil.currentNetworkConnectionStatus(false, true, WIFI)
+        mockNetworkUtil.currentNetworkConnectionStatus(isAvailable = false, isConnected = true, type = WIFI)
         assertFalse(wisefyConnection.isDeviceConnectedToWifiNetwork())
     }
 
-    @Test fun isDeviceConnectedToWifiNetwork_failure_notConnected() {
+    @Test
+    fun isDeviceConnectedToWifiNetwork_failure_notConnected() {
         mockNetworkUtil.currentNetwork(TEST_SSID)
-        mockNetworkUtil.currentNetworkConnectionStatus(true, false, WIFI)
+        mockNetworkUtil.currentNetworkConnectionStatus(isAvailable = true, isConnected = false, type = WIFI)
         assertFalse(wisefyConnection.isDeviceConnectedToWifiNetwork())
     }
 
-    @Test fun isDeviceConnectedToWifiNetwork_failure_nullTypeName() {
+    @Test
+    fun isDeviceConnectedToWifiNetwork_failure_nullTypeName() {
         mockNetworkUtil.currentNetwork(TEST_SSID)
-        mockNetworkUtil.currentNetworkConnectionStatus(true, true, null)
+        mockNetworkUtil.currentNetworkConnectionStatus(isAvailable = true, isConnected = true, type = null)
         assertFalse(wisefyConnection.isDeviceConnectedToWifiNetwork())
     }
 
-    @Test fun isDeviceConnectedToWifiNetwork_failure_differentTypeName() {
+    @Test
+    fun isDeviceConnectedToWifiNetwork_failure_differentTypeName() {
         mockNetworkUtil.currentNetwork(TEST_SSID)
-        mockNetworkUtil.currentNetworkConnectionStatus(true, true, MOBILE)
+        mockNetworkUtil.currentNetworkConnectionStatus(isAvailable = true, isConnected = true, type = MOBILE)
         assertFalse(wisefyConnection.isDeviceConnectedToWifiNetwork())
     }
 
-    @Test fun isDeviceConnectedToWifiNetwork_failure_differentTypeName_differentCase() {
+    @Test
+    fun isDeviceConnectedToWifiNetwork_failure_differentTypeName_differentCase() {
         mockNetworkUtil.currentNetwork(TEST_SSID)
-        mockNetworkUtil.currentNetworkConnectionStatus(true, true, "mobile")
+        mockNetworkUtil.currentNetworkConnectionStatus(isAvailable = true, isConnected = true, type = "mobile")
         assertFalse(wisefyConnection.isDeviceConnectedToWifiNetwork())
     }
 
-    @Test fun isDeviceConnectedToWifiNetwork_success() {
+    @Test
+    fun isDeviceConnectedToWifiNetwork_success() {
         mockNetworkUtil.currentNetwork(TEST_SSID)
-        mockNetworkUtil.currentNetworkConnectionStatus(true, true, WIFI)
+        mockNetworkUtil.currentNetworkConnectionStatus(isAvailable = true, isConnected = true, type = WIFI)
         assertTrue(wisefyConnection.isDeviceConnectedToWifiNetwork())
     }
 
-    @Test fun isDeviceConnectedToWifiNetwork_success_differentCase() {
+    @Test
+    fun isDeviceConnectedToWifiNetwork_success_differentCase() {
         mockNetworkUtil.currentNetwork(TEST_SSID)
-        mockNetworkUtil.currentNetworkConnectionStatus(true, true, "wifi")
+        mockNetworkUtil.currentNetworkConnectionStatus(isAvailable = true, isConnected = true, type = "wifi")
         assertTrue(wisefyConnection.isDeviceConnectedToWifiNetwork())
     }
 
@@ -240,17 +274,20 @@ internal class WiseFyConnectionLegacyTests : BaseInstrumentationTest() {
      * isDeviceRoaming tests
      */
 
-    @Test fun isDeviceRoaming_failure_nullNetworkInfo() {
+    @Test
+    fun isDeviceRoaming_failure_nullNetworkInfo() {
         assertFalse(wisefyConnection.isDeviceRoaming())
     }
 
-    @Test fun isDeviceRoaming_failure() {
+    @Test
+    fun isDeviceRoaming_failure() {
         mockNetworkUtil.currentNetwork(TEST_SSID)
         mockNetworkUtil.isDeviceRoaming(false)
         assertFalse(wisefyConnection.isDeviceRoaming())
     }
 
-    @Test fun isDeviceRoaming_success() {
+    @Test
+    fun isDeviceRoaming_success() {
         mockNetworkUtil.currentNetwork(TEST_SSID)
         mockNetworkUtil.isDeviceRoaming(true)
         assertTrue(wisefyConnection.isDeviceRoaming())
@@ -260,46 +297,54 @@ internal class WiseFyConnectionLegacyTests : BaseInstrumentationTest() {
      * waitToConnectToSSID tests
      */
 
-    @Test fun waitToConnectToSSID_failure_nullSSIDParam() {
+    @Test
+    fun waitToConnectToSSID_failure_nullSSIDParam() {
         assertFalse(wisefyConnection.waitToConnectToSSID(null, TEST_TIMEOUT))
     }
 
-    @Test fun waitToConnectToSSID_failure_nullConnectionInfo() {
+    @Test
+    fun waitToConnectToSSID_failure_nullConnectionInfo() {
         mockNetworkUtil.currentNetwork_null()
         assertFalse(wisefyConnection.waitToConnectToSSID(TEST_SSID, TEST_TIMEOUT))
     }
 
-    @Test fun waitToConnectToSSID_failure_nullSSID() {
+    @Test
+    fun waitToConnectToSSID_failure_nullSSID() {
         mockNetworkUtil.currentNetwork(null)
         assertFalse(wisefyConnection.waitToConnectToSSID(null, TEST_TIMEOUT))
     }
 
-    @Test fun waitToConnectToSSID_failure_differentSSID() {
-        mockNetworkUtil.currentNetworkConnectionStatus(true, true, WIFI)
+    @Test
+    fun waitToConnectToSSID_failure_differentSSID() {
+        mockNetworkUtil.currentNetworkConnectionStatus(isAvailable = true, isConnected = true, type = WIFI)
         mockNetworkUtil.currentNetwork(TEST_SSID2)
         assertFalse(wisefyConnection.waitToConnectToSSID(TEST_SSID, TEST_TIMEOUT))
     }
 
-    @Test fun waitToConnectToSSID_failure_notAvailable() {
-        mockNetworkUtil.currentNetworkConnectionStatus(false, true, WIFI)
+    @Test
+    fun waitToConnectToSSID_failure_notAvailable() {
+        mockNetworkUtil.currentNetworkConnectionStatus(isAvailable = false, isConnected = true, type = WIFI)
         mockNetworkUtil.currentNetwork(TEST_SSID)
         assertFalse(wisefyConnection.waitToConnectToSSID(TEST_SSID, TEST_TIMEOUT))
     }
 
-    @Test fun waitToConnectToSSID_failure_notAvailableOrConnected() {
-        mockNetworkUtil.currentNetworkConnectionStatus(false, false, WIFI)
+    @Test
+    fun waitToConnectToSSID_failure_notAvailableOrConnected() {
+        mockNetworkUtil.currentNetworkConnectionStatus(isAvailable = false, isConnected = false, type = WIFI)
         mockNetworkUtil.currentNetwork(TEST_SSID)
         assertFalse(wisefyConnection.waitToConnectToSSID(TEST_SSID, TEST_TIMEOUT))
     }
 
-    @Test fun waitToConnectToSSID_failure_notConnected() {
-        mockNetworkUtil.currentNetworkConnectionStatus(true, false, WIFI)
+    @Test
+    fun waitToConnectToSSID_failure_notConnected() {
+        mockNetworkUtil.currentNetworkConnectionStatus(isAvailable = true, isConnected = false, type = WIFI)
         mockNetworkUtil.currentNetwork(TEST_SSID)
         assertFalse(wisefyConnection.waitToConnectToSSID(TEST_SSID, TEST_TIMEOUT))
     }
 
-    @Test fun waitToConnectToSSID_success() {
-        mockNetworkUtil.currentNetworkConnectionStatus(true, true, WIFI)
+    @Test
+    fun waitToConnectToSSID_success() {
+        mockNetworkUtil.currentNetworkConnectionStatus(isAvailable = true, isConnected = true, type = WIFI)
         mockNetworkUtil.currentNetwork(TEST_SSID)
         assertTrue(wisefyConnection.waitToConnectToSSID(TEST_SSID, TEST_TIMEOUT))
     }

@@ -3,11 +3,9 @@ package com.isupatches.wisefy
 import com.isupatches.wisefy.callbacks.GetCurrentNetworkCallbacks
 import com.isupatches.wisefy.constants.MISSING_PARAMETER
 import com.isupatches.wisefy.internal.base.BaseInstrumentationTest
-
 import org.junit.Assert.assertEquals
 import org.junit.Assert.fail
 import org.junit.Test
-
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.timeout
 import org.mockito.Mockito.verify
@@ -20,19 +18,22 @@ import org.mockito.Mockito.verify
  */
 internal class GetCurrentNetworkTests : BaseInstrumentationTest() {
 
-    @Test fun sync_failure_prechecks() {
+    @Test
+    fun sync_failure_prechecks() {
         mockWiseFyPrechecksUtil.getCurrentNetwork_failure()
         assertEquals(null, wisefy.getCurrentNetwork())
         verificationUtil.didNotTryToGetCurrentNetwork()
     }
 
-    @Test fun sync_failure_nullCurrentNetwork() {
+    @Test
+    fun sync_failure_nullCurrentNetwork() {
         mockWiseFyPrechecksUtil.getCurrentNetwork_success()
         assertEquals(null, wisefy.getCurrentNetwork())
         verificationUtil.triedToGetCurrentNetwork()
     }
 
-    @Test fun sync_success() {
+    @Test
+    fun sync_success() {
         mockWiseFyPrechecksUtil.getCurrentNetwork_success()
         mockNetworkUtil.currentNetwork(TEST_SSID)
         val currentNetwork = wisefy.getCurrentNetwork()
@@ -44,7 +45,8 @@ internal class GetCurrentNetworkTests : BaseInstrumentationTest() {
         }
     }
 
-    @Test fun async_failure_prechecks() {
+    @Test
+    fun async_failure_prechecks() {
         mockWiseFyPrechecksUtil.getCurrentNetwork_failure()
         val mockCallbacks = mock(GetCurrentNetworkCallbacks::class.java)
         wisefy.getCurrentNetwork(mockCallbacks)
@@ -52,13 +54,15 @@ internal class GetCurrentNetworkTests : BaseInstrumentationTest() {
         verificationUtil.didNotTryToGetCurrentNetwork()
     }
 
-    @Test fun async_failure_prechecks_nullCallbacks() {
+    @Test
+    fun async_failure_prechecks_nullCallbacks() {
         mockWiseFyPrechecksUtil.getCurrentNetwork_failure()
         nullCallbackUtil.callGetCurrentNetwork()
         verificationUtil.didNotTryToGetCurrentNetwork()
     }
 
-    @Test fun async_failure_nullCurrentNetwork() {
+    @Test
+    fun async_failure_nullCurrentNetwork() {
         mockWiseFyPrechecksUtil.getCurrentNetwork_success()
         val mockCallbacks = mock(GetCurrentNetworkCallbacks::class.java)
         wisefy.getCurrentNetwork(mockCallbacks)
@@ -66,13 +70,15 @@ internal class GetCurrentNetworkTests : BaseInstrumentationTest() {
         verificationUtil.triedToGetCurrentNetwork()
     }
 
-    @Test fun async_failure_nullCurrentNetwork_nullCallbacks() {
+    @Test
+    fun async_failure_nullCurrentNetwork_nullCallbacks() {
         mockWiseFyPrechecksUtil.getCurrentNetwork_success()
         nullCallbackUtil.callGetCurrentNetwork()
         verificationUtil.triedToGetCurrentNetwork()
     }
 
-    @Test fun async_success() {
+    @Test
+    fun async_success() {
         mockWiseFyPrechecksUtil.getCurrentNetwork_success()
         val currentNetwork = mockNetworkUtil.currentNetwork(TEST_SSID)
         val mockCallbacks = mock(GetCurrentNetworkCallbacks::class.java)
@@ -81,7 +87,8 @@ internal class GetCurrentNetworkTests : BaseInstrumentationTest() {
         verificationUtil.triedToGetCurrentNetwork()
     }
 
-    @Test fun async_success_nullCallback() {
+    @Test
+    fun async_success_nullCallback() {
         mockWiseFyPrechecksUtil.getCurrentNetwork_success()
         mockNetworkUtil.currentNetwork(TEST_SSID)
         nullCallbackUtil.callGetCurrentNetwork()

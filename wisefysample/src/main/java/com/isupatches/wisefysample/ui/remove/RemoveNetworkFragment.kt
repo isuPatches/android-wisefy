@@ -15,27 +15,23 @@
  */
 package com.isupatches.wisefysample.ui.remove
 
-import android.Manifest.permission.ACCESS_WIFI_STATE
+import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.annotation.VisibleForTesting
-
 import com.isupatches.wisefy.constants.WiseFyCode
 import com.isupatches.wisefysample.R
 import com.isupatches.wisefysample.internal.base.BaseFragment
 import com.isupatches.wisefysample.internal.preferences.RemoveNetworkStore
 import com.isupatches.wisefysample.internal.util.getTrimmedInput
 import com.isupatches.wisefysample.internal.util.hideKeyboardFrom
-
 import dagger.Binds
 import dagger.Module
-
-import kotlinx.android.synthetic.main.fragment_remove.removeNetworkBtn
-import kotlinx.android.synthetic.main.fragment_remove.networkNameEdt
-
 import javax.inject.Inject
+import kotlinx.android.synthetic.main.fragment_remove.networkNameEdt
+import kotlinx.android.synthetic.main.fragment_remove.removeNetworkBtn
 
 internal class RemoveNetworkFragment : BaseFragment(), RemoveNetworkMvp.View {
 
@@ -110,6 +106,7 @@ internal class RemoveNetworkFragment : BaseFragment(), RemoveNetworkMvp.View {
      * WiseFy helpers
      */
 
+    @Throws(SecurityException::class)
     private fun removeNetwork() {
         if (checkRemoveNetworkPermissions()) {
             presenter.removeNetwork(networkNameEdt.getTrimmedInput())
@@ -121,7 +118,7 @@ internal class RemoveNetworkFragment : BaseFragment(), RemoveNetworkMvp.View {
      */
 
     private fun checkRemoveNetworkPermissions(): Boolean {
-        return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_REMOVE_NETWORK_REQUEST_CODE)
+        return isPermissionGranted(ACCESS_FINE_LOCATION, WISEFY_REMOVE_NETWORK_REQUEST_CODE)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {

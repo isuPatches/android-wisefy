@@ -15,11 +15,14 @@
  */
 package com.isupatches.wisefy
 
+import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.net.NetworkInfo
 import android.net.wifi.ScanResult
 import android.net.wifi.WifiConfiguration
 import android.net.wifi.WifiInfo
-
+import android.os.Build
+import androidx.annotation.RequiresApi
+import androidx.annotation.RequiresPermission
 import com.isupatches.wisefy.callbacks.AddNetworkCallbacks
 import com.isupatches.wisefy.callbacks.ConnectToNetworkCallbacks
 import com.isupatches.wisefy.callbacks.DisableWifiCallbacks
@@ -109,8 +112,8 @@ interface AccessPointApi {
     /**
      * To retrieve a list of nearby access points.
      *
-     * *NOTE* Setting filterDuplicates to true will exclude access points for an SSID that have a weaker RSSI
-     * (will always take the highest signal strength).
+     * *NOTE* Setting filterDuplicates to true will exclude access points for an SSID that have a weaker RSSI.
+     *  It will always take the highest signal strength.
      *
      * @param filterDuplicates If you want to exclude SSIDs with that same name that have a weaker signal strength
      *
@@ -119,26 +122,34 @@ interface AccessPointApi {
      * @see [WiseFy.getNearbyAccessPoints]
      * @see [ScanResult]
      *
+     * Updates
+     * - 01/04/2020: Refined permissions
+     *
      * @author Patches
      * @since 3.0
      */
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     fun getNearbyAccessPoints(filterDuplicates: Boolean): List<ScanResult>?
 
     /**
      * To retrieve a list of nearby access points.
      *
-     * *NOTE* Setting filterDuplicates to true will not return SSIDs with a weaker signal strength
-     * (will always take the highest).
+     * *NOTE* Setting filterDuplicates to true will not return SSIDs with a weaker signal strength.
+     *  It will always take the highest.
      *
      * @param filterDuplicates If you want to exclude SSIDs with that same name that have a weaker signal strength
      * @param callbacks The listener to return results to
      *
      * @see [WiseFy.getNearbyAccessPoints]
      * @see [GetNearbyAccessPointsCallbacks]
-
+     *
+     * Updates
+     * - 01/04/2020: Refined permissions
+     *
      * @author Patches
      * @since 3.0
      */
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     fun getNearbyAccessPoints(filterDuplicates: Boolean, callbacks: GetNearbyAccessPointsCallbacks?)
 
     /**
@@ -154,9 +165,13 @@ interface AccessPointApi {
      *
      * @see [WiseFy.getRSSI]
      *
+     * Updates
+     * - 01/04/2020: Refined permissions
+     *
      * @author Patches
      * @since 3.0
      */
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     fun getRSSI(regexForSSID: String?, takeHighest: Boolean, timeoutInMillis: Int): Int?
 
     /**
@@ -172,9 +187,13 @@ interface AccessPointApi {
      * @see [WiseFy.getRSSI]
      * @see [GetRSSICallbacks]
      *
+     * Updates
+     * - 01/04/2020: Refined permissions
+     *
      * @author Patches
      * @since 3.0
      */
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     fun getRSSI(
         regexForSSID: String?,
         takeHighest: Boolean,
@@ -185,20 +204,27 @@ interface AccessPointApi {
     /**
      * To return the first access point that matches a given regex.
      *
-     * *NOTE* Setting filterDuplicates to true will not return an access point with a weaker signal strength (will always take the highest).
+     * *NOTE* Setting filterDuplicates to true will not return an access point with a weaker signal strength.
+     *  It will always take the highest.
      *
      * @param regexForSSID The regex to use when iterating through nearby access points
      * @param timeoutInMillis The amount of time (in milliseconds) to wait for a matching access point
-     * @param filterDuplicates If you want to exclude access points with the same name that have a weaker signal strength
+     * @param filterDuplicates If you want to exclude access points with the same name that have a weaker signal
+     *  strength
      *
-     * @return ScanResult|null - The first access point or access point with the highest signal strength matching the regex
+     * @return ScanResult|null - The first access point or access point with the highest signal strength matching the
+     *  regex
      *
      * @see [WiseFy.searchForAccessPoint]
      * @see [ScanResult]
      *
+     * Updates
+     * - 01/04/2020: Refined permissions
+     *
      * @author Patches
      * @since 3.0
      */
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     fun searchForAccessPoint(
         regexForSSID: String?,
         timeoutInMillis: Int,
@@ -208,19 +234,25 @@ interface AccessPointApi {
     /**
      * To return the first access point that matches a given regex.
      *
-     * *NOTE* Setting filterDuplicates to true will not return an access point with a weaker signal strength (will always take the highest).
+     * *NOTE* Setting filterDuplicates to true will not return an access point with a weaker signal strength.
+     *  It will always take the highest.
      *
      * @param regexForSSID The regex to use when iterating through nearby access points
      * @param timeoutInMillis The amount of time (in milliseconds) to wait for a matching access point
-     * @param filterDuplicates If you want to exclude access points with the same name that have a weaker signal strength
+     * @param filterDuplicates If you want to exclude access points with the same name that have a weaker signal
+     *  strength
      * @param callbacks The listener to return results to
      *
      * @see [WiseFy.searchForAccessPoint]
      * @see [SearchForAccessPointCallbacks]
      *
+     * Updates
+     * - 01/04/2020: Refined permissions
+     *
      * @author Patches
      * @since 3.0
      */
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     fun searchForAccessPoint(
         regexForSSID: String?,
         timeoutInMillis: Int,
@@ -231,36 +263,48 @@ interface AccessPointApi {
     /**
      * To return nearby access points that match a given regex.
      *
-     * *NOTE* Setting filterDuplicates to true will not return access points with a weaker signal strength (will always take the highest).
+     * *NOTE* Setting filterDuplicates to true will not return access points with a weaker signal strength.
+     *  It will always take the highest.
      *
      * @param regexForSSID The regex to use when iterating through nearby access points
-     * @param filterDuplicates If you want to exclude access points with the same name that have a weaker signal strength
+     * @param filterDuplicates If you want to exclude access points with the same name that have a weaker signal
+     *  strength
      *
      * @return List of ScanResult|null - The list of matching access points or null if none match the given regex
      *
      * @see [WiseFy.searchForAccessPoints]
      * @see [ScanResult]
      *
+     * Updates
+     * - 01/04/2020: Refined permissions
+     *
      * @author Patches
      * @since 3.0
      */
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     fun searchForAccessPoints(regexForSSID: String?, filterDuplicates: Boolean): List<ScanResult>?
 
     /**
      * To return nearby access points that match a given regex.
      *
-     * *NOTE* Setting filterDuplicates to true will not return access points with a weaker signal strength (will always take the highest).
+     * *NOTE* Setting filterDuplicates to true will not return access points with a weaker signal strength.
+     *  It will always take the highest.
      *
      * @param regexForSSID The regex to use when iterating through nearby access points
-     * @param filterDuplicates If you want to exclude access points with the same name that have a weaker signal strength
+     * @param filterDuplicates If you want to exclude access points with the same name that have a weaker signal
+     *  strength
      * @param callbacks The listener to return results to
      *
      * @see [WiseFy.searchForAccessPoints]
      * @see [SearchForAccessPointsCallbacks]
      *
+     * Updates
+     * - 01/04/2020: Refined permissions
+     *
      * @author Patches
      * @since 3.0
      */
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     fun searchForAccessPoints(
         regexForSSID: String?,
         filterDuplicates: Boolean,
@@ -277,9 +321,13 @@ interface AccessPointApi {
      *
      * @see [WiseFy.searchForSSID]
      *
+     * Updates
+     * - 01/04/2020: Refined permissions
+     *
      * @author Patches
      * @since 3.0
      */
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     fun searchForSSID(regexForSSID: String?, timeoutInMillis: Int): String?
 
     /**
@@ -292,9 +340,13 @@ interface AccessPointApi {
      * @see [WiseFy.searchForSSID]
      * @see [SearchForSSIDCallbacks]
      *
+     * Updates
+     * - 01/04/2020: Refined permissions
+     *
      * @author Patches
      * @since 3.0
      */
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     fun searchForSSID(regexForSSID: String?, timeoutInMillis: Int, callbacks: SearchForSSIDCallbacks?)
 
     /**
@@ -306,9 +358,13 @@ interface AccessPointApi {
      *
      * @see [WiseFy.searchForSSIDs]
      *
+     * Updates
+     * - 01/04/2020: Refined permissions
+     *
      * @author Patches
      * @since 3.0
      */
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     fun searchForSSIDs(regexForSSID: String?): List<String>?
 
     /**
@@ -320,9 +376,13 @@ interface AccessPointApi {
      * @see [WiseFy.searchForSSIDs]
      * @see [SearchForSSIDsCallbacks]
      *
+     * Updates
+     * - 01/04/2020: Refined permissions
+     *
      * @author Patches
      * @since 3.0
      */
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     fun searchForSSIDs(regexForSSID: String?, callbacks: SearchForSSIDsCallbacks?)
 }
 
@@ -343,9 +403,13 @@ interface AddNetworkApi {
      *
      * @see [WiseFy.addOpenNetwork]
      *
+     * Updates
+     * - 01/04/2020: Refined permissions
+     *
      * @author Patches
      * @since 3.0
      */
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     fun addOpenNetwork(ssid: String?): Int
 
     /**
@@ -357,9 +421,13 @@ interface AddNetworkApi {
      * @see [WiseFy.addOpenNetwork]
      * @see [AddNetworkCallbacks]
      *
+     * Updates
+     * - 01/04/2020: Refined permissions
+     *
      * @author Patches
      * @since 3.0
      */
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     fun addOpenNetwork(ssid: String?, callbacks: AddNetworkCallbacks?)
 
     /**
@@ -372,9 +440,14 @@ interface AddNetworkApi {
      *
      * @see [WiseFy.addWEPNetwork]
      *
+     * Updates
+     * - 01/04/2020: Refined permissions
+     *
      * @author Patches
      * @since 3.0
      */
+    @RequiresPermission(ACCESS_FINE_LOCATION)
+    @Deprecated("Due to security and performance limitations, WEP networks are discouraged")
     fun addWEPNetwork(ssid: String?, password: String?): Int
 
     /**
@@ -386,10 +459,15 @@ interface AddNetworkApi {
      *
      * @see [WiseFy.addWEPNetwork]
      * @see [AddNetworkCallbacks]
-
+     *
+     * Updates
+     * - 01/04/2020: Refined permissions
+     *
      * @author Patches
      * @since 3.0
      */
+    @RequiresPermission(ACCESS_FINE_LOCATION)
+    @Deprecated("Due to security and performance limitations, WEP networks are discouraged")
     fun addWEPNetwork(ssid: String?, password: String?, callbacks: AddNetworkCallbacks?)
 
     /**
@@ -402,9 +480,13 @@ interface AddNetworkApi {
      *
      * @see [WiseFy.addWPA2Network]
      *
+     * Updates
+     * - 01/04/2020: Refined permissions
+     *
      * @author Patches
      * @since 3.0
      */
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     fun addWPA2Network(ssid: String?, password: String?): Int
 
     /**
@@ -417,9 +499,13 @@ interface AddNetworkApi {
      * @see [WiseFy.addWPA2Network]
      * @see [AddNetworkCallbacks]
      *
+     * Updates
+     * - 01/04/2020: Refined permissions
+     *
      * @author Patches
      * @since 3.0
      */
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     fun addWPA2Network(ssid: String?, password: String?, callbacks: AddNetworkCallbacks?)
 }
 
@@ -441,9 +527,13 @@ interface ConnectionApi {
      *
      * @see [WiseFy.connectToNetwork]
      *
+     * Updates
+     * - 01/04/2020: Refined permissions
+     *
      * @author Patches
      * @since 3.0
      */
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     fun connectToNetwork(ssidToConnectTo: String?, timeoutInMillis: Int): Boolean
 
     /**
@@ -456,9 +546,13 @@ interface ConnectionApi {
      * @see [WiseFy.connectToNetwork]
      * @see [ConnectToNetworkCallbacks]
      *
+     * Updates
+     * - 01/04/2020: Refined permissions
+     *
      * @author Patches
      * @since 3.0
      */
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     fun connectToNetwork(
         ssidToConnectTo: String?,
         timeoutInMillis: Int,
@@ -577,9 +671,13 @@ interface FrequencyApi {
      *
      * @see [WiseFy.getFrequency]
      *
+     * Updates
+     * - 01/04/2020: Added API requirement
+     *
      * @author Patches
      * @since 3.0
      */
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     fun getFrequency(): Int?
 
     /**
@@ -590,9 +688,14 @@ interface FrequencyApi {
      * @see [WiseFy.getFrequency]
      * @see [GetFrequencyCallbacks]
      *
+     * Updates
+     * - 01/04/2020: Refined permissions and added API requirement
+     *
      * @author Patches
      * @since 3.0
      */
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     fun getFrequency(callbacks: GetFrequencyCallbacks?)
 
     /**
@@ -605,9 +708,13 @@ interface FrequencyApi {
      * @see [WiseFy.getFrequency]
      * @see [WifiInfo]
      *
+     * Updates
+     * - 01/04/2020: Added API requirement
+     *
      * @author Patches
      * @since 3.0
      */
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     fun getFrequency(network: WifiInfo?): Int?
 
     /**
@@ -620,9 +727,13 @@ interface FrequencyApi {
      * @see [GetFrequencyCallbacks]
      * @see [WifiInfo]
      *
+     * Updates
+     * - 01/04/2020: Added API requirement
+     *
      * @author Patches
      * @since 3.0
      */
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     fun getFrequency(network: WifiInfo?, callbacks: GetFrequencyCallbacks?)
 
     /**
@@ -633,9 +744,14 @@ interface FrequencyApi {
      * @see [WiseFy.isNetwork5gHz]
      * @see [getFrequency]
      *
+     * Updates
+     * - 01/04/2020: Refined permissions and added API requirement
+     *
      * @author Patches
      * @since 3.0
      */
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     fun isNetwork5gHz(): Boolean
 
     /**
@@ -648,9 +764,13 @@ interface FrequencyApi {
      * @see [WiseFy.isNetwork5gHz]
      * @see [WifiInfo]
      *
+     * Updates
+     * - 01/04/2020: Added API requirement
+     *
      * @author Patches
      * @since 3.0
      */
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     fun isNetwork5gHz(network: WifiInfo?): Boolean
 }
 
@@ -734,9 +854,13 @@ interface NetworkInfoApi {
      * @see [WiseFy.getIP]
      * @see [GetIPCallbacks]
      *
+     * Updates
+     * - 01/04/2020: Refined permissions
+     *
      * @author Patches
      * @since 3.0
      */
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     fun getIP(callbacks: GetIPCallbacks?)
 }
 
@@ -757,9 +881,13 @@ interface RemoveNetworkApi {
      *
      * @see [WiseFy.removeNetwork]
      *
+     * Updates
+     * - 01/04/2020: Refined permissions
+     *
      * @author Patches
      * @since 3.0
      */
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     fun removeNetwork(ssidToRemove: String?): Boolean
 
     /**
@@ -771,9 +899,13 @@ interface RemoveNetworkApi {
      * @see [WiseFy.removeNetwork]
      * @see [RemoveNetworkCallbacks]
      *
+     * Updates
+     * - 01/04/2020: Refined permissions
+     *
      * @author Patches
      * @since 3.0
      */
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     fun removeNetwork(ssidToRemove: String?, callbacks: RemoveNetworkCallbacks?)
 }
 
@@ -793,9 +925,13 @@ interface SavedNetworkApi {
      * @see [WiseFy.getSavedNetworks]
      * @see [WifiConfiguration]
      *
+     * Updates
+     * - 01/04/2020: Refined permissions
+     *
      * @author Patches
      * @since 3.0
      */
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     fun getSavedNetworks(): List<WifiConfiguration>?
 
     /**
@@ -806,9 +942,13 @@ interface SavedNetworkApi {
      * @see [WiseFy.getSavedNetworks]
      * @see [GetSavedNetworksCallbacks]
      *
+     * Updates
+     * - 01/04/2020: Refined permissions
+     *
      * @author Patches
      * @since 3.0
      */
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     fun getSavedNetworks(callbacks: GetSavedNetworksCallbacks?)
 
     /**
@@ -820,9 +960,13 @@ interface SavedNetworkApi {
      *
      * @see [WiseFy.isNetworkSaved]
      *
+     * Updates
+     * - 01/04/2020: Refined permissions
+     *
      * @author Patches
      * @since 3.0
      */
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     fun isNetworkSaved(ssid: String?): Boolean
 
     /**
@@ -835,9 +979,13 @@ interface SavedNetworkApi {
      * @see [WiseFy.searchForSavedNetwork]
      * @see [WifiConfiguration]
      *
+     * Updates
+     * - 01/04/2020: Refined permissions
+     *
      * @author Patches
      * @since 3.0
      */
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     fun searchForSavedNetwork(regexForSSID: String?): WifiConfiguration?
 
     /**
@@ -849,9 +997,13 @@ interface SavedNetworkApi {
      * @see [WiseFy.searchForSavedNetwork]
      * @see [SearchForSavedNetworkCallbacks]
      *
+     * Updates
+     * - 01/04/2020: Refined permissions
+     *
      * @author Patches
      * @since 3.0
      */
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     fun searchForSavedNetwork(regexForSSID: String?, callbacks: SearchForSavedNetworkCallbacks?)
 
     /**
@@ -864,9 +1016,13 @@ interface SavedNetworkApi {
      * @see [WiseFy.searchForSavedNetworks]
      * @see [WifiConfiguration]
      *
+     * Updates
+     * - 01/04/2020: Refined permissions
+     *
      * @author Patches
      * @since 3.0
      */
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     fun searchForSavedNetworks(regexForSSID: String?): List<WifiConfiguration>?
 
     /**
@@ -878,9 +1034,13 @@ interface SavedNetworkApi {
      * @see [WiseFy.searchForSavedNetworks]
      * @see [SearchForSavedNetworksCallbacks]
      *
+     * Updates
+     * - 01/04/2020: Refined permissions
+     *
      * @author Patches
      * @since 3.0
      */
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     fun searchForSavedNetworks(regexForSSID: String?, callbacks: SearchForSavedNetworksCallbacks?)
 }
 

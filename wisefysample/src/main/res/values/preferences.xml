@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="preferences_add_network_data" translatable="false">com.isupatches.wisefysample.app.add_network_data</string>
-    <string name="preferences_remove_network_data" translatable="false">com.isupatches.wisefysample.app.remove_network_data</string>
-    <string name="preferences_search_data" translatable="false">com.isupatches.wisefysample.app.search_data</string>
+    <string name="preferences_add_network_data" translatable="false">
+        com.isupatches.wisefysample.app.add_network_data
+    </string>
+    <string name="preferences_remove_network_data" translatable="false">
+        com.isupatches.wisefysample.app.remove_network_data
+    </string>
+    <string name="preferences_search_data" translatable="false">
+        com.isupatches.wisefysample.app.search_data
+    </string>
 </resources>

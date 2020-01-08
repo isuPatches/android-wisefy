@@ -15,6 +15,8 @@
  */
 package com.isupatches.wisefysample.ui.remove
 
+import android.Manifest.permission.ACCESS_FINE_LOCATION
+import androidx.annotation.RequiresPermission
 import com.isupatches.wisefy.callbacks.RemoveNetworkCallbacks
 import com.isupatches.wisefysample.internal.base.BaseMvp
 
@@ -28,10 +30,14 @@ internal interface RemoveNetworkMvp {
     }
 
     interface Presenter : BaseMvp.Presenter<View> {
+
+        @RequiresPermission(ACCESS_FINE_LOCATION)
         fun removeNetwork(networkName: String)
     }
 
     interface Model {
+
+        @RequiresPermission(ACCESS_FINE_LOCATION)
         fun removeNetwork(networkName: String, callbacks: RemoveNetworkCallbacks)
     }
 }

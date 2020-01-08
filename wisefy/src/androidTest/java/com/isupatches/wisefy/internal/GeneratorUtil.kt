@@ -2,7 +2,6 @@ package com.isupatches.wisefy.internal
 
 import android.net.wifi.ScanResult
 import android.net.wifi.WifiConfiguration
-
 import org.mockito.Mockito.mock
 
 /**

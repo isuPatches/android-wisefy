@@ -33,6 +33,8 @@ interface AddNetworkCallbacks : BaseCallback {
     /**
      * Called when [android.net.wifi.WifiManager] encounters an error adding a network.
      *
+     * @param wifiManagerReturn The return code from WifiManager when failing to add a network
+     *
      * @see [android.net.wifi.WifiManager]
      * @see [com.isupatches.wisefy.WiseFy.WIFI_MANAGER_FAILURE]
      *
@@ -43,6 +45,9 @@ interface AddNetworkCallbacks : BaseCallback {
 
     /**
      * Called upon successfully adding a network.
+     *
+     * @param newNetworkId The id of the network that was added
+     * @param networkConfig The configuration of the network that was added
      *
      * @see [android.net.wifi.WifiConfiguration]
      *

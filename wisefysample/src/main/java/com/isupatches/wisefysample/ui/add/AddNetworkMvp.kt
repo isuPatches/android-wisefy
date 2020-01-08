@@ -15,8 +15,9 @@
  */
 package com.isupatches.wisefysample.ui.add
 
+import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.net.wifi.WifiConfiguration
-
+import androidx.annotation.RequiresPermission
 import com.isupatches.wisefy.callbacks.AddNetworkCallbacks
 import com.isupatches.wisefysample.internal.base.BaseMvp
 
@@ -29,14 +30,26 @@ internal interface AddNetworkMvp {
     }
 
     interface Presenter : BaseMvp.Presenter<View> {
+
+        @RequiresPermission(ACCESS_FINE_LOCATION)
         fun addOpenNetwork(ssid: String)
+
+        @RequiresPermission(ACCESS_FINE_LOCATION)
         fun addWEPNetwork(ssid: String, password: String)
+
+        @RequiresPermission(ACCESS_FINE_LOCATION)
         fun addWPA2Network(ssid: String, password: String)
     }
 
     interface Model {
+
+        @RequiresPermission(ACCESS_FINE_LOCATION)
         fun addOpenNetwork(ssid: String, callbacks: AddNetworkCallbacks)
+
+        @RequiresPermission(ACCESS_FINE_LOCATION)
         fun addWEPNetwork(ssid: String, password: String, callbacks: AddNetworkCallbacks)
+
+        @RequiresPermission(ACCESS_FINE_LOCATION)
         fun addWPA2Network(ssid: String, password: String, callbacks: AddNetworkCallbacks)
     }
 }

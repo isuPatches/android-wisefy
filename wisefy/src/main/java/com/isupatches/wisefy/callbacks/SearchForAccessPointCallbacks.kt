@@ -31,6 +31,8 @@ interface SearchForAccessPointCallbacks : BaseCallback {
     /**
      * Called when WiseFy has successfully found a matching access point.
      *
+     * @param accessPoint The found access point
+     *
      * @see [ScanResult]
      *
      * @author Patches

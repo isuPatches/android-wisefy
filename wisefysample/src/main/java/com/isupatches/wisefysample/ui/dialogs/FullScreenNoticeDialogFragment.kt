@@ -18,7 +18,6 @@ package com.isupatches.wisefysample.ui.dialogs
 import android.app.Dialog
 import android.os.Bundle
 import android.view.ViewGroup
-
 import com.isupatches.wisefysample.R
 import com.isupatches.wisefysample.internal.util.applyArguments
 
