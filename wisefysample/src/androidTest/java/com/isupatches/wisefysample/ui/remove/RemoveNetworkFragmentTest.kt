@@ -1,13 +1,12 @@
 package com.isupatches.wisefysample.ui.remove
 
-import android.Manifest.permission.ACCESS_WIFI_STATE
+import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.content.pm.PackageManager
 import androidx.test.espresso.intent.rule.IntentsTestRule
-
+import androidx.test.rule.GrantPermissionRule
 import com.isupatches.wisefysample.RANDO_PERMISSION_REQUEST_CODE
 import com.isupatches.wisefysample.internal.base.AbstractEspressoTestClass
 import com.isupatches.wisefysample.ui.main.MainActivity
-
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -17,9 +16,13 @@ internal class RemoveNetworkFragmentTest : AbstractEspressoTestClass() {
     @get:Rule
     val activityTestRule = IntentsTestRule(MainActivity::class.java, false, false)
 
+    @get:Rule
+    val grantPermissionRule: GrantPermissionRule = GrantPermissionRule.grant(ACCESS_FINE_LOCATION)
+
     private lateinit var removeNetworkRobot: RemoveNetworkRobot
 
-    @Before override fun setUp() {
+    @Before
+    override fun setUp() {
         super.setUp()
         removeNetworkRobot = RemoveNetworkRobot(
             activityTestRule,
@@ -29,7 +32,8 @@ internal class RemoveNetworkFragmentTest : AbstractEspressoTestClass() {
         )
     }
 
-    @Test fun loadsFromStore() {
+    @Test
+    fun loadsFromStore() {
         with(removeNetworkRobot) {
             // Given
             withDetailsInStore()
@@ -42,12 +46,11 @@ internal class RemoveNetworkFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun removeNetwork_permissionErrorDialog() {
+    @Test
+    fun removeNetwork_permissionErrorDialog() {
         with(removeNetworkRobot) {
             // Given
-            withPermission(ACCESS_WIFI_STATE)
             launchRemoveNetworkScreen()
-            removeNetwork()
 
             // When
             permissionCallbackTriggered(
@@ -60,11 +63,12 @@ internal class RemoveNetworkFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun removeNetwork_permissionError_once() {
+    @Test
+    fun removeNetwork_permissionError_once() {
         with(removeNetworkRobot) {
             // Given
             withSuccessRemovingNetwork()
-            withPermissionDeniedOnce(ACCESS_WIFI_STATE)
+            withPermissionDeniedOnce(ACCESS_FINE_LOCATION)
             launchRemoveNetworkScreen()
 
             // When
@@ -77,13 +81,11 @@ internal class RemoveNetworkFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun removeNetwork_permissionError_emptyList() {
+    @Test
+    fun removeNetwork_permissionError_emptyList() {
         with(removeNetworkRobot) {
             // Given
-            withPermission(ACCESS_WIFI_STATE)
-            withSuccessRemovingNetwork()
             launchRemoveNetworkScreen()
-            removeNetwork()
 
             // When
             permissionCallbackTriggeredWithEmptyArray(
@@ -92,17 +94,14 @@ internal class RemoveNetworkFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             dismissErrorDialog()
-            verifyTriedToRemoveNetwork()
         }
     }
 
-    @Test fun removeNetwork_permissionError_permissionDenied() {
+    @Test
+    fun removeNetwork_permissionError_permissionDenied() {
         with(removeNetworkRobot) {
             // Given
-            withPermission(ACCESS_WIFI_STATE)
-            withSuccessRemovingNetwork()
             launchRemoveNetworkScreen()
-            removeNetwork()
 
             // When
             permissionCallbackTriggered(
@@ -112,17 +111,17 @@ internal class RemoveNetworkFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             dismissErrorDialog()
-            verifyTriedToRemoveNetwork()
         }
     }
 
-    @Test fun removeNetwork_success_afterPermissionGranted() {
+    @Test
+    fun removeNetwork_success_afterPermissionGranted() {
         with(removeNetworkRobot) {
             // Given
-            withPermission(ACCESS_WIFI_STATE)
+            withPermission(ACCESS_FINE_LOCATION)
             withSuccessRemovingNetwork()
             launchRemoveNetworkScreen()
-            removeNetwork()
+            enterNetworkDetails()
 
             // When
             permissionCallbackTriggered(
@@ -131,16 +130,17 @@ internal class RemoveNetworkFragmentTest : AbstractEspressoTestClass() {
             )
 
             // Then
-            verifyTriedToRemoveNetwork(times = 2)
+            verifyTriedToRemoveNetwork()
             verifyNetworkRemovedIsDisplayed()
             dismissResultsDialog()
         }
     }
 
-    @Test fun removeNetwork_success() {
+    @Test
+    fun removeNetwork_success() {
         with(removeNetworkRobot) {
             // Given
-            withPermission(ACCESS_WIFI_STATE)
+            withPermission(ACCESS_FINE_LOCATION)
             withSuccessRemovingNetwork()
             launchRemoveNetworkScreen()
 
@@ -154,10 +154,11 @@ internal class RemoveNetworkFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun removeNetwork_failureToRemoveNetwork() {
+    @Test
+    fun removeNetwork_failureToRemoveNetwork() {
         with(removeNetworkRobot) {
             // Given
-            withPermission(ACCESS_WIFI_STATE)
+            withPermission(ACCESS_FINE_LOCATION)
             withFailureRemovingNetwork()
             launchRemoveNetworkScreen()
 
@@ -171,10 +172,11 @@ internal class RemoveNetworkFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun removeNetwork_networkNotFoundToRemove() {
+    @Test
+    fun removeNetwork_networkNotFoundToRemove() {
         with(removeNetworkRobot) {
             // Given
-            withPermission(ACCESS_WIFI_STATE)
+            withPermission(ACCESS_FINE_LOCATION)
             withNetworkNotFoundToRemove()
             launchRemoveNetworkScreen()
 
@@ -188,10 +190,11 @@ internal class RemoveNetworkFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun removeNetwork_wiseFyFailure() {
+    @Test
+    fun removeNetwork_wiseFyFailure() {
         with(removeNetworkRobot) {
             // Given
-            withPermission(ACCESS_WIFI_STATE)
+            withPermission(ACCESS_FINE_LOCATION)
             withWiseFyFailureRemovingNetwork()
             launchRemoveNetworkScreen()
 
@@ -207,7 +210,8 @@ internal class RemoveNetworkFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun ridiculousPermissionRequested() {
+    @Test
+    fun ridiculousPermissionRequested() {
         with(removeNetworkRobot) {
             // Given
             launchRemoveNetworkScreen()

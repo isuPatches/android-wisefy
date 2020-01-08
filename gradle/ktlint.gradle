@@ -3,6 +3,10 @@ ktlint {
     debug = true
     verbose = true
     android = true
-    reporters = ["PLAIN", "CHECKSTYLE"]
+    reporters {
+        reporter "plain"
+        reporter "checkstyle"
+
+    }
     ignoreFailures = false
 }

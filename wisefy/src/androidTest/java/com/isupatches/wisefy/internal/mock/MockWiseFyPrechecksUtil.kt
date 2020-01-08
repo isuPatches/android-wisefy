@@ -4,7 +4,6 @@ import com.isupatches.wisefy.DEFAULT_PRECHECK_RESULT
 import com.isupatches.wisefy.PrecheckResult
 import com.isupatches.wisefy.WiseFyPrechecks
 import com.isupatches.wisefy.constants.MISSING_PARAMETER
-
 import org.mockito.ArgumentMatchers.anyString
 import org.mockito.Mockito.`when`
 
@@ -195,6 +194,32 @@ internal class MockWiseFyPrechecksUtil internal constructor(private val mockWise
      */
     fun getCurrentNetworkInfo_success() {
         `when`(mockWiseFyPrechecks.getCurrentNetworkInfoChecks()).thenReturn(DEFAULT_PRECHECK_RESULT)
+    }
+
+    /**
+     * Mocks a precheck failure getting the current network's frequency.
+     *
+     * @see WiseFyPrechecks.getFrequencyChecks
+     * @see DEFAULT_PRECHECK_RESULT
+     *
+     * @author Patches
+     * @since 4.1
+     */
+    fun getFrequency_failure() {
+        `when`(mockWiseFyPrechecks.getFrequencyChecks()).thenReturn(PRECHECK_RESULT_FAILURE)
+    }
+
+    /**
+     * Mocks a precheck success getting the current network's frequency.
+     *
+     * @see WiseFyPrechecks.getFrequencyChecks
+     * @see DEFAULT_PRECHECK_RESULT
+     *
+     * @author Patches
+     * @since 4.1
+     */
+    fun getFrequency_success() {
+        `when`(mockWiseFyPrechecks.getFrequencyChecks()).thenReturn(DEFAULT_PRECHECK_RESULT)
     }
 
     /**

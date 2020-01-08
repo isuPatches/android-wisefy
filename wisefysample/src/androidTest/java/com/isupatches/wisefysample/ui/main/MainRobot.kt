@@ -4,7 +4,6 @@ import android.content.Intent
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.rule.ActivityTestRule
-
 import com.isupatches.wisefysample.R
 import com.isupatches.wisefysample.internal.base.BaseRobot
 import com.isupatches.wisefysample.internal.espresso.performClick

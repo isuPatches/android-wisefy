@@ -6,19 +6,23 @@ import org.junit.Test
 
 internal class SearchTypeTest {
 
-    @Test fun accessPoint() {
+    @Test
+    fun accessPoint() {
         assertEquals(SearchType.ACCESS_POINT, SearchType.of(SearchType.ACCESS_POINT.intVal))
     }
 
-    @Test fun ssid() {
+    @Test
+    fun ssid() {
         assertEquals(SearchType.SSID, SearchType.of(SearchType.SSID.intVal))
     }
 
-    @Test fun savedNetwork() {
+    @Test
+    fun savedNetwork() {
         assertEquals(SearchType.SAVED_NETWORK, SearchType.of(SearchType.SAVED_NETWORK.intVal))
     }
 
-    @Test fun unexpected() {
+    @Test
+    fun unexpected() {
         try {
             SearchType.of(999)
             fail("Expected IllegalArgumentException from NetworkType.of")

@@ -15,14 +15,13 @@
  */
 package com.isupatches.wisefysample.ui.add
 
-import android.Manifest.permission.ACCESS_WIFI_STATE
+import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.content.pm.PackageManager
 import android.net.wifi.WifiConfiguration
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.annotation.VisibleForTesting
-
 import com.isupatches.wisefy.constants.WiseFyCode
 import com.isupatches.wisefysample.R
 import com.isupatches.wisefysample.internal.base.BaseFragment
@@ -30,17 +29,14 @@ import com.isupatches.wisefysample.internal.models.NetworkType
 import com.isupatches.wisefysample.internal.preferences.AddNetworkStore
 import com.isupatches.wisefysample.internal.util.getTrimmedInput
 import com.isupatches.wisefysample.internal.util.hideKeyboardFrom
-
 import dagger.Binds
 import dagger.Module
-
+import javax.inject.Inject
 import kotlinx.android.synthetic.main.fragment_add.addNetworkBtn
 import kotlinx.android.synthetic.main.fragment_add.addNetworkTypeRdg
 import kotlinx.android.synthetic.main.fragment_add.networkNameEdt
-import kotlinx.android.synthetic.main.fragment_add.networkPasswordTil
 import kotlinx.android.synthetic.main.fragment_add.networkPasswordEdt
-
-import javax.inject.Inject
+import kotlinx.android.synthetic.main.fragment_add.networkPasswordTil
 
 internal class AddNetworkFragment : BaseFragment(), AddNetworkMvp.View {
 
@@ -155,12 +151,14 @@ internal class AddNetworkFragment : BaseFragment(), AddNetworkMvp.View {
      * WiseFy helpers
      */
 
+    @Throws(SecurityException::class)
     private fun addOpenNetwork() {
         if (checkAddOpenNetworkPermissions()) {
             presenter.addOpenNetwork(networkNameEdt.getTrimmedInput())
         }
     }
 
+    @Throws(SecurityException::class)
     private fun addWEPNetwork() {
         if (checkAddWEPNetworkPermissions()) {
             presenter.addWEPNetwork(
@@ -170,6 +168,7 @@ internal class AddNetworkFragment : BaseFragment(), AddNetworkMvp.View {
         }
     }
 
+    @Throws(SecurityException::class)
     private fun addWPA2Network() {
         if (checkAddWPA2NetworkPermissions()) {
             presenter.addWPA2Network(
@@ -184,15 +183,15 @@ internal class AddNetworkFragment : BaseFragment(), AddNetworkMvp.View {
      */
 
     private fun checkAddOpenNetworkPermissions(): Boolean {
-        return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_ADD_OPEN_NETWORK_REQUEST_CODE)
+        return isPermissionGranted(ACCESS_FINE_LOCATION, WISEFY_ADD_OPEN_NETWORK_REQUEST_CODE)
     }
 
     private fun checkAddWEPNetworkPermissions(): Boolean {
-        return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_ADD_WEP_NETWORK_REQUEST_CODE)
+        return isPermissionGranted(ACCESS_FINE_LOCATION, WISEFY_ADD_WEP_NETWORK_REQUEST_CODE)
     }
 
     private fun checkAddWPA2NetworkPermissions(): Boolean {
-        return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_ADD_WPA2_NETWORK_REQUEST_CODE)
+        return isPermissionGranted(ACCESS_FINE_LOCATION, WISEFY_ADD_WPA2_NETWORK_REQUEST_CODE)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {

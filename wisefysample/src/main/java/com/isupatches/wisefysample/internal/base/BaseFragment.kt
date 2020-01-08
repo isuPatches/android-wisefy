@@ -23,15 +23,12 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
-
 import com.isupatches.wisefy.constants.WiseFyCode
 import com.isupatches.wisefysample.R
 import com.isupatches.wisefysample.internal.util.PermissionUtil
 import com.isupatches.wisefysample.ui.dialogs.FullScreenNoticeDialogFragment
 import com.isupatches.wisefysample.ui.dialogs.NoticeDialogFragment
-
 import dagger.android.support.AndroidSupportInjection
-
 import javax.inject.Inject
 
 internal abstract class BaseFragment : Fragment() {

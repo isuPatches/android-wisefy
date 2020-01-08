@@ -18,7 +18,6 @@ package com.isupatches.wisefysample.internal.preferences
 import android.content.SharedPreferences
 import androidx.annotation.VisibleForTesting
 import androidx.core.content.edit
-
 import com.isupatches.wisefysample.internal.models.NetworkType
 
 @VisibleForTesting internal const val PREF_NETWORK_TYPE = "network type"

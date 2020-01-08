@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 @file:JvmName("WiseFyCodes")
+
 package com.isupatches.wisefy.constants
 
 import androidx.annotation.IntDef

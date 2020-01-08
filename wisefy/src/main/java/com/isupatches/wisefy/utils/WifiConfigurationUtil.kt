@@ -16,7 +16,6 @@
 package com.isupatches.wisefy.utils
 
 import android.net.wifi.WifiConfiguration
-
 import com.isupatches.wisefy.constants.QUOTE
 
 /**

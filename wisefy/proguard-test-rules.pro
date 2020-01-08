@@ -1,0 +1,1 @@
+-include proguard-rules.pro

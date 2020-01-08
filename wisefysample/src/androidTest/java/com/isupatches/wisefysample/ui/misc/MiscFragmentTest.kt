@@ -1,17 +1,12 @@
 package com.isupatches.wisefysample.ui.misc
 
-import android.Manifest.permission.ACCESS_COARSE_LOCATION
-import android.Manifest.permission.ACCESS_NETWORK_STATE
-import android.Manifest.permission.ACCESS_WIFI_STATE
-import android.Manifest.permission.CHANGE_WIFI_STATE
+import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.content.pm.PackageManager
 import androidx.test.espresso.intent.rule.IntentsTestRule
 import androidx.test.rule.GrantPermissionRule
-
 import com.isupatches.wisefysample.RANDO_PERMISSION_REQUEST_CODE
 import com.isupatches.wisefysample.internal.base.AbstractEspressoTestClass
 import com.isupatches.wisefysample.ui.main.MainActivity
-
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -22,114 +17,20 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
     val activityTestRule = IntentsTestRule(MainActivity::class.java, false, false)
 
     @get:Rule
-    val grantPermissionRule: GrantPermissionRule = GrantPermissionRule.grant(ACCESS_COARSE_LOCATION)
+    val grantPermissionRule: GrantPermissionRule = GrantPermissionRule.grant(ACCESS_FINE_LOCATION)
 
     private lateinit var miscRobot: MiscRobot
 
-    @Before override fun setUp() {
+    @Before
+    override fun setUp() {
         super.setUp()
         miscRobot = MiscRobot(activityTestRule, wiseFy, sdkUtil, permissionUtil)
     }
 
-    @Test fun disableWifi_permissionErrorDialog() {
+    @Test
+    fun disableWifi_success() {
         with(miscRobot) {
             // Given
-            withPermission(CHANGE_WIFI_STATE)
-            launchMiscScreen()
-            disableWifi()
-
-            // When
-            permissionCallbackTriggered(
-                MiscFragment.WISEFY_DISABLE_WIFI_REQUEST_CODE,
-                PackageManager.PERMISSION_DENIED
-            )
-
-            // Then
-            dismissErrorDialog()
-        }
-    }
-
-    @Test fun disableWifi_permissionError_once() {
-        with(miscRobot) {
-            // Given
-            withSuccessDisablingWifi()
-            withPermissionDeniedOnce(CHANGE_WIFI_STATE)
-            launchMiscScreen()
-
-            // When
-            disableWifi()
-
-            // Then
-            verifyTriedToDisableWifi()
-            verifyWifiDisabledIsDisplayed()
-            dismissResultsDialog()
-        }
-    }
-
-    @Test fun disableWifi_permissionError_emptyList() {
-        with(miscRobot) {
-            // Given
-            withPermission(CHANGE_WIFI_STATE)
-            withSuccessDisablingWifi()
-            launchMiscScreen()
-            disableWifi()
-
-            // When
-            permissionCallbackTriggeredWithEmptyArray(
-                MiscFragment.WISEFY_DISABLE_WIFI_REQUEST_CODE
-            )
-
-            // Then
-            dismissErrorDialog()
-            verifyTriedToDisableWifi()
-        }
-    }
-
-    @Test fun disableWifi_permissionError_permissionDenied() {
-        with(miscRobot) {
-            // Given
-            withPermission(CHANGE_WIFI_STATE)
-            withSuccessDisablingWifi()
-            launchMiscScreen()
-            disableWifi()
-
-            // When
-            permissionCallbackTriggered(
-                MiscFragment.WISEFY_DISABLE_WIFI_REQUEST_CODE,
-                PackageManager.PERMISSION_DENIED
-            )
-
-            // Then
-            dismissErrorDialog()
-            verifyTriedToDisableWifi()
-        }
-    }
-
-    @Test fun disableWifi_success_afterPermissionGranted() {
-        with(miscRobot) {
-            // Given
-            withPermission(CHANGE_WIFI_STATE)
-            withSuccessDisablingWifi()
-            launchMiscScreen()
-            disableWifi()
-
-            // When
-            permissionCallbackTriggered(
-                MiscFragment.WISEFY_DISABLE_WIFI_REQUEST_CODE,
-                PackageManager.PERMISSION_GRANTED
-            )
-
-            // Then
-            verifyTriedToDisableWifi(times = 2)
-            verifyWifiDisabledIsDisplayed()
-            dismissResultsDialog()
-        }
-    }
-
-    @Test fun disableWifi_success() {
-        with(miscRobot) {
-            // Given
-            withPermissionDeniedOnce(CHANGE_WIFI_STATE)
             withSuccessDisablingWifi()
             launchMiscScreen()
 
@@ -143,10 +44,10 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun disableWifi_failureDisablingWifi() {
+    @Test
+    fun disableWifi_failureDisablingWifi() {
         with(miscRobot) {
             // Given
-            withPermission(CHANGE_WIFI_STATE)
             withFailureDisablingWifi()
             launchMiscScreen()
 
@@ -160,10 +61,10 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun disableWifi_wiseFyFailure() {
+    @Test
+    fun disableWifi_wiseFyFailure() {
         with(miscRobot) {
             // Given
-            withPermission(CHANGE_WIFI_STATE)
             withWiseFyFailureDisablingWifi()
             launchMiscScreen()
 
@@ -179,105 +80,10 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun enableWifi_permissionErrorDialog() {
+    @Test
+    fun enableWifi_success() {
         with(miscRobot) {
             // Given
-            withPermission(CHANGE_WIFI_STATE)
-            launchMiscScreen()
-            enableWifi()
-
-            // When
-            permissionCallbackTriggered(
-                MiscFragment.WISEFY_ENABLE_WIFI_REQUEST_CODE,
-                PackageManager.PERMISSION_DENIED
-            )
-
-            // Then
-            dismissErrorDialog()
-        }
-    }
-
-    @Test fun enableWifi_permissionError_once() {
-        with(miscRobot) {
-            // Given
-            withSuccessEnablingWifi()
-            withPermissionDeniedOnce(CHANGE_WIFI_STATE)
-            launchMiscScreen()
-
-            // When
-            enableWifi()
-
-            // Then
-            verifyTriedToEnableWifi()
-            verifyWifiEnabledIsDisplayed()
-            dismissResultsDialog()
-        }
-    }
-
-    @Test fun enableWifi_permissionError_emptyList() {
-        with(miscRobot) {
-            // Given
-            withPermission(CHANGE_WIFI_STATE)
-            withSuccessEnablingWifi()
-            launchMiscScreen()
-            enableWifi()
-
-            // When
-            permissionCallbackTriggeredWithEmptyArray(
-                MiscFragment.WISEFY_ENABLE_WIFI_REQUEST_CODE
-            )
-
-            // Then
-            dismissErrorDialog()
-            verifyTriedToEnableWifi()
-        }
-    }
-
-    @Test fun enableWifi_permissionError_permissionDenied() {
-        with(miscRobot) {
-            // Given
-            withPermission(CHANGE_WIFI_STATE)
-            withSuccessEnablingWifi()
-            launchMiscScreen()
-            enableWifi()
-
-            // When
-            permissionCallbackTriggered(
-                MiscFragment.WISEFY_ENABLE_WIFI_REQUEST_CODE,
-                PackageManager.PERMISSION_DENIED
-            )
-
-            // Then
-            dismissErrorDialog()
-            verifyTriedToEnableWifi()
-        }
-    }
-
-    @Test fun enableWifi_success_afterPermissionGranted() {
-        with(miscRobot) {
-            // Given
-            withPermission(CHANGE_WIFI_STATE)
-            withSuccessEnablingWifi()
-            launchMiscScreen()
-            enableWifi()
-
-            // When
-            permissionCallbackTriggered(
-                MiscFragment.WISEFY_ENABLE_WIFI_REQUEST_CODE,
-                PackageManager.PERMISSION_GRANTED
-            )
-
-            // Then
-            verifyTriedToEnableWifi(times = 2)
-            verifyWifiEnabledIsDisplayed()
-            dismissResultsDialog()
-        }
-    }
-
-    @Test fun enableWifi_success() {
-        with(miscRobot) {
-            // Given
-            withPermission(CHANGE_WIFI_STATE)
             withSuccessEnablingWifi()
             launchMiscScreen()
 
@@ -291,10 +97,10 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun enableWifi_failureEnablingWifi() {
+    @Test
+    fun enableWifi_failureEnablingWifi() {
         with(miscRobot) {
             // Given
-            withPermission(CHANGE_WIFI_STATE)
             withFailureEnablingWifi()
             launchMiscScreen()
 
@@ -308,10 +114,10 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun enableWifi_wiseFyFailure() {
+    @Test
+    fun enableWifi_wiseFyFailure() {
         with(miscRobot) {
             // Given
-            withPermission(CHANGE_WIFI_STATE)
             withWiseFyFailureEnablingWifi()
             launchMiscScreen()
 
@@ -327,142 +133,10 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun getCurrentNetwork_permissionErrorDialog() {
+    @Test
+    fun getCurrentNetwork_success() {
         with(miscRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
-            launchMiscScreen()
-            getCurrentNetwork()
-
-            // When
-            permissionCallbackTriggered(
-                MiscFragment.WISEFY_GET_NEARBY_ACCESS_POINTS_REQUEST_CODE,
-                PackageManager.PERMISSION_DENIED
-            )
-
-            // Then
-            dismissErrorDialog()
-        }
-    }
-
-    @Test fun getCurrentNetwork_permissionError_once() {
-        with(miscRobot) {
-            // Given
-            withSuccessGettingCurrentNetwork()
-            withPermissionDeniedOnce(ACCESS_WIFI_STATE)
-            withPermissionDeniedOnce(ACCESS_COARSE_LOCATION)
-            launchMiscScreen()
-
-            // When
-            getCurrentNetwork()
-
-            // Then
-            verifyTriedToGetCurrentNetwork()
-            verifyCurrentNetworkIsDisplayed()
-            dismissResultsDialog()
-        }
-    }
-
-    @Test fun getCurrentNetwork_permissionError_once_accessWifiState() {
-        with(miscRobot) {
-            // Given
-            withSuccessGettingCurrentNetwork()
-            withPermissionDeniedOnce(ACCESS_WIFI_STATE)
-            withPermission(ACCESS_COARSE_LOCATION)
-            launchMiscScreen()
-
-            // When
-            getCurrentNetwork()
-
-            // Then
-            verifyTriedToGetCurrentNetwork()
-            verifyCurrentNetworkIsDisplayed()
-            dismissResultsDialog()
-        }
-    }
-
-    @Test fun getCurrentNetwork_permissionError_once_accessCoarseLocation() {
-        with(miscRobot) {
-            // Given
-            withSuccessGettingCurrentNetwork()
-            withPermission(ACCESS_WIFI_STATE)
-            withPermissionDeniedOnce(ACCESS_COARSE_LOCATION)
-            launchMiscScreen()
-
-            // When
-            getCurrentNetwork()
-
-            // Then
-            verifyTriedToGetCurrentNetwork()
-            verifyCurrentNetworkIsDisplayed()
-            dismissResultsDialog()
-        }
-    }
-
-    @Test fun getCurrentNetwork_permissionError_emptyList() {
-        with(miscRobot) {
-            // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
-            withSuccessGettingCurrentNetwork()
-            launchMiscScreen()
-            getCurrentNetwork()
-
-            // When
-            permissionCallbackTriggeredWithEmptyArray(
-                MiscFragment.WISEFY_GET_CURRENT_NETWORK_REQUEST_CODE
-            )
-
-            // Then
-            dismissErrorDialog()
-            verifyTriedToGetCurrentNetwork()
-        }
-    }
-
-    @Test fun getCurrentNetwork_permissionError_permissionDenied() {
-        with(miscRobot) {
-            // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
-            withSuccessGettingCurrentNetwork()
-            launchMiscScreen()
-            getCurrentNetwork()
-
-            // When
-            permissionCallbackTriggered(
-                MiscFragment.WISEFY_GET_CURRENT_NETWORK_REQUEST_CODE,
-                PackageManager.PERMISSION_DENIED
-            )
-
-            // Then
-            dismissErrorDialog()
-            verifyTriedToGetCurrentNetwork()
-        }
-    }
-
-    @Test fun getCurrentNetwork_success_afterPermissionGranted() {
-        with(miscRobot) {
-            // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
-            withSuccessGettingCurrentNetwork()
-            launchMiscScreen()
-            getCurrentNetwork()
-
-            // When
-            permissionCallbackTriggered(
-                MiscFragment.WISEFY_GET_CURRENT_NETWORK_REQUEST_CODE,
-                PackageManager.PERMISSION_GRANTED
-            )
-
-            // Then
-            verifyTriedToGetCurrentNetwork(times = 2)
-            verifyCurrentNetworkIsDisplayed()
-            dismissResultsDialog()
-        }
-    }
-
-    @Test fun getCurrentNetwork_success() {
-        with(miscRobot) {
-            // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
             withSuccessGettingCurrentNetwork()
             launchMiscScreen()
 
@@ -476,10 +150,10 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun getCurrentNetwork_noCurrentNetwork() {
+    @Test
+    fun getCurrentNetwork_noCurrentNetwork() {
         with(miscRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
             withNoCurrentNetwork()
             launchMiscScreen()
 
@@ -493,10 +167,10 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun getCurrentNetwork_wiseFyFailure() {
+    @Test
+    fun getCurrentNetwork_wiseFyFailure() {
         with(miscRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
             withWiseFyFailureGettingCurrentNetwork()
             launchMiscScreen()
 
@@ -512,105 +186,10 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun getCurrentNetworkInfo_permissionErrorDialog() {
+    @Test
+    fun getCurrentNetworkInfo_success() {
         with(miscRobot) {
             // Given
-            withPermission(ACCESS_NETWORK_STATE)
-            launchMiscScreen()
-            getCurrentNetworkInfo()
-
-            // When
-            permissionCallbackTriggered(
-                MiscFragment.WISEFY_GET_CURRENT_NETWORK_INFO_REQUEST_CODE,
-                PackageManager.PERMISSION_DENIED
-            )
-
-            // Then
-            dismissErrorDialog()
-        }
-    }
-
-    @Test fun getCurrentNetworkInfo_permissionError_once() {
-        with(miscRobot) {
-            // Given
-            withSuccessGettingCurrentNetworkInfo()
-            withPermissionDeniedOnce(ACCESS_NETWORK_STATE)
-            launchMiscScreen()
-
-            // When
-            getCurrentNetworkInfo()
-
-            // Then
-            verifyTriedToGetCurrentNetworkInfo()
-            verifyCurrentNetworkInfoIsDisplayed()
-            dismissResultsDialog()
-        }
-    }
-
-    @Test fun getCurrentNetworkInfo_permissionError_emptyList() {
-        with(miscRobot) {
-            // Given
-            withPermission(ACCESS_NETWORK_STATE)
-            withSuccessGettingCurrentNetworkInfo()
-            launchMiscScreen()
-            getCurrentNetworkInfo()
-
-            // When
-            permissionCallbackTriggeredWithEmptyArray(
-                MiscFragment.WISEFY_GET_CURRENT_NETWORK_INFO_REQUEST_CODE
-            )
-
-            // Then
-            dismissErrorDialog()
-            verifyTriedToGetCurrentNetworkInfo()
-        }
-    }
-
-    @Test fun getCurrentNetworkInfo_permissionError_permissionDenied() {
-        with(miscRobot) {
-            // Given
-            withPermission(ACCESS_NETWORK_STATE)
-            withSuccessGettingCurrentNetworkInfo()
-            launchMiscScreen()
-            getCurrentNetworkInfo()
-
-            // When
-            permissionCallbackTriggered(
-                MiscFragment.WISEFY_GET_CURRENT_NETWORK_INFO_REQUEST_CODE,
-                PackageManager.PERMISSION_DENIED
-            )
-
-            // Then
-            dismissErrorDialog()
-            verifyTriedToGetCurrentNetworkInfo()
-        }
-    }
-
-    @Test fun getCurrentNetworkInfo_success_afterPermissionGranted() {
-        with(miscRobot) {
-            // Given
-            withPermission(ACCESS_NETWORK_STATE)
-            withSuccessGettingCurrentNetworkInfo()
-            launchMiscScreen()
-            getCurrentNetworkInfo()
-
-            // When
-            permissionCallbackTriggered(
-                MiscFragment.WISEFY_GET_CURRENT_NETWORK_INFO_REQUEST_CODE,
-                PackageManager.PERMISSION_GRANTED
-            )
-
-            // Then
-            verifyTriedToGetCurrentNetworkInfo(times = 2)
-            verifyCurrentNetworkInfoIsDisplayed()
-            dismissResultsDialog()
-        }
-    }
-
-    @Test fun getCurrentNetworkInfo_success() {
-        with(miscRobot) {
-            // Given
-            withPermission(ACCESS_NETWORK_STATE)
             withSuccessGettingCurrentNetworkInfo()
             launchMiscScreen()
 
@@ -624,10 +203,10 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun getCurrentNetworkInfo_noCurrentNetworkInfo() {
+    @Test
+    fun getCurrentNetworkInfo_noCurrentNetworkInfo() {
         with(miscRobot) {
             // Given
-            withPermission(ACCESS_NETWORK_STATE)
             withNoCurrentNetworkInfo()
             launchMiscScreen()
 
@@ -641,10 +220,10 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun getCurrentNetworkInfo_wiseFyFailure() {
+    @Test
+    fun getCurrentNetworkInfo_wiseFyFailure() {
         with(miscRobot) {
             // Given
-            withPermission(ACCESS_NETWORK_STATE)
             withWiseFyFailureGettingCurrentNetworkInfo()
             launchMiscScreen()
 
@@ -660,11 +239,12 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun getFrequency_belowLollipop() {
+    @Test
+    fun getFrequency_belowLollipop() {
         with(miscRobot) {
             // Given
             withDeviceBelowLollipop()
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
+            withPermission(ACCESS_FINE_LOCATION)
             launchMiscScreen()
 
             // When
@@ -676,13 +256,11 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun getFrequency_permissionErrorDialog() {
+    @Test
+    fun getFrequency_permissionErrorDialog() {
         with(miscRobot) {
             // Given
-            withDeviceLollipopOrHigher()
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
             launchMiscScreen()
-            getFrequency()
 
             // When
             permissionCallbackTriggered(
@@ -695,31 +273,13 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun getFrequency_permissionError_once() {
+    @Test
+    fun getFrequency_permissionError_once_accessFineLocation() {
         with(miscRobot) {
             // Given
             withDeviceLollipopOrHigher()
             withSuccessGettingFrequency()
-            withPermissionDeniedOnce(ACCESS_WIFI_STATE)
-            withPermissionDeniedOnce(ACCESS_COARSE_LOCATION)
-            launchMiscScreen()
-
-            // When
-            getFrequency()
-
-            // Then
-            verifyTriedToGetFrequency()
-            dismissResultsDialog()
-        }
-    }
-
-    @Test fun getFrequency_permissionError_once_accessWifiState() {
-        with(miscRobot) {
-            // Given
-            withDeviceLollipopOrHigher()
-            withSuccessGettingFrequency()
-            withPermissionDeniedOnce(ACCESS_WIFI_STATE)
-            withPermission(ACCESS_COARSE_LOCATION)
+            withPermissionDeniedOnce(ACCESS_FINE_LOCATION)
             launchMiscScreen()
 
             // When
@@ -732,33 +292,11 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun getFrequency_permissionError_once_accessCoarseLocation() {
+    @Test
+    fun getFrequency_permissionError_emptyList() {
         with(miscRobot) {
             // Given
-            withDeviceLollipopOrHigher()
-            withSuccessGettingFrequency()
-            withPermission(ACCESS_WIFI_STATE)
-            withPermissionDeniedOnce(ACCESS_COARSE_LOCATION)
             launchMiscScreen()
-
-            // When
-            getFrequency()
-
-            // Then
-            verifyTriedToGetFrequency()
-            verifyFrequencyIsDisplayed()
-            dismissResultsDialog()
-        }
-    }
-
-    @Test fun getFrequency_permissionError_emptyList() {
-        with(miscRobot) {
-            // Given
-            withDeviceLollipopOrHigher()
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
-            withSuccessGettingFrequency()
-            launchMiscScreen()
-            getFrequency()
 
             // When
             permissionCallbackTriggeredWithEmptyArray(
@@ -767,18 +305,14 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             dismissErrorDialog()
-            verifyTriedToGetFrequency()
         }
     }
 
-    @Test fun getFrequency_permissionError_permissionDenied() {
+    @Test
+    fun getFrequency_permissionError_permissionDenied() {
         with(miscRobot) {
             // Given
-            withDeviceLollipopOrHigher()
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
-            withSuccessGettingFrequency()
             launchMiscScreen()
-            getFrequency()
 
             // When
             permissionCallbackTriggered(
@@ -788,18 +322,17 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             dismissErrorDialog()
-            verifyTriedToGetFrequency()
         }
     }
 
-    @Test fun getFrequency_success_afterPermissionGranted() {
+    @Test
+    fun getFrequency_success_afterPermissionGranted() {
         with(miscRobot) {
             // Given
             withDeviceLollipopOrHigher()
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
+            withPermission(ACCESS_FINE_LOCATION)
             withSuccessGettingFrequency()
             launchMiscScreen()
-            getFrequency()
 
             // When
             permissionCallbackTriggered(
@@ -808,16 +341,17 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
             )
 
             // Then
-            verifyTriedToGetFrequency(times = 2)
+            verifyTriedToGetFrequency()
             dismissResultsDialog()
         }
     }
 
-    @Test fun getFrequency_success() {
+    @Test
+    fun getFrequency_success() {
         with(miscRobot) {
             // Given
             withDeviceLollipopOrHigher()
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
+            withPermission(ACCESS_FINE_LOCATION)
             withSuccessGettingFrequency()
             launchMiscScreen()
 
@@ -831,11 +365,12 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun getFrequency_failureGettingFrequency() {
+    @Test
+    fun getFrequency_failureGettingFrequency() {
         with(miscRobot) {
             // Given
             withDeviceLollipopOrHigher()
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
+            withPermission(ACCESS_FINE_LOCATION)
             withFailureGettingFrequency()
             launchMiscScreen()
 
@@ -849,11 +384,12 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun getFrequency_wiseFyFailure() {
+    @Test
+    fun getFrequency_wiseFyFailure() {
         with(miscRobot) {
             // Given
             withDeviceLollipopOrHigher()
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
+            withPermission(ACCESS_FINE_LOCATION)
             withWiseFyFailureGettingFrequency()
             launchMiscScreen()
 
@@ -863,18 +399,15 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
             // Then
             verifyWiseFyFailureIsDisplayed()
             verifyTriedToGetFrequency()
-
-            // And
-            dismissErrorDialog()
+            dismissResultsDialog()
         }
     }
 
-    @Test fun getIP_permissionErrorDialog() {
+    @Test
+    fun getIP_permissionErrorDialog() {
         with(miscRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
             launchMiscScreen()
-            getIP()
 
             // When
             permissionCallbackTriggered(
@@ -887,12 +420,12 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun getIP_permissionError_once() {
+    @Test
+    fun getIP_permissionError_once_accessFineLocation() {
         with(miscRobot) {
             // Given
             withSuccessGettingIP()
-            withPermissionDeniedOnce(ACCESS_WIFI_STATE)
-            withPermissionDeniedOnce(ACCESS_COARSE_LOCATION)
+            withPermissionDeniedOnce(ACCESS_FINE_LOCATION)
             launchMiscScreen()
 
             // When
@@ -905,49 +438,11 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun getIP_permissionError_once_accessWifiState() {
+    @Test
+    fun getIP_permissionError_emptyList() {
         with(miscRobot) {
             // Given
-            withSuccessGettingIP()
-            withPermissionDeniedOnce(ACCESS_WIFI_STATE)
-            withPermission(ACCESS_COARSE_LOCATION)
             launchMiscScreen()
-
-            // When
-            getIP()
-
-            // Then
-            verifyTriedToGetIP()
-            verifyIPIsDisplayed()
-            dismissResultsDialog()
-        }
-    }
-
-    @Test fun getIP_permissionError_once_accessCoarseLocation() {
-        with(miscRobot) {
-            // Given
-            withSuccessGettingIP()
-            withPermission(ACCESS_WIFI_STATE)
-            withPermissionDeniedOnce(ACCESS_COARSE_LOCATION)
-            launchMiscScreen()
-
-            // When
-            getIP()
-
-            // Then
-            verifyTriedToGetIP()
-            verifyIPIsDisplayed()
-            dismissResultsDialog()
-        }
-    }
-
-    @Test fun getIP_permissionError_emptyList() {
-        with(miscRobot) {
-            // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
-            withSuccessGettingIP()
-            launchMiscScreen()
-            getIP()
 
             // When
             permissionCallbackTriggeredWithEmptyArray(
@@ -956,17 +451,14 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             dismissErrorDialog()
-            verifyTriedToGetIP()
         }
     }
 
-    @Test fun getIP_permissionError_permissionDenied() {
+    @Test
+    fun getIP_permissionError_permissionDenied() {
         with(miscRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
-            withSuccessGettingIP()
             launchMiscScreen()
-            getIP()
 
             // When
             permissionCallbackTriggered(
@@ -976,17 +468,16 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             dismissErrorDialog()
-            verifyTriedToGetIP()
         }
     }
 
-    @Test fun getIP_success_afterPermissionGranted() {
+    @Test
+    fun getIP_success_afterPermissionGranted() {
         with(miscRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
+            withPermission(ACCESS_FINE_LOCATION)
             withSuccessGettingIP()
             launchMiscScreen()
-            getIP()
 
             // When
             permissionCallbackTriggered(
@@ -995,16 +486,17 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
             )
 
             // Then
-            verifyTriedToGetIP(times = 2)
+            verifyTriedToGetIP()
             verifyIPIsDisplayed()
             dismissResultsDialog()
         }
     }
 
-    @Test fun getIP_success() {
+    @Test
+    fun getIP_success() {
         with(miscRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
+            withPermission(ACCESS_FINE_LOCATION)
             withSuccessGettingIP()
             launchMiscScreen()
 
@@ -1018,10 +510,11 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun getIP_failureGettingIp() {
+    @Test
+    fun getIP_failureGettingIp() {
         with(miscRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
+            withPermission(ACCESS_FINE_LOCATION)
             withFailureGettingIP()
             launchMiscScreen()
 
@@ -1035,10 +528,11 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun getIP_wiseFyFailure() {
+    @Test
+    fun getIP_wiseFyFailure() {
         with(miscRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
+            withPermission(ACCESS_FINE_LOCATION)
             withWiseFyFailureGettingIP()
             launchMiscScreen()
 
@@ -1054,12 +548,11 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun getNearbyAccessPoints_permissionErrorDialog() {
+    @Test
+    fun getNearbyAccessPoints_permissionErrorDialog() {
         with(miscRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
             launchMiscScreen()
-            getNearbyAccessPoints()
 
             // When
             permissionCallbackTriggered(
@@ -1072,12 +565,12 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun getNearbyAccessPoints_permissionError_once() {
+    @Test
+    fun getNearbyAccessPoints_permissionError_once_accessFineLocation() {
         with(miscRobot) {
             // Given
             withSuccessGettingNearbyAccessPoints()
-            withPermissionDeniedOnce(ACCESS_WIFI_STATE)
-            withPermissionDeniedOnce(ACCESS_COARSE_LOCATION)
+            withPermissionDeniedOnce(ACCESS_FINE_LOCATION)
             launchMiscScreen()
 
             // When
@@ -1090,49 +583,11 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun getNearbyAccessPoints_permissionError_once_accessWifiState() {
+    @Test
+    fun getNearbyAccessPoints_permissionError_emptyList() {
         with(miscRobot) {
             // Given
-            withSuccessGettingNearbyAccessPoints()
-            withPermissionDeniedOnce(ACCESS_WIFI_STATE)
-            withPermission(ACCESS_COARSE_LOCATION)
             launchMiscScreen()
-
-            // When
-            getNearbyAccessPoints()
-
-            // Then
-            verifyTriedToGetNearbyAccessPoints()
-            verifyAccessPointsAreDisplayed()
-            dismissResultsDialog()
-        }
-    }
-
-    @Test fun getNearbyAccessPoints_permissionError_once_accessCoarseLocation() {
-        with(miscRobot) {
-            // Given
-            withSuccessGettingNearbyAccessPoints()
-            withPermission(ACCESS_WIFI_STATE)
-            withPermissionDeniedOnce(ACCESS_COARSE_LOCATION)
-            launchMiscScreen()
-
-            // When
-            getNearbyAccessPoints()
-
-            // Then
-            verifyTriedToGetNearbyAccessPoints()
-            verifyAccessPointsAreDisplayed()
-            dismissResultsDialog()
-        }
-    }
-
-    @Test fun getNearbyAccessPoints_permissionError_emptyList() {
-        with(miscRobot) {
-            // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
-            withSuccessGettingNearbyAccessPoints()
-            launchMiscScreen()
-            getNearbyAccessPoints()
 
             // When
             permissionCallbackTriggeredWithEmptyArray(
@@ -1141,17 +596,14 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             dismissErrorDialog()
-            verifyTriedToGetNearbyAccessPoints()
         }
     }
 
-    @Test fun getNearbyAccessPoints_permissionError_permissionDenied() {
+    @Test
+    fun getNearbyAccessPoints_permissionError_permissionDenied() {
         with(miscRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
-            withSuccessGettingNearbyAccessPoints()
             launchMiscScreen()
-            getNearbyAccessPoints()
 
             // When
             permissionCallbackTriggered(
@@ -1161,17 +613,16 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             dismissErrorDialog()
-            verifyTriedToGetNearbyAccessPoints()
         }
     }
 
-    @Test fun getNearbyAccessPoints_success_afterPermissionGranted() {
+    @Test
+    fun getNearbyAccessPoints_success_afterPermissionGranted() {
         with(miscRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
+            withPermission(ACCESS_FINE_LOCATION)
             withSuccessGettingNearbyAccessPoints()
             launchMiscScreen()
-            getNearbyAccessPoints()
 
             // When
             permissionCallbackTriggered(
@@ -1180,16 +631,17 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
             )
 
             // Then
-            verifyTriedToGetNearbyAccessPoints(times = 2)
+            verifyTriedToGetNearbyAccessPoints()
             verifyAccessPointsAreDisplayed()
             dismissResultsDialog()
         }
     }
 
-    @Test fun getNearbyAccessPoints_success() {
+    @Test
+    fun getNearbyAccessPoints_success() {
         with(miscRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
+            withPermission(ACCESS_FINE_LOCATION)
             withSuccessGettingNearbyAccessPoints()
             launchMiscScreen()
 
@@ -1203,10 +655,11 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun getNearbyAccessPoints_noNearbyAccessPoints() {
+    @Test
+    fun getNearbyAccessPoints_noNearbyAccessPoints() {
         with(miscRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
+            withPermission(ACCESS_FINE_LOCATION)
             withNoNearbyAccessPoints()
             launchMiscScreen()
 
@@ -1220,10 +673,11 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun getNearbyAccessPoints_wiseFyFailure() {
+    @Test
+    fun getNearbyAccessPoints_wiseFyFailure() {
         with(miscRobot) {
             // Given
-            withPermissions(ACCESS_WIFI_STATE, ACCESS_COARSE_LOCATION)
+            withPermission(ACCESS_FINE_LOCATION)
             withWiseFyFailureGettingNearbyAccessPoints()
             launchMiscScreen()
 
@@ -1239,12 +693,11 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun getSavedNetworks_permissionErrorDialog() {
+    @Test
+    fun getSavedNetworks_permissionErrorDialog() {
         with(miscRobot) {
             // Given
-            withPermission(ACCESS_WIFI_STATE)
             launchMiscScreen()
-            getSavedNetworks()
 
             // When
             permissionCallbackTriggered(
@@ -1257,11 +710,12 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun getSavedNetworks_permissionError_once() {
+    @Test
+    fun getSavedNetworks_permissionError_once() {
         with(miscRobot) {
             // Given
             withSuccessGettingSavedNetworks()
-            withPermissionDeniedOnce(ACCESS_WIFI_STATE)
+            withPermissionDeniedOnce(ACCESS_FINE_LOCATION)
             launchMiscScreen()
 
             // When
@@ -1274,13 +728,11 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun getSavedNetworks_permissionError_emptyList() {
+    @Test
+    fun getSavedNetworks_permissionError_emptyList() {
         with(miscRobot) {
             // Given
-            withPermission(ACCESS_WIFI_STATE)
-            withSuccessGettingCurrentNetworkInfo()
             launchMiscScreen()
-            getSavedNetworks()
 
             // When
             permissionCallbackTriggeredWithEmptyArray(
@@ -1289,17 +741,14 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             dismissErrorDialog()
-            verifyTriedToGetSavedNetworks()
         }
     }
 
-    @Test fun getSavedNetworks_permissionError_permissionDenied() {
+    @Test
+    fun getSavedNetworks_permissionError_permissionDenied() {
         with(miscRobot) {
             // Given
-            withPermission(ACCESS_WIFI_STATE)
-            withSuccessGettingCurrentNetworkInfo()
             launchMiscScreen()
-            getSavedNetworks()
 
             // When
             permissionCallbackTriggered(
@@ -1309,17 +758,16 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
 
             // Then
             dismissErrorDialog()
-            verifyTriedToGetSavedNetworks()
         }
     }
 
-    @Test fun getSavedNetworks_success_afterPermissionGranted() {
+    @Test
+    fun getSavedNetworks_success_afterPermissionGranted() {
         with(miscRobot) {
             // Given
-            withPermission(ACCESS_WIFI_STATE)
+            withPermission(ACCESS_FINE_LOCATION)
             withSuccessGettingSavedNetworks()
             launchMiscScreen()
-            getSavedNetworks()
 
             // When
             permissionCallbackTriggered(
@@ -1328,16 +776,17 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
             )
 
             // Then
-            verifyTriedToGetSavedNetworks(times = 2)
+            verifyTriedToGetSavedNetworks()
             verifySavedNetworksAreDisplayed()
             dismissResultsDialog()
         }
     }
 
-    @Test fun getSavedNetworks_success() {
+    @Test
+    fun getSavedNetworks_success() {
         with(miscRobot) {
             // Given
-            withPermission(ACCESS_WIFI_STATE)
+            withPermission(ACCESS_FINE_LOCATION)
             withSuccessGettingSavedNetworks()
             launchMiscScreen()
 
@@ -1351,10 +800,11 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun getSavedNetworks_noSavedNetworks() {
+    @Test
+    fun getSavedNetworks_noSavedNetworks() {
         with(miscRobot) {
             // Given
-            withPermission(ACCESS_WIFI_STATE)
+            withPermission(ACCESS_FINE_LOCATION)
             withNoSavedNetworks()
             launchMiscScreen()
 
@@ -1368,10 +818,11 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun getSavedNetworks_wiseFyFailure() {
+    @Test
+    fun getSavedNetworks_wiseFyFailure() {
         with(miscRobot) {
             // Given
-            withPermission(ACCESS_WIFI_STATE)
+            withPermission(ACCESS_FINE_LOCATION)
             withWiseFyFailureGettingSavedNetworks()
             launchMiscScreen()
 
@@ -1387,7 +838,8 @@ internal class MiscFragmentTest : AbstractEspressoTestClass() {
         }
     }
 
-    @Test fun ridiculousPermissionRequested() {
+    @Test
+    fun ridiculousPermissionRequested() {
         with(miscRobot) {
             // Given
             launchMiscScreen()

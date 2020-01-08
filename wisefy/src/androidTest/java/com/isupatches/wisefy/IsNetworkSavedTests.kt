@@ -1,7 +1,6 @@
 package com.isupatches.wisefy
 
 import com.isupatches.wisefy.internal.base.BaseInstrumentationTest
-
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -13,18 +12,21 @@ import org.junit.Test
  */
 internal class IsNetworkSavedTests : BaseInstrumentationTest() {
 
-    @Test fun failure_missingPrerequisite() {
+    @Test
+    fun failure_missingPrerequisite() {
         mockWiseFyPrechecksUtil.isNetworkSaved_failure()
         assertEquals(false, wisefy.isNetworkSaved(TEST_SSID))
     }
 
-    @Test fun failure() {
+    @Test
+    fun failure() {
         mockWiseFyPrechecksUtil.isNetworkSaved_success()
         mockWiseFySearchUtil.isNetworkASavedConfiguration(false)
         assertEquals(false, wisefy.isNetworkSaved(TEST_SSID))
     }
 
-    @Test fun success() {
+    @Test
+    fun success() {
         mockWiseFyPrechecksUtil.isNetworkSaved_success()
         mockWiseFySearchUtil.isNetworkASavedConfiguration(true)
         assertEquals(true, wisefy.isNetworkSaved(TEST_SSID))

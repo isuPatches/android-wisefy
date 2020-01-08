@@ -8,7 +8,6 @@ import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.rule.ActivityTestRule
-
 import com.isupatches.wisefy.WiseFyPublicApi
 import com.isupatches.wisefy.callbacks.SearchForAccessPointCallbacks
 import com.isupatches.wisefy.callbacks.SearchForAccessPointsCallbacks
@@ -34,7 +33,6 @@ import com.isupatches.wisefysample.internal.models.SearchType
 import com.isupatches.wisefysample.internal.preferences.SearchStore
 import com.isupatches.wisefysample.internal.util.PermissionUtil
 import com.isupatches.wisefysample.ui.main.MainActivity
-
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.doAnswer
 import com.nhaarman.mockitokotlin2.eq
@@ -266,6 +264,46 @@ internal class SearchRobot(
      * Actions
      */
 
+    fun fillOutForAccessPoint(ssid: String? = null, filterDuplicates: Boolean? = null) {
+        onView(withId(R.id.accessPointRdb)).performScrollToAndClick()
+        setSearchRegex(ssid)
+        onView(withId(R.id.noFullListRdb)).performScrollToAndClick()
+        setFilterDuplicates(filterDuplicates)
+        setTimeoutSeek()
+    }
+
+    fun fillOutForAccessPoints(ssid: String? = null, filterDuplicates: Boolean? = null) {
+        onView(withId(R.id.accessPointRdb)).performScrollToAndClick()
+        setSearchRegex(ssid)
+        onView(withId(R.id.yesFullListRdb)).performScrollToAndClick()
+        setFilterDuplicates(filterDuplicates)
+    }
+
+    fun fillOutForSavedNetwork(ssid: String? = null) {
+        onView(withId(R.id.savedNetworkRdb)).performScrollToAndClick()
+        setSearchRegex(ssid)
+        onView(withId(R.id.noFullListRdb)).performScrollToAndClick()
+    }
+
+    fun fillOutForSavedNetworks(ssid: String? = null) {
+        onView(withId(R.id.savedNetworkRdb)).performScrollToAndClick()
+        setSearchRegex(ssid)
+        onView(withId(R.id.yesFullListRdb)).performScrollToAndClick()
+    }
+
+    fun fillOutForSSID(ssid: String? = null) {
+        onView(withId(R.id.ssidRdb)).performScrollToAndClick()
+        setSearchRegex(ssid)
+        onView(withId(R.id.noFullListRdb)).performScrollToAndClick()
+        setTimeoutSeek()
+    }
+
+    fun fillOutForSSIDs(ssid: String? = null) {
+        onView(withId(R.id.ssidRdb)).performScrollToAndClick()
+        setSearchRegex(ssid)
+        onView(withId(R.id.yesFullListRdb)).performScrollToAndClick()
+    }
+
     fun launchSearchScreen() {
         activityTestRule.launchActivity(Intent())
         onView(withId(R.id.menu_search)).performClick()
@@ -279,82 +317,34 @@ internal class SearchRobot(
         onView(withId(R.id.yesFilterDupesRdb)).performScrollToAndClick()
     }
 
-    fun searchForAccessPoint(filterDuplicates: Boolean) {
-        fillOutFormForAccessPoint()
-        onView(withId(R.id.noFullListRdb)).performScrollToAndClick()
-        if (filterDuplicates) {
-            onView(withId(R.id.yesFilterDupesRdb)).performScrollToAndClick()
-        } else {
-            onView(withId(R.id.noFilterDupesRdb)).performScrollToAndClick()
-        }
-        setTimeoutSeek()
+    fun searchForAccessPoint(ssid: String, filterDuplicates: Boolean) {
+        fillOutForAccessPoint(ssid, filterDuplicates)
         clickSearchButton()
     }
 
-    fun searchForAccessPoints(filterDuplicates: Boolean) {
-        fillOutFormForAccessPoint()
-        onView(withId(R.id.yesFullListRdb)).performScrollToAndClick()
-        if (filterDuplicates) {
-            onView(withId(R.id.yesFilterDupesRdb)).performScrollToAndClick()
-        } else {
-            onView(withId(R.id.noFilterDupesRdb)).performScrollToAndClick()
-        }
+    fun searchForAccessPoints(ssid: String, filterDuplicates: Boolean) {
+        fillOutForAccessPoints(ssid, filterDuplicates)
         clickSearchButton()
     }
 
-    fun searchForSavedNetwork() {
-        fillOutFormForForSavedNetwork()
-        onView(withId(R.id.noFullListRdb)).performScrollToAndClick()
+    fun searchForSavedNetwork(ssid: String) {
+        fillOutForSavedNetwork(ssid)
         clickSearchButton()
     }
 
-    fun searchForSavedNetworks() {
-        fillOutFormForForSavedNetwork()
-        onView(withId(R.id.yesFullListRdb)).performScrollToAndClick()
+    fun searchForSavedNetworks(ssid: String) {
+        fillOutForSavedNetworks(ssid)
         clickSearchButton()
     }
 
-    fun searchForSSID() {
-        fillOutFormFormForSSID()
-        onView(withId(R.id.noFullListRdb)).performScrollToAndClick()
-        setTimeoutSeek()
+    fun searchForSSID(ssid: String) {
+        fillOutForSSID(ssid)
         clickSearchButton()
     }
 
-    fun searchForSSIDs() {
-        fillOutFormFormForSSID()
-        onView(withId(R.id.yesFullListRdb)).performScrollToAndClick()
+    fun searchForSSIDs(ssid: String) {
+        fillOutForSSIDs(ssid)
         clickSearchButton()
-    }
-
-    fun selectAccessPoint() {
-        fillOutFormForAccessPoint()
-        onView(withId(R.id.noFullListRdb)).performScrollToAndClick()
-    }
-
-    fun selectAccessPoints() {
-        fillOutFormForAccessPoint()
-        onView(withId(R.id.yesFullListRdb)).performScrollToAndClick()
-    }
-
-    fun selectSSID() {
-        fillOutFormFormForSSID()
-        onView(withId(R.id.noFullListRdb)).performScrollToAndClick()
-    }
-
-    fun selectSSIDs() {
-        fillOutFormFormForSSID()
-        onView(withId(R.id.yesFullListRdb)).performScrollToAndClick()
-    }
-
-    fun selectSavedNetwork() {
-        fillOutFormForForSavedNetwork()
-        onView(withId(R.id.noFullListRdb)).performScrollToAndClick()
-    }
-
-    fun selectSavedNetworks() {
-        fillOutFormForForSavedNetwork()
-        onView(withId(R.id.yesFullListRdb)).performScrollToAndClick()
     }
 
     /*
@@ -365,23 +355,20 @@ internal class SearchRobot(
         onView(withId(R.id.searchBtn)).performScrollToAndClick()
     }
 
-    private fun fillOutFormForAccessPoint() {
-        onView(withId(R.id.accessPointRdb)).performScrollToAndClick()
-        setSearchRegex()
+    private fun setFilterDuplicates(filterDuplicates: Boolean?) {
+        filterDuplicates?.let {
+            if (it) {
+                setFilterDupesToYes()
+            } else {
+                setFilterDupesToNo()
+            }
+        }
     }
 
-    private fun fillOutFormForForSavedNetwork() {
-        onView(withId(R.id.savedNetworkRdb)).performScrollToAndClick()
-        setSearchRegex()
-    }
-
-    private fun fillOutFormFormForSSID() {
-        onView(withId(R.id.ssidRdb)).performScrollToAndClick()
-        setSearchRegex()
-    }
-
-    private fun setSearchRegex() {
-        onView(withId(R.id.searchRegexEdt)).performScrollToAndReplaceText(TEST_SSID_1)
+    private fun setSearchRegex(ssid: String?) {
+        ssid?.let {
+            onView(withId(R.id.searchRegexEdt)).performScrollToAndReplaceText(ssid)
+        }
     }
 
     private fun setTimeoutSeek() {

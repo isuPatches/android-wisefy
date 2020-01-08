@@ -3,10 +3,8 @@ package com.isupatches.wisefy
 import com.isupatches.wisefy.callbacks.EnableWifiCallbacks
 import com.isupatches.wisefy.constants.MISSING_PARAMETER
 import com.isupatches.wisefy.internal.base.BaseInstrumentationTest
-
 import org.junit.Assert.assertEquals
 import org.junit.Test
-
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.timeout
 import org.mockito.Mockito.verify
@@ -19,27 +17,31 @@ import org.mockito.Mockito.verify
  */
 internal class EnableWifiTests : BaseInstrumentationTest() {
 
-    @Test fun sync_failure_prechecks() {
+    @Test
+    fun sync_failure_prechecks() {
         mockWiseFyPrechecksUtil.enableWifi_failure()
         assertEquals(false, wisefy.enableWifi())
         verificationUtil.didNotTryToEnableWifi()
     }
 
-    @Test fun sync_failure() {
+    @Test
+    fun sync_failure() {
         mockWiseFyPrechecksUtil.enableWifi_success()
         mockNetworkUtil.enableWifi_failure()
         assertEquals(false, wisefy.enableWifi())
         verificationUtil.triedToEnableWifi()
     }
 
-    @Test fun sync_success() {
+    @Test
+    fun sync_success() {
         mockWiseFyPrechecksUtil.enableWifi_success()
         mockNetworkUtil.enableWifi_success()
         assertEquals(true, wisefy.enableWifi())
         verificationUtil.triedToEnableWifi()
     }
 
-    @Test fun async_failure_prechecks() {
+    @Test
+    fun async_failure_prechecks() {
         mockWiseFyPrechecksUtil.enableWifi_failure()
         val mockCallbacks = mock(EnableWifiCallbacks::class.java)
         wisefy.enableWifi(mockCallbacks)
@@ -47,13 +49,15 @@ internal class EnableWifiTests : BaseInstrumentationTest() {
         verificationUtil.didNotTryToEnableWifi()
     }
 
-    @Test fun async_failure_prechecks_nullCallback() {
+    @Test
+    fun async_failure_prechecks_nullCallback() {
         mockWiseFyPrechecksUtil.enableWifi_failure()
         nullCallbackUtil.callEnableWifi()
         verificationUtil.didNotTryToEnableWifi()
     }
 
-    @Test fun async_failure() {
+    @Test
+    fun async_failure() {
         mockWiseFyPrechecksUtil.enableWifi_success()
         mockNetworkUtil.enableWifi_failure()
         val mockCallbacks = mock(EnableWifiCallbacks::class.java)
@@ -62,14 +66,16 @@ internal class EnableWifiTests : BaseInstrumentationTest() {
         verificationUtil.triedToEnableWifi()
     }
 
-    @Test fun async_failure_nullCallback() {
+    @Test
+    fun async_failure_nullCallback() {
         mockWiseFyPrechecksUtil.enableWifi_success()
         mockNetworkUtil.enableWifi_failure()
         nullCallbackUtil.callEnableWifi()
         verificationUtil.triedToEnableWifi()
     }
 
-    @Test fun async_success() {
+    @Test
+    fun async_success() {
         mockWiseFyPrechecksUtil.enableWifi_success()
         mockNetworkUtil.enableWifi_success()
         val mockCallbacks = mock(EnableWifiCallbacks::class.java)
@@ -78,7 +84,8 @@ internal class EnableWifiTests : BaseInstrumentationTest() {
         verificationUtil.triedToEnableWifi()
     }
 
-    @Test fun async_success_nullCallback() {
+    @Test
+    fun async_success_nullCallback() {
         mockWiseFyPrechecksUtil.enableWifi_success()
         mockNetworkUtil.enableWifi_success()
         nullCallbackUtil.callEnableWifi()

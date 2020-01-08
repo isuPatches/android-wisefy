@@ -21,13 +21,13 @@ android {
         debug {
             testCoverageEnabled true
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules-debug.pro'
             testProguardFile file("proguard-test-rules.pro.pro")
         }
 
         release {
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules-release.pro'
         }
     }
 
@@ -35,8 +35,13 @@ android {
         unitTests.returnDefaultValues = true
     }
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
     sourceSets {
-        def commonTestDir = 'src/commonTest/java'
+        final def commonTestDir = 'src/commonTest/java'
 
         test { java.srcDir commonTestDir }
 
@@ -44,12 +49,19 @@ android {
 
         main { jni.srcDirs = [] }
     }
+
+    lintOptions {
+        checkAllWarnings true
+        warningsAsErrors true
+        showAll true
+        explainIssues true
+        abortOnError true
+        disable 'UnusedIds' // UnusedIds is disabled for Kotlin synthetics
+    }
 }
 
 dependencies {
     implementation project(':wisefy')
-
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 

@@ -157,12 +157,12 @@ For the sake of transparency and because you're probably curious as to what perm
 
 <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
-<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 ```
 
 <strong> * NOTE * </strong>
 
-If access points or SSIDs are not being returned on >= 6.x devices but there are visible networks, it's most likely because you haven't asked in your application for the `Manifest.permission.ACCESS_COARSE_LOCATION` permission which is what allows us to see the access points nearby. This permission request will not be added to the WiseFy library to reduce package bloat and so users can determine their own UI/UX.
+If access points or SSIDs are not being returned on >= 6.x devices but there are visible networks, it's most likely because you haven't asked in your application for the `Manifest.permission.ACCESS_FINE_LOCATION` permission which is what allows us to see the access points nearby. This permission request will not be added to the WiseFy library to reduce package bloat and so users can determine their own UI/UX.
 
 Please check [the sample app](/wisefysample) for an example of how to request permissions for WiseFy.
 

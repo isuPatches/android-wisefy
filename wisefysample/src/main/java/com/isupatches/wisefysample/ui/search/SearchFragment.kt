@@ -15,8 +15,7 @@
  */
 package com.isupatches.wisefysample.ui.search
 
-import android.Manifest.permission.ACCESS_COARSE_LOCATION
-import android.Manifest.permission.ACCESS_WIFI_STATE
+import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.content.pm.PackageManager
 import android.net.wifi.ScanResult
 import android.net.wifi.WifiConfiguration
@@ -25,18 +24,17 @@ import android.util.Log
 import android.view.View
 import android.widget.SeekBar
 import androidx.annotation.VisibleForTesting
-
 import com.isupatches.wisefysample.R
+import com.isupatches.wisefysample.internal.base.BaseFragment
 import com.isupatches.wisefysample.internal.models.SearchType
 import com.isupatches.wisefysample.internal.preferences.SearchStore
-import com.isupatches.wisefysample.internal.base.BaseFragment
 import com.isupatches.wisefysample.internal.util.asHtmlSpanned
 import com.isupatches.wisefysample.internal.util.getTrimmedInput
 import com.isupatches.wisefysample.internal.util.hideKeyboardFrom
-
 import dagger.Binds
 import dagger.Module
-
+import javax.inject.Inject
+import kotlin.math.max
 import kotlinx.android.synthetic.main.fragment_search.filterDupesRdg
 import kotlinx.android.synthetic.main.fragment_search.filterDupesTxt
 import kotlinx.android.synthetic.main.fragment_search.returnFullListRdg
@@ -45,8 +43,6 @@ import kotlinx.android.synthetic.main.fragment_search.searchRegexEdt
 import kotlinx.android.synthetic.main.fragment_search.searchTypeRdg
 import kotlinx.android.synthetic.main.fragment_search.timeoutSeek
 import kotlinx.android.synthetic.main.fragment_search.timeoutTxt
-
-import javax.inject.Inject
 
 @Suppress("LargeClass")
 internal class SearchFragment : BaseFragment(), SearchMvp.View {
@@ -108,7 +104,7 @@ internal class SearchFragment : BaseFragment(), SearchMvp.View {
             max = TIMEOUT_MAX
             setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                    val timeout = Math.max(TIMEOUT_MIN, progress)
+                    val timeout = max(TIMEOUT_MIN, progress)
                     searchStore.setTimeout(timeout)
                     timeoutTxt.text = getString(R.string.timeout_after_x_seconds_args_html, timeout).asHtmlSpanned()
                 }
@@ -262,7 +258,11 @@ internal class SearchFragment : BaseFragment(), SearchMvp.View {
     @Throws(SecurityException::class)
     private fun searchForAccessPoint() {
         if (checkSearchForAccessPointPermissions()) {
-            presenter.searchForAccessPoint(searchRegexEdt.getTrimmedInput(), getSelectedTimeout(), getFilterDuplicates())
+            presenter.searchForAccessPoint(
+                searchRegexEdt.getTrimmedInput(),
+                getSelectedTimeout(),
+                getFilterDuplicates()
+            )
         }
     }
 
@@ -273,12 +273,14 @@ internal class SearchFragment : BaseFragment(), SearchMvp.View {
         }
     }
 
+    @Throws(SecurityException::class)
     private fun searchForSavedNetwork() {
         if (checkSearchForSavedNetworkPermissions()) {
             presenter.searchForSavedNetwork(searchRegexEdt.getTrimmedInput())
         }
     }
 
+    @Throws(SecurityException::class)
     private fun searchForSavedNetworks() {
         if (checkSearchForSavedNetworksPermissions()) {
             presenter.searchForSavedNetworks(searchRegexEdt.getTrimmedInput())
@@ -312,7 +314,7 @@ internal class SearchFragment : BaseFragment(), SearchMvp.View {
     }
 
     override fun displaySavedNetworks(savedNetworks: List<WifiConfiguration>) {
-        displayInfo(getString(R.string.saved_networks_args, savedNetworks), R.string.search_result)
+        displayInfoFullScreen(getString(R.string.saved_networks_args, savedNetworks), R.string.search_result)
     }
 
     override fun displayNoSavedNetworksFound() {
@@ -360,31 +362,27 @@ internal class SearchFragment : BaseFragment(), SearchMvp.View {
      */
 
     private fun checkSearchForSavedNetworkPermissions(): Boolean {
-        return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_SEARCH_FOR_SAVED_NETWORK_REQUEST_CODE)
+        return isPermissionGranted(ACCESS_FINE_LOCATION, WISEFY_SEARCH_FOR_SAVED_NETWORK_REQUEST_CODE)
     }
 
     private fun checkSearchForSavedNetworksPermissions(): Boolean {
-        return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_SEARCH_FOR_SAVED_NETWORKS_REQUEST_CODE)
+        return isPermissionGranted(ACCESS_FINE_LOCATION, WISEFY_SEARCH_FOR_SAVED_NETWORKS_REQUEST_CODE)
     }
 
     private fun checkSearchForAccessPointPermissions(): Boolean {
-        return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_SEARCH_FOR_ACCESS_POINT_REQUEST_CODE) &&
-                isPermissionGranted(ACCESS_COARSE_LOCATION, WISEFY_SEARCH_FOR_ACCESS_POINT_REQUEST_CODE)
+        return isPermissionGranted(ACCESS_FINE_LOCATION, WISEFY_SEARCH_FOR_ACCESS_POINT_REQUEST_CODE)
     }
 
     private fun checkSearchForAccessPointsPermissions(): Boolean {
-        return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_SEARCH_FOR_ACCESS_POINTS_REQUEST_CODE) &&
-                isPermissionGranted(ACCESS_COARSE_LOCATION, WISEFY_SEARCH_FOR_ACCESS_POINTS_REQUEST_CODE)
+        return isPermissionGranted(ACCESS_FINE_LOCATION, WISEFY_SEARCH_FOR_ACCESS_POINTS_REQUEST_CODE)
     }
 
     private fun checkSearchForSSIDPermissions(): Boolean {
-        return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_SEARCH_FOR_SSID_REQUEST_CODE) &&
-                isPermissionGranted(ACCESS_COARSE_LOCATION, WISEFY_SEARCH_FOR_SSID_REQUEST_CODE)
+        return isPermissionGranted(ACCESS_FINE_LOCATION, WISEFY_SEARCH_FOR_SSID_REQUEST_CODE)
     }
 
     private fun checkSearchForSSIDsPermissions(): Boolean {
-        return isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_SEARCH_FOR_SSIDS_REQUEST_CODE) &&
-                isPermissionGranted(ACCESS_COARSE_LOCATION, WISEFY_SEARCH_FOR_SSIDS_REQUEST_CODE)
+        return isPermissionGranted(ACCESS_FINE_LOCATION, WISEFY_SEARCH_FOR_SSIDS_REQUEST_CODE)
     }
 
     @Suppress("LongMethod", "ComplexMethod")

@@ -35,13 +35,13 @@
     <string name="failure_retrieving_ip">Failure retrieving IP</string>
 
     <!-- Permissions -->
-    <string name="permission_error_disable_wifi">Permissions for disabling wifi are denied</string>
-    <string name="permission_error_enable_wifi">Permissions for enabling wifi are denied</string>
-    <string name="permission_error_get_current_network">Permissions for getting current network are denied</string>
-    <string name="permission_error_get_current_network_info">Permissions for getting current network info are denied</string>
-    <string name="permission_error_get_frequency">Permissions for getting the frequency of the device\'s current network are denied</string>
+    <string name="permission_error_get_frequency">
+        Permissions for getting the frequency of the device\'s current network are denied
+    </string>
     <string name="permission_error_get_ip">Permissions for getting the device\'s IP are denied</string>
-    <string name="permission_error_get_nearby_access_points">Permissions for getting nearby access points are denied</string>
+    <string name="permission_error_get_nearby_access_points">
+        Permissions for getting nearby access points are denied
+    </string>
     <string name="permission_error_get_saved_networks">Permissions for getting saved networks are denied</string>
 
 </resources>

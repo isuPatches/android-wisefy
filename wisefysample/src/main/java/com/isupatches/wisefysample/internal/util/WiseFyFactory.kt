@@ -16,11 +16,19 @@
 package com.isupatches.wisefysample.internal.util
 
 import androidx.fragment.app.FragmentActivity
-
 import com.isupatches.wisefy.WiseFy
 import com.isupatches.wisefy.WiseFyPublicApi
 
-@Suppress("UndocumentedPublicFunction")
-fun createWiseFy(activity: FragmentActivity): WiseFyPublicApi = WiseFy.Brains(activity)
+/**
+ * @param activity The context to create a WiseFy implementation
+ *
+ * @return WiseFyPublicApi - The implementation of the public API for WiseFy
+ *
+ * @see [WiseFy]
+ * @see [WiseFyPublicApi]
+ */
+fun createWiseFy(activity: FragmentActivity): WiseFyPublicApi {
+    return WiseFy.Brains(activity)
         .logging(true)
         .getSmarts()
+}

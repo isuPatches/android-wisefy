@@ -16,7 +16,6 @@
 package com.isupatches.wisefysample.internal.base
 
 import android.util.Log
-
 import com.isupatches.wisefy.constants.WiseFyCode
 import com.isupatches.wisefysample.internal.util.RxSchedulersProvider
 
@@ -47,7 +46,9 @@ internal abstract class BasePresenter<V : BaseMvp.View> constructor(
         if (isViewAttached) {
             rxSchedulersProvider.main.scheduleDirect {
                 if (isViewAttached) {
-                    viewCommand(view!!)
+                    val view = view
+                    requireNotNull(view)
+                    viewCommand(view)
                 } else {
                     Log.w(TAG, "ViewCommand was scheduled., but view is now detached!")
                 }

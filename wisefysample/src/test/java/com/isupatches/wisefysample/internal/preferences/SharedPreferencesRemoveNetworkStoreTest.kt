@@ -1,9 +1,7 @@
 package com.isupatches.wisefysample.internal.preferences
 
 import com.isupatches.wisefysample.TEST_SSID_1
-
 import com.nhaarman.mockitokotlin2.verify
-
 import org.junit.Test
 
 internal class SharedPreferencesRemoveNetworkStoreTest : BaseSharedPreferencesStoreTest() {
@@ -12,7 +10,8 @@ internal class SharedPreferencesRemoveNetworkStoreTest : BaseSharedPreferencesSt
         SharedPreferencesRemoveNetworkStore(sharedPreferences)
     }
 
-    @Test fun clearsRemoveNetworkStoreData() {
+    @Test
+    fun clearsRemoveNetworkStoreData() {
         store.clear()
         verify(editor).clear()
     }
@@ -21,12 +20,14 @@ internal class SharedPreferencesRemoveNetworkStoreTest : BaseSharedPreferencesSt
      * Last Used Regex
      */
 
-    @Test fun setLastUsedRegex_remove() {
+    @Test
+    fun setLastUsedRegex_remove() {
         store.setLastUsedRegex(TEST_SSID_1)
         verifyUpdatedLastUsedRegex()
     }
 
-    @Test fun getLastUsedRegex_remove() {
+    @Test
+    fun getLastUsedRegex_remove() {
         store.getLastUsedRegex()
         verifyRetrievedLastUsedRegex()
     }

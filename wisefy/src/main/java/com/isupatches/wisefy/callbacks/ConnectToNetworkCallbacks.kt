@@ -18,6 +18,7 @@ package com.isupatches.wisefy.callbacks
 /**
  * Callbacks for attempting to connect to a network.
  *
+ * @see [BaseCallback]
  * @see [com.isupatches.wisefy.WiseFy.connectToNetwork]
  *
  * @author Patches

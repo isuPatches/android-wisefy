@@ -2,7 +2,6 @@ package com.isupatches.wisefysample.ui.search
 
 import android.net.wifi.ScanResult
 import android.net.wifi.WifiConfiguration
-
 import com.isupatches.wisefy.callbacks.SearchForAccessPointCallbacks
 import com.isupatches.wisefy.callbacks.SearchForAccessPointsCallbacks
 import com.isupatches.wisefy.callbacks.SearchForSSIDCallbacks
@@ -13,7 +12,6 @@ import com.isupatches.wisefy.constants.MISSING_PARAMETER
 import com.isupatches.wisefysample.TEST_SSID_1
 import com.isupatches.wisefysample.TEST_TIMEOUT
 import com.isupatches.wisefysample.TestRxSchedulersProvider
-
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.doAnswer
 import com.nhaarman.mockitokotlin2.eq
@@ -21,7 +19,6 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.times
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
-
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -38,15 +35,18 @@ internal class SearchPresenterTest {
         private val ACCESS_POINT = mock<ScanResult>()
     }
 
-    @Before fun setUp() {
+    @Before
+    fun setUp() {
         presenter.attachView(view)
     }
 
-    @After fun tearDown() {
+    @After
+    fun tearDown() {
         presenter.detachView()
     }
 
-    @Test fun searchForAccessPoint_accessPointFound() {
+    @Test
+    fun searchForAccessPoint_accessPointFound() {
         // Given
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[3] as SearchForAccessPointCallbacks
@@ -61,7 +61,8 @@ internal class SearchPresenterTest {
         verify(view, times(1)).displayAccessPoint(ACCESS_POINT)
     }
 
-    @Test fun searchForAccessPoint_accessPointNotFound() {
+    @Test
+    fun searchForAccessPoint_accessPointNotFound() {
         // Given
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[3] as SearchForAccessPointCallbacks
@@ -76,7 +77,8 @@ internal class SearchPresenterTest {
         verify(view, times(1)).displayAccessPointNotFound()
     }
 
-    @Test fun searchForAccessPoint_wisefyFailure() {
+    @Test
+    fun searchForAccessPoint_wisefyFailure() {
         // Given
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[3] as SearchForAccessPointCallbacks
@@ -91,7 +93,8 @@ internal class SearchPresenterTest {
         verify(view, times(1)).displayWiseFyFailure(MISSING_PARAMETER)
     }
 
-    @Test fun searchForAccessPoints_foundAccessPoints() {
+    @Test
+    fun searchForAccessPoints_foundAccessPoints() {
         // Given
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[2] as SearchForAccessPointsCallbacks
@@ -106,7 +109,8 @@ internal class SearchPresenterTest {
         verify(view, times(1)).displayAccessPoints(listOf(ACCESS_POINT))
     }
 
-    @Test fun searchForAccessPoints_noAccessPointsFound() {
+    @Test
+    fun searchForAccessPoints_noAccessPointsFound() {
         // Given
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[2] as SearchForAccessPointsCallbacks
@@ -121,7 +125,8 @@ internal class SearchPresenterTest {
         verify(view, times(1)).displayNoAccessPointsFound()
     }
 
-    @Test fun searchForAccessPoints_wisefyFailure() {
+    @Test
+    fun searchForAccessPoints_wisefyFailure() {
         // Given
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[2] as SearchForAccessPointsCallbacks
@@ -136,7 +141,8 @@ internal class SearchPresenterTest {
         verify(view, times(1)).displayWiseFyFailure(MISSING_PARAMETER)
     }
 
-    @Test fun searchForSavedNetwork_retrievedSavedNetwork() {
+    @Test
+    fun searchForSavedNetwork_retrievedSavedNetwork() {
         // Given
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[1] as SearchForSavedNetworkCallbacks
@@ -151,7 +157,8 @@ internal class SearchPresenterTest {
         verify(view, times(1)).displaySavedNetwork(SAVED_NETWORK)
     }
 
-    @Test fun searchForSavedNetwork_savedNetworkNotFound() {
+    @Test
+    fun searchForSavedNetwork_savedNetworkNotFound() {
         // Given
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[1] as SearchForSavedNetworkCallbacks
@@ -166,7 +173,8 @@ internal class SearchPresenterTest {
         verify(view, times(1)).displaySavedNetworkNotFound()
     }
 
-    @Test fun searchForSavedNetwork_wisefyFailure() {
+    @Test
+    fun searchForSavedNetwork_wisefyFailure() {
         // Given
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[1] as SearchForSavedNetworkCallbacks
@@ -181,7 +189,8 @@ internal class SearchPresenterTest {
         verify(view, times(1)).displayWiseFyFailure(MISSING_PARAMETER)
     }
 
-    @Test fun searchForSavedNetworks_retrievedSavedNetworks() {
+    @Test
+    fun searchForSavedNetworks_retrievedSavedNetworks() {
         // Given
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[1] as SearchForSavedNetworksCallbacks
@@ -196,7 +205,8 @@ internal class SearchPresenterTest {
         verify(view, times(1)).displaySavedNetworks(listOf(SAVED_NETWORK))
     }
 
-    @Test fun searchForSavedNetworks_noSavedNetworksFound() {
+    @Test
+    fun searchForSavedNetworks_noSavedNetworksFound() {
         // Given
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[1] as SearchForSavedNetworksCallbacks
@@ -211,7 +221,8 @@ internal class SearchPresenterTest {
         verify(view, times(1)).displayNoSavedNetworksFound()
     }
 
-    @Test fun searchForSavedNetworks_wisefyFailure() {
+    @Test
+    fun searchForSavedNetworks_wisefyFailure() {
         // Given
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[1] as SearchForSavedNetworksCallbacks
@@ -226,7 +237,8 @@ internal class SearchPresenterTest {
         verify(view, times(1)).displayWiseFyFailure(MISSING_PARAMETER)
     }
 
-    @Test fun searchForSSID_ssidFound() {
+    @Test
+    fun searchForSSID_ssidFound() {
         // Given
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[2] as SearchForSSIDCallbacks
@@ -241,7 +253,8 @@ internal class SearchPresenterTest {
         verify(view, times(1)).displaySSID(TEST_SSID_1)
     }
 
-    @Test fun searchForSSID_ssidNotFound() {
+    @Test
+    fun searchForSSID_ssidNotFound() {
         // Then
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[2] as SearchForSSIDCallbacks
@@ -256,7 +269,8 @@ internal class SearchPresenterTest {
         verify(view, times(1)).displaySSIDNotFound()
     }
 
-    @Test fun searchForSSID_wisefyFailure() {
+    @Test
+    fun searchForSSID_wisefyFailure() {
         // Given
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[2] as SearchForSSIDCallbacks
@@ -271,7 +285,8 @@ internal class SearchPresenterTest {
         verify(view, times(1)).displayWiseFyFailure(MISSING_PARAMETER)
     }
 
-    @Test fun searchForSSIDs_retrievedSSIDs() {
+    @Test
+    fun searchForSSIDs_retrievedSSIDs() {
         // Given
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[1] as SearchForSSIDsCallbacks
@@ -286,7 +301,8 @@ internal class SearchPresenterTest {
         verify(view, times(1)).displaySSIDs(listOf(TEST_SSID_1))
     }
 
-    @Test fun searchForSSIDs_noSSIDsFound() {
+    @Test
+    fun searchForSSIDs_noSSIDsFound() {
         // Then
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[1] as SearchForSSIDsCallbacks
@@ -301,7 +317,8 @@ internal class SearchPresenterTest {
         verify(view, times(1)).displayNoSSIDsFound()
     }
 
-    @Test fun searchForSSIDs_wisefyFailure() {
+    @Test
+    fun searchForSSIDs_wisefyFailure() {
         // Given
         doAnswer { invocationOnMock ->
             val callback = invocationOnMock.arguments[1] as SearchForSSIDsCallbacks

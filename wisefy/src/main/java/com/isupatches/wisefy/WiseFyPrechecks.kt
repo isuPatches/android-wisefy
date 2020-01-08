@@ -15,9 +15,8 @@
  */
 package com.isupatches.wisefy
 
-import android.Manifest.permission.ACCESS_WIFI_STATE
+import android.Manifest.permission.ACCESS_FINE_LOCATION
 import androidx.annotation.RequiresPermission
-
 import com.isupatches.wisefy.constants.DEFAULT_PRECHECK_RETURN_CODE
 import com.isupatches.wisefy.constants.MISSING_PARAMETER
 import com.isupatches.wisefy.constants.NETWORK_ALREADY_CONFIGURED
@@ -50,15 +49,17 @@ internal class WiseFyPrechecksImpl private constructor(
      * @author Patches
      * @since 3.0
      */
-    @RequiresPermission(ACCESS_WIFI_STATE)
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun addNetworkPrechecks(ssid: String?): PrecheckResult =
         checkAddNetworkPrerequisites(ssid)
 
     /**
      * Used internally to make sure perquisites for adding a network as a saved configuration are met.
      *
-     * @param ssid The ssid param from [com.isupatches.wisefy.WiseFy.addWEPNetwork] or [com.isupatches.wisefy.WiseFy.addWPA2Network]
-     * @param password The password from [com.isupatches.wisefy.WiseFy.addWEPNetwork] or [com.isupatches.wisefy.WiseFy.addWPA2Network]
+     * @param ssid The ssid param from [com.isupatches.wisefy.WiseFy.addWEPNetwork] or
+     *  [com.isupatches.wisefy.WiseFy.addWPA2Network]
+     * @param password The password from [com.isupatches.wisefy.WiseFy.addWEPNetwork] or
+     *  [com.isupatches.wisefy.WiseFy.addWPA2Network]
      *
      * @return PrecheckResult - [DEFAULT_PRECHECK_RESULT] or a [PrecheckResult] with an error code.
      *
@@ -69,7 +70,7 @@ internal class WiseFyPrechecksImpl private constructor(
      * @author Patches
      * @since 3.0
      */
-    @RequiresPermission(ACCESS_WIFI_STATE)
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun addNetworkPrechecks(ssid: String?, password: String?): PrecheckResult =
         checkAddNetworkPrerequisites(ssid, password)
 
@@ -153,6 +154,19 @@ internal class WiseFyPrechecksImpl private constructor(
      * @since 3.0
      */
     override fun getCurrentNetworkInfoChecks() = DEFAULT_PRECHECK_RESULT
+
+    /**
+     * Used internally to make sure perquisites for getting the frequency of the current network are met.
+     *
+     * @return PrecheckResult - [DEFAULT_PRECHECK_RESULT]
+     *
+     * @see [com.isupatches.wisefy.WiseFy.getFrequency]
+     * @see [DEFAULT_PRECHECK_RESULT]
+     *
+     * @author Patches
+     * @since 4.1
+     */
+    override fun getFrequencyChecks() = DEFAULT_PRECHECK_RESULT
 
     /**
      * Used internally to make sure perquisites for getting the ip of the device are met.
@@ -404,7 +418,7 @@ internal class WiseFyPrechecksImpl private constructor(
      * @since 4.0
      */
     override fun searchForSavedNetworkChecks(regexForSSID: String?): PrecheckResult =
-            checkForParam(regexForSSID)
+        checkForParam(regexForSSID)
 
     /**
      * Used internally to make sure prerequisites for searching for saved networks are met.
@@ -420,7 +434,7 @@ internal class WiseFyPrechecksImpl private constructor(
      * @since 4.0
      */
     override fun searchForSavedNetworksChecks(regexForSSID: String?): PrecheckResult =
-            checkForParam(regexForSSID)
+        checkForParam(regexForSSID)
 
     /**
      * Used internally to make sure prerequisites for searching for an individual SSID are met.
@@ -481,7 +495,7 @@ internal class WiseFyPrechecksImpl private constructor(
 
     /**
      * Used internally as an abstracted layer that checks if all of the prerequisites for adding
-     * a network are met. i.e. ssid is not null or empty, network is not already saved, etc.
+     * a network are met. f.e. ssid is not null or empty, network is not already saved, etc.
      *
      * @param ssid The ssid of the network to add
      *
@@ -495,6 +509,7 @@ internal class WiseFyPrechecksImpl private constructor(
      * @author Patches
      * @since 3.0
      */
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     private fun checkAddNetworkPrerequisites(ssid: String?): PrecheckResult =
         when {
             ssid.isNullOrEmpty() -> PrecheckResult(code = MISSING_PARAMETER)
@@ -506,7 +521,7 @@ internal class WiseFyPrechecksImpl private constructor(
 
     /**
      * Used internally as an abstracted layer that checks if all of the prerequisites for adding
-     * a network are met. i.e. ssid and password are not null or empty, network is not already saved, etc.
+     * a network are met. f.e. ssid and password are not null or empty, network is not already saved, etc.
      *
      * @param ssid The ssid of the network to add
      * @param password The password of the network to add
@@ -521,6 +536,7 @@ internal class WiseFyPrechecksImpl private constructor(
      * @author Patches
      * @since 3.0
      */
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     private fun checkAddNetworkPrerequisites(ssid: String?, password: String?): PrecheckResult =
         when {
             ssid.isNullOrEmpty() || password.isNullOrEmpty() -> {
@@ -543,13 +559,18 @@ internal class WiseFyPrechecksImpl private constructor(
  *
  * @see [WiseFyPrechecksImpl]
  *
+ * Updates
+ * - 01/04/2020: Refined permissions
+ *
  * @author Patches
  * @since 3.0
  */
 internal interface WiseFyPrechecks {
 
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     fun addNetworkPrechecks(ssid: String?): PrecheckResult
 
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     fun addNetworkPrechecks(ssid: String?, password: String?): PrecheckResult
 
     fun connectToNetworkPrechecks(ssidToConnectTo: String?): PrecheckResult
@@ -563,6 +584,8 @@ internal interface WiseFyPrechecks {
     fun getCurrentNetworkChecks(): PrecheckResult
 
     fun getCurrentNetworkInfoChecks(): PrecheckResult
+
+    fun getFrequencyChecks(): PrecheckResult
 
     fun getIPChecks(): PrecheckResult
 
@@ -608,7 +631,7 @@ internal interface WiseFyPrechecks {
 /**
  * A return from WiseFyPrechecks that includes a relevant detail code.
  *
- * @param code The return code from prechecks (i.e. [DEFAULT_PRECHECK_RETURN_CODE] or
+ * @param code The return code from prechecks (f.e. [DEFAULT_PRECHECK_RETURN_CODE] or
  * an error code such as [MISSING_PARAMETER].  This code will also be used by the extension
  * functions [passed] and [failed].
  *

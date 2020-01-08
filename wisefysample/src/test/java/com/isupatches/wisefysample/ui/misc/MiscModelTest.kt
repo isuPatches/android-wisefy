@@ -4,7 +4,6 @@ import android.net.NetworkInfo
 import android.net.wifi.ScanResult
 import android.net.wifi.WifiConfiguration
 import android.net.wifi.WifiInfo
-
 import com.isupatches.wisefy.WiseFyPublicApi
 import com.isupatches.wisefy.callbacks.DisableWifiCallbacks
 import com.isupatches.wisefy.callbacks.EnableWifiCallbacks
@@ -14,13 +13,11 @@ import com.isupatches.wisefy.callbacks.GetFrequencyCallbacks
 import com.isupatches.wisefy.callbacks.GetIPCallbacks
 import com.isupatches.wisefy.callbacks.GetNearbyAccessPointsCallbacks
 import com.isupatches.wisefy.callbacks.GetSavedNetworksCallbacks
-
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.eq
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.times
 import com.nhaarman.mockitokotlin2.verify
-
 import org.junit.Test
 
 internal class MiscModelTest {
@@ -29,7 +26,8 @@ internal class MiscModelTest {
 
     private val model = MiscModel(wiseFy)
 
-    @Test fun disableWifi() {
+    @Test
+    fun disableWifi() {
         // When
         model.disableWifi(object : DisableWifiCallbacks {
             override fun failureDisablingWifi() {
@@ -46,7 +44,8 @@ internal class MiscModelTest {
         verify(wiseFy, times(1)).disableWifi(any())
     }
 
-    @Test fun enableWifi() {
+    @Test
+    fun enableWifi() {
         // When
         model.enableWifi(object : EnableWifiCallbacks {
             override fun failureEnablingWifi() {
@@ -63,7 +62,8 @@ internal class MiscModelTest {
         verify(wiseFy, times(1)).enableWifi(any())
     }
 
-    @Test fun getCurrentNetwork() {
+    @Test
+    fun getCurrentNetwork() {
         // When
         model.getCurrentNetwork(object : GetCurrentNetworkCallbacks {
             override fun noCurrentNetwork() {
@@ -80,13 +80,14 @@ internal class MiscModelTest {
         verify(wiseFy, times(1)).getCurrentNetwork(any())
     }
 
-    @Test fun getCurrentNetworkInfo() {
+    @Test
+    fun getCurrentNetworkInfo() {
         // When
         model.getCurrentNetworkInfo(object : GetCurrentNetworkInfoCallbacks {
             override fun noCurrentNetworkInfo() {
             }
 
-            override fun retrievedCurrentNetworkInfo(currentNetworkDetails: NetworkInfo) {
+            override fun retrievedCurrentNetworkInfo(currentNetworkInfo: NetworkInfo) {
             }
 
             override fun wisefyFailure(wisefyFailureCode: Int) {
@@ -97,7 +98,8 @@ internal class MiscModelTest {
         verify(wiseFy, times(1)).getCurrentNetworkInfo(any())
     }
 
-    @Test fun getFrequency() {
+    @Test
+    fun getFrequency() {
         // When
         model.getFrequency(object : GetFrequencyCallbacks {
             override fun failureGettingFrequency() {
@@ -114,7 +116,8 @@ internal class MiscModelTest {
         verify(wiseFy, times(1)).getFrequency(any<GetFrequencyCallbacks>())
     }
 
-    @Test fun getIp() {
+    @Test
+    fun getIp() {
         // When
         model.getIP(object : GetIPCallbacks {
             override fun failureRetrievingIP() {
@@ -131,7 +134,8 @@ internal class MiscModelTest {
         verify(wiseFy, times(1)).getIP(any())
     }
 
-    @Test fun getNearbyAccessPoints() {
+    @Test
+    fun getNearbyAccessPoints() {
         // When
         model.getNearbyAccessPoints(object : GetNearbyAccessPointsCallbacks {
             override fun retrievedNearbyAccessPoints(nearbyAccessPoints: List<ScanResult>) {
@@ -148,7 +152,8 @@ internal class MiscModelTest {
         verify(wiseFy, times(1)).getNearbyAccessPoints(eq(true), any())
     }
 
-    @Test fun getSavedNetworks() {
+    @Test
+    fun getSavedNetworks() {
         // When
         model.getSavedNetworks(object : GetSavedNetworksCallbacks {
             override fun noSavedNetworksFound() {

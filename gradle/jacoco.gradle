@@ -4,9 +4,9 @@ jacoco {
     toolVersion = "$jacoco_version"
 }
 
-def srcDirs = ["src/main/java"]
+final def srcDirs = ["src/main/java"]
 
-def excludes = [
+final def excludes = [
     '**/R.class',
     '**/R$*.class',
     '**/*$ViewBinder*.*',
@@ -20,9 +20,9 @@ def excludes = [
 ]
 
 project.afterEvaluate {
-    def variants = getVariants()
+    final def variants = getVariants()
     if (variants != null) {
-        variants.all { variant ->
+        variants.all { final variant ->
             if (variant.name.toLowerCase().contains("release")) {
                 return
             }
@@ -140,12 +140,12 @@ project.afterEvaluate {
     }
 }
 
-private def getClassDirs(String javaDirSuffix, String kotlinDirSuffix, excludes) {
-    def java = fileTree(
+private def getClassDirs(final String javaDirSuffix, final String kotlinDirSuffix, final excludes) {
+    final def java = fileTree(
         dir: "${buildDir}/intermediates/classes/${javaDirSuffix}",
         excludes: excludes
     )
-    def kotlin = fileTree(
+    final def kotlin = fileTree(
         dir: "${buildDir}/tmp/kotlin-classes/${kotlinDirSuffix}",
         excludes: excludes
     )

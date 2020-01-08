@@ -30,8 +30,8 @@ A description of what you expected to happen.
 A description of what actually happened 
 
 **Additional Information**
- - Device (i.e. Nexus 5x):
- - OS Version (i.e. Android 8.1):
+ - Device (f.e. Nexus 5x):
+ - OS Version (f.e. Android 8.1):
  - Rooted:
  - Using legacy connection logic?:
  - Using legacy search logic?:

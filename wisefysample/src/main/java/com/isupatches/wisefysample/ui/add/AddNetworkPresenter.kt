@@ -15,14 +15,12 @@
  */
 package com.isupatches.wisefysample.ui.add
 
-import android.Manifest.permission.ACCESS_WIFI_STATE
+import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.net.wifi.WifiConfiguration
 import androidx.annotation.RequiresPermission
-
 import com.isupatches.wisefy.callbacks.AddNetworkCallbacks
 import com.isupatches.wisefysample.internal.base.BasePresenter
 import com.isupatches.wisefysample.internal.util.RxSchedulersProvider
-
 import javax.inject.Inject
 
 internal class AddNetworkPresenter @Inject constructor(
@@ -33,11 +31,11 @@ internal class AddNetworkPresenter @Inject constructor(
     private val addNetworkCallbacks by lazy {
         object : AddNetworkCallbacks {
             override fun networkAdded(newNetworkId: Int, networkConfig: WifiConfiguration) {
-                displayNetworkAdded(newNetworkId, networkConfig)
+                doSafelyWithView { view -> view.displayNetworkAdded(newNetworkId, networkConfig) }
             }
 
             override fun failureAddingNetwork(wifiManagerReturn: Int) {
-                displayFailureAddingNetwork(wifiManagerReturn)
+                doSafelyWithView { view -> view.displayFailureAddingNetwork(wifiManagerReturn) }
             }
 
             override fun wisefyFailure(wisefyFailureCode: Int) {
@@ -50,30 +48,18 @@ internal class AddNetworkPresenter @Inject constructor(
      * Model call-throughs
      */
 
-    @RequiresPermission(ACCESS_WIFI_STATE)
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun addOpenNetwork(ssid: String) {
         model.addOpenNetwork(ssid, addNetworkCallbacks)
     }
 
-    @RequiresPermission(ACCESS_WIFI_STATE)
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun addWEPNetwork(ssid: String, password: String) {
         model.addWEPNetwork(ssid, password, addNetworkCallbacks)
     }
 
-    @RequiresPermission(ACCESS_WIFI_STATE)
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun addWPA2Network(ssid: String, password: String) {
         model.addWPA2Network(ssid, password, addNetworkCallbacks)
-    }
-
-    /*
-     * View callbacks
-     */
-
-    private fun displayFailureAddingNetwork(wifiManagerReturn: Int) {
-        doSafelyWithView { view -> view.displayFailureAddingNetwork(wifiManagerReturn) }
-    }
-
-    private fun displayNetworkAdded(newNetworkId: Int, networkConfig: WifiConfiguration) {
-        doSafelyWithView { view -> view.displayNetworkAdded(newNetworkId, networkConfig) }
     }
 }

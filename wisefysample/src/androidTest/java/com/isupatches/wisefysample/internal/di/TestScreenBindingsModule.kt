@@ -6,7 +6,6 @@ import com.isupatches.wisefysample.ui.main.MainFragment
 import com.isupatches.wisefysample.ui.misc.MiscFragment
 import com.isupatches.wisefysample.ui.remove.RemoveNetworkFragment
 import com.isupatches.wisefysample.ui.search.SearchFragment
-
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

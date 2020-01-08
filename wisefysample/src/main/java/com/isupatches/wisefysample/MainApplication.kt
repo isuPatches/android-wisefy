@@ -15,28 +15,22 @@
  */
 package com.isupatches.wisefysample
 
-import android.app.Activity
 import android.app.Application
 import android.content.Context
-import androidx.fragment.app.Fragment
-
 import com.isupatches.wisefysample.internal.di.PermissionsModule
 import com.isupatches.wisefysample.internal.di.PreferencesModule
 import com.isupatches.wisefysample.internal.di.ScreenBindingsModule
 import com.isupatches.wisefysample.internal.util.RxSchedulersProvider
-
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasActivityInjector
+import dagger.android.HasAndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
-import dagger.android.support.HasSupportFragmentInjector
-
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Suppress("Registered", "UndocumentedPublicClass", "UndocumentedPublicFunction")
-internal open class MainApplication : Application(), HasActivityInjector, HasSupportFragmentInjector {
+internal open class MainApplication : Application(), HasAndroidInjector {
 
     override fun onCreate() {
         super.onCreate()
@@ -45,17 +39,14 @@ internal open class MainApplication : Application(), HasActivityInjector, HasSup
 
     private fun initializeDependencyInjection() {
         mainApplicationComponent = DaggerMainApplication_MainApplicationComponent.builder()
-                .application(this)
-                .rxSchedulersProvider(RxSchedulersProvider())
-                .build()
+            .application(this)
+            .rxSchedulersProvider(RxSchedulersProvider())
+            .build()
         mainApplicationComponent.inject(this)
     }
 
-    @Inject lateinit var activityInjector: DispatchingAndroidInjector<Activity>
-    override fun activityInjector() = activityInjector
-
-    @Inject lateinit var supportFragmentInject: DispatchingAndroidInjector<Fragment>
-    override fun supportFragmentInjector() = supportFragmentInject
+    @Inject lateinit var androidInjector: DispatchingAndroidInjector<Any>
+    override fun androidInjector() = androidInjector
 
     protected lateinit var mainApplicationComponent: MainApplicationComponent
 

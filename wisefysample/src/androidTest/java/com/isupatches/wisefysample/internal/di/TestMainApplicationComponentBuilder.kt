@@ -1,7 +1,6 @@
 package com.isupatches.wisefysample.internal.di
 
 import android.content.Context
-
 import com.isupatches.wisefy.WiseFyPublicApi
 import com.isupatches.wisefysample.DebugMainApplication
 import com.isupatches.wisefysample.MainApplication
@@ -16,7 +15,6 @@ import com.isupatches.wisefysample.ui.add.AddNetworkMvp
 import com.isupatches.wisefysample.ui.misc.MiscMvp
 import com.isupatches.wisefysample.ui.remove.RemoveNetworkMvp
 import com.isupatches.wisefysample.ui.search.SearchMvp
-
 import dagger.BindsInstance
 
 internal interface TestMainApplicationComponentBuilder<THIS : TestMainApplicationComponentBuilder<THIS>> {
