@@ -369,12 +369,6 @@ internal class PublicApiVisibilityTests {
     }
 
     @Test
-    fun isLoggingEnabled_api() {
-        wisefy.isLoggingEnabled()
-        verify<WiseFyPublicApi>(wisefy).isLoggingEnabled()
-    }
-
-    @Test
     fun isNetwork5gHz_apis() {
         wisefy.isNetwork5gHz()
         verify<WiseFyPublicApi>(wisefy).isNetwork5gHz()
