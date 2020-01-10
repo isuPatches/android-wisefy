@@ -16,6 +16,7 @@
 package com.isupatches.wisefy.search
 
 import android.net.wifi.WifiManager
+import com.isupatches.wisefy.logging.WiseFyLogger
 
 /**
  * A class used internally for the purposes of shared query logic. This handles saved networks and
@@ -27,17 +28,22 @@ import android.net.wifi.WifiManager
  *
  * Updates
  * - 01/04/2020: Formatting update
+ * - 01/07/2020: Added WiseFyLogger
  *
  * @author Patches
  * @since 3.0
  */
 @Suppress("deprecation")
 internal class WiseFySearchLegacy private constructor(
-    wifiManager: WifiManager
-) : AbstractWiseFySearch(wifiManager) {
+    wifiManager: WifiManager,
+    logger: WiseFyLogger?
+) : AbstractWiseFySearch(wifiManager, logger) {
 
     internal companion object {
-        fun create(wifiManager: WifiManager): WiseFySearch = WiseFySearchLegacy(wifiManager)
+        fun create(
+            wifiManager: WifiManager,
+            logger: WiseFyLogger? = null
+        ): WiseFySearch = WiseFySearchLegacy(wifiManager, logger)
     }
 
     // For SDK 23 and below, devices are still allowed to trigger a scan for nearby access points,

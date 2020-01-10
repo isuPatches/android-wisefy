@@ -27,11 +27,15 @@ import com.isupatches.wisefy.utils.rest
  * @see [WifiManager]
  * @see [WiseFyConnection]
  *
+ * Updates
+ * - 01/07/2020: Added WiseFyLogger
+ *
  * @author Patches
  * @since 4.0
  */
 internal abstract class AbstractWiseFyConnection(
-    private val wifiManager: WifiManager
+    private val wifiManager: WifiManager,
+    private val logger: WiseFyLogger?
 ) : WiseFyConnection {
 
     internal companion object {
@@ -65,9 +69,9 @@ internal abstract class AbstractWiseFyConnection(
         connectionInfo?.let {
             if (!it.ssid.isNullOrEmpty()) {
                 val currentSSID = it.ssid.replace(QUOTE, "")
-                WiseFyLogger.debug(TAG, "Current SSID: %s, Desired SSID: %s", currentSSID, ssid)
+                logger?.d(TAG, "Current SSID: %s, Desired SSID: %s", currentSSID, ssid)
                 if (currentSSID.equals(ssid, ignoreCase = true) && isNetworkConnected()) {
-                    WiseFyLogger.debug(TAG, "Network is connected")
+                    logger?.d(TAG, "Network is connected")
                     return true
                 }
             }
@@ -94,7 +98,7 @@ internal abstract class AbstractWiseFyConnection(
      */
     @WaitsForTimeout
     override fun waitToConnectToSSID(ssid: String?, timeoutInMillis: Int): Boolean {
-        WiseFyLogger.debug(
+        logger?.d(
             TAG,
             "Waiting %d milliseconds to connect to network with ssid %s",
             timeoutInMillis,
@@ -108,7 +112,7 @@ internal abstract class AbstractWiseFyConnection(
             }
             rest()
             currentTime = System.currentTimeMillis()
-            WiseFyLogger.debug(TAG, "Current time: %d, End time: %d (waitToConnectToSSID)", currentTime, endTime)
+            logger?.d(TAG, "Current time: %d, End time: %d (waitToConnectToSSID)", currentTime, endTime)
         } while (currentTime < endTime)
         return false
     }

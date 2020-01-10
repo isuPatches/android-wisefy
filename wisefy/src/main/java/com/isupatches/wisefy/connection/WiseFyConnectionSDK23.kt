@@ -36,14 +36,18 @@ import com.isupatches.wisefy.logging.WiseFyLogger
  * @see [WifiManager]
  * @see [AbstractWiseFyConnection]
  *
+ * Updates
+ * - 01/07/2020: Added WiseFyLogger
+ *
  * @author Patches
  * @since 4.0
  */
 @RequiresApi(Build.VERSION_CODES.M)
 internal class WiseFyConnectionSDK23 private constructor(
     private val connectivityManager: ConnectivityManager,
-    wifiManager: WifiManager
-) : AbstractWiseFyConnection(wifiManager) {
+    wifiManager: WifiManager,
+    private val logger: WiseFyLogger?
+) : AbstractWiseFyConnection(wifiManager, logger) {
 
     internal companion object {
         // Internal to avoid SyntheticAccessor error within networkChangeCallback
@@ -61,12 +65,17 @@ internal class WiseFyConnectionSDK23 private constructor(
          *
          * Updates
          * - 01/04/2020: Formatting update
+         * - 01/07/2020: Added WiseFyLogger
          *
          * @author Patches
          * @since 4.0
          */
-        fun create(connectivityManager: ConnectivityManager, wifiManager: WifiManager): WiseFyConnection {
-            return WiseFyConnectionSDK23(connectivityManager, wifiManager)
+        fun create(
+            connectivityManager: ConnectivityManager,
+            wifiManager: WifiManager,
+            logger: WiseFyLogger? = null
+        ): WiseFyConnection {
+            return WiseFyConnectionSDK23(connectivityManager, wifiManager, logger)
         }
     }
 
@@ -78,13 +87,13 @@ internal class WiseFyConnectionSDK23 private constructor(
         object : ConnectivityManager.NetworkCallback() {
             override fun onAvailable(network: Network?) {
                 super.onAvailable(network)
-                WiseFyLogger.debug(TAG, "onAvailable, $network")
+                logger?.d(TAG, "onAvailable, $network")
                 this@WiseFyConnectionSDK23.connectionStatus = WiseFyConnectionStatus.AVAILABLE
             }
 
             override fun onCapabilitiesChanged(network: Network?, networkCapabilities: NetworkCapabilities?) {
                 super.onCapabilitiesChanged(network, networkCapabilities)
-                WiseFyLogger.debug(
+                logger?.d(
                     TAG,
                     "onCapabilitiesChanged, network: $network, networkCapabilities: $networkCapabilities"
                 )
@@ -92,24 +101,24 @@ internal class WiseFyConnectionSDK23 private constructor(
 
             override fun onLinkPropertiesChanged(network: Network?, linkProperties: LinkProperties?) {
                 super.onLinkPropertiesChanged(network, linkProperties)
-                WiseFyLogger.debug(TAG, "onLinkPropertiesChanged, network: $network, linkProperties: $linkProperties")
+                logger?.d(TAG, "onLinkPropertiesChanged, network: $network, linkProperties: $linkProperties")
             }
 
             override fun onLosing(network: Network?, maxMsToLive: Int) {
                 super.onLosing(network, maxMsToLive)
-                WiseFyLogger.debug(TAG, "onLosing, network: $network, maxMsToLive: $maxMsToLive")
+                logger?.d(TAG, "onLosing, network: $network, maxMsToLive: $maxMsToLive")
                 this@WiseFyConnectionSDK23.connectionStatus = WiseFyConnectionStatus.LOSING
             }
 
             override fun onLost(network: Network?) {
                 super.onLost(network)
-                WiseFyLogger.debug(TAG, "onLost, network: $network")
+                logger?.d(TAG, "onLost, network: $network")
                 this@WiseFyConnectionSDK23.connectionStatus = WiseFyConnectionStatus.LOST
             }
 
             override fun onUnavailable() {
                 super.onUnavailable()
-                WiseFyLogger.debug(TAG, "onUnavailable")
+                logger?.d(TAG, "onUnavailable")
                 this@WiseFyConnectionSDK23.connectionStatus = WiseFyConnectionStatus.UNAVAILABLE
             }
         }
