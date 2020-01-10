@@ -183,8 +183,6 @@ class WiseFy private constructor(
             }
 
             wisefyPrechecks = WiseFyPrechecksImpl.create(wisefySearch)
-
-            logger?.d(TAG, "TEST")
         }
 
         /**
