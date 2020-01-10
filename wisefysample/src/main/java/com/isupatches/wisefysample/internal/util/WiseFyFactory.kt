@@ -18,6 +18,7 @@ package com.isupatches.wisefysample.internal.util
 import androidx.fragment.app.FragmentActivity
 import com.isupatches.wisefy.WiseFy
 import com.isupatches.wisefy.WiseFyPublicApi
+import com.isupatches.wisefysample.internal.logging.WiseFySampleLogger
 
 /**
  * @param activity The context to create a WiseFy implementation
@@ -28,7 +29,5 @@ import com.isupatches.wisefy.WiseFyPublicApi
  * @see [WiseFyPublicApi]
  */
 fun createWiseFy(activity: FragmentActivity): WiseFyPublicApi {
-    return WiseFy.Brains(activity)
-        .logging(true)
-        .getSmarts()
+    return WiseFy.Brains(activity, WiseFySampleLogger).getSmarts()
 }

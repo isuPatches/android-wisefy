@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Patches Klinefelter
+ * Copyright 2020 Patches Klinefelter
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,135 +16,108 @@
 package com.isupatches.wisefy.logging
 
 /**
- * Logging helper class.
+ * Interface for clients for logging
  *
  * @author Patches
- * @since 3.0
+ * @since 5.0
  */
-@Suppress("SpreadOperator")
-internal object WiseFyLogger {
-
-    private var wisefyLoggerImplementation: WiseFyLoggerImplementation? = null
+interface WiseFyLogger {
 
     /**
-     * To return if logging is enabled for the WiseFyLoggerImplementation.
-     *
-     * @return bool - If logging is enabled for the instance of WiseFy
-     *
-     * @see [ensureWiseFyLoggerImplementationExists]
-     * @see [WiseFyLoggerImplementation.isLoggingEnabled]
-     *
-     * @author Patches
-     * @since 3.0
-     */
-    fun isLoggingEnabled(): Boolean {
-        ensureWiseFyLoggerImplementationExists()
-        return wisefyLoggerImplementation?.isLoggingEnabled ?: false
-    }
-
-    /**
-     * Creates and sets the WiseFyLoggerImplementation to use when logging.
-     *
-     * @param loggingEnabled - Whether logging should be enabled for the WiseFyLoggerImplementation
-     *
-     * @see [WiseFyLoggerImplementation]
-     *
-     * @author Patches
-     * @since 3.0
-     */
-    fun configureWiseFyLoggerImplementation(loggingEnabled: Boolean) {
-        wisefyLoggerImplementation = WiseFyLoggerImplementation(loggingEnabled)
-    }
-
-    /**
-     * Logs a debug message.
+     * Logs an info message
      *
      * @param tag The tag for the log message
      * @param message The message to log (can include placeholders)
      * @param args The formatting arguments for the log message
      *
-     * @see [ensureWiseFyLoggerImplementationExists]
-     * @see [WiseFyLoggerImplementation.debug]
-     *
      * @author Patches
-     * @since 3.0
+     * @since 5.0
      */
-    fun debug(tag: String, message: String, vararg args: Any) {
-        ensureWiseFyLoggerImplementationExists()
-        wisefyLoggerImplementation?.debug(tag, message, *args)
-    }
+    fun i(tag: String, message: String, vararg args: Any)
 
     /**
-     * Logs an error message.
+     * Logs an verbose message
      *
      * @param tag The tag for the log message
      * @param message The message to log (can include placeholders)
      * @param args The formatting arguments for the log message
      *
-     * @see [ensureWiseFyLoggerImplementationExists]
-     * @see [WiseFyLoggerImplementation.error]
-     *
      * @author Patches
-     * @since 3.0
+     * @since 5.0
      */
-    fun error(tag: String, message: String, vararg args: Any) {
-        ensureWiseFyLoggerImplementationExists()
-        wisefyLoggerImplementation?.error(tag, message, *args)
-    }
+    fun v(tag: String, message: String, vararg args: Any)
 
     /**
-     * Logs an error message with a throwable.
+     * Logs a debug message
+     *
+     * @param tag The tag for the log message
+     * @param message The message to log (can include placeholders)
+     * @param args The formatting arguments for the log message
+     *
+     * @author Patches
+     * @since 5.0
+     */
+    fun d(tag: String, message: String, vararg args: Any)
+
+    /**
+     * Logs a warning message
+     *
+     * @param tag The tag for the log message
+     * @param message The message to log (can include placeholders)
+     * @param args The formatting arguments for the log message
+     *
+     * @author Patches
+     * @since 5.0
+     */
+    fun w(tag: String, message: String, vararg args: Any)
+
+    /**
+     * Logs an error message
+     *
+     * @param tag The tag for the log message
+     * @param message The message to log (can include placeholders)
+     * @param args The formatting arguments for the log message
+     *
+     * @author Patches
+     * @since 5.0
+     */
+    fun e(tag: String, message: String, vararg args: Any)
+
+    /**
+     * Logs an error message with throwable
      *
      * @param tag The tag for the log message
      * @param throwable A throwable to log with the message
      * @param message The message to log (can include placeholders)
      * @param args The formatting arguments for the log message
      *
-     * @see [ensureWiseFyLoggerImplementationExists]
-     * @see [WiseFyLoggerImplementation.error]
-     *
      * @author Patches
-     * @since 3.0
+     * @since 5.0
      */
-    fun error(tag: String, throwable: Throwable, message: String, vararg args: Any) {
-        ensureWiseFyLoggerImplementationExists()
-        wisefyLoggerImplementation?.error(tag, throwable, message, *args)
-    }
+    fun e(tag: String, throwable: Throwable, message: String, vararg args: Any)
 
     /**
-     * Logs a warning message.
+     * Logs a terrible failure message
      *
      * @param tag The tag for the log message
      * @param message The message to log (can include placeholders)
      * @param args The formatting arguments for the log message
      *
-     * @see [ensureWiseFyLoggerImplementationExists]
-     * @see [WiseFyLoggerImplementation.warn]
-     *
      * @author Patches
-     * @since 3.0
+     * @since 5.0
      */
-    fun warn(tag: String, message: String, vararg args: Any) {
-        ensureWiseFyLoggerImplementationExists()
-        wisefyLoggerImplementation?.warn(tag, message, *args)
-    }
-
-    /*
-     * HELPERS
-     */
+    fun wtf(tag: String, message: String, vararg args: Any)
 
     /**
-     * If a WiseFyLoggerImplementation is not already configured or set, it will create
-     * a new instance with the default value of false for logging enabled.
+     * Logs a terrible failure message with throwable
      *
-     * @see [configureWiseFyLoggerImplementation]
+     * @param tag The tag for the log message
+     * @param throwable A throwable to log with the message
+     * @param message The message to log (can include placeholders)
+     * @param args The formatting arguments for the log message
      *
      * @author Patches
-     * @since 3.0
+     * @since 5.0
      */
-    private fun ensureWiseFyLoggerImplementationExists() {
-        if (wisefyLoggerImplementation == null) {
-            configureWiseFyLoggerImplementation(false)
-        }
-    }
+    fun wtf(tag: String, throwable: Throwable, message: String, vararg args: Any)
 }

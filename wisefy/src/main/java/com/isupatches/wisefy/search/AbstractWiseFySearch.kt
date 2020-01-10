@@ -31,12 +31,16 @@ import java.util.Locale
  * @see [WifiManager]
  * @see [WiseFySearch]
  *
+ * Updates
+ * - 01/07/2020: Added WiseFyLogger
+ *
  * @author Patches
  * @since 4.0
  */
 @Suppress("LargeClass")
 internal abstract class AbstractWiseFySearch(
-    private val wifiManager: WifiManager
+    private val wifiManager: WifiManager,
+    private val logger: WiseFyLogger?
 ) : WiseFySearch {
 
     companion object {
@@ -183,7 +187,7 @@ internal abstract class AbstractWiseFySearch(
 
             val accessPointsTemp = scanResultsProvider()
 
-            WiseFyLogger.debug(TAG, "Scanning SSIDs, pass %d", scanPass)
+            logger?.d(TAG, "Scanning SSIDs, pass %d", scanPass)
             if (accessPointsTemp != null && accessPointsTemp.isNotEmpty()) {
                 var found = false
                 for (accessPoint in accessPointsTemp) {
@@ -209,9 +213,9 @@ internal abstract class AbstractWiseFySearch(
                     break
                 }
             } else {
-                WiseFyLogger.warn(TAG, "Empty access point list")
+                logger?.w(TAG, "Empty access point list")
             }
-            WiseFyLogger.debug(TAG, "Current time: %d, end time: %d (findAccessPointByRegex)", currentTime, endTime)
+            logger?.d(TAG, "Current time: %d, end time: %d (findAccessPointByRegex)", currentTime, endTime)
             scanPass++
             rest()
         } while (currentTime < endTime)
@@ -360,7 +364,7 @@ internal abstract class AbstractWiseFySearch(
      * @since 3.0
      */
     private fun accessPointMatchesRegex(accessPoint: ScanResult?, regexForSSID: String): Boolean {
-        WiseFyLogger.debug(
+        logger?.d(
             TAG,
             "accessPoint. SSID: %s, regex for SSID: %s".format(Locale.US, accessPoint?.SSID, regexForSSID)
         )
@@ -390,15 +394,15 @@ internal abstract class AbstractWiseFySearch(
     private fun hasHighestSignalStrength(accessPoints: List<ScanResult>, currentAccessPoint: ScanResult): Boolean {
         for (accessPoint in accessPoints) {
             if (accessPoint.SSID.equals(currentAccessPoint.SSID, ignoreCase = true)) {
-                WiseFyLogger.debug(TAG, "RSSI level of current access point: %d", currentAccessPoint.level)
-                WiseFyLogger.debug(TAG, "RSSI level of access point in list: %d", accessPoint.level)
-                WiseFyLogger.debug(
+                logger?.d(TAG, "RSSI level of current access point: %d", currentAccessPoint.level)
+                logger?.d(TAG, "RSSI level of access point in list: %d", accessPoint.level)
+                logger?.d(
                     TAG,
                     "comparison result: %d (hasHighestSignalStrength)",
                     WifiManager.compareSignalLevel(accessPoint.level, currentAccessPoint.level)
                 )
                 if (WifiManager.compareSignalLevel(accessPoint.level, currentAccessPoint.level) > 0) {
-                    WiseFyLogger.debug(TAG, "Stronger signal strength found")
+                    logger?.d(TAG, "Stronger signal strength found")
                     return false
                 }
             }
@@ -433,25 +437,25 @@ internal abstract class AbstractWiseFySearch(
             var found = false
             for (i in accessPointsToReturn.indices) {
                 val scanResult = accessPointsToReturn[i]
-                WiseFyLogger.debug(TAG, "SSID 1: %s, SSID 2: %s", accessPoint.SSID, scanResult.SSID)
+                logger?.d(TAG, "SSID 1: %s, SSID 2: %s", accessPoint.SSID, scanResult.SSID)
                 if (accessPoint.SSID.equals(scanResult.SSID, ignoreCase = true)) {
                     found = true
-                    WiseFyLogger.debug(TAG, "RSSI level of access point 1: %d", scanResult.level)
-                    WiseFyLogger.debug(TAG, "RSSI level of access point 2: %d", accessPoint.level)
-                    WiseFyLogger.debug(
+                    logger?.d(TAG, "RSSI level of access point 1: %d", scanResult.level)
+                    logger?.d(TAG, "RSSI level of access point 2: %d", accessPoint.level)
+                    logger?.d(
                         TAG,
                         "comparison result: %d (removeEntriesWithLowerSignalStrength)",
                         WifiManager.compareSignalLevel(accessPoint.level, scanResult.level)
                     )
                     if (WifiManager.compareSignalLevel(accessPoint.level, scanResult.level) > 0) {
-                        WiseFyLogger.debug(TAG, "New result has a higher or same signal strength, swapping")
+                        logger?.d(TAG, "New result has a higher or same signal strength, swapping")
                         accessPointsToReturn[i] = accessPoint
                     }
                 }
             }
 
             if (!found) {
-                WiseFyLogger.debug(TAG, "Found new wifi network")
+                logger?.d(TAG, "Found new wifi network")
                 accessPointsToReturn.add(accessPoint)
             }
         }

@@ -10,6 +10,7 @@ import com.isupatches.wisefy.WiseFyPrechecks
 import com.isupatches.wisefy.callbacks.AddNetworkCallbacks
 import com.isupatches.wisefy.connection.WiseFyConnection
 import com.isupatches.wisefy.internal.NullCallbackUtil
+import com.isupatches.wisefy.internal.TestWiseFyLogger
 import com.isupatches.wisefy.internal.VerificationUtil
 import com.isupatches.wisefy.internal.mock.MockNetworkUtil
 import com.isupatches.wisefy.internal.mock.MockWiseFyConnectionUtil
@@ -51,13 +52,12 @@ internal abstract class BaseInstrumentationTest {
         mockWifiManager = mock(WifiManager::class.java)
         mockConnectivityManager = mock(ConnectivityManager::class.java)
 
-        wisefy = WiseFy.Brains(InstrumentationRegistry.getInstrumentation().targetContext)
+        wisefy = WiseFy.Brains(InstrumentationRegistry.getInstrumentation().targetContext, TestWiseFyLogger())
             .customConnectivityManager(mockConnectivityManager)
             .customWifiManager(mockWifiManager)
             .customWiseFyConnection(mockWiseFyConnection)
             .customWiseFyPrechecks(mockWiseFyPrechecks)
             .customWiseFySearch(mockWiseFySearch)
-            .logging(true)
             .getSmarts()
 
         wisefy.setupWiseFyThread(true)
@@ -73,7 +73,8 @@ internal abstract class BaseInstrumentationTest {
         verificationUtil = VerificationUtil(mockConnectivityManager, mockWifiManager)
     }
 
-    @After open fun tearDown() {
+    @After
+    open fun tearDown() {
         wisefy.dump()
     }
 

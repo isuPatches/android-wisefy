@@ -31,14 +31,18 @@ import com.isupatches.wisefy.logging.WiseFyLogger
  * @see [WifiManager]
  * @see [AbstractWiseFyConnection]
  *
+ * Updates
+ * - 01/07/2020: Added WiseFyLogger
+ *
  * @author Patches
  * @since 3.0
  */
 @Suppress("deprecation")
 internal class WiseFyConnectionLegacy private constructor(
     private val connectivityManager: ConnectivityManager,
-    wifiManager: WifiManager
-) : AbstractWiseFyConnection(wifiManager) {
+    wifiManager: WifiManager,
+    private val logger: WiseFyLogger?
+) : AbstractWiseFyConnection(wifiManager, logger) {
 
     internal companion object {
         private val TAG = WiseFyConnectionLegacy::class.java.simpleName
@@ -55,12 +59,17 @@ internal class WiseFyConnectionLegacy private constructor(
          *
          * Updates
          * - 01/04/2020: Formatting update
+         * - 01/07/2020: Added WiseFyLogger
          *
          * @author Patches
          * @since 4.0
          */
-        fun create(connectivityManager: ConnectivityManager, wifiManager: WifiManager): WiseFyConnection {
-            return WiseFyConnectionLegacy(connectivityManager, wifiManager)
+        fun create(
+            connectivityManager: ConnectivityManager,
+            wifiManager: WifiManager,
+            logger: WiseFyLogger? = null
+        ): WiseFyConnection {
+            return WiseFyConnectionLegacy(connectivityManager, wifiManager, logger)
         }
     }
 
@@ -152,7 +161,7 @@ internal class WiseFyConnectionLegacy private constructor(
      */
     override fun isNetworkConnected(): Boolean {
         val networkInfo = connectivityManager.activeNetworkInfo
-        WiseFyLogger.debug(TAG, "networkInfo: %s", networkInfo ?: "")
+        logger?.d(TAG, "networkInfo: %s", networkInfo ?: "")
         return networkInfo?.isConnectedAndAvailable() ?: false
     }
 

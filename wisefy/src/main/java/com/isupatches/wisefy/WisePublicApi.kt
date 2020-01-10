@@ -59,6 +59,9 @@ import com.isupatches.wisefy.callbacks.SearchForSavedNetworksCallbacks
  * @see [SignalStrengthApi]
  * @see [WiseFy]
  *
+ * Updates
+ * - 01/07/2020: Removed isLoggingEnabled
+ *
  * @author Patches
  * @since 3.0
  */
@@ -87,18 +90,6 @@ interface WiseFyPublicApi : AccessPointApi, AddNetworkApi, ConnectionApi, Device
      * @since 3.0
      */
     fun getWiseFyLock(): WiseFyLock
-
-    /**
-     * To query if logging is enabled or disabled for a WiseFy instance.
-     *
-     * @return boolean - If logging is enabled for the WiseFy instance
-     *
-     * @see [WiseFy.isLoggingEnabled]
-     *
-     * @author Patches
-     * @since 3.0
-     */
-    fun isLoggingEnabled(): Boolean
 }
 
 /**

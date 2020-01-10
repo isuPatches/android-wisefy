@@ -94,7 +94,8 @@ class WiseFy private constructor(
     private val wifiManager: WifiManager,
     private val wisefyConnection: WiseFyConnection,
     private val wisefyPrechecks: WiseFyPrechecks,
-    private val wisefySearch: WiseFySearch
+    private val wisefySearch: WiseFySearch,
+    private val logger: WiseFyLogger?
 ) : WiseFyPublicApi {
 
     companion object {
@@ -147,11 +148,12 @@ class WiseFy private constructor(
      */
     class Brains @JvmOverloads constructor(
         context: Context,
+        logger: WiseFyLogger? = null,
         useLegacyConnection: Boolean = false,
         useLegacySearch: Boolean = false
     ) {
 
-        private var loggingEnabled: Boolean = false
+        private var logger: WiseFyLogger? = null
         private var connectivityManager: ConnectivityManager
         private var wifiManager: WifiManager
         private var wisefyConnection: WiseFyConnection
@@ -168,31 +170,19 @@ class WiseFy private constructor(
             // and "useLegacyConnection" option is not enabled
 
             wisefyConnection = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M || useLegacyConnection) {
-                WiseFyConnectionLegacy.create(connectivityManager, wifiManager)
+                WiseFyConnectionLegacy.create(connectivityManager, wifiManager, logger)
             } else {
-                WiseFyConnectionSDK23.create(connectivityManager, wifiManager)
+                WiseFyConnectionSDK23.create(connectivityManager, wifiManager, logger)
             }
             // We'll use SDK 23 logic for WiseFySearch if client is on at least an SDK 23 device
             // and "useLegacySearch" option is not enabled
             wisefySearch = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M || useLegacySearch) {
-                WiseFySearchLegacy.create(wifiManager)
+                WiseFySearchLegacy.create(wifiManager, logger)
             } else {
-                WiseFySearchSDK23.create(wifiManager)
+                WiseFySearchSDK23.create(wifiManager, logger)
             }
 
             wisefyPrechecks = WiseFyPrechecksImpl.create(wisefySearch)
-        }
-
-        /**
-         * Used to enable/or disable logging for a WiseFy instance.
-         *
-         * @param loggingEnabled If logging should be enabled for the WiseFy instance.
-         *
-         * @author Patches
-         * @since 3.0
-         */
-        fun logging(loggingEnabled: Boolean): Brains = apply {
-            this.loggingEnabled = loggingEnabled
         }
 
         /**
@@ -268,24 +258,24 @@ class WiseFy private constructor(
         /**
          * Uses a private constructor and returns a WiseFy instance.
          *
-         * @see [WiseFyLogger.configureWiseFyLoggerImplementation]
          * @see [WiseFyConnection.init]
          *
          * Updates
          * - 05/12/2019: Added new call to [WiseFyConnection.init]
+         * - 01/07/2019: Added logger
          *
          * @author Patches
          * @since 3.0
          */
         fun getSmarts(): WiseFy {
-            WiseFyLogger.configureWiseFyLoggerImplementation(loggingEnabled)
             wisefyConnection.init()
             return WiseFy(
                 connectivityManager = connectivityManager,
                 wifiManager = wifiManager,
                 wisefyConnection = wisefyConnection,
                 wisefyPrechecks = wisefyPrechecks,
-                wisefySearch = wisefySearch
+                wisefySearch = wisefySearch,
+                logger = logger
             )
         }
     }
@@ -736,7 +726,7 @@ class WiseFy private constructor(
                 it.quit()
             }
             if (it.isAlive) {
-                WiseFyLogger.warn(
+                logger?.w(
                     TAG,
                     "WiseFy Thread is still alive.  Current status: isAlive(): %b, getState(): %s",
                     it.isAlive,
@@ -744,7 +734,7 @@ class WiseFy private constructor(
                 )
                 it.interrupt()
             }
-            WiseFyLogger.debug(
+            logger?.d(
                 TAG,
                 "WiseFy Thread isAlive(): %b, getState(): %s",
                 it.isAlive,
@@ -754,7 +744,7 @@ class WiseFy private constructor(
         }
         wisefyHandler = null
         wisefyConnection.destroy()
-        WiseFyLogger.debug(TAG, "Cleaned up WiseFy Thread")
+        logger?.d(TAG, "Cleaned up WiseFy Thread")
     }
 
     /**
@@ -1062,7 +1052,7 @@ class WiseFy private constructor(
         try {
             return InetAddress.getByAddress(ipAddress).hostAddress
         } catch (uhe: UnknownHostException) {
-            WiseFyLogger.error(TAG, uhe, "UnknownHostException while gathering IP (sync)")
+            logger?.e(TAG, uhe, "UnknownHostException while gathering IP (sync)")
         }
         return null
     }
@@ -1099,7 +1089,7 @@ class WiseFy private constructor(
                 try {
                     callbacks?.retrievedIP(InetAddress.getByAddress(ipAddress).hostAddress)
                 } catch (uhe: UnknownHostException) {
-                    WiseFyLogger.error(TAG, uhe, "UnknownHostException while gathering IP (async)")
+                    logger?.e(TAG, uhe, "UnknownHostException while gathering IP (async)")
                     callbacks?.failureRetrievingIP()
                 }
             }
@@ -1436,20 +1426,6 @@ class WiseFy private constructor(
     }
 
     /**
-     * To query if logging is enabled or disabled for a WiseFy instance.
-     *
-     * @return boolean - If logging is enabled for the WiseFy instance
-     *
-     * @see [WiseFyLogger.isLoggingEnabled]
-     *
-     * @author Patches
-     * @since 3.0
-     */
-    @Sync
-    @CallingThread
-    override fun isLoggingEnabled(): Boolean = WiseFyLogger.isLoggingEnabled()
-
-    /**
      * To check if the device's current network is 5gHz.
      *
      * @return boolean - If the network is 5gHz
@@ -1681,7 +1657,7 @@ class WiseFy private constructor(
         if (wifiConfiguration != null) {
             return removeNetworkConfiguration(wifiConfiguration)
         } else {
-            WiseFyLogger.warn(TAG, "SSID to remove: %s was not found in list to remove network", ssidToRemove)
+            logger?.w(TAG, "SSID to remove: %s was not found in list to remove network", ssidToRemove)
         }
         return false
     }
@@ -2211,9 +2187,9 @@ class WiseFy private constructor(
      */
     private fun addNetworkConfiguration(wifiConfiguration: WifiConfiguration): Int {
         val result = wifiManager.addNetwork(wifiConfiguration)
-        WiseFyLogger.debug(TAG, "Adding network with SSID: %s had result: %d", wifiConfiguration.SSID, result)
+        logger?.d(TAG, "Adding network with SSID: %s had result: %d", wifiConfiguration.SSID, result)
         if (result == WIFI_MANAGER_FAILURE) {
-            WiseFyLogger.error(TAG, "Error adding network configuration.")
+            logger?.e(TAG, "Error adding network configuration.")
         }
         return result
     }
@@ -2289,7 +2265,7 @@ class WiseFy private constructor(
     private fun removeNetworkConfiguration(wifiConfiguration: WifiConfiguration): Boolean {
         wifiManager.disconnect()
         val result = wifiManager.removeNetwork(wifiConfiguration.networkId)
-        WiseFyLogger.debug(TAG, "Removing network with SSID: %s had result: %b", wifiConfiguration.SSID, result)
+        logger?.d(TAG, "Removing network with SSID: %s had result: %b", wifiConfiguration.SSID, result)
         wifiManager.reconnect()
         return result
     }
