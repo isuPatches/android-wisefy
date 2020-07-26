@@ -85,13 +85,14 @@ internal class WiseFyConnectionSDK23 private constructor(
     @VisibleForTesting
     internal val networkChangeCallbacks by lazy {
         object : ConnectivityManager.NetworkCallback() {
-            override fun onAvailable(network: Network?) {
+
+            override fun onAvailable(network: Network) {
                 super.onAvailable(network)
                 logger?.d(TAG, "onAvailable, $network")
                 this@WiseFyConnectionSDK23.connectionStatus = WiseFyConnectionStatus.AVAILABLE
             }
 
-            override fun onCapabilitiesChanged(network: Network?, networkCapabilities: NetworkCapabilities?) {
+            override fun onCapabilitiesChanged(network: Network, networkCapabilities: NetworkCapabilities) {
                 super.onCapabilitiesChanged(network, networkCapabilities)
                 logger?.d(
                     TAG,
@@ -99,18 +100,18 @@ internal class WiseFyConnectionSDK23 private constructor(
                 )
             }
 
-            override fun onLinkPropertiesChanged(network: Network?, linkProperties: LinkProperties?) {
+            override fun onLinkPropertiesChanged(network: Network, linkProperties: LinkProperties) {
                 super.onLinkPropertiesChanged(network, linkProperties)
                 logger?.d(TAG, "onLinkPropertiesChanged, network: $network, linkProperties: $linkProperties")
             }
 
-            override fun onLosing(network: Network?, maxMsToLive: Int) {
+            override fun onLosing(network: Network, maxMsToLive: Int) {
                 super.onLosing(network, maxMsToLive)
                 logger?.d(TAG, "onLosing, network: $network, maxMsToLive: $maxMsToLive")
                 this@WiseFyConnectionSDK23.connectionStatus = WiseFyConnectionStatus.LOSING
             }
 
-            override fun onLost(network: Network?) {
+            override fun onLost(network: Network) {
                 super.onLost(network)
                 logger?.d(TAG, "onLost, network: $network")
                 this@WiseFyConnectionSDK23.connectionStatus = WiseFyConnectionStatus.LOST

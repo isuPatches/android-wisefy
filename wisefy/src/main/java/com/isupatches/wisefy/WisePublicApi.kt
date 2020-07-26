@@ -16,6 +16,7 @@
 package com.isupatches.wisefy
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
+import android.Manifest.permission.CHANGE_NETWORK_STATE
 import android.net.NetworkInfo
 import android.net.wifi.ScanResult
 import android.net.wifi.WifiConfiguration
@@ -24,7 +25,9 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import com.isupatches.wisefy.callbacks.AddNetworkCallbacks
+import com.isupatches.wisefy.callbacks.AddNetworkSuggestionCallbacks
 import com.isupatches.wisefy.callbacks.ConnectToNetworkCallbacks
+import com.isupatches.wisefy.callbacks.ConnectToNetworkLegacyCallbacks
 import com.isupatches.wisefy.callbacks.DisableWifiCallbacks
 import com.isupatches.wisefy.callbacks.DisconnectFromCurrentNetworkCallbacks
 import com.isupatches.wisefy.callbacks.EnableWifiCallbacks
@@ -66,7 +69,8 @@ import com.isupatches.wisefy.callbacks.SearchForSavedNetworksCallbacks
  * @since 3.0
  */
 interface WiseFyPublicApi : AccessPointApi, AddNetworkApi, ConnectionApi, DeviceApi, FrequencyApi,
-    NetworkInfoApi, RemoveNetworkApi, SavedNetworkApi, SecurityApi, SignalStrengthApi, WifiApi {
+    NetworkInfoApi, RemoveNetworkApi, SavedNetworkApi, SecurityApi, SignalStrengthApi, WifiApi,
+    AndroidQApi {
 
     /**
      * Used to cleanup the thread started by WiseFy.
@@ -535,7 +539,7 @@ interface ConnectionApi {
      * @param callbacks The listener to return results to
      *
      * @see [WiseFy.connectToNetwork]
-     * @see [ConnectToNetworkCallbacks]
+     * @see [ConnectToNetworkLegacyCallbacks]
      *
      * Updates
      * - 01/04/2020: Refined permissions
@@ -547,7 +551,7 @@ interface ConnectionApi {
     fun connectToNetwork(
         ssidToConnectTo: String?,
         timeoutInMillis: Int,
-        callbacks: ConnectToNetworkCallbacks?
+        callbacks: ConnectToNetworkLegacyCallbacks?
     )
 
     /**
@@ -1245,4 +1249,30 @@ interface WifiApi {
      * @since 3.0
      */
     fun isWifiEnabled(): Boolean
+}
+
+interface AndroidQApi {
+
+    @RequiresApi(Build.VERSION_CODES.Q)
+    @RequiresPermission(ACCESS_FINE_LOCATION)
+    fun addNetworkSuggestion(
+        ssid: String, password: String?,
+        isAppInteractionRequired: Boolean = true,
+        callbacks: AddNetworkSuggestionCallbacks? = null
+    )
+
+    @RequiresApi(Build.VERSION_CODES.Q)
+    @RequiresPermission(ACCESS_FINE_LOCATION)
+    fun addNetworkSuggestion(
+        ssid: String, password: String?,
+        isAppInteractionRequired: Boolean = true
+    ): Int
+
+    @RequiresApi(Build.VERSION_CODES.Q)
+    @RequiresPermission(CHANGE_NETWORK_STATE)
+    fun connectToNetwork(
+        ssidToConnectTo: String,
+        password: String? = null,
+        callbacks: ConnectToNetworkCallbacks? = null
+    )
 }

@@ -128,11 +128,11 @@ ext {
     POM_DEVELOPER_EMAIL = "isuPatches@yahoo.com"
 
     // Common build version details
-    BUILD_TOOLS_VERSION = '29.0.2'
-    MAX_SDK_VERSION = 28
+    BUILD_TOOLS_VERSION = '29.0.3'
+    MAX_SDK_VERSION = 30
     MIN_SDK_VERSION = 16
-    VERSION_CODE = 15
-    VERSION_NAME = "4.1.0"
+    VERSION_CODE = 16
+    VERSION_NAME = "5.0.0"
 }
 
 task makeGoodChoices {

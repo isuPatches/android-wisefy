@@ -13,7 +13,7 @@
     <string name="add_network_result">Add Network Result</string>
 
     <string name="failure_adding_network">Failure adding network. WifiManager return: %d</string>
-    <string name="network_added">Network added. Id: %d, Config: %s</string>
+    <string name="network_added">Network added. Id: %1$d, Config: %2$s</string>
 
     <!-- Permissions -->
     <string name="permission_error_add_open_network">Permissions for adding an open network are denied</string>

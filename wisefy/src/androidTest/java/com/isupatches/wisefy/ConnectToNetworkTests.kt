@@ -1,6 +1,6 @@
 package com.isupatches.wisefy
 
-import com.isupatches.wisefy.callbacks.ConnectToNetworkCallbacks
+import com.isupatches.wisefy.callbacks.ConnectToNetworkLegacyCallbacks
 import com.isupatches.wisefy.constants.MISSING_PARAMETER
 import com.isupatches.wisefy.internal.base.BaseInstrumentationTest
 import org.junit.Assert.assertEquals
@@ -53,7 +53,7 @@ internal class ConnectToNetworkTests : BaseInstrumentationTest() {
     @Test
     fun async_failure_prechecks() {
         mockWiseFyPrechecksUtil.connectToNetwork_failure()
-        val mockCallbacks = mock(ConnectToNetworkCallbacks::class.java)
+        val mockCallbacks = mock(ConnectToNetworkLegacyCallbacks::class.java)
         wisefy.connectToNetwork(TEST_SSID, TEST_TIMEOUT, mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).wisefyFailure(MISSING_PARAMETER)
         verificationUtil.didNotTryToConnectToNetwork()
@@ -71,7 +71,7 @@ internal class ConnectToNetworkTests : BaseInstrumentationTest() {
     fun async_failure_noSavedNetwork() {
         mockWiseFyPrechecksUtil.connectToNetwork_success()
         mockWiseFySearchUtil.findSavedNetworkByRegex_null()
-        val mockCallbacks = mock(ConnectToNetworkCallbacks::class.java)
+        val mockCallbacks = mock(ConnectToNetworkLegacyCallbacks::class.java)
         wisefy.connectToNetwork(TEST_SSID, TEST_TIMEOUT, mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).networkNotFoundToConnectTo()
         verificationUtil.didNotTryToConnectToNetwork()
@@ -90,7 +90,7 @@ internal class ConnectToNetworkTests : BaseInstrumentationTest() {
         mockWiseFyPrechecksUtil.connectToNetwork_success()
         mockWiseFySearchUtil.findSavedNetworkByRegex_success()
         mockWiseFyConnectionUtil.waitToConnectToSSID(false)
-        val mockCallbacks = mock(ConnectToNetworkCallbacks::class.java)
+        val mockCallbacks = mock(ConnectToNetworkLegacyCallbacks::class.java)
         wisefy.connectToNetwork(TEST_SSID, TEST_TIMEOUT, mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).failureConnectingToNetwork()
         verificationUtil.triedToConnectToNetwork()
@@ -110,7 +110,7 @@ internal class ConnectToNetworkTests : BaseInstrumentationTest() {
         mockWiseFyPrechecksUtil.connectToNetwork_success()
         mockWiseFySearchUtil.findSavedNetworkByRegex_success()
         mockWiseFyConnectionUtil.waitToConnectToSSID(true)
-        val mockCallbacks = mock(ConnectToNetworkCallbacks::class.java)
+        val mockCallbacks = mock(ConnectToNetworkLegacyCallbacks::class.java)
         wisefy.connectToNetwork(TEST_SSID, TEST_TIMEOUT, mockCallbacks)
         verify(mockCallbacks, timeout(VERIFICATION_SUCCESS_TIMEOUT)).connectedToNetwork()
         verificationUtil.triedToConnectToNetwork()

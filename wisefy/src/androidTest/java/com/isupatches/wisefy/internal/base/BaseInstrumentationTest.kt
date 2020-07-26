@@ -7,7 +7,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.isupatches.wisefy.VERIFICATION_SUCCESS_TIMEOUT
 import com.isupatches.wisefy.WiseFy
 import com.isupatches.wisefy.WiseFyPrechecks
-import com.isupatches.wisefy.callbacks.AddNetworkCallbacks
+import com.isupatches.wisefy.callbacks.`AddNetwork\Callbacks`
 import com.isupatches.wisefy.connection.WiseFyConnection
 import com.isupatches.wisefy.internal.NullCallbackUtil
 import com.isupatches.wisefy.internal.TestWiseFyLogger
@@ -80,7 +80,7 @@ internal abstract class BaseInstrumentationTest {
 
     protected fun <T> any(type: Class<T>): T = Mockito.any<T>(type)
 
-    protected fun verifyNetworkAdded(mockCallbacks: AddNetworkCallbacks) {
+    protected fun verifyNetworkAdded(mockCallbacks: AddNetworkLegacyCallbacks) {
         verify(
             mockCallbacks,
             timeout(VERIFICATION_SUCCESS_TIMEOUT)

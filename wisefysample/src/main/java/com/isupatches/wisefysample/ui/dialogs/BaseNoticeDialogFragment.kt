@@ -28,11 +28,11 @@ internal const val EXTRA_DIALOG_MESSAGE = "dialog message"
 internal abstract class BaseNoticeDialogFragment : BaseDialogFragment() {
 
     private val dialogTitle: String by lazy {
-        arguments!!.getString(EXTRA_DIALOG_TITLE)
+        arguments!!.getString(EXTRA_DIALOG_TITLE) ?: ""
     }
 
     private val dialogMessage: String by lazy {
-        arguments!!.getString(EXTRA_DIALOG_MESSAGE)
+        arguments!!.getString(EXTRA_DIALOG_MESSAGE) ?: ""
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

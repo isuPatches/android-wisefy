@@ -15,16 +15,7 @@
  */
 package com.isupatches.wisefy.callbacks
 
-import android.net.LinkProperties
-import android.net.Network
-import android.net.NetworkCapabilities
-
-interface ConnectToNetworkCallbacks : BaseCallback {
-    fun onAvailable(network: Network)
-    fun onBlockedStatusChanged(network: Network, blocked: Boolean)
-    fun onCapabilitiesChanged(network: Network, networkCapabilities: NetworkCapabilities)
-    fun onLinkPropertiesChanged(network: Network, linkProperties: LinkProperties)
-    fun onLosing(network: Network, maxMsToLive: Int)
-    fun onLost(network: Network)
-    fun onUnavailable()
+interface AddNetworkSuggestionCallbacks : BaseCallback {
+    fun onNetworkSuggestionAdded()
+    fun onFailureAddingNetworkSuggestion(status: Int)
 }

@@ -20,11 +20,17 @@ package com.isupatches.wisefy
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.content.Context
 import android.net.ConnectivityManager
+import android.net.LinkProperties
+import android.net.Network
+import android.net.NetworkCapabilities
 import android.net.NetworkInfo
+import android.net.NetworkRequest
 import android.net.wifi.ScanResult
 import android.net.wifi.WifiConfiguration
 import android.net.wifi.WifiInfo
 import android.net.wifi.WifiManager
+import android.net.wifi.WifiNetworkSpecifier
+import android.net.wifi.WifiNetworkSuggestion
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
@@ -38,7 +44,9 @@ import com.isupatches.wisefy.annotations.Sync
 import com.isupatches.wisefy.annotations.WaitsForTimeout
 import com.isupatches.wisefy.annotations.WiseFyThread
 import com.isupatches.wisefy.callbacks.AddNetworkCallbacks
+import com.isupatches.wisefy.callbacks.AddNetworkSuggestionCallbacks
 import com.isupatches.wisefy.callbacks.ConnectToNetworkCallbacks
+import com.isupatches.wisefy.callbacks.ConnectToNetworkLegacyCallbacks
 import com.isupatches.wisefy.callbacks.DisableWifiCallbacks
 import com.isupatches.wisefy.callbacks.DisconnectFromCurrentNetworkCallbacks
 import com.isupatches.wisefy.callbacks.EnableWifiCallbacks
@@ -278,6 +286,49 @@ class WiseFy private constructor(
                 logger = logger
             )
         }
+    }
+
+    @Sync
+    @CallingThread
+    @RequiresApi(Build.VERSION_CODES.Q)
+    @RequiresPermission(ACCESS_FINE_LOCATION)
+    override fun addNetworkSuggestion(
+        ssid: String, password: String?,
+        isAppInteractionRequired: Boolean
+    ): Int {
+        val openNetworkSuggestions = WifiNetworkSuggestion.Builder()
+            .setSsid(ssid)
+            .setIsAppInteractionRequired(isAppInteractionRequired)
+            .build()
+
+        return wifiManager.addNetworkSuggestions(listOf(openNetworkSuggestions))
+    }
+
+    @Async
+    @WiseFyThread
+    @RequiresApi(Build.VERSION_CODES.Q)
+    @RequiresPermission(ACCESS_FINE_LOCATION)
+    override fun addNetworkSuggestion(
+        ssid: String, password: String?,
+        isAppInteractionRequired: Boolean,
+        callbacks: AddNetworkSuggestionCallbacks?
+    ) {
+        runOnWiseFyThread(Runnable {
+            synchronized(wisefyLock) {
+                // todo@patches add pre-checks
+                val openNetworkSuggestions = WifiNetworkSuggestion.Builder()
+                    .setSsid(ssid)
+                    .setIsAppInteractionRequired(isAppInteractionRequired)
+                    .build()
+
+                val status = wifiManager.addNetworkSuggestions(listOf(openNetworkSuggestions))
+                if (status == WifiManager.STATUS_NETWORK_SUGGESTIONS_SUCCESS) {
+                    callbacks?.onNetworkSuggestionAdded()
+                } else {
+                    callbacks?.onFailureAddingNetworkSuggestion(status)
+                }
+            }
+        })
     }
 
     /**
@@ -535,6 +586,7 @@ class WiseFy private constructor(
     @CallingThread
     @WaitsForTimeout
     @RequiresPermission(ACCESS_FINE_LOCATION)
+    @Deprecated("There is a new connectToNetwork for Android Q and up")
     override fun connectToNetwork(ssidToConnectTo: String?, timeoutInMillis: Int): Boolean {
         if (wisefyPrechecks.connectToNetworkPrechecks(ssidToConnectTo).failed()) {
             return false
@@ -549,6 +601,64 @@ class WiseFy private constructor(
         return false
     }
 
+    @RequiresApi(Build.VERSION_CODES.Q)
+    override fun connectToNetwork(
+        ssidToConnectTo: String,
+        password: String?,
+        callbacks: ConnectToNetworkCallbacks?
+    ) {
+        val wifiNetworkSpecifier = WifiNetworkSpecifier.Builder().apply {
+            setSsid(ssidToConnectTo)
+            password?.let { setWpa2Passphrase(it) }
+        }.build()
+
+        val networkRequest = NetworkRequest.Builder().apply {
+            addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
+            setNetworkSpecifier(wifiNetworkSpecifier)
+        }.build()
+
+        val networkCallback = object : ConnectivityManager.NetworkCallback() {
+
+            override fun onAvailable(network: Network) {
+                super.onAvailable(network)
+                callbacks?.onAvailable(network)
+                connectivityManager.bindProcessToNetwork(network)
+            }
+
+            override fun onBlockedStatusChanged(network: Network, blocked: Boolean) {
+                super.onBlockedStatusChanged(network, blocked)
+                callbacks?.onBlockedStatusChanged(network, blocked)
+            }
+
+            override fun onCapabilitiesChanged(network: Network, networkCapabilities: NetworkCapabilities) {
+                super.onCapabilitiesChanged(network, networkCapabilities)
+                callbacks?.onCapabilitiesChanged(network, networkCapabilities)
+            }
+
+            override fun onLinkPropertiesChanged(network: Network, linkProperties: LinkProperties) {
+                super.onLinkPropertiesChanged(network, linkProperties)
+                callbacks?.onLinkPropertiesChanged(network, linkProperties)
+            }
+
+            override fun onLosing(network: Network, maxMsToLive: Int) {
+                super.onLosing(network, maxMsToLive)
+                callbacks?.onLosing(network, maxMsToLive)
+            }
+
+            override fun onLost(network: Network) {
+                super.onLost(network)
+                callbacks?.onLost(network)
+            }
+
+            override fun onUnavailable() {
+                super.onUnavailable()
+                callbacks?.onUnavailable()
+            }
+        }
+
+        connectivityManager.requestNetwork(networkRequest, networkCallback)
+    }
+
     /**
      * Used to connect to a network.
      *
@@ -559,7 +669,7 @@ class WiseFy private constructor(
      * @param callbacks The listener to return results to
      *
      * @see [connectToNetworkWithId]
-     * @see [ConnectToNetworkCallbacks]
+     * @see [ConnectToNetworkLegacyCallbacks]
      * @see [runOnWiseFyThread]
      * @see [WiseFyConnection.waitToConnectToSSID]
      * @see [WiseFyLock]
@@ -579,7 +689,7 @@ class WiseFy private constructor(
     override fun connectToNetwork(
         ssidToConnectTo: String?,
         timeoutInMillis: Int,
-        callbacks: ConnectToNetworkCallbacks?
+        callbacks: ConnectToNetworkLegacyCallbacks?
     ) {
         runOnWiseFyThread(Runnable {
             synchronized(wisefyLock) {

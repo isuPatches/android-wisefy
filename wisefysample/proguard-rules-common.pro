@@ -21,3 +21,7 @@
 -keep class io.reactivex.schedulers.Schedulers {
     public static <methods>;
 }
+
+# Java lang for AGP
+-keep class java.lang.instrument.ClassFileTransformer { *; }
+-dontwarn java.lang.instrument.ClassFileTransformer

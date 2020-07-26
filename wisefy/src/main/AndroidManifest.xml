@@ -4,6 +4,7 @@
 
     <!-- Permission to use ConnectivityManager -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
 
     <!-- Permissions to use WifiManager -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
