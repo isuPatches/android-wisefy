@@ -33,7 +33,7 @@ To add a WPA2 network:
 _With Kotlin_
 
 ```kotlin
-val result = wisefy.addWEPNetwork("WPA2 Network", "123456")
+val result = wisefy.addWPA2Network("WPA2 Network", "123456")
 ```
 
 _With Java_
