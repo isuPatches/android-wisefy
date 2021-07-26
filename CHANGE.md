@@ -8,4 +8,4 @@ WiseFy upon each new major release will start a brand new change log.
 
 [3.x Changes](/changes/3.x.md)
 
-[3.x Changes](/changes/4.x.md)
+[4.x Changes](/changes/4.x.md)

@@ -23,8 +23,7 @@ import androidx.annotation.RequiresPermission
 /**
  * An interface that helps with searching.
  *
- * @see [WiseFySearchLegacy]
- * @see [WiseFySearchSDK23]
+ * @see [DefaultWiseFySearch]
  *
  * Updates
  * - 05/12/2019

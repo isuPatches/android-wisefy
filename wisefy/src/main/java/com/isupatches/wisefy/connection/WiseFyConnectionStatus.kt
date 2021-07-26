@@ -18,7 +18,7 @@ package com.isupatches.wisefy.connection
 /**
  * Constant to indicate network connection status for SDK23 and above.
  *
- * @see [WiseFyConnectionSDK23]
+ * @see [DefaultWiseFyConnection]
  *
  * @author Patches
  * @since 4.0

@@ -8,7 +8,7 @@ android {
 
     dexOptions {
         // Skip pre-dexing when running on Travis CI or when disabled via -Dpre-dex=false.
-        preDexLibraries = preDexEnabled && !travisBuild
+        preDexLibraries = preDexEnabled
         javaMaxHeapSize "2g"
     }
 
@@ -31,7 +31,7 @@ android {
 
     buildTypes {
         debug {
-            testCoverageEnabled true
+            testCoverageEnabled false
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             testProguardFile file("proguard-test-rules.pro")
@@ -60,15 +60,7 @@ android {
     testOptions {
         unitTests {
             returnDefaultValues = true
-            /*
-             * includeAndroidResources and all block were added for RoboElectric
-             */
             includeAndroidResources = true
-            all {
-                jacoco {
-                    includeNoLocationClasses = true
-                }
-            }
         }
     }
 
@@ -84,7 +76,7 @@ android {
 }
 
 dependencies {
-    implementation "androidx.annotation:annotation:$androidx_support_annotations_version"
+    implementation "androidx.annotation:annotation:$androidx_annotation_version"
 
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -100,8 +92,5 @@ dependencies {
     androidTestImplementation "androidx.test:rules:$androidx_test_runner_version"
     androidTestImplementation "org.mockito:mockito-core:$mockito_version"
     androidTestImplementation "org.mockito:mockito-android:$mockito_version"
-    androidTestImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockito_kotlin_version"
+//    androidTestImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockito_kotlin_version"
 }
-
-apply from: rootProject.file("$rootProject.projectDir/gradle/gradle-bintray-install.gradle")
-apply from: rootProject.file("$rootProject.projectDir/gradle/gradle-bintray-upload.gradle")

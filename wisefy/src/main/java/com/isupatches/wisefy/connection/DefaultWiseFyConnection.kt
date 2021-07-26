@@ -43,7 +43,7 @@ import com.isupatches.wisefy.logging.WiseFyLogger
  * @since 4.0
  */
 @RequiresApi(Build.VERSION_CODES.M)
-internal class WiseFyConnectionSDK23 private constructor(
+internal class DefaultWiseFyConnection private constructor(
     private val connectivityManager: ConnectivityManager,
     wifiManager: WifiManager,
     private val logger: WiseFyLogger?
@@ -51,7 +51,7 @@ internal class WiseFyConnectionSDK23 private constructor(
 
     internal companion object {
         // Internal to avoid SyntheticAccessor error within networkChangeCallback
-        internal val TAG = WiseFyConnectionSDK23::class.java.simpleName
+        internal val TAG = DefaultWiseFyConnection::class.java.simpleName
 
         /**
          * Used internally to create an instance of a WiseFyConnection for SDK 23.
@@ -75,7 +75,7 @@ internal class WiseFyConnectionSDK23 private constructor(
             wifiManager: WifiManager,
             logger: WiseFyLogger? = null
         ): WiseFyConnection {
-            return WiseFyConnectionSDK23(connectivityManager, wifiManager, logger)
+            return DefaultWiseFyConnection(connectivityManager, wifiManager, logger)
         }
     }
 
@@ -85,13 +85,13 @@ internal class WiseFyConnectionSDK23 private constructor(
     @VisibleForTesting
     internal val networkChangeCallbacks by lazy {
         object : ConnectivityManager.NetworkCallback() {
-            override fun onAvailable(network: Network?) {
+            override fun onAvailable(network: Network) {
                 super.onAvailable(network)
                 logger?.d(TAG, "onAvailable, $network")
-                this@WiseFyConnectionSDK23.connectionStatus = WiseFyConnectionStatus.AVAILABLE
+                this@DefaultWiseFyConnection.connectionStatus = WiseFyConnectionStatus.AVAILABLE
             }
 
-            override fun onCapabilitiesChanged(network: Network?, networkCapabilities: NetworkCapabilities?) {
+            override fun onCapabilitiesChanged(network: Network, networkCapabilities: NetworkCapabilities) {
                 super.onCapabilitiesChanged(network, networkCapabilities)
                 logger?.d(
                     TAG,
@@ -99,33 +99,33 @@ internal class WiseFyConnectionSDK23 private constructor(
                 )
             }
 
-            override fun onLinkPropertiesChanged(network: Network?, linkProperties: LinkProperties?) {
+            override fun onLinkPropertiesChanged(network: Network, linkProperties: LinkProperties) {
                 super.onLinkPropertiesChanged(network, linkProperties)
                 logger?.d(TAG, "onLinkPropertiesChanged, network: $network, linkProperties: $linkProperties")
             }
 
-            override fun onLosing(network: Network?, maxMsToLive: Int) {
+            override fun onLosing(network: Network, maxMsToLive: Int) {
                 super.onLosing(network, maxMsToLive)
                 logger?.d(TAG, "onLosing, network: $network, maxMsToLive: $maxMsToLive")
-                this@WiseFyConnectionSDK23.connectionStatus = WiseFyConnectionStatus.LOSING
+                this@DefaultWiseFyConnection.connectionStatus = WiseFyConnectionStatus.LOSING
             }
 
-            override fun onLost(network: Network?) {
+            override fun onLost(network: Network) {
                 super.onLost(network)
                 logger?.d(TAG, "onLost, network: $network")
-                this@WiseFyConnectionSDK23.connectionStatus = WiseFyConnectionStatus.LOST
+                this@DefaultWiseFyConnection.connectionStatus = WiseFyConnectionStatus.LOST
             }
 
             override fun onUnavailable() {
                 super.onUnavailable()
                 logger?.d(TAG, "onUnavailable")
-                this@WiseFyConnectionSDK23.connectionStatus = WiseFyConnectionStatus.UNAVAILABLE
+                this@DefaultWiseFyConnection.connectionStatus = WiseFyConnectionStatus.UNAVAILABLE
             }
         }
     }
 
     /**
-     * Used internally for any initialization of [WiseFyConnectionLegacy] class.
+     * Used internally for any initialization needed for the connection
      *
      * @see [startListeningForNetworkChanges]
      *
@@ -137,7 +137,7 @@ internal class WiseFyConnectionSDK23 private constructor(
     }
 
     /**
-     * Used internally for any tear down of [WiseFyConnectionLegacy] class.
+     * Used internally for any tear down needed for the connection
      *
      * @see [stopListeningForNetworkChanges]
      *

@@ -22,12 +22,15 @@ import android.os.HandlerThread
  *
  * *NOTE* Must be cleaned!! [com.isupatches.wisefy.WiseFy.dump]
  *
+ * Updates
+ * - 07/26/2021: Update variable from TAG to NAME
+ *
  * @author Patches
  * @since 3.0
  */
-class WiseFyHandlerThread(name: String) : HandlerThread(name) {
+internal class WiseFyHandlerThread(name: String) : HandlerThread(name) {
 
     companion object {
-        internal val TAG = WiseFyHandlerThread::class.java.simpleName
+        internal val NAME = WiseFyHandlerThread::class.java.simpleName
     }
 }

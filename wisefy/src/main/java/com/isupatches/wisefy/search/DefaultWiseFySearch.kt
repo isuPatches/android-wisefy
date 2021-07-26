@@ -30,12 +30,13 @@ import com.isupatches.wisefy.logging.WiseFyLogger
  *
  * Updates
  * - 01/07/2020: Added WiseFyLogger
+ * - 07/26/2021: Renamed from WiseFySearchSDK23 to DefaultWiseFySearch
  *
  * @author Patches
  * @since 4.0
  */
 @RequiresApi(Build.VERSION_CODES.M)
-internal class WiseFySearchSDK23 private constructor(
+internal class DefaultWiseFySearch private constructor(
     private val wifiManager: WifiManager,
     logger: WiseFyLogger?
 ) : AbstractWiseFySearch(wifiManager, logger) {
@@ -44,7 +45,7 @@ internal class WiseFySearchSDK23 private constructor(
         fun create(
             wifiManager: WifiManager,
             logger: WiseFyLogger? = null
-        ): WiseFySearch = WiseFySearchSDK23(wifiManager, logger)
+        ): WiseFySearch = DefaultWiseFySearch(wifiManager, logger)
     }
 
     // For SDK 23 and above, devices will be limited on ability to trigger scans and it's been

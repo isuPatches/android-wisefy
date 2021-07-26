@@ -1,1 +1,1 @@
-include ':wisefy', ':wisefysample'
+include ':wisefy', ':app'

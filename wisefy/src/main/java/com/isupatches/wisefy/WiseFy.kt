@@ -56,9 +56,8 @@ import com.isupatches.wisefy.callbacks.SearchForSSIDCallbacks
 import com.isupatches.wisefy.callbacks.SearchForSSIDsCallbacks
 import com.isupatches.wisefy.callbacks.SearchForSavedNetworkCallbacks
 import com.isupatches.wisefy.callbacks.SearchForSavedNetworksCallbacks
+import com.isupatches.wisefy.connection.DefaultWiseFyConnection
 import com.isupatches.wisefy.connection.WiseFyConnection
-import com.isupatches.wisefy.connection.WiseFyConnectionLegacy
-import com.isupatches.wisefy.connection.WiseFyConnectionSDK23
 import com.isupatches.wisefy.constants.Capability
 import com.isupatches.wisefy.constants.EAP
 import com.isupatches.wisefy.constants.MISSING_PARAMETER
@@ -67,9 +66,8 @@ import com.isupatches.wisefy.constants.WEP
 import com.isupatches.wisefy.constants.WPA
 import com.isupatches.wisefy.constants.WPA2
 import com.isupatches.wisefy.logging.WiseFyLogger
+import com.isupatches.wisefy.search.DefaultWiseFySearch
 import com.isupatches.wisefy.search.WiseFySearch
-import com.isupatches.wisefy.search.WiseFySearchLegacy
-import com.isupatches.wisefy.search.WiseFySearchSDK23
 import com.isupatches.wisefy.threads.WiseFyHandlerThread
 import com.isupatches.wisefy.utils.generateOpenNetworkConfiguration
 import com.isupatches.wisefy.utils.generateWEPNetworkConfiguration
@@ -148,9 +146,7 @@ class WiseFy private constructor(
      */
     class Brains @JvmOverloads constructor(
         context: Context,
-        logger: WiseFyLogger? = null,
-        useLegacyConnection: Boolean = false,
-        useLegacySearch: Boolean = false
+        logger: WiseFyLogger? = null
     ) {
 
         private var logger: WiseFyLogger? = null
@@ -166,21 +162,8 @@ class WiseFy private constructor(
             ) as ConnectivityManager
             wifiManager = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
 
-            // We'll use SDK 23 logic for WiseFyConnection if client is on at least an SDK 23 device
-            // and "useLegacyConnection" option is not enabled
-
-            wisefyConnection = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M || useLegacyConnection) {
-                WiseFyConnectionLegacy.create(connectivityManager, wifiManager, logger)
-            } else {
-                WiseFyConnectionSDK23.create(connectivityManager, wifiManager, logger)
-            }
-            // We'll use SDK 23 logic for WiseFySearch if client is on at least an SDK 23 device
-            // and "useLegacySearch" option is not enabled
-            wisefySearch = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M || useLegacySearch) {
-                WiseFySearchLegacy.create(wifiManager, logger)
-            } else {
-                WiseFySearchSDK23.create(wifiManager, logger)
-            }
+            wisefyConnection = DefaultWiseFyConnection.create(connectivityManager, wifiManager, logger)
+            wisefySearch = DefaultWiseFySearch.create(wifiManager, logger)
 
             wisefyPrechecks = WiseFyPrechecksImpl.create(wisefySearch)
         }
@@ -714,17 +697,14 @@ class WiseFy private constructor(
      *
      * Updates
      * - 05/12/2019: Added new call to [WiseFyConnection.destroy]
+     * - 07/26/2021: Removed obsolete SDK version check and now using .quitSafely()
      *
      * @author Patches
      * @since 3.0
      */
     override fun dump() {
         wisefyHandlerThread?.let {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-                it.quitSafely()
-            } else {
-                it.quit()
-            }
+            it.quitSafely()
             if (it.isAlive) {
                 logger?.w(
                     TAG,
@@ -2287,7 +2267,7 @@ class WiseFy private constructor(
      */
     @VisibleForTesting
     internal fun setupWiseFyThread(useMainLooper: Boolean = false) {
-        wisefyHandlerThread = WiseFyHandlerThread(WiseFyHandlerThread.TAG)
+        wisefyHandlerThread = WiseFyHandlerThread(WiseFyHandlerThread.NAME)
         wisefyHandlerThread?.let {
             it.start()
             val looper = if (useMainLooper) Looper.getMainLooper() else it.looper

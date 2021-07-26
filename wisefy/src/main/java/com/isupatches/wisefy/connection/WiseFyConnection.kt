@@ -18,8 +18,7 @@ package com.isupatches.wisefy.connection
 /**
  * An interface with methods that relate to checking device connectivity.
  *
- * @see [WiseFyConnectionLegacy]
- * @see [WiseFyConnectionSDK23]
+ * @see [DefaultWiseFyConnection]
  *
  * Updates
  * - 05/12/2019
@@ -28,6 +27,7 @@ package com.isupatches.wisefy.connection
  *      * Split isNetworkConnectedAndMatchesType into isDeviceConnectedToWifiNetwork
  *        and isDeviceConnectedToMobileNetwork
  *      * Added isDeviceRoaming
+ * - 07/26/2021: Renamed from WiseFyConnectionSDK23 to DefaultWiseFyConnection
  *
  * @author Patches
  * @since 3.0
