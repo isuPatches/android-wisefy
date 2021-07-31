@@ -5,19 +5,19 @@
     <string name="add_network">Add Network</string>
 
     <!-- Network Types -->
-    <string name="wpa2">WPA2</string>
-    <string name="wep">WEP</string>
     <string name="open">Open</string>
+    <string name="wpa2">WPA2</string>
+    <string name="wpa3">WPA3</string>
 
     <!-- Results -->
     <string name="add_network_result">Add Network Result</string>
 
     <string name="failure_adding_network">Failure adding network. WifiManager return: %d</string>
-    <string name="network_added">Network added. Id: %d, Config: %s</string>
+    <string name="network_added">Network added. Id: %d</string>
 
     <!-- Permissions -->
     <string name="permission_error_add_open_network">Permissions for adding an open network are denied</string>
-    <string name="permission_error_add_wep_network">Permissions for adding a WEP network are denied</string>
     <string name="permission_error_add_wpa2_network">Permissions for adding a WPA2 network are denied</string>
+    <string name="permission_error_add_wpa3_network">Permissions for adding a WPA3 network are denied</string>
 
 </resources>

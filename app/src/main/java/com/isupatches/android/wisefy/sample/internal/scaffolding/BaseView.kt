@@ -16,10 +16,7 @@
 package com.isupatches.android.wisefy.sample.internal.scaffolding
 
 import androidx.fragment.app.Fragment
-import com.isupatches.wisefy.constants.WiseFyCode
 
-internal interface View {
-    fun displayWiseFyFailure(@WiseFyCode wiseFyFailureCode: Int)
-}
+internal interface View
 
 internal abstract class BaseView : Fragment(), View

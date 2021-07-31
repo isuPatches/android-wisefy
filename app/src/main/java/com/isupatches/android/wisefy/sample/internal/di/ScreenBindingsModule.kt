@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Patches Klinefelter
+ * Copyright 2021 Patches Klinefelter
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,9 +24,11 @@ import dagger.android.ContributesAndroidInjector
 @Suppress("unused")
 @Module internal interface ScreenBindingsModule {
 
-    @ContributesAndroidInjector(modules = [
-        MainActivityModule::class,
-        MainActivityFragmentBindings::class
-    ])
+    @ContributesAndroidInjector(
+        modules = [
+            MainActivityModule::class,
+            MainActivityFragmentBindings::class
+        ]
+    )
     fun mainActivity(): MainActivity
 }

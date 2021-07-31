@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Patches Klinefelter
+ * Copyright 2021 Patches Klinefelter
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,25 +16,25 @@
 package com.isupatches.android.wisefy.sample.ui.remove
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
+import android.Manifest.permission.CHANGE_WIFI_STATE
 import androidx.annotation.RequiresPermission
+import com.isupatches.android.wisefy.WisefyApi
 import com.isupatches.android.wisefy.sample.internal.scaffolding.BaseModel
-import com.isupatches.wisefy.WiseFyPublicApi
-import com.isupatches.wisefy.callbacks.RemoveNetworkCallbacks
 import javax.inject.Inject
 
 internal interface RemoveNetworkModel {
 
-    @RequiresPermission(ACCESS_FINE_LOCATION)
-    fun removeNetwork(networkName: String, callbacks: RemoveNetworkCallbacks)
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
+    fun removeNetwork(networkName: String)
 }
 
 @RemoveNetworkScope
 internal class DefaultRemoveNetworkModel @Inject constructor(
-    private val wiseFy: WiseFyPublicApi
+    private val wiseFy: WisefyApi
 ) : BaseModel(), RemoveNetworkModel {
 
-    @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun removeNetwork(networkName: String, callbacks: RemoveNetworkCallbacks) {
-        wiseFy.removeNetwork(networkName, callbacks)
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
+    override fun removeNetwork(networkName: String) {
+        wiseFy.removeNetwork(networkName)
     }
 }

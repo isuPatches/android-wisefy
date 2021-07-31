@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Patches Klinefelter
+ * Copyright 2021 Patches Klinefelter
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 package com.isupatches.android.wisefy.sample.ui.remove
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
+import android.Manifest.permission.CHANGE_WIFI_STATE
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
@@ -24,7 +25,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.VisibleForTesting
 import com.isupatches.android.viewglu.paste
-import com.isupatches.wisefy.constants.WiseFyCode
 import com.isupatches.android.wisefy.sample.R
 import com.isupatches.android.wisefy.sample.databinding.FragmentRemoveNetworkBinding
 import com.isupatches.android.wisefy.sample.internal.base.BaseFragment
@@ -104,10 +104,6 @@ internal class RemoveNetworkFragment : BaseFragment(), RemoveNetworkView {
         displayInfo(R.string.failure_removing_network, R.string.remover_network_result)
     }
 
-    override fun displayWiseFyFailure(@WiseFyCode wiseFyFailureCode: Int) {
-        displayWiseFyFailureWithCode(wiseFyFailureCode)
-    }
-
     /*
      * WiseFy helpers
      */
@@ -125,6 +121,7 @@ internal class RemoveNetworkFragment : BaseFragment(), RemoveNetworkView {
 
     private fun checkRemoveNetworkPermissions(): Boolean {
         return isPermissionGranted(ACCESS_FINE_LOCATION, WISEFY_REMOVE_NETWORK_REQUEST_CODE)
+            && isPermissionGranted(CHANGE_WIFI_STATE, WISEFY_REMOVE_NETWORK_REQUEST_CODE)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {

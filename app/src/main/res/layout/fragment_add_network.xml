@@ -34,19 +34,6 @@
                 app:layout_constraintStart_toStartOf="parent" />
 
             <RadioButton
-                android:id="@+id/wepNetworkRdb"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/default_margin"
-                android:layout_weight="1"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="@string/wep"
-                android:textSize="@dimen/font_size_small"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <RadioButton
                 android:id="@+id/wpa2NetworkRdb"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -55,6 +42,19 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text="@string/wpa2"
+                android:textSize="@dimen/font_size_small"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <RadioButton
+                android:id="@+id/wpa3NetworkRdb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/default_margin"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@string/wpa3"
                 android:textSize="@dimen/font_size_small"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />

@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Patches Klinefelter
+ * Copyright 2021 Patches Klinefelter
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -52,10 +52,12 @@ internal open class MainApplication : Application(), HasAndroidInjector {
     protected lateinit var mainApplicationComponent: MainApplicationComponent
 
     @Singleton
-    @Component(modules = [
-        AndroidSupportInjectionModule::class,
-        ScreenBindingsModule::class
-    ])
+    @Component(
+        modules = [
+            AndroidSupportInjectionModule::class,
+            ScreenBindingsModule::class
+        ]
+    )
     internal interface MainApplicationComponent {
 
         fun inject(mainApplication: MainApplication)

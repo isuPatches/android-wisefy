@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Patches Klinefelter
+ * Copyright 2021 Patches Klinefelter
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,10 +15,12 @@
  */
 package com.isupatches.android.wisefy.sample.ui.main
 
+import android.content.Context
 import android.os.Bundle
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.isupatches.android.viewglu.paste
+import com.isupatches.android.wisefy.WisefyApi
 import com.isupatches.android.wisefy.sample.R
 import com.isupatches.android.wisefy.sample.databinding.ActivityMainBinding
 import com.isupatches.android.wisefy.sample.internal.base.BaseActivity
@@ -28,16 +30,12 @@ import com.isupatches.android.wisefy.sample.internal.util.createWiseFy
 import com.isupatches.android.wisefy.sample.ui.add.AddNetworkFragment
 import com.isupatches.android.wisefy.sample.ui.add.AddNetworkFragmentModule
 import com.isupatches.android.wisefy.sample.ui.add.AddNetworkScope
-import com.isupatches.android.wisefy.sample.ui.misc.MiscFragment
-import com.isupatches.android.wisefy.sample.ui.misc.MiscFragmentModule
-import com.isupatches.android.wisefy.sample.ui.misc.MiscScope
 import com.isupatches.android.wisefy.sample.ui.remove.RemoveNetworkFragment
 import com.isupatches.android.wisefy.sample.ui.remove.RemoveNetworkFragmentModule
 import com.isupatches.android.wisefy.sample.ui.remove.RemoveNetworkScope
 import com.isupatches.android.wisefy.sample.ui.search.SearchFragment
 import com.isupatches.android.wisefy.sample.ui.search.SearchFragmentModule
 import com.isupatches.android.wisefy.sample.ui.search.SearchScope
-import com.isupatches.wisefy.WiseFyPublicApi
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -48,18 +46,20 @@ internal class MainActivity : BaseActivity() {
 
     override val binding: ActivityMainBinding by paste(ActivityMainBinding::inflate)
 
-    @Inject lateinit var wiseFy: WiseFyPublicApi
+    @Inject lateinit var wisefy: WisefyApi
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.main_nav_host) as NavHostFragment
         val navController = navHostFragment.navController
         NavigationUI.setupWithNavController(binding.bottomNavigationView, navController)
+
+        wisefy.attachNetworkWatcher()
     }
 
     override fun onDestroy() {
+        wisefy.detachNetworkWatcher()
         super.onDestroy()
-        wiseFy.dump()
     }
 }
 
@@ -67,27 +67,33 @@ internal class MainActivity : BaseActivity() {
 @Module internal interface MainActivityFragmentBindings {
 
     @AddNetworkScope
-    @ContributesAndroidInjector(modules = [
-        AddNetworkFragmentModule::class
-    ]) fun addNetworkFragment(): AddNetworkFragment
+    @ContributesAndroidInjector(
+        modules = [
+            AddNetworkFragmentModule::class
+        ]
+    ) fun addNetworkFragment(): AddNetworkFragment
 
     @RemoveNetworkScope
-    @ContributesAndroidInjector(modules = [
-        RemoveNetworkFragmentModule::class
-    ]) fun removeNetworkFragment(): RemoveNetworkFragment
+    @ContributesAndroidInjector(
+        modules = [
+            RemoveNetworkFragmentModule::class
+        ]
+    ) fun removeNetworkFragment(): RemoveNetworkFragment
 
     @ContributesAndroidInjector
     fun mainFragment(): MainFragment
 
-    @MiscScope
-    @ContributesAndroidInjector(modules = [
-        MiscFragmentModule::class
-    ]) fun miscFragment(): MiscFragment
-
+//    @MiscScope
+//    @ContributesAndroidInjector(modules = [
+//        MiscFragmentModule::class
+//    ]) fun miscFragment(): MiscFragment
+//
     @SearchScope
-    @ContributesAndroidInjector(modules = [
-        SearchFragmentModule::class
-    ]) fun searchFragment(): SearchFragment
+    @ContributesAndroidInjector(
+        modules = [
+            SearchFragmentModule::class
+        ]
+    ) fun searchFragment(): SearchFragment
 }
 
 @Suppress("unused")
@@ -97,6 +103,6 @@ internal class MainActivity : BaseActivity() {
 
     companion object {
         @Provides
-        fun provideWiseFy(activity: MainActivity) = createWiseFy(activity)
+        fun provideWiseFy(app: Context) = createWiseFy(app)
     }
 }

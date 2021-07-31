@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Patches Klinefelter
+ * Copyright 2021 Patches Klinefelter
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,32 +16,24 @@
 package com.isupatches.android.wisefy.sample.ui.search
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
-import android.net.wifi.ScanResult
-import android.net.wifi.WifiConfiguration
+import android.Manifest.permission.ACCESS_WIFI_STATE
 import androidx.annotation.RequiresPermission
-import com.isupatches.wisefy.callbacks.SearchForAccessPointCallbacks
-import com.isupatches.wisefy.callbacks.SearchForAccessPointsCallbacks
-import com.isupatches.wisefy.callbacks.SearchForSSIDCallbacks
-import com.isupatches.wisefy.callbacks.SearchForSSIDsCallbacks
-import com.isupatches.wisefy.callbacks.SearchForSavedNetworkCallbacks
-import com.isupatches.wisefy.callbacks.SearchForSavedNetworksCallbacks
-import com.isupatches.wisefy.constants.WiseFyCode
 import com.isupatches.android.wisefy.sample.internal.scaffolding.BasePresenter
 import com.isupatches.android.wisefy.sample.internal.scaffolding.Presenter
 import com.isupatches.android.wisefy.sample.internal.util.RxSchedulersProvider
 import javax.inject.Inject
 
-internal interface SearchPresenter: Presenter<SearchFragment> {
+internal interface SearchPresenter : Presenter<SearchFragment> {
     @RequiresPermission(ACCESS_FINE_LOCATION)
     fun searchForAccessPoint(regexForSSID: String, timeout: Int, filterDuplicates: Boolean)
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     fun searchForAccessPoints(regexForSSID: String, filterDuplicates: Boolean)
 
-    @RequiresPermission(ACCESS_FINE_LOCATION)
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     fun searchForSavedNetwork(regexForSSID: String)
 
-    @RequiresPermission(ACCESS_FINE_LOCATION)
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     fun searchForSavedNetworks(regexForSSID: String)
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
@@ -67,107 +59,49 @@ internal class DefaultSearchPresenter @Inject constructor(
         timeout: Int,
         filterDuplicates: Boolean
     ) {
-        model.searchForAccessPoint(
-            regexForSSID,
-            timeout,
-            filterDuplicates,
-            object : SearchForAccessPointCallbacks {
-                override fun accessPointFound(accessPoint: ScanResult) {
-                    doSafelyWithView { view -> view.displayAccessPoint(accessPoint) }
-                }
-
-                override fun accessPointNotFound() {
-                    doSafelyWithView { view -> view.displayAccessPointNotFound() }
-                }
-
-                override fun wisefyFailure(@WiseFyCode wisefyFailureCode: Int) {
-                    displayWiseFyFailure(wisefyFailureCode)
-                }
-            })
+        val result = model.searchForAccessPoint(regexForSSID, timeout, filterDuplicates)
+        doSafelyWithView { view ->
+            view.displayAccessPoint(result)
+        }
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun searchForAccessPoints(regexForSSID: String, filterDuplicates: Boolean) {
-        model.searchForAccessPoints(regexForSSID, filterDuplicates, object : SearchForAccessPointsCallbacks {
-            override fun foundAccessPoints(accessPoints: List<ScanResult>) {
-                doSafelyWithView { view -> view.displayAccessPoints(accessPoints) }
-            }
-
-            override fun noAccessPointsFound() {
-                doSafelyWithView { view -> view.displayNoAccessPointsFound() }
-            }
-
-            override fun wisefyFailure(@WiseFyCode wisefyFailureCode: Int) {
-                displayWiseFyFailure(wisefyFailureCode)
-            }
-        })
+        val results = model.searchForAccessPoints(regexForSSID, filterDuplicates)
+        doSafelyWithView { view ->
+            view.displayAccessPoints(results)
+        }
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun searchForSavedNetwork(regexForSSID: String) {
-        model.searchForSavedNetwork(regexForSSID, object : SearchForSavedNetworkCallbacks {
-            override fun retrievedSavedNetwork(savedNetwork: WifiConfiguration) {
-                doSafelyWithView { view -> view.displaySavedNetwork(savedNetwork) }
-            }
-
-            override fun savedNetworkNotFound() {
-                doSafelyWithView { view -> view.displaySavedNetworkNotFound() }
-            }
-
-            override fun wisefyFailure(@WiseFyCode wisefyFailureCode: Int) {
-                displayWiseFyFailure(wisefyFailureCode)
-            }
-        })
+        val result = model.searchForSavedNetwork(regexForSSID)
+        doSafelyWithView { view ->
+            view.displaySavedNetwork(result)
+        }
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun searchForSavedNetworks(regexForSSID: String) {
-        model.searchForSavedNetworks(regexForSSID, object : SearchForSavedNetworksCallbacks {
-            override fun retrievedSavedNetworks(savedNetworks: List<WifiConfiguration>) {
-                doSafelyWithView { view -> view.displaySavedNetworks(savedNetworks) }
-            }
-
-            override fun noSavedNetworksFound() {
-                doSafelyWithView { view -> view.displayNoSavedNetworksFound() }
-            }
-
-            override fun wisefyFailure(@WiseFyCode wisefyFailureCode: Int) {
-                displayWiseFyFailure(wisefyFailureCode)
-            }
-        })
+        val results = model.searchForSavedNetworks(regexForSSID)
+        doSafelyWithView { view ->
+            view.displaySavedNetworks(results)
+        }
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun searchForSSID(regexForSSID: String, timeout: Int) {
-        model.searchForSSID(regexForSSID, timeout, object : SearchForSSIDCallbacks {
-            override fun ssidFound(ssid: String) {
-                doSafelyWithView { view -> view.displaySSID(ssid) }
-            }
-
-            override fun ssidNotFound() {
-                doSafelyWithView { view -> view.displaySSIDNotFound() }
-            }
-
-            override fun wisefyFailure(@WiseFyCode wisefyFailureCode: Int) {
-                displayWiseFyFailure(wisefyFailureCode)
-            }
-        })
+        val result = model.searchForSSID(regexForSSID, timeout)
+        doSafelyWithView { view ->
+            view.displaySSID(result)
+        }
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun searchForSSIDs(regexForSSID: String) {
-        model.searchForSSIDs(regexForSSID, object : SearchForSSIDsCallbacks {
-            override fun retrievedSSIDs(ssids: List<String>) {
-                doSafelyWithView { view -> view.displaySSIDs(ssids) }
-            }
-
-            override fun noSSIDsFound() {
-                doSafelyWithView { view -> view.displayNoSSIDsFound() }
-            }
-
-            override fun wisefyFailure(@WiseFyCode wisefyFailureCode: Int) {
-                displayWiseFyFailure(wisefyFailureCode)
-            }
-        })
+        val results = model.searchForSSIDs(regexForSSID)
+        doSafelyWithView { view ->
+            view.displaySSIDs(results)
+        }
     }
 }

@@ -12,7 +12,7 @@
     <string name="get_saved_networks">Get Saved Networks</string>
 
     <!-- Results -->
-    <string name="frequency_lollipop_notice">Retrieving network frequency is a Lollipop and above feature.</string>
+    <string name="add_wpa3_android_q_notice">WPA3 networks are not supported until Android Q</string>
 
     <string name="wisefy_action_result">WiseFy Action Result</string>
 

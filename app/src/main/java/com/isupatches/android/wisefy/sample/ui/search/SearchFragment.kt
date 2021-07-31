@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Patches Klinefelter
+ * Copyright 2021 Patches Klinefelter
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,10 +15,10 @@
  */
 package com.isupatches.android.wisefy.sample.ui.search
 
+import android.Manifest
 import android.Manifest.permission.ACCESS_FINE_LOCATION
+import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.content.pm.PackageManager
-import android.net.wifi.ScanResult
-import android.net.wifi.WifiConfiguration
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -27,6 +27,7 @@ import android.view.ViewGroup
 import android.widget.SeekBar
 import androidx.annotation.VisibleForTesting
 import com.isupatches.android.viewglu.paste
+import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
 import com.isupatches.android.wisefy.sample.R
 import com.isupatches.android.wisefy.sample.databinding.FragmentSearchBinding
 import com.isupatches.android.wisefy.sample.internal.base.BaseFragment
@@ -34,6 +35,7 @@ import com.isupatches.android.wisefy.sample.internal.entities.SearchType
 import com.isupatches.android.wisefy.sample.internal.util.asHtmlSpanned
 import com.isupatches.android.wisefy.sample.internal.util.getTrimmedInput
 import com.isupatches.android.wisefy.sample.internal.util.hideKeyboardFrom
+import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
 import javax.inject.Inject
 import kotlin.math.max
 
@@ -52,15 +54,15 @@ private const val SEEK_MILLI_OFFSET = 1000
 private const val LOG_TAG = "SearchFragment"
 
 internal interface SearchView {
-    fun displaySavedNetwork(savedNetwork: WifiConfiguration)
+    fun displaySavedNetwork(savedNetwork: SavedNetworkData?)
     fun displaySavedNetworkNotFound()
-    fun displaySavedNetworks(savedNetworks: List<WifiConfiguration>)
+    fun displaySavedNetworks(savedNetworks: List<SavedNetworkData>)
     fun displayNoSavedNetworksFound()
-    fun displayAccessPoint(accessPoint: ScanResult)
+    fun displayAccessPoint(accessPoint: AccessPointData?)
     fun displayAccessPointNotFound()
-    fun displayAccessPoints(accessPoints: List<ScanResult>)
+    fun displayAccessPoints(accessPoints: List<AccessPointData>)
     fun displayNoAccessPointsFound()
-    fun displaySSID(ssid: String)
+    fun displaySSID(ssid: String?)
     fun displaySSIDNotFound()
     fun displaySSIDs(ssids: List<String>)
     fun displayNoSSIDsFound()
@@ -115,7 +117,11 @@ internal class SearchFragment : BaseFragment(), SearchView {
                 override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                     val timeout = max(TIMEOUT_MIN, progress)
                     searchStore.setTimeout(timeout)
-                    binding.timeoutTxt.text = getString(R.string.timeout_after_x_seconds_args_html, timeout).asHtmlSpanned()
+                    @Suppress("SyntheticAccessor")
+                    binding.timeoutTxt.text = getString(
+                        R.string.timeout_after_x_seconds_args_html,
+                        timeout
+                    ).asHtmlSpanned()
                 }
 
                 override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -315,7 +321,7 @@ internal class SearchFragment : BaseFragment(), SearchView {
      * Presenter callback overrides
      */
 
-    override fun displaySavedNetwork(savedNetwork: WifiConfiguration) {
+    override fun displaySavedNetwork(savedNetwork: SavedNetworkData?) {
         displayInfoFullScreen(getString(R.string.saved_network_args, savedNetwork), R.string.search_result)
     }
 
@@ -323,7 +329,7 @@ internal class SearchFragment : BaseFragment(), SearchView {
         displayInfo(R.string.saved_network_not_found, R.string.search_result)
     }
 
-    override fun displaySavedNetworks(savedNetworks: List<WifiConfiguration>) {
+    override fun displaySavedNetworks(savedNetworks: List<SavedNetworkData>) {
         displayInfoFullScreen(getString(R.string.saved_networks_args, savedNetworks), R.string.search_result)
     }
 
@@ -331,7 +337,7 @@ internal class SearchFragment : BaseFragment(), SearchView {
         displayInfo(R.string.no_saved_networks_found, R.string.search_result)
     }
 
-    override fun displayAccessPoint(accessPoint: ScanResult) {
+    override fun displayAccessPoint(accessPoint: AccessPointData?) {
         displayInfoFullScreen(getString(R.string.access_point_args, accessPoint), R.string.search_result)
     }
 
@@ -339,7 +345,7 @@ internal class SearchFragment : BaseFragment(), SearchView {
         displayInfo(R.string.access_point_not_found, R.string.search_result)
     }
 
-    override fun displayAccessPoints(accessPoints: List<ScanResult>) {
+    override fun displayAccessPoints(accessPoints: List<AccessPointData>) {
         displayInfoFullScreen(getString(R.string.access_points_args, accessPoints), R.string.search_result)
     }
 
@@ -347,7 +353,7 @@ internal class SearchFragment : BaseFragment(), SearchView {
         displayInfo(R.string.no_access_points_found, R.string.search_result)
     }
 
-    override fun displaySSID(ssid: String) {
+    override fun displaySSID(ssid: String?) {
         displayInfoFullScreen(getString(R.string.ssid_args, ssid), R.string.search_result)
     }
 
@@ -363,21 +369,9 @@ internal class SearchFragment : BaseFragment(), SearchView {
         displayInfo(R.string.no_ssids_found, R.string.search_result)
     }
 
-    override fun displayWiseFyFailure(wiseFyFailureCode: Int) {
-        displayWiseFyFailureWithCode(wiseFyFailureCode)
-    }
-
     /*
      * Permission helpers
      */
-
-    private fun checkSearchForSavedNetworkPermissions(): Boolean {
-        return isPermissionGranted(ACCESS_FINE_LOCATION, WISEFY_SEARCH_FOR_SAVED_NETWORK_REQUEST_CODE)
-    }
-
-    private fun checkSearchForSavedNetworksPermissions(): Boolean {
-        return isPermissionGranted(ACCESS_FINE_LOCATION, WISEFY_SEARCH_FOR_SAVED_NETWORKS_REQUEST_CODE)
-    }
 
     private fun checkSearchForAccessPointPermissions(): Boolean {
         return isPermissionGranted(ACCESS_FINE_LOCATION, WISEFY_SEARCH_FOR_ACCESS_POINT_REQUEST_CODE)
@@ -385,6 +379,16 @@ internal class SearchFragment : BaseFragment(), SearchView {
 
     private fun checkSearchForAccessPointsPermissions(): Boolean {
         return isPermissionGranted(ACCESS_FINE_LOCATION, WISEFY_SEARCH_FOR_ACCESS_POINTS_REQUEST_CODE)
+    }
+
+    private fun checkSearchForSavedNetworkPermissions(): Boolean {
+        return isPermissionGranted(ACCESS_FINE_LOCATION, WISEFY_SEARCH_FOR_SAVED_NETWORK_REQUEST_CODE) &&
+            isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_SEARCH_FOR_SAVED_NETWORKS_REQUEST_CODE)
+    }
+
+    private fun checkSearchForSavedNetworksPermissions(): Boolean {
+        return isPermissionGranted(ACCESS_FINE_LOCATION, WISEFY_SEARCH_FOR_SAVED_NETWORKS_REQUEST_CODE) &&
+            isPermissionGranted(ACCESS_WIFI_STATE, WISEFY_SEARCH_FOR_SAVED_NETWORKS_REQUEST_CODE)
     }
 
     private fun checkSearchForSSIDPermissions(): Boolean {

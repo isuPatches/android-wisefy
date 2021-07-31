@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Patches Klinefelter
+ * Copyright 2021 Patches Klinefelter
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,8 +31,8 @@ internal interface RemoveNetworkStore {
 
 @RemoveNetworkScope
 internal class SharedPreferencesRemoveNetworkStore @Inject constructor(
-   context: Context
-) :  BaseSharedPreferenceStore(), RemoveNetworkStore {
+    context: Context
+) : BaseSharedPreferenceStore(), RemoveNetworkStore {
 
     private val sharedPreferences = getSharedPreferences(
         context,

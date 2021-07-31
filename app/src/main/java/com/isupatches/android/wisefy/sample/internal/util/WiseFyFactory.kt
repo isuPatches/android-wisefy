@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Patches Klinefelter
+ * Copyright 2021 Patches Klinefelter
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,19 +15,11 @@
  */
 package com.isupatches.android.wisefy.sample.internal.util
 
-import androidx.fragment.app.FragmentActivity
-import com.isupatches.wisefy.WiseFy
-import com.isupatches.wisefy.WiseFyPublicApi
-import com.isupatches.android.wisefy.sample.internal.logging.WiseFySampleLogger
+import android.content.Context
+import com.isupatches.android.wisefy.Wisefy
+import com.isupatches.android.wisefy.WisefyApi
+import com.isupatches.android.wisefy.sample.internal.logging.WisefySampleLogger
 
-/**
- * @param activity The context to create a WiseFy implementation
- *
- * @return WiseFyPublicApi - The implementation of the public API for WiseFy
- *
- * @see [WiseFy]
- * @see [WiseFyPublicApi]
- */
-internal fun createWiseFy(activity: FragmentActivity): WiseFyPublicApi {
-    return WiseFy.Brains(activity, WiseFySampleLogger).getSmarts()
+internal fun createWiseFy(context: Context): WisefyApi {
+    return Wisefy.Brains(context, WisefySampleLogger).getSmarts()
 }

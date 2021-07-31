@@ -17,14 +17,11 @@ package com.isupatches.android.wisefy.sample.internal.scaffolding
 
 import android.util.Log
 import com.isupatches.android.wisefy.sample.internal.util.RxSchedulersProvider
-import com.isupatches.wisefy.constants.WiseFyCode
 import java.lang.RuntimeException
 
 internal interface Presenter<in VIEW : View> {
     fun attachView(view: VIEW)
     fun detachView()
-
-    fun displayWiseFyFailure(@WiseFyCode wiseFyFailureCode: Int)
 }
 
 private const val LOG_TAG = "BasePresenter"
@@ -60,10 +57,6 @@ internal abstract class BasePresenter<VIEW : BaseView> constructor(
                 }
             }
         }
-    }
-
-    override fun displayWiseFyFailure(@WiseFyCode wiseFyFailureCode: Int) {
-        doSafelyWithView { view -> view.displayWiseFyFailure(wiseFyFailureCode) }
     }
 }
 

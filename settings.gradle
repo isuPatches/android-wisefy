@@ -1,1 +1,3 @@
+rootProject.name = "android-wisefy"
+
 include ':wisefy', ':app'

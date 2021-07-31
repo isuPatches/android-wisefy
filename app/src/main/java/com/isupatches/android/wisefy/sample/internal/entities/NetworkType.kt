@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Patches Klinefelter
+ * Copyright 2021 Patches Klinefelter
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,16 +17,16 @@ package com.isupatches.android.wisefy.sample.internal.entities
 
 internal enum class NetworkType(val intVal: Int) {
     OPEN(0),
-    WEP(1),
-    WPA2(2);
+    WPA2(1),
+    WPA3(2);
 
     companion object {
 
         fun of(intVal: Int): NetworkType {
             return when (intVal) {
                 OPEN.intVal -> OPEN
-                WEP.intVal -> WEP
                 WPA2.intVal -> WPA2
+                WPA3.intVal -> WPA3
                 else -> throw IllegalArgumentException("Invalid NetworkType, intVal: $intVal")
             }
         }

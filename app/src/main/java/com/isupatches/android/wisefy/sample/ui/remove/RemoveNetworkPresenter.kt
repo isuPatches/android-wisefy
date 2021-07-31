@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Patches Klinefelter
+ * Copyright 2021 Patches Klinefelter
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,9 +16,8 @@
 package com.isupatches.android.wisefy.sample.ui.remove
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
+import android.Manifest.permission.CHANGE_WIFI_STATE
 import androidx.annotation.RequiresPermission
-import com.isupatches.wisefy.callbacks.RemoveNetworkCallbacks
-import com.isupatches.wisefy.constants.WiseFyCode
 import com.isupatches.android.wisefy.sample.internal.scaffolding.BasePresenter
 import com.isupatches.android.wisefy.sample.internal.scaffolding.Presenter
 import com.isupatches.android.wisefy.sample.internal.util.RxSchedulersProvider
@@ -26,7 +25,7 @@ import javax.inject.Inject
 
 internal interface RemoveNetworkPresenter : Presenter<RemoveNetworkFragment> {
 
-    @RequiresPermission(ACCESS_FINE_LOCATION)
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     fun removeNetwork(networkName: String)
 }
 
@@ -40,24 +39,8 @@ internal class DefaultRemoveNetworkPresenter @Inject constructor(
      * Model call-throughs
      */
 
-    @RequiresPermission(ACCESS_FINE_LOCATION)
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     override fun removeNetwork(networkName: String) {
-        model.removeNetwork(networkName, object : RemoveNetworkCallbacks {
-            override fun networkRemoved() {
-                doSafelyWithView { view -> view.displayNetworkRemoved() }
-            }
-
-            override fun networkNotFoundToRemove() {
-                doSafelyWithView { view -> view.displayNetworkNotFoundToRemove() }
-            }
-
-            override fun failureRemovingNetwork() {
-                doSafelyWithView { view -> view.displayFailureRemovingNetwork() }
-            }
-
-            override fun wisefyFailure(@WiseFyCode wisefyFailureCode: Int) {
-                displayWiseFyFailure(wisefyFailureCode)
-            }
-        })
+        model.removeNetwork(networkName)
     }
 }

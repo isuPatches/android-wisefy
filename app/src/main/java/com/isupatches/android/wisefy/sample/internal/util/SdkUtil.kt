@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Patches Klinefelter
+ * Copyright 2021 Patches Klinefelter
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,10 +20,10 @@ import javax.inject.Inject
 
 internal interface SdkUtil {
 
-    fun isAtLeastLollipop(): Boolean
+    fun isAtLeastQ(): Boolean
 }
 
 internal class SdkUtilImpl @Inject constructor() : SdkUtil {
 
-    override fun isAtLeastLollipop() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
+    override fun isAtLeastQ() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
 }
