@@ -13,44 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.android.wisefy.wifi
+package com.isupatches.android.wisefy.wifi.delegates
 
 import android.net.wifi.WifiManager
-import android.os.Build
 import com.isupatches.android.wisefy.constants.DeprecationMessages
-import com.isupatches.android.wisefy.logging.WisefyLogger
-import com.isupatches.android.wisefy.wifi.delegates.Android29WifiDelegate
-import com.isupatches.android.wisefy.wifi.delegates.LegacyWifiDelegate
+import com.isupatches.android.wisefy.wifi.WifiApi
 
-internal interface WifiUtil : WifiApi
-
-private const val LOG_TAG = "WisefyWifiUtil"
-
-internal class WisefyWifiUtil(
+internal class Android29WifiDelegate(
     wifiManager: WifiManager,
-    logger: WisefyLogger?
-) : WifiUtil {
-
-    private val delegate = when {
-        Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q -> Android29WifiDelegate(wifiManager)
-        else -> LegacyWifiDelegate(wifiManager)
-    }
-
-    init {
-        logger?.d(LOG_TAG, "WisefyWifiUtil delegate is: ${delegate::class.java.simpleName}")
-    }
+    private val impl: Android29WifiApi = Android29WifiApiImpl(wifiManager)
+) : WifiApi {
 
     @Deprecated(DeprecationMessages.DISABLE_WIFI)
     override fun disableWifi(): Boolean {
-        return delegate.disableWifi()
+        return impl.disableWifi()
     }
 
     @Deprecated(DeprecationMessages.ENABLE_WIFI)
     override fun enableWifi(): Boolean {
-        return delegate.enableWifi()
+        return impl.enableWifi()
     }
 
     override fun isWifiEnabled(): Boolean {
-        return delegate.isWifiEnabled()
+        return impl.isWifiEnabled()
     }
 }

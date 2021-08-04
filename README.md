@@ -1,5 +1,11 @@
 ## Wisefy
 
+### Known Android Q Problems
+
+- Saving a network doesn't seem possible.  A notification is presented if not connected to the suggestion, but even the 
+appearance of the notification is flakey
+- 
+
 ## License ##
 Copyright 2021 Patches Klinefelter
 

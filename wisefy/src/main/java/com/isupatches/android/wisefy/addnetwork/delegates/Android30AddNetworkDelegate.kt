@@ -15,7 +15,10 @@
  */
 package com.isupatches.android.wisefy.addnetwork.delegates
 
+import android.Manifest
 import android.Manifest.permission.ACCESS_FINE_LOCATION
+import android.Manifest.permission.CHANGE_WIFI_STATE
+import android.net.wifi.WifiManager
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
@@ -27,10 +30,11 @@ import com.isupatches.android.wisefy.addnetwork.entities.WPA3NetworkData
 
 @RequiresApi(Build.VERSION_CODES.R)
 internal class Android30AddNetworkDelegate(
-    private val impl: Android30AddNetworkApi = Android30AddNetworkApiImpl()
+    wifiManager: WifiManager,
+    private val impl: Android30AddNetworkApi = Android30AddNetworkApiImpl(wifiManager)
 ) : AddNetworkUtil {
 
-    @RequiresPermission(ACCESS_FINE_LOCATION)
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     override fun addOpenNetwork(data: OpenNetworkData): AddNetworkResult {
         return when (data) {
             is OpenNetworkData.SsidAndActivityResultLauncher -> {
@@ -42,7 +46,7 @@ internal class Android30AddNetworkDelegate(
         }
     }
 
-    @RequiresPermission(ACCESS_FINE_LOCATION)
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     override fun addWPA2Network(data: WPA2NetworkData): AddNetworkResult {
         return when (data) {
             is WPA2NetworkData.SsidPassphraseAndActivityResultLauncher -> {
@@ -54,7 +58,7 @@ internal class Android30AddNetworkDelegate(
         }
     }
 
-    @RequiresPermission(ACCESS_FINE_LOCATION)
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     override fun addWPA3Network(data: WPA3NetworkData): AddNetworkResult {
         return when (data) {
             is WPA3NetworkData.SsidPassphraseAndActivityResultLauncher -> {

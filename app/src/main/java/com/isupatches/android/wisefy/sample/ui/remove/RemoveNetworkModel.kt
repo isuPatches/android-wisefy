@@ -19,13 +19,14 @@ import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.CHANGE_WIFI_STATE
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.WisefyApi
+import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkResult
 import com.isupatches.android.wisefy.sample.internal.scaffolding.BaseModel
 import javax.inject.Inject
 
 internal interface RemoveNetworkModel {
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-    fun removeNetwork(networkName: String)
+    fun removeNetwork(networkName: String): RemoveNetworkResult
 }
 
 @RemoveNetworkScope
@@ -34,7 +35,7 @@ internal class DefaultRemoveNetworkModel @Inject constructor(
 ) : BaseModel(), RemoveNetworkModel {
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-    override fun removeNetwork(networkName: String) {
-        wiseFy.removeNetwork(networkName)
+    override fun removeNetwork(networkName: String): RemoveNetworkResult {
+        return wiseFy.removeNetwork(networkName)
     }
 }

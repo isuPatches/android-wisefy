@@ -30,6 +30,9 @@ import com.isupatches.android.wisefy.sample.internal.util.createWiseFy
 import com.isupatches.android.wisefy.sample.ui.add.AddNetworkFragment
 import com.isupatches.android.wisefy.sample.ui.add.AddNetworkFragmentModule
 import com.isupatches.android.wisefy.sample.ui.add.AddNetworkScope
+import com.isupatches.android.wisefy.sample.ui.misc.MiscFragment
+import com.isupatches.android.wisefy.sample.ui.misc.MiscFragmentModule
+import com.isupatches.android.wisefy.sample.ui.misc.MiscScope
 import com.isupatches.android.wisefy.sample.ui.remove.RemoveNetworkFragment
 import com.isupatches.android.wisefy.sample.ui.remove.RemoveNetworkFragmentModule
 import com.isupatches.android.wisefy.sample.ui.remove.RemoveNetworkScope
@@ -83,11 +86,13 @@ internal class MainActivity : BaseActivity() {
     @ContributesAndroidInjector
     fun mainFragment(): MainFragment
 
-//    @MiscScope
-//    @ContributesAndroidInjector(modules = [
-//        MiscFragmentModule::class
-//    ]) fun miscFragment(): MiscFragment
-//
+    @MiscScope
+    @ContributesAndroidInjector(
+        modules = [
+            MiscFragmentModule::class
+        ]
+    ) fun miscFragment(): MiscFragment
+
     @SearchScope
     @ContributesAndroidInjector(
         modules = [

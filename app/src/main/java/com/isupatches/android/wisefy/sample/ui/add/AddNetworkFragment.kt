@@ -22,6 +22,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings.ADD_WIFI_RESULT_SUCCESS
 import android.provider.Settings.EXTRA_WIFI_NETWORK_RESULT_LIST
 import android.util.Log
 import android.view.LayoutInflater
@@ -32,6 +33,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.VisibleForTesting
 import com.isupatches.android.viewglu.paste
+import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
 import com.isupatches.android.wisefy.sample.databinding.FragmentAddNetworkBinding
 import com.isupatches.android.wisefy.sample.R
 import com.isupatches.android.wisefy.sample.internal.base.BaseFragment
@@ -48,8 +50,8 @@ import javax.inject.Inject
 private const val LOG_TAG = "AddNetworkFragment"
 
 internal interface AddNetworkView {
-    fun displayFailureAddingNetwork(wifiManagerReturn: Int)
-    fun displayNetworkAdded(newNetworkId: Int)
+    fun displayFailureAddingNetwork(result: AddNetworkResult)
+    fun displayNetworkAdded(result: AddNetworkResult)
 }
 
 internal class AddNetworkFragment : BaseFragment(), AddNetworkView {
@@ -77,11 +79,14 @@ internal class AddNetworkFragment : BaseFragment(), AddNetworkView {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                         val networkResultList = data.getIntegerArrayListExtra(EXTRA_WIFI_NETWORK_RESULT_LIST)
                             ?: emptyList()
-                        for (code in networkResultList) { }
+                        for (resultCode in networkResultList) {
+                            if (resultCode == ADD_WIFI_RESULT_SUCCESS) {
+                                displayNetworkAdded(AddNetworkResult.ResultCode(resultCode))
+                            } else {
+                                displayFailureAddingNetwork(AddNetworkResult.ResultCode(resultCode))
+                            }
+                        }
                     }
-                }
-                else -> {
-                    // No-op
                 }
             }
         }
@@ -164,13 +169,13 @@ internal class AddNetworkFragment : BaseFragment(), AddNetworkView {
      * Presenter callback overrides
      */
 
-    override fun displayFailureAddingNetwork(wifiManagerReturn: Int) {
-        displayInfo(getString(R.string.failure_adding_network, wifiManagerReturn), R.string.add_network_result)
+    override fun displayFailureAddingNetwork(result: AddNetworkResult) {
+        displayInfo(getString(R.string.failed_adding_network_args, result), R.string.add_network_result)
     }
 
-    override fun displayNetworkAdded(newNetworkId: Int) {
+    override fun displayNetworkAdded(result: AddNetworkResult) {
         displayInfoFullScreen(
-            getString(R.string.network_added, newNetworkId),
+            getString(R.string.succeeded_adding_network_args, result),
             R.string.add_network_result
         )
     }

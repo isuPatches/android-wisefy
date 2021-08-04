@@ -15,7 +15,6 @@
  */
 package com.isupatches.android.wisefy.sample.ui.search
 
-import android.Manifest
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.content.pm.PackageManager

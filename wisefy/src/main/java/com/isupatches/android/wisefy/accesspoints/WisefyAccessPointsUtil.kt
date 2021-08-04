@@ -24,12 +24,18 @@ import com.isupatches.android.wisefy.logging.WisefyLogger
 
 internal interface AccessPointsUtil : AccessPointsApi
 
-internal class WiseFyAccessPointsUtil(
+private const val LOG_TAG = "WisefyAccessPointsUtil"
+
+internal class WisefyAccessPointsUtil(
     wifiManager: WifiManager,
     logger: WisefyLogger?
 ) : AccessPointsUtil {
 
     val delegate = LegacyAccessPointsDelegate(wifiManager, logger)
+
+    init {
+        logger?.d(LOG_TAG, "WisefyAccessPointsUtil delegate is: ${delegate::class.java.simpleName}")
+    }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun getNearbyAccessPoints(filterDuplicates: Boolean): List<AccessPointData> {

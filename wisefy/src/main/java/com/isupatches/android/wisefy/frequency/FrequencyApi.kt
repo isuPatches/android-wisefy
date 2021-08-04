@@ -17,11 +17,14 @@ package com.isupatches.android.wisefy.frequency
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.net.wifi.WifiInfo
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 
 interface FrequencyApi {
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     fun getFrequency(): Int?
 
     fun getFrequency(network: WifiInfo): Int

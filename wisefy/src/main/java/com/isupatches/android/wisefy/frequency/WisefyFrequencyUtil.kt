@@ -20,17 +20,25 @@ import android.net.wifi.WifiInfo
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.frequency.delegates.LegacyFrequencyDelegate
+import com.isupatches.android.wisefy.logging.WisefyLogger
 
 const val MIN_FREQUENCY_5GHZ: Int = 4900
 const val MAX_FREQUENCY_5GHZ: Int = 5900
 
 internal interface FrequencyUtil : FrequencyApi
 
+private const val LOG_TAG = "WisefyFrequencyUtil"
+
 internal class WisefyFrequencyUtil(
-    wifiManager: WifiManager
+    wifiManager: WifiManager,
+    logger: WisefyLogger?
 ) : FrequencyUtil {
 
     private val delegate = LegacyFrequencyDelegate(wifiManager)
+
+    init {
+        logger?.d(LOG_TAG, "WisefyFrequencyUtil delegate is: ${delegate::class.java.simpleName}")
+    }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun getFrequency(): Int? {

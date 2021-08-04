@@ -19,18 +19,26 @@ import android.net.wifi.WifiManager
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.isupatches.android.wisefy.constants.DeprecationMessages
+import com.isupatches.android.wisefy.logging.WisefyLogger
 import com.isupatches.android.wisefy.signal.delegates.Android30SignalDelegate
 import com.isupatches.android.wisefy.signal.delegates.LegacySignalDelegate
 
 internal interface SignalUtil : SignalApi
 
+private const val LOG_TAG = "WisefySignalUtil"
+
 internal class WisefySignalUtil(
-    wifiManager: WifiManager
+    wifiManager: WifiManager,
+    logger: WisefyLogger?
 ) : SignalUtil {
 
     private val delegate = when {
         Build.VERSION.SDK_INT >= Build.VERSION_CODES.R -> Android30SignalDelegate(wifiManager)
         else -> LegacySignalDelegate()
+    }
+
+    init {
+        logger?.d(LOG_TAG, "WisefySignalUtil delegate is: ${delegate::class.java.simpleName}")
     }
 
     @RequiresApi(Build.VERSION_CODES.R)

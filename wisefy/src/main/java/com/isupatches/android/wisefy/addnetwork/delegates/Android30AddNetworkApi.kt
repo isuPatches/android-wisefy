@@ -16,7 +16,9 @@
 package com.isupatches.android.wisefy.addnetwork.delegates
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
+import android.Manifest.permission.CHANGE_WIFI_STATE
 import android.content.Intent
+import android.net.wifi.WifiManager
 import android.net.wifi.WifiNetworkSuggestion
 import android.os.Build
 import android.os.Bundle
@@ -30,20 +32,20 @@ import com.isupatches.android.wisefy.util.createWPA2NetworkSuggestion
 import com.isupatches.android.wisefy.util.createWPA3NetworkSuggestion
 
 internal interface Android30AddNetworkApi {
-    @RequiresPermission(ACCESS_FINE_LOCATION)
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     fun addOpenNetwork(
         ssid: String,
         activityResultLauncher: ActivityResultLauncher<Intent>
     ): AddNetworkResult
 
-    @RequiresPermission(ACCESS_FINE_LOCATION)
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     fun addWPA2Network(
         ssid: String,
         passphrase: String,
         activityResultLauncher: ActivityResultLauncher<Intent>
     ): AddNetworkResult
 
-    @RequiresPermission(ACCESS_FINE_LOCATION)
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     fun addWPA3Network(
         ssid: String,
         passphrase: String,
@@ -52,9 +54,11 @@ internal interface Android30AddNetworkApi {
 }
 
 @RequiresApi(Build.VERSION_CODES.R)
-internal class Android30AddNetworkApiImpl : Android30AddNetworkApi {
+internal class Android30AddNetworkApiImpl(
+    private val wifiManager: WifiManager
+) : Android30AddNetworkApi {
 
-    @RequiresPermission(ACCESS_FINE_LOCATION)
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     override fun addOpenNetwork(
         ssid: String,
         activityResultLauncher: ActivityResultLauncher<Intent>
@@ -63,7 +67,7 @@ internal class Android30AddNetworkApiImpl : Android30AddNetworkApi {
         return launchIntent(suggestion, activityResultLauncher)
     }
 
-    @RequiresPermission(ACCESS_FINE_LOCATION)
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     override fun addWPA2Network(
         ssid: String,
         passphrase: String,
@@ -73,7 +77,7 @@ internal class Android30AddNetworkApiImpl : Android30AddNetworkApi {
         return launchIntent(suggestion, activityResultLauncher)
     }
 
-    @RequiresPermission(ACCESS_FINE_LOCATION)
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     override fun addWPA3Network(
         ssid: String,
         passphrase: String,
@@ -83,10 +87,12 @@ internal class Android30AddNetworkApiImpl : Android30AddNetworkApi {
         return launchIntent(suggestion, activityResultLauncher)
     }
 
+    @RequiresPermission(CHANGE_WIFI_STATE)
     private fun launchIntent(
         suggestion: WifiNetworkSuggestion,
         activityResultLauncher: ActivityResultLauncher<Intent>
     ): AddNetworkResult {
+        wifiManager.addNetworkSuggestions(listOf(suggestion))
         val bundle = Bundle().apply {
             putParcelableArrayList(
                 Settings.EXTRA_WIFI_NETWORK_LIST,

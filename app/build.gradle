@@ -8,7 +8,7 @@ android {
     buildToolsVersion rootProject.ext.BUILD_TOOLS_VERSION
 
     defaultConfig {
-        applicationId "com.isupatches.android.wisefysample"
+        applicationId "com.isupatches.android.wisefy.sample"
         minSdkVersion rootProject.ext.MIN_SDK_VERSION
         targetSdkVersion rootProject.ext.MAX_SDK_VERSION
         versionCode 1

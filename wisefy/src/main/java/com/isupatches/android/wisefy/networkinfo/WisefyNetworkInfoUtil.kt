@@ -15,38 +15,56 @@
  */
 package com.isupatches.android.wisefy.networkinfo
 
+import android.Manifest
+import android.Manifest.permission.ACCESS_NETWORK_STATE
+import android.net.ConnectivityManager
 import android.net.LinkProperties
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkInfo
 import android.net.wifi.WifiInfo
 import android.net.wifi.WifiManager
+import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.logging.WisefyLogger
+import com.isupatches.android.wisefy.networkinfo.delegates.LegacyNetworkInfoDelegate
 
 internal interface NetworkInfoUtil : NetworkInfoApi
 
+private const val LOG_TAG = "WisefyNetworkInfoUtil"
+
 internal class WisefyNetworkInfoUtil(
+    connectivityManager: ConnectivityManager,
     wifiManager: WifiManager,
     logger: WisefyLogger?
 ) : NetworkInfoUtil {
 
-    override fun getCurrentNetwork(): WifiInfo? {
-        TODO("Not yet implemented")
+    private val delegate = LegacyNetworkInfoDelegate(connectivityManager, wifiManager, logger)
+
+    init {
+        logger?.d(LOG_TAG, "WisefyNetworkInfoUtil delegate is: ${delegate::class.java.simpleName}")
     }
 
+    override fun getCurrentNetwork(): WifiInfo? {
+        return delegate.getCurrentNetwork()
+    }
+
+    @Deprecated("")
+    @RequiresPermission(ACCESS_NETWORK_STATE)
     override fun getCurrentNetworkInfo(): NetworkInfo? {
-        TODO("Not yet implemented")
+        return delegate.getCurrentNetworkInfo()
     }
 
     override fun getIP(): String? {
-        TODO("Not yet implemented")
+        return delegate.getIP()
     }
 
-    override fun getNetworkCapabilities(network: Network): NetworkCapabilities? {
-        TODO("Not yet implemented")
+    @RequiresPermission(ACCESS_NETWORK_STATE)
+    override fun getNetworkCapabilities(network: Network?): NetworkCapabilities? {
+        return delegate.getNetworkCapabilities(network)
     }
 
-    override fun getNetworkLinkProperties(network: Network): LinkProperties? {
-        TODO("Not yet implemented")
+    @RequiresPermission(ACCESS_NETWORK_STATE)
+    override fun getNetworkLinkProperties(network: Network?): LinkProperties? {
+        return delegate.getNetworkLinkProperties(network)
     }
 }

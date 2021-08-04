@@ -21,6 +21,7 @@ import android.os.Build
 import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
+import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
 import com.isupatches.android.wisefy.sample.internal.scaffolding.BasePresenter
 import com.isupatches.android.wisefy.sample.internal.scaffolding.Presenter
 import com.isupatches.android.wisefy.sample.internal.util.RxSchedulersProvider
@@ -114,6 +115,17 @@ internal class DefaultAddNetworkPresenter @Inject constructor(
         password: String,
         activityResultLauncher: ActivityResultLauncher<Intent>
     ) {
-        model.addWPA3Network(ssid, password, activityResultLauncher)
+        when (val result = model.addWPA3Network(ssid, password, activityResultLauncher)) {
+            is AddNetworkResult.ResultCode -> {
+                if (result.data != -1) {
+                    doSafelyWithView { view -> view.displayNetworkAdded(result) }
+                } else {
+                    doSafelyWithView { view -> view.displayFailureAddingNetwork(result) }
+                }
+            }
+            is AddNetworkResult.IntentLaunched -> {
+                // No -op
+            }
+        }
     }
 }

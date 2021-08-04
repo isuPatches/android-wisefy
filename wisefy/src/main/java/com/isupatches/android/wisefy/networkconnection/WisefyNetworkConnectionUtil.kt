@@ -24,6 +24,8 @@ import com.isupatches.android.wisefy.networkconnection.delegates.LegacyNetworkCo
 
 internal interface NetworkConnectionUtil : NetworkConnectionApi
 
+private const val LOG_TAG = "WisefyNetworkConnectionUtil"
+
 internal class WisefyNetworkConnectionUtil(
     connectivityManager: ConnectivityManager,
     wifiManager: WifiManager,
@@ -35,6 +37,10 @@ internal class WisefyNetworkConnectionUtil(
         wifiManager,
         logger
     )
+
+    init {
+        logger?.d(LOG_TAG, "WisefyNetworkConnectionUtil delegate is: ${delegate::class.java.simpleName}")
+    }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
     override fun attachNetworkWatcher() {

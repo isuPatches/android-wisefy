@@ -25,6 +25,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.VisibleForTesting
 import com.isupatches.android.viewglu.paste
+import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkResult
 import com.isupatches.android.wisefy.sample.R
 import com.isupatches.android.wisefy.sample.databinding.FragmentRemoveNetworkBinding
 import com.isupatches.android.wisefy.sample.internal.base.BaseFragment
@@ -37,9 +38,8 @@ import javax.inject.Inject
 private const val LOG_TAG = "RemoveNetworkFragment"
 
 internal interface RemoveNetworkView {
-    fun displayNetworkRemoved()
-    fun displayNetworkNotFoundToRemove()
-    fun displayFailureRemovingNetwork()
+    fun displayNetworkRemoved(result: RemoveNetworkResult)
+    fun displayFailureRemovingNetwork(result: RemoveNetworkResult)
 }
 
 internal class RemoveNetworkFragment : BaseFragment(), RemoveNetworkView {
@@ -92,16 +92,12 @@ internal class RemoveNetworkFragment : BaseFragment(), RemoveNetworkView {
      * Presenter callback overrides
      */
 
-    override fun displayNetworkRemoved() {
-        displayInfo(R.string.network_removed, R.string.remover_network_result)
+    override fun displayNetworkRemoved(result: RemoveNetworkResult) {
+        displayInfo(getString(R.string.succeeded_removing_network_args, result), R.string.remove_network_result)
     }
 
-    override fun displayNetworkNotFoundToRemove() {
-        displayInfo(R.string.network_not_found_to_remove, R.string.remover_network_result)
-    }
-
-    override fun displayFailureRemovingNetwork() {
-        displayInfo(R.string.failure_removing_network, R.string.remover_network_result)
+    override fun displayFailureRemovingNetwork(result: RemoveNetworkResult) {
+        displayInfo(getString(R.string.failed_removing_network_args, result), R.string.remove_network_result)
     }
 
     /*

@@ -16,13 +16,22 @@
 package com.isupatches.android.wisefy.security
 
 import android.net.wifi.ScanResult
+import com.isupatches.android.wisefy.logging.WisefyLogger
 import com.isupatches.android.wisefy.security.delegates.LegacySecurityDelegate
 
 internal interface SecurityUtil : SecurityApi
 
-internal class WisefySecurityUtil : SecurityUtil {
+private const val LOG_TAG = "WisefySecurityUtil"
+
+internal class WisefySecurityUtil(
+    logger: WisefyLogger?
+) : SecurityUtil {
 
     private val delegate = LegacySecurityDelegate()
+
+    init {
+        logger?.d(LOG_TAG, "WisefySecurityUtil delegate is: ${delegate::class.java.simpleName}")
+    }
 
     override fun isNetworkEAP(scanResult: ScanResult): Boolean {
         return delegate.isNetworkEAP(scanResult)

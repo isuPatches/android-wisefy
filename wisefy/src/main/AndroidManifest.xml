@@ -1,14 +1,1 @@
-<manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.isupatches.android.wisefy">
-
-    <!-- Permission to use ConnectivityManager -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
-    <!-- Permissions to use WifiManager -->
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-
-    <!-- Permission to search for networks -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-</manifest>
+<manifest package="com.isupatches.android.wisefy" />

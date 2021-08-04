@@ -15,32 +15,60 @@
  */
 package com.isupatches.android.wisefy.networkinfo.delegates
 
+import android.Manifest.permission.ACCESS_NETWORK_STATE
+import android.net.ConnectivityManager
 import android.net.LinkProperties
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkInfo
 import android.net.wifi.WifiInfo
+import android.net.wifi.WifiManager
+import androidx.annotation.RequiresPermission
+import com.isupatches.android.wisefy.logging.WisefyLogger
 import com.isupatches.android.wisefy.networkinfo.NetworkInfoApi
+import java.math.BigInteger
+import java.net.InetAddress
+import java.net.UnknownHostException
 
-internal class LegacyNetworkInfoDelegate : NetworkInfoApi {
+private const val LOG_TAG = "LegacyNetworkInfoDelegate"
+
+internal class LegacyNetworkInfoDelegate(
+    private val connectivityManager: ConnectivityManager,
+    private val wifiManager: WifiManager,
+    private val logger: WisefyLogger?
+) : NetworkInfoApi {
 
     override fun getCurrentNetwork(): WifiInfo? {
-        TODO("Not yet implemented")
+        return wifiManager.connectionInfo
     }
 
+    @Deprecated("")
+    @RequiresPermission(ACCESS_NETWORK_STATE)
     override fun getCurrentNetworkInfo(): NetworkInfo? {
-        TODO("Not yet implemented")
+        return connectivityManager.activeNetworkInfo
     }
 
     override fun getIP(): String? {
-        TODO("Not yet implemented")
+        val ipAddress = BigInteger.valueOf(wifiManager.connectionInfo.ipAddress.toLong()).toByteArray()
+        try {
+            return InetAddress.getByAddress(ipAddress).hostAddress
+        } catch (uhe: UnknownHostException) {
+            logger?.e(LOG_TAG, uhe, "UnknownHostException while gathering IP (sync)")
+        }
+        return null
     }
 
-    override fun getNetworkCapabilities(network: Network): NetworkCapabilities? {
-        TODO("Not yet implemented")
+    @RequiresPermission(ACCESS_NETWORK_STATE)
+    override fun getNetworkCapabilities(network: Network?): NetworkCapabilities? {
+        return connectivityManager.getNetworkCapabilities(
+            network ?: connectivityManager.activeNetwork
+        )
     }
 
-    override fun getNetworkLinkProperties(network: Network): LinkProperties? {
-        TODO("Not yet implemented")
+    @RequiresPermission(ACCESS_NETWORK_STATE)
+    override fun getNetworkLinkProperties(network: Network?): LinkProperties? {
+        return connectivityManager.getLinkProperties(
+            network ?: connectivityManager.activeNetwork
+        )
     }
 }

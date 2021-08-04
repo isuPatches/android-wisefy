@@ -18,6 +18,7 @@ package com.isupatches.android.wisefy
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.ACCESS_NETWORK_STATE
+import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.Manifest.permission.CHANGE_WIFI_STATE
 import android.content.Context
 import android.net.ConnectivityManager
@@ -34,7 +35,7 @@ import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import androidx.annotation.VisibleForTesting
 import com.isupatches.android.wisefy.accesspoints.AccessPointsUtil
-import com.isupatches.android.wisefy.accesspoints.WiseFyAccessPointsUtil
+import com.isupatches.android.wisefy.accesspoints.WisefyAccessPointsUtil
 import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
 import com.isupatches.android.wisefy.addnetwork.AddNetworkUtil
 import com.isupatches.android.wisefy.addnetwork.WisefyAddNetworkUtil
@@ -103,16 +104,16 @@ class Wisefy private constructor(
             ) as ConnectivityManager
             wifiManager = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
 
-            addNetworkUtil = WisefyAddNetworkUtil(wifiManager)
-            savedNetworkUtil = WisefySavedNetworkUtil(wifiManager)
-            removeNetworkUtil = WisefyRemoveNetworkUtil(wifiManager, savedNetworkUtil)
-            frequencyUtil = WisefyFrequencyUtil(wifiManager)
-            securityUtil = WisefySecurityUtil()
-            signalUtil = WisefySignalUtil(wifiManager)
+            addNetworkUtil = WisefyAddNetworkUtil(wifiManager, logger)
+            savedNetworkUtil = WisefySavedNetworkUtil(wifiManager, logger)
+            removeNetworkUtil = WisefyRemoveNetworkUtil(wifiManager, logger, savedNetworkUtil)
+            frequencyUtil = WisefyFrequencyUtil(wifiManager, logger)
+            securityUtil = WisefySecurityUtil(logger)
+            signalUtil = WisefySignalUtil(wifiManager, logger)
             networkConnectionUtil = WisefyNetworkConnectionUtil(connectivityManager, wifiManager, logger)
-            accessPointsUtil = WiseFyAccessPointsUtil(wifiManager, logger)
-            networkInfoUtil = WisefyNetworkInfoUtil(wifiManager, logger)
-            wifiUtil = WisefyWifiUtil(wifiManager)
+            accessPointsUtil = WisefyAccessPointsUtil(wifiManager, logger)
+            networkInfoUtil = WisefyNetworkInfoUtil(connectivityManager, wifiManager, logger)
+            wifiUtil = WisefyWifiUtil(wifiManager, logger)
         }
 
         internal fun logger(logger: WisefyLogger): Brains = apply {
@@ -261,12 +262,12 @@ class Wisefy private constructor(
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun getNetworkCapabilities(network: Network): NetworkCapabilities? {
+    override fun getNetworkCapabilities(network: Network?): NetworkCapabilities? {
         return networkInfoUtil.getNetworkCapabilities(network)
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun getNetworkLinkProperties(network: Network): LinkProperties? {
+    override fun getNetworkLinkProperties(network: Network?): LinkProperties? {
         return networkInfoUtil.getNetworkLinkProperties(network)
     }
 
@@ -295,7 +296,7 @@ class Wisefy private constructor(
         return accessPointsUtil.getRSSI(regexForSSID, takeHighest, timeoutInMillis)
     }
 
-    @RequiresPermission(ACCESS_FINE_LOCATION)
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun getSavedNetworks(): List<SavedNetworkData> {
         return savedNetworkUtil.getSavedNetworks()
     }
@@ -337,7 +338,7 @@ class Wisefy private constructor(
         return securityUtil.isNetworkPSK(scanResult)
     }
 
-    @RequiresPermission(ACCESS_FINE_LOCATION)
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun isNetworkSaved(ssid: String): Boolean {
         return savedNetworkUtil.isNetworkSaved(ssid)
     }
@@ -385,12 +386,12 @@ class Wisefy private constructor(
         return accessPointsUtil.searchForAccessPoints(regexForSSID, filterDuplicates)
     }
 
-    @RequiresPermission(ACCESS_FINE_LOCATION)
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun searchForSavedNetwork(regexForSSID: String): SavedNetworkData? {
         return savedNetworkUtil.searchForSavedNetwork(regexForSSID)
     }
 
-    @RequiresPermission(ACCESS_FINE_LOCATION)
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun searchForSavedNetworks(regexForSSID: String): List<SavedNetworkData> {
         return savedNetworkUtil.searchForSavedNetworks(regexForSSID)
     }

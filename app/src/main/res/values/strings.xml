@@ -1,11 +1,11 @@
 <resources>
 
-    <string name="app_name">WiseFy Sample</string>
+    <string name="app_name">Wisefy Sample</string>
 
     <!-- Main Screen -->
-    <string name="wisefy">WiseFy</string>
+    <string name="wisefy">Wisefy</string>
     <string name="wisefy_sample_description">
-        Explore the various uses for WiseFy by poking around this sample app based on MVP architecture.
+        Explore the various uses for Wisefy by poking around this sample app based on MVP architecture.
     </string>
 
     <!-- Shared -->
@@ -17,8 +17,8 @@
     <string name="ok">OK</string>
     <string name="info">Info</string>
 
-    <string name="wisefy_error">WiseFy Error</string>
-    <string name="wisefy_error_descriptions_args">An error occurred with WiseFy.  Error code: %d</string>
+    <string name="wisefy_error">Wisefy Error</string>
+    <string name="wisefy_error_descriptions_args">An error occurred with Wisefy.  Error code: %d</string>
 
     <string name="access_points_args">Access points: %s</string>
     <string name="no_access_points_found">No access points found</string>
@@ -31,5 +31,7 @@
     <string name="permission_error_unhandled_request_code_args">
         Unhandled permission requested.  Request code: %d
     </string>
+    <string name="android_q_wifi_message">Starting with Android Q, applications are not allowed to enable or disable Wi-Fi</string>
+    <string name="android_q_notice">Android Q Notice</string>
 
 </resources>

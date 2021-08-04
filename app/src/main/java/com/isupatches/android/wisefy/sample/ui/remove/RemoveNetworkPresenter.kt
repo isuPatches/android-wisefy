@@ -17,7 +17,10 @@ package com.isupatches.android.wisefy.sample.ui.remove
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.CHANGE_WIFI_STATE
+import android.net.wifi.WifiManager.STATUS_NETWORK_SUGGESTIONS_SUCCESS
+import android.os.Build
 import androidx.annotation.RequiresPermission
+import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkResult
 import com.isupatches.android.wisefy.sample.internal.scaffolding.BasePresenter
 import com.isupatches.android.wisefy.sample.internal.scaffolding.Presenter
 import com.isupatches.android.wisefy.sample.internal.util.RxSchedulersProvider
@@ -41,6 +44,21 @@ internal class DefaultRemoveNetworkPresenter @Inject constructor(
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     override fun removeNetwork(networkName: String) {
-        model.removeNetwork(networkName)
+        val result = model.removeNetwork(networkName)
+        doSafelyWithView { view ->
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                if (result is RemoveNetworkResult.ResultCode && result.data == STATUS_NETWORK_SUGGESTIONS_SUCCESS) {
+                    view.displayNetworkRemoved(result)
+                } else {
+                    view.displayFailureRemovingNetwork(result)
+                }
+            } else {
+                if (result is RemoveNetworkResult.Succeeded) {
+                    view.displayNetworkRemoved(result)
+                } else {
+                    view.displayFailureRemovingNetwork(result)
+                }
+            }
+        }
     }
 }

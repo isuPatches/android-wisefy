@@ -22,6 +22,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
+import com.isupatches.android.wisefy.logging.WisefyLogger
 import com.isupatches.android.wisefy.util.createOpenNetworkSuggestion
 import com.isupatches.android.wisefy.util.createWPA2NetworkSuggestion
 import com.isupatches.android.wisefy.util.createWPA3NetworkSuggestion
@@ -38,13 +39,17 @@ internal interface Android29AddNetworkApi {
     fun addWPA3Network(ssid: String, passphrase: String): AddNetworkResult
 }
 
+private const val LOG_TAG = "Android29AddNetworkApiImpl"
+
 @RequiresApi(Build.VERSION_CODES.Q)
 internal class Android29AddNetworkApiImpl(
-    private val wifiManager: WifiManager
+    private val wifiManager: WifiManager,
+    private val logger: WisefyLogger?
 ) : Android29AddNetworkApi {
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     override fun addOpenNetwork(ssid: String): AddNetworkResult {
+        logger?.w(LOG_TAG, "There is no way to save a network on Android Q similar to pre-Q or R+ behavior")
         val suggestion = createOpenNetworkSuggestion(ssid)
         val resultCode = wifiManager.addNetworkSuggestions(arrayListOf(suggestion))
         return AddNetworkResult.ResultCode(resultCode)
@@ -52,13 +57,15 @@ internal class Android29AddNetworkApiImpl(
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     override fun addWPA2Network(ssid: String, passphrase: String): AddNetworkResult {
+        logger?.w(LOG_TAG, "There is no way to save a network on Android Q similar to pre-Q or R+ behavior")
         val suggestion = createWPA2NetworkSuggestion(ssid, passphrase)
-        val resultCode = wifiManager.addNetworkSuggestions(arrayListOf(suggestion))
+        val resultCode = wifiManager.addNetworkSuggestions(listOf(suggestion))
         return AddNetworkResult.ResultCode(resultCode)
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     override fun addWPA3Network(ssid: String, passphrase: String): AddNetworkResult {
+        logger?.w(LOG_TAG, "There is no way to save a network on Android Q similar to pre-Q or R+ behavior")
         val suggestion = createWPA3NetworkSuggestion(ssid, passphrase)
         val resultCode = wifiManager.addNetworkSuggestions(arrayListOf(suggestion))
         return AddNetworkResult.ResultCode(resultCode)
