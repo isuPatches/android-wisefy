@@ -29,6 +29,7 @@ import com.isupatches.android.wisefy.addnetwork.entities.OpenNetworkData
 import com.isupatches.android.wisefy.addnetwork.entities.WPA2NetworkData
 import com.isupatches.android.wisefy.addnetwork.entities.WPA3NetworkData
 import com.isupatches.android.wisefy.logging.WisefyLogger
+import com.isupatches.android.wisefy.util.SdkUtil
 
 internal interface AddNetworkUtil : AddNetworkApi
 
@@ -36,12 +37,13 @@ private const val LOG_TAG = "WisefyAddNetworkUtil"
 
 internal class WisefyAddNetworkUtil(
     wifiManager: WifiManager,
+    sdkUtil: SdkUtil,
     logger: WisefyLogger?
 ) : AddNetworkUtil {
 
     private val delegate = when {
-        Build.VERSION.SDK_INT >= Build.VERSION_CODES.R -> Android30AddNetworkDelegate(wifiManager)
-        Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q -> Android29AddNetworkDelegate(wifiManager, logger)
+        sdkUtil.isAtLeastR() -> Android30AddNetworkDelegate(wifiManager)
+        sdkUtil.isAtLeastQ() -> Android29AddNetworkDelegate(wifiManager, logger)
         else -> LegacyAddNetworkDelegate(wifiManager)
     }
 

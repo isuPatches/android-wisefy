@@ -24,52 +24,60 @@ private const val LOG_TAG = "WisefySample"
 
 internal object WisefySampleLogger : WisefyLogger {
 
-    override fun i(tag: String, message: String, vararg args: Any) {
+    override fun i(tag: String, message: String, vararg args: Any): Int {
         if (BuildConfig.DEBUG) {
-            Log.i(LOG_TAG, createMessage(tag, message, *args))
+            return Log.i(LOG_TAG, createMessage(tag, message, *args))
         }
+        return 0
     }
 
-    override fun v(tag: String, message: String, vararg args: Any) {
+    override fun v(tag: String, message: String, vararg args: Any): Int {
         if (BuildConfig.DEBUG) {
-            Log.v(LOG_TAG, createMessage(tag, message, *args))
+            return Log.v(LOG_TAG, createMessage(tag, message, *args))
         }
+        return 0
     }
 
-    override fun d(tag: String, message: String, vararg args: Any) {
+    override fun d(tag: String, message: String, vararg args: Any): Int {
         if (BuildConfig.DEBUG) {
-            Log.d(LOG_TAG, createMessage(tag, message, *args))
+            return Log.d(LOG_TAG, createMessage(tag, message, *args))
         }
+        return 0
     }
 
-    override fun w(tag: String, message: String, vararg args: Any) {
+    override fun w(tag: String, message: String, vararg args: Any): Int {
         if (BuildConfig.DEBUG) {
-            Log.w(LOG_TAG, createMessage(tag, message, *args))
+            return Log.w(LOG_TAG, createMessage(tag, message, *args))
         }
+        return 0
     }
 
-    override fun e(tag: String, message: String, vararg args: Any) {
+    override fun e(tag: String, message: String, vararg args: Any): Int {
         if (BuildConfig.DEBUG) {
-            Log.e(LOG_TAG, createMessage(tag, message, *args))
+            return Log.e(LOG_TAG, createMessage(tag, message, *args))
         }
+        return 0
     }
 
-    override fun e(tag: String, throwable: Throwable, message: String, vararg args: Any) {
+    override fun e(tag: String, throwable: Throwable, message: String, vararg args: Any): Int {
         if (BuildConfig.DEBUG) {
-            Log.e(LOG_TAG, createMessage(tag, message, *args), throwable)
+            return Log.e(LOG_TAG, createMessage(tag, message, *args), throwable)
         }
+        return 0
     }
 
-    override fun wtf(tag: String, message: String, vararg args: Any) {
+    override fun wtf(tag: String, message: String, vararg args: Any): Int {
         if (BuildConfig.DEBUG) {
-            Log.wtf(LOG_TAG, createMessage(tag, message, *args))
+            return Log.wtf(LOG_TAG, createMessage(tag, message, *args))
         }
+        return 0
     }
 
-    override fun wtf(tag: String, throwable: Throwable, message: String, vararg args: Any) {
+    override fun wtf(tag: String, throwable: Throwable, message: String, vararg args: Any): Int {
         if (BuildConfig.DEBUG) {
             Log.wtf(LOG_TAG, createMessage(tag, message, *args), throwable)
         }
+        return 0
     }
 
     /*

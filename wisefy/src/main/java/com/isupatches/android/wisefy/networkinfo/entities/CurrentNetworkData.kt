@@ -13,9 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.android.wisefy.networkconnection
+package com.isupatches.android.wisefy.networkinfo.entities
 
-interface NetworkConnectionApi {
-    fun connectToNetwork(ssidToConnectTo: String, timeoutInMillis: Int): Boolean
-    fun disconnectFromCurrentNetwork(): Boolean
-}
+import android.net.wifi.WifiInfo
+
+data class CurrentNetworkData(
+    val data: WifiInfo?
+)

@@ -15,16 +15,15 @@
  */
 package com.isupatches.android.wisefy.sample.ui.misc
 
-import android.Manifest
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.ACCESS_WIFI_STATE
-import android.net.NetworkInfo
-import android.net.wifi.WifiInfo
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.WisefyApi
 import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
+import com.isupatches.android.wisefy.networkinfo.entities.CurrentNetworkData
+import com.isupatches.android.wisefy.networkinfo.entities.CurrentNetworkInfoData
 import com.isupatches.android.wisefy.sample.internal.scaffolding.BaseModel
 import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
 import javax.inject.Inject
@@ -35,9 +34,9 @@ internal interface MiscModel {
 
     fun enableWifi()
 
-    fun getCurrentNetwork(): WifiInfo?
+    fun getCurrentNetwork(): CurrentNetworkData
 
-    fun getCurrentNetworkInfo(): NetworkInfo?
+    fun getCurrentNetworkInfo(): CurrentNetworkInfoData
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
@@ -66,11 +65,11 @@ internal class DefaultMiscModel @Inject constructor(
         wiseFy.enableWifi()
     }
 
-    override fun getCurrentNetwork(): WifiInfo? {
+    override fun getCurrentNetwork(): CurrentNetworkData {
         return wiseFy.getCurrentNetwork()
     }
 
-    override fun getCurrentNetworkInfo(): NetworkInfo? {
+    override fun getCurrentNetworkInfo(): CurrentNetworkInfoData {
         return wiseFy.getCurrentNetworkInfo()
     }
 

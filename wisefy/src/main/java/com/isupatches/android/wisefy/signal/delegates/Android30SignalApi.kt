@@ -19,6 +19,7 @@ import android.net.wifi.WifiManager
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.isupatches.android.wisefy.constants.DeprecationMessages
+import com.isupatches.android.wisefy.constants.ErrorMessages
 
 internal interface Android30SignalApi {
     @RequiresApi(Build.VERSION_CODES.R)
@@ -39,9 +40,12 @@ internal class Android30SignalApiImpl(
         return wifiManager.calculateSignalLevel(rssiLevel)
     }
 
-    @Deprecated(DeprecationMessages.CALCULATE_BARS)
+    @Deprecated(
+        message = DeprecationMessages.CALCULATE_BARS,
+        replaceWith = ReplaceWith("this.calculateBars(rssiLevel)")
+    )
     override fun calculateBars(rssiLevel: Int, targetNumberOfBars: Int): Int {
-        error("calculateBars(rssiLevel: Int): Int should be used for API 30")
+        error(ErrorMessages.CALCULATE_BARS_ANDROID_30)
     }
 
     override fun compareSignalLevel(rssi1: Int, rssi2: Int): Int {

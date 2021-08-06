@@ -29,7 +29,10 @@ internal class LegacySignalDelegate(
         return impl.calculateBars(rssiLevel)
     }
 
-    @Deprecated(DeprecationMessages.CALCULATE_BARS)
+    @Deprecated(
+        message = DeprecationMessages.CALCULATE_BARS,
+        replaceWith = ReplaceWith("this.calculateBars(rssiLevel)")
+    )
     override fun calculateBars(rssiLevel: Int, targetNumberOfBars: Int): Int {
         return impl.calculateBars(rssiLevel, targetNumberOfBars)
     }

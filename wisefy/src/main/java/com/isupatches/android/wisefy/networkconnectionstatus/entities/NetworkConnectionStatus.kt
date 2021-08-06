@@ -13,9 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.android.wisefy.networkconnection
+package com.isupatches.android.wisefy.networkconnectionstatus.entities
 
-interface NetworkConnectionApi {
-    fun connectToNetwork(ssidToConnectTo: String, timeoutInMillis: Int): Boolean
-    fun disconnectFromCurrentNetwork(): Boolean
+internal enum class NetworkConnectionStatus {
+    AVAILABLE,
+    LOSING,
+    LOST,
+    UNAVAILABLE
 }

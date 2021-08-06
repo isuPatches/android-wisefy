@@ -16,9 +16,9 @@
 package com.isupatches.android.wisefy.wifi
 
 import android.net.wifi.WifiManager
-import android.os.Build
 import com.isupatches.android.wisefy.constants.DeprecationMessages
 import com.isupatches.android.wisefy.logging.WisefyLogger
+import com.isupatches.android.wisefy.util.SdkUtil
 import com.isupatches.android.wisefy.wifi.delegates.Android29WifiDelegate
 import com.isupatches.android.wisefy.wifi.delegates.LegacyWifiDelegate
 
@@ -28,11 +28,12 @@ private const val LOG_TAG = "WisefyWifiUtil"
 
 internal class WisefyWifiUtil(
     wifiManager: WifiManager,
+    sdkUtil: SdkUtil,
     logger: WisefyLogger?
 ) : WifiUtil {
 
     private val delegate = when {
-        Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q -> Android29WifiDelegate(wifiManager)
+        sdkUtil.isAtLeastQ() -> Android29WifiDelegate(wifiManager)
         else -> LegacyWifiDelegate(wifiManager)
     }
 

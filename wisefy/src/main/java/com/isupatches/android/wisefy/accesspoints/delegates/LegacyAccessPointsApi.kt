@@ -23,7 +23,6 @@ import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
 import com.isupatches.android.wisefy.logging.WisefyLogger
 import com.isupatches.android.wisefy.util.rest
 import java.util.Locale
-
 import kotlin.collections.ArrayList
 
 internal interface LegacyAccessPointsApi {
@@ -202,14 +201,13 @@ internal class LegacyAccessPointsApiImpl(
     ): Boolean {
         for (accessPoint in accessPoints) {
             if (accessPoint.SSID.equals(currentAccessPoint.SSID, ignoreCase = true)) {
-                logger?.d(LOG_TAG, "RSSI level of current access point: %d", currentAccessPoint.level)
-                logger?.d(LOG_TAG, "RSSI level of access point in list: %d", accessPoint.level)
+                val comparisonResult = WifiManager.compareSignalLevel(accessPoint.level, currentAccessPoint.level)
                 logger?.d(
                     LOG_TAG,
-                    "comparison result: %d (hasHighestSignalStrength)",
-                    WifiManager.compareSignalLevel(accessPoint.level, currentAccessPoint.level)
+                    "Current RSSI: %d\nAccess point RSSI: %d\nComparison result: %d",
+                    currentAccessPoint.level, accessPoint.level, comparisonResult
                 )
-                if (WifiManager.compareSignalLevel(accessPoint.level, currentAccessPoint.level) > 0) {
+                if (comparisonResult > 0) {
                     logger?.d(LOG_TAG, "Stronger signal strength found")
                     return false
                 }
@@ -228,14 +226,13 @@ internal class LegacyAccessPointsApiImpl(
                 logger?.d(LOG_TAG, "SSID 1: %s, SSID 2: %s", accessPoint.SSID, scanResult.SSID)
                 if (accessPoint.SSID.equals(scanResult.SSID, ignoreCase = true)) {
                     found = true
-                    logger?.d(LOG_TAG, "RSSI level of access point 1: %d", scanResult.level)
-                    logger?.d(LOG_TAG, "RSSI level of access point 2: %d", accessPoint.level)
+                    val comparisonResult = WifiManager.compareSignalLevel(accessPoint.level, scanResult.level)
                     logger?.d(
                         LOG_TAG,
-                        "comparison result: %d (removeEntriesWithLowerSignalStrength)",
-                        WifiManager.compareSignalLevel(accessPoint.level, scanResult.level)
+                        "Access point 1 RSSI: %d\nAccess point 2 RSSI: %d\nComparison result: %d",
+                        scanResult.level, accessPoint.level, comparisonResult
                     )
-                    if (WifiManager.compareSignalLevel(accessPoint.level, scanResult.level) > 0) {
+                    if (comparisonResult > 0) {
                         logger?.d(LOG_TAG, "New result has a higher or same signal strength, swapping")
                         accessPointsToReturn[i] = accessPoint
                     }

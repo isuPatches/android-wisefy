@@ -15,18 +15,15 @@
  */
 package com.isupatches.android.wisefy.networkinfo
 
-import android.Manifest
 import android.Manifest.permission.ACCESS_NETWORK_STATE
 import android.net.ConnectivityManager
-import android.net.LinkProperties
 import android.net.Network
-import android.net.NetworkCapabilities
-import android.net.NetworkInfo
-import android.net.wifi.WifiInfo
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.logging.WisefyLogger
 import com.isupatches.android.wisefy.networkinfo.delegates.LegacyNetworkInfoDelegate
+import com.isupatches.android.wisefy.networkinfo.entities.CurrentNetworkData
+import com.isupatches.android.wisefy.networkinfo.entities.CurrentNetworkInfoData
 
 internal interface NetworkInfoUtil : NetworkInfoApi
 
@@ -38,33 +35,22 @@ internal class WisefyNetworkInfoUtil(
     logger: WisefyLogger?
 ) : NetworkInfoUtil {
 
-    private val delegate = LegacyNetworkInfoDelegate(connectivityManager, wifiManager, logger)
+    private val delegate = LegacyNetworkInfoDelegate(wifiManager, connectivityManager, logger)
 
     init {
         logger?.d(LOG_TAG, "WisefyNetworkInfoUtil delegate is: ${delegate::class.java.simpleName}")
     }
 
-    override fun getCurrentNetwork(): WifiInfo? {
+    override fun getCurrentNetwork(): CurrentNetworkData {
         return delegate.getCurrentNetwork()
     }
 
-    @Deprecated("")
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun getCurrentNetworkInfo(): NetworkInfo? {
-        return delegate.getCurrentNetworkInfo()
+    override fun getCurrentNetworkInfo(network: Network?): CurrentNetworkInfoData {
+        return delegate.getCurrentNetworkInfo(network)
     }
 
     override fun getIP(): String? {
         return delegate.getIP()
-    }
-
-    @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun getNetworkCapabilities(network: Network?): NetworkCapabilities? {
-        return delegate.getNetworkCapabilities(network)
-    }
-
-    @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun getNetworkLinkProperties(network: Network?): LinkProperties? {
-        return delegate.getNetworkLinkProperties(network)
     }
 }

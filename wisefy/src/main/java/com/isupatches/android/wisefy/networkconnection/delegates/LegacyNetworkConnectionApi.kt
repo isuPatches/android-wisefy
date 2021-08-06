@@ -15,167 +15,93 @@
  */
 package com.isupatches.android.wisefy.networkconnection.delegates
 
-import android.Manifest.permission.ACCESS_NETWORK_STATE
+import android.Manifest.permission.ACCESS_FINE_LOCATION
+import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.net.ConnectivityManager
-import android.net.LinkProperties
-import android.net.Network
-import android.net.NetworkCapabilities
-import android.net.NetworkRequest
 import android.net.wifi.WifiManager
-import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.constants.QUOTE
 import com.isupatches.android.wisefy.logging.WisefyLogger
-import com.isupatches.android.wisefy.networkconnection.entities.NetworkConnectionStatus
+import com.isupatches.android.wisefy.networkconnectionstatus.NetworkConnectionStatusUtil
+import com.isupatches.android.wisefy.savednetworks.SavedNetworkUtil
+import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
+import com.isupatches.android.wisefy.util.rest
 
 internal interface LegacyNetworkConnectionApi {
-    @RequiresPermission(ACCESS_NETWORK_STATE)
-    fun attachNetworkWatcher()
-    fun detachNetworkWatcher()
-
-    @RequiresPermission(ACCESS_NETWORK_STATE)
-    fun isDeviceConnectedToMobileNetwork(): Boolean
-
-    fun isDeviceConnectedToMobileOrWifiNetwork(): Boolean
-
-    fun isDeviceConnectedToSSID(ssid: String): Boolean
-
-    @RequiresPermission(ACCESS_NETWORK_STATE)
-    fun isDeviceConnectedToWifiNetwork(): Boolean
-
-    @RequiresPermission(ACCESS_NETWORK_STATE)
-    fun isDeviceRoaming(): Boolean
+    fun connectToNetwork(ssidToConnectTo: String, timeoutInMillis: Int = 0): Boolean
+    fun disconnectFromCurrentNetwork(): Boolean
 }
 
 private const val LOG_TAG = "LegacyNetworkConnectionApiImpl"
 
 internal class LegacyNetworkConnectionApiImpl(
     private val wifiManager: WifiManager,
-    private val connectivityManager: ConnectivityManager,
+    private val networkConnectionStatusUtil: NetworkConnectionStatusUtil,
+    private val savedNetworkUtil: SavedNetworkUtil,
     private val logger: WisefyLogger?
 ) : LegacyNetworkConnectionApi, ConnectivityManager.NetworkCallback() {
 
-    @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun isDeviceConnectedToMobileNetwork(): Boolean {
-        return doesNetworkHaveTransportTypeAndInternetCapability(
-            transportType = NetworkCapabilities.TRANSPORT_CELLULAR
-        ) && isNetworkConnected()
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
+    override fun connectToNetwork(ssidToConnectTo: String, timeoutInMillis: Int): Boolean {
+        when (val savedNetworkData = savedNetworkUtil.searchForSavedNetwork(ssidToConnectTo)) {
+            is SavedNetworkData.Configuration -> {
+                savedNetworkData.data?.let {
+                    wifiManager.disconnect()
+                    wifiManager.enableNetwork(it.networkId, true)
+                    wifiManager.reconnect()
+                    return waitToConnectToSSID(ssidToConnectTo, timeoutInMillis)
+                } ?: Log.w(LOG_TAG, "Saved network not found to connect to")
+            }
+            else -> {
+
+            }
+        }
+        return false
     }
 
-    override fun isDeviceConnectedToMobileOrWifiNetwork(): Boolean {
-        return isNetworkConnected()
+    override fun disconnectFromCurrentNetwork(): Boolean {
+        return wifiManager.disconnect()
     }
 
-    override fun isDeviceConnectedToSSID(ssid: String): Boolean {
+    private fun waitToConnectToSSID(ssid: String?, timeoutInMillis: Int): Boolean {
+        logger?.d(
+            LOG_TAG,
+            "Waiting %d milliseconds to connect to network with ssid %s",
+            timeoutInMillis,
+            ssid ?: ""
+        )
+        var currentTime: Long
+        val endTime = System.currentTimeMillis() + timeoutInMillis
+        do {
+            if (isCurrentNetworkConnectedToSSID(ssid)) {
+                return true
+            }
+            rest()
+            currentTime = System.currentTimeMillis()
+            logger?.d(LOG_TAG, "Current time: %d, End time: %d (waitToConnectToSSID)", currentTime, endTime)
+        } while (currentTime < endTime)
+        return false
+    }
+
+    private fun isCurrentNetworkConnectedToSSID(ssid: String?): Boolean {
+        if (ssid.isNullOrEmpty()) {
+            return false
+        }
+
         val connectionInfo = wifiManager.connectionInfo
         connectionInfo?.let {
             if (!it.ssid.isNullOrEmpty()) {
                 val currentSSID = it.ssid.replace(QUOTE, "")
                 logger?.d(LOG_TAG, "Current SSID: %s, Desired SSID: %s", currentSSID, ssid)
-                if (currentSSID.equals(ssid, ignoreCase = true) && isNetworkConnected()) {
+                if (currentSSID.equals(ssid, ignoreCase = true) &&
+                    networkConnectionStatusUtil.isDeviceConnectedToMobileOrWifiNetwork()
+                ) {
                     logger?.d(LOG_TAG, "Network is connected")
                     return true
                 }
             }
         }
         return false
-    }
-
-    @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun isDeviceConnectedToWifiNetwork(): Boolean {
-        return doesNetworkHaveTransportTypeAndInternetCapability(
-            transportType = NetworkCapabilities.TRANSPORT_WIFI
-        ) && isNetworkConnected()
-    }
-
-    @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun isDeviceRoaming(): Boolean {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            // NET_CAPABILITY_NOT_ROAMING only available for P and above devices :'(
-            !doesNetworkHaveCapability(capability = NetworkCapabilities.NET_CAPABILITY_NOT_ROAMING)
-        } else {
-            val networkInfo = connectivityManager.activeNetworkInfo
-            networkInfo != null && networkInfo.isRoaming
-        }
-    }
-
-    @RequiresPermission(ACCESS_NETWORK_STATE)
-    private fun doesNetworkHaveCapability(capability: Int): Boolean {
-        return getActiveNetworkCapabilities()?.hasCapability(capability) ?: false
-    }
-
-    @RequiresPermission(ACCESS_NETWORK_STATE)
-    private fun doesNetworkHaveTransportTypeAndInternetCapability(transportType: Int): Boolean {
-        return getActiveNetworkCapabilities()?.let {
-            it.hasTransport(transportType) && it.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-        } ?: false
-    }
-
-    @RequiresPermission(ACCESS_NETWORK_STATE)
-    private fun getActiveNetworkCapabilities(): NetworkCapabilities? {
-        return connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
-    }
-
-    private fun isNetworkConnected(): Boolean {
-        return connectionStatus == NetworkConnectionStatus.AVAILABLE
-    }
-
-    private var connectionStatus: NetworkConnectionStatus? = null
-
-    override fun onAvailable(network: Network) {
-        super.onAvailable(network)
-        logger?.d(LOG_TAG, "onAvailable, $network")
-        this.connectionStatus = NetworkConnectionStatus.AVAILABLE
-    }
-
-    override fun onCapabilitiesChanged(network: Network, networkCapabilities: NetworkCapabilities) {
-        super.onCapabilitiesChanged(network, networkCapabilities)
-        logger?.d(
-            LOG_TAG,
-            "onCapabilitiesChanged, network: $network, networkCapabilities: $networkCapabilities"
-        )
-    }
-
-    override fun onLinkPropertiesChanged(network: Network, linkProperties: LinkProperties) {
-        super.onLinkPropertiesChanged(network, linkProperties)
-        logger?.d(LOG_TAG, "onLinkPropertiesChanged, network: $network, linkProperties: $linkProperties")
-    }
-
-    override fun onLosing(network: Network, maxMsToLive: Int) {
-        super.onLosing(network, maxMsToLive)
-        logger?.d(LOG_TAG, "onLosing, network: $network, maxMsToLive: $maxMsToLive")
-        this.connectionStatus = NetworkConnectionStatus.LOSING
-    }
-
-    override fun onLost(network: Network) {
-        super.onLost(network)
-        logger?.d(LOG_TAG, "onLost, network: $network")
-        this.connectionStatus = NetworkConnectionStatus.LOST
-    }
-
-    override fun onUnavailable() {
-        super.onUnavailable()
-        logger?.d(LOG_TAG, "onUnavailable")
-        this.connectionStatus = NetworkConnectionStatus.UNAVAILABLE
-    }
-
-    @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun attachNetworkWatcher() {
-        startListeningForNetworkChanges(connectivityManager)
-    }
-
-    override fun detachNetworkWatcher() {
-        stopListeningForNetworkChanges(connectivityManager)
-    }
-
-    @RequiresPermission(ACCESS_NETWORK_STATE)
-    private fun startListeningForNetworkChanges(connectivityManager: ConnectivityManager) {
-        val request = NetworkRequest.Builder().build()
-        connectivityManager.registerNetworkCallback(request, this)
-    }
-
-    private fun stopListeningForNetworkChanges(connectivityManager: ConnectivityManager) {
-        connectivityManager.unregisterNetworkCallback(this)
-        connectionStatus = null
     }
 }

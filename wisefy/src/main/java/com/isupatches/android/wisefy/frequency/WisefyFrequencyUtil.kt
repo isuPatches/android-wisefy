@@ -18,12 +18,11 @@ package com.isupatches.android.wisefy.frequency
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.net.wifi.WifiInfo
 import android.net.wifi.WifiManager
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.frequency.delegates.LegacyFrequencyDelegate
 import com.isupatches.android.wisefy.logging.WisefyLogger
-
-const val MIN_FREQUENCY_5GHZ: Int = 4900
-const val MAX_FREQUENCY_5GHZ: Int = 5900
 
 internal interface FrequencyUtil : FrequencyApi
 
@@ -41,19 +40,23 @@ internal class WisefyFrequencyUtil(
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun getFrequency(): Int? {
         return delegate.getFrequency()
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun getFrequency(network: WifiInfo): Int {
         return delegate.getFrequency(network)
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun isNetwork5gHz(): Boolean {
         return delegate.isNetwork5gHz()
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun isNetwork5gHz(network: WifiInfo): Boolean {
         return delegate.isNetwork5gHz(network)
     }

@@ -74,11 +74,13 @@ internal class DefaultMiscPresenter @Inject constructor(
     }
 
     override fun getCurrentNetwork() {
-        model.getCurrentNetwork()
+        val currentNetwork = model.getCurrentNetwork()
+        doSafelyWithView { view -> view.displayCurrentNetwork(currentNetwork) }
     }
 
     override fun getCurrentNetworkInfo() {
-        model.getCurrentNetworkInfo()
+        val currentNetworkInfo = model.getCurrentNetworkInfo()
+        doSafelyWithView { view -> view.displayCurrentNetworkInfo(currentNetworkInfo) }
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)

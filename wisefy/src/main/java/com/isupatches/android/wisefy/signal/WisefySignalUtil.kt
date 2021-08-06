@@ -22,6 +22,7 @@ import com.isupatches.android.wisefy.constants.DeprecationMessages
 import com.isupatches.android.wisefy.logging.WisefyLogger
 import com.isupatches.android.wisefy.signal.delegates.Android30SignalDelegate
 import com.isupatches.android.wisefy.signal.delegates.LegacySignalDelegate
+import com.isupatches.android.wisefy.util.SdkUtil
 
 internal interface SignalUtil : SignalApi
 
@@ -29,11 +30,12 @@ private const val LOG_TAG = "WisefySignalUtil"
 
 internal class WisefySignalUtil(
     wifiManager: WifiManager,
+    sdkUtil: SdkUtil,
     logger: WisefyLogger?
 ) : SignalUtil {
 
     private val delegate = when {
-        Build.VERSION.SDK_INT >= Build.VERSION_CODES.R -> Android30SignalDelegate(wifiManager)
+        sdkUtil.isAtLeastR() -> Android30SignalDelegate(wifiManager)
         else -> LegacySignalDelegate()
     }
 

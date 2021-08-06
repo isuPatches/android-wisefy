@@ -19,6 +19,7 @@ import com.isupatches.android.wisefy.accesspoints.AccessPointsApi
 import com.isupatches.android.wisefy.addnetwork.AddNetworkApi
 import com.isupatches.android.wisefy.frequency.FrequencyApi
 import com.isupatches.android.wisefy.networkconnection.NetworkConnectionApi
+import com.isupatches.android.wisefy.networkconnectionstatus.NetworkConnectionStatusApi
 import com.isupatches.android.wisefy.networkinfo.NetworkInfoApi
 import com.isupatches.android.wisefy.removenetwork.RemoveNetworkApi
 import com.isupatches.android.wisefy.savednetworks.SavedNetworkApi
@@ -31,6 +32,7 @@ interface WisefyApi :
     AddNetworkApi,
     FrequencyApi,
     NetworkConnectionApi,
+    NetworkConnectionStatusApi,
     NetworkInfoApi,
     RemoveNetworkApi,
     SavedNetworkApi,

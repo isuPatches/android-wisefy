@@ -18,13 +18,13 @@ package com.isupatches.android.wisefy.removenetwork
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.CHANGE_WIFI_STATE
 import android.net.wifi.WifiManager
-import android.os.Build
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.logging.WisefyLogger
 import com.isupatches.android.wisefy.removenetwork.delegates.Android29RemoveNetworkDelegate
 import com.isupatches.android.wisefy.removenetwork.delegates.LegacyRemoveNetworkDelegate
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkResult
 import com.isupatches.android.wisefy.savednetworks.SavedNetworkUtil
+import com.isupatches.android.wisefy.util.SdkUtil
 
 internal interface RemoveNetworkUtil : RemoveNetworkApi
 
@@ -32,12 +32,13 @@ private const val LOG_TAG = "WisefyRemoveNetworkUtil"
 
 internal class WisefyRemoveNetworkUtil(
     wifiManager: WifiManager,
+    sdkUtil: SdkUtil,
     logger: WisefyLogger?,
     savedNetworkUtil: SavedNetworkUtil
 ) : RemoveNetworkUtil {
 
     private val delegate: RemoveNetworkApi = when {
-        Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q -> Android29RemoveNetworkDelegate(wifiManager)
+        sdkUtil.isAtLeastQ() -> Android29RemoveNetworkDelegate(wifiManager)
         else -> LegacyRemoveNetworkDelegate(wifiManager, savedNetworkUtil)
     }
 

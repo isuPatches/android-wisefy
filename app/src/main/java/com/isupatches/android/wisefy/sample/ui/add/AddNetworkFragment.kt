@@ -34,8 +34,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.VisibleForTesting
 import com.isupatches.android.viewglu.paste
 import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
-import com.isupatches.android.wisefy.sample.databinding.FragmentAddNetworkBinding
 import com.isupatches.android.wisefy.sample.R
+import com.isupatches.android.wisefy.sample.databinding.FragmentAddNetworkBinding
 import com.isupatches.android.wisefy.sample.internal.base.BaseFragment
 import com.isupatches.android.wisefy.sample.internal.entities.NetworkType
 import com.isupatches.android.wisefy.sample.internal.util.SdkUtil

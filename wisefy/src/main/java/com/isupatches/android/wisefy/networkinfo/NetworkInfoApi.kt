@@ -15,27 +15,18 @@
  */
 package com.isupatches.android.wisefy.networkinfo
 
-import android.Manifest
 import android.Manifest.permission.ACCESS_NETWORK_STATE
-import android.net.LinkProperties
 import android.net.Network
-import android.net.NetworkCapabilities
-import android.net.NetworkInfo
-import android.net.wifi.WifiInfo
 import androidx.annotation.RequiresPermission
+import com.isupatches.android.wisefy.networkinfo.entities.CurrentNetworkData
+import com.isupatches.android.wisefy.networkinfo.entities.CurrentNetworkInfoData
 
 interface NetworkInfoApi {
 
-    fun getCurrentNetwork(): WifiInfo?
+    fun getCurrentNetwork(): CurrentNetworkData
 
-    @Deprecated("")
-    fun getCurrentNetworkInfo(): NetworkInfo?
+    @RequiresPermission(ACCESS_NETWORK_STATE)
+    fun getCurrentNetworkInfo(network: Network? = null): CurrentNetworkInfoData
 
     fun getIP(): String?
-
-    @RequiresPermission(ACCESS_NETWORK_STATE)
-    fun getNetworkCapabilities(network: Network? = null): NetworkCapabilities?
-
-    @RequiresPermission(ACCESS_NETWORK_STATE)
-    fun getNetworkLinkProperties(network: Network? = null): LinkProperties?
 }

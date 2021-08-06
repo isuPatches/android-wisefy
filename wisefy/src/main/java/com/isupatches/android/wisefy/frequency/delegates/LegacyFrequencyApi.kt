@@ -18,12 +18,15 @@ package com.isupatches.android.wisefy.frequency.delegates
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.net.wifi.WifiInfo
 import android.net.wifi.WifiManager
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.frequency.MAX_FREQUENCY_5GHZ
 import com.isupatches.android.wisefy.frequency.MIN_FREQUENCY_5GHZ
 
 internal interface LegacyFrequencyApi {
     @RequiresPermission(ACCESS_FINE_LOCATION)
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     fun getFrequency(): Int?
 
     fun getFrequency(network: WifiInfo): Int
@@ -39,21 +42,25 @@ internal class LegacyFrequencyApiImpl(
 ) : LegacyFrequencyApi {
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun getFrequency(): Int? {
         val currentNetwork = wifiManager.connectionInfo
         return currentNetwork?.frequency
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun getFrequency(network: WifiInfo): Int {
         return network.frequency
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun isNetwork5gHz(): Boolean {
         val frequency = getFrequency()
         return frequency != null && frequency > MIN_FREQUENCY_5GHZ && frequency < MAX_FREQUENCY_5GHZ
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun isNetwork5gHz(network: WifiInfo): Boolean {
         val frequency = getFrequency(network)
         return frequency in (MIN_FREQUENCY_5GHZ + 1) until MAX_FREQUENCY_5GHZ

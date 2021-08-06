@@ -19,40 +19,40 @@ import android.net.wifi.WifiConfiguration
 import com.isupatches.android.wisefy.constants.QUOTE
 
 internal fun generateOpenNetworkConfiguration(ssid: String): WifiConfiguration {
-    val wifiConfiguration = WifiConfiguration()
-    wifiConfiguration.SSID = convertSSIDForConfig(ssid)
-    wifiConfiguration.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE)
+    return WifiConfiguration().apply {
+        SSID = convertSSIDForConfig(ssid)
+        allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE)
 
-    // Allowed auth algorithms
-    wifiConfiguration.allowedAuthAlgorithms.clear()
+        // Allowed auth algorithms
+        allowedAuthAlgorithms.clear()
 
-    // Allowed protocols
-    wifiConfiguration.allowedProtocols.set(WifiConfiguration.Protocol.RSN)
+        // Allowed protocols
+        allowedProtocols.set(WifiConfiguration.Protocol.RSN)
 
-    // Allowed Group Ciphers
-    wifiConfiguration.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP)
-    wifiConfiguration.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP)
+        // Allowed Group Ciphers
+        allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP)
+        allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP)
 
-    // Allowed Pairwise Ciphers
-    wifiConfiguration.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP)
-    return wifiConfiguration
+        // Allowed Pairwise Ciphers
+        allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP)
+    }
 }
 
 internal fun generateWPA2NetworkConfiguration(ssid: String, password: String): WifiConfiguration {
-    val wifiConfiguration = WifiConfiguration()
-    wifiConfiguration.SSID = convertSSIDForConfig(ssid)
-    wifiConfiguration.preSharedKey = QUOTE + password + QUOTE
-    wifiConfiguration.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_PSK)
-    wifiConfiguration.status = WifiConfiguration.Status.ENABLED
+    return WifiConfiguration().apply {
+        SSID = convertSSIDForConfig(ssid)
+        preSharedKey = QUOTE + password + QUOTE
+        allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_PSK)
+        status = WifiConfiguration.Status.ENABLED
 
-    // Allowed protocols
-    wifiConfiguration.allowedProtocols.set(WifiConfiguration.Protocol.RSN)
+        // Allowed protocols
+        allowedProtocols.set(WifiConfiguration.Protocol.RSN)
 
-    // Allowed Group Ciphers
-    wifiConfiguration.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP)
-    wifiConfiguration.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP)
+        // Allowed Group Ciphers
+        allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP)
+        allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP)
 
-    // Allowed Pairwise Ciphers
-    wifiConfiguration.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP)
-    return wifiConfiguration
+        // Allowed Pairwise Ciphers
+        allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP)
+    }
 }

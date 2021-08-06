@@ -13,9 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.android.wisefy.networkconnection
+package com.isupatches.android.wisefy.util
 
-interface NetworkConnectionApi {
-    fun connectToNetwork(ssidToConnectTo: String, timeoutInMillis: Int): Boolean
-    fun disconnectFromCurrentNetwork(): Boolean
+import android.os.Build
+
+internal interface SdkUtil {
+    fun isAtLeastP(): Boolean
+    fun isAtLeastQ(): Boolean
+    fun isAtLeastR(): Boolean
+}
+
+internal class SdkUtilImpl : SdkUtil {
+    override fun isAtLeastP() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.P
+    override fun isAtLeastQ() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
+    override fun isAtLeastR() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
 }

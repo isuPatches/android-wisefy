@@ -22,10 +22,7 @@ import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.Manifest.permission.CHANGE_WIFI_STATE
 import android.content.Context
 import android.net.ConnectivityManager
-import android.net.LinkProperties
 import android.net.Network
-import android.net.NetworkCapabilities
-import android.net.NetworkInfo
 import android.net.wifi.ScanResult
 import android.net.wifi.WifiInfo
 import android.net.wifi.WifiManager
@@ -49,8 +46,12 @@ import com.isupatches.android.wisefy.frequency.WisefyFrequencyUtil
 import com.isupatches.android.wisefy.logging.WisefyLogger
 import com.isupatches.android.wisefy.networkconnection.NetworkConnectionUtil
 import com.isupatches.android.wisefy.networkconnection.WisefyNetworkConnectionUtil
+import com.isupatches.android.wisefy.networkconnectionstatus.NetworkConnectionStatusUtil
+import com.isupatches.android.wisefy.networkconnectionstatus.WisefyNetworkConnectionStatusUtil
 import com.isupatches.android.wisefy.networkinfo.NetworkInfoUtil
 import com.isupatches.android.wisefy.networkinfo.WisefyNetworkInfoUtil
+import com.isupatches.android.wisefy.networkinfo.entities.CurrentNetworkData
+import com.isupatches.android.wisefy.networkinfo.entities.CurrentNetworkInfoData
 import com.isupatches.android.wisefy.removenetwork.RemoveNetworkUtil
 import com.isupatches.android.wisefy.removenetwork.WisefyRemoveNetworkUtil
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkResult
@@ -61,6 +62,7 @@ import com.isupatches.android.wisefy.security.SecurityUtil
 import com.isupatches.android.wisefy.security.WisefySecurityUtil
 import com.isupatches.android.wisefy.signal.SignalUtil
 import com.isupatches.android.wisefy.signal.WisefySignalUtil
+import com.isupatches.android.wisefy.util.SdkUtilImpl
 import com.isupatches.android.wisefy.wifi.WifiUtil
 import com.isupatches.android.wisefy.wifi.WisefyWifiUtil
 
@@ -70,6 +72,7 @@ class Wisefy private constructor(
     private val addNetworkUtil: AddNetworkUtil,
     private val frequencyUtil: FrequencyUtil,
     private val networkConnectionUtil: NetworkConnectionUtil,
+    private val networkConnectionStatusUtil: NetworkConnectionStatusUtil,
     private val networkInfoUtil: NetworkInfoUtil,
     private val removeNetworkUtil: RemoveNetworkUtil,
     private val savedNetworkUtil: SavedNetworkUtil,
@@ -91,6 +94,7 @@ class Wisefy private constructor(
         private var addNetworkUtil: AddNetworkUtil
         private var frequencyUtil: FrequencyUtil
         private var networkConnectionUtil: NetworkConnectionUtil
+        private var networkConnectionStatusUtil: NetworkConnectionStatusUtil
         private var networkInfoUtil: NetworkInfoUtil
         private var removeNetworkUtil: RemoveNetworkUtil
         private var savedNetworkUtil: SavedNetworkUtil
@@ -104,16 +108,29 @@ class Wisefy private constructor(
             ) as ConnectivityManager
             wifiManager = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
 
-            addNetworkUtil = WisefyAddNetworkUtil(wifiManager, logger)
-            savedNetworkUtil = WisefySavedNetworkUtil(wifiManager, logger)
-            removeNetworkUtil = WisefyRemoveNetworkUtil(wifiManager, logger, savedNetworkUtil)
+            val sdkUtil = SdkUtilImpl()
+
+            addNetworkUtil = WisefyAddNetworkUtil(wifiManager, sdkUtil, logger)
+            savedNetworkUtil = WisefySavedNetworkUtil(wifiManager, sdkUtil, logger)
+            removeNetworkUtil = WisefyRemoveNetworkUtil(wifiManager, sdkUtil, logger, savedNetworkUtil)
             frequencyUtil = WisefyFrequencyUtil(wifiManager, logger)
             securityUtil = WisefySecurityUtil(logger)
-            signalUtil = WisefySignalUtil(wifiManager, logger)
-            networkConnectionUtil = WisefyNetworkConnectionUtil(connectivityManager, wifiManager, logger)
+            signalUtil = WisefySignalUtil(wifiManager, sdkUtil, logger)
+            networkConnectionStatusUtil = WisefyNetworkConnectionStatusUtil(
+                connectivityManager,
+                wifiManager,
+                sdkUtil,
+                logger
+            )
+            networkConnectionUtil = WisefyNetworkConnectionUtil(
+                wifiManager,
+                networkConnectionStatusUtil,
+                savedNetworkUtil,
+                logger
+            )
             accessPointsUtil = WisefyAccessPointsUtil(wifiManager, logger)
             networkInfoUtil = WisefyNetworkInfoUtil(connectivityManager, wifiManager, logger)
-            wifiUtil = WisefyWifiUtil(wifiManager, logger)
+            wifiUtil = WisefyWifiUtil(wifiManager, sdkUtil, logger)
         }
 
         internal fun logger(logger: WisefyLogger): Brains = apply {
@@ -148,6 +165,13 @@ class Wisefy private constructor(
         @VisibleForTesting
         internal fun customNetworkConnectionUtil(networkConnectionUtil: NetworkConnectionUtil): Brains = apply {
             this.networkConnectionUtil = networkConnectionUtil
+        }
+
+        @VisibleForTesting
+        internal fun customNetworkConnectionStatusUtil(
+            networkConnectionStatusUtil: NetworkConnectionStatusUtil
+        ): Brains = apply {
+            this.networkConnectionStatusUtil = networkConnectionStatusUtil
         }
 
         @VisibleForTesting
@@ -186,6 +210,7 @@ class Wisefy private constructor(
                 addNetworkUtil = addNetworkUtil,
                 frequencyUtil = frequencyUtil,
                 networkConnectionUtil = networkConnectionUtil,
+                networkConnectionStatusUtil = networkConnectionStatusUtil,
                 networkInfoUtil = networkInfoUtil,
                 removeNetworkUtil = removeNetworkUtil,
                 savedNetworkUtil = savedNetworkUtil,
@@ -197,11 +222,11 @@ class Wisefy private constructor(
     }
 
     override fun attachNetworkWatcher() {
-        networkConnectionUtil.attachNetworkWatcher()
+        networkConnectionStatusUtil.attachNetworkWatcher()
     }
 
     override fun detachNetworkWatcher() {
-        networkConnectionUtil.detachNetworkWatcher()
+        networkConnectionStatusUtil.detachNetworkWatcher()
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
@@ -252,23 +277,13 @@ class Wisefy private constructor(
         return wifiUtil.enableWifi()
     }
 
-    override fun getCurrentNetwork(): WifiInfo? {
+    override fun getCurrentNetwork(): CurrentNetworkData {
         return networkInfoUtil.getCurrentNetwork()
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun getCurrentNetworkInfo(): NetworkInfo? {
-        return networkInfoUtil.getCurrentNetworkInfo()
-    }
-
-    @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun getNetworkCapabilities(network: Network?): NetworkCapabilities? {
-        return networkInfoUtil.getNetworkCapabilities(network)
-    }
-
-    @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun getNetworkLinkProperties(network: Network?): LinkProperties? {
-        return networkInfoUtil.getNetworkLinkProperties(network)
+    override fun getCurrentNetworkInfo(network: Network?): CurrentNetworkInfoData {
+        return networkInfoUtil.getCurrentNetworkInfo(network)
     }
 
     @RequiresApi(LOLLIPOP)
@@ -302,23 +317,23 @@ class Wisefy private constructor(
     }
 
     override fun isDeviceConnectedToMobileNetwork(): Boolean {
-        return networkConnectionUtil.isDeviceConnectedToMobileNetwork()
+        return networkConnectionStatusUtil.isDeviceConnectedToMobileNetwork()
     }
 
     override fun isDeviceConnectedToMobileOrWifiNetwork(): Boolean {
-        return networkConnectionUtil.isDeviceConnectedToMobileOrWifiNetwork()
+        return networkConnectionStatusUtil.isDeviceConnectedToMobileOrWifiNetwork()
     }
 
     override fun isDeviceConnectedToSSID(ssid: String): Boolean {
-        return networkConnectionUtil.isDeviceConnectedToSSID(ssid)
+        return networkConnectionStatusUtil.isDeviceConnectedToSSID(ssid)
     }
 
     override fun isDeviceConnectedToWifiNetwork(): Boolean {
-        return networkConnectionUtil.isDeviceConnectedToWifiNetwork()
+        return networkConnectionStatusUtil.isDeviceConnectedToWifiNetwork()
     }
 
     override fun isDeviceRoaming(): Boolean {
-        return networkConnectionUtil.isDeviceRoaming()
+        return networkConnectionStatusUtil.isDeviceRoaming()
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)

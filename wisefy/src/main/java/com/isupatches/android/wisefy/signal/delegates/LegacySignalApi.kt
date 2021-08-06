@@ -19,6 +19,7 @@ import android.net.wifi.WifiManager
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.isupatches.android.wisefy.constants.DeprecationMessages
+import com.isupatches.android.wisefy.constants.ErrorMessages
 
 internal interface LegacySignalApi {
     @RequiresApi(Build.VERSION_CODES.R)
@@ -34,10 +35,13 @@ internal class LegacySignalApiImpl : LegacySignalApi {
 
     @RequiresApi(Build.VERSION_CODES.R)
     override fun calculateBars(rssiLevel: Int): Int {
-        error("calculateBars(rssiLevel: Int): Int is not available until Android 30")
+        error(ErrorMessages.CALCULATE_BARS_LEGACY)
     }
 
-    @Deprecated(DeprecationMessages.CALCULATE_BARS)
+    @Deprecated(
+        message = DeprecationMessages.CALCULATE_BARS,
+        replaceWith = ReplaceWith("this.calculateBars(rssiLevel)")
+    )
     override fun calculateBars(rssiLevel: Int, targetNumberOfBars: Int): Int {
         return WifiManager.calculateSignalLevel(rssiLevel, targetNumberOfBars)
     }

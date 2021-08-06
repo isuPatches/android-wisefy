@@ -15,42 +15,45 @@
  */
 package com.isupatches.android.wisefy.networkinfo.delegates
 
-import android.net.LinkProperties
+import android.Manifest.permission.ACCESS_NETWORK_STATE
+import android.net.ConnectivityManager
 import android.net.Network
-import android.net.NetworkCapabilities
-import android.net.NetworkInfo
-import android.net.wifi.WifiInfo
 import android.net.wifi.WifiManager
+import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.logging.WisefyLogger
+import com.isupatches.android.wisefy.networkinfo.entities.CurrentNetworkData
+import com.isupatches.android.wisefy.networkinfo.entities.CurrentNetworkInfoData
 import java.math.BigInteger
 import java.net.InetAddress
 import java.net.UnknownHostException
 
-interface LegacyNetworkInfoApi {
-    fun getCurrentNetwork(): WifiInfo?
+internal interface LegacyNetworkInfoApi {
+    fun getCurrentNetwork(): CurrentNetworkData
 
-    fun getCurrentNetworkInfo(): NetworkInfo?
+    fun getCurrentNetworkInfo(network: Network?): CurrentNetworkInfoData
 
     fun getIP(): String?
-
-    fun getNetworkCapabilities(network: Network): NetworkCapabilities?
-
-    fun getNetworkLinkProperties(network: Network): LinkProperties?
 }
 
 private const val LOG_TAG = "LegacyNetworkInfoApiImpl"
 
 internal class LegacyNetworkInfoApiImpl(
     private val wifiManager: WifiManager,
+    private val connectivityManager: ConnectivityManager,
     private val logger: WisefyLogger?
 ) : LegacyNetworkInfoApi {
 
-    override fun getCurrentNetwork(): WifiInfo? {
-        TODO("Not yet implemented")
+    override fun getCurrentNetwork(): CurrentNetworkData {
+        return CurrentNetworkData(wifiManager.connectionInfo)
     }
 
-    override fun getCurrentNetworkInfo(): NetworkInfo? {
-        TODO("Not yet implemented")
+    @RequiresPermission(ACCESS_NETWORK_STATE)
+    override fun getCurrentNetworkInfo(network: Network?): CurrentNetworkInfoData {
+        val networkForInfo = network ?: connectivityManager.activeNetwork
+        return CurrentNetworkInfoData(
+            capabilities = connectivityManager.getNetworkCapabilities(networkForInfo),
+            linkProperties = connectivityManager.getLinkProperties(networkForInfo)
+        )
     }
 
     override fun getIP(): String? {
@@ -61,13 +64,5 @@ internal class LegacyNetworkInfoApiImpl(
             logger?.e(LOG_TAG, uhe, "UnknownHostException while gathering IP (sync)")
         }
         return null
-    }
-
-    override fun getNetworkCapabilities(network: Network): NetworkCapabilities? {
-        TODO("Not yet implemented")
-    }
-
-    override fun getNetworkLinkProperties(network: Network): LinkProperties? {
-        TODO("Not yet implemented")
     }
 }

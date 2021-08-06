@@ -13,9 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.android.wisefy.networkconnection
+package com.isupatches.android.wisefy.networkconnectionstatus
 
-interface NetworkConnectionApi {
-    fun connectToNetwork(ssidToConnectTo: String, timeoutInMillis: Int): Boolean
-    fun disconnectFromCurrentNetwork(): Boolean
+interface NetworkConnectionStatusApi {
+    fun attachNetworkWatcher()
+    fun detachNetworkWatcher()
+
+    fun isDeviceConnectedToMobileNetwork(): Boolean
+
+    fun isDeviceConnectedToMobileOrWifiNetwork(): Boolean
+
+    fun isDeviceConnectedToSSID(ssid: String): Boolean
+
+    fun isDeviceConnectedToWifiNetwork(): Boolean
+
+    fun isDeviceRoaming(): Boolean
 }

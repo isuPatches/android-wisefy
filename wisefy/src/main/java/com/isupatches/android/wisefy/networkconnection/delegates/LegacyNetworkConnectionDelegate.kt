@@ -15,61 +15,31 @@
  */
 package com.isupatches.android.wisefy.networkconnection.delegates
 
-import android.Manifest.permission.ACCESS_NETWORK_STATE
-import android.net.ConnectivityManager
 import android.net.wifi.WifiManager
-import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.networkconnection.NetworkConnectionApi
 import com.isupatches.android.wisefy.logging.WisefyLogger
+import com.isupatches.android.wisefy.networkconnectionstatus.NetworkConnectionStatusUtil
+import com.isupatches.android.wisefy.savednetworks.SavedNetworkUtil
 
 internal class LegacyNetworkConnectionDelegate(
-    connectivityManager: ConnectivityManager,
     wifiManager: WifiManager,
+    networkConnectionStatusUtil: NetworkConnectionStatusUtil,
+    savedNetworkUtil: SavedNetworkUtil,
+
     logger: WisefyLogger?,
     private val impl: LegacyNetworkConnectionApi = LegacyNetworkConnectionApiImpl(
         wifiManager,
-        connectivityManager,
+        networkConnectionStatusUtil,
+        savedNetworkUtil,
         logger
     )
 ) : NetworkConnectionApi {
 
-    @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun attachNetworkWatcher() {
-        impl.attachNetworkWatcher()
-    }
-
-    override fun detachNetworkWatcher() {
-        impl.detachNetworkWatcher()
-    }
-
     override fun connectToNetwork(ssidToConnectTo: String, timeoutInMillis: Int): Boolean {
-        TODO("Not yet implemented")
+        return impl.connectToNetwork(ssidToConnectTo, timeoutInMillis)
     }
 
     override fun disconnectFromCurrentNetwork(): Boolean {
-        TODO("Not yet implemented")
-    }
-
-    @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun isDeviceConnectedToMobileNetwork(): Boolean {
-        return impl.isDeviceConnectedToMobileNetwork()
-    }
-
-    override fun isDeviceConnectedToMobileOrWifiNetwork(): Boolean {
-        return impl.isDeviceConnectedToMobileOrWifiNetwork()
-    }
-
-    override fun isDeviceConnectedToSSID(ssid: String): Boolean {
-        return impl.isDeviceConnectedToSSID(ssid)
-    }
-
-    @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun isDeviceConnectedToWifiNetwork(): Boolean {
-        return impl.isDeviceConnectedToWifiNetwork()
-    }
-
-    @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun isDeviceRoaming(): Boolean {
-        return impl.isDeviceRoaming()
+        return impl.disconnectFromCurrentNetwork()
     }
 }

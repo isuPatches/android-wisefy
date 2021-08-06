@@ -24,7 +24,10 @@ interface SignalApi {
     @RequiresApi(Build.VERSION_CODES.R)
     fun calculateBars(rssiLevel: Int): Int
 
-    @Deprecated(DeprecationMessages.CALCULATE_BARS)
+    @Deprecated(
+        message = DeprecationMessages.CALCULATE_BARS,
+        replaceWith = ReplaceWith("this.calculateBars(rssiLevel)")
+    )
     fun calculateBars(rssiLevel: Int, targetNumberOfBars: Int): Int
 
     fun compareSignalLevel(rssi1: Int, rssi2: Int): Int

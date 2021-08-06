@@ -13,11 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.android.wisefy.networkconnection.entities
+package com.isupatches.android.wisefy.networkinfo.entities
 
-internal enum class NetworkConnectionStatus {
-    AVAILABLE,
-    LOSING,
-    LOST,
-    UNAVAILABLE
-}
+import android.net.LinkProperties
+import android.net.NetworkCapabilities
+
+data class CurrentNetworkInfoData(
+    val capabilities: NetworkCapabilities?,
+    val linkProperties: LinkProperties?
+)

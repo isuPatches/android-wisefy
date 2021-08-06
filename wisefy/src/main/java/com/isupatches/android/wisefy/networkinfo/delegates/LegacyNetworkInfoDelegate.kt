@@ -17,58 +17,35 @@ package com.isupatches.android.wisefy.networkinfo.delegates
 
 import android.Manifest.permission.ACCESS_NETWORK_STATE
 import android.net.ConnectivityManager
-import android.net.LinkProperties
 import android.net.Network
-import android.net.NetworkCapabilities
-import android.net.NetworkInfo
-import android.net.wifi.WifiInfo
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.logging.WisefyLogger
 import com.isupatches.android.wisefy.networkinfo.NetworkInfoApi
-import java.math.BigInteger
-import java.net.InetAddress
-import java.net.UnknownHostException
-
-private const val LOG_TAG = "LegacyNetworkInfoDelegate"
+import com.isupatches.android.wisefy.networkinfo.entities.CurrentNetworkData
+import com.isupatches.android.wisefy.networkinfo.entities.CurrentNetworkInfoData
 
 internal class LegacyNetworkInfoDelegate(
-    private val connectivityManager: ConnectivityManager,
-    private val wifiManager: WifiManager,
-    private val logger: WisefyLogger?
+    wifiManager: WifiManager,
+    connectivityManager: ConnectivityManager,
+    logger: WisefyLogger?,
+    private val impl: LegacyNetworkInfoApi = LegacyNetworkInfoApiImpl(
+        wifiManager,
+        connectivityManager,
+        logger
+    )
 ) : NetworkInfoApi {
 
-    override fun getCurrentNetwork(): WifiInfo? {
-        return wifiManager.connectionInfo
+    override fun getCurrentNetwork(): CurrentNetworkData {
+        return impl.getCurrentNetwork()
     }
 
-    @Deprecated("")
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun getCurrentNetworkInfo(): NetworkInfo? {
-        return connectivityManager.activeNetworkInfo
+    override fun getCurrentNetworkInfo(network: Network?): CurrentNetworkInfoData {
+        return impl.getCurrentNetworkInfo(network)
     }
 
     override fun getIP(): String? {
-        val ipAddress = BigInteger.valueOf(wifiManager.connectionInfo.ipAddress.toLong()).toByteArray()
-        try {
-            return InetAddress.getByAddress(ipAddress).hostAddress
-        } catch (uhe: UnknownHostException) {
-            logger?.e(LOG_TAG, uhe, "UnknownHostException while gathering IP (sync)")
-        }
-        return null
-    }
-
-    @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun getNetworkCapabilities(network: Network?): NetworkCapabilities? {
-        return connectivityManager.getNetworkCapabilities(
-            network ?: connectivityManager.activeNetwork
-        )
-    }
-
-    @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun getNetworkLinkProperties(network: Network?): LinkProperties? {
-        return connectivityManager.getLinkProperties(
-            network ?: connectivityManager.activeNetwork
-        )
+        return impl.getIP()
     }
 }

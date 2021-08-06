@@ -17,10 +17,6 @@ package com.isupatches.android.wisefy.sample.ui.misc
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.content.pm.PackageManager
-import android.net.NetworkInfo
-import android.net.wifi.ScanResult
-import android.net.wifi.WifiConfiguration
-import android.net.wifi.WifiInfo
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -28,9 +24,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.VisibleForTesting
 import com.isupatches.android.viewglu.paste
+import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
+import com.isupatches.android.wisefy.networkinfo.entities.CurrentNetworkData
+import com.isupatches.android.wisefy.networkinfo.entities.CurrentNetworkInfoData
 import com.isupatches.android.wisefy.sample.R
 import com.isupatches.android.wisefy.sample.databinding.FragmentMiscBinding
 import com.isupatches.android.wisefy.sample.internal.base.BaseFragment
+import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
 import javax.inject.Inject
 
 @VisibleForTesting internal const val WISEFY_GET_FREQUENCY_REQUEST_CODE = 1
@@ -46,18 +46,18 @@ internal interface MiscView {
     fun displayFailureDisablingWifi()
     fun displayWifiEnabled()
     fun displayFailureEnablingWifi()
-    fun displayCurrentNetwork(currentNetwork: WifiInfo)
+    fun displayCurrentNetwork(currentNetwork: CurrentNetworkData)
     fun displayNoCurrentNetwork()
-    fun displayCurrentNetworkInfo(currentNetworkInfo: NetworkInfo)
+    fun displayCurrentNetworkInfo(currentNetworkInfo: CurrentNetworkInfoData)
     fun displayNoCurrentNetworkInfo()
     fun displayFrequency(frequency: Int)
     fun displayFailureRetrievingFrequency()
     fun displayIP(ip: String)
     fun displayFailureRetrievingIP()
-    fun displayNearbyAccessPoints(accessPoints: List<ScanResult>)
+    fun displayNearbyAccessPoints(accessPoints: List<AccessPointData>)
     fun displayNoAccessPointsFound()
     fun displayNoSavedNetworksFound()
-    fun displaySavedNetworks(savedNetworks: List<WifiConfiguration>)
+    fun displaySavedNetworks(savedNetworks: List<SavedNetworkData>)
 }
 
 @Suppress("LargeClass")
@@ -135,7 +135,7 @@ internal class MiscFragment : BaseFragment(), MiscView {
         displayInfo(R.string.failure_enabling_wifi, R.string.wisefy_action_result)
     }
 
-    override fun displayCurrentNetwork(currentNetwork: WifiInfo) {
+    override fun displayCurrentNetwork(currentNetwork: CurrentNetworkData) {
         displayInfoFullScreen(
             getString(R.string.current_network_args, currentNetwork),
             R.string.wisefy_action_result
@@ -146,7 +146,7 @@ internal class MiscFragment : BaseFragment(), MiscView {
         displayInfo(R.string.no_current_network, R.string.wisefy_action_result)
     }
 
-    override fun displayCurrentNetworkInfo(currentNetworkInfo: NetworkInfo) {
+    override fun displayCurrentNetworkInfo(currentNetworkInfo: CurrentNetworkInfoData) {
         displayInfoFullScreen(
             getString(R.string.current_network_info_args, currentNetworkInfo),
             R.string.wisefy_action_result
@@ -173,7 +173,7 @@ internal class MiscFragment : BaseFragment(), MiscView {
         displayInfo(R.string.failure_retrieving_ip, R.string.wisefy_action_result)
     }
 
-    override fun displayNearbyAccessPoints(accessPoints: List<ScanResult>) {
+    override fun displayNearbyAccessPoints(accessPoints: List<AccessPointData>) {
         displayInfoFullScreen(
             getString(R.string.access_points_args, accessPoints),
             R.string.wisefy_action_result
@@ -184,7 +184,7 @@ internal class MiscFragment : BaseFragment(), MiscView {
         displayInfo(R.string.no_access_points_found, R.string.wisefy_action_result)
     }
 
-    override fun displaySavedNetworks(savedNetworks: List<WifiConfiguration>) {
+    override fun displaySavedNetworks(savedNetworks: List<SavedNetworkData>) {
         displayInfoFullScreen(
             getString(R.string.saved_networks_args, savedNetworks),
             R.string.wisefy_action_result

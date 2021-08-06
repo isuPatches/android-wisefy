@@ -18,13 +18,13 @@ package com.isupatches.android.wisefy.savednetworks
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.net.wifi.WifiManager
-import android.os.Build
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.logging.WisefyLogger
 import com.isupatches.android.wisefy.savednetworks.delegates.Android29SavedNetworkDelegate
 import com.isupatches.android.wisefy.savednetworks.delegates.Android30SavedNetworkDelegate
 import com.isupatches.android.wisefy.savednetworks.delegates.LegacySavedNetworkDelegate
 import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
+import com.isupatches.android.wisefy.util.SdkUtil
 
 internal interface SavedNetworkUtil : SavedNetworkApi
 
@@ -32,12 +32,13 @@ private const val LOG_TAG = "WisefySavedNetworkUtil"
 
 internal class WisefySavedNetworkUtil(
     wifiManager: WifiManager,
+    sdkUtil: SdkUtil,
     logger: WisefyLogger?
 ) : SavedNetworkUtil {
 
     private val delegate = when {
-        Build.VERSION.SDK_INT >= Build.VERSION_CODES.R -> Android30SavedNetworkDelegate(wifiManager)
-        Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q -> Android29SavedNetworkDelegate(logger)
+        sdkUtil.isAtLeastR() -> Android30SavedNetworkDelegate(wifiManager)
+        sdkUtil.isAtLeastQ() -> Android29SavedNetworkDelegate(logger)
         else -> LegacySavedNetworkDelegate(wifiManager)
     }
 

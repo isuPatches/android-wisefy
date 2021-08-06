@@ -16,19 +16,19 @@
 package com.isupatches.android.wisefy.logging
 
 interface WisefyLogger {
-    fun i(tag: String, message: String, vararg args: Any)
+    fun i(tag: String, message: String, vararg args: Any): Int
 
-    fun v(tag: String, message: String, vararg args: Any)
+    fun v(tag: String, message: String, vararg args: Any): Int
 
-    fun d(tag: String, message: String, vararg args: Any)
+    fun d(tag: String, message: String, vararg args: Any): Int
 
-    fun w(tag: String, message: String, vararg args: Any)
+    fun w(tag: String, message: String, vararg args: Any): Int
 
-    fun e(tag: String, message: String, vararg args: Any)
+    fun e(tag: String, message: String, vararg args: Any): Int
 
-    fun e(tag: String, throwable: Throwable, message: String, vararg args: Any)
+    fun e(tag: String, throwable: Throwable, message: String, vararg args: Any): Int
 
-    fun wtf(tag: String, message: String, vararg args: Any)
+    fun wtf(tag: String, message: String, vararg args: Any): Int
 
-    fun wtf(tag: String, throwable: Throwable, message: String, vararg args: Any)
+    fun wtf(tag: String, throwable: Throwable, message: String, vararg args: Any): Int
 }

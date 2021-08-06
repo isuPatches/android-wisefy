@@ -116,8 +116,8 @@ internal class RemoveNetworkFragment : BaseFragment(), RemoveNetworkView {
      */
 
     private fun checkRemoveNetworkPermissions(): Boolean {
-        return isPermissionGranted(ACCESS_FINE_LOCATION, WISEFY_REMOVE_NETWORK_REQUEST_CODE)
-            && isPermissionGranted(CHANGE_WIFI_STATE, WISEFY_REMOVE_NETWORK_REQUEST_CODE)
+        return isPermissionGranted(ACCESS_FINE_LOCATION, WISEFY_REMOVE_NETWORK_REQUEST_CODE) &&
+            isPermissionGranted(CHANGE_WIFI_STATE, WISEFY_REMOVE_NETWORK_REQUEST_CODE)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {

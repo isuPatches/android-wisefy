@@ -23,6 +23,7 @@ import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
 import com.isupatches.android.wisefy.addnetwork.entities.OpenNetworkData
 import com.isupatches.android.wisefy.addnetwork.entities.WPA2NetworkData
 import com.isupatches.android.wisefy.addnetwork.entities.WPA3NetworkData
+import com.isupatches.android.wisefy.constants.ErrorMessages
 
 internal class LegacyAddNetworkDelegate(
     wifiManager: WifiManager,
@@ -36,7 +37,7 @@ internal class LegacyAddNetworkDelegate(
                 impl.addOpenNetwork(data.ssid)
             }
             is OpenNetworkData.SsidAndActivityResultLauncher -> {
-                error("OpenNetworkData.SsidAndActivityResultLauncher is not available until Android 30")
+                error(ErrorMessages.AddNetwork.ActivityResultLauncher.USED_PRE_ANDROID_30)
             }
         }
     }
@@ -48,13 +49,13 @@ internal class LegacyAddNetworkDelegate(
                 impl.addWPA2Network(data.ssid, data.passphrase)
             }
             is WPA2NetworkData.SsidPassphraseAndActivityResultLauncher -> {
-                error("WPA2NetworkData.SsidPassphraseAndActivityResultLauncher is not available until Android 30")
+                error(ErrorMessages.AddNetwork.ActivityResultLauncher.USED_PRE_ANDROID_30)
             }
         }
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun addWPA3Network(data: WPA3NetworkData): AddNetworkResult {
-        error("WPA3 networks are not supported until Android Q")
+        error(ErrorMessages.AddNetwork.WPA3Network.PRE_ANDROID_29)
     }
 }

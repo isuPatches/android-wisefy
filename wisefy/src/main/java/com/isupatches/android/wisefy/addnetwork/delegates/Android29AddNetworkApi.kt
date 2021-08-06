@@ -40,6 +40,8 @@ internal interface Android29AddNetworkApi {
 }
 
 private const val LOG_TAG = "Android29AddNetworkApiImpl"
+private const val ANDROID_Q_SAVE_NETWORK_WARNING =
+    "There is no known way to save a network on Android Q similar to pre-Q or R+ behavior"
 
 @RequiresApi(Build.VERSION_CODES.Q)
 internal class Android29AddNetworkApiImpl(
@@ -49,7 +51,7 @@ internal class Android29AddNetworkApiImpl(
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     override fun addOpenNetwork(ssid: String): AddNetworkResult {
-        logger?.w(LOG_TAG, "There is no way to save a network on Android Q similar to pre-Q or R+ behavior")
+        logger?.w(LOG_TAG, ANDROID_Q_SAVE_NETWORK_WARNING)
         val suggestion = createOpenNetworkSuggestion(ssid)
         val resultCode = wifiManager.addNetworkSuggestions(arrayListOf(suggestion))
         return AddNetworkResult.ResultCode(resultCode)
@@ -57,7 +59,7 @@ internal class Android29AddNetworkApiImpl(
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     override fun addWPA2Network(ssid: String, passphrase: String): AddNetworkResult {
-        logger?.w(LOG_TAG, "There is no way to save a network on Android Q similar to pre-Q or R+ behavior")
+        logger?.w(LOG_TAG, ANDROID_Q_SAVE_NETWORK_WARNING)
         val suggestion = createWPA2NetworkSuggestion(ssid, passphrase)
         val resultCode = wifiManager.addNetworkSuggestions(listOf(suggestion))
         return AddNetworkResult.ResultCode(resultCode)
@@ -65,7 +67,7 @@ internal class Android29AddNetworkApiImpl(
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     override fun addWPA3Network(ssid: String, passphrase: String): AddNetworkResult {
-        logger?.w(LOG_TAG, "There is no way to save a network on Android Q similar to pre-Q or R+ behavior")
+        logger?.w(LOG_TAG, ANDROID_Q_SAVE_NETWORK_WARNING)
         val suggestion = createWPA3NetworkSuggestion(ssid, passphrase)
         val resultCode = wifiManager.addNetworkSuggestions(arrayListOf(suggestion))
         return AddNetworkResult.ResultCode(resultCode)

@@ -21,16 +21,22 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 
+const val MIN_FREQUENCY_5GHZ: Int = 4900
+const val MAX_FREQUENCY_5GHZ: Int = 5900
+
 interface FrequencyApi {
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     fun getFrequency(): Int?
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     fun getFrequency(network: WifiInfo): Int
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     fun isNetwork5gHz(): Boolean
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     fun isNetwork5gHz(network: WifiInfo): Boolean
 }

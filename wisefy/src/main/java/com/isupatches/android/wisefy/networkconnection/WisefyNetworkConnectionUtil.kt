@@ -15,40 +15,32 @@
  */
 package com.isupatches.android.wisefy.networkconnection
 
-import android.Manifest.permission.ACCESS_NETWORK_STATE
-import android.net.ConnectivityManager
 import android.net.wifi.WifiManager
-import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.logging.WisefyLogger
 import com.isupatches.android.wisefy.networkconnection.delegates.LegacyNetworkConnectionDelegate
+import com.isupatches.android.wisefy.networkconnectionstatus.NetworkConnectionStatusUtil
+import com.isupatches.android.wisefy.savednetworks.SavedNetworkUtil
 
 internal interface NetworkConnectionUtil : NetworkConnectionApi
 
 private const val LOG_TAG = "WisefyNetworkConnectionUtil"
 
 internal class WisefyNetworkConnectionUtil(
-    connectivityManager: ConnectivityManager,
     wifiManager: WifiManager,
+    networkConnectionStatusUtil: NetworkConnectionStatusUtil,
+    savedNetworkUtil: SavedNetworkUtil,
     logger: WisefyLogger?
 ) : NetworkConnectionUtil {
 
     private val delegate = LegacyNetworkConnectionDelegate(
-        connectivityManager,
         wifiManager,
+        networkConnectionStatusUtil,
+        savedNetworkUtil,
         logger
     )
 
     init {
         logger?.d(LOG_TAG, "WisefyNetworkConnectionUtil delegate is: ${delegate::class.java.simpleName}")
-    }
-
-    @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun attachNetworkWatcher() {
-        delegate.attachNetworkWatcher()
-    }
-
-    override fun detachNetworkWatcher() {
-        delegate.detachNetworkWatcher()
     }
 
     override fun connectToNetwork(ssidToConnectTo: String, timeoutInMillis: Int): Boolean {
@@ -57,28 +49,5 @@ internal class WisefyNetworkConnectionUtil(
 
     override fun disconnectFromCurrentNetwork(): Boolean {
         return disconnectFromCurrentNetwork()
-    }
-
-    @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun isDeviceConnectedToMobileNetwork(): Boolean {
-        return delegate.isDeviceConnectedToMobileNetwork()
-    }
-
-    override fun isDeviceConnectedToMobileOrWifiNetwork(): Boolean {
-        return delegate.isDeviceConnectedToMobileOrWifiNetwork()
-    }
-
-    override fun isDeviceConnectedToSSID(ssid: String): Boolean {
-        return delegate.isDeviceConnectedToSSID(ssid)
-    }
-
-    @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun isDeviceConnectedToWifiNetwork(): Boolean {
-        return delegate.isDeviceConnectedToWifiNetwork()
-    }
-
-    @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun isDeviceRoaming(): Boolean {
-        return delegate.isDeviceRoaming()
     }
 }
