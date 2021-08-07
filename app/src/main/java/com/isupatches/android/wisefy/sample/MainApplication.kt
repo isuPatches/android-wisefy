@@ -20,7 +20,6 @@ import android.content.Context
 import com.isupatches.android.wisefy.sample.internal.di.ScreenBindingsModule
 import com.isupatches.android.wisefy.sample.internal.util.PermissionUtil
 import com.isupatches.android.wisefy.sample.internal.util.PermissionsUtilImpl
-import com.isupatches.android.wisefy.sample.internal.util.RxSchedulersProvider
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.DispatchingAndroidInjector
@@ -40,7 +39,6 @@ internal open class MainApplication : Application(), HasAndroidInjector {
     private fun initializeDependencyInjection() {
         mainApplicationComponent = DaggerMainApplication_MainApplicationComponent.builder()
             .application(this)
-            .rxSchedulersProvider(RxSchedulersProvider())
             .permissionsUtil(PermissionsUtilImpl())
             .build()
         mainApplicationComponent.inject(this)
@@ -66,7 +64,6 @@ internal open class MainApplication : Application(), HasAndroidInjector {
             fun build(): MainApplicationComponent
 
             @BindsInstance fun application(prov: Context): Builder
-            @BindsInstance fun rxSchedulersProvider(prov: RxSchedulersProvider): Builder
             @BindsInstance fun permissionsUtil(prov: PermissionUtil): Builder
         }
     }

@@ -23,7 +23,6 @@ import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkResult
 import com.isupatches.android.wisefy.sample.internal.scaffolding.BasePresenter
 import com.isupatches.android.wisefy.sample.internal.scaffolding.Presenter
-import com.isupatches.android.wisefy.sample.internal.util.RxSchedulersProvider
 import javax.inject.Inject
 
 internal interface RemoveNetworkPresenter : Presenter<RemoveNetworkFragment> {
@@ -35,8 +34,7 @@ internal interface RemoveNetworkPresenter : Presenter<RemoveNetworkFragment> {
 @RemoveNetworkScope
 internal class DefaultRemoveNetworkPresenter @Inject constructor(
     private val model: RemoveNetworkModel,
-    rxSchedulersProvider: RxSchedulersProvider
-) : BasePresenter<RemoveNetworkFragment>(rxSchedulersProvider), RemoveNetworkPresenter {
+) : BasePresenter<RemoveNetworkFragment>(), RemoveNetworkPresenter {
 
     /*
      * Model call-throughs

@@ -13,8 +13,3 @@
 -assumenosideeffects class kotlin.jvm.internal.Intrinsics {
     static void checkParameterIsNotNull(java.lang.Object, java.lang.String);
 }
-
-# RxJava
--keep class io.reactivex.schedulers.Schedulers {
-    public static <methods>;
-}

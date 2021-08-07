@@ -21,7 +21,8 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.WisefyApi
-import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
+import com.isupatches.android.wisefy.callbacks.GetFrequencyCallbacks
+import com.isupatches.android.wisefy.callbacks.GetNearbyAccessPointCallbacks
 import com.isupatches.android.wisefy.networkinfo.entities.CurrentNetworkData
 import com.isupatches.android.wisefy.networkinfo.entities.CurrentNetworkInfoData
 import com.isupatches.android.wisefy.sample.internal.scaffolding.BaseModel
@@ -40,13 +41,13 @@ internal interface MiscModel {
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    fun getFrequency(): Int
+    fun getFrequency(callbacks: GetFrequencyCallbacks?)
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     fun getIP(): String
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    fun getNearbyAccessPoints(): List<AccessPointData>
+    fun getNearbyAccessPoints(callbacks: GetNearbyAccessPointCallbacks?)
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     fun getSavedNetworks(): List<SavedNetworkData>
@@ -75,8 +76,8 @@ internal class DefaultMiscModel @Inject constructor(
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    override fun getFrequency(): Int {
-        return wiseFy.getFrequency() ?: -1
+    override fun getFrequency(callbacks: GetFrequencyCallbacks?) {
+        wiseFy.getFrequency(callbacks)
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
@@ -85,8 +86,8 @@ internal class DefaultMiscModel @Inject constructor(
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun getNearbyAccessPoints(): List<AccessPointData> {
-        return wiseFy.getNearbyAccessPoints(true)
+    override fun getNearbyAccessPoints(callbacks: GetNearbyAccessPointCallbacks?) {
+        return wiseFy.getNearbyAccessPoints(true, callbacks)
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])

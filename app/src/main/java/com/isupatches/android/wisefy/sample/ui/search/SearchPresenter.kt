@@ -20,7 +20,6 @@ import android.Manifest.permission.ACCESS_WIFI_STATE
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.sample.internal.scaffolding.BasePresenter
 import com.isupatches.android.wisefy.sample.internal.scaffolding.Presenter
-import com.isupatches.android.wisefy.sample.internal.util.RxSchedulersProvider
 import javax.inject.Inject
 
 internal interface SearchPresenter : Presenter<SearchFragment> {
@@ -45,9 +44,8 @@ internal interface SearchPresenter : Presenter<SearchFragment> {
 
 @SearchScope
 internal class DefaultSearchPresenter @Inject constructor(
-    private val model: SearchModel,
-    rxSchedulersProvider: RxSchedulersProvider
-) : BasePresenter<SearchFragment>(rxSchedulersProvider), SearchPresenter {
+    private val model: SearchModel
+) : BasePresenter<SearchFragment>(), SearchPresenter {
 
     /*
      * Model call-throughs

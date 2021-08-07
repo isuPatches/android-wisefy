@@ -13,11 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.android.wisefy.networkconnection
+package com.isupatches.android.wisefy.networkconnection.entities
 
-import com.isupatches.android.wisefy.networkconnection.entities.NetworkConnectionResult
+sealed class NetworkConnectionResult {
 
-interface NetworkConnectionApi {
-    fun connectToNetwork(ssidToConnectTo: String, timeoutInMillis: Int): NetworkConnectionResult
-    fun disconnectFromCurrentNetwork(): NetworkConnectionResult
+    data class Succeeded(
+        val data: Boolean
+    ) : NetworkConnectionResult()
+
+    object RequestPlaced : NetworkConnectionResult()
 }

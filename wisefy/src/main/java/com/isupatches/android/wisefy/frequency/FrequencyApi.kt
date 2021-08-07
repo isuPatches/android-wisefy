@@ -15,11 +15,13 @@
  */
 package com.isupatches.android.wisefy.frequency
 
+import android.Manifest
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.net.wifi.WifiInfo
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
+import com.isupatches.android.wisefy.callbacks.GetFrequencyCallbacks
 
 const val MIN_FREQUENCY_5GHZ: Int = 4900
 const val MAX_FREQUENCY_5GHZ: Int = 5900
@@ -39,4 +41,10 @@ interface FrequencyApi {
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     fun isNetwork5gHz(network: WifiInfo): Boolean
+}
+
+interface FrequencyApiAsync {
+    @RequiresPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    fun getFrequency(callbacks: GetFrequencyCallbacks?)
 }

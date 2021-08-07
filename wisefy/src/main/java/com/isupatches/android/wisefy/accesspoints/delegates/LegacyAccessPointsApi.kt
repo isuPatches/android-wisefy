@@ -69,15 +69,12 @@ internal class LegacyAccessPointsApiImpl(
     @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun getNearbyAccessPoints(filterDuplicates: Boolean): List<AccessPointData> {
         val accessPointsTemp = scanResultsProvider()
-
         if (accessPointsTemp == null || accessPointsTemp.isEmpty()) {
             return emptyList()
         }
 
         return if (filterDuplicates) {
-            removeEntriesWithLowerSignalStrength(accessPointsTemp).map { scanResult ->
-                AccessPointData.ScanData(data = scanResult)
-            }
+            removeEntriesWithLowerSignalStrength(accessPointsTemp)
         } else {
             accessPointsTemp.map { scanResult -> AccessPointData.ScanData(data = scanResult) }
         }
@@ -216,32 +213,36 @@ internal class LegacyAccessPointsApiImpl(
         return true
     }
 
-    private fun removeEntriesWithLowerSignalStrength(accessPoints: List<ScanResult>): List<ScanResult> {
-        val accessPointsToReturn = ArrayList<ScanResult>()
+    private fun removeEntriesWithLowerSignalStrength(accessPoints: List<ScanResult>): List<AccessPointData> {
+        val accessPointsToReturn = ArrayList<AccessPointData.ScanData>()
 
         for (accessPoint in accessPoints) {
             var found = false
             for (i in accessPointsToReturn.indices) {
-                val scanResult = accessPointsToReturn[i]
-                logger?.d(LOG_TAG, "SSID 1: %s, SSID 2: %s", accessPoint.SSID, scanResult.SSID)
-                if (accessPoint.SSID.equals(scanResult.SSID, ignoreCase = true)) {
+                val accessPointData = accessPointsToReturn[i]
+                if (accessPointData.data == null) {
+                    continue
+                }
+
+                logger?.d(LOG_TAG, "SSID 1: %s, SSID 2: %s", accessPoint.SSID, accessPointData.data.SSID)
+                if (accessPoint.SSID.equals(accessPointData.data.SSID, ignoreCase = true)) {
                     found = true
-                    val comparisonResult = WifiManager.compareSignalLevel(accessPoint.level, scanResult.level)
+                    val comparisonResult = WifiManager.compareSignalLevel(accessPoint.level, accessPointData.data.level)
                     logger?.d(
                         LOG_TAG,
                         "Access point 1 RSSI: %d\nAccess point 2 RSSI: %d\nComparison result: %d",
-                        scanResult.level, accessPoint.level, comparisonResult
+                        accessPointData.data.level, accessPoint.level, comparisonResult
                     )
                     if (comparisonResult > 0) {
                         logger?.d(LOG_TAG, "New result has a higher or same signal strength, swapping")
-                        accessPointsToReturn[i] = accessPoint
+                        accessPointsToReturn[i] = AccessPointData.ScanData(accessPoint)
                     }
                 }
             }
 
             if (!found) {
                 logger?.d(LOG_TAG, "Found new wifi network")
-                accessPointsToReturn.add(accessPoint)
+                accessPointsToReturn.add(AccessPointData.ScanData(accessPoint))
             }
         }
         return accessPointsToReturn

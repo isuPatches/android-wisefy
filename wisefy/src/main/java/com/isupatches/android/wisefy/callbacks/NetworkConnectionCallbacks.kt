@@ -13,11 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.android.wisefy.networkconnection
+package com.isupatches.android.wisefy.callbacks
 
-import com.isupatches.android.wisefy.networkconnection.entities.NetworkConnectionResult
+interface ConnectToNetworkCallbacks : BaseWisefyCallbacks {
+    fun connectedToNetwork()
+    fun failureConnectingToNetwork()
+    fun networkNotFoundToConnectTo()
+}
 
-interface NetworkConnectionApi {
-    fun connectToNetwork(ssidToConnectTo: String, timeoutInMillis: Int): NetworkConnectionResult
-    fun disconnectFromCurrentNetwork(): NetworkConnectionResult
+interface DisconnectFromCurrentNetworkCallbacks : BaseWisefyCallbacks {
+    fun disconnectedFromCurrentNetwork()
+    fun failureDisconnectingFromCurrentNetwork()
 }

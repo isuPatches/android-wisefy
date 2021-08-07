@@ -15,27 +15,20 @@
  */
 package com.isupatches.android.wisefy.networkconnection.delegates
 
-import android.net.wifi.WifiManager
-import com.isupatches.android.wisefy.networkconnection.NetworkConnectionApi
+import android.net.ConnectivityManager
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.isupatches.android.wisefy.logging.WisefyLogger
+import com.isupatches.android.wisefy.networkconnection.NetworkConnectionApi
 import com.isupatches.android.wisefy.networkconnection.entities.NetworkConnectionResult
-import com.isupatches.android.wisefy.networkconnectionstatus.NetworkConnectionStatusUtil
-import com.isupatches.android.wisefy.savednetworks.SavedNetworkUtil
 
-internal class LegacyNetworkConnectionDelegate(
-    wifiManager: WifiManager,
-    networkConnectionStatusUtil: NetworkConnectionStatusUtil,
-    savedNetworkUtil: SavedNetworkUtil,
-
+internal class Android29NetworkConnectionDelegate(
+    connectivityManager: ConnectivityManager,
     logger: WisefyLogger?,
-    private val impl: LegacyNetworkConnectionApi = LegacyNetworkConnectionApiImpl(
-        wifiManager,
-        networkConnectionStatusUtil,
-        savedNetworkUtil,
-        logger
-    )
+    private val impl: Android29NetworkConnectionApi = Android29NetworkConnectionApiImpl(connectivityManager, logger)
 ) : NetworkConnectionApi {
 
+    @RequiresApi(Build.VERSION_CODES.Q)
     override fun connectToNetwork(ssidToConnectTo: String, timeoutInMillis: Int): NetworkConnectionResult {
         return impl.connectToNetwork(ssidToConnectTo, timeoutInMillis)
     }

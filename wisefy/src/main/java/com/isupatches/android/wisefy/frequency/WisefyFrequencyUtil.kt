@@ -21,19 +21,32 @@ import android.net.wifi.WifiManager
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
+import com.isupatches.android.wisefy.callbacks.GetFrequencyCallbacks
 import com.isupatches.android.wisefy.frequency.delegates.LegacyFrequencyDelegate
 import com.isupatches.android.wisefy.logging.WisefyLogger
+import com.isupatches.android.wisefy.util.CoroutineDispatcherProvider
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-internal interface FrequencyUtil : FrequencyApi
+internal interface FrequencyUtil : FrequencyApi {
+
+    @RequiresPermission(ACCESS_FINE_LOCATION)
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    fun getFrequency(callbacks: GetFrequencyCallbacks?)
+}
 
 private const val LOG_TAG = "WisefyFrequencyUtil"
 
 internal class WisefyFrequencyUtil(
     wifiManager: WifiManager,
+    private val coroutineDispatcherProvider: CoroutineDispatcherProvider,
     logger: WisefyLogger?
 ) : FrequencyUtil {
 
     private val delegate = LegacyFrequencyDelegate(wifiManager)
+    private val frequencyScope = CoroutineScope(Job() + coroutineDispatcherProvider.io)
 
     init {
         logger?.d(LOG_TAG, "WisefyFrequencyUtil delegate is: ${delegate::class.java.simpleName}")
@@ -43,6 +56,21 @@ internal class WisefyFrequencyUtil(
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun getFrequency(): Int? {
         return delegate.getFrequency()
+    }
+
+    @RequiresPermission(ACCESS_FINE_LOCATION)
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    override fun getFrequency(callbacks: GetFrequencyCallbacks?) {
+        frequencyScope.launch {
+            val frequency = delegate.getFrequency()
+            withContext(coroutineDispatcherProvider.main) {
+                if (frequency != null) {
+                    callbacks?.retrievedFrequency(frequency)
+                } else {
+                    callbacks?.failureGettingFrequency()
+                }
+            }
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)

@@ -13,11 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.android.wisefy.networkconnection
+package com.isupatches.android.wisefy.util
 
-import com.isupatches.android.wisefy.networkconnection.entities.NetworkConnectionResult
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 
-interface NetworkConnectionApi {
-    fun connectToNetwork(ssidToConnectTo: String, timeoutInMillis: Int): NetworkConnectionResult
-    fun disconnectFromCurrentNetwork(): NetworkConnectionResult
+internal class CoroutineDispatcherProvider {
+    val io: CoroutineDispatcher = Dispatchers.IO
+    val main: CoroutineDispatcher = Dispatchers.Main
 }

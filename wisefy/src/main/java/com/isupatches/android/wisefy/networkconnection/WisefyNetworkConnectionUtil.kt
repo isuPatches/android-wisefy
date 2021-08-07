@@ -15,11 +15,15 @@
  */
 package com.isupatches.android.wisefy.networkconnection
 
+import android.net.ConnectivityManager
 import android.net.wifi.WifiManager
 import com.isupatches.android.wisefy.logging.WisefyLogger
+import com.isupatches.android.wisefy.networkconnection.delegates.Android29NetworkConnectionDelegate
 import com.isupatches.android.wisefy.networkconnection.delegates.LegacyNetworkConnectionDelegate
+import com.isupatches.android.wisefy.networkconnection.entities.NetworkConnectionResult
 import com.isupatches.android.wisefy.networkconnectionstatus.NetworkConnectionStatusUtil
 import com.isupatches.android.wisefy.savednetworks.SavedNetworkUtil
+import com.isupatches.android.wisefy.util.SdkUtil
 
 internal interface NetworkConnectionUtil : NetworkConnectionApi
 
@@ -27,27 +31,34 @@ private const val LOG_TAG = "WisefyNetworkConnectionUtil"
 
 internal class WisefyNetworkConnectionUtil(
     wifiManager: WifiManager,
+    connectivityManager: ConnectivityManager,
     networkConnectionStatusUtil: NetworkConnectionStatusUtil,
     savedNetworkUtil: SavedNetworkUtil,
+    sdkUtil: SdkUtil,
     logger: WisefyLogger?
 ) : NetworkConnectionUtil {
 
-    private val delegate = LegacyNetworkConnectionDelegate(
-        wifiManager,
-        networkConnectionStatusUtil,
-        savedNetworkUtil,
-        logger
-    )
+    private val delegate = when {
+        sdkUtil.isAtLeastQ() -> Android29NetworkConnectionDelegate(connectivityManager, logger)
+        else -> {
+            LegacyNetworkConnectionDelegate(
+                wifiManager,
+                networkConnectionStatusUtil,
+                savedNetworkUtil,
+                logger
+            )
+        }
+    }
 
     init {
         logger?.d(LOG_TAG, "WisefyNetworkConnectionUtil delegate is: ${delegate::class.java.simpleName}")
     }
 
-    override fun connectToNetwork(ssidToConnectTo: String, timeoutInMillis: Int): Boolean {
+    override fun connectToNetwork(ssidToConnectTo: String, timeoutInMillis: Int): NetworkConnectionResult {
         return delegate.connectToNetwork(ssidToConnectTo, timeoutInMillis)
     }
 
-    override fun disconnectFromCurrentNetwork(): Boolean {
-        return disconnectFromCurrentNetwork()
+    override fun disconnectFromCurrentNetwork(): NetworkConnectionResult {
+        return delegate.disconnectFromCurrentNetwork()
     }
 }

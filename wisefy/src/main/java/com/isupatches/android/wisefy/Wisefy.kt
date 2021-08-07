@@ -40,12 +40,20 @@ import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
 import com.isupatches.android.wisefy.addnetwork.entities.OpenNetworkData
 import com.isupatches.android.wisefy.addnetwork.entities.WPA2NetworkData
 import com.isupatches.android.wisefy.addnetwork.entities.WPA3NetworkData
+import com.isupatches.android.wisefy.callbacks.GetFrequencyCallbacks
+import com.isupatches.android.wisefy.callbacks.GetNearbyAccessPointCallbacks
+import com.isupatches.android.wisefy.callbacks.GetRSSICallbacks
+import com.isupatches.android.wisefy.callbacks.SearchForAccessPointCallbacks
+import com.isupatches.android.wisefy.callbacks.SearchForAccessPointsCallbacks
+import com.isupatches.android.wisefy.callbacks.SearchForSSIDCallbacks
+import com.isupatches.android.wisefy.callbacks.SearchForSSIDsCallbacks
 import com.isupatches.android.wisefy.constants.DeprecationMessages
 import com.isupatches.android.wisefy.frequency.FrequencyUtil
 import com.isupatches.android.wisefy.frequency.WisefyFrequencyUtil
 import com.isupatches.android.wisefy.logging.WisefyLogger
 import com.isupatches.android.wisefy.networkconnection.NetworkConnectionUtil
 import com.isupatches.android.wisefy.networkconnection.WisefyNetworkConnectionUtil
+import com.isupatches.android.wisefy.networkconnection.entities.NetworkConnectionResult
 import com.isupatches.android.wisefy.networkconnectionstatus.NetworkConnectionStatusUtil
 import com.isupatches.android.wisefy.networkconnectionstatus.WisefyNetworkConnectionStatusUtil
 import com.isupatches.android.wisefy.networkinfo.NetworkInfoUtil
@@ -62,6 +70,7 @@ import com.isupatches.android.wisefy.security.SecurityUtil
 import com.isupatches.android.wisefy.security.WisefySecurityUtil
 import com.isupatches.android.wisefy.signal.SignalUtil
 import com.isupatches.android.wisefy.signal.WisefySignalUtil
+import com.isupatches.android.wisefy.util.CoroutineDispatcherProvider
 import com.isupatches.android.wisefy.util.SdkUtilImpl
 import com.isupatches.android.wisefy.wifi.WifiUtil
 import com.isupatches.android.wisefy.wifi.WisefyWifiUtil
@@ -109,11 +118,12 @@ class Wisefy private constructor(
             wifiManager = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
 
             val sdkUtil = SdkUtilImpl()
+            val coroutineDispatcherProvider = CoroutineDispatcherProvider()
 
             addNetworkUtil = WisefyAddNetworkUtil(wifiManager, sdkUtil, logger)
             savedNetworkUtil = WisefySavedNetworkUtil(wifiManager, sdkUtil, logger)
             removeNetworkUtil = WisefyRemoveNetworkUtil(wifiManager, sdkUtil, logger, savedNetworkUtil)
-            frequencyUtil = WisefyFrequencyUtil(wifiManager, logger)
+            frequencyUtil = WisefyFrequencyUtil(wifiManager, coroutineDispatcherProvider, logger)
             securityUtil = WisefySecurityUtil(logger)
             signalUtil = WisefySignalUtil(wifiManager, sdkUtil, logger)
             networkConnectionStatusUtil = WisefyNetworkConnectionStatusUtil(
@@ -124,11 +134,13 @@ class Wisefy private constructor(
             )
             networkConnectionUtil = WisefyNetworkConnectionUtil(
                 wifiManager,
+                connectivityManager,
                 networkConnectionStatusUtil,
                 savedNetworkUtil,
+                sdkUtil,
                 logger
             )
-            accessPointsUtil = WisefyAccessPointsUtil(wifiManager, logger)
+            accessPointsUtil = WisefyAccessPointsUtil(wifiManager, coroutineDispatcherProvider, logger)
             networkInfoUtil = WisefyNetworkInfoUtil(connectivityManager, wifiManager, logger)
             wifiUtil = WisefyWifiUtil(wifiManager, sdkUtil, logger)
         }
@@ -259,7 +271,7 @@ class Wisefy private constructor(
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun connectToNetwork(ssidToConnectTo: String, timeoutInMillis: Int): Boolean {
+    override fun connectToNetwork(ssidToConnectTo: String, timeoutInMillis: Int): NetworkConnectionResult {
         return networkConnectionUtil.connectToNetwork(ssidToConnectTo, timeoutInMillis)
     }
 
@@ -268,7 +280,7 @@ class Wisefy private constructor(
         return wifiUtil.disableWifi()
     }
 
-    override fun disconnectFromCurrentNetwork(): Boolean {
+    override fun disconnectFromCurrentNetwork(): NetworkConnectionResult {
         return networkConnectionUtil.disconnectFromCurrentNetwork()
     }
 
@@ -293,6 +305,12 @@ class Wisefy private constructor(
     }
 
     @RequiresApi(LOLLIPOP)
+    @RequiresPermission(ACCESS_FINE_LOCATION)
+    override fun getFrequency(callbacks: GetFrequencyCallbacks?) {
+        return frequencyUtil.getFrequency(callbacks)
+    }
+
+    @RequiresApi(LOLLIPOP)
     override fun getFrequency(network: WifiInfo): Int {
         return frequencyUtil.getFrequency(network)
     }
@@ -307,8 +325,23 @@ class Wisefy private constructor(
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
+    override fun getNearbyAccessPoints(filterDuplicates: Boolean, callbacks: GetNearbyAccessPointCallbacks?) {
+        accessPointsUtil.getNearbyAccessPoints(filterDuplicates, callbacks)
+    }
+
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun getRSSI(regexForSSID: String, takeHighest: Boolean, timeoutInMillis: Int): Int? {
         return accessPointsUtil.getRSSI(regexForSSID, takeHighest, timeoutInMillis)
+    }
+
+    @RequiresPermission(ACCESS_FINE_LOCATION)
+    override fun getRSSI(
+        regexForSSID: String,
+        takeHighest: Boolean,
+        timeoutInMillis: Int,
+        callbacks: GetRSSICallbacks?
+    ) {
+        accessPointsUtil.getRSSI(regexForSSID, takeHighest, timeoutInMillis, callbacks)
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
@@ -397,8 +430,27 @@ class Wisefy private constructor(
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
+    override fun searchForAccessPoint(
+        regexForSSID: String,
+        timeoutInMillis: Int,
+        filterDuplicates: Boolean,
+        callbacks: SearchForAccessPointCallbacks?
+    ) {
+        accessPointsUtil.searchForAccessPoint(regexForSSID, timeoutInMillis, filterDuplicates, callbacks)
+    }
+
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun searchForAccessPoints(regexForSSID: String, filterDuplicates: Boolean): List<AccessPointData> {
         return accessPointsUtil.searchForAccessPoints(regexForSSID, filterDuplicates)
+    }
+
+    @RequiresPermission(ACCESS_FINE_LOCATION)
+    override fun searchForAccessPoints(
+        regexForSSID: String,
+        filterDuplicates: Boolean,
+        callbacks: SearchForAccessPointsCallbacks?
+    ) {
+        accessPointsUtil.searchForAccessPoints(regexForSSID, filterDuplicates, callbacks)
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
@@ -417,7 +469,17 @@ class Wisefy private constructor(
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
+    override fun searchForSSID(regexForSSID: String, timeoutInMillis: Int, callbacks: SearchForSSIDCallbacks?) {
+        accessPointsUtil.searchForSSID(regexForSSID, timeoutInMillis, callbacks)
+    }
+
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun searchForSSIDs(regexForSSID: String): List<String> {
         return accessPointsUtil.searchForSSIDs(regexForSSID)
+    }
+
+    @RequiresPermission(ACCESS_FINE_LOCATION)
+    override fun searchForSSIDs(regexForSSID: String, callbacks: SearchForSSIDsCallbacks?) {
+        accessPointsUtil.searchForSSIDs(regexForSSID, callbacks)
     }
 }

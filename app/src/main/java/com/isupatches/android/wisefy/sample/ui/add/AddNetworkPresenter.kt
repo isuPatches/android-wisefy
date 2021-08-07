@@ -24,7 +24,6 @@ import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
 import com.isupatches.android.wisefy.sample.internal.scaffolding.BasePresenter
 import com.isupatches.android.wisefy.sample.internal.scaffolding.Presenter
-import com.isupatches.android.wisefy.sample.internal.util.RxSchedulersProvider
 import javax.inject.Inject
 
 internal interface AddNetworkPresenter : Presenter<AddNetworkFragment> {
@@ -66,8 +65,7 @@ internal interface AddNetworkPresenter : Presenter<AddNetworkFragment> {
 @AddNetworkScope
 internal class DefaultAddNetworkPresenter @Inject constructor(
     private val model: AddNetworkModel,
-    rxSchedulersProvider: RxSchedulersProvider
-) : BasePresenter<AddNetworkFragment>(rxSchedulersProvider), AddNetworkPresenter {
+) : BasePresenter<AddNetworkFragment>(), AddNetworkPresenter {
 
     /*
      * Model call-throughs

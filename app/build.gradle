@@ -73,7 +73,6 @@ dependencies {
     // Android X
     implementation "androidx.appcompat:appcompat:$androidx_appcompat_version"
     implementation "androidx.constraintlayout:constraintlayout:$androidx_constraintlayout_version"
-    implementation "androidx.core:core-ktx:$androidx_core_ktx_version"
     implementation "androidx.navigation:navigation-fragment-ktx:$androidx_nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$androidx_nav_version"
 
@@ -86,15 +85,9 @@ dependencies {
     implementation "com.google.dagger:dagger-android-support:$dagger_version"
     kapt "com.google.dagger:dagger-android-processor:$dagger_version"
 
-    // Rx
-    implementation "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
-    implementation "io.reactivex.rxjava2:rxjava:$rxjava_version"
-
     // Unit test dependencies
-    testImplementation "androidx.test:core:$androidx_core_test_version"
-    testImplementation "org.mockito:mockito-core:$mockito_version"
-//    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockito_kotlin_version"
     testImplementation "junit:junit:$junit_version"
+    testImplementation "org.mockito:mockito-core:$mockito_version"
 
     // Instrumentation test dependencies
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidx_espresso_core_version"
@@ -103,7 +96,6 @@ dependencies {
     androidTestImplementation "androidx.test:rules:$androidx_test_runner_version"
     androidTestImplementation "org.mockito:mockito-core:$mockito_version"
     androidTestImplementation "org.mockito:mockito-android:$mockito_version"
-//    androidTestImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockito_kotlin_version"
     kaptAndroidTest "com.google.dagger:dagger-compiler:$dagger_version"
     kaptAndroidTest "com.google.dagger:dagger-android-processor:$dagger_version"
 }

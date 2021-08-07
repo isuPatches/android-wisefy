@@ -18,6 +18,12 @@ package com.isupatches.android.wisefy.accesspoints
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
+import com.isupatches.android.wisefy.callbacks.GetNearbyAccessPointCallbacks
+import com.isupatches.android.wisefy.callbacks.GetRSSICallbacks
+import com.isupatches.android.wisefy.callbacks.SearchForAccessPointCallbacks
+import com.isupatches.android.wisefy.callbacks.SearchForAccessPointsCallbacks
+import com.isupatches.android.wisefy.callbacks.SearchForSSIDCallbacks
+import com.isupatches.android.wisefy.callbacks.SearchForSSIDsCallbacks
 
 interface AccessPointsApi {
 
@@ -45,4 +51,34 @@ interface AccessPointsApi {
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     fun searchForSSIDs(regexForSSID: String): List<String>
+}
+
+interface AccessPointsApiAsync {
+
+    @RequiresPermission(ACCESS_FINE_LOCATION)
+    fun getNearbyAccessPoints(filterDuplicates: Boolean, callbacks: GetNearbyAccessPointCallbacks?)
+
+    @RequiresPermission(ACCESS_FINE_LOCATION)
+    fun getRSSI(regexForSSID: String, takeHighest: Boolean, timeoutInMillis: Int, callbacks: GetRSSICallbacks?)
+
+    @RequiresPermission(ACCESS_FINE_LOCATION)
+    fun searchForAccessPoint(
+        regexForSSID: String,
+        timeoutInMillis: Int,
+        filterDuplicates: Boolean,
+        callbacks: SearchForAccessPointCallbacks?
+    )
+
+    @RequiresPermission(ACCESS_FINE_LOCATION)
+    fun searchForAccessPoints(
+        regexForSSID: String,
+        filterDuplicates: Boolean,
+        callbacks: SearchForAccessPointsCallbacks?
+    )
+
+    @RequiresPermission(ACCESS_FINE_LOCATION)
+    fun searchForSSID(regexForSSID: String, timeoutInMillis: Int, callbacks: SearchForSSIDCallbacks?)
+
+    @RequiresPermission(ACCESS_FINE_LOCATION)
+    fun searchForSSIDs(regexForSSID: String, callbacks: SearchForSSIDsCallbacks?)
 }

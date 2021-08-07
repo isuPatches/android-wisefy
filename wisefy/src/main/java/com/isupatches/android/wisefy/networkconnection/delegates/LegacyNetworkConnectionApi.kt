@@ -23,14 +23,15 @@ import android.util.Log
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.constants.QUOTE
 import com.isupatches.android.wisefy.logging.WisefyLogger
+import com.isupatches.android.wisefy.networkconnection.entities.NetworkConnectionResult
 import com.isupatches.android.wisefy.networkconnectionstatus.NetworkConnectionStatusUtil
 import com.isupatches.android.wisefy.savednetworks.SavedNetworkUtil
 import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
 import com.isupatches.android.wisefy.util.rest
 
 internal interface LegacyNetworkConnectionApi {
-    fun connectToNetwork(ssidToConnectTo: String, timeoutInMillis: Int = 0): Boolean
-    fun disconnectFromCurrentNetwork(): Boolean
+    fun connectToNetwork(ssidToConnectTo: String, timeoutInMillis: Int = 0): NetworkConnectionResult
+    fun disconnectFromCurrentNetwork(): NetworkConnectionResult
 }
 
 private const val LOG_TAG = "LegacyNetworkConnectionApiImpl"
@@ -43,25 +44,25 @@ internal class LegacyNetworkConnectionApiImpl(
 ) : LegacyNetworkConnectionApi, ConnectivityManager.NetworkCallback() {
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun connectToNetwork(ssidToConnectTo: String, timeoutInMillis: Int): Boolean {
+    override fun connectToNetwork(ssidToConnectTo: String, timeoutInMillis: Int): NetworkConnectionResult {
         when (val savedNetworkData = savedNetworkUtil.searchForSavedNetwork(ssidToConnectTo)) {
             is SavedNetworkData.Configuration -> {
                 savedNetworkData.data?.let {
                     wifiManager.disconnect()
                     wifiManager.enableNetwork(it.networkId, true)
                     wifiManager.reconnect()
-                    return waitToConnectToSSID(ssidToConnectTo, timeoutInMillis)
+                    return NetworkConnectionResult.Succeeded(waitToConnectToSSID(ssidToConnectTo, timeoutInMillis))
                 } ?: Log.w(LOG_TAG, "Saved network not found to connect to")
             }
             else -> {
 
             }
         }
-        return false
+        return NetworkConnectionResult.Succeeded(false)
     }
 
-    override fun disconnectFromCurrentNetwork(): Boolean {
-        return wifiManager.disconnect()
+    override fun disconnectFromCurrentNetwork(): NetworkConnectionResult {
+        return NetworkConnectionResult.Succeeded(data = wifiManager.disconnect())
     }
 
     private fun waitToConnectToSSID(ssid: String?, timeoutInMillis: Int): Boolean {

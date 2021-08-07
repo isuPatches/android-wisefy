@@ -17,11 +17,14 @@ package com.isupatches.android.wisefy.sample.ui.misc
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
+import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
+import com.isupatches.android.wisefy.callbacks.GetFrequencyCallbacks
+import com.isupatches.android.wisefy.callbacks.GetNearbyAccessPointCallbacks
 import com.isupatches.android.wisefy.sample.internal.scaffolding.BasePresenter
 import com.isupatches.android.wisefy.sample.internal.scaffolding.Presenter
-import com.isupatches.android.wisefy.sample.internal.util.RxSchedulersProvider
 import javax.inject.Inject
 
 internal interface MiscPresenter : Presenter<MiscFragment> {
@@ -50,8 +53,7 @@ internal interface MiscPresenter : Presenter<MiscFragment> {
 @MiscScope
 internal class DefaultMiscPresenter @Inject constructor(
     private val model: MiscModel,
-    rxSchedulersProvider: RxSchedulersProvider
-) : BasePresenter<MiscFragment>(rxSchedulersProvider), MiscPresenter {
+) : BasePresenter<MiscFragment>(), MiscPresenter {
 
     /*
      * Model call-throughs
@@ -86,8 +88,15 @@ internal class DefaultMiscPresenter @Inject constructor(
     @RequiresPermission(ACCESS_FINE_LOCATION)
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun getFrequency() {
-        val frequency = model.getFrequency()
-        doSafelyWithView { view -> view.displayFrequency(frequency) }
+        model.getFrequency(object : GetFrequencyCallbacks {
+            override fun failureGettingFrequency() {
+                doSafelyWithView { view -> view.displayFailureRetrievingFrequency() }
+            }
+
+            override fun retrievedFrequency(frequency: Int) {
+                doSafelyWithView { view -> view.displayFrequency(frequency) }
+            }
+        })
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
@@ -98,7 +107,20 @@ internal class DefaultMiscPresenter @Inject constructor(
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun getNearbyAccessPoints() {
-        model.getNearbyAccessPoints()
+        Log.d("TEST", "BOOM== model.getNearbyAccessPoints()")
+        model.getNearbyAccessPoints(object : GetNearbyAccessPointCallbacks {
+            override fun retrievedNearbyAccessPoints(accessPoints: List<AccessPointData>) {
+                doSafelyWithView { view ->
+                    view.displayNearbyAccessPoints(accessPoints)
+                }
+            }
+
+            override fun noAccessPointsFound() {
+                doSafelyWithView { view ->
+                    view.displayNoAccessPointsFound()
+                }
+            }
+        })
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)

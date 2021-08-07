@@ -94,6 +94,7 @@ internal class MiscFragment : BaseFragment(), MiscView {
             getIP()
         }
         binding.getNearbyAccessPointsBtn.setOnClickListener {
+            Log.d("TEST", "BOOM== getNearbyAccessPoints")
             getNearbyAccessPoints()
         }
         binding.getSavedNetworksBtn.setOnClickListener {
@@ -217,6 +218,7 @@ internal class MiscFragment : BaseFragment(), MiscView {
     private fun getNearbyAccessPoints() {
         if (checkGetNearbyAccessPointsPermissions()) {
             presenter.getNearbyAccessPoints()
+            Log.d("TEST", "BOOM== presenter.getNearbyAccessPoints()")
         }
     }
 

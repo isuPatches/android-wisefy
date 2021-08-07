@@ -16,7 +16,6 @@
 package com.isupatches.android.wisefy.sample.internal.scaffolding
 
 import android.util.Log
-import com.isupatches.android.wisefy.sample.internal.util.RxSchedulersProvider
 import java.lang.RuntimeException
 
 internal interface Presenter<in VIEW : View> {
@@ -26,9 +25,7 @@ internal interface Presenter<in VIEW : View> {
 
 private const val LOG_TAG = "BasePresenter"
 
-internal abstract class BasePresenter<VIEW : BaseView> constructor(
-    private val rxSchedulersProvider: RxSchedulersProvider
-) : Presenter<VIEW> {
+internal abstract class BasePresenter<VIEW : BaseView> : Presenter<VIEW> {
 
     private var view: VIEW? = null
 
@@ -47,15 +44,15 @@ internal abstract class BasePresenter<VIEW : BaseView> constructor(
 
     protected fun doSafelyWithView(viewCommand: (view: VIEW) -> Unit) {
         if (isViewAttached) {
-            rxSchedulersProvider.main.scheduleDirect {
-                if (isViewAttached) {
-                    val view = view
-                    requireNotNull(view)
-                    viewCommand(view)
-                } else {
-                    Log.w(LOG_TAG, "ViewCommand was scheduled., but view is now detached!")
-                }
+//            view?.scheduleDirect {
+            if (isViewAttached) {
+                val view = view
+                requireNotNull(view)
+                viewCommand(view)
+            } else {
+                Log.w(LOG_TAG, "ViewCommand was scheduled., but view is now detached!")
             }
+//            }
         }
     }
 }
