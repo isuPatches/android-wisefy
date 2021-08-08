@@ -24,6 +24,7 @@ import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
 import com.isupatches.android.wisefy.addnetwork.entities.OpenNetworkData
 import com.isupatches.android.wisefy.addnetwork.entities.WPA2NetworkData
 import com.isupatches.android.wisefy.addnetwork.entities.WPA3NetworkData
+import com.isupatches.android.wisefy.callbacks.AddNetworkCallbacks
 
 interface AddNetworkApi {
 
@@ -36,4 +37,17 @@ interface AddNetworkApi {
     @RequiresApi(Build.VERSION_CODES.Q)
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     fun addWPA3Network(data: WPA3NetworkData): AddNetworkResult
+}
+
+interface AddNetworkApiAsync {
+
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
+    fun addOpenNetwork(data: OpenNetworkData, callbacks: AddNetworkCallbacks?)
+
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
+    fun addWPA2Network(data: WPA2NetworkData, callbacks: AddNetworkCallbacks?)
+
+    @RequiresApi(Build.VERSION_CODES.Q)
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
+    fun addWPA3Network(data: WPA3NetworkData, callbacks: AddNetworkCallbacks?)
 }

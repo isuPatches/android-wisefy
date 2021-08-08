@@ -86,6 +86,16 @@ internal abstract class BaseFragment : BaseView() {
         )
     }
 
+    protected fun displayWisefyAsyncErrorDialog(throwable: Throwable) {
+        showDialogNoDuplicates(
+            tag = NoticeDialogFragment.TAG,
+            dialog = NoticeDialogFragment.newInstance(
+                title = getString(R.string.wisefy_async_error),
+                message = getString(R.string.wisefy_async_error_descriptions_args, throwable.message)
+            )
+        )
+    }
+
     private fun <T : BaseDialogFragment> showDialogNoDuplicates(tag: String, dialog: T) {
         if (isActivityInvalid()) return
         dialog.showNoDuplicates(childFragmentManager, tag)

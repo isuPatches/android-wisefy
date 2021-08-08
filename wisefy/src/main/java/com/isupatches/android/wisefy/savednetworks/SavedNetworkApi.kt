@@ -18,6 +18,9 @@ package com.isupatches.android.wisefy.savednetworks
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.ACCESS_WIFI_STATE
 import androidx.annotation.RequiresPermission
+import com.isupatches.android.wisefy.callbacks.GetSavedNetworksCallbacks
+import com.isupatches.android.wisefy.callbacks.SearchForSavedNetworkCallbacks
+import com.isupatches.android.wisefy.callbacks.SearchForSavedNetworksCallbacks
 import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
 
 interface SavedNetworkApi {
@@ -32,4 +35,15 @@ interface SavedNetworkApi {
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     fun searchForSavedNetworks(regexForSSID: String): List<SavedNetworkData>
+}
+
+interface SavedNetworkApiAsync {
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
+    fun getSavedNetworks(callbacks: GetSavedNetworksCallbacks?)
+
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
+    fun searchForSavedNetwork(regexForSSID: String, callbacks: SearchForSavedNetworkCallbacks?)
+
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
+    fun searchForSavedNetworks(regexForSSID: String, callbacks: SearchForSavedNetworksCallbacks?)
 }

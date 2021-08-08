@@ -28,9 +28,9 @@ import java.net.InetAddress
 import java.net.UnknownHostException
 
 internal interface LegacyNetworkInfoApi {
-    fun getCurrentNetwork(): CurrentNetworkData
+    fun getCurrentNetwork(): CurrentNetworkData?
 
-    fun getCurrentNetworkInfo(network: Network?): CurrentNetworkInfoData
+    fun getCurrentNetworkInfo(network: Network?): CurrentNetworkInfoData?
 
     fun getIP(): String?
 }
@@ -43,26 +43,35 @@ internal class LegacyNetworkInfoApiImpl(
     private val logger: WisefyLogger?
 ) : LegacyNetworkInfoApi {
 
-    override fun getCurrentNetwork(): CurrentNetworkData {
-        return CurrentNetworkData(wifiManager.connectionInfo)
+    override fun getCurrentNetwork(): CurrentNetworkData? {
+        val currentNetwork = wifiManager.connectionInfo
+        return if (currentNetwork != null) {
+            CurrentNetworkData(currentNetwork)
+        } else {
+            null
+        }
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun getCurrentNetworkInfo(network: Network?): CurrentNetworkInfoData {
+    override fun getCurrentNetworkInfo(network: Network?): CurrentNetworkInfoData? {
         val networkForInfo = network ?: connectivityManager.activeNetwork
-        return CurrentNetworkInfoData(
-            capabilities = connectivityManager.getNetworkCapabilities(networkForInfo),
-            linkProperties = connectivityManager.getLinkProperties(networkForInfo)
-        )
+        return if (networkForInfo != null) {
+            CurrentNetworkInfoData(
+                capabilities = connectivityManager.getNetworkCapabilities(networkForInfo),
+                linkProperties = connectivityManager.getLinkProperties(networkForInfo)
+            )
+        } else {
+            null
+        }
     }
 
     override fun getIP(): String? {
         val ipAddress = BigInteger.valueOf(wifiManager.connectionInfo.ipAddress.toLong()).toByteArray()
-        try {
-            return InetAddress.getByAddress(ipAddress).hostAddress
+        return try {
+            InetAddress.getByAddress(ipAddress).hostAddress
         } catch (uhe: UnknownHostException) {
             logger?.e(LOG_TAG, uhe, "UnknownHostException while gathering IP (sync)")
+            null
         }
-        return null
     }
 }

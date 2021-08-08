@@ -19,8 +19,8 @@ import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
-import com.isupatches.android.wisefy.util.generateOpenNetworkConfiguration
-import com.isupatches.android.wisefy.util.generateWPA2NetworkConfiguration
+import com.isupatches.android.wisefy.util.legacy.generateOpenNetworkConfiguration
+import com.isupatches.android.wisefy.util.legacy.generateWPA2NetworkConfiguration
 
 internal interface LegacyAddNetworkApi {
     fun addOpenNetwork(ssid: String): AddNetworkResult

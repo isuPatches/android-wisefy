@@ -15,9 +15,16 @@
  */
 package com.isupatches.android.wisefy.networkconnection
 
+import com.isupatches.android.wisefy.callbacks.ConnectToNetworkCallbacks
+import com.isupatches.android.wisefy.callbacks.DisconnectFromCurrentNetworkCallbacks
 import com.isupatches.android.wisefy.networkconnection.entities.NetworkConnectionResult
 
 interface NetworkConnectionApi {
     fun connectToNetwork(ssidToConnectTo: String, timeoutInMillis: Int): NetworkConnectionResult
     fun disconnectFromCurrentNetwork(): NetworkConnectionResult
+}
+
+interface NetworkConnectionApiAsync {
+    fun connectToNetwork(ssidToConnectTo: String, timeoutInMillis: Int, callbacks: ConnectToNetworkCallbacks?)
+    fun disconnectFromCurrentNetwork(callbacks: DisconnectFromCurrentNetworkCallbacks?)
 }

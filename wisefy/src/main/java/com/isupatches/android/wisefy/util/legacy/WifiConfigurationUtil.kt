@@ -13,10 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.android.wisefy.util
+package com.isupatches.android.wisefy.util.legacy
 
 import android.net.wifi.WifiConfiguration
 import com.isupatches.android.wisefy.constants.QUOTE
+import java.util.*
 
 internal fun generateOpenNetworkConfiguration(ssid: String): WifiConfiguration {
     return WifiConfiguration().apply {
@@ -56,3 +57,5 @@ internal fun generateWPA2NetworkConfiguration(ssid: String, password: String): W
         allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP)
     }
 }
+
+private fun convertSSIDForConfig(ssid: String): String = "%s%s%s".format(Locale.US, QUOTE, ssid, QUOTE)

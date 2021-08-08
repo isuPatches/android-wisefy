@@ -19,7 +19,6 @@ import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.CHANGE_WIFI_STATE
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,6 +28,7 @@ import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkResult
 import com.isupatches.android.wisefy.sample.R
 import com.isupatches.android.wisefy.sample.databinding.FragmentRemoveNetworkBinding
 import com.isupatches.android.wisefy.sample.internal.base.BaseFragment
+import com.isupatches.android.wisefy.sample.internal.logging.WisefySampleLogger
 import com.isupatches.android.wisefy.sample.internal.util.getTrimmedInput
 import com.isupatches.android.wisefy.sample.internal.util.hideKeyboardFrom
 import javax.inject.Inject
@@ -100,6 +100,10 @@ internal class RemoveNetworkFragment : BaseFragment(), RemoveNetworkView {
         displayInfo(getString(R.string.failed_removing_network_args, result), R.string.remove_network_result)
     }
 
+    override fun displayWisefyAsyncError(throwable: Throwable) {
+        displayWisefyAsyncErrorDialog(throwable)
+    }
+
     /*
      * WiseFy helpers
      */
@@ -126,12 +130,12 @@ internal class RemoveNetworkFragment : BaseFragment(), RemoveNetworkView {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     removeNetwork()
                 } else {
-                    Log.w(LOG_TAG, "Permissions for remove saved network are denied")
+                    WisefySampleLogger.w(LOG_TAG, "Permissions for remove saved network are denied")
                     displayPermissionErrorDialog(R.string.permission_error_remove_network)
                 }
             }
             else -> {
-                Log.wtf(LOG_TAG, "Weird permission requested, not handled")
+                WisefySampleLogger.wtf(LOG_TAG, "Weird permission requested, not handled")
                 displayPermissionErrorDialog(
                     getString(R.string.permission_error_unhandled_request_code_args, requestCode)
                 )

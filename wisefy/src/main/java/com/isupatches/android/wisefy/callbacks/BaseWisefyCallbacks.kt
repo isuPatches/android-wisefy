@@ -15,4 +15,6 @@
  */
 package com.isupatches.android.wisefy.callbacks
 
-interface BaseWisefyCallbacks
+interface BaseWisefyCallbacks {
+    fun wisefyAsyncFailure(throwable: Throwable)
+}

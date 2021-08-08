@@ -29,9 +29,9 @@ private const val LOG_TAG = "WisefyNetworkConnectionStatusUtil"
 
 internal class WisefyNetworkConnectionStatusUtil(
     connectivityManager: ConnectivityManager,
-    wifiManager: WifiManager,
+    logger: WisefyLogger?,
     sdkUtil: SdkUtil,
-    logger: WisefyLogger?
+    wifiManager: WifiManager
 ) : NetworkConnectionStatusUtil {
 
     private val delegate = LegacyNetworkConnectionStatusDelegate(

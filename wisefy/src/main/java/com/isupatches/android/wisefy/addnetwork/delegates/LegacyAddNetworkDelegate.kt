@@ -18,7 +18,7 @@ package com.isupatches.android.wisefy.addnetwork.delegates
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
-import com.isupatches.android.wisefy.addnetwork.AddNetworkUtil
+import com.isupatches.android.wisefy.addnetwork.AddNetworkApi
 import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
 import com.isupatches.android.wisefy.addnetwork.entities.OpenNetworkData
 import com.isupatches.android.wisefy.addnetwork.entities.WPA2NetworkData
@@ -28,7 +28,7 @@ import com.isupatches.android.wisefy.constants.ErrorMessages
 internal class LegacyAddNetworkDelegate(
     wifiManager: WifiManager,
     private val impl: LegacyAddNetworkApi = LegacyAddNetworkApiImpl(wifiManager)
-) : AddNetworkUtil {
+) : AddNetworkApi {
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun addOpenNetwork(data: OpenNetworkData): AddNetworkResult {

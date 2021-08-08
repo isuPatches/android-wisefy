@@ -21,7 +21,7 @@ import android.net.wifi.WifiManager
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
-import com.isupatches.android.wisefy.addnetwork.AddNetworkUtil
+import com.isupatches.android.wisefy.addnetwork.AddNetworkApi
 import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
 import com.isupatches.android.wisefy.addnetwork.entities.OpenNetworkData
 import com.isupatches.android.wisefy.addnetwork.entities.WPA2NetworkData
@@ -34,7 +34,7 @@ internal class Android29AddNetworkDelegate(
     wifiManager: WifiManager,
     logger: WisefyLogger?,
     private val impl: Android29AddNetworkApi = Android29AddNetworkApiImpl(wifiManager, logger)
-) : AddNetworkUtil {
+) : AddNetworkApi {
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     override fun addOpenNetwork(data: OpenNetworkData): AddNetworkResult {

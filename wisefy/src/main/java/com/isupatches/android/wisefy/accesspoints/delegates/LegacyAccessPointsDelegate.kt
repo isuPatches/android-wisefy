@@ -43,7 +43,7 @@ internal class LegacyAccessPointsDelegate(
         regexForSSID: String,
         timeoutInMillis: Int,
         filterDuplicates: Boolean
-    ): AccessPointData {
+    ): AccessPointData? {
         return impl.searchForAccessPoint(regexForSSID, timeoutInMillis, filterDuplicates)
     }
 

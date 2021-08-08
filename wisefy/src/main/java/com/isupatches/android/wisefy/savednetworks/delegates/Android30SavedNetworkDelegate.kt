@@ -40,7 +40,7 @@ internal class Android30SavedNetworkDelegate(
     }
 
     @RequiresPermission(allOf = [ACCESS_WIFI_STATE])
-    override fun searchForSavedNetwork(regexForSSID: String): SavedNetworkData {
+    override fun searchForSavedNetwork(regexForSSID: String): SavedNetworkData? {
         return impl.searchForSavedNetwork(regexForSSID)
     }
 

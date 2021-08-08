@@ -15,25 +15,25 @@
  */
 package com.isupatches.android.wisefy
 
-import android.Manifest
-import android.os.Build
-import androidx.annotation.RequiresApi
-import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.accesspoints.AccessPointsApi
 import com.isupatches.android.wisefy.accesspoints.AccessPointsApiAsync
 import com.isupatches.android.wisefy.addnetwork.AddNetworkApi
-import com.isupatches.android.wisefy.callbacks.GetFrequencyCallbacks
-import com.isupatches.android.wisefy.callbacks.GetNearbyAccessPointCallbacks
+import com.isupatches.android.wisefy.addnetwork.AddNetworkApiAsync
 import com.isupatches.android.wisefy.frequency.FrequencyApi
 import com.isupatches.android.wisefy.frequency.FrequencyApiAsync
 import com.isupatches.android.wisefy.networkconnection.NetworkConnectionApi
+import com.isupatches.android.wisefy.networkconnection.NetworkConnectionApiAsync
 import com.isupatches.android.wisefy.networkconnectionstatus.NetworkConnectionStatusApi
 import com.isupatches.android.wisefy.networkinfo.NetworkInfoApi
+import com.isupatches.android.wisefy.networkinfo.NetworkInfoApiAsync
 import com.isupatches.android.wisefy.removenetwork.RemoveNetworkApi
+import com.isupatches.android.wisefy.removenetwork.RemoveNetworkApiAsync
 import com.isupatches.android.wisefy.savednetworks.SavedNetworkApi
+import com.isupatches.android.wisefy.savednetworks.SavedNetworkApiAsync
 import com.isupatches.android.wisefy.security.SecurityApi
 import com.isupatches.android.wisefy.signal.SignalApi
 import com.isupatches.android.wisefy.wifi.WifiApi
+import com.isupatches.android.wisefy.wifi.WifiApiAsync
 
 /**
  * The culmination of APIs that create WiseFy's public interface.
@@ -41,16 +41,22 @@ import com.isupatches.android.wisefy.wifi.WifiApi
  * @see AccessPointsApi
  * @see AccessPointsApiAsync
  * @see AddNetworkApi
+ * @see AddNetworkApiAsync
  * @see FrequencyApi
  * @see FrequencyApiAsync
  * @see NetworkConnectionApi
+ * @see NetworkConnectionApiAsync
  * @see NetworkConnectionStatusApi
  * @see NetworkInfoApi
+ * @see NetworkInfoApiAsync
  * @see RemoveNetworkApi
+ * @see RemoveNetworkApiAsync
  * @see SavedNetworkApi
+ * @see SavedNetworkApiAsync
  * @see SecurityApi
  * @see SignalApi
  * @see WifiApi
+ * @see WifiApiAsync
  *
  * @author Patches Klinefelter
  * @since 07/2021
@@ -59,13 +65,19 @@ interface WisefyApi :
     AccessPointsApi,
     AccessPointsApiAsync,
     AddNetworkApi,
+    AddNetworkApiAsync,
     FrequencyApi,
     FrequencyApiAsync,
     NetworkConnectionApi,
+    NetworkConnectionApiAsync,
     NetworkConnectionStatusApi,
     NetworkInfoApi,
+    NetworkInfoApiAsync,
     RemoveNetworkApi,
+    RemoveNetworkApiAsync,
     SavedNetworkApi,
+    SavedNetworkApiAsync,
     SecurityApi,
     SignalApi,
-    WifiApi
+    WifiApi,
+    WifiApiAsync

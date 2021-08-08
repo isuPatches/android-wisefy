@@ -31,7 +31,7 @@ internal interface SearchModel {
         regexForSSID: String,
         timeout: Int,
         filterDuplicates: Boolean
-    ): AccessPointData
+    ): AccessPointData?
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     fun searchForAccessPoints(
@@ -62,7 +62,7 @@ internal class DefaultSearchModel @Inject constructor(
         regexForSSID: String,
         timeout: Int,
         filterDuplicates: Boolean
-    ): AccessPointData {
+    ): AccessPointData? {
         return wisefy.searchForAccessPoint(regexForSSID, timeout, filterDuplicates)
     }
 

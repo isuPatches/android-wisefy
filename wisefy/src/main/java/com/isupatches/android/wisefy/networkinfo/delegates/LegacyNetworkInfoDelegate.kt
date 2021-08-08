@@ -36,12 +36,12 @@ internal class LegacyNetworkInfoDelegate(
     )
 ) : NetworkInfoApi {
 
-    override fun getCurrentNetwork(): CurrentNetworkData {
+    override fun getCurrentNetwork(): CurrentNetworkData? {
         return impl.getCurrentNetwork()
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun getCurrentNetworkInfo(network: Network?): CurrentNetworkInfoData {
+    override fun getCurrentNetworkInfo(network: Network?): CurrentNetworkInfoData? {
         return impl.getCurrentNetworkInfo(network)
     }
 

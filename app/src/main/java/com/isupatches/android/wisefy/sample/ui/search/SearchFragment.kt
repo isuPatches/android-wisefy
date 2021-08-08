@@ -19,7 +19,6 @@ import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,6 +30,7 @@ import com.isupatches.android.wisefy.sample.R
 import com.isupatches.android.wisefy.sample.databinding.FragmentSearchBinding
 import com.isupatches.android.wisefy.sample.internal.base.BaseFragment
 import com.isupatches.android.wisefy.sample.internal.entities.SearchType
+import com.isupatches.android.wisefy.sample.internal.logging.WisefySampleLogger
 import com.isupatches.android.wisefy.sample.internal.util.asHtmlSpanned
 import com.isupatches.android.wisefy.sample.internal.util.getTrimmedInput
 import com.isupatches.android.wisefy.sample.internal.util.hideKeyboardFrom
@@ -368,6 +368,10 @@ internal class SearchFragment : BaseFragment(), SearchView {
         displayInfo(R.string.no_ssids_found, R.string.search_result)
     }
 
+    override fun displayWisefyAsyncError(throwable: Throwable) {
+        displayWisefyAsyncErrorDialog(throwable)
+    }
+
     /*
      * Permission helpers
      */
@@ -405,7 +409,7 @@ internal class SearchFragment : BaseFragment(), SearchView {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     searchForSavedNetwork()
                 } else {
-                    Log.w(LOG_TAG, "Permissions for getting a saved network are denied")
+                    WisefySampleLogger.w(LOG_TAG, "Permissions for getting a saved network are denied")
                     displayPermissionErrorDialog(R.string.permission_error_search_for_saved_network)
                 }
             }
@@ -413,7 +417,7 @@ internal class SearchFragment : BaseFragment(), SearchView {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     searchForSavedNetworks()
                 } else {
-                    Log.w(LOG_TAG, "Permissions for getting saved networks are denied")
+                    WisefySampleLogger.w(LOG_TAG, "Permissions for getting saved networks are denied")
                     displayPermissionErrorDialog(R.string.permission_error_search_for_saved_networks)
                 }
             }
@@ -421,7 +425,7 @@ internal class SearchFragment : BaseFragment(), SearchView {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     searchForAccessPoint()
                 } else {
-                    Log.w(LOG_TAG, "Permissions for searching for an access point are denied")
+                    WisefySampleLogger.w(LOG_TAG, "Permissions for searching for an access point are denied")
                     displayPermissionErrorDialog(R.string.permission_error_search_for_access_point)
                 }
             }
@@ -429,7 +433,7 @@ internal class SearchFragment : BaseFragment(), SearchView {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     searchForAccessPoints()
                 } else {
-                    Log.w(LOG_TAG, "Permissions for searching for access points are denied")
+                    WisefySampleLogger.w(LOG_TAG, "Permissions for searching for access points are denied")
                     displayPermissionErrorDialog(R.string.permission_error_search_for_access_points)
                 }
             }
@@ -437,7 +441,7 @@ internal class SearchFragment : BaseFragment(), SearchView {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     searchForSSID()
                 } else {
-                    Log.w(LOG_TAG, "Permissions for searching for an SSID are denied")
+                    WisefySampleLogger.w(LOG_TAG, "Permissions for searching for an SSID are denied")
                     displayPermissionErrorDialog(R.string.permission_error_search_for_ssid)
                 }
             }
@@ -445,12 +449,12 @@ internal class SearchFragment : BaseFragment(), SearchView {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     searchForSSIDs()
                 } else {
-                    Log.w(LOG_TAG, "Permissions for searching for SSIDs are denied")
+                    WisefySampleLogger.w(LOG_TAG, "Permissions for searching for SSIDs are denied")
                     displayPermissionErrorDialog(R.string.permission_error_search_for_ssids)
                 }
             }
             else -> {
-                Log.wtf(LOG_TAG, "Weird permission requested, not handled")
+                WisefySampleLogger.wtf(LOG_TAG, "Weird permission requested, not handled")
                 displayPermissionErrorDialog(
                     getString(R.string.permission_error_unhandled_request_code_args, requestCode)
                 )

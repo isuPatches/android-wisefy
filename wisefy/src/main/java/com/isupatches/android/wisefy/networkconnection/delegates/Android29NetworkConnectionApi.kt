@@ -50,21 +50,25 @@ internal class Android29NetworkConnectionApiImpl(
                     .build()
             )
             .build()
-        connectionManager.requestNetwork(networkRequest, object : ConnectivityManager.NetworkCallback() {
-            override fun onAvailable(network: Network) {
-                super.onAvailable(network)
-                logger?.d(LOG_TAG, "Network available")
-            }
+        connectionManager.requestNetwork(
+            networkRequest,
+            object : ConnectivityManager.NetworkCallback() {
+                override fun onAvailable(network: Network) {
+                    super.onAvailable(network)
+                    logger?.d(LOG_TAG, "Network available")
+                }
 
-            override fun onUnavailable() {
-                super.onUnavailable()
-                logger?.d(LOG_TAG, "Network unavailable")
-            }
-        }, timeoutInMillis)
+                override fun onUnavailable() {
+                    super.onUnavailable()
+                    logger?.d(LOG_TAG, "Network unavailable")
+                }
+            },
+            timeoutInMillis
+        )
         return NetworkConnectionResult.RequestPlaced
     }
 
     override fun disconnectFromCurrentNetwork(): NetworkConnectionResult {
-        TODO("Not yet implemented")
+        error("Unsure how to disconnect from network on Android Q and higher")
     }
 }

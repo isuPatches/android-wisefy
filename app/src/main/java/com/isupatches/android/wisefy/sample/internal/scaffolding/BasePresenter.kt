@@ -15,7 +15,7 @@
  */
 package com.isupatches.android.wisefy.sample.internal.scaffolding
 
-import android.util.Log
+import com.isupatches.android.wisefy.sample.internal.logging.WisefySampleLogger
 import java.lang.RuntimeException
 
 internal interface Presenter<in VIEW : View> {
@@ -50,7 +50,7 @@ internal abstract class BasePresenter<VIEW : BaseView> : Presenter<VIEW> {
                 requireNotNull(view)
                 viewCommand(view)
             } else {
-                Log.w(LOG_TAG, "ViewCommand was scheduled., but view is now detached!")
+                WisefySampleLogger.w(LOG_TAG, "ViewCommand was scheduled., but view is now detached!")
             }
 //            }
         }

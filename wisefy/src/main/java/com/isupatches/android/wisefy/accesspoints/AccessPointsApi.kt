@@ -38,7 +38,7 @@ interface AccessPointsApi {
         regexForSSID: String,
         timeoutInMillis: Int,
         filterDuplicates: Boolean
-    ): AccessPointData
+    ): AccessPointData?
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     fun searchForAccessPoints(

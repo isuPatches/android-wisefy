@@ -18,5 +18,5 @@ package com.isupatches.android.wisefy.networkinfo.entities
 import android.net.wifi.WifiInfo
 
 data class CurrentNetworkData(
-    val data: WifiInfo?
+    val data: WifiInfo
 )

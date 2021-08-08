@@ -35,7 +35,7 @@ internal interface Android30SavedNetworkApi {
 
     @RequiresApi(Build.VERSION_CODES.R)
     @RequiresPermission(ACCESS_WIFI_STATE)
-    fun searchForSavedNetwork(regexForSSID: String): SavedNetworkData
+    fun searchForSavedNetwork(regexForSSID: String): SavedNetworkData?
 
     @RequiresApi(Build.VERSION_CODES.R)
     @RequiresPermission(ACCESS_WIFI_STATE)
@@ -64,11 +64,15 @@ internal class Android30SavedNetworkApiImpl(
 
     @RequiresApi(Build.VERSION_CODES.R)
     @RequiresPermission(allOf = [ACCESS_WIFI_STATE])
-    override fun searchForSavedNetwork(regexForSSID: String): SavedNetworkData {
+    override fun searchForSavedNetwork(regexForSSID: String): SavedNetworkData? {
         val savedNetwork = wifiManager.networkSuggestions.firstOrNull {
             matchesRegexForSSID(it, regexForSSID)
         }
-        return SavedNetworkData.Suggestion(data = savedNetwork)
+        return if (savedNetwork != null) {
+            SavedNetworkData.Suggestion(data = savedNetwork)
+        } else {
+            null
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.R)

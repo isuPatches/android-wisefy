@@ -24,7 +24,8 @@ import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.callbacks.GetFrequencyCallbacks
 import com.isupatches.android.wisefy.frequency.delegates.LegacyFrequencyDelegate
 import com.isupatches.android.wisefy.logging.WisefyLogger
-import com.isupatches.android.wisefy.util.CoroutineDispatcherProvider
+import com.isupatches.android.wisefy.util.coroutines.CoroutineDispatcherProvider
+import com.isupatches.android.wisefy.util.coroutines.createBaseCoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -40,9 +41,9 @@ internal interface FrequencyUtil : FrequencyApi {
 private const val LOG_TAG = "WisefyFrequencyUtil"
 
 internal class WisefyFrequencyUtil(
-    wifiManager: WifiManager,
     private val coroutineDispatcherProvider: CoroutineDispatcherProvider,
-    logger: WisefyLogger?
+    logger: WisefyLogger?,
+    wifiManager: WifiManager
 ) : FrequencyUtil {
 
     private val delegate = LegacyFrequencyDelegate(wifiManager)
@@ -61,7 +62,7 @@ internal class WisefyFrequencyUtil(
     @RequiresPermission(ACCESS_FINE_LOCATION)
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun getFrequency(callbacks: GetFrequencyCallbacks?) {
-        frequencyScope.launch {
+        frequencyScope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
             val frequency = delegate.getFrequency()
             withContext(coroutineDispatcherProvider.main) {
                 if (frequency != null) {

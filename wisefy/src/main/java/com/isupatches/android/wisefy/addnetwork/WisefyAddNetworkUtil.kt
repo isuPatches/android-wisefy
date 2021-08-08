@@ -28,18 +28,28 @@ import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
 import com.isupatches.android.wisefy.addnetwork.entities.OpenNetworkData
 import com.isupatches.android.wisefy.addnetwork.entities.WPA2NetworkData
 import com.isupatches.android.wisefy.addnetwork.entities.WPA3NetworkData
+import com.isupatches.android.wisefy.callbacks.AddNetworkCallbacks
 import com.isupatches.android.wisefy.logging.WisefyLogger
 import com.isupatches.android.wisefy.util.SdkUtil
+import com.isupatches.android.wisefy.util.coroutines.CoroutineDispatcherProvider
+import com.isupatches.android.wisefy.util.coroutines.createBaseCoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-internal interface AddNetworkUtil : AddNetworkApi
+internal interface AddNetworkUtil : AddNetworkApi, AddNetworkApiAsync
 
 private const val LOG_TAG = "WisefyAddNetworkUtil"
 
 internal class WisefyAddNetworkUtil(
-    wifiManager: WifiManager,
+    private val coroutineDispatcherProvider: CoroutineDispatcherProvider,
+    logger: WisefyLogger?,
     sdkUtil: SdkUtil,
-    logger: WisefyLogger?
+    wifiManager: WifiManager
 ) : AddNetworkUtil {
+
+    private val addNetworkScope = CoroutineScope(Job() + coroutineDispatcherProvider.io)
 
     private val delegate = when {
         sdkUtil.isAtLeastR() -> Android30AddNetworkDelegate(wifiManager)
@@ -59,12 +69,42 @@ internal class WisefyAddNetworkUtil(
         return delegate.addOpenNetwork(data)
     }
 
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
+    override fun addOpenNetwork(data: OpenNetworkData, callbacks: AddNetworkCallbacks?) {
+        addNetworkScope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
+            val addNetworkResult = addOpenNetwork(data)
+            withContext(coroutineDispatcherProvider.main) {
+                when {
+                    addNetworkResult is AddNetworkResult.ResultCode && addNetworkResult.data == -1 -> {
+                        callbacks?.failureAddingNetwork(addNetworkResult)
+                    }
+                    else -> callbacks?.networkAdded(addNetworkResult)
+                }
+            }
+        }
+    }
+
     /*
      * Legacy API requires ACCESS_FINE_LOCATION while API 29+ requires CHANGE_WIFI_STATE
      */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     override fun addWPA2Network(data: WPA2NetworkData): AddNetworkResult {
         return delegate.addWPA2Network(data)
+    }
+
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
+    override fun addWPA2Network(data: WPA2NetworkData, callbacks: AddNetworkCallbacks?) {
+        addNetworkScope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
+            val addNetworkResult = addWPA2Network(data)
+            withContext(coroutineDispatcherProvider.main) {
+                when {
+                    addNetworkResult is AddNetworkResult.ResultCode && addNetworkResult.data == -1 -> {
+                        callbacks?.failureAddingNetwork(addNetworkResult)
+                    }
+                    else -> callbacks?.networkAdded(addNetworkResult)
+                }
+            }
+        }
     }
 
     /*
@@ -74,5 +114,21 @@ internal class WisefyAddNetworkUtil(
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     override fun addWPA3Network(data: WPA3NetworkData): AddNetworkResult {
         return delegate.addWPA3Network(data)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.Q)
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
+    override fun addWPA3Network(data: WPA3NetworkData, callbacks: AddNetworkCallbacks?) {
+        addNetworkScope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
+            val addNetworkResult = addWPA3Network(data)
+            withContext(coroutineDispatcherProvider.main) {
+                when {
+                    addNetworkResult is AddNetworkResult.ResultCode && addNetworkResult.data == -1 -> {
+                        callbacks?.failureAddingNetwork(addNetworkResult)
+                    }
+                    else -> callbacks?.networkAdded(addNetworkResult)
+                }
+            }
+        }
     }
 }

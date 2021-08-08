@@ -71,7 +71,7 @@ internal class DefaultSearchPresenter @Inject constructor(
         }
     }
 
-    @RequiresPermission(ACCESS_FINE_LOCATION)
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun searchForSavedNetwork(regexForSSID: String) {
         val result = model.searchForSavedNetwork(regexForSSID)
         doSafelyWithView { view ->
@@ -79,7 +79,7 @@ internal class DefaultSearchPresenter @Inject constructor(
         }
     }
 
-    @RequiresPermission(ACCESS_FINE_LOCATION)
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun searchForSavedNetworks(regexForSSID: String) {
         val results = model.searchForSavedNetworks(regexForSSID)
         doSafelyWithView { view ->

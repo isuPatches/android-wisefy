@@ -18,7 +18,6 @@ package com.isupatches.android.wisefy.sample.ui.misc
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,6 +29,7 @@ import com.isupatches.android.wisefy.networkinfo.entities.CurrentNetworkInfoData
 import com.isupatches.android.wisefy.sample.R
 import com.isupatches.android.wisefy.sample.databinding.FragmentMiscBinding
 import com.isupatches.android.wisefy.sample.internal.base.BaseFragment
+import com.isupatches.android.wisefy.sample.internal.logging.WisefySampleLogger
 import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
 import javax.inject.Inject
 
@@ -94,7 +94,6 @@ internal class MiscFragment : BaseFragment(), MiscView {
             getIP()
         }
         binding.getNearbyAccessPointsBtn.setOnClickListener {
-            Log.d("TEST", "BOOM== getNearbyAccessPoints")
             getNearbyAccessPoints()
         }
         binding.getSavedNetworksBtn.setOnClickListener {
@@ -196,6 +195,10 @@ internal class MiscFragment : BaseFragment(), MiscView {
         displayInfo(R.string.no_saved_networks_found, R.string.wisefy_action_result)
     }
 
+    override fun displayWisefyAsyncError(throwable: Throwable) {
+        displayWisefyAsyncErrorDialog(throwable)
+    }
+
     /*
      * WiseFy helpers
      */
@@ -218,7 +221,6 @@ internal class MiscFragment : BaseFragment(), MiscView {
     private fun getNearbyAccessPoints() {
         if (checkGetNearbyAccessPointsPermissions()) {
             presenter.getNearbyAccessPoints()
-            Log.d("TEST", "BOOM== presenter.getNearbyAccessPoints()")
         }
     }
 
@@ -255,7 +257,7 @@ internal class MiscFragment : BaseFragment(), MiscView {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     getFrequency()
                 } else {
-                    Log.w(LOG_TAG, "Permissions for getting frequency are denied")
+                    WisefySampleLogger.w(LOG_TAG, "Permissions for getting frequency are denied")
                     displayPermissionErrorDialog(R.string.permission_error_get_frequency)
                 }
             }
@@ -263,7 +265,7 @@ internal class MiscFragment : BaseFragment(), MiscView {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     getIP()
                 } else {
-                    Log.w(LOG_TAG, "Permissions for getting ip are denied")
+                    WisefySampleLogger.w(LOG_TAG, "Permissions for getting ip are denied")
                     displayPermissionErrorDialog(R.string.permission_error_get_ip)
                 }
             }
@@ -271,7 +273,7 @@ internal class MiscFragment : BaseFragment(), MiscView {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     getNearbyAccessPoints()
                 } else {
-                    Log.w(LOG_TAG, "Permissions for getting nearby access points are denied")
+                    WisefySampleLogger.w(LOG_TAG, "Permissions for getting nearby access points are denied")
                     displayPermissionErrorDialog(R.string.permission_error_get_nearby_access_points)
                 }
             }
@@ -279,12 +281,12 @@ internal class MiscFragment : BaseFragment(), MiscView {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     getSavedNetworks()
                 } else {
-                    Log.w(LOG_TAG, "Permissions for getting saved networks are denied")
+                    WisefySampleLogger.w(LOG_TAG, "Permissions for getting saved networks are denied")
                     displayPermissionErrorDialog(R.string.permission_error_get_saved_networks)
                 }
             }
             else -> {
-                Log.wtf(LOG_TAG, "Weird permission requested, not handled")
+                WisefySampleLogger.wtf(LOG_TAG, "Weird permission requested, not handled")
                 displayPermissionErrorDialog(
                     getString(R.string.permission_error_unhandled_request_code_args, requestCode)
                 )

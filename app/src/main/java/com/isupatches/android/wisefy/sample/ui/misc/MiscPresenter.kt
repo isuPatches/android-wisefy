@@ -17,7 +17,6 @@ package com.isupatches.android.wisefy.sample.ui.misc
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
@@ -77,12 +76,20 @@ internal class DefaultMiscPresenter @Inject constructor(
 
     override fun getCurrentNetwork() {
         val currentNetwork = model.getCurrentNetwork()
-        doSafelyWithView { view -> view.displayCurrentNetwork(currentNetwork) }
+        if (currentNetwork != null) {
+            doSafelyWithView { view -> view.displayCurrentNetwork(currentNetwork) }
+        } else {
+            doSafelyWithView { view -> view.displayNoCurrentNetwork() }
+        }
     }
 
     override fun getCurrentNetworkInfo() {
         val currentNetworkInfo = model.getCurrentNetworkInfo()
-        doSafelyWithView { view -> view.displayCurrentNetworkInfo(currentNetworkInfo) }
+        if (currentNetworkInfo != null) {
+            doSafelyWithView { view -> view.displayCurrentNetworkInfo(currentNetworkInfo) }
+        } else {
+            doSafelyWithView { view -> view.displayNoCurrentNetworkInfo() }
+        }
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
@@ -96,6 +103,10 @@ internal class DefaultMiscPresenter @Inject constructor(
             override fun retrievedFrequency(frequency: Int) {
                 doSafelyWithView { view -> view.displayFrequency(frequency) }
             }
+
+            override fun wisefyAsyncFailure(throwable: Throwable) {
+                doSafelyWithView { view -> view.displayWisefyAsyncError(throwable) }
+            }
         })
     }
 
@@ -107,7 +118,6 @@ internal class DefaultMiscPresenter @Inject constructor(
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun getNearbyAccessPoints() {
-        Log.d("TEST", "BOOM== model.getNearbyAccessPoints()")
         model.getNearbyAccessPoints(object : GetNearbyAccessPointCallbacks {
             override fun retrievedNearbyAccessPoints(accessPoints: List<AccessPointData>) {
                 doSafelyWithView { view ->
@@ -118,6 +128,12 @@ internal class DefaultMiscPresenter @Inject constructor(
             override fun noAccessPointsFound() {
                 doSafelyWithView { view ->
                     view.displayNoAccessPointsFound()
+                }
+            }
+
+            override fun wisefyAsyncFailure(throwable: Throwable) {
+                doSafelyWithView { view ->
+                    view.displayWisefyAsyncError(throwable)
                 }
             }
         })

@@ -13,11 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.android.wisefy.callbacks
+package com.isupatches.android.wisefy.util.coroutines
 
-import com.isupatches.android.wisefy.networkinfo.entities.CurrentNetworkInfoData
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 
-interface GetCurrentNetworkInfoCallbacks : BaseWisefyCallbacks {
-    fun noCurrentNetworkInfo()
-    fun retrievedCurrentNetworkInfo(currentNetworkInfo: CurrentNetworkInfoData)
+internal class CoroutineDispatcherProvider {
+    val io: CoroutineDispatcher = Dispatchers.IO
+    val main: CoroutineDispatcher = Dispatchers.Main
 }

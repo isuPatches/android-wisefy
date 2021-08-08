@@ -13,9 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.android.wisefy.util
+package com.isupatches.android.wisefy.callbacks
 
-import com.isupatches.android.wisefy.constants.QUOTE
-import java.util.Locale
+import com.isupatches.android.wisefy.networkinfo.entities.CurrentNetworkData
+import com.isupatches.android.wisefy.networkinfo.entities.CurrentNetworkInfoData
 
-internal fun convertSSIDForConfig(ssid: String): String = "%s%s%s".format(Locale.US, QUOTE, ssid, QUOTE)
+interface GetCurrentNetworkCallbacks : BaseWisefyCallbacks {
+    fun noCurrentNetwork()
+    fun retrievedCurrentNetwork(currentNetwork: CurrentNetworkData)
+}
+
+interface GetCurrentNetworkInfoCallbacks : BaseWisefyCallbacks {
+    fun noCurrentNetworkInfo()
+    fun retrievedCurrentNetworkInfo(currentNetworkInfo: CurrentNetworkInfoData)
+}

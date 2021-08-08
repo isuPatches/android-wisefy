@@ -13,12 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.android.wisefy.util
+package com.isupatches.android.wisefy.util.coroutines
 
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
+import com.isupatches.android.wisefy.callbacks.BaseWisefyCallbacks
+import kotlinx.coroutines.CoroutineExceptionHandler
 
-internal class CoroutineDispatcherProvider {
-    val io: CoroutineDispatcher = Dispatchers.IO
-    val main: CoroutineDispatcher = Dispatchers.Main
+internal fun createBaseCoroutineExceptionHandler(callbacks: BaseWisefyCallbacks?): CoroutineExceptionHandler {
+    return CoroutineExceptionHandler { _, throwable ->
+        callbacks?.wisefyAsyncFailure(throwable)
+    }
 }

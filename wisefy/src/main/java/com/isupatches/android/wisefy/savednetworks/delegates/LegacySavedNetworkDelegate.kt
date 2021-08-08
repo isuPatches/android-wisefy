@@ -19,13 +19,13 @@ import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
-import com.isupatches.android.wisefy.savednetworks.SavedNetworkUtil
+import com.isupatches.android.wisefy.savednetworks.SavedNetworkApi
 import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
 
 internal class LegacySavedNetworkDelegate(
     wifiManager: WifiManager,
     private val impl: LegacySavedNetworkApi = LegacySavedNetworkApiImpl(wifiManager)
-) : SavedNetworkUtil {
+) : SavedNetworkApi {
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun getSavedNetworks(): List<SavedNetworkData> {
@@ -38,7 +38,7 @@ internal class LegacySavedNetworkDelegate(
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun searchForSavedNetwork(regexForSSID: String): SavedNetworkData {
+    override fun searchForSavedNetwork(regexForSSID: String): SavedNetworkData? {
         return impl.searchForSavedNetwork(regexForSSID)
     }
 

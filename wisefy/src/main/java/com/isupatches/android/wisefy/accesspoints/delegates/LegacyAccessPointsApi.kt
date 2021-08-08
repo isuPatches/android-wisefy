@@ -38,7 +38,7 @@ internal interface LegacyAccessPointsApi {
         regexForSSID: String,
         timeoutInMillis: Int,
         filterDuplicates: Boolean
-    ): AccessPointData
+    ): AccessPointData?
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     fun searchForAccessPoints(
@@ -91,7 +91,7 @@ internal class LegacyAccessPointsApiImpl(
         regexForSSID: String,
         timeoutInMillis: Int,
         filterDuplicates: Boolean
-    ): AccessPointData {
+    ): AccessPointData? {
         var scanPass = 1
         var currentTime: Long
         val endTime = System.currentTimeMillis() + timeoutInMillis
@@ -133,7 +133,7 @@ internal class LegacyAccessPointsApiImpl(
             scanPass++
             rest()
         } while (currentTime < endTime)
-        return AccessPointData.ScanData(data = accessPointToReturn)
+        return accessPointToReturn?.let { AccessPointData.ScanData(data = it) }
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
@@ -220,9 +220,6 @@ internal class LegacyAccessPointsApiImpl(
             var found = false
             for (i in accessPointsToReturn.indices) {
                 val accessPointData = accessPointsToReturn[i]
-                if (accessPointData.data == null) {
-                    continue
-                }
 
                 logger?.d(LOG_TAG, "SSID 1: %s, SSID 2: %s", accessPoint.SSID, accessPointData.data.SSID)
                 if (accessPoint.SSID.equals(accessPointData.data.SSID, ignoreCase = true)) {

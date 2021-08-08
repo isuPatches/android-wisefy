@@ -29,9 +29,9 @@ internal interface SignalUtil : SignalApi
 private const val LOG_TAG = "WisefySignalUtil"
 
 internal class WisefySignalUtil(
-    wifiManager: WifiManager,
+    logger: WisefyLogger?,
     sdkUtil: SdkUtil,
-    logger: WisefyLogger?
+    wifiManager: WifiManager
 ) : SignalUtil {
 
     private val delegate = when {

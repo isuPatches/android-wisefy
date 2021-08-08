@@ -31,7 +31,7 @@ internal interface LegacySavedNetworkApi {
     fun isNetworkSaved(ssid: String): Boolean
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    fun searchForSavedNetwork(regexForSSID: String): SavedNetworkData
+    fun searchForSavedNetwork(regexForSSID: String): SavedNetworkData?
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     fun searchForSavedNetworks(regexForSSID: String): List<SavedNetworkData>
@@ -56,11 +56,15 @@ internal class LegacySavedNetworkApiImpl(
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun searchForSavedNetwork(regexForSSID: String): SavedNetworkData {
+    override fun searchForSavedNetwork(regexForSSID: String): SavedNetworkData? {
         val savedNetwork = wifiManager.configuredNetworks.firstOrNull {
             matchesRegexForSSID(it, regexForSSID)
         }
-        return SavedNetworkData.Configuration(data = savedNetwork)
+        return if (savedNetwork != null) {
+            SavedNetworkData.Configuration(data = savedNetwork)
+        } else {
+            null
+        }
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])

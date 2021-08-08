@@ -17,8 +17,8 @@
     <string name="ok">OK</string>
     <string name="info">Info</string>
 
-    <string name="wisefy_error">Wisefy Error</string>
-    <string name="wisefy_error_descriptions_args">An error occurred with Wisefy.  Error code: %d</string>
+    <string name="wisefy_async_error">Wisefy Async Error</string>
+    <string name="wisefy_async_error_descriptions_args">An async error occurred with Wisefy.  Exception message: %s</string>
 
     <string name="access_points_args">Access points: %s</string>
     <string name="no_access_points_found">No access points found</string>

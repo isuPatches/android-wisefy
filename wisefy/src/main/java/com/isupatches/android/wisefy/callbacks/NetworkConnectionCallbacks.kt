@@ -19,6 +19,7 @@ interface ConnectToNetworkCallbacks : BaseWisefyCallbacks {
     fun connectedToNetwork()
     fun failureConnectingToNetwork()
     fun networkNotFoundToConnectTo()
+    fun connectionRequestPlaced()
 }
 
 interface DisconnectFromCurrentNetworkCallbacks : BaseWisefyCallbacks {

@@ -17,6 +17,8 @@ package com.isupatches.android.wisefy.sample.internal.scaffolding
 
 import androidx.fragment.app.Fragment
 
-internal interface View
+internal interface View {
+    fun displayWisefyAsyncError(throwable: Throwable)
+}
 
 internal abstract class BaseView : Fragment(), View

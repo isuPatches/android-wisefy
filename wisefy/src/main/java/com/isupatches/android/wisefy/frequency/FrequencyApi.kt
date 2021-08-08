@@ -15,7 +15,6 @@
  */
 package com.isupatches.android.wisefy.frequency
 
-import android.Manifest
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.net.wifi.WifiInfo
 import android.os.Build
@@ -44,7 +43,7 @@ interface FrequencyApi {
 }
 
 interface FrequencyApiAsync {
-    @RequiresPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     fun getFrequency(callbacks: GetFrequencyCallbacks?)
 }

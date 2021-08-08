@@ -17,26 +17,37 @@ package com.isupatches.android.wisefy.networkconnection
 
 import android.net.ConnectivityManager
 import android.net.wifi.WifiManager
+import com.isupatches.android.wisefy.callbacks.ConnectToNetworkCallbacks
+import com.isupatches.android.wisefy.callbacks.DisconnectFromCurrentNetworkCallbacks
 import com.isupatches.android.wisefy.logging.WisefyLogger
 import com.isupatches.android.wisefy.networkconnection.delegates.Android29NetworkConnectionDelegate
 import com.isupatches.android.wisefy.networkconnection.delegates.LegacyNetworkConnectionDelegate
 import com.isupatches.android.wisefy.networkconnection.entities.NetworkConnectionResult
 import com.isupatches.android.wisefy.networkconnectionstatus.NetworkConnectionStatusUtil
 import com.isupatches.android.wisefy.savednetworks.SavedNetworkUtil
+import com.isupatches.android.wisefy.util.coroutines.CoroutineDispatcherProvider
 import com.isupatches.android.wisefy.util.SdkUtil
+import com.isupatches.android.wisefy.util.coroutines.createBaseCoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-internal interface NetworkConnectionUtil : NetworkConnectionApi
+internal interface NetworkConnectionUtil : NetworkConnectionApi, NetworkConnectionApiAsync
 
 private const val LOG_TAG = "WisefyNetworkConnectionUtil"
 
 internal class WisefyNetworkConnectionUtil(
-    wifiManager: WifiManager,
+    private val coroutineDispatcherProvider: CoroutineDispatcherProvider,
     connectivityManager: ConnectivityManager,
+    logger: WisefyLogger?,
     networkConnectionStatusUtil: NetworkConnectionStatusUtil,
     savedNetworkUtil: SavedNetworkUtil,
     sdkUtil: SdkUtil,
-    logger: WisefyLogger?
+    wifiManager: WifiManager
 ) : NetworkConnectionUtil {
+
+    private val networkConnectionScope = CoroutineScope(Job() + coroutineDispatcherProvider.io)
 
     private val delegate = when {
         sdkUtil.isAtLeastQ() -> Android29NetworkConnectionDelegate(connectivityManager, logger)
@@ -58,7 +69,48 @@ internal class WisefyNetworkConnectionUtil(
         return delegate.connectToNetwork(ssidToConnectTo, timeoutInMillis)
     }
 
+    override fun connectToNetwork(
+        ssidToConnectTo: String,
+        timeoutInMillis: Int,
+        callbacks: ConnectToNetworkCallbacks?
+    ) {
+        networkConnectionScope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
+            val result = delegate.connectToNetwork(ssidToConnectTo, timeoutInMillis)
+            withContext(coroutineDispatcherProvider.main) {
+                when (result) {
+                    is NetworkConnectionResult.Succeeded -> {
+                        if (result.data) {
+                            callbacks?.connectedToNetwork()
+                        } else {
+                            callbacks?.failureConnectingToNetwork()
+                        }
+                    }
+                    is NetworkConnectionResult.RequestPlaced -> {
+                        callbacks?.connectionRequestPlaced()
+                    }
+                }
+            }
+        }
+    }
+
     override fun disconnectFromCurrentNetwork(): NetworkConnectionResult {
         return delegate.disconnectFromCurrentNetwork()
+    }
+
+    override fun disconnectFromCurrentNetwork(callbacks: DisconnectFromCurrentNetworkCallbacks?) {
+        networkConnectionScope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
+            val result = delegate.disconnectFromCurrentNetwork()
+            withContext(coroutineDispatcherProvider.main) {
+                when (result) {
+                    is NetworkConnectionResult.Succeeded -> {
+                        if (result.data) {
+                            callbacks?.disconnectedFromCurrentNetwork()
+                        } else {
+                            callbacks?.failureDisconnectingFromCurrentNetwork()
+                        }
+                    }
+                }
+            }
+        }
     }
 }

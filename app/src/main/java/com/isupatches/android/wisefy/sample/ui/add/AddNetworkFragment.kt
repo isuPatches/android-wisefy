@@ -24,7 +24,6 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings.ADD_WIFI_RESULT_SUCCESS
 import android.provider.Settings.EXTRA_WIFI_NETWORK_RESULT_LIST
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,6 +37,7 @@ import com.isupatches.android.wisefy.sample.R
 import com.isupatches.android.wisefy.sample.databinding.FragmentAddNetworkBinding
 import com.isupatches.android.wisefy.sample.internal.base.BaseFragment
 import com.isupatches.android.wisefy.sample.internal.entities.NetworkType
+import com.isupatches.android.wisefy.sample.internal.logging.WisefySampleLogger
 import com.isupatches.android.wisefy.sample.internal.util.SdkUtil
 import com.isupatches.android.wisefy.sample.internal.util.getTrimmedInput
 import com.isupatches.android.wisefy.sample.internal.util.hideKeyboardFrom
@@ -180,6 +180,10 @@ internal class AddNetworkFragment : BaseFragment(), AddNetworkView {
         )
     }
 
+    override fun displayWisefyAsyncError(throwable: Throwable) {
+        displayWisefyAsyncErrorDialog(throwable)
+    }
+
     /*
      * WiseFy helpers
      */
@@ -263,7 +267,7 @@ internal class AddNetworkFragment : BaseFragment(), AddNetworkView {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     addOpenNetwork()
                 } else {
-                    Log.w(LOG_TAG, "Permissions for adding an open network are denied")
+                    WisefySampleLogger.w(LOG_TAG, "Permissions for adding an open network are denied")
                     displayPermissionErrorDialog(R.string.permission_error_add_open_network)
                 }
             }
@@ -271,7 +275,7 @@ internal class AddNetworkFragment : BaseFragment(), AddNetworkView {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     addWPA2Network()
                 } else {
-                    Log.w(LOG_TAG, "Permissions for adding a WPA2 network are denied")
+                    WisefySampleLogger.w(LOG_TAG, "Permissions for adding a WPA2 network are denied")
                     displayPermissionErrorDialog(R.string.permission_error_add_wpa2_network)
                 }
             }
@@ -279,12 +283,12 @@ internal class AddNetworkFragment : BaseFragment(), AddNetworkView {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     addWPA3Network()
                 } else {
-                    Log.w(LOG_TAG, "Permissions for adding a WPA3 network are denied")
+                    WisefySampleLogger.w(LOG_TAG, "Permissions for adding a WPA3 network are denied")
                     displayPermissionErrorDialog(R.string.permission_error_add_wpa3_network)
                 }
             }
             else -> {
-                Log.wtf(LOG_TAG, "Weird permission requested, not handled")
+                WisefySampleLogger.wtf(LOG_TAG, "Weird permission requested, not handled")
                 displayPermissionErrorDialog(
                     getString(R.string.permission_error_unhandled_request_code_args, requestCode)
                 )

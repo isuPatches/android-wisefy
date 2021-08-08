@@ -31,5 +31,5 @@ const val WPA2: String = "WPA2"
 const val WPA3: String = "WPA3"
 
 @Retention(AnnotationRetention.SOURCE)
-@StringDef(EAP, PSK, WEP, WPA, WPA2)
+@StringDef(EAP, PSK, WEP, WPA, WPA2, WPA3)
 annotation class Capability

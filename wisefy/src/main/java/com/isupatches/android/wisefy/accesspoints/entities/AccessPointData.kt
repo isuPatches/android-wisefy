@@ -19,6 +19,6 @@ import android.net.wifi.ScanResult
 
 sealed class AccessPointData {
     data class ScanData(
-        val data: ScanResult?
+        val data: ScanResult
     ) : AccessPointData()
 }

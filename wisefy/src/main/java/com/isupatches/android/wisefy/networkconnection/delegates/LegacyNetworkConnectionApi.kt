@@ -19,7 +19,6 @@ import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.net.ConnectivityManager
 import android.net.wifi.WifiManager
-import android.util.Log
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.constants.QUOTE
 import com.isupatches.android.wisefy.logging.WisefyLogger
@@ -52,10 +51,8 @@ internal class LegacyNetworkConnectionApiImpl(
                     wifiManager.enableNetwork(it.networkId, true)
                     wifiManager.reconnect()
                     return NetworkConnectionResult.Succeeded(waitToConnectToSSID(ssidToConnectTo, timeoutInMillis))
-                } ?: Log.w(LOG_TAG, "Saved network not found to connect to")
-            }
-            else -> {
-
+                }
+                return NetworkConnectionResult.Succeeded(false)
             }
         }
         return NetworkConnectionResult.Succeeded(false)

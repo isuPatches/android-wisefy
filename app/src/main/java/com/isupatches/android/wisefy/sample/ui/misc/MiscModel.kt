@@ -35,9 +35,9 @@ internal interface MiscModel {
 
     fun enableWifi()
 
-    fun getCurrentNetwork(): CurrentNetworkData
+    fun getCurrentNetwork(): CurrentNetworkData?
 
-    fun getCurrentNetworkInfo(): CurrentNetworkInfoData
+    fun getCurrentNetworkInfo(): CurrentNetworkInfoData?
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
@@ -66,11 +66,11 @@ internal class DefaultMiscModel @Inject constructor(
         wiseFy.enableWifi()
     }
 
-    override fun getCurrentNetwork(): CurrentNetworkData {
+    override fun getCurrentNetwork(): CurrentNetworkData? {
         return wiseFy.getCurrentNetwork()
     }
 
-    override fun getCurrentNetworkInfo(): CurrentNetworkInfoData {
+    override fun getCurrentNetworkInfo(): CurrentNetworkInfoData? {
         return wiseFy.getCurrentNetworkInfo()
     }
 

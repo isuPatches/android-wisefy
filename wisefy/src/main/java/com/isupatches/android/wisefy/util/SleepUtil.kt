@@ -15,13 +15,13 @@
  */
 package com.isupatches.android.wisefy.util
 
-private const val BASE_DELAY = 1000
+private const val BASE_DELAY = 1000L
 
 internal fun rest() {
-    sleep(BASE_DELAY.toLong())
+    sleep()
 }
 
-private fun sleep(timeToSleepInMillis: Long) {
+private fun sleep(timeToSleepInMillis: Long = BASE_DELAY) {
     try {
         Thread.sleep(timeToSleepInMillis)
     } catch (ie: InterruptedException) {
