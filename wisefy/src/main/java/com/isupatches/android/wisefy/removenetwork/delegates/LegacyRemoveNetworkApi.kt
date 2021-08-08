@@ -37,8 +37,9 @@ internal class LegacyRemoveNetworkApiImpl(
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun removeNetwork(ssidToRemove: String): RemoveNetworkResult {
         when (val savedNetwork = savedNetworkUtil.searchForSavedNetwork(ssidToRemove)) {
+            null -> return RemoveNetworkResult.NetworkNotFound
             is SavedNetworkData.Configuration -> {
-                savedNetwork.data?.let {
+                savedNetwork.data.let {
                     val result = wifiManager.removeNetwork(it.networkId)
                     return RemoveNetworkResult.Succeeded(data = result)
                 }

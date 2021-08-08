@@ -27,6 +27,7 @@ import com.isupatches.android.wisefy.addnetwork.entities.OpenNetworkData
 import com.isupatches.android.wisefy.addnetwork.entities.WPA2NetworkData
 import com.isupatches.android.wisefy.addnetwork.entities.WPA3NetworkData
 import com.isupatches.android.wisefy.constants.ErrorMessages
+import com.isupatches.android.wisefy.util.fail
 
 @RequiresApi(Build.VERSION_CODES.R)
 internal class Android30AddNetworkDelegate(
@@ -41,7 +42,9 @@ internal class Android30AddNetworkDelegate(
                 impl.addOpenNetwork(data.ssid, data.activityResultLauncher)
             }
             is OpenNetworkData.Ssid -> {
-                error(ErrorMessages.AddNetwork.ActivityResultLauncher.NOT_USED_ANDROID_30)
+                val message = ErrorMessages.AddNetwork.ActivityResultLauncher.NOT_USED_ANDROID_30
+                fail(message)
+                return AddNetworkResult.WrongSDKLevelError(message)
             }
         }
     }
@@ -53,7 +56,9 @@ internal class Android30AddNetworkDelegate(
                 impl.addWPA2Network(data.ssid, data.passphrase, data.activityResultLauncher)
             }
             is WPA2NetworkData.SsidAndPassphrase -> {
-                error(ErrorMessages.AddNetwork.ActivityResultLauncher.NOT_USED_ANDROID_30)
+                val message = ErrorMessages.AddNetwork.ActivityResultLauncher.NOT_USED_ANDROID_30
+                fail(message)
+                return AddNetworkResult.WrongSDKLevelError(message)
             }
         }
     }
@@ -65,7 +70,9 @@ internal class Android30AddNetworkDelegate(
                 impl.addWPA3Network(data.ssid, data.passphrase, data.activityResultLauncher)
             }
             is WPA3NetworkData.SsidAndPassphrase -> {
-                error(ErrorMessages.AddNetwork.ActivityResultLauncher.NOT_USED_ANDROID_30)
+                val message = ErrorMessages.AddNetwork.ActivityResultLauncher.NOT_USED_ANDROID_30
+                fail(message)
+                return AddNetworkResult.WrongSDKLevelError(message)
             }
         }
     }

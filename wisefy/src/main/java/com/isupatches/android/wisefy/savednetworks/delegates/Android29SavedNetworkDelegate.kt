@@ -17,13 +17,11 @@ package com.isupatches.android.wisefy.savednetworks.delegates
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import androidx.annotation.RequiresPermission
-import com.isupatches.android.wisefy.logging.WisefyLogger
 import com.isupatches.android.wisefy.savednetworks.SavedNetworkApi
 import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
 
 internal class Android29SavedNetworkDelegate(
-    logger: WisefyLogger?,
-    private val impl: Android29SavedNetworkApiImpl = Android29SavedNetworkApiImpl(logger)
+    private val impl: Android29SavedNetworkApiImpl = Android29SavedNetworkApiImpl()
 ) : SavedNetworkApi {
 
     @RequiresPermission(ACCESS_FINE_LOCATION)

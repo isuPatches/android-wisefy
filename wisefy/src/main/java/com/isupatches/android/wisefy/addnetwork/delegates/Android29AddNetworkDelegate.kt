@@ -28,6 +28,7 @@ import com.isupatches.android.wisefy.addnetwork.entities.WPA2NetworkData
 import com.isupatches.android.wisefy.addnetwork.entities.WPA3NetworkData
 import com.isupatches.android.wisefy.constants.ErrorMessages
 import com.isupatches.android.wisefy.logging.WisefyLogger
+import com.isupatches.android.wisefy.util.fail
 
 @RequiresApi(Build.VERSION_CODES.Q)
 internal class Android29AddNetworkDelegate(
@@ -43,7 +44,9 @@ internal class Android29AddNetworkDelegate(
                 impl.addOpenNetwork(data.ssid)
             }
             is OpenNetworkData.SsidAndActivityResultLauncher -> {
-                error(ErrorMessages.AddNetwork.ActivityResultLauncher.USED_PRE_ANDROID_30)
+                val message = ErrorMessages.AddNetwork.ActivityResultLauncher.USED_PRE_ANDROID_30
+                fail(message)
+                return AddNetworkResult.WrongSDKLevelError(message)
             }
         }
     }
@@ -55,7 +58,9 @@ internal class Android29AddNetworkDelegate(
                 impl.addWPA2Network(data.ssid, data.passphrase)
             }
             is WPA2NetworkData.SsidPassphraseAndActivityResultLauncher -> {
-                error(ErrorMessages.AddNetwork.ActivityResultLauncher.USED_PRE_ANDROID_30)
+                val message = ErrorMessages.AddNetwork.ActivityResultLauncher.USED_PRE_ANDROID_30
+                fail(message)
+                return AddNetworkResult.WrongSDKLevelError(message)
             }
         }
     }
@@ -67,7 +72,9 @@ internal class Android29AddNetworkDelegate(
                 impl.addWPA3Network(data.ssid, data.passphrase)
             }
             is WPA3NetworkData.SsidPassphraseAndActivityResultLauncher -> {
-                error(ErrorMessages.AddNetwork.ActivityResultLauncher.USED_PRE_ANDROID_30)
+                val message = ErrorMessages.AddNetwork.ActivityResultLauncher.USED_PRE_ANDROID_30
+                fail(message)
+                return AddNetworkResult.WrongSDKLevelError(message)
             }
         }
     }

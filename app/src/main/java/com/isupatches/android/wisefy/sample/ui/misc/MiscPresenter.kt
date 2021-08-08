@@ -96,15 +96,15 @@ internal class DefaultMiscPresenter @Inject constructor(
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun getFrequency() {
         model.getFrequency(object : GetFrequencyCallbacks {
-            override fun failureGettingFrequency() {
+            override fun onFailureRetrievingFrequency() {
                 doSafelyWithView { view -> view.displayFailureRetrievingFrequency() }
             }
 
-            override fun retrievedFrequency(frequency: Int) {
+            override fun onFrequencyRetrieved(frequency: Int) {
                 doSafelyWithView { view -> view.displayFrequency(frequency) }
             }
 
-            override fun wisefyAsyncFailure(throwable: Throwable) {
+            override fun onWisefyAsyncFailure(throwable: Throwable) {
                 doSafelyWithView { view -> view.displayWisefyAsyncError(throwable) }
             }
         })
@@ -119,19 +119,19 @@ internal class DefaultMiscPresenter @Inject constructor(
     @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun getNearbyAccessPoints() {
         model.getNearbyAccessPoints(object : GetNearbyAccessPointCallbacks {
-            override fun retrievedNearbyAccessPoints(accessPoints: List<AccessPointData>) {
+            override fun onNearbyAccessPointsRetrieved(accessPoints: List<AccessPointData>) {
                 doSafelyWithView { view ->
                     view.displayNearbyAccessPoints(accessPoints)
                 }
             }
 
-            override fun noAccessPointsFound() {
+            override fun onNoNearbyAccessPoints() {
                 doSafelyWithView { view ->
                     view.displayNoAccessPointsFound()
                 }
             }
 
-            override fun wisefyAsyncFailure(throwable: Throwable) {
+            override fun onWisefyAsyncFailure(throwable: Throwable) {
                 doSafelyWithView { view ->
                     view.displayWisefyAsyncError(throwable)
                 }

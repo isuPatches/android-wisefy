@@ -18,31 +18,31 @@ package com.isupatches.android.wisefy.callbacks
 import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
 
 interface GetNearbyAccessPointCallbacks : BaseWisefyCallbacks {
-    fun retrievedNearbyAccessPoints(accessPoints: List<AccessPointData>)
-    fun noAccessPointsFound()
+    fun onNearbyAccessPointsRetrieved(accessPoints: List<AccessPointData>)
+    fun onNoNearbyAccessPoints()
 }
 
 interface GetRSSICallbacks : BaseWisefyCallbacks {
-    fun retrievedRSSI(rssi: Int)
-    fun networkNotFoundToRetrieveRSSI()
+    fun onRSSIRetrieved(rssi: Int)
+    fun onNoNetworkToRetrieveRSSI()
 }
 
 interface SearchForAccessPointCallbacks : BaseWisefyCallbacks {
-    fun accessPointFound(accessPoint: AccessPointData)
-    fun accessPointNotFound()
+    fun onAccessPointFound(accessPoint: AccessPointData)
+    fun onNoAccessPointFound()
 }
 
 interface SearchForAccessPointsCallbacks : BaseWisefyCallbacks {
-    fun foundAccessPoints(accessPoints: List<AccessPointData>)
-    fun noAccessPointsFound()
+    fun onAccessPointsFound(accessPoints: List<AccessPointData>)
+    fun onNoAccessPointsFound()
 }
 
 interface SearchForSSIDCallbacks : BaseWisefyCallbacks {
-    fun ssidFound(ssid: String)
-    fun ssidNotFound()
+    fun onSSIDFound(ssid: String)
+    fun onSSIDNotFound()
 }
 
 interface SearchForSSIDsCallbacks : BaseWisefyCallbacks {
-    fun retrievedSSIDs(ssids: List<String>)
-    fun noSSIDsFound()
+    fun onSSIDsFound(ssids: List<String>)
+    fun onNoSSIDsFound()
 }

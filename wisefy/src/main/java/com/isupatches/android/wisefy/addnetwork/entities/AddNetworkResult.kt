@@ -21,4 +21,8 @@ sealed class AddNetworkResult {
     ) : AddNetworkResult()
 
     object IntentLaunched : AddNetworkResult()
+
+    data class WrongSDKLevelError(
+        val message: String
+    ) : AddNetworkResult()
 }

@@ -48,7 +48,7 @@ internal class WisefySavedNetworkUtil(
 
     private val delegate = when {
         sdkUtil.isAtLeastR() -> Android30SavedNetworkDelegate(wifiManager)
-        sdkUtil.isAtLeastQ() -> Android29SavedNetworkDelegate(logger)
+        sdkUtil.isAtLeastQ() -> Android29SavedNetworkDelegate()
         else -> LegacySavedNetworkDelegate(wifiManager)
     }
     private val savedNetworkScope = CoroutineScope(Job() + coroutineDispatcherProvider.io)
@@ -68,9 +68,9 @@ internal class WisefySavedNetworkUtil(
             val savedNetworks = delegate.getSavedNetworks()
             withContext(coroutineDispatcherProvider.main) {
                 if (savedNetworks.isNotEmpty()) {
-                    callbacks?.retrievedSavedNetworks(savedNetworks)
+                    callbacks?.onSavedNetworksRetrieved(savedNetworks)
                 } else {
-                    callbacks?.noSavedNetworksFound()
+                    callbacks?.onNoSavedNetworksFound()
                 }
             }
         }
@@ -92,9 +92,9 @@ internal class WisefySavedNetworkUtil(
             val savedNetwork = delegate.searchForSavedNetwork(regexForSSID)
             withContext(coroutineDispatcherProvider.main) {
                 if (savedNetwork != null) {
-                    callbacks?.retrievedSavedNetwork(savedNetwork)
+                    callbacks?.onSavedNetworkRetrieved(savedNetwork)
                 } else {
-                    callbacks?.savedNetworkNotFound()
+                    callbacks?.onSavedNetworkNotFound()
                 }
             }
         }
@@ -111,9 +111,9 @@ internal class WisefySavedNetworkUtil(
             val savedNetworks = delegate.searchForSavedNetworks(regexForSSID)
             withContext(coroutineDispatcherProvider.main) {
                 if (savedNetworks.isNotEmpty()) {
-                    callbacks?.retrievedSavedNetworks(savedNetworks)
+                    callbacks?.onSavedNetworksRetrieved(savedNetworks)
                 } else {
-                    callbacks?.noSavedNetworksFound()
+                    callbacks?.onNoSavedNetworksFound()
                 }
             }
         }

@@ -22,4 +22,6 @@ sealed class NetworkConnectionResult {
     ) : NetworkConnectionResult()
 
     object RequestPlaced : NetworkConnectionResult()
+
+    object NetworkNotFound : NetworkConnectionResult()
 }

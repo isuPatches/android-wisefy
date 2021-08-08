@@ -20,8 +20,8 @@ import com.isupatches.android.wisefy.callbacks.DisableWifiCallbacks
 import com.isupatches.android.wisefy.callbacks.EnableWifiCallbacks
 import com.isupatches.android.wisefy.constants.DeprecationMessages
 import com.isupatches.android.wisefy.logging.WisefyLogger
-import com.isupatches.android.wisefy.util.coroutines.CoroutineDispatcherProvider
 import com.isupatches.android.wisefy.util.SdkUtil
+import com.isupatches.android.wisefy.util.coroutines.CoroutineDispatcherProvider
 import com.isupatches.android.wisefy.util.coroutines.createBaseCoroutineExceptionHandler
 import com.isupatches.android.wisefy.wifi.delegates.Android29WifiDelegate
 import com.isupatches.android.wisefy.wifi.delegates.LegacyWifiDelegate
@@ -62,9 +62,9 @@ internal class WisefyWifiUtil(
             val result = delegate.disableWifi()
             withContext(coroutineDispatcherProvider.main) {
                 if (result) {
-                    callbacks?.wifiDisabled()
+                    callbacks?.onWifiDisabled()
                 } else {
-                    callbacks?.failureDisablingWifi()
+                    callbacks?.onFailureDisablingWifi()
                 }
             }
         }
@@ -81,9 +81,9 @@ internal class WisefyWifiUtil(
             val result = delegate.enableWifi()
             withContext(coroutineDispatcherProvider.main) {
                 if (result) {
-                    callbacks?.wifiEnabled()
+                    callbacks?.onWifiEnabled()
                 } else {
-                    callbacks?.failureEnablingWifi()
+                    callbacks?.onFailureEnablingWifi()
                 }
             }
         }

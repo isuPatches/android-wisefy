@@ -76,9 +76,9 @@ internal class WisefyAddNetworkUtil(
             withContext(coroutineDispatcherProvider.main) {
                 when {
                     addNetworkResult is AddNetworkResult.ResultCode && addNetworkResult.data == -1 -> {
-                        callbacks?.failureAddingNetwork(addNetworkResult)
+                        callbacks?.onFailureAddingNetwork(addNetworkResult)
                     }
-                    else -> callbacks?.networkAdded(addNetworkResult)
+                    else -> callbacks?.onNetworkAdded(addNetworkResult)
                 }
             }
         }
@@ -99,9 +99,9 @@ internal class WisefyAddNetworkUtil(
             withContext(coroutineDispatcherProvider.main) {
                 when {
                     addNetworkResult is AddNetworkResult.ResultCode && addNetworkResult.data == -1 -> {
-                        callbacks?.failureAddingNetwork(addNetworkResult)
+                        callbacks?.onFailureAddingNetwork(addNetworkResult)
                     }
-                    else -> callbacks?.networkAdded(addNetworkResult)
+                    else -> callbacks?.onNetworkAdded(addNetworkResult)
                 }
             }
         }
@@ -124,9 +124,9 @@ internal class WisefyAddNetworkUtil(
             withContext(coroutineDispatcherProvider.main) {
                 when {
                     addNetworkResult is AddNetworkResult.ResultCode && addNetworkResult.data == -1 -> {
-                        callbacks?.failureAddingNetwork(addNetworkResult)
+                        callbacks?.onFailureAddingNetwork(addNetworkResult)
                     }
-                    else -> callbacks?.networkAdded(addNetworkResult)
+                    else -> callbacks?.onNetworkAdded(addNetworkResult)
                 }
             }
         }

@@ -20,6 +20,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import com.isupatches.android.wisefy.constants.DeprecationMessages
 import com.isupatches.android.wisefy.constants.ErrorMessages
+import com.isupatches.android.wisefy.util.fail
 
 internal interface LegacySignalApi {
     @RequiresApi(Build.VERSION_CODES.R)
@@ -35,7 +36,8 @@ internal class LegacySignalApiImpl : LegacySignalApi {
 
     @RequiresApi(Build.VERSION_CODES.R)
     override fun calculateBars(rssiLevel: Int): Int {
-        error(ErrorMessages.CALCULATE_BARS_LEGACY)
+        fail(ErrorMessages.CALCULATE_BARS_LEGACY)
+        return -1
     }
 
     @Deprecated(

@@ -16,13 +16,13 @@
 package com.isupatches.android.wisefy.callbacks
 
 interface ConnectToNetworkCallbacks : BaseWisefyCallbacks {
-    fun connectedToNetwork()
-    fun failureConnectingToNetwork()
-    fun networkNotFoundToConnectTo()
-    fun connectionRequestPlaced()
+    fun onConnectedToNetwork()
+    fun onFailureConnectingToNetwork()
+    fun onNetworkNotFoundToConnectTo()
+    fun onConnectionRequestPlaced()
 }
 
 interface DisconnectFromCurrentNetworkCallbacks : BaseWisefyCallbacks {
-    fun disconnectedFromCurrentNetwork()
-    fun failureDisconnectingFromCurrentNetwork()
+    fun onDisconnectedFromCurrentNetwork()
+    fun onFailureDisconnectingFromCurrentNetwork()
 }

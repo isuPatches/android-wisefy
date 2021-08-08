@@ -80,13 +80,16 @@ internal class WisefyNetworkConnectionUtil(
                 when (result) {
                     is NetworkConnectionResult.Succeeded -> {
                         if (result.data) {
-                            callbacks?.connectedToNetwork()
+                            callbacks?.onConnectedToNetwork()
                         } else {
-                            callbacks?.failureConnectingToNetwork()
+                            callbacks?.onFailureConnectingToNetwork()
                         }
                     }
                     is NetworkConnectionResult.RequestPlaced -> {
-                        callbacks?.connectionRequestPlaced()
+                        callbacks?.onConnectionRequestPlaced()
+                    }
+                    is NetworkConnectionResult.NetworkNotFound -> {
+                        callbacks?.onNetworkNotFoundToConnectTo()
                     }
                 }
             }
@@ -104,10 +107,13 @@ internal class WisefyNetworkConnectionUtil(
                 when (result) {
                     is NetworkConnectionResult.Succeeded -> {
                         if (result.data) {
-                            callbacks?.disconnectedFromCurrentNetwork()
+                            callbacks?.onDisconnectedFromCurrentNetwork()
                         } else {
-                            callbacks?.failureDisconnectingFromCurrentNetwork()
+                            callbacks?.onFailureDisconnectingFromCurrentNetwork()
                         }
+                    }
+                    else -> {
+                        // No-op
                     }
                 }
             }

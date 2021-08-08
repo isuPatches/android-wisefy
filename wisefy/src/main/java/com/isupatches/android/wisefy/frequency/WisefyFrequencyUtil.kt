@@ -66,9 +66,9 @@ internal class WisefyFrequencyUtil(
             val frequency = delegate.getFrequency()
             withContext(coroutineDispatcherProvider.main) {
                 if (frequency != null) {
-                    callbacks?.retrievedFrequency(frequency)
+                    callbacks?.onFrequencyRetrieved(frequency)
                 } else {
-                    callbacks?.failureGettingFrequency()
+                    callbacks?.onFailureRetrievingFrequency()
                 }
             }
         }

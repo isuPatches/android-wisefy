@@ -16,11 +16,11 @@
 package com.isupatches.android.wisefy.callbacks
 
 interface EnableWifiCallbacks : BaseWisefyCallbacks {
-    fun failureEnablingWifi()
-    fun wifiEnabled()
+    fun onFailureEnablingWifi()
+    fun onWifiEnabled()
 }
 
 interface DisableWifiCallbacks : BaseWisefyCallbacks {
-    fun failureDisablingWifi()
-    fun wifiDisabled()
+    fun onFailureDisablingWifi()
+    fun onWifiDisabled()
 }

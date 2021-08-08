@@ -13,13 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.android.wisefy.util.coroutines
+package com.isupatches.android.wisefy.util
 
-import com.isupatches.android.wisefy.callbacks.BaseWisefyCallbacks
-import kotlinx.coroutines.CoroutineExceptionHandler
+import com.isupatches.android.wisefy.BuildConfig
 
-internal fun createBaseCoroutineExceptionHandler(callbacks: BaseWisefyCallbacks?): CoroutineExceptionHandler {
-    return CoroutineExceptionHandler { _, throwable ->
-        callbacks?.onWisefyAsyncFailure(throwable)
+fun fail(message: String) {
+    if (BuildConfig.DEBUG) {
+        error(message)
     }
 }

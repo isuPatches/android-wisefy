@@ -62,8 +62,8 @@ internal class WisefyAccessPointsUtil(
             val accessPoints = delegate.getNearbyAccessPoints(filterDuplicates)
             withContext(coroutineDispatcherProvider.main) {
                 when {
-                    accessPoints.isNotEmpty() -> callbacks?.retrievedNearbyAccessPoints(accessPoints)
-                    else -> callbacks?.noAccessPointsFound()
+                    accessPoints.isNotEmpty() -> callbacks?.onNearbyAccessPointsRetrieved(accessPoints)
+                    else -> callbacks?.onNoNearbyAccessPoints()
                 }
             }
         }
@@ -85,8 +85,8 @@ internal class WisefyAccessPointsUtil(
             val rssi = delegate.getRSSI(regexForSSID, takeHighest, timeoutInMillis)
             withContext(coroutineDispatcherProvider.main) {
                 when {
-                    rssi != null -> callbacks?.retrievedRSSI(rssi)
-                    else -> callbacks?.networkNotFoundToRetrieveRSSI()
+                    rssi != null -> callbacks?.onRSSIRetrieved(rssi)
+                    else -> callbacks?.onNoNetworkToRetrieveRSSI()
                 }
             }
         }
@@ -112,8 +112,8 @@ internal class WisefyAccessPointsUtil(
             val accessPoint = delegate.searchForAccessPoint(regexForSSID, timeoutInMillis, filterDuplicates)
             withContext(coroutineDispatcherProvider.main) {
                 when {
-                    accessPoint != null -> callbacks?.accessPointFound(accessPoint)
-                    else -> callbacks?.accessPointNotFound()
+                    accessPoint != null -> callbacks?.onAccessPointFound(accessPoint)
+                    else -> callbacks?.onNoAccessPointFound()
                 }
             }
         }
@@ -134,8 +134,8 @@ internal class WisefyAccessPointsUtil(
             val accessPoints = delegate.searchForAccessPoints(regexForSSID, filterDuplicates)
             withContext(coroutineDispatcherProvider.main) {
                 when {
-                    accessPoints.isNotEmpty() -> callbacks?.foundAccessPoints(accessPoints)
-                    else -> callbacks?.noAccessPointsFound()
+                    accessPoints.isNotEmpty() -> callbacks?.onAccessPointsFound(accessPoints)
+                    else -> callbacks?.onNoAccessPointsFound()
                 }
             }
         }
@@ -152,8 +152,8 @@ internal class WisefyAccessPointsUtil(
             val ssid = delegate.searchForSSID(regexForSSID, timeoutInMillis)
             withContext(coroutineDispatcherProvider.main) {
                 when {
-                    ssid != null -> callbacks?.ssidFound(ssid)
-                    else -> callbacks?.ssidNotFound()
+                    ssid != null -> callbacks?.onSSIDFound(ssid)
+                    else -> callbacks?.onSSIDNotFound()
                 }
             }
         }
@@ -170,8 +170,8 @@ internal class WisefyAccessPointsUtil(
             val ssids = delegate.searchForSSIDs(regexForSSID)
             withContext(coroutineDispatcherProvider.main) {
                 when {
-                    ssids.isNotEmpty() -> callbacks?.retrievedSSIDs(ssids)
-                    else -> callbacks?.noSSIDsFound()
+                    ssids.isNotEmpty() -> callbacks?.onSSIDsFound(ssids)
+                    else -> callbacks?.onNoSSIDsFound()
                 }
             }
         }

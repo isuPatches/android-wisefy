@@ -45,14 +45,14 @@ internal class LegacyNetworkConnectionApiImpl(
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun connectToNetwork(ssidToConnectTo: String, timeoutInMillis: Int): NetworkConnectionResult {
         when (val savedNetworkData = savedNetworkUtil.searchForSavedNetwork(ssidToConnectTo)) {
+            null -> return NetworkConnectionResult.NetworkNotFound
             is SavedNetworkData.Configuration -> {
-                savedNetworkData.data?.let {
+                savedNetworkData.data.let {
                     wifiManager.disconnect()
                     wifiManager.enableNetwork(it.networkId, true)
                     wifiManager.reconnect()
                     return NetworkConnectionResult.Succeeded(waitToConnectToSSID(ssidToConnectTo, timeoutInMillis))
                 }
-                return NetworkConnectionResult.Succeeded(false)
             }
         }
         return NetworkConnectionResult.Succeeded(false)

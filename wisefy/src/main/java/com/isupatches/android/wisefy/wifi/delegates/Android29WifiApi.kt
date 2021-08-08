@@ -17,6 +17,7 @@ package com.isupatches.android.wisefy.wifi.delegates
 
 import android.net.wifi.WifiManager
 import com.isupatches.android.wisefy.constants.DeprecationMessages
+import com.isupatches.android.wisefy.util.fail
 
 internal interface Android29WifiApi {
 
@@ -32,11 +33,13 @@ internal class Android29WifiApiImpl(
 ) : Android29WifiApi {
 
     override fun disableWifi(): Boolean {
-        error(DeprecationMessages.DISABLE_WIFI)
+        fail(DeprecationMessages.DISABLE_WIFI)
+        return false
     }
 
     override fun enableWifi(): Boolean {
-        error(DeprecationMessages.ENABLE_WIFI)
+        fail(DeprecationMessages.ENABLE_WIFI)
+        return false
     }
 
     override fun isWifiEnabled(): Boolean {

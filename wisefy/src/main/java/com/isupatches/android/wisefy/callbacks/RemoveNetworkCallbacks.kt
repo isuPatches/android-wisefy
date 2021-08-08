@@ -16,7 +16,7 @@
 package com.isupatches.android.wisefy.callbacks
 
 interface RemoveNetworkCallbacks : BaseWisefyCallbacks {
-    fun failureRemovingNetwork()
-    fun networkNotFoundToRemove()
-    fun networkRemoved()
+    fun onFailureRemovingNetwork()
+    fun onNetworkNotFoundToRemove()
+    fun onNetworkRemoved()
 }

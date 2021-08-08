@@ -16,5 +16,5 @@
 package com.isupatches.android.wisefy.callbacks
 
 interface BaseWisefyCallbacks {
-    fun wisefyAsyncFailure(throwable: Throwable)
+    fun onWisefyAsyncFailure(throwable: Throwable)
 }

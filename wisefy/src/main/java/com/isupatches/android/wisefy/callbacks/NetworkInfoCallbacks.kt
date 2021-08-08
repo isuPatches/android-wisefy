@@ -19,11 +19,11 @@ import com.isupatches.android.wisefy.networkinfo.entities.CurrentNetworkData
 import com.isupatches.android.wisefy.networkinfo.entities.CurrentNetworkInfoData
 
 interface GetCurrentNetworkCallbacks : BaseWisefyCallbacks {
-    fun noCurrentNetwork()
-    fun retrievedCurrentNetwork(currentNetwork: CurrentNetworkData)
+    fun onNoCurrentNetwork()
+    fun onCurrentNetworkRetrieved(currentNetwork: CurrentNetworkData)
 }
 
 interface GetCurrentNetworkInfoCallbacks : BaseWisefyCallbacks {
-    fun noCurrentNetworkInfo()
-    fun retrievedCurrentNetworkInfo(currentNetworkInfo: CurrentNetworkInfoData)
+    fun onNoCurrentNetworkInfo()
+    fun onCurrentNetworkInfoRetrieved(currentNetworkInfo: CurrentNetworkInfoData)
 }

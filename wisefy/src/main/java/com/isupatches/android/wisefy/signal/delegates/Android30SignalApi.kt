@@ -20,6 +20,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import com.isupatches.android.wisefy.constants.DeprecationMessages
 import com.isupatches.android.wisefy.constants.ErrorMessages
+import com.isupatches.android.wisefy.util.fail
 
 internal interface Android30SignalApi {
     @RequiresApi(Build.VERSION_CODES.R)
@@ -45,7 +46,8 @@ internal class Android30SignalApiImpl(
         replaceWith = ReplaceWith("this.calculateBars(rssiLevel)")
     )
     override fun calculateBars(rssiLevel: Int, targetNumberOfBars: Int): Int {
-        error(ErrorMessages.CALCULATE_BARS_ANDROID_30)
+        fail(ErrorMessages.CALCULATE_BARS_ANDROID_30)
+        return -1
     }
 
     override fun compareSignalLevel(rssi1: Int, rssi2: Int): Int {

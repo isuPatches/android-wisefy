@@ -18,6 +18,6 @@ package com.isupatches.android.wisefy.callbacks
 import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
 
 interface AddNetworkCallbacks : BaseWisefyCallbacks {
-    fun failureAddingNetwork(result: AddNetworkResult)
-    fun networkAdded(result: AddNetworkResult)
+    fun onFailureAddingNetwork(result: AddNetworkResult)
+    fun onNetworkAdded(result: AddNetworkResult)
 }

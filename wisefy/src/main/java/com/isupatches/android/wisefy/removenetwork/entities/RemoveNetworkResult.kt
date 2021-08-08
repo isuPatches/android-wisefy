@@ -23,4 +23,6 @@ sealed class RemoveNetworkResult {
     data class Succeeded(
         val data: Boolean
     ) : RemoveNetworkResult()
+
+    object NetworkNotFound : RemoveNetworkResult()
 }

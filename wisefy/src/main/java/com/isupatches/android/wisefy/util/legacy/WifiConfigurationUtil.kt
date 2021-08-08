@@ -17,7 +17,7 @@ package com.isupatches.android.wisefy.util.legacy
 
 import android.net.wifi.WifiConfiguration
 import com.isupatches.android.wisefy.constants.QUOTE
-import java.util.*
+import java.util.Locale
 
 internal fun generateOpenNetworkConfiguration(ssid: String): WifiConfiguration {
     return WifiConfiguration().apply {

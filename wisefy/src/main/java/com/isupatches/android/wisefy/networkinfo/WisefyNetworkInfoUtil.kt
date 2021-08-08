@@ -61,9 +61,9 @@ internal class WisefyNetworkInfoUtil(
             val currentNetwork = delegate.getCurrentNetwork()
             withContext(coroutineDispatcherProvider.main) {
                 if (currentNetwork != null) {
-                    callbacks?.retrievedCurrentNetwork(currentNetwork)
+                    callbacks?.onCurrentNetworkRetrieved(currentNetwork)
                 } else {
-                    callbacks?.noCurrentNetwork()
+                    callbacks?.onNoCurrentNetwork()
                 }
             }
         }
@@ -83,9 +83,9 @@ internal class WisefyNetworkInfoUtil(
             val currentNetworkInfo = delegate.getCurrentNetworkInfo(network)
             withContext(coroutineDispatcherProvider.main) {
                 if (currentNetworkInfo != null) {
-                    callbacks?.retrievedCurrentNetworkInfo(currentNetworkInfo)
+                    callbacks?.onCurrentNetworkInfoRetrieved(currentNetworkInfo)
                 } else {
-                    callbacks?.noCurrentNetworkInfo()
+                    callbacks?.onNoCurrentNetworkInfo()
                 }
             }
         }
@@ -100,9 +100,9 @@ internal class WisefyNetworkInfoUtil(
             val ip = delegate.getIP()
             withContext(coroutineDispatcherProvider.main) {
                 if (ip != null) {
-                    callbacks?.retrievedIP(ip)
+                    callbacks?.onIPRetrieved(ip)
                 } else {
-                    callbacks?.failureRetrievingIP()
+                    callbacks?.onFailureRetrievingIP()
                 }
             }
         }

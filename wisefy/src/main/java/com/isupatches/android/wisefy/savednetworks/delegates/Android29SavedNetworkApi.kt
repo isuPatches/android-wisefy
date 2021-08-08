@@ -17,6 +17,7 @@ package com.isupatches.android.wisefy.savednetworks.delegates
 
 import com.isupatches.android.wisefy.logging.WisefyLogger
 import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
+import com.isupatches.android.wisefy.util.fail
 
 internal interface Android29SavedNetworkApi {
     fun getSavedNetworks(): List<SavedNetworkData>
@@ -28,31 +29,28 @@ internal interface Android29SavedNetworkApi {
     fun searchForSavedNetworks(regexForSSID: String): List<SavedNetworkData>
 }
 
-private const val LOG_TAG = "Android29SavedNetworkApiImpl"
 private const val ANDROID_Q_SAVED_NETWORK_WARNING =
     "There is no known way to see saved networks with Android Q"
 
-internal class Android29SavedNetworkApiImpl(
-    private val logger: WisefyLogger?
-) : Android29SavedNetworkApi {
+internal class Android29SavedNetworkApiImpl : Android29SavedNetworkApi {
 
     override fun getSavedNetworks(): List<SavedNetworkData> {
-        logger?.w(LOG_TAG, ANDROID_Q_SAVED_NETWORK_WARNING)
+        fail(ANDROID_Q_SAVED_NETWORK_WARNING)
         return emptyList()
     }
 
     override fun isNetworkSaved(ssid: String): Boolean {
-        logger?.w(LOG_TAG, ANDROID_Q_SAVED_NETWORK_WARNING)
+        fail(ANDROID_Q_SAVED_NETWORK_WARNING)
         return false
     }
 
     override fun searchForSavedNetwork(regexForSSID: String): SavedNetworkData? {
-        logger?.w(LOG_TAG, ANDROID_Q_SAVED_NETWORK_WARNING)
+        fail(ANDROID_Q_SAVED_NETWORK_WARNING)
         return null
     }
 
     override fun searchForSavedNetworks(regexForSSID: String): List<SavedNetworkData> {
-        logger?.w(LOG_TAG, ANDROID_Q_SAVED_NETWORK_WARNING)
+        fail(ANDROID_Q_SAVED_NETWORK_WARNING)
         return emptyList()
     }
 }

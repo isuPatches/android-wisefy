@@ -16,6 +16,6 @@
 package com.isupatches.android.wisefy.callbacks
 
 interface GetIPCallbacks : BaseWisefyCallbacks {
-    fun failureRetrievingIP()
-    fun retrievedIP(ip: String)
+    fun onFailureRetrievingIP()
+    fun onIPRetrieved(ip: String)
 }

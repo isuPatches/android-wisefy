@@ -68,17 +68,20 @@ internal class WisefyRemoveNetworkUtil(
                 when (result) {
                     is RemoveNetworkResult.ResultCode -> {
                         if (result.data != -1) {
-                            callbacks?.networkRemoved()
+                            callbacks?.onNetworkRemoved()
                         } else {
-                            callbacks?.failureRemovingNetwork()
+                            callbacks?.onFailureRemovingNetwork()
                         }
                     }
                     is RemoveNetworkResult.Succeeded -> {
                         if (result.data) {
-                            callbacks?.networkRemoved()
+                            callbacks?.onNetworkRemoved()
                         } else {
-                            callbacks?.failureRemovingNetwork()
+                            callbacks?.onFailureRemovingNetwork()
                         }
+                    }
+                    is RemoveNetworkResult.NetworkNotFound -> {
+                        callbacks?.onNetworkNotFoundToRemove()
                     }
                 }
             }

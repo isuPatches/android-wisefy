@@ -18,16 +18,16 @@ package com.isupatches.android.wisefy.callbacks
 import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
 
 interface GetSavedNetworksCallbacks : BaseWisefyCallbacks {
-    fun noSavedNetworksFound()
-    fun retrievedSavedNetworks(savedNetworks: List<SavedNetworkData>)
+    fun onNoSavedNetworksFound()
+    fun onSavedNetworksRetrieved(savedNetworks: List<SavedNetworkData>)
 }
 
 interface SearchForSavedNetworkCallbacks : BaseWisefyCallbacks {
-    fun savedNetworkNotFound()
-    fun retrievedSavedNetwork(savedNetwork: SavedNetworkData)
+    fun onSavedNetworkNotFound()
+    fun onSavedNetworkRetrieved(savedNetwork: SavedNetworkData)
 }
 
 interface SearchForSavedNetworksCallbacks : BaseWisefyCallbacks {
-    fun noSavedNetworksFound()
-    fun retrievedSavedNetworks(savedNetworks: List<SavedNetworkData>)
+    fun onNoSavedNetworksFound()
+    fun onSavedNetworksRetrieved(savedNetworks: List<SavedNetworkData>)
 }
