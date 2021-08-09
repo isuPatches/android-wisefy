@@ -23,47 +23,58 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.WisefyApi
-import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
 import com.isupatches.android.wisefy.addnetwork.entities.OpenNetworkData
 import com.isupatches.android.wisefy.addnetwork.entities.WPA2NetworkData
 import com.isupatches.android.wisefy.addnetwork.entities.WPA3NetworkData
+import com.isupatches.android.wisefy.callbacks.AddNetworkCallbacks
 import com.isupatches.android.wisefy.sample.internal.scaffolding.BaseModel
 import javax.inject.Inject
 
 internal interface AddNetworkModel {
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    fun addOpenNetwork(ssid: String): AddNetworkResult
+    fun addOpenNetwork(ssid: String, callbacks: AddNetworkCallbacks?)
 
     @RequiresApi(Build.VERSION_CODES.R)
     @RequiresPermission(ACCESS_FINE_LOCATION)
     fun addOpenNetwork(
         ssid: String,
-        activityResultLauncher: ActivityResultLauncher<Intent>
-    ): AddNetworkResult
+        activityResultLauncher: ActivityResultLauncher<Intent>,
+        callbacks: AddNetworkCallbacks?
+    )
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    fun addWPA2Network(ssid: String, passphrase: String): AddNetworkResult
+    fun addWPA2Network(
+        ssid: String,
+        passphrase: String,
+        callbacks: AddNetworkCallbacks?
+    )
 
     @RequiresApi(Build.VERSION_CODES.R)
     @RequiresPermission(ACCESS_FINE_LOCATION)
     fun addWPA2Network(
         ssid: String,
         passphrase: String,
-        activityResultLauncher: ActivityResultLauncher<Intent>
-    ): AddNetworkResult
+        activityResultLauncher: ActivityResultLauncher<Intent>,
+        callbacks: AddNetworkCallbacks?
+    )
 
     @RequiresApi(Build.VERSION_CODES.Q)
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    fun addWPA3Network(ssid: String, passphrase: String): AddNetworkResult
+    fun addWPA3Network(
+        ssid: String,
+        passphrase: String,
+        callbacks: AddNetworkCallbacks?
+    )
 
     @RequiresApi(Build.VERSION_CODES.R)
     @RequiresPermission(ACCESS_FINE_LOCATION)
     fun addWPA3Network(
         ssid: String,
         passphrase: String,
-        activityResultLauncher: ActivityResultLauncher<Intent>
-    ): AddNetworkResult
+        activityResultLauncher: ActivityResultLauncher<Intent>,
+        callbacks: AddNetworkCallbacks?
+    )
 }
 
 @AddNetworkScope
@@ -72,31 +83,44 @@ internal class DefaultAddNetworkModel @Inject constructor(
 ) : BaseModel(), AddNetworkModel {
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-    override fun addOpenNetwork(ssid: String): AddNetworkResult {
-        return wisefy.addOpenNetwork(OpenNetworkData.Ssid(ssid = ssid))
+    override fun addOpenNetwork(
+        ssid: String,
+        callbacks: AddNetworkCallbacks?
+    ) {
+        wisefy.addOpenNetwork(
+            data = OpenNetworkData.Ssid(ssid = ssid),
+            callbacks = callbacks
+        )
     }
 
     @RequiresApi(Build.VERSION_CODES.R)
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     override fun addOpenNetwork(
         ssid: String,
-        activityResultLauncher: ActivityResultLauncher<Intent>
-    ): AddNetworkResult {
-        return wisefy.addOpenNetwork(
-            OpenNetworkData.SsidAndActivityResultLauncher(
+        activityResultLauncher: ActivityResultLauncher<Intent>,
+        callbacks: AddNetworkCallbacks?
+    ) {
+        wisefy.addOpenNetwork(
+            data = OpenNetworkData.SsidAndActivityResultLauncher(
                 ssid = ssid,
                 activityResultLauncher = activityResultLauncher
-            )
+            ),
+            callbacks = callbacks
         )
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-    override fun addWPA2Network(ssid: String, passphrase: String): AddNetworkResult {
-        return wisefy.addWPA2Network(
-            WPA2NetworkData.SsidAndPassphrase(
+    override fun addWPA2Network(
+        ssid: String,
+        passphrase: String,
+        callbacks: AddNetworkCallbacks?
+    ) {
+        wisefy.addWPA2Network(
+            data = WPA2NetworkData.SsidAndPassphrase(
                 ssid = ssid,
                 passphrase = passphrase
-            )
+            ),
+            callbacks = callbacks
         )
     }
 
@@ -105,25 +129,32 @@ internal class DefaultAddNetworkModel @Inject constructor(
     override fun addWPA2Network(
         ssid: String,
         passphrase: String,
-        activityResultLauncher: ActivityResultLauncher<Intent>
-    ): AddNetworkResult {
-        return wisefy.addWPA2Network(
-            WPA2NetworkData.SsidPassphraseAndActivityResultLauncher(
+        activityResultLauncher: ActivityResultLauncher<Intent>,
+        callbacks: AddNetworkCallbacks?
+    ) {
+        wisefy.addWPA2Network(
+            data = WPA2NetworkData.SsidPassphraseAndActivityResultLauncher(
                 ssid = ssid,
                 passphrase = passphrase,
                 activityResultLauncher = activityResultLauncher
-            )
+            ),
+            callbacks = callbacks
         )
     }
 
     @RequiresApi(Build.VERSION_CODES.Q)
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-    override fun addWPA3Network(ssid: String, passphrase: String): AddNetworkResult {
-        return wisefy.addWPA3Network(
-            WPA3NetworkData.SsidAndPassphrase(
+    override fun addWPA3Network(
+        ssid: String,
+        passphrase: String,
+        callbacks: AddNetworkCallbacks?
+    ) {
+        wisefy.addWPA3Network(
+            data = WPA3NetworkData.SsidAndPassphrase(
                 ssid = ssid,
                 passphrase = passphrase
-            )
+            ),
+            callbacks = callbacks
         )
     }
 
@@ -132,14 +163,16 @@ internal class DefaultAddNetworkModel @Inject constructor(
     override fun addWPA3Network(
         ssid: String,
         passphrase: String,
-        activityResultLauncher: ActivityResultLauncher<Intent>
-    ): AddNetworkResult {
-        return wisefy.addWPA3Network(
-            WPA3NetworkData.SsidPassphraseAndActivityResultLauncher(
+        activityResultLauncher: ActivityResultLauncher<Intent>,
+        callbacks: AddNetworkCallbacks?
+    ) {
+        wisefy.addWPA3Network(
+            data = WPA3NetworkData.SsidPassphraseAndActivityResultLauncher(
                 ssid = ssid,
                 passphrase = passphrase,
                 activityResultLauncher = activityResultLauncher
-            )
+            ),
+            callbacks = callbacks
         )
     }
 }

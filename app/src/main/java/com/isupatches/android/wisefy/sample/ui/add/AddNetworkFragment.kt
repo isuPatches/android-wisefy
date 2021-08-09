@@ -208,13 +208,13 @@ internal class AddNetworkFragment : BaseFragment(), AddNetworkView {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                 presenter.addWPA2Network(
                     ssid = binding.networkNameEdt.getTrimmedInput(),
-                    password = binding.networkPasswordEdt.getTrimmedInput(),
+                    passphrase = binding.networkPasswordEdt.getTrimmedInput(),
                     activityResultLauncher = addNetworkResult
                 )
             } else {
                 presenter.addWPA2Network(
                     ssid = binding.networkNameEdt.getTrimmedInput(),
-                    password = binding.networkPasswordEdt.getTrimmedInput()
+                    passphrase = binding.networkPasswordEdt.getTrimmedInput()
                 )
             }
         }
@@ -227,13 +227,13 @@ internal class AddNetworkFragment : BaseFragment(), AddNetworkView {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                     presenter.addWPA3Network(
                         ssid = binding.networkNameEdt.getTrimmedInput(),
-                        password = binding.networkPasswordEdt.getTrimmedInput(),
+                        passphrase = binding.networkPasswordEdt.getTrimmedInput(),
                         activityResultLauncher = addNetworkResult
                     )
                 } else {
                     presenter.addWPA3Network(
                         ssid = binding.networkNameEdt.getTrimmedInput(),
-                        password = binding.networkPasswordEdt.getTrimmedInput()
+                        passphrase = binding.networkPasswordEdt.getTrimmedInput()
                     )
                 }
             }

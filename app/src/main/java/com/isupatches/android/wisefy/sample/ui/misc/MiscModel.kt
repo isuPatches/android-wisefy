@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Patches Klinefelter
+ * Copyright 2021 Patches Klinefelter
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,36 +21,39 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.WisefyApi
+import com.isupatches.android.wisefy.callbacks.DisableWifiCallbacks
+import com.isupatches.android.wisefy.callbacks.EnableWifiCallbacks
+import com.isupatches.android.wisefy.callbacks.GetCurrentNetworkCallbacks
+import com.isupatches.android.wisefy.callbacks.GetCurrentNetworkInfoCallbacks
 import com.isupatches.android.wisefy.callbacks.GetFrequencyCallbacks
+import com.isupatches.android.wisefy.callbacks.GetIPCallbacks
 import com.isupatches.android.wisefy.callbacks.GetNearbyAccessPointCallbacks
-import com.isupatches.android.wisefy.networkinfo.entities.CurrentNetworkData
-import com.isupatches.android.wisefy.networkinfo.entities.CurrentNetworkInfoData
+import com.isupatches.android.wisefy.callbacks.GetSavedNetworksCallbacks
 import com.isupatches.android.wisefy.sample.internal.scaffolding.BaseModel
-import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
 import javax.inject.Inject
 
 internal interface MiscModel {
 
-    fun disableWifi()
+    fun disableWifi(callbacks: DisableWifiCallbacks?)
 
-    fun enableWifi()
+    fun enableWifi(callbacks: EnableWifiCallbacks?)
 
-    fun getCurrentNetwork(): CurrentNetworkData?
+    fun getCurrentNetwork(callbacks: GetCurrentNetworkCallbacks?)
 
-    fun getCurrentNetworkInfo(): CurrentNetworkInfoData?
+    fun getCurrentNetworkInfo(callbacks: GetCurrentNetworkInfoCallbacks?)
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     fun getFrequency(callbacks: GetFrequencyCallbacks?)
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    fun getIP(): String
+    fun getIP(callbacks: GetIPCallbacks?)
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     fun getNearbyAccessPoints(callbacks: GetNearbyAccessPointCallbacks?)
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    fun getSavedNetworks(): List<SavedNetworkData>
+    fun getSavedNetworks(callbacks: GetSavedNetworksCallbacks?)
 }
 
 @MiscScope
@@ -58,20 +61,20 @@ internal class DefaultMiscModel @Inject constructor(
     private val wiseFy: WisefyApi
 ) : BaseModel(), MiscModel {
 
-    override fun disableWifi() {
-        wiseFy.disableWifi()
+    override fun disableWifi(callbacks: DisableWifiCallbacks?) {
+        wiseFy.disableWifi(callbacks)
     }
 
-    override fun enableWifi() {
-        wiseFy.enableWifi()
+    override fun enableWifi(callbacks: EnableWifiCallbacks?) {
+        wiseFy.enableWifi(callbacks)
     }
 
-    override fun getCurrentNetwork(): CurrentNetworkData? {
-        return wiseFy.getCurrentNetwork()
+    override fun getCurrentNetwork(callbacks: GetCurrentNetworkCallbacks?) {
+        wiseFy.getCurrentNetwork(callbacks)
     }
 
-    override fun getCurrentNetworkInfo(): CurrentNetworkInfoData? {
-        return wiseFy.getCurrentNetworkInfo()
+    override fun getCurrentNetworkInfo(callbacks: GetCurrentNetworkInfoCallbacks?) {
+        wiseFy.getCurrentNetworkInfo(callbacks)
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
@@ -81,8 +84,8 @@ internal class DefaultMiscModel @Inject constructor(
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun getIP(): String {
-        return wiseFy.getIP() ?: ""
+    override fun getIP(callbacks: GetIPCallbacks?) {
+        wiseFy.getIP(callbacks)
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
@@ -91,7 +94,7 @@ internal class DefaultMiscModel @Inject constructor(
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun getSavedNetworks(): List<SavedNetworkData> {
-        return wiseFy.getSavedNetworks()
+    override fun getSavedNetworks(callbacks: GetSavedNetworksCallbacks?) {
+        wiseFy.getSavedNetworks()
     }
 }

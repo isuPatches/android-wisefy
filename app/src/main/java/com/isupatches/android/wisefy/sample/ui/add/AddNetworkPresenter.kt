@@ -22,6 +22,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
+import com.isupatches.android.wisefy.callbacks.AddNetworkCallbacks
 import com.isupatches.android.wisefy.sample.internal.scaffolding.BasePresenter
 import com.isupatches.android.wisefy.sample.internal.scaffolding.Presenter
 import javax.inject.Inject
@@ -39,25 +40,25 @@ internal interface AddNetworkPresenter : Presenter<AddNetworkFragment> {
     )
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    fun addWPA2Network(ssid: String, password: String)
+    fun addWPA2Network(ssid: String, passphrase: String)
 
     @RequiresApi(Build.VERSION_CODES.R)
     @RequiresPermission(ACCESS_FINE_LOCATION)
     fun addWPA2Network(
         ssid: String,
-        password: String,
+        passphrase: String,
         activityResultLauncher: ActivityResultLauncher<Intent>
     )
 
     @RequiresApi(Build.VERSION_CODES.Q)
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    fun addWPA3Network(ssid: String, password: String)
+    fun addWPA3Network(ssid: String, passphrase: String)
 
     @RequiresApi(Build.VERSION_CODES.R)
     @RequiresPermission(ACCESS_FINE_LOCATION)
     fun addWPA3Network(
         ssid: String,
-        password: String,
+        passphrase: String,
         activityResultLauncher: ActivityResultLauncher<Intent>
     )
 }
@@ -67,13 +68,36 @@ internal class DefaultAddNetworkPresenter @Inject constructor(
     private val model: AddNetworkModel,
 ) : BasePresenter<AddNetworkFragment>(), AddNetworkPresenter {
 
+    private val addNetworkCallbacks = object : AddNetworkCallbacks {
+        override fun onFailureAddingNetwork(result: AddNetworkResult) {
+            doSafelyWithView { view ->
+                view.displayFailureAddingNetwork(result)
+            }
+        }
+
+        override fun onNetworkAdded(result: AddNetworkResult) {
+            doSafelyWithView { view ->
+                view.displayNetworkAdded(result)
+            }
+        }
+
+        override fun onWisefyAsyncFailure(throwable: Throwable) {
+            doSafelyWithView { view ->
+                view.displayWisefyAsyncError(throwable)
+            }
+        }
+    }
+
     /*
      * Model call-throughs
      */
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun addOpenNetwork(ssid: String) {
-        model.addOpenNetwork(ssid)
+        model.addOpenNetwork(
+            ssid = ssid,
+            callbacks = addNetworkCallbacks
+        )
     }
 
     @RequiresApi(Build.VERSION_CODES.R)
@@ -82,48 +106,59 @@ internal class DefaultAddNetworkPresenter @Inject constructor(
         ssid: String,
         activityResultLauncher: ActivityResultLauncher<Intent>
     ) {
-        model.addOpenNetwork(ssid, activityResultLauncher)
+        model.addOpenNetwork(
+            ssid = ssid,
+            activityResultLauncher = activityResultLauncher,
+            callbacks = addNetworkCallbacks
+        )
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun addWPA2Network(ssid: String, password: String) {
-        model.addWPA2Network(ssid, password)
+    override fun addWPA2Network(ssid: String, passphrase: String) {
+        model.addWPA2Network(
+            ssid = ssid,
+            passphrase = passphrase,
+            callbacks = addNetworkCallbacks
+        )
     }
 
     @RequiresApi(Build.VERSION_CODES.R)
     @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun addWPA2Network(
         ssid: String,
-        password: String,
+        passphrase: String,
         activityResultLauncher: ActivityResultLauncher<Intent>
     ) {
-        model.addWPA2Network(ssid, password, activityResultLauncher)
+        model.addWPA2Network(
+            ssid = ssid,
+            passphrase = passphrase,
+            activityResultLauncher = activityResultLauncher,
+            callbacks = addNetworkCallbacks
+        )
     }
 
     @RequiresApi(Build.VERSION_CODES.Q)
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun addWPA3Network(ssid: String, password: String) {
-        model.addWPA3Network(ssid, password)
+    override fun addWPA3Network(ssid: String, passphrase: String) {
+        model.addWPA3Network(
+            ssid = ssid,
+            passphrase = passphrase,
+            callbacks = addNetworkCallbacks
+        )
     }
 
     @RequiresApi(Build.VERSION_CODES.R)
     @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun addWPA3Network(
         ssid: String,
-        password: String,
+        passphrase: String,
         activityResultLauncher: ActivityResultLauncher<Intent>
     ) {
-        when (val result = model.addWPA3Network(ssid, password, activityResultLauncher)) {
-            is AddNetworkResult.ResultCode -> {
-                if (result.data != -1) {
-                    doSafelyWithView { view -> view.displayNetworkAdded(result) }
-                } else {
-                    doSafelyWithView { view -> view.displayFailureAddingNetwork(result) }
-                }
-            }
-            is AddNetworkResult.IntentLaunched -> {
-                // No -op
-            }
-        }
+        model.addWPA3Network(
+            ssid = ssid,
+            passphrase = passphrase,
+            activityResultLauncher = activityResultLauncher,
+            callbacks = addNetworkCallbacks
+        )
     }
 }

@@ -13,17 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.android.wisefy.networkconnection.entities
+package com.isupatches.android.wisefy.build
 
-sealed class NetworkConnectionResult {
-
-    data class Succeeded(
-        val data: Boolean
-    ) : NetworkConnectionResult()
-
-    object ConnectionRequestPlaced : NetworkConnectionResult()
-
-    object NetworkNotFound : NetworkConnectionResult()
-
-    object UnregisterRequestSent : NetworkConnectionResult()
+object DependencyConstants {
+    const val IMPLEMENTATION: String = "implementation"
+    const val KAPT: String = "kapt"
 }

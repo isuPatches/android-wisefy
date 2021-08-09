@@ -25,8 +25,8 @@ import com.isupatches.android.wisefy.networkconnection.delegates.LegacyNetworkCo
 import com.isupatches.android.wisefy.networkconnection.entities.NetworkConnectionResult
 import com.isupatches.android.wisefy.networkconnectionstatus.NetworkConnectionStatusUtil
 import com.isupatches.android.wisefy.savednetworks.SavedNetworkUtil
-import com.isupatches.android.wisefy.util.coroutines.CoroutineDispatcherProvider
 import com.isupatches.android.wisefy.util.SdkUtil
+import com.isupatches.android.wisefy.util.coroutines.CoroutineDispatcherProvider
 import com.isupatches.android.wisefy.util.coroutines.createBaseCoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -85,7 +85,7 @@ internal class WisefyNetworkConnectionUtil(
                             callbacks?.onFailureConnectingToNetwork()
                         }
                     }
-                    is NetworkConnectionResult.RequestPlaced -> {
+                    is NetworkConnectionResult.ConnectionRequestPlaced -> {
                         callbacks?.onConnectionRequestPlaced()
                     }
                     is NetworkConnectionResult.NetworkNotFound -> {

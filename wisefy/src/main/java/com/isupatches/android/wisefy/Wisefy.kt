@@ -398,8 +398,8 @@ class Wisefy private constructor(
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun getCurrentNetworkInfo(network: Network?, callbacks: GetCurrentNetworkInfoCallbacks?) {
-        networkInfoUtil.getCurrentNetworkInfo(network, callbacks)
+    override fun getCurrentNetworkInfo(callbacks: GetCurrentNetworkInfoCallbacks?, network: Network?) {
+        networkInfoUtil.getCurrentNetworkInfo(callbacks, network)
     }
 
     @RequiresApi(LOLLIPOP)

@@ -19,9 +19,13 @@ import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.ACCESS_WIFI_STATE
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.WisefyApi
-import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
+import com.isupatches.android.wisefy.callbacks.SearchForAccessPointCallbacks
+import com.isupatches.android.wisefy.callbacks.SearchForAccessPointsCallbacks
+import com.isupatches.android.wisefy.callbacks.SearchForSSIDCallbacks
+import com.isupatches.android.wisefy.callbacks.SearchForSSIDsCallbacks
+import com.isupatches.android.wisefy.callbacks.SearchForSavedNetworkCallbacks
+import com.isupatches.android.wisefy.callbacks.SearchForSavedNetworksCallbacks
 import com.isupatches.android.wisefy.sample.internal.scaffolding.BaseModel
-import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
 import javax.inject.Inject
 
 internal interface SearchModel {
@@ -29,27 +33,42 @@ internal interface SearchModel {
     @RequiresPermission(ACCESS_FINE_LOCATION)
     fun searchForAccessPoint(
         regexForSSID: String,
-        timeout: Int,
-        filterDuplicates: Boolean
-    ): AccessPointData?
+        timeoutInMillis: Int,
+        filterDuplicates: Boolean,
+        callbacks: SearchForAccessPointCallbacks?
+    )
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     fun searchForAccessPoints(
         regexForSSID: String,
-        filterDuplicates: Boolean
-    ): List<AccessPointData>
+        filterDuplicates: Boolean,
+        callbacks: SearchForAccessPointsCallbacks?
+    )
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    fun searchForSavedNetwork(regexForSSID: String): SavedNetworkData?
+    fun searchForSavedNetwork(
+        regexForSSID: String,
+        callbacks: SearchForSavedNetworkCallbacks?
+    )
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    fun searchForSavedNetworks(regexForSSID: String): List<SavedNetworkData>
+    fun searchForSavedNetworks(
+        regexForSSID: String,
+        callbacks: SearchForSavedNetworksCallbacks?
+    )
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    fun searchForSSID(regexForSSID: String, timeout: Int): String?
+    fun searchForSSID(
+        regexForSSID: String,
+        timeoutInMillis: Int,
+        callbacks: SearchForSSIDCallbacks?
+    )
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    fun searchForSSIDs(regexForSSID: String): List<String>
+    fun searchForSSIDs(
+        regexForSSID: String,
+        callbacks: SearchForSSIDsCallbacks?
+    )
 }
 
 @SearchScope
@@ -60,34 +79,74 @@ internal class DefaultSearchModel @Inject constructor(
     @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun searchForAccessPoint(
         regexForSSID: String,
-        timeout: Int,
-        filterDuplicates: Boolean
-    ): AccessPointData? {
-        return wisefy.searchForAccessPoint(regexForSSID, timeout, filterDuplicates)
+        timeoutInMillis: Int,
+        filterDuplicates: Boolean,
+        callbacks: SearchForAccessPointCallbacks?
+    ) {
+        wisefy.searchForAccessPoint(
+            regexForSSID = regexForSSID,
+            timeoutInMillis = timeoutInMillis,
+            filterDuplicates = filterDuplicates,
+            callbacks = callbacks
+        )
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun searchForAccessPoints(regexForSSID: String, filterDuplicates: Boolean): List<AccessPointData> {
-        return wisefy.searchForAccessPoints(regexForSSID, filterDuplicates)
+    override fun searchForAccessPoints(
+        regexForSSID: String,
+        filterDuplicates: Boolean,
+        callbacks: SearchForAccessPointsCallbacks?
+    ) {
+        wisefy.searchForAccessPoints(
+            regexForSSID = regexForSSID,
+            filterDuplicates = filterDuplicates,
+            callbacks = callbacks
+        )
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun searchForSavedNetwork(regexForSSID: String): SavedNetworkData? {
-        return wisefy.searchForSavedNetwork(regexForSSID)
+    override fun searchForSavedNetwork(
+        regexForSSID: String,
+        callbacks: SearchForSavedNetworkCallbacks?
+    ) {
+        wisefy.searchForSavedNetwork(
+            regexForSSID = regexForSSID,
+            callbacks = callbacks
+        )
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun searchForSavedNetworks(regexForSSID: String): List<SavedNetworkData> {
-        return wisefy.searchForSavedNetworks(regexForSSID)
+    override fun searchForSavedNetworks(
+        regexForSSID: String,
+        callbacks: SearchForSavedNetworksCallbacks?
+    ) {
+        wisefy.searchForSavedNetworks(
+            regexForSSID = regexForSSID,
+            callbacks = callbacks
+        )
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun searchForSSID(regexForSSID: String, timeout: Int): String? {
-        return wisefy.searchForSSID(regexForSSID, timeout)
+    override fun searchForSSID(
+        regexForSSID: String,
+        timeoutInMillis: Int,
+        callbacks: SearchForSSIDCallbacks?
+    ) {
+        wisefy.searchForSSID(
+            regexForSSID = regexForSSID,
+            timeoutInMillis = timeoutInMillis,
+            callbacks = callbacks
+        )
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun searchForSSIDs(regexForSSID: String): List<String> {
-        return wisefy.searchForSSIDs(regexForSSID)
+    override fun searchForSSIDs(
+        regexForSSID: String,
+        callbacks: SearchForSSIDsCallbacks?
+    ) {
+        wisefy.searchForSSIDs(
+            regexForSSID = regexForSSID,
+            callbacks = callbacks
+        )
     }
 }

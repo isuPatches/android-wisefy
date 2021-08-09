@@ -15,7 +15,6 @@
  */
 package com.isupatches.android.wisefy.savednetworks.delegates
 
-import com.isupatches.android.wisefy.logging.WisefyLogger
 import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
 import com.isupatches.android.wisefy.util.fail
 

@@ -38,8 +38,9 @@ import javax.inject.Inject
 private const val LOG_TAG = "RemoveNetworkFragment"
 
 internal interface RemoveNetworkView {
-    fun displayNetworkRemoved(result: RemoveNetworkResult)
     fun displayFailureRemovingNetwork(result: RemoveNetworkResult)
+    fun displayNetworkNotFountToRemove()
+    fun displayNetworkRemoved(result: RemoveNetworkResult)
 }
 
 internal class RemoveNetworkFragment : BaseFragment(), RemoveNetworkView {
@@ -94,6 +95,10 @@ internal class RemoveNetworkFragment : BaseFragment(), RemoveNetworkView {
 
     override fun displayNetworkRemoved(result: RemoveNetworkResult) {
         displayInfo(getString(R.string.succeeded_removing_network_args, result), R.string.remove_network_result)
+    }
+
+    override fun displayNetworkNotFountToRemove() {
+        displayInfo(getString(R.string.network_not_fount_to_remove), R.string.remove_network_result)
     }
 
     override fun displayFailureRemovingNetwork(result: RemoveNetworkResult) {

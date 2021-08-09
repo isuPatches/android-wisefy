@@ -13,17 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.android.wisefy.networkconnection.entities
+package com.isupatches.android.wisefy.build.plugins
 
-sealed class NetworkConnectionResult {
+import org.gradle.api.Plugin
+import org.gradle.api.Project
 
-    data class Succeeded(
-        val data: Boolean
-    ) : NetworkConnectionResult()
+class DocumentationPlugin : Plugin<Project> {
 
-    object ConnectionRequestPlaced : NetworkConnectionResult()
-
-    object NetworkNotFound : NetworkConnectionResult()
-
-    object UnregisterRequestSent : NetworkConnectionResult()
+    override fun apply(target: Project) {
+        target.plugins.apply("org.jetbrains.dokka")
+    }
 }

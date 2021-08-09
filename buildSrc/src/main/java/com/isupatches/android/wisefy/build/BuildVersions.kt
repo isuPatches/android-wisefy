@@ -13,17 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.android.wisefy.networkconnection.entities
+package com.isupatches.android.wisefy.build
 
-sealed class NetworkConnectionResult {
+object BuildVersions {
+    const val BUILD_TOOLS: String = "30.0.3"
 
-    data class Succeeded(
-        val data: Boolean
-    ) : NetworkConnectionResult()
+    const val COMPILE_SDK: Int = 30
+    const val TARGET_SDK: Int = 30
+    const val MIN_SDK: Int = 23
 
-    object ConnectionRequestPlaced : NetworkConnectionResult()
-
-    object NetworkNotFound : NetworkConnectionResult()
-
-    object UnregisterRequestSent : NetworkConnectionResult()
+    const val MODULE_VERSION_CODE: Int = 16
+    const val MODULE_VERSION_NAME: String = "5.0.0-RC1"
 }

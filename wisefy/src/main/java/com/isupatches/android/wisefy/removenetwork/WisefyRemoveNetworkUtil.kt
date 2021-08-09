@@ -25,8 +25,8 @@ import com.isupatches.android.wisefy.removenetwork.delegates.Android29RemoveNetw
 import com.isupatches.android.wisefy.removenetwork.delegates.LegacyRemoveNetworkDelegate
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkResult
 import com.isupatches.android.wisefy.savednetworks.SavedNetworkUtil
-import com.isupatches.android.wisefy.util.coroutines.CoroutineDispatcherProvider
 import com.isupatches.android.wisefy.util.SdkUtil
+import com.isupatches.android.wisefy.util.coroutines.CoroutineDispatcherProvider
 import com.isupatches.android.wisefy.util.coroutines.createBaseCoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -68,16 +68,16 @@ internal class WisefyRemoveNetworkUtil(
                 when (result) {
                     is RemoveNetworkResult.ResultCode -> {
                         if (result.data != -1) {
-                            callbacks?.onNetworkRemoved()
+                            callbacks?.onNetworkRemoved(result)
                         } else {
-                            callbacks?.onFailureRemovingNetwork()
+                            callbacks?.onFailureRemovingNetwork(result)
                         }
                     }
                     is RemoveNetworkResult.Succeeded -> {
                         if (result.data) {
-                            callbacks?.onNetworkRemoved()
+                            callbacks?.onNetworkRemoved(result)
                         } else {
-                            callbacks?.onFailureRemovingNetwork()
+                            callbacks?.onFailureRemovingNetwork(result)
                         }
                     }
                     is RemoveNetworkResult.NetworkNotFound -> {

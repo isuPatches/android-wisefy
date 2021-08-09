@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Patches Klinefelter
+ * Copyright 2021 Patches Klinefelter
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,10 +20,19 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
+import com.isupatches.android.wisefy.callbacks.DisableWifiCallbacks
+import com.isupatches.android.wisefy.callbacks.EnableWifiCallbacks
+import com.isupatches.android.wisefy.callbacks.GetCurrentNetworkCallbacks
+import com.isupatches.android.wisefy.callbacks.GetCurrentNetworkInfoCallbacks
 import com.isupatches.android.wisefy.callbacks.GetFrequencyCallbacks
+import com.isupatches.android.wisefy.callbacks.GetIPCallbacks
 import com.isupatches.android.wisefy.callbacks.GetNearbyAccessPointCallbacks
+import com.isupatches.android.wisefy.callbacks.GetSavedNetworksCallbacks
+import com.isupatches.android.wisefy.networkinfo.entities.CurrentNetworkData
+import com.isupatches.android.wisefy.networkinfo.entities.CurrentNetworkInfoData
 import com.isupatches.android.wisefy.sample.internal.scaffolding.BasePresenter
 import com.isupatches.android.wisefy.sample.internal.scaffolding.Presenter
+import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
 import javax.inject.Inject
 
 internal interface MiscPresenter : Presenter<MiscFragment> {
@@ -60,7 +69,27 @@ internal class DefaultMiscPresenter @Inject constructor(
 
     override fun disableWifi() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-            model.disableWifi()
+            model.disableWifi(
+                callbacks = object : DisableWifiCallbacks {
+                    override fun onFailureDisablingWifi() {
+                        doSafelyWithView { view ->
+                            view.displayFailureDisablingWifi()
+                        }
+                    }
+
+                    override fun onWifiDisabled() {
+                        doSafelyWithView { view ->
+                            view.displayWifiDisabled()
+                        }
+                    }
+
+                    override fun onWisefyAsyncFailure(throwable: Throwable) {
+                        doSafelyWithView { view ->
+                            view.displayWisefyAsyncError(throwable)
+                        }
+                    }
+                }
+            )
         } else {
             doSafelyWithView { view -> view.displayAndroidQWifiMessage() }
         }
@@ -68,79 +97,172 @@ internal class DefaultMiscPresenter @Inject constructor(
 
     override fun enableWifi() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-            model.enableWifi()
+            model.enableWifi(
+                callbacks = object : EnableWifiCallbacks {
+                    override fun onFailureEnablingWifi() {
+                        doSafelyWithView { view ->
+                            view.displayFailureEnablingWifi()
+                        }
+                    }
+
+                    override fun onWifiEnabled() {
+                        doSafelyWithView { view ->
+                            view.displayWifiEnabled()
+                        }
+                    }
+
+                    override fun onWisefyAsyncFailure(throwable: Throwable) {
+                        doSafelyWithView { view ->
+                            view.displayWisefyAsyncError(throwable)
+                        }
+                    }
+                }
+            )
         } else {
             doSafelyWithView { view -> view.displayAndroidQWifiMessage() }
         }
     }
 
     override fun getCurrentNetwork() {
-        val currentNetwork = model.getCurrentNetwork()
-        if (currentNetwork != null) {
-            doSafelyWithView { view -> view.displayCurrentNetwork(currentNetwork) }
-        } else {
-            doSafelyWithView { view -> view.displayNoCurrentNetwork() }
-        }
+        model.getCurrentNetwork(
+            callbacks = object : GetCurrentNetworkCallbacks {
+                override fun onNoCurrentNetwork() {
+                    doSafelyWithView { view ->
+                        view.displayNoCurrentNetwork()
+                    }
+                }
+
+                override fun onCurrentNetworkRetrieved(currentNetwork: CurrentNetworkData) {
+                    doSafelyWithView { view ->
+                        view.displayCurrentNetwork(currentNetwork)
+                    }
+                }
+
+                override fun onWisefyAsyncFailure(throwable: Throwable) {
+                    doSafelyWithView { view ->
+                        view.displayWisefyAsyncError(throwable)
+                    }
+                }
+            }
+        )
     }
 
     override fun getCurrentNetworkInfo() {
-        val currentNetworkInfo = model.getCurrentNetworkInfo()
-        if (currentNetworkInfo != null) {
-            doSafelyWithView { view -> view.displayCurrentNetworkInfo(currentNetworkInfo) }
-        } else {
-            doSafelyWithView { view -> view.displayNoCurrentNetworkInfo() }
-        }
+        model.getCurrentNetworkInfo(
+            callbacks = object : GetCurrentNetworkInfoCallbacks {
+                override fun onNoCurrentNetworkInfo() {
+                    doSafelyWithView { view ->
+                        view.displayNoCurrentNetworkInfo()
+                    }
+                }
+
+                override fun onCurrentNetworkInfoRetrieved(currentNetworkInfo: CurrentNetworkInfoData) {
+                    doSafelyWithView { view ->
+                        view.displayCurrentNetworkInfo(currentNetworkInfo)
+                    }
+                }
+
+                override fun onWisefyAsyncFailure(throwable: Throwable) {
+                    doSafelyWithView { view ->
+                        view.displayWisefyAsyncError(throwable)
+                    }
+                }
+            }
+        )
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun getFrequency() {
-        model.getFrequency(object : GetFrequencyCallbacks {
-            override fun onFailureRetrievingFrequency() {
-                doSafelyWithView { view -> view.displayFailureRetrievingFrequency() }
-            }
+        model.getFrequency(
+            callbacks = object : GetFrequencyCallbacks {
+                override fun onFailureRetrievingFrequency() {
+                    doSafelyWithView { view -> view.displayFailureRetrievingFrequency() }
+                }
 
-            override fun onFrequencyRetrieved(frequency: Int) {
-                doSafelyWithView { view -> view.displayFrequency(frequency) }
-            }
+                override fun onFrequencyRetrieved(frequency: Int) {
+                    doSafelyWithView { view -> view.displayFrequency(frequency) }
+                }
 
-            override fun onWisefyAsyncFailure(throwable: Throwable) {
-                doSafelyWithView { view -> view.displayWisefyAsyncError(throwable) }
+                override fun onWisefyAsyncFailure(throwable: Throwable) {
+                    doSafelyWithView { view -> view.displayWisefyAsyncError(throwable) }
+                }
             }
-        })
+        )
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun getIP() {
-        val ip = model.getIP()
-        doSafelyWithView { view -> view.displayIP(ip) }
+        model.getIP(
+            callbacks = object : GetIPCallbacks {
+                override fun onFailureRetrievingIP() {
+                    doSafelyWithView { view ->
+                        view.displayFailureRetrievingIP()
+                    }
+                }
+
+                override fun onIPRetrieved(ip: String) {
+                    doSafelyWithView { view ->
+                        view.displayIP(ip)
+                    }
+                }
+
+                override fun onWisefyAsyncFailure(throwable: Throwable) {
+                    doSafelyWithView { view ->
+                        view.displayWisefyAsyncError(throwable)
+                    }
+                }
+            }
+        )
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun getNearbyAccessPoints() {
-        model.getNearbyAccessPoints(object : GetNearbyAccessPointCallbacks {
-            override fun onNearbyAccessPointsRetrieved(accessPoints: List<AccessPointData>) {
-                doSafelyWithView { view ->
-                    view.displayNearbyAccessPoints(accessPoints)
+        model.getNearbyAccessPoints(
+            callbacks = object : GetNearbyAccessPointCallbacks {
+                override fun onNearbyAccessPointsRetrieved(accessPoints: List<AccessPointData>) {
+                    doSafelyWithView { view ->
+                        view.displayNearbyAccessPoints(accessPoints)
+                    }
                 }
-            }
 
-            override fun onNoNearbyAccessPoints() {
-                doSafelyWithView { view ->
-                    view.displayNoAccessPointsFound()
+                override fun onNoNearbyAccessPoints() {
+                    doSafelyWithView { view ->
+                        view.displayNoAccessPointsFound()
+                    }
                 }
-            }
 
-            override fun onWisefyAsyncFailure(throwable: Throwable) {
-                doSafelyWithView { view ->
-                    view.displayWisefyAsyncError(throwable)
+                override fun onWisefyAsyncFailure(throwable: Throwable) {
+                    doSafelyWithView { view ->
+                        view.displayWisefyAsyncError(throwable)
+                    }
                 }
             }
-        })
+        )
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun getSavedNetworks() {
-        model.getSavedNetworks()
+        model.getSavedNetworks(
+            callbacks = object : GetSavedNetworksCallbacks {
+                override fun onNoSavedNetworksFound() {
+                    doSafelyWithView { view ->
+                        view.displayNoSavedNetworksFound()
+                    }
+                }
+
+                override fun onSavedNetworksRetrieved(savedNetworks: List<SavedNetworkData>) {
+                    doSafelyWithView { view ->
+                        view.displaySavedNetworks(savedNetworks)
+                    }
+                }
+
+                override fun onWisefyAsyncFailure(throwable: Throwable) {
+                    doSafelyWithView { view ->
+                        view.displayWisefyAsyncError(throwable)
+                    }
+                }
+            }
+        )
     }
 }

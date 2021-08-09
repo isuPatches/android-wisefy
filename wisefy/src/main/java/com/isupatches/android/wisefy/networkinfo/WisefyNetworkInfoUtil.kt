@@ -76,8 +76,8 @@ internal class WisefyNetworkInfoUtil(
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
     override fun getCurrentNetworkInfo(
-        network: Network?,
-        callbacks: GetCurrentNetworkInfoCallbacks?
+        callbacks: GetCurrentNetworkInfoCallbacks?,
+        network: Network?
     ) {
         networkInfoScope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
             val currentNetworkInfo = delegate.getCurrentNetworkInfo(network)

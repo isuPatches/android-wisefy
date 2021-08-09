@@ -19,8 +19,8 @@ import android.Manifest.permission.ACCESS_NETWORK_STATE
 import android.net.ConnectivityManager
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
-import com.isupatches.android.wisefy.networkconnectionstatus.NetworkConnectionStatusApi
 import com.isupatches.android.wisefy.logging.WisefyLogger
+import com.isupatches.android.wisefy.networkconnectionstatus.NetworkConnectionStatusApi
 import com.isupatches.android.wisefy.util.SdkUtil
 
 internal class LegacyNetworkConnectionStatusDelegate(

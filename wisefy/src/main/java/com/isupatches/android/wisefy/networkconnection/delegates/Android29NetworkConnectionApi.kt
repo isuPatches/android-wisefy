@@ -39,6 +39,18 @@ internal class Android29NetworkConnectionApiImpl(
     private val logger: WisefyLogger?
 ) : Android29NetworkConnectionApi, ConnectivityManager.NetworkCallback() {
 
+    private val networkCallback = object : ConnectivityManager.NetworkCallback() {
+        override fun onAvailable(network: Network) {
+            super.onAvailable(network)
+            logger?.d(LOG_TAG, "Network available")
+        }
+
+        override fun onUnavailable() {
+            super.onUnavailable()
+            logger?.d(LOG_TAG, "Network unavailable")
+        }
+    }
+
     @RequiresApi(Build.VERSION_CODES.Q)
     override fun connectToNetwork(ssidToConnectTo: String, timeoutInMillis: Int): NetworkConnectionResult {
         val networkRequest = NetworkRequest.Builder()
@@ -50,25 +62,13 @@ internal class Android29NetworkConnectionApiImpl(
                     .build()
             )
             .build()
-        connectionManager.requestNetwork(
-            networkRequest,
-            object : ConnectivityManager.NetworkCallback() {
-                override fun onAvailable(network: Network) {
-                    super.onAvailable(network)
-                    logger?.d(LOG_TAG, "Network available")
-                }
-
-                override fun onUnavailable() {
-                    super.onUnavailable()
-                    logger?.d(LOG_TAG, "Network unavailable")
-                }
-            },
-            timeoutInMillis
-        )
-        return NetworkConnectionResult.RequestPlaced
+        networkCallback
+        connectionManager.requestNetwork(networkRequest, networkCallback, timeoutInMillis)
+        return NetworkConnectionResult.ConnectionRequestPlaced
     }
 
     override fun disconnectFromCurrentNetwork(): NetworkConnectionResult {
-        error("Unsure how to disconnect from network on Android Q and higher")
+        connectionManager.unregisterNetworkCallback(networkCallback)
+        return NetworkConnectionResult.UnregisterRequestSent
     }
 }

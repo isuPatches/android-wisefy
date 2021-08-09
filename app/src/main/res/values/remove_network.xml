@@ -7,6 +7,7 @@
     <!-- Results -->
     <string name="remove_network_result">Remove Network Result</string>
 
+    <string name="network_not_fount_to_remove">Network not found to remove</string>
     <string name="succeeded_removing_network_args">Succeeded removing network. Result: %s</string>
     <string name="failed_removing_network_args">Failed removing network. Result: %s</string>
 

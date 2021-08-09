@@ -40,8 +40,8 @@ interface NetworkInfoApiAsync {
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
     fun getCurrentNetworkInfo(
-        network: Network? = null,
-        callbacks: GetCurrentNetworkInfoCallbacks?
+        callbacks: GetCurrentNetworkInfoCallbacks?,
+        network: Network? = null
     )
 
     fun getIP(callbacks: GetIPCallbacks?)

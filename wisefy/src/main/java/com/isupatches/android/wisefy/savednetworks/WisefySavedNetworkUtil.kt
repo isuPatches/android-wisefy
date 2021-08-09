@@ -27,8 +27,8 @@ import com.isupatches.android.wisefy.savednetworks.delegates.Android29SavedNetwo
 import com.isupatches.android.wisefy.savednetworks.delegates.Android30SavedNetworkDelegate
 import com.isupatches.android.wisefy.savednetworks.delegates.LegacySavedNetworkDelegate
 import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
-import com.isupatches.android.wisefy.util.coroutines.CoroutineDispatcherProvider
 import com.isupatches.android.wisefy.util.SdkUtil
+import com.isupatches.android.wisefy.util.coroutines.CoroutineDispatcherProvider
 import com.isupatches.android.wisefy.util.coroutines.createBaseCoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
