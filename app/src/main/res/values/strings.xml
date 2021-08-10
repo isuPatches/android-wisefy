@@ -1,0 +1,37 @@
+<resources>
+
+    <string name="app_name">Wisefy Sample</string>
+
+    <!-- Main Screen -->
+    <string name="wisefy">Wisefy</string>
+    <string name="wisefy_sample_description">
+        Explore the various uses for Wisefy by poking around this sample app based on MVP architecture.
+    </string>
+
+    <!-- Shared -->
+    <string name="network_password">Network Password</string>
+    <string name="network_name">Network Name</string>
+
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <string name="ok">OK</string>
+    <string name="info">Info</string>
+
+    <string name="wisefy_async_error">Wisefy Async Error</string>
+    <string name="wisefy_async_error_descriptions_args">An async error occurred with Wisefy.  Exception message: %s</string>
+
+    <string name="access_points_args">Access points: %s</string>
+    <string name="no_access_points_found">No access points found</string>
+
+    <string name="saved_networks_args">Saved networks: %s</string>
+    <string name="no_saved_networks_found">No saved networks found</string>
+
+    <!-- Permissions -->
+    <string name="permission_error">Permission Error</string>
+    <string name="permission_error_unhandled_request_code_args">
+        Unhandled permission requested.  Request code: %d
+    </string>
+    <string name="android_q_wifi_message">Starting with Android Q, applications are not allowed to enable or disable Wi-Fi</string>
+    <string name="android_q_notice">Android Q Notice</string>
+
+</resources>
