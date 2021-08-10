@@ -19,7 +19,7 @@ configure<CpdExtension> {
     language = "kotlin"
     group = "reporting"
     isIgnoreFailures = false
-    minimumTokenCount = 50
+    minimumTokenCount = 75
 }
 
 tasks.withType<Cpd>().configureEach {
@@ -28,4 +28,8 @@ tasks.withType<Cpd>().configureEach {
         text.required.set(false)
         xml.required.set(true)
     }
+    exclude(
+        "**/*Delegate.kt",
+        "**/*Api.kt"
+    )
 }

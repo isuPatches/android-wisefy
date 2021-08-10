@@ -4,36 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav_graph"
-    app:startDestination="@+id/mainFragment"
-    tools:ignore="UnusedIds">
-
-<!--    <activity-->
-<!--        android:id="@+id/mainActivity"-->
-<!--        android:name="com.isupatches.android.wisefy.sample.ui.main.MainActivity"-->
-<!--        android:label="main_activity"-->
-<!--        tools:layout="@layout/activity_main">-->
-
-<!--        <action-->
-<!--            android:id="@+id/openAddNetwork"-->
-<!--            app:destination="@+id/addNetwork"-->
-<!--            />-->
-
-<!--        <action-->
-<!--            android:id="@+id/openRemoveNetwork"-->
-<!--            app:destination="@+id/removeNetwork"-->
-<!--            />-->
-
-<!--        <action-->
-<!--            android:id="@+id/openMisc"-->
-<!--            app:destination="@+id/misc"-->
-<!--            />-->
-
-<!--        <action-->
-<!--            android:id="@+id/openSearch"-->
-<!--            app:destination="@+id/search"-->
-<!--            />-->
-
-<!--    </activity>-->
+    app:startDestination="@+id/mainFragment">
 
     <fragment
         android:id="@id/mainFragment"

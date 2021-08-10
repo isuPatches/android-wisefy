@@ -94,17 +94,20 @@ android {
         isExplainIssues = true
         isAbortOnError = true
         isWarningsAsErrors = true
-        warning("UnusedIds") // Currently warnings for ViewBinding
+        disable("UnusedIds")
     }
 }
 
 dependencies {
+    /*
+     * Toggle these to test release binary vs. source code
+     */
     implementation(project(":wisefy"))
 //    implementation("com.isupatches.android:wisefy:5.0.0-RC1") {
 //        isChanging = true
 //    }
 
-    implementation("com.isupatches.android:viewglu:1.0.0")
+    implementation(Dependencies.VIEWGLU)
 
     // AndroidX
     implementation(Dependencies.AndroidX.APPCOMPAT)

@@ -30,6 +30,11 @@ I hope you enjoy the rewrite and please create an issue if you see anything odd 
 - WPA3 networks now supported
 - wisefysample renamed to app
 
+### Work Remaining Before Official Release
+
+- Documentation added
+- Unit and instrumentation tests added back
+
 ### New Structure
 
 - WiseFy API -> WiseFy -> Internal util -> Delegate -> OS API and OS API implementation 

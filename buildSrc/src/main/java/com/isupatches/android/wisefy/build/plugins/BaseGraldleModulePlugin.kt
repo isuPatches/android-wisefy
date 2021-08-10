@@ -117,7 +117,7 @@ class BaseGradleModulePlugin : Plugin<Project> {
                 isExplainIssues = true
                 isAbortOnError = true
                 isWarningsAsErrors = true
-                warning("UnusedIds") // Currently warnings for ViewBinding
+                disable("UnusedIds")
             }
 
             testOptions {

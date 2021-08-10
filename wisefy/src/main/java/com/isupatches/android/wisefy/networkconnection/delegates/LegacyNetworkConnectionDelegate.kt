@@ -16,8 +16,8 @@
 package com.isupatches.android.wisefy.networkconnection.delegates
 
 import android.net.wifi.WifiManager
-import com.isupatches.android.wisefy.networkconnection.NetworkConnectionApi
 import com.isupatches.android.wisefy.logging.WisefyLogger
+import com.isupatches.android.wisefy.networkconnection.NetworkConnectionApi
 import com.isupatches.android.wisefy.networkconnection.entities.NetworkConnectionResult
 import com.isupatches.android.wisefy.networkconnectionstatus.NetworkConnectionStatusUtil
 import com.isupatches.android.wisefy.savednetworks.SavedNetworkUtil

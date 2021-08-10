@@ -50,4 +50,6 @@ object Dependencies {
         const val ANDROID_SUPPORT = "com.google.dagger:dagger-android-support:${Versions.DAGGER}"
         const val ANDROID_PROCESSOR = "com.google.dagger:dagger-android-processor:${Versions.DAGGER}"
     }
+
+    const val VIEWGLU = "com.isupatches.android:viewglu:${Versions.VIEWGLU_VERSION}"
 }
