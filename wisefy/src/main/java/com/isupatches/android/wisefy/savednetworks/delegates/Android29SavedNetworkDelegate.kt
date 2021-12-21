@@ -19,6 +19,7 @@ import android.Manifest.permission.ACCESS_FINE_LOCATION
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.savednetworks.SavedNetworkApi
 import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
+import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkRequest
 
 internal class Android29SavedNetworkDelegate(
     private val impl: Android29SavedNetworkApiImpl = Android29SavedNetworkApiImpl()
@@ -30,17 +31,17 @@ internal class Android29SavedNetworkDelegate(
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun isNetworkSaved(ssid: String): Boolean {
-        return impl.isNetworkSaved(ssid)
+    override fun isNetworkSaved(request: SearchForSavedNetworkRequest): Boolean {
+        return impl.isNetworkSaved(request)
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun searchForSavedNetwork(regexForSSID: String): SavedNetworkData? {
-        return impl.searchForSavedNetwork(regexForSSID)
+    override fun searchForSavedNetwork(request: SearchForSavedNetworkRequest): SavedNetworkData? {
+        return impl.searchForSavedNetwork(request)
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun searchForSavedNetworks(regexForSSID: String): List<SavedNetworkData> {
-        return impl.searchForSavedNetworks(regexForSSID)
+    override fun searchForSavedNetworks(request: SearchForSavedNetworkRequest): List<SavedNetworkData> {
+        return impl.searchForSavedNetworks(request)
     }
 }

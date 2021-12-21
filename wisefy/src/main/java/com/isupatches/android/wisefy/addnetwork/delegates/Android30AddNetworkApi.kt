@@ -27,9 +27,9 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
-import com.isupatches.android.wisefy.util.createOpenNetworkSuggestion
-import com.isupatches.android.wisefy.util.createWPA2NetworkSuggestion
-import com.isupatches.android.wisefy.util.createWPA3NetworkSuggestion
+import com.isupatches.android.wisefy.util.createOpenNetworkSuggestionWithSSID
+import com.isupatches.android.wisefy.util.createWPA2NetworkSuggestionWithSSID
+import com.isupatches.android.wisefy.util.createWPA3NetworkSuggestionWithSSID
 
 internal interface Android30AddNetworkApi {
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
@@ -63,7 +63,7 @@ internal class Android30AddNetworkApiImpl(
         ssid: String,
         activityResultLauncher: ActivityResultLauncher<Intent>
     ): AddNetworkResult {
-        val suggestion = createOpenNetworkSuggestion(ssid)
+        val suggestion = createOpenNetworkSuggestionWithSSID(ssid)
         return launchIntent(suggestion, activityResultLauncher)
     }
 
@@ -73,7 +73,7 @@ internal class Android30AddNetworkApiImpl(
         passphrase: String,
         activityResultLauncher: ActivityResultLauncher<Intent>
     ): AddNetworkResult {
-        val suggestion = createWPA2NetworkSuggestion(ssid, passphrase)
+        val suggestion = createWPA2NetworkSuggestionWithSSID(ssid, passphrase)
         return launchIntent(suggestion, activityResultLauncher)
     }
 
@@ -83,7 +83,7 @@ internal class Android30AddNetworkApiImpl(
         passphrase: String,
         activityResultLauncher: ActivityResultLauncher<Intent>
     ): AddNetworkResult {
-        val suggestion = createWPA3NetworkSuggestion(ssid, passphrase)
+        val suggestion = createWPA3NetworkSuggestionWithSSID(ssid, passphrase)
         return launchIntent(suggestion, activityResultLauncher)
     }
 

@@ -21,6 +21,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.WisefyApi
+import com.isupatches.android.wisefy.accesspoints.entities.GetNearbyAccessPointsRequest
 import com.isupatches.android.wisefy.callbacks.DisableWifiCallbacks
 import com.isupatches.android.wisefy.callbacks.EnableWifiCallbacks
 import com.isupatches.android.wisefy.callbacks.GetCurrentNetworkCallbacks
@@ -90,7 +91,10 @@ internal class DefaultMiscModel @Inject constructor(
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun getNearbyAccessPoints(callbacks: GetNearbyAccessPointCallbacks?) {
-        return wiseFy.getNearbyAccessPoints(true, callbacks)
+        return wiseFy.getNearbyAccessPoints(
+            request = GetNearbyAccessPointsRequest.All(),
+            callbacks = callbacks
+        )
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])

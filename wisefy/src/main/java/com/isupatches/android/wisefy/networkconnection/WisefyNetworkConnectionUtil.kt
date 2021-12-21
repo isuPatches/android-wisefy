@@ -22,6 +22,7 @@ import com.isupatches.android.wisefy.callbacks.DisconnectFromCurrentNetworkCallb
 import com.isupatches.android.wisefy.logging.WisefyLogger
 import com.isupatches.android.wisefy.networkconnection.delegates.Android29NetworkConnectionDelegate
 import com.isupatches.android.wisefy.networkconnection.delegates.LegacyNetworkConnectionDelegate
+import com.isupatches.android.wisefy.networkconnection.entities.NetworkConnectionRequest
 import com.isupatches.android.wisefy.networkconnection.entities.NetworkConnectionResult
 import com.isupatches.android.wisefy.networkconnectionstatus.NetworkConnectionStatusUtil
 import com.isupatches.android.wisefy.savednetworks.SavedNetworkUtil
@@ -65,21 +66,17 @@ internal class WisefyNetworkConnectionUtil(
         logger?.d(LOG_TAG, "WisefyNetworkConnectionUtil delegate is: ${delegate::class.java.simpleName}")
     }
 
-    override fun connectToNetwork(ssidToConnectTo: String, timeoutInMillis: Int): NetworkConnectionResult {
-        return delegate.connectToNetwork(ssidToConnectTo, timeoutInMillis)
+    override fun connectToNetwork(request: NetworkConnectionRequest): NetworkConnectionResult {
+        return delegate.connectToNetwork(request)
     }
 
-    override fun connectToNetwork(
-        ssidToConnectTo: String,
-        timeoutInMillis: Int,
-        callbacks: ConnectToNetworkCallbacks?
-    ) {
+    override fun connectToNetwork(request: NetworkConnectionRequest, callbacks: ConnectToNetworkCallbacks?) {
         networkConnectionScope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
-            val result = delegate.connectToNetwork(ssidToConnectTo, timeoutInMillis)
+            val result = delegate.connectToNetwork(request)
             withContext(coroutineDispatcherProvider.main) {
                 when (result) {
                     is NetworkConnectionResult.Succeeded -> {
-                        if (result.data) {
+                        if (result.value) {
                             callbacks?.onConnectedToNetwork()
                         } else {
                             callbacks?.onFailureConnectingToNetwork()
@@ -106,7 +103,7 @@ internal class WisefyNetworkConnectionUtil(
             withContext(coroutineDispatcherProvider.main) {
                 when (result) {
                     is NetworkConnectionResult.Succeeded -> {
-                        if (result.data) {
+                        if (result.value) {
                             callbacks?.onDisconnectedFromCurrentNetwork()
                         } else {
                             callbacks?.onFailureDisconnectingFromCurrentNetwork()

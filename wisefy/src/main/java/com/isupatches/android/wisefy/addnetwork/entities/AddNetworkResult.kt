@@ -17,7 +17,7 @@ package com.isupatches.android.wisefy.addnetwork.entities
 
 sealed class AddNetworkResult {
     data class ResultCode(
-        val data: Int
+        val value: Int
     ) : AddNetworkResult()
 
     object IntentLaunched : AddNetworkResult()

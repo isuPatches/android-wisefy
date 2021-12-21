@@ -15,38 +15,38 @@
  */
 package com.isupatches.android.wisefy.security.delegates
 
-import android.net.wifi.ScanResult
+import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
 import com.isupatches.android.wisefy.security.SecurityApi
 
 internal class LegacySecurityDelegate(
     private val impl: LegacySecurityApi = LegacySecurityApiImpl()
 ) : SecurityApi {
 
-    override fun isNetworkEAP(scanResult: ScanResult): Boolean {
-        return impl.isNetworkEAP(scanResult)
+    override fun isNetworkEAP(network: AccessPointData): Boolean {
+        return impl.isNetworkEAP(network)
     }
 
-    override fun isNetworkPSK(scanResult: ScanResult): Boolean {
-        return impl.isNetworkPSK(scanResult)
+    override fun isNetworkPSK(network: AccessPointData): Boolean {
+        return impl.isNetworkPSK(network)
     }
 
-    override fun isNetworkSecure(scanResult: ScanResult): Boolean {
-        return impl.isNetworkSecure(scanResult)
+    override fun isNetworkSecure(network: AccessPointData): Boolean {
+        return impl.isNetworkSecure(network)
     }
 
-    override fun isNetworkWEP(scanResult: ScanResult): Boolean {
-        return impl.isNetworkWEP(scanResult)
+    override fun isNetworkWEP(network: AccessPointData): Boolean {
+        return impl.isNetworkWEP(network)
     }
 
-    override fun isNetworkWPA(scanResult: ScanResult): Boolean {
-        return impl.isNetworkWPA(scanResult)
+    override fun isNetworkWPA(network: AccessPointData): Boolean {
+        return impl.isNetworkWPA(network)
     }
 
-    override fun isNetworkWPA2(scanResult: ScanResult): Boolean {
-        return impl.isNetworkWPA2(scanResult)
+    override fun isNetworkWPA2(network: AccessPointData): Boolean {
+        return impl.isNetworkWPA2(network)
     }
 
-    override fun isNetworkWPA3(scanResult: ScanResult): Boolean {
-        return impl.isNetworkWPA3(scanResult)
+    override fun isNetworkWPA3(network: AccessPointData): Boolean {
+        return impl.isNetworkWPA3(network)
     }
 }

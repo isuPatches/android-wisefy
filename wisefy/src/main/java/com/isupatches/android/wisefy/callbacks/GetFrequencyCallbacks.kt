@@ -15,7 +15,9 @@
  */
 package com.isupatches.android.wisefy.callbacks
 
+import com.isupatches.android.wisefy.frequency.entities.FrequencyData
+
 interface GetFrequencyCallbacks : BaseWisefyCallbacks {
     fun onFailureRetrievingFrequency()
-    fun onFrequencyRetrieved(frequency: Int)
+    fun onFrequencyRetrieved(frequency: FrequencyData)
 }

@@ -16,6 +16,7 @@
 package com.isupatches.android.wisefy.frequency
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
+import android.net.ConnectivityManager
 import android.net.wifi.WifiInfo
 import android.net.wifi.WifiManager
 import android.os.Build
@@ -23,6 +24,7 @@ import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.callbacks.GetFrequencyCallbacks
 import com.isupatches.android.wisefy.frequency.delegates.LegacyFrequencyDelegate
+import com.isupatches.android.wisefy.frequency.entities.FrequencyData
 import com.isupatches.android.wisefy.logging.WisefyLogger
 import com.isupatches.android.wisefy.util.coroutines.CoroutineDispatcherProvider
 import com.isupatches.android.wisefy.util.coroutines.createBaseCoroutineExceptionHandler
@@ -43,10 +45,11 @@ private const val LOG_TAG = "WisefyFrequencyUtil"
 internal class WisefyFrequencyUtil(
     private val coroutineDispatcherProvider: CoroutineDispatcherProvider,
     logger: WisefyLogger?,
+    connectivityManager: ConnectivityManager,
     wifiManager: WifiManager
 ) : FrequencyUtil {
 
-    private val delegate = LegacyFrequencyDelegate(wifiManager)
+    private val delegate = LegacyFrequencyDelegate(wifiManager, connectivityManager)
     private val frequencyScope = CoroutineScope(Job() + coroutineDispatcherProvider.io)
 
     init {
@@ -55,7 +58,7 @@ internal class WisefyFrequencyUtil(
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    override fun getFrequency(): Int? {
+    override fun getFrequency(): FrequencyData? {
         return delegate.getFrequency()
     }
 
@@ -75,7 +78,7 @@ internal class WisefyFrequencyUtil(
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    override fun getFrequency(network: WifiInfo): Int {
+    override fun getFrequency(network: WifiInfo): FrequencyData {
         return delegate.getFrequency(network)
     }
 

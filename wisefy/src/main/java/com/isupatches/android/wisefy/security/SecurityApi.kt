@@ -15,14 +15,14 @@
  */
 package com.isupatches.android.wisefy.security
 
-import android.net.wifi.ScanResult
+import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
 
 interface SecurityApi {
-    fun isNetworkEAP(scanResult: ScanResult): Boolean
-    fun isNetworkPSK(scanResult: ScanResult): Boolean
-    fun isNetworkSecure(scanResult: ScanResult): Boolean
-    fun isNetworkWEP(scanResult: ScanResult): Boolean
-    fun isNetworkWPA(scanResult: ScanResult): Boolean
-    fun isNetworkWPA2(scanResult: ScanResult): Boolean
-    fun isNetworkWPA3(scanResult: ScanResult): Boolean
+    fun isNetworkEAP(network: AccessPointData): Boolean
+    fun isNetworkPSK(network: AccessPointData): Boolean
+    fun isNetworkSecure(network: AccessPointData): Boolean
+    fun isNetworkWEP(network: AccessPointData): Boolean
+    fun isNetworkWPA(network: AccessPointData): Boolean
+    fun isNetworkWPA2(network: AccessPointData): Boolean
+    fun isNetworkWPA3(network: AccessPointData): Boolean
 }

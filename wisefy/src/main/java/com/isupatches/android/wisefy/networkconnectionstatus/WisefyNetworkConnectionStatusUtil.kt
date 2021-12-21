@@ -21,6 +21,7 @@ import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.logging.WisefyLogger
 import com.isupatches.android.wisefy.networkconnectionstatus.delegates.LegacyNetworkConnectionStatusDelegate
+import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsNetworkConnectedToSSIDRequest
 import com.isupatches.android.wisefy.util.SdkUtil
 
 internal interface NetworkConnectionStatusUtil : NetworkConnectionStatusApi
@@ -63,8 +64,8 @@ internal class WisefyNetworkConnectionStatusUtil(
         return delegate.isDeviceConnectedToMobileOrWifiNetwork()
     }
 
-    override fun isDeviceConnectedToSSID(ssid: String): Boolean {
-        return delegate.isDeviceConnectedToSSID(ssid)
+    override fun isDeviceConnectedToSSID(request: IsNetworkConnectedToSSIDRequest): Boolean {
+        return delegate.isDeviceConnectedToSSID(request)
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)

@@ -16,26 +16,32 @@
 package com.isupatches.android.wisefy.frequency.delegates
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
+import android.net.ConnectivityManager
 import android.net.wifi.WifiInfo
 import android.net.wifi.WifiManager
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.frequency.FrequencyApi
+import com.isupatches.android.wisefy.frequency.entities.FrequencyData
 
 internal class LegacyFrequencyDelegate(
     wifiManager: WifiManager,
-    private val impl: LegacyFrequencyApi = LegacyFrequencyApiImpl(wifiManager)
+    connectivityManager: ConnectivityManager,
+    private val impl: LegacyFrequencyApi = LegacyFrequencyApiImpl(
+        wifiManager = wifiManager,
+        connectivityManager = connectivityManager
+    )
 ) : FrequencyApi {
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    override fun getFrequency(): Int? {
+    override fun getFrequency(): FrequencyData? {
         return impl.getFrequency()
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    override fun getFrequency(network: WifiInfo): Int {
+    override fun getFrequency(network: WifiInfo): FrequencyData {
         return impl.getFrequency(network)
     }
 

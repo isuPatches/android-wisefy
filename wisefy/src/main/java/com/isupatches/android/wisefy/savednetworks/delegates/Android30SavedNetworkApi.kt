@@ -23,6 +23,7 @@ import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.constants.QUOTE
 import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
+import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkRequest
 
 internal interface Android30SavedNetworkApi {
     @RequiresApi(Build.VERSION_CODES.R)
@@ -31,15 +32,15 @@ internal interface Android30SavedNetworkApi {
 
     @RequiresApi(Build.VERSION_CODES.R)
     @RequiresPermission(ACCESS_WIFI_STATE)
-    fun isNetworkSaved(ssid: String): Boolean
+    fun isNetworkSaved(request: SearchForSavedNetworkRequest): Boolean
 
     @RequiresApi(Build.VERSION_CODES.R)
     @RequiresPermission(ACCESS_WIFI_STATE)
-    fun searchForSavedNetwork(regexForSSID: String): SavedNetworkData?
+    fun searchForSavedNetwork(request: SearchForSavedNetworkRequest): SavedNetworkData?
 
     @RequiresApi(Build.VERSION_CODES.R)
     @RequiresPermission(ACCESS_WIFI_STATE)
-    fun searchForSavedNetworks(regexForSSID: String): List<SavedNetworkData>
+    fun searchForSavedNetworks(request: SearchForSavedNetworkRequest): List<SavedNetworkData>
 }
 
 internal class Android30SavedNetworkApiImpl(
@@ -50,26 +51,29 @@ internal class Android30SavedNetworkApiImpl(
     @RequiresPermission(allOf = [ACCESS_WIFI_STATE])
     override fun getSavedNetworks(): List<SavedNetworkData> {
         return wifiManager.networkSuggestions.map {
-            SavedNetworkData.Suggestion(data = it)
+            SavedNetworkData.Suggestion(value = it)
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.R)
     @RequiresPermission(allOf = [ACCESS_WIFI_STATE])
-    override fun isNetworkSaved(ssid: String): Boolean {
+    override fun isNetworkSaved(request: SearchForSavedNetworkRequest): Boolean {
         return wifiManager.networkSuggestions.any {
-            it.ssid.equals(ssid)
+            when (request) {
+                is SearchForSavedNetworkRequest.SSID -> it.ssid.equals(request.regexForSSID)
+                is SearchForSavedNetworkRequest.BSSID -> it.ssid.equals(request.regexForBSSID)
+            }
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.R)
     @RequiresPermission(allOf = [ACCESS_WIFI_STATE])
-    override fun searchForSavedNetwork(regexForSSID: String): SavedNetworkData? {
+    override fun searchForSavedNetwork(request: SearchForSavedNetworkRequest): SavedNetworkData? {
         val savedNetwork = wifiManager.networkSuggestions.firstOrNull {
-            matchesRegexForSSID(it, regexForSSID)
+            matchesRegexForSearch(it, request)
         }
         return if (savedNetwork != null) {
-            SavedNetworkData.Suggestion(data = savedNetwork)
+            SavedNetworkData.Suggestion(value = savedNetwork)
         } else {
             null
         }
@@ -77,17 +81,28 @@ internal class Android30SavedNetworkApiImpl(
 
     @RequiresApi(Build.VERSION_CODES.R)
     @RequiresPermission(allOf = [ACCESS_WIFI_STATE])
-    override fun searchForSavedNetworks(regexForSSID: String): List<SavedNetworkData> {
+    override fun searchForSavedNetworks(request: SearchForSavedNetworkRequest): List<SavedNetworkData> {
         return wifiManager.networkSuggestions.filter {
-            matchesRegexForSSID(it, regexForSSID)
+            matchesRegexForSearch(it, request)
         }.map { savedNetwork ->
-            SavedNetworkData.Suggestion(data = savedNetwork)
+            SavedNetworkData.Suggestion(value = savedNetwork)
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.R)
-    private fun matchesRegexForSSID(suggestion: WifiNetworkSuggestion, regexForSSID: String): Boolean {
-        return suggestion.ssid?.replace(QUOTE, "")?.matches(regexForSSID.toRegex()) == true ||
-            suggestion.ssid?.matches(regexForSSID.toRegex()) == true
+    private fun matchesRegexForSearch(
+        suggestion: WifiNetworkSuggestion,
+        request: SearchForSavedNetworkRequest
+    ): Boolean {
+        return when (request) {
+            is SearchForSavedNetworkRequest.SSID -> {
+                suggestion.ssid?.replace(QUOTE, "")?.matches(request.regexForSSID.toRegex()) == true ||
+                    suggestion.ssid?.matches(request.regexForSSID.toRegex()) == true
+            }
+            is SearchForSavedNetworkRequest.BSSID -> {
+                suggestion.bssid?.toString()?.replace(QUOTE, "")?.matches(request.regexForBSSID.toRegex()) == true ||
+                    suggestion.bssid?.toString()?.matches(request.regexForBSSID.toRegex()) == true
+            }
+        }
     }
 }

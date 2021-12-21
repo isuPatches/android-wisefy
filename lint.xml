@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <issue id="InvalidPackage">
+        <ignore regexp=".*java.lang.instrument" />
+        <ignore regexp=".*java.lang.management" />
+        <ignore regexp=".*javax.management" />
+    </issue>
+</lint>

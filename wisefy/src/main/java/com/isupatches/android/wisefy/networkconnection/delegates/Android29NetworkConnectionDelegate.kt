@@ -20,6 +20,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import com.isupatches.android.wisefy.logging.WisefyLogger
 import com.isupatches.android.wisefy.networkconnection.NetworkConnectionApi
+import com.isupatches.android.wisefy.networkconnection.entities.NetworkConnectionRequest
 import com.isupatches.android.wisefy.networkconnection.entities.NetworkConnectionResult
 
 internal class Android29NetworkConnectionDelegate(
@@ -29,8 +30,8 @@ internal class Android29NetworkConnectionDelegate(
 ) : NetworkConnectionApi {
 
     @RequiresApi(Build.VERSION_CODES.Q)
-    override fun connectToNetwork(ssidToConnectTo: String, timeoutInMillis: Int): NetworkConnectionResult {
-        return impl.connectToNetwork(ssidToConnectTo, timeoutInMillis)
+    override fun connectToNetwork(request: NetworkConnectionRequest): NetworkConnectionResult {
+        return impl.connectToNetwork(request)
     }
 
     override fun disconnectFromCurrentNetwork(): NetworkConnectionResult {

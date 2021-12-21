@@ -15,19 +15,27 @@
  */
 package com.isupatches.android.wisefy.util
 
+import android.net.MacAddress
 import android.net.wifi.WifiNetworkSuggestion
 import android.os.Build
 import androidx.annotation.RequiresApi
 
 @RequiresApi(Build.VERSION_CODES.Q)
-internal fun createOpenNetworkSuggestion(ssid: String): WifiNetworkSuggestion {
+internal fun createOpenNetworkSuggestionWithSSID(ssid: String): WifiNetworkSuggestion {
     return WifiNetworkSuggestion.Builder()
         .setSsid(ssid)
         .build()
 }
 
 @RequiresApi(Build.VERSION_CODES.Q)
-internal fun createWPA2NetworkSuggestion(
+internal fun createOpenNetworkSuggestionWithBSSID(bssid: String): WifiNetworkSuggestion {
+    return WifiNetworkSuggestion.Builder()
+        .setBssid(MacAddress.fromString(bssid))
+        .build()
+}
+
+@RequiresApi(Build.VERSION_CODES.Q)
+internal fun createWPA2NetworkSuggestionWithSSID(
     ssid: String,
     passphrase: String
 ): WifiNetworkSuggestion {
@@ -38,12 +46,34 @@ internal fun createWPA2NetworkSuggestion(
 }
 
 @RequiresApi(Build.VERSION_CODES.Q)
-internal fun createWPA3NetworkSuggestion(
+internal fun createWPA2NetworkSuggestionWithBSSID(
+    bssid: String,
+    passphrase: String
+): WifiNetworkSuggestion {
+    return WifiNetworkSuggestion.Builder()
+        .setBssid(MacAddress.fromString(bssid))
+        .setWpa2Passphrase(passphrase)
+        .build()
+}
+
+@RequiresApi(Build.VERSION_CODES.Q)
+internal fun createWPA3NetworkSuggestionWithSSID(
     ssid: String,
     passphrase: String
 ): WifiNetworkSuggestion {
     return WifiNetworkSuggestion.Builder()
         .setSsid(ssid)
+        .setWpa3Passphrase(passphrase)
+        .build()
+}
+
+@RequiresApi(Build.VERSION_CODES.Q)
+internal fun createWPA3NetworkSuggestionWithBSSID(
+    bssid: String,
+    passphrase: String
+): WifiNetworkSuggestion {
+    return WifiNetworkSuggestion.Builder()
+        .setBssid(MacAddress.fromString(bssid))
         .setWpa3Passphrase(passphrase)
         .build()
 }

@@ -17,11 +17,11 @@ package com.isupatches.android.wisefy.removenetwork.entities
 
 sealed class RemoveNetworkResult {
     data class ResultCode(
-        val data: Int
+        val value: Int
     ) : RemoveNetworkResult()
 
     data class Succeeded(
-        val data: Boolean
+        val value: Boolean
     ) : RemoveNetworkResult()
 
     object NetworkNotFound : RemoveNetworkResult()

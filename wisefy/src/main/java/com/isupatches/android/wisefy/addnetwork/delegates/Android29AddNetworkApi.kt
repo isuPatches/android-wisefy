@@ -23,9 +23,9 @@ import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
 import com.isupatches.android.wisefy.logging.WisefyLogger
-import com.isupatches.android.wisefy.util.createOpenNetworkSuggestion
-import com.isupatches.android.wisefy.util.createWPA2NetworkSuggestion
-import com.isupatches.android.wisefy.util.createWPA3NetworkSuggestion
+import com.isupatches.android.wisefy.util.createOpenNetworkSuggestionWithSSID
+import com.isupatches.android.wisefy.util.createWPA2NetworkSuggestionWithSSID
+import com.isupatches.android.wisefy.util.createWPA3NetworkSuggestionWithSSID
 
 @RequiresApi(Build.VERSION_CODES.Q)
 internal interface Android29AddNetworkApi {
@@ -52,7 +52,7 @@ internal class Android29AddNetworkApiImpl(
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     override fun addOpenNetwork(ssid: String): AddNetworkResult {
         logger?.w(LOG_TAG, ANDROID_Q_SAVE_NETWORK_WARNING)
-        val suggestion = createOpenNetworkSuggestion(ssid)
+        val suggestion = createOpenNetworkSuggestionWithSSID(ssid)
         val resultCode = wifiManager.addNetworkSuggestions(arrayListOf(suggestion))
         return AddNetworkResult.ResultCode(resultCode)
     }
@@ -60,7 +60,7 @@ internal class Android29AddNetworkApiImpl(
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     override fun addWPA2Network(ssid: String, passphrase: String): AddNetworkResult {
         logger?.w(LOG_TAG, ANDROID_Q_SAVE_NETWORK_WARNING)
-        val suggestion = createWPA2NetworkSuggestion(ssid, passphrase)
+        val suggestion = createWPA2NetworkSuggestionWithSSID(ssid, passphrase)
         val resultCode = wifiManager.addNetworkSuggestions(listOf(suggestion))
         return AddNetworkResult.ResultCode(resultCode)
     }
@@ -68,7 +68,7 @@ internal class Android29AddNetworkApiImpl(
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     override fun addWPA3Network(ssid: String, passphrase: String): AddNetworkResult {
         logger?.w(LOG_TAG, ANDROID_Q_SAVE_NETWORK_WARNING)
-        val suggestion = createWPA3NetworkSuggestion(ssid, passphrase)
+        val suggestion = createWPA3NetworkSuggestionWithSSID(ssid, passphrase)
         val resultCode = wifiManager.addNetworkSuggestions(arrayListOf(suggestion))
         return AddNetworkResult.ResultCode(resultCode)
     }

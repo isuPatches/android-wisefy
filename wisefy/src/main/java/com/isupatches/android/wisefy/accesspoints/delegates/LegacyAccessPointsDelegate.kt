@@ -20,6 +20,14 @@ import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.accesspoints.AccessPointsApi
 import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
+import com.isupatches.android.wisefy.accesspoints.entities.GetNearbyAccessPointsRequest
+import com.isupatches.android.wisefy.accesspoints.entities.GetRSSIRequest
+import com.isupatches.android.wisefy.accesspoints.entities.RSSIData
+import com.isupatches.android.wisefy.accesspoints.entities.SSIDData
+import com.isupatches.android.wisefy.accesspoints.entities.SearchForMultipleAccessPointsRequest
+import com.isupatches.android.wisefy.accesspoints.entities.SearchForMultipleSSIDsRequest
+import com.isupatches.android.wisefy.accesspoints.entities.SearchForSingleAccessPointRequest
+import com.isupatches.android.wisefy.accesspoints.entities.SearchForSingleSSIDRequest
 import com.isupatches.android.wisefy.logging.WisefyLogger
 
 internal class LegacyAccessPointsDelegate(
@@ -29,36 +37,32 @@ internal class LegacyAccessPointsDelegate(
 ) : AccessPointsApi {
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun getNearbyAccessPoints(filterDuplicates: Boolean): List<AccessPointData> {
-        return impl.getNearbyAccessPoints(filterDuplicates)
+    override fun getNearbyAccessPoints(request: GetNearbyAccessPointsRequest): List<AccessPointData> {
+        return impl.getNearbyAccessPoints(request)
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun getRSSI(regexForSSID: String, takeHighest: Boolean, timeoutInMillis: Int): Int? {
-        return impl.getRSSI(regexForSSID, takeHighest, timeoutInMillis)
+    override fun getRSSI(request: GetRSSIRequest): RSSIData? {
+        return impl.getRSSI(request)
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun searchForAccessPoint(
-        regexForSSID: String,
-        timeoutInMillis: Int,
-        filterDuplicates: Boolean
-    ): AccessPointData? {
-        return impl.searchForAccessPoint(regexForSSID, timeoutInMillis, filterDuplicates)
+    override fun searchForAccessPoint(request: SearchForSingleAccessPointRequest): AccessPointData? {
+        return impl.searchForAccessPoint(request)
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun searchForAccessPoints(regexForSSID: String, filterDuplicates: Boolean): List<AccessPointData> {
-        return impl.searchForAccessPoints(regexForSSID, filterDuplicates)
+    override fun searchForAccessPoints(request: SearchForMultipleAccessPointsRequest): List<AccessPointData> {
+        return impl.searchForAccessPoints(request)
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun searchForSSID(regexForSSID: String, timeoutInMillis: Int): String? {
-        return impl.searchForSSID(regexForSSID, timeoutInMillis)
+    override fun searchForSSID(request: SearchForSingleSSIDRequest): SSIDData? {
+        return impl.searchForSSID(request)
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun searchForSSIDs(regexForSSID: String): List<String> {
-        return impl.searchForSSIDs(regexForSSID)
+    override fun searchForSSIDs(request: SearchForMultipleSSIDsRequest): List<SSIDData> {
+        return impl.searchForSSIDs(request)
     }
 }

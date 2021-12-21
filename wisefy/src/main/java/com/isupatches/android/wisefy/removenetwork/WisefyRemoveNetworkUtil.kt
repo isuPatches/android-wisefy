@@ -23,6 +23,7 @@ import com.isupatches.android.wisefy.callbacks.RemoveNetworkCallbacks
 import com.isupatches.android.wisefy.logging.WisefyLogger
 import com.isupatches.android.wisefy.removenetwork.delegates.Android29RemoveNetworkDelegate
 import com.isupatches.android.wisefy.removenetwork.delegates.LegacyRemoveNetworkDelegate
+import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkRequest
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkResult
 import com.isupatches.android.wisefy.savednetworks.SavedNetworkUtil
 import com.isupatches.android.wisefy.util.SdkUtil
@@ -56,25 +57,25 @@ internal class WisefyRemoveNetworkUtil(
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-    override fun removeNetwork(ssidToRemove: String): RemoveNetworkResult {
-        return delegate.removeNetwork(ssidToRemove)
+    override fun removeNetwork(request: RemoveNetworkRequest): RemoveNetworkResult {
+        return delegate.removeNetwork(request)
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-    override fun removeNetwork(ssidToRemove: String, callbacks: RemoveNetworkCallbacks?) {
+    override fun removeNetwork(request: RemoveNetworkRequest, callbacks: RemoveNetworkCallbacks?) {
         removeNetworkScope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
-            val result = delegate.removeNetwork(ssidToRemove)
+            val result = delegate.removeNetwork(request)
             withContext(coroutineDispatcherProvider.main) {
                 when (result) {
                     is RemoveNetworkResult.ResultCode -> {
-                        if (result.data != -1) {
+                        if (result.value != -1) {
                             callbacks?.onNetworkRemoved(result)
                         } else {
                             callbacks?.onFailureRemovingNetwork(result)
                         }
                     }
                     is RemoveNetworkResult.Succeeded -> {
-                        if (result.data) {
+                        if (result.value) {
                             callbacks?.onNetworkRemoved(result)
                         } else {
                             callbacks?.onFailureRemovingNetwork(result)

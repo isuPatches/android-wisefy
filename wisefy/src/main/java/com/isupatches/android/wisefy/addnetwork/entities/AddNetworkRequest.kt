@@ -20,45 +20,45 @@ import android.os.Build
 import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.RequiresApi
 
-sealed class OpenNetworkData {
+sealed class AddOpenNetworkRequest {
     data class Ssid(
         val ssid: String
-    ) : OpenNetworkData()
+    ) : AddOpenNetworkRequest()
 
     @RequiresApi(Build.VERSION_CODES.R)
     data class SsidAndActivityResultLauncher(
         val ssid: String,
         val activityResultLauncher: ActivityResultLauncher<Intent>
-    ) : OpenNetworkData()
+    ) : AddOpenNetworkRequest()
 }
 
-sealed class WPA2NetworkData {
+sealed class AddWPA2NetworkRequest {
     data class SsidAndPassphrase(
         val ssid: String,
         val passphrase: String
-    ) : WPA2NetworkData()
+    ) : AddWPA2NetworkRequest()
 
     @RequiresApi(Build.VERSION_CODES.R)
     data class SsidPassphraseAndActivityResultLauncher(
         val ssid: String,
         val passphrase: String,
         val activityResultLauncher: ActivityResultLauncher<Intent>
-    ) : WPA2NetworkData()
+    ) : AddWPA2NetworkRequest()
 }
 
 @RequiresApi(Build.VERSION_CODES.Q)
-sealed class WPA3NetworkData {
+sealed class AddWPA3NetworkRequest {
 
     @RequiresApi(Build.VERSION_CODES.Q)
     data class SsidAndPassphrase(
         val ssid: String,
         val passphrase: String
-    ) : WPA3NetworkData()
+    ) : AddWPA3NetworkRequest()
 
     @RequiresApi(Build.VERSION_CODES.R)
     data class SsidPassphraseAndActivityResultLauncher(
         val ssid: String,
         val passphrase: String,
         val activityResultLauncher: ActivityResultLauncher<Intent>
-    ) : WPA3NetworkData()
+    ) : AddWPA3NetworkRequest()
 }

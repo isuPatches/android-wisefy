@@ -23,9 +23,9 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.WisefyApi
-import com.isupatches.android.wisefy.addnetwork.entities.OpenNetworkData
-import com.isupatches.android.wisefy.addnetwork.entities.WPA2NetworkData
-import com.isupatches.android.wisefy.addnetwork.entities.WPA3NetworkData
+import com.isupatches.android.wisefy.addnetwork.entities.AddOpenNetworkRequest
+import com.isupatches.android.wisefy.addnetwork.entities.AddWPA2NetworkRequest
+import com.isupatches.android.wisefy.addnetwork.entities.AddWPA3NetworkRequest
 import com.isupatches.android.wisefy.callbacks.AddNetworkCallbacks
 import com.isupatches.android.wisefy.sample.internal.scaffolding.BaseModel
 import javax.inject.Inject
@@ -88,7 +88,7 @@ internal class DefaultAddNetworkModel @Inject constructor(
         callbacks: AddNetworkCallbacks?
     ) {
         wisefy.addOpenNetwork(
-            data = OpenNetworkData.Ssid(ssid = ssid),
+            request = AddOpenNetworkRequest.Ssid(ssid = ssid),
             callbacks = callbacks
         )
     }
@@ -101,7 +101,7 @@ internal class DefaultAddNetworkModel @Inject constructor(
         callbacks: AddNetworkCallbacks?
     ) {
         wisefy.addOpenNetwork(
-            data = OpenNetworkData.SsidAndActivityResultLauncher(
+            request = AddOpenNetworkRequest.SsidAndActivityResultLauncher(
                 ssid = ssid,
                 activityResultLauncher = activityResultLauncher
             ),
@@ -116,7 +116,7 @@ internal class DefaultAddNetworkModel @Inject constructor(
         callbacks: AddNetworkCallbacks?
     ) {
         wisefy.addWPA2Network(
-            data = WPA2NetworkData.SsidAndPassphrase(
+            request = AddWPA2NetworkRequest.SsidAndPassphrase(
                 ssid = ssid,
                 passphrase = passphrase
             ),
@@ -133,7 +133,7 @@ internal class DefaultAddNetworkModel @Inject constructor(
         callbacks: AddNetworkCallbacks?
     ) {
         wisefy.addWPA2Network(
-            data = WPA2NetworkData.SsidPassphraseAndActivityResultLauncher(
+            request = AddWPA2NetworkRequest.SsidPassphraseAndActivityResultLauncher(
                 ssid = ssid,
                 passphrase = passphrase,
                 activityResultLauncher = activityResultLauncher
@@ -150,7 +150,7 @@ internal class DefaultAddNetworkModel @Inject constructor(
         callbacks: AddNetworkCallbacks?
     ) {
         wisefy.addWPA3Network(
-            data = WPA3NetworkData.SsidAndPassphrase(
+            request = AddWPA3NetworkRequest.SsidAndPassphrase(
                 ssid = ssid,
                 passphrase = passphrase
             ),
@@ -167,7 +167,7 @@ internal class DefaultAddNetworkModel @Inject constructor(
         callbacks: AddNetworkCallbacks?
     ) {
         wisefy.addWPA3Network(
-            data = WPA3NetworkData.SsidPassphraseAndActivityResultLauncher(
+            request = AddWPA3NetworkRequest.SsidPassphraseAndActivityResultLauncher(
                 ssid = ssid,
                 passphrase = passphrase,
                 activityResultLauncher = activityResultLauncher

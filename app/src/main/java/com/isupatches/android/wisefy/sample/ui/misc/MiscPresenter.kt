@@ -28,8 +28,10 @@ import com.isupatches.android.wisefy.callbacks.GetFrequencyCallbacks
 import com.isupatches.android.wisefy.callbacks.GetIPCallbacks
 import com.isupatches.android.wisefy.callbacks.GetNearbyAccessPointCallbacks
 import com.isupatches.android.wisefy.callbacks.GetSavedNetworksCallbacks
+import com.isupatches.android.wisefy.frequency.entities.FrequencyData
 import com.isupatches.android.wisefy.networkinfo.entities.CurrentNetworkData
 import com.isupatches.android.wisefy.networkinfo.entities.CurrentNetworkInfoData
+import com.isupatches.android.wisefy.networkinfo.entities.IPData
 import com.isupatches.android.wisefy.sample.internal.scaffolding.BasePresenter
 import com.isupatches.android.wisefy.sample.internal.scaffolding.Presenter
 import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
@@ -177,15 +179,21 @@ internal class DefaultMiscPresenter @Inject constructor(
         model.getFrequency(
             callbacks = object : GetFrequencyCallbacks {
                 override fun onFailureRetrievingFrequency() {
-                    doSafelyWithView { view -> view.displayFailureRetrievingFrequency() }
+                    doSafelyWithView { view ->
+                        view.displayFailureRetrievingFrequency()
+                    }
                 }
 
-                override fun onFrequencyRetrieved(frequency: Int) {
-                    doSafelyWithView { view -> view.displayFrequency(frequency) }
+                override fun onFrequencyRetrieved(frequency: FrequencyData) {
+                    doSafelyWithView { view ->
+                        view.displayFrequency(frequency)
+                    }
                 }
 
                 override fun onWisefyAsyncFailure(throwable: Throwable) {
-                    doSafelyWithView { view -> view.displayWisefyAsyncError(throwable) }
+                    doSafelyWithView { view ->
+                        view.displayWisefyAsyncError(throwable)
+                    }
                 }
             }
         )
@@ -201,7 +209,7 @@ internal class DefaultMiscPresenter @Inject constructor(
                     }
                 }
 
-                override fun onIPRetrieved(ip: String) {
+                override fun onIPRetrieved(ip: IPData) {
                     doSafelyWithView { view ->
                         view.displayIP(ip)
                     }

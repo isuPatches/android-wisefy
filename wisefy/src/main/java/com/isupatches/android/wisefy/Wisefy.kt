@@ -22,8 +22,6 @@ import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.Manifest.permission.CHANGE_WIFI_STATE
 import android.content.Context
 import android.net.ConnectivityManager
-import android.net.Network
-import android.net.wifi.ScanResult
 import android.net.wifi.WifiInfo
 import android.net.wifi.WifiManager
 import android.os.Build
@@ -34,12 +32,20 @@ import androidx.annotation.VisibleForTesting
 import com.isupatches.android.wisefy.accesspoints.AccessPointsUtil
 import com.isupatches.android.wisefy.accesspoints.WisefyAccessPointsUtil
 import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
+import com.isupatches.android.wisefy.accesspoints.entities.GetNearbyAccessPointsRequest
+import com.isupatches.android.wisefy.accesspoints.entities.GetRSSIRequest
+import com.isupatches.android.wisefy.accesspoints.entities.RSSIData
+import com.isupatches.android.wisefy.accesspoints.entities.SSIDData
+import com.isupatches.android.wisefy.accesspoints.entities.SearchForMultipleAccessPointsRequest
+import com.isupatches.android.wisefy.accesspoints.entities.SearchForMultipleSSIDsRequest
+import com.isupatches.android.wisefy.accesspoints.entities.SearchForSingleAccessPointRequest
+import com.isupatches.android.wisefy.accesspoints.entities.SearchForSingleSSIDRequest
 import com.isupatches.android.wisefy.addnetwork.AddNetworkUtil
 import com.isupatches.android.wisefy.addnetwork.WisefyAddNetworkUtil
 import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
-import com.isupatches.android.wisefy.addnetwork.entities.OpenNetworkData
-import com.isupatches.android.wisefy.addnetwork.entities.WPA2NetworkData
-import com.isupatches.android.wisefy.addnetwork.entities.WPA3NetworkData
+import com.isupatches.android.wisefy.addnetwork.entities.AddOpenNetworkRequest
+import com.isupatches.android.wisefy.addnetwork.entities.AddWPA2NetworkRequest
+import com.isupatches.android.wisefy.addnetwork.entities.AddWPA3NetworkRequest
 import com.isupatches.android.wisefy.callbacks.AddNetworkCallbacks
 import com.isupatches.android.wisefy.callbacks.ConnectToNetworkCallbacks
 import com.isupatches.android.wisefy.callbacks.DisableWifiCallbacks
@@ -62,22 +68,29 @@ import com.isupatches.android.wisefy.callbacks.SearchForSavedNetworksCallbacks
 import com.isupatches.android.wisefy.constants.DeprecationMessages
 import com.isupatches.android.wisefy.frequency.FrequencyUtil
 import com.isupatches.android.wisefy.frequency.WisefyFrequencyUtil
+import com.isupatches.android.wisefy.frequency.entities.FrequencyData
 import com.isupatches.android.wisefy.logging.WisefyLogger
 import com.isupatches.android.wisefy.networkconnection.NetworkConnectionUtil
 import com.isupatches.android.wisefy.networkconnection.WisefyNetworkConnectionUtil
+import com.isupatches.android.wisefy.networkconnection.entities.NetworkConnectionRequest
 import com.isupatches.android.wisefy.networkconnection.entities.NetworkConnectionResult
 import com.isupatches.android.wisefy.networkconnectionstatus.NetworkConnectionStatusUtil
 import com.isupatches.android.wisefy.networkconnectionstatus.WisefyNetworkConnectionStatusUtil
+import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsNetworkConnectedToSSIDRequest
 import com.isupatches.android.wisefy.networkinfo.NetworkInfoUtil
 import com.isupatches.android.wisefy.networkinfo.WisefyNetworkInfoUtil
 import com.isupatches.android.wisefy.networkinfo.entities.CurrentNetworkData
 import com.isupatches.android.wisefy.networkinfo.entities.CurrentNetworkInfoData
+import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkInfoRequest
+import com.isupatches.android.wisefy.networkinfo.entities.IPData
 import com.isupatches.android.wisefy.removenetwork.RemoveNetworkUtil
 import com.isupatches.android.wisefy.removenetwork.WisefyRemoveNetworkUtil
+import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkRequest
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkResult
 import com.isupatches.android.wisefy.savednetworks.SavedNetworkUtil
 import com.isupatches.android.wisefy.savednetworks.WisefySavedNetworkUtil
 import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
+import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkRequest
 import com.isupatches.android.wisefy.security.SecurityUtil
 import com.isupatches.android.wisefy.security.WisefySecurityUtil
 import com.isupatches.android.wisefy.signal.SignalUtil
@@ -161,7 +174,8 @@ class Wisefy private constructor(
             frequencyUtil = WisefyFrequencyUtil(
                 coroutineDispatcherProvider = coroutineDispatcherProvider,
                 logger = logger,
-                wifiManager = wifiManager
+                wifiManager = wifiManager,
+                connectivityManager = connectivityManager
             )
             networkConnectionUtil = WisefyNetworkConnectionUtil(
                 coroutineDispatcherProvider = coroutineDispatcherProvider,
@@ -298,35 +312,35 @@ class Wisefy private constructor(
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-    override fun addOpenNetwork(data: OpenNetworkData): AddNetworkResult {
-        return addNetworkUtil.addOpenNetwork(data)
+    override fun addOpenNetwork(request: AddOpenNetworkRequest): AddNetworkResult {
+        return addNetworkUtil.addOpenNetwork(request)
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-    override fun addOpenNetwork(data: OpenNetworkData, callbacks: AddNetworkCallbacks?) {
-        addNetworkUtil.addOpenNetwork(data, callbacks)
+    override fun addOpenNetwork(request: AddOpenNetworkRequest, callbacks: AddNetworkCallbacks?) {
+        addNetworkUtil.addOpenNetwork(request, callbacks)
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-    override fun addWPA2Network(data: WPA2NetworkData): AddNetworkResult {
-        return addNetworkUtil.addWPA2Network(data)
+    override fun addWPA2Network(request: AddWPA2NetworkRequest): AddNetworkResult {
+        return addNetworkUtil.addWPA2Network(request)
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-    override fun addWPA2Network(data: WPA2NetworkData, callbacks: AddNetworkCallbacks?) {
-        addNetworkUtil.addWPA2Network(data, callbacks)
-    }
-
-    @RequiresApi(Build.VERSION_CODES.Q)
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-    override fun addWPA3Network(data: WPA3NetworkData): AddNetworkResult {
-        return addNetworkUtil.addWPA3Network(data)
+    override fun addWPA2Network(request: AddWPA2NetworkRequest, callbacks: AddNetworkCallbacks?) {
+        addNetworkUtil.addWPA2Network(request, callbacks)
     }
 
     @RequiresApi(Build.VERSION_CODES.Q)
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-    override fun addWPA3Network(data: WPA3NetworkData, callbacks: AddNetworkCallbacks?) {
-        addNetworkUtil.addWPA3Network(data, callbacks)
+    override fun addWPA3Network(request: AddWPA3NetworkRequest): AddNetworkResult {
+        return addNetworkUtil.addWPA3Network(request)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.Q)
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
+    override fun addWPA3Network(request: AddWPA3NetworkRequest, callbacks: AddNetworkCallbacks?) {
+        addNetworkUtil.addWPA3Network(request, callbacks)
     }
 
     override fun calculateBars(rssiLevel: Int, targetNumberOfBars: Int): Int {
@@ -343,17 +357,13 @@ class Wisefy private constructor(
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun connectToNetwork(ssidToConnectTo: String, timeoutInMillis: Int): NetworkConnectionResult {
-        return networkConnectionUtil.connectToNetwork(ssidToConnectTo, timeoutInMillis)
+    override fun connectToNetwork(request: NetworkConnectionRequest): NetworkConnectionResult {
+        return networkConnectionUtil.connectToNetwork(request)
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun connectToNetwork(
-        ssidToConnectTo: String,
-        timeoutInMillis: Int,
-        callbacks: ConnectToNetworkCallbacks?
-    ) {
-        networkConnectionUtil.connectToNetwork(ssidToConnectTo, timeoutInMillis, callbacks)
+    override fun connectToNetwork(request: NetworkConnectionRequest, callbacks: ConnectToNetworkCallbacks?) {
+        networkConnectionUtil.connectToNetwork(request, callbacks)
     }
 
     @Deprecated(DeprecationMessages.DISABLE_WIFI)
@@ -393,18 +403,21 @@ class Wisefy private constructor(
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun getCurrentNetworkInfo(network: Network?): CurrentNetworkInfoData? {
-        return networkInfoUtil.getCurrentNetworkInfo(network)
+    override fun getCurrentNetworkInfo(request: GetCurrentNetworkInfoRequest): CurrentNetworkInfoData? {
+        return networkInfoUtil.getCurrentNetworkInfo(request)
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun getCurrentNetworkInfo(callbacks: GetCurrentNetworkInfoCallbacks?, network: Network?) {
-        networkInfoUtil.getCurrentNetworkInfo(callbacks, network)
+    override fun getCurrentNetworkInfo(
+        callbacks: GetCurrentNetworkInfoCallbacks?,
+        request: GetCurrentNetworkInfoRequest
+    ) {
+        networkInfoUtil.getCurrentNetworkInfo(callbacks, request)
     }
 
     @RequiresApi(LOLLIPOP)
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun getFrequency(): Int? {
+    override fun getFrequency(): FrequencyData? {
         return frequencyUtil.getFrequency()
     }
 
@@ -415,41 +428,41 @@ class Wisefy private constructor(
     }
 
     @RequiresApi(LOLLIPOP)
-    override fun getFrequency(network: WifiInfo): Int {
+    override fun getFrequency(network: WifiInfo): FrequencyData {
         return frequencyUtil.getFrequency(network)
     }
 
-    override fun getIP(): String? {
+    @RequiresPermission(ACCESS_NETWORK_STATE)
+    override fun getIP(): IPData? {
         return networkInfoUtil.getIP()
     }
 
+    @RequiresPermission(ACCESS_NETWORK_STATE)
     override fun getIP(callbacks: GetIPCallbacks?) {
         networkInfoUtil.getIP(callbacks)
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun getNearbyAccessPoints(filterDuplicates: Boolean): List<AccessPointData> {
-        return accessPointsUtil.getNearbyAccessPoints(filterDuplicates)
+    override fun getNearbyAccessPoints(request: GetNearbyAccessPointsRequest): List<AccessPointData> {
+        return accessPointsUtil.getNearbyAccessPoints(request)
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun getNearbyAccessPoints(filterDuplicates: Boolean, callbacks: GetNearbyAccessPointCallbacks?) {
-        accessPointsUtil.getNearbyAccessPoints(filterDuplicates, callbacks)
-    }
-
-    @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun getRSSI(regexForSSID: String, takeHighest: Boolean, timeoutInMillis: Int): Int? {
-        return accessPointsUtil.getRSSI(regexForSSID, takeHighest, timeoutInMillis)
-    }
-
-    @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun getRSSI(
-        regexForSSID: String,
-        takeHighest: Boolean,
-        timeoutInMillis: Int,
-        callbacks: GetRSSICallbacks?
+    override fun getNearbyAccessPoints(
+        request: GetNearbyAccessPointsRequest,
+        callbacks: GetNearbyAccessPointCallbacks?
     ) {
-        accessPointsUtil.getRSSI(regexForSSID, takeHighest, timeoutInMillis, callbacks)
+        accessPointsUtil.getNearbyAccessPoints(request, callbacks)
+    }
+
+    @RequiresPermission(ACCESS_FINE_LOCATION)
+    override fun getRSSI(request: GetRSSIRequest): RSSIData? {
+        return accessPointsUtil.getRSSI(request)
+    }
+
+    @RequiresPermission(ACCESS_FINE_LOCATION)
+    override fun getRSSI(request: GetRSSIRequest, callbacks: GetRSSICallbacks?) {
+        accessPointsUtil.getRSSI(request, callbacks)
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
@@ -470,8 +483,8 @@ class Wisefy private constructor(
         return networkConnectionStatusUtil.isDeviceConnectedToMobileOrWifiNetwork()
     }
 
-    override fun isDeviceConnectedToSSID(ssid: String): Boolean {
-        return networkConnectionStatusUtil.isDeviceConnectedToSSID(ssid)
+    override fun isDeviceConnectedToSSID(request: IsNetworkConnectedToSSIDRequest): Boolean {
+        return networkConnectionStatusUtil.isDeviceConnectedToSSID(request)
     }
 
     override fun isDeviceConnectedToWifiNetwork(): Boolean {
@@ -491,37 +504,37 @@ class Wisefy private constructor(
         return frequencyUtil.isNetwork5gHz(network)
     }
 
-    override fun isNetworkEAP(scanResult: ScanResult): Boolean {
-        return securityUtil.isNetworkEAP(scanResult)
+    override fun isNetworkEAP(network: AccessPointData): Boolean {
+        return securityUtil.isNetworkEAP(network)
     }
 
-    override fun isNetworkPSK(scanResult: ScanResult): Boolean {
-        return securityUtil.isNetworkPSK(scanResult)
+    override fun isNetworkPSK(network: AccessPointData): Boolean {
+        return securityUtil.isNetworkPSK(network)
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun isNetworkSaved(ssid: String): Boolean {
-        return savedNetworkUtil.isNetworkSaved(ssid)
+    override fun isNetworkSaved(request: SearchForSavedNetworkRequest): Boolean {
+        return savedNetworkUtil.isNetworkSaved(request)
     }
 
-    override fun isNetworkSecure(scanResult: ScanResult): Boolean {
-        return securityUtil.isNetworkSecure(scanResult)
+    override fun isNetworkSecure(network: AccessPointData): Boolean {
+        return securityUtil.isNetworkSecure(network)
     }
 
-    override fun isNetworkWEP(scanResult: ScanResult): Boolean {
-        return securityUtil.isNetworkWEP(scanResult)
+    override fun isNetworkWEP(network: AccessPointData): Boolean {
+        return securityUtil.isNetworkWEP(network)
     }
 
-    override fun isNetworkWPA(scanResult: ScanResult): Boolean {
-        return securityUtil.isNetworkWPA(scanResult)
+    override fun isNetworkWPA(network: AccessPointData): Boolean {
+        return securityUtil.isNetworkWPA(network)
     }
 
-    override fun isNetworkWPA2(scanResult: ScanResult): Boolean {
-        return securityUtil.isNetworkWPA2(scanResult)
+    override fun isNetworkWPA2(network: AccessPointData): Boolean {
+        return securityUtil.isNetworkWPA2(network)
     }
 
-    override fun isNetworkWPA3(scanResult: ScanResult): Boolean {
-        return securityUtil.isNetworkWPA3(scanResult)
+    override fun isNetworkWPA3(network: AccessPointData): Boolean {
+        return securityUtil.isNetworkWPA3(network)
     }
 
     override fun isWifiEnabled(): Boolean {
@@ -529,85 +542,84 @@ class Wisefy private constructor(
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-    override fun removeNetwork(ssidToRemove: String): RemoveNetworkResult {
-        return removeNetworkUtil.removeNetwork(ssidToRemove)
+    override fun removeNetwork(request: RemoveNetworkRequest): RemoveNetworkResult {
+        return removeNetworkUtil.removeNetwork(request)
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-    override fun removeNetwork(ssidToRemove: String, callbacks: RemoveNetworkCallbacks?) {
-        removeNetworkUtil.removeNetwork(ssidToRemove, callbacks)
+    override fun removeNetwork(request: RemoveNetworkRequest, callbacks: RemoveNetworkCallbacks?) {
+        removeNetworkUtil.removeNetwork(request, callbacks)
+    }
+
+    @RequiresPermission(ACCESS_FINE_LOCATION)
+    override fun searchForAccessPoint(request: SearchForSingleAccessPointRequest): AccessPointData? {
+        return accessPointsUtil.searchForAccessPoint(request)
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun searchForAccessPoint(
-        regexForSSID: String,
-        timeoutInMillis: Int,
-        filterDuplicates: Boolean
-    ): AccessPointData? {
-        return accessPointsUtil.searchForAccessPoint(regexForSSID, timeoutInMillis, filterDuplicates)
-    }
-
-    @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun searchForAccessPoint(
-        regexForSSID: String,
-        timeoutInMillis: Int,
-        filterDuplicates: Boolean,
+        request: SearchForSingleAccessPointRequest,
         callbacks: SearchForAccessPointCallbacks?
     ) {
-        accessPointsUtil.searchForAccessPoint(regexForSSID, timeoutInMillis, filterDuplicates, callbacks)
+        accessPointsUtil.searchForAccessPoint(request, callbacks)
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun searchForAccessPoints(regexForSSID: String, filterDuplicates: Boolean): List<AccessPointData> {
-        return accessPointsUtil.searchForAccessPoints(regexForSSID, filterDuplicates)
+    override fun searchForAccessPoints(request: SearchForMultipleAccessPointsRequest): List<AccessPointData> {
+        return accessPointsUtil.searchForAccessPoints(request)
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun searchForAccessPoints(
-        regexForSSID: String,
-        filterDuplicates: Boolean,
+        request: SearchForMultipleAccessPointsRequest,
         callbacks: SearchForAccessPointsCallbacks?
     ) {
-        accessPointsUtil.searchForAccessPoints(regexForSSID, filterDuplicates, callbacks)
+        accessPointsUtil.searchForAccessPoints(request, callbacks)
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun searchForSavedNetwork(regexForSSID: String): SavedNetworkData? {
-        return savedNetworkUtil.searchForSavedNetwork(regexForSSID)
+    override fun searchForSavedNetwork(request: SearchForSavedNetworkRequest): SavedNetworkData? {
+        return savedNetworkUtil.searchForSavedNetwork(request)
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun searchForSavedNetwork(regexForSSID: String, callbacks: SearchForSavedNetworkCallbacks?) {
-        savedNetworkUtil.searchForSavedNetwork(regexForSSID, callbacks)
+    override fun searchForSavedNetwork(
+        request: SearchForSavedNetworkRequest,
+        callbacks: SearchForSavedNetworkCallbacks?
+    ) {
+        savedNetworkUtil.searchForSavedNetwork(request, callbacks)
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun searchForSavedNetworks(regexForSSID: String): List<SavedNetworkData> {
-        return savedNetworkUtil.searchForSavedNetworks(regexForSSID)
+    override fun searchForSavedNetworks(request: SearchForSavedNetworkRequest): List<SavedNetworkData> {
+        return savedNetworkUtil.searchForSavedNetworks(request)
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun searchForSavedNetworks(regexForSSID: String, callbacks: SearchForSavedNetworksCallbacks?) {
-        savedNetworkUtil.searchForSavedNetworks(regexForSSID, callbacks)
+    override fun searchForSavedNetworks(
+        request: SearchForSavedNetworkRequest,
+        callbacks: SearchForSavedNetworksCallbacks?
+    ) {
+        savedNetworkUtil.searchForSavedNetworks(request, callbacks)
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun searchForSSID(regexForSSID: String, timeoutInMillis: Int): String? {
-        return accessPointsUtil.searchForSSID(regexForSSID, timeoutInMillis)
+    override fun searchForSSID(request: SearchForSingleSSIDRequest): SSIDData? {
+        return accessPointsUtil.searchForSSID(request)
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun searchForSSID(regexForSSID: String, timeoutInMillis: Int, callbacks: SearchForSSIDCallbacks?) {
-        accessPointsUtil.searchForSSID(regexForSSID, timeoutInMillis, callbacks)
+    override fun searchForSSID(request: SearchForSingleSSIDRequest, callbacks: SearchForSSIDCallbacks?) {
+        accessPointsUtil.searchForSSID(request, callbacks)
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun searchForSSIDs(regexForSSID: String): List<String> {
-        return accessPointsUtil.searchForSSIDs(regexForSSID)
+    override fun searchForSSIDs(request: SearchForMultipleSSIDsRequest): List<SSIDData> {
+        return accessPointsUtil.searchForSSIDs(request)
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun searchForSSIDs(regexForSSID: String, callbacks: SearchForSSIDsCallbacks?) {
-        accessPointsUtil.searchForSSIDs(regexForSSID, callbacks)
+    override fun searchForSSIDs(request: SearchForMultipleSSIDsRequest, callbacks: SearchForSSIDsCallbacks?) {
+        accessPointsUtil.searchForSSIDs(request, callbacks)
     }
 }
