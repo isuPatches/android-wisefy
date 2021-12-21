@@ -1,3 +1,5 @@
+package com.isupatches.android.wisefy.accesspoints
+
 /*
  * Copyright 2021 Patches Klinefelter
  *
@@ -12,32 +14,5 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
-package com.isupatches.android.wisefy.accesspoints.entities
-
-/**
- * A
- *
- * @param filterDuplicates
- *
- * @author Patches Klinefelter
- * @since 12/2021
- */
-sealed class GetNearbyAccessPointsRequest(
-    open val filterDuplicates: Boolean
-) {
-
-    /**
-     * A
-     *
-     * @param filterDuplicates
-     *
-     * @see GetNearbyAccessPointsRequest
-     *
-     * @author Patches Klinefelter
-     * @since 12/2021
-     */
-    data class All(
-        override val filterDuplicates: Boolean = true
-    ) : GetNearbyAccessPointsRequest(filterDuplicates)
+ */class LegacyAccessPointsApiTest {
 }

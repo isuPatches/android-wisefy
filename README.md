@@ -18,7 +18,8 @@ I hope you enjoy the rewrite and please create an issue if you see anything odd 
 
 ### Highlights
 
-- Android P, Android Q, and Android R are now supported
+- Android P, Android Q, Android R, and Android S are now supported
+- Compiled with Java 11
 - Rewritten with extensibility and future Android OS's in-mind
     * Future versions of the Android OS will be easier to support with the new delegate system
     * Improved modularity where APIs for OS versions are contained in their own API / API implementation files

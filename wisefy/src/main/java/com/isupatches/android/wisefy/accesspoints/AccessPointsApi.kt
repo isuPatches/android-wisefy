@@ -33,44 +33,150 @@ import com.isupatches.android.wisefy.callbacks.SearchForAccessPointsCallbacks
 import com.isupatches.android.wisefy.callbacks.SearchForSSIDCallbacks
 import com.isupatches.android.wisefy.callbacks.SearchForSSIDsCallbacks
 
+/**
+ *
+ * @author Patches Klinefelter
+ * @since 08/2021
+ */
 interface AccessPointsApi {
 
+    /**
+     *
+     * @see GetNearbyAccessPointsRequest
+     * @see AccessPointData
+     *
+     * @author Patches Klinefelter
+     * @since 08/2021
+     */
     @RequiresPermission(ACCESS_FINE_LOCATION)
     fun getNearbyAccessPoints(request: GetNearbyAccessPointsRequest): List<AccessPointData>
 
+    /**
+     *
+     * @see GetRSSIRequest
+     * @see RSSIData
+     *
+     * @author Patches Klinefelter
+     * @since 08/2021
+     */
     @RequiresPermission(ACCESS_FINE_LOCATION)
     fun getRSSI(request: GetRSSIRequest): RSSIData?
 
+    /**
+     *
+     * @see SearchForSingleAccessPointRequest
+     * @see AccessPointData
+     *
+     * @author Patches Klinefelter
+     * @since 08/2021
+     */
     @RequiresPermission(ACCESS_FINE_LOCATION)
     fun searchForAccessPoint(request: SearchForSingleAccessPointRequest): AccessPointData?
 
+    /**
+     *
+     * @see SearchForMultipleAccessPointsRequest
+     * @see AccessPointData
+     *
+     * @author Patches Klinefelter
+     * @since 08/2021
+     */
     @RequiresPermission(ACCESS_FINE_LOCATION)
     fun searchForAccessPoints(request: SearchForMultipleAccessPointsRequest): List<AccessPointData>
 
+    /**
+     *
+     * @see SearchForSingleSSIDRequest
+     * @see SSIDData
+     *
+     * @author Patches Klinefelter
+     * @since 08/2021
+     */
     @RequiresPermission(ACCESS_FINE_LOCATION)
     fun searchForSSID(request: SearchForSingleSSIDRequest): SSIDData?
 
+    /**
+     *
+     * @see SearchForMultipleSSIDsRequest
+     * @see SSIDData
+     *
+     * @author Patches Klinefelter
+     * @since 08/2021
+     */
     @RequiresPermission(ACCESS_FINE_LOCATION)
     fun searchForSSIDs(request: SearchForMultipleSSIDsRequest): List<SSIDData>
 }
 
+/**
+ *
+ * @author Patches Klinefelter
+ * @since 08/2021
+ */
 interface AccessPointsApiAsync {
 
+    /**
+     *
+     * @see GetNearbyAccessPointsRequest
+     * @see GetNearbyAccessPointCallbacks
+     *
+     * @author Patches Klinefelter
+     * @since 08/2021
+     */
     @RequiresPermission(ACCESS_FINE_LOCATION)
     fun getNearbyAccessPoints(request: GetNearbyAccessPointsRequest, callbacks: GetNearbyAccessPointCallbacks?)
 
+    /**
+     *
+     * @see GetRSSIRequest
+     * @see GetRSSICallbacks
+     *
+     * @author Patches Klinefelter
+     * @since 08/2021
+     */
     @RequiresPermission(ACCESS_FINE_LOCATION)
     fun getRSSI(request: GetRSSIRequest, callbacks: GetRSSICallbacks?)
 
+    /**
+     *
+     * @see SearchForSingleAccessPointRequest
+     * @see SearchForAccessPointCallbacks
+     *
+     * @author Patches Klinefelter
+     * @since 08/2021
+     */
     @RequiresPermission(ACCESS_FINE_LOCATION)
     fun searchForAccessPoint(request: SearchForSingleAccessPointRequest, callbacks: SearchForAccessPointCallbacks?)
 
+    /**
+     *
+     * @see SearchForMultipleAccessPointsRequest
+     * @see SearchForAccessPointsCallbacks
+     *
+     * @author Patches Klinefelter
+     * @since 08/2021
+     */
     @RequiresPermission(ACCESS_FINE_LOCATION)
     fun searchForAccessPoints(request: SearchForMultipleAccessPointsRequest, callbacks: SearchForAccessPointsCallbacks?)
 
+    /**
+     *
+     * @see SearchForSingleSSIDRequest
+     * @see SearchForSSIDCallbacks
+     *
+     * @author Patches Klinefelter
+     * @since 08/2021
+     */
     @RequiresPermission(ACCESS_FINE_LOCATION)
     fun searchForSSID(request: SearchForSingleSSIDRequest, callbacks: SearchForSSIDCallbacks?)
 
+    /**
+     *
+     * @see SearchForMultipleSSIDsRequest
+     * @see SearchForSSIDsCallbacks
+     *
+     * @author Patches Klinefelter
+     * @since 08/2021
+     */
     @RequiresPermission(ACCESS_FINE_LOCATION)
     fun searchForSSIDs(request: SearchForMultipleSSIDsRequest, callbacks: SearchForSSIDsCallbacks?)
 }

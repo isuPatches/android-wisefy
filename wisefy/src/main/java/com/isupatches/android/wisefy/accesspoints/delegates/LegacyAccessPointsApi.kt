@@ -80,14 +80,14 @@ internal class LegacyAccessPointsApiImpl(
         return if (request.filterDuplicates) {
             removeEntriesWithLowerSignalStrength(accessPointsTemp)
         } else {
-            accessPointsTemp.map { scanResult -> AccessPointData.ScanResult(value = scanResult) }
+            accessPointsTemp.map { scanResult -> AccessPointData(value = scanResult) }
         }
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun getRSSI(request: GetRSSIRequest): RSSIData? {
         val scanData = searchForAccessPoint(request.toSearchForSingleAccessPointRequest())
-        return (scanData as? AccessPointData.ScanResult)?.value?.level?.let {
+        return scanData?.value?.level?.let {
             RSSIData(it)
         }
     }
@@ -135,7 +135,7 @@ internal class LegacyAccessPointsApiImpl(
             scanPass++
             rest()
         } while (currentTime < endTime)
-        return accessPointToReturn?.let { AccessPointData.ScanResult(value = it) }
+        return accessPointToReturn?.let { AccessPointData(value = it) }
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
@@ -152,10 +152,10 @@ internal class LegacyAccessPointsApiImpl(
             if (accessPointMatchesRegex(accessPoint, request.toAccessPointMatchData())) {
                 if (request.filterDuplicates) {
                     if (hasHighestSignalStrength(accessPointsTemp, accessPoint)) {
-                        matchingAccessPoints.add(AccessPointData.ScanResult(value = accessPoint))
+                        matchingAccessPoints.add(AccessPointData(value = accessPoint))
                     }
                 } else {
-                    matchingAccessPoints.add(AccessPointData.ScanResult(value = accessPoint))
+                    matchingAccessPoints.add(AccessPointData(value = accessPoint))
                 }
             }
         }
@@ -166,12 +166,11 @@ internal class LegacyAccessPointsApiImpl(
     @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun searchForSSID(request: SearchForSingleSSIDRequest): SSIDData? {
         val scanData = searchForAccessPoint(request.toSearchForSingleAccessPointRequest())
-        val accessPoint = (scanData as? AccessPointData.ScanResult)?.value
         return when (request) {
-            is SearchForSingleSSIDRequest.SSID -> accessPoint?.SSID?.let { ssid ->
+            is SearchForSingleSSIDRequest.SSID -> scanData?.value?.SSID?.let { ssid ->
                 SSIDData.SSID(ssid)
             }
-            is SearchForSingleSSIDRequest.BSSID -> accessPoint?.BSSID?.let { bssid ->
+            is SearchForSingleSSIDRequest.BSSID -> scanData?.value?.BSSID?.let { bssid ->
                 SSIDData.SSID(bssid)
             }
         }
@@ -233,7 +232,7 @@ internal class LegacyAccessPointsApiImpl(
     }
 
     private fun removeEntriesWithLowerSignalStrength(accessPoints: List<ScanResult>): List<AccessPointData> {
-        val accessPointsToReturn = ArrayList<AccessPointData.ScanResult>()
+        val accessPointsToReturn = ArrayList<AccessPointData>()
 
         for (accessPoint in accessPoints) {
             var found = false
@@ -254,14 +253,14 @@ internal class LegacyAccessPointsApiImpl(
                     )
                     if (comparisonResult > 0) {
                         logger?.d(LOG_TAG, "New result has a higher or same signal strength, swapping")
-                        accessPointsToReturn[i] = AccessPointData.ScanResult(accessPoint)
+                        accessPointsToReturn[i] = AccessPointData(accessPoint)
                     }
                 }
             }
 
             if (!found) {
                 logger?.d(LOG_TAG, "Found new wifi network")
-                accessPointsToReturn.add(AccessPointData.ScanResult(accessPoint))
+                accessPointsToReturn.add(AccessPointData(accessPoint))
             }
         }
         return accessPointsToReturn

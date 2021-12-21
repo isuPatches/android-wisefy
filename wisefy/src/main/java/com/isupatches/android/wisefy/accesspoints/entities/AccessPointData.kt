@@ -15,8 +15,19 @@
  */
 package com.isupatches.android.wisefy.accesspoints.entities
 
-sealed class AccessPointData {
-    data class ScanResult(
-        val value: android.net.wifi.ScanResult
-    ) : AccessPointData()
-}
+import android.net.wifi.ScanResult
+
+/**
+ * A data class that represent an Access Point in the form of a scan result from the Android OS.
+ *
+ * @param value The Android OS information about the access point
+ *
+ * @see ScanResult
+ * @see AccessPointData
+ *
+ * @author Patches Klinefelter
+ * @since 08/2021
+ */
+data class AccessPointData(
+    val value: ScanResult
+)

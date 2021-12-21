@@ -45,7 +45,7 @@ internal class LegacySecurityApiImpl : LegacySecurityApi {
     }
 
     override fun isNetworkSecure(network: AccessPointData): Boolean {
-        val networkCapabilities: String = (network as? AccessPointData.ScanResult)?.value?.capabilities ?: ""
+        val networkCapabilities: String = (network as? AccessPointData)?.value?.capabilities ?: ""
         networkCapabilities.let { capabilities ->
             val securityModes = arrayOf(EAP, PSK, WEP, WPA, WPA2, WPA3)
             for (securityMode in securityModes) {
@@ -77,8 +77,6 @@ internal class LegacySecurityApiImpl : LegacySecurityApi {
         network: AccessPointData,
         @Capability capability: String
     ): Boolean {
-        return network is AccessPointData.ScanResult &&
-            network.value.capabilities != null &&
-            network.value.capabilities.contains(capability)
+        return network.value.capabilities != null && network.value.capabilities.contains(capability)
     }
 }
