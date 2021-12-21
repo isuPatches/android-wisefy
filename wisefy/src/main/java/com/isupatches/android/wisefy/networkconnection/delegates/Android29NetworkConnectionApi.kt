@@ -16,6 +16,7 @@
 package com.isupatches.android.wisefy.networkconnection.delegates
 
 import android.net.ConnectivityManager
+import android.net.MacAddress
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
@@ -23,11 +24,12 @@ import android.net.wifi.WifiNetworkSpecifier
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.isupatches.android.wisefy.logging.WisefyLogger
+import com.isupatches.android.wisefy.networkconnection.entities.NetworkConnectionRequest
 import com.isupatches.android.wisefy.networkconnection.entities.NetworkConnectionResult
 
 internal interface Android29NetworkConnectionApi {
     @RequiresApi(Build.VERSION_CODES.Q)
-    fun connectToNetwork(ssidToConnectTo: String, timeoutInMillis: Int = 0): NetworkConnectionResult
+    fun connectToNetwork(request: NetworkConnectionRequest): NetworkConnectionResult
 
     fun disconnectFromCurrentNetwork(): NetworkConnectionResult
 }
@@ -52,18 +54,34 @@ internal class Android29NetworkConnectionApiImpl(
     }
 
     @RequiresApi(Build.VERSION_CODES.Q)
-    override fun connectToNetwork(ssidToConnectTo: String, timeoutInMillis: Int): NetworkConnectionResult {
-        val networkRequest = NetworkRequest.Builder()
-            .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
-            .removeCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-            .setNetworkSpecifier(
-                WifiNetworkSpecifier.Builder()
-                    .setSsid(ssidToConnectTo)
-                    .build()
-            )
-            .build()
+    override fun connectToNetwork(request: NetworkConnectionRequest): NetworkConnectionResult {
+        val networkRequest =
+            when (request) {
+                is NetworkConnectionRequest.SSID -> {
+                    NetworkRequest.Builder()
+                        .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
+                        .removeCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+                        .setNetworkSpecifier(
+                            WifiNetworkSpecifier.Builder()
+                                .setSsid(request.ssid)
+                                .build()
+                        )
+                        .build()
+                }
+                is NetworkConnectionRequest.BSSID -> {
+                    NetworkRequest.Builder()
+                        .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
+                        .removeCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+                        .setNetworkSpecifier(
+                            WifiNetworkSpecifier.Builder()
+                                .setBssid(MacAddress.fromString(request.bssid))
+                                .build()
+                        )
+                        .build()
+                }
+            }
         networkCallback
-        connectionManager.requestNetwork(networkRequest, networkCallback, timeoutInMillis)
+        connectionManager.requestNetwork(networkRequest, networkCallback, request.timeoutInMillis)
         return NetworkConnectionResult.ConnectionRequestPlaced
     }
 

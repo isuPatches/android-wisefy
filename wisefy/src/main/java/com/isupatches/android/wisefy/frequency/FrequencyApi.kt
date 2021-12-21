@@ -21,6 +21,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.callbacks.GetFrequencyCallbacks
+import com.isupatches.android.wisefy.frequency.entities.FrequencyData
 
 const val MIN_FREQUENCY_5GHZ: Int = 4900
 const val MAX_FREQUENCY_5GHZ: Int = 5900
@@ -29,10 +30,10 @@ interface FrequencyApi {
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    fun getFrequency(): Int?
+    fun getFrequency(): FrequencyData?
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    fun getFrequency(network: WifiInfo): Int
+    fun getFrequency(network: WifiInfo): FrequencyData
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)

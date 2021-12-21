@@ -18,6 +18,14 @@ package com.isupatches.android.wisefy.accesspoints
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
+import com.isupatches.android.wisefy.accesspoints.entities.GetNearbyAccessPointsRequest
+import com.isupatches.android.wisefy.accesspoints.entities.GetRSSIRequest
+import com.isupatches.android.wisefy.accesspoints.entities.RSSIData
+import com.isupatches.android.wisefy.accesspoints.entities.SSIDData
+import com.isupatches.android.wisefy.accesspoints.entities.SearchForMultipleAccessPointsRequest
+import com.isupatches.android.wisefy.accesspoints.entities.SearchForMultipleSSIDsRequest
+import com.isupatches.android.wisefy.accesspoints.entities.SearchForSingleAccessPointRequest
+import com.isupatches.android.wisefy.accesspoints.entities.SearchForSingleSSIDRequest
 import com.isupatches.android.wisefy.callbacks.GetNearbyAccessPointCallbacks
 import com.isupatches.android.wisefy.callbacks.GetRSSICallbacks
 import com.isupatches.android.wisefy.callbacks.SearchForAccessPointCallbacks
@@ -28,57 +36,41 @@ import com.isupatches.android.wisefy.callbacks.SearchForSSIDsCallbacks
 interface AccessPointsApi {
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    fun getNearbyAccessPoints(filterDuplicates: Boolean): List<AccessPointData>
+    fun getNearbyAccessPoints(request: GetNearbyAccessPointsRequest): List<AccessPointData>
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    fun getRSSI(regexForSSID: String, takeHighest: Boolean, timeoutInMillis: Int): Int?
+    fun getRSSI(request: GetRSSIRequest): RSSIData?
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    fun searchForAccessPoint(
-        regexForSSID: String,
-        timeoutInMillis: Int,
-        filterDuplicates: Boolean
-    ): AccessPointData?
+    fun searchForAccessPoint(request: SearchForSingleAccessPointRequest): AccessPointData?
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    fun searchForAccessPoints(
-        regexForSSID: String,
-        filterDuplicates: Boolean
-    ): List<AccessPointData>
+    fun searchForAccessPoints(request: SearchForMultipleAccessPointsRequest): List<AccessPointData>
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    fun searchForSSID(regexForSSID: String, timeoutInMillis: Int): String?
+    fun searchForSSID(request: SearchForSingleSSIDRequest): SSIDData?
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    fun searchForSSIDs(regexForSSID: String): List<String>
+    fun searchForSSIDs(request: SearchForMultipleSSIDsRequest): List<SSIDData>
 }
 
 interface AccessPointsApiAsync {
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    fun getNearbyAccessPoints(filterDuplicates: Boolean, callbacks: GetNearbyAccessPointCallbacks?)
+    fun getNearbyAccessPoints(request: GetNearbyAccessPointsRequest, callbacks: GetNearbyAccessPointCallbacks?)
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    fun getRSSI(regexForSSID: String, takeHighest: Boolean, timeoutInMillis: Int, callbacks: GetRSSICallbacks?)
+    fun getRSSI(request: GetRSSIRequest, callbacks: GetRSSICallbacks?)
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    fun searchForAccessPoint(
-        regexForSSID: String,
-        timeoutInMillis: Int,
-        filterDuplicates: Boolean,
-        callbacks: SearchForAccessPointCallbacks?
-    )
+    fun searchForAccessPoint(request: SearchForSingleAccessPointRequest, callbacks: SearchForAccessPointCallbacks?)
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    fun searchForAccessPoints(
-        regexForSSID: String,
-        filterDuplicates: Boolean,
-        callbacks: SearchForAccessPointsCallbacks?
-    )
+    fun searchForAccessPoints(request: SearchForMultipleAccessPointsRequest, callbacks: SearchForAccessPointsCallbacks?)
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    fun searchForSSID(regexForSSID: String, timeoutInMillis: Int, callbacks: SearchForSSIDCallbacks?)
+    fun searchForSSID(request: SearchForSingleSSIDRequest, callbacks: SearchForSSIDCallbacks?)
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    fun searchForSSIDs(regexForSSID: String, callbacks: SearchForSSIDsCallbacks?)
+    fun searchForSSIDs(request: SearchForMultipleSSIDsRequest, callbacks: SearchForSSIDsCallbacks?)
 }

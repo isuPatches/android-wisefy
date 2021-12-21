@@ -22,19 +22,20 @@ import com.isupatches.android.wisefy.callbacks.GetSavedNetworksCallbacks
 import com.isupatches.android.wisefy.callbacks.SearchForSavedNetworkCallbacks
 import com.isupatches.android.wisefy.callbacks.SearchForSavedNetworksCallbacks
 import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
+import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkRequest
 
 interface SavedNetworkApi {
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     fun getSavedNetworks(): List<SavedNetworkData>
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    fun isNetworkSaved(ssid: String): Boolean
+    fun isNetworkSaved(request: SearchForSavedNetworkRequest): Boolean
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    fun searchForSavedNetwork(regexForSSID: String): SavedNetworkData?
+    fun searchForSavedNetwork(request: SearchForSavedNetworkRequest): SavedNetworkData?
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    fun searchForSavedNetworks(regexForSSID: String): List<SavedNetworkData>
+    fun searchForSavedNetworks(request: SearchForSavedNetworkRequest): List<SavedNetworkData>
 }
 
 interface SavedNetworkApiAsync {
@@ -42,8 +43,8 @@ interface SavedNetworkApiAsync {
     fun getSavedNetworks(callbacks: GetSavedNetworksCallbacks?)
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    fun searchForSavedNetwork(regexForSSID: String, callbacks: SearchForSavedNetworkCallbacks?)
+    fun searchForSavedNetwork(request: SearchForSavedNetworkRequest, callbacks: SearchForSavedNetworkCallbacks?)
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    fun searchForSavedNetworks(regexForSSID: String, callbacks: SearchForSavedNetworksCallbacks?)
+    fun searchForSavedNetworks(request: SearchForSavedNetworkRequest, callbacks: SearchForSavedNetworksCallbacks?)
 }

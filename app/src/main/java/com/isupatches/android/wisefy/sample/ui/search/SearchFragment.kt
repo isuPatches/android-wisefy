@@ -26,6 +26,7 @@ import android.widget.SeekBar
 import androidx.annotation.VisibleForTesting
 import com.isupatches.android.viewglu.paste
 import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
+import com.isupatches.android.wisefy.accesspoints.entities.SSIDData
 import com.isupatches.android.wisefy.sample.R
 import com.isupatches.android.wisefy.sample.databinding.FragmentSearchBinding
 import com.isupatches.android.wisefy.sample.internal.base.BaseFragment
@@ -61,9 +62,9 @@ internal interface SearchView {
     fun displayAccessPointNotFound()
     fun displayAccessPoints(accessPoints: List<AccessPointData>)
     fun displayNoAccessPointsFound()
-    fun displaySSID(ssid: String?)
+    fun displaySSID(ssid: SSIDData?)
     fun displaySSIDNotFound()
-    fun displaySSIDs(ssids: List<String>)
+    fun displaySSIDs(ssids: List<SSIDData>)
     fun displayNoSSIDsFound()
 }
 
@@ -352,7 +353,7 @@ internal class SearchFragment : BaseFragment(), SearchView {
         displayInfo(R.string.no_access_points_found, R.string.search_result)
     }
 
-    override fun displaySSID(ssid: String?) {
+    override fun displaySSID(ssid: SSIDData?) {
         displayInfoFullScreen(getString(R.string.ssid_args, ssid), R.string.search_result)
     }
 
@@ -360,7 +361,7 @@ internal class SearchFragment : BaseFragment(), SearchView {
         displayInfo(R.string.ssid_not_found, R.string.search_result)
     }
 
-    override fun displaySSIDs(ssids: List<String>) {
+    override fun displaySSIDs(ssids: List<SSIDData>) {
         displayInfoFullScreen(getString(R.string.ssids_args, ssids), R.string.search_result)
     }
 

@@ -21,14 +21,16 @@ import android.net.wifi.WifiManager
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
+import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkRequest
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkResult
-import com.isupatches.android.wisefy.util.createOpenNetworkSuggestion
+import com.isupatches.android.wisefy.util.createOpenNetworkSuggestionWithBSSID
+import com.isupatches.android.wisefy.util.createOpenNetworkSuggestionWithSSID
 
 internal interface Android29RemoveNetworkApi {
 
     @RequiresApi(Build.VERSION_CODES.Q)
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-    fun removeNetwork(ssidToRemove: String): RemoveNetworkResult
+    fun removeNetwork(request: RemoveNetworkRequest): RemoveNetworkResult
 }
 
 internal class Android29RemoveNetworkApiImpl(
@@ -37,9 +39,12 @@ internal class Android29RemoveNetworkApiImpl(
 
     @RequiresApi(Build.VERSION_CODES.Q)
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-    override fun removeNetwork(ssidToRemove: String): RemoveNetworkResult {
-        val suggestion = createOpenNetworkSuggestion(ssidToRemove)
+    override fun removeNetwork(request: RemoveNetworkRequest): RemoveNetworkResult {
+        val suggestion = when (request) {
+            is RemoveNetworkRequest.SSID -> createOpenNetworkSuggestionWithSSID(request.value)
+            is RemoveNetworkRequest.BSSID -> createOpenNetworkSuggestionWithBSSID(request.value)
+        }
         val resultCode = wifiManager.removeNetworkSuggestions(listOf(suggestion))
-        return RemoveNetworkResult.ResultCode(data = resultCode)
+        return RemoveNetworkResult.ResultCode(value = resultCode)
     }
 }

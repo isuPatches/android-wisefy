@@ -22,6 +22,7 @@ import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.savednetworks.SavedNetworkApi
 import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
+import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkRequest
 
 @RequiresApi(Build.VERSION_CODES.R)
 internal class Android30SavedNetworkDelegate(
@@ -35,17 +36,17 @@ internal class Android30SavedNetworkDelegate(
     }
 
     @RequiresPermission(allOf = [ACCESS_WIFI_STATE])
-    override fun isNetworkSaved(ssid: String): Boolean {
-        return impl.isNetworkSaved(ssid)
+    override fun isNetworkSaved(request: SearchForSavedNetworkRequest): Boolean {
+        return impl.isNetworkSaved(request)
     }
 
     @RequiresPermission(allOf = [ACCESS_WIFI_STATE])
-    override fun searchForSavedNetwork(regexForSSID: String): SavedNetworkData? {
-        return impl.searchForSavedNetwork(regexForSSID)
+    override fun searchForSavedNetwork(request: SearchForSavedNetworkRequest): SavedNetworkData? {
+        return impl.searchForSavedNetwork(request)
     }
 
     @RequiresPermission(allOf = [ACCESS_WIFI_STATE])
-    override fun searchForSavedNetworks(regexForSSID: String): List<SavedNetworkData> {
-        return impl.searchForSavedNetworks(regexForSSID)
+    override fun searchForSavedNetworks(request: SearchForSavedNetworkRequest): List<SavedNetworkData> {
+        return impl.searchForSavedNetworks(request)
     }
 }

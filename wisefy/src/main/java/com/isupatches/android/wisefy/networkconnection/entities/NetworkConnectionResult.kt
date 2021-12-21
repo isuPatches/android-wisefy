@@ -18,7 +18,7 @@ package com.isupatches.android.wisefy.networkconnection.entities
 sealed class NetworkConnectionResult {
 
     data class Succeeded(
-        val data: Boolean
+        val value: Boolean
     ) : NetworkConnectionResult()
 
     object ConnectionRequestPlaced : NetworkConnectionResult()

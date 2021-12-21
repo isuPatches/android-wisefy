@@ -20,6 +20,7 @@ import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.removenetwork.RemoveNetworkApi
+import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkRequest
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkResult
 import com.isupatches.android.wisefy.savednetworks.SavedNetworkUtil
 
@@ -33,7 +34,7 @@ internal class LegacyRemoveNetworkDelegate(
 ) : RemoveNetworkApi {
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun removeNetwork(ssidToRemove: String): RemoveNetworkResult {
-        return impl.removeNetwork(ssidToRemove)
+    override fun removeNetwork(request: RemoveNetworkRequest): RemoveNetworkResult {
+        return impl.removeNetwork(request)
     }
 }

@@ -22,14 +22,16 @@ import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.constants.QUOTE
 import com.isupatches.android.wisefy.logging.WisefyLogger
+import com.isupatches.android.wisefy.networkconnection.entities.NetworkConnectionRequest
 import com.isupatches.android.wisefy.networkconnection.entities.NetworkConnectionResult
+import com.isupatches.android.wisefy.networkconnection.entities.toSearchForNetworkRequest
 import com.isupatches.android.wisefy.networkconnectionstatus.NetworkConnectionStatusUtil
 import com.isupatches.android.wisefy.savednetworks.SavedNetworkUtil
 import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
 import com.isupatches.android.wisefy.util.rest
 
 internal interface LegacyNetworkConnectionApi {
-    fun connectToNetwork(ssidToConnectTo: String, timeoutInMillis: Int = 0): NetworkConnectionResult
+    fun connectToNetwork(request: NetworkConnectionRequest): NetworkConnectionResult
     fun disconnectFromCurrentNetwork(): NetworkConnectionResult
 }
 
@@ -43,36 +45,38 @@ internal class LegacyNetworkConnectionApiImpl(
 ) : LegacyNetworkConnectionApi, ConnectivityManager.NetworkCallback() {
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun connectToNetwork(ssidToConnectTo: String, timeoutInMillis: Int): NetworkConnectionResult {
-        when (val savedNetworkData = savedNetworkUtil.searchForSavedNetwork(ssidToConnectTo)) {
+    override fun connectToNetwork(request: NetworkConnectionRequest): NetworkConnectionResult {
+        return when (
+            val savedNetworkData = savedNetworkUtil.searchForSavedNetwork(request.toSearchForNetworkRequest())
+        ) {
             null -> return NetworkConnectionResult.NetworkNotFound
             is SavedNetworkData.Configuration -> {
-                savedNetworkData.data.let {
+                savedNetworkData.value.let {
                     wifiManager.disconnect()
                     wifiManager.enableNetwork(it.networkId, true)
                     wifiManager.reconnect()
-                    return NetworkConnectionResult.Succeeded(waitToConnectToSSID(ssidToConnectTo, timeoutInMillis))
+                    return NetworkConnectionResult.Succeeded(waitToConnectToSSID(request))
                 }
             }
+            else -> NetworkConnectionResult.Succeeded(false)
         }
-        return NetworkConnectionResult.Succeeded(false)
     }
 
     override fun disconnectFromCurrentNetwork(): NetworkConnectionResult {
-        return NetworkConnectionResult.Succeeded(data = wifiManager.disconnect())
+        return NetworkConnectionResult.Succeeded(value = wifiManager.disconnect())
     }
 
-    private fun waitToConnectToSSID(ssid: String?, timeoutInMillis: Int): Boolean {
+    private fun waitToConnectToSSID(request: NetworkConnectionRequest): Boolean {
         logger?.d(
             LOG_TAG,
-            "Waiting %d milliseconds to connect to network with ssid %s",
-            timeoutInMillis,
-            ssid ?: ""
+            "Waiting %d milliseconds to connect to network with search request %s",
+            request.timeoutInMillis,
+            request
         )
         var currentTime: Long
-        val endTime = System.currentTimeMillis() + timeoutInMillis
+        val endTime = System.currentTimeMillis() + request.timeoutInMillis
         do {
-            if (isCurrentNetworkConnectedToSSID(ssid)) {
+            if (isCurrentNetworkConnected(request)) {
                 return true
             }
             rest()
@@ -82,17 +86,24 @@ internal class LegacyNetworkConnectionApiImpl(
         return false
     }
 
-    private fun isCurrentNetworkConnectedToSSID(ssid: String?): Boolean {
-        if (ssid.isNullOrEmpty()) {
+    private fun isCurrentNetworkConnected(request: NetworkConnectionRequest): Boolean {
+        val expectedValue = when (request) {
+            is NetworkConnectionRequest.SSID -> request.ssid
+            is NetworkConnectionRequest.BSSID -> request.bssid
+        }
+        if (expectedValue.isBlank()) {
             return false
         }
 
         val connectionInfo = wifiManager.connectionInfo
         connectionInfo?.let {
             if (!it.ssid.isNullOrEmpty()) {
-                val currentSSID = it.ssid.replace(QUOTE, "")
-                logger?.d(LOG_TAG, "Current SSID: %s, Desired SSID: %s", currentSSID, ssid)
-                if (currentSSID.equals(ssid, ignoreCase = true) &&
+                val currentValue = when (request) {
+                    is NetworkConnectionRequest.SSID -> it.ssid.replace(QUOTE, "")
+                    is NetworkConnectionRequest.BSSID -> it.bssid.replace(QUOTE, "")
+                }
+                logger?.d(LOG_TAG, "Current value: %s, Desired value: %s", currentValue, expectedValue)
+                if (currentValue.equals(expectedValue, ignoreCase = true) &&
                     networkConnectionStatusUtil.isDeviceConnectedToMobileOrWifiNetwork()
                 ) {
                     logger?.d(LOG_TAG, "Network is connected")

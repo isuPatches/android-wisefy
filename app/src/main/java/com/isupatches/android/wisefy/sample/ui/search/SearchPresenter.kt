@@ -19,6 +19,7 @@ import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.ACCESS_WIFI_STATE
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
+import com.isupatches.android.wisefy.accesspoints.entities.SSIDData
 import com.isupatches.android.wisefy.callbacks.SearchForAccessPointCallbacks
 import com.isupatches.android.wisefy.callbacks.SearchForAccessPointsCallbacks
 import com.isupatches.android.wisefy.callbacks.SearchForSSIDCallbacks
@@ -176,7 +177,7 @@ internal class DefaultSearchPresenter @Inject constructor(
             regexForSSID = regexForSSID,
             timeoutInMillis = timeoutInMillis,
             callbacks = object : SearchForSSIDCallbacks {
-                override fun onSSIDFound(ssid: String) {
+                override fun onSSIDFound(ssid: SSIDData) {
                     doSafelyWithView { view ->
                         view.displaySSID(ssid)
                     }
@@ -202,7 +203,7 @@ internal class DefaultSearchPresenter @Inject constructor(
         model.searchForSSIDs(
             regexForSSID = regexForSSID,
             callbacks = object : SearchForSSIDsCallbacks {
-                override fun onSSIDsFound(ssids: List<String>) {
+                override fun onSSIDsFound(ssids: List<SSIDData>) {
                     doSafelyWithView { view ->
                         view.displaySSIDs(ssids)
                     }

@@ -23,9 +23,9 @@ import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.addnetwork.AddNetworkApi
 import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
-import com.isupatches.android.wisefy.addnetwork.entities.OpenNetworkData
-import com.isupatches.android.wisefy.addnetwork.entities.WPA2NetworkData
-import com.isupatches.android.wisefy.addnetwork.entities.WPA3NetworkData
+import com.isupatches.android.wisefy.addnetwork.entities.AddOpenNetworkRequest
+import com.isupatches.android.wisefy.addnetwork.entities.AddWPA2NetworkRequest
+import com.isupatches.android.wisefy.addnetwork.entities.AddWPA3NetworkRequest
 import com.isupatches.android.wisefy.constants.ErrorMessages
 import com.isupatches.android.wisefy.util.fail
 
@@ -36,12 +36,12 @@ internal class Android30AddNetworkDelegate(
 ) : AddNetworkApi {
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-    override fun addOpenNetwork(data: OpenNetworkData): AddNetworkResult {
-        return when (data) {
-            is OpenNetworkData.SsidAndActivityResultLauncher -> {
-                impl.addOpenNetwork(data.ssid, data.activityResultLauncher)
+    override fun addOpenNetwork(request: AddOpenNetworkRequest): AddNetworkResult {
+        return when (request) {
+            is AddOpenNetworkRequest.SsidAndActivityResultLauncher -> {
+                impl.addOpenNetwork(request.ssid, request.activityResultLauncher)
             }
-            is OpenNetworkData.Ssid -> {
+            is AddOpenNetworkRequest.Ssid -> {
                 val message = ErrorMessages.AddNetwork.ActivityResultLauncher.NOT_USED_ANDROID_30
                 fail(message)
                 return AddNetworkResult.WrongSDKLevelError(message)
@@ -50,12 +50,12 @@ internal class Android30AddNetworkDelegate(
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-    override fun addWPA2Network(data: WPA2NetworkData): AddNetworkResult {
-        return when (data) {
-            is WPA2NetworkData.SsidPassphraseAndActivityResultLauncher -> {
-                impl.addWPA2Network(data.ssid, data.passphrase, data.activityResultLauncher)
+    override fun addWPA2Network(request: AddWPA2NetworkRequest): AddNetworkResult {
+        return when (request) {
+            is AddWPA2NetworkRequest.SsidPassphraseAndActivityResultLauncher -> {
+                impl.addWPA2Network(request.ssid, request.passphrase, request.activityResultLauncher)
             }
-            is WPA2NetworkData.SsidAndPassphrase -> {
+            is AddWPA2NetworkRequest.SsidAndPassphrase -> {
                 val message = ErrorMessages.AddNetwork.ActivityResultLauncher.NOT_USED_ANDROID_30
                 fail(message)
                 return AddNetworkResult.WrongSDKLevelError(message)
@@ -64,12 +64,12 @@ internal class Android30AddNetworkDelegate(
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-    override fun addWPA3Network(data: WPA3NetworkData): AddNetworkResult {
-        return when (data) {
-            is WPA3NetworkData.SsidPassphraseAndActivityResultLauncher -> {
-                impl.addWPA3Network(data.ssid, data.passphrase, data.activityResultLauncher)
+    override fun addWPA3Network(request: AddWPA3NetworkRequest): AddNetworkResult {
+        return when (request) {
+            is AddWPA3NetworkRequest.SsidPassphraseAndActivityResultLauncher -> {
+                impl.addWPA3Network(request.ssid, request.passphrase, request.activityResultLauncher)
             }
-            is WPA3NetworkData.SsidAndPassphrase -> {
+            is AddWPA3NetworkRequest.SsidAndPassphrase -> {
                 val message = ErrorMessages.AddNetwork.ActivityResultLauncher.NOT_USED_ANDROID_30
                 fail(message)
                 return AddNetworkResult.WrongSDKLevelError(message)

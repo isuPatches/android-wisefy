@@ -27,6 +27,7 @@ import com.isupatches.android.wisefy.savednetworks.delegates.Android29SavedNetwo
 import com.isupatches.android.wisefy.savednetworks.delegates.Android30SavedNetworkDelegate
 import com.isupatches.android.wisefy.savednetworks.delegates.LegacySavedNetworkDelegate
 import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
+import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkRequest
 import com.isupatches.android.wisefy.util.SdkUtil
 import com.isupatches.android.wisefy.util.coroutines.CoroutineDispatcherProvider
 import com.isupatches.android.wisefy.util.coroutines.createBaseCoroutineExceptionHandler
@@ -77,19 +78,22 @@ internal class WisefySavedNetworkUtil(
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun isNetworkSaved(ssid: String): Boolean {
-        return delegate.isNetworkSaved(ssid)
+    override fun isNetworkSaved(request: SearchForSavedNetworkRequest): Boolean {
+        return delegate.isNetworkSaved(request)
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun searchForSavedNetwork(regexForSSID: String): SavedNetworkData? {
-        return delegate.searchForSavedNetwork(regexForSSID)
+    override fun searchForSavedNetwork(request: SearchForSavedNetworkRequest): SavedNetworkData? {
+        return delegate.searchForSavedNetwork(request)
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun searchForSavedNetwork(regexForSSID: String, callbacks: SearchForSavedNetworkCallbacks?) {
+    override fun searchForSavedNetwork(
+        request: SearchForSavedNetworkRequest,
+        callbacks: SearchForSavedNetworkCallbacks?
+    ) {
         savedNetworkScope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
-            val savedNetwork = delegate.searchForSavedNetwork(regexForSSID)
+            val savedNetwork = delegate.searchForSavedNetwork(request)
             withContext(coroutineDispatcherProvider.main) {
                 if (savedNetwork != null) {
                     callbacks?.onSavedNetworkRetrieved(savedNetwork)
@@ -101,14 +105,17 @@ internal class WisefySavedNetworkUtil(
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun searchForSavedNetworks(regexForSSID: String): List<SavedNetworkData> {
-        return delegate.searchForSavedNetworks(regexForSSID)
+    override fun searchForSavedNetworks(request: SearchForSavedNetworkRequest): List<SavedNetworkData> {
+        return delegate.searchForSavedNetworks(request)
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun searchForSavedNetworks(regexForSSID: String, callbacks: SearchForSavedNetworksCallbacks?) {
+    override fun searchForSavedNetworks(
+        request: SearchForSavedNetworkRequest,
+        callbacks: SearchForSavedNetworksCallbacks?
+    ) {
         savedNetworkScope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
-            val savedNetworks = delegate.searchForSavedNetworks(regexForSSID)
+            val savedNetworks = delegate.searchForSavedNetworks(request)
             withContext(coroutineDispatcherProvider.main) {
                 if (savedNetworks.isNotEmpty()) {
                     callbacks?.onSavedNetworksRetrieved(savedNetworks)

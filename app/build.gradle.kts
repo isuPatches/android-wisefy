@@ -2,9 +2,7 @@ import com.isupatches.android.wisefy.build.BuildVersions
 import com.isupatches.android.wisefy.build.Dependencies
 import com.isupatches.android.wisefy.build.Versions
 import com.isupatches.android.wisefy.build.dagger
-import com.isupatches.android.wisefy.build.debug
 import com.isupatches.android.wisefy.build.navigation
-import com.isupatches.android.wisefy.build.release
 import java.util.Properties
 
 plugins {
@@ -71,30 +69,21 @@ android {
         }
     }
 
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-
-    kotlinOptions {
-        jvmTarget = "${JavaVersion.VERSION_1_8}"
-    }
-
     buildFeatures {
         viewBinding = true
     }
 
-    jacoco {
-        version = Versions.JACOCO
+    testCoverage {
+        jacocoVersion = Versions.JACOCO
     }
 
-    lintOptions {
+    lint {
         isCheckAllWarnings = true
         isShowAll = true
         isExplainIssues = true
         isAbortOnError = true
         isWarningsAsErrors = true
-        disable("UnusedIds")
+        disable("UnusedIds", "ConvertToWebp")
     }
 }
 
@@ -103,7 +92,7 @@ dependencies {
      * Toggle these to test release binary vs. source code
      */
     implementation(project(":wisefy"))
-//    implementation("com.isupatches.android:wisefy:5.0.0-RC1") {
+//    implementation("com.isupatches.android:wisefy:5.0.0-RC2") {
 //        isChanging = true
 //    }
 

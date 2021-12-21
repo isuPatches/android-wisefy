@@ -22,19 +22,20 @@ import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.constants.QUOTE
 import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
+import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkRequest
 
 internal interface LegacySavedNetworkApi {
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     fun getSavedNetworks(): List<SavedNetworkData>
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    fun isNetworkSaved(ssid: String): Boolean
+    fun isNetworkSaved(request: SearchForSavedNetworkRequest): Boolean
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    fun searchForSavedNetwork(regexForSSID: String): SavedNetworkData?
+    fun searchForSavedNetwork(request: SearchForSavedNetworkRequest): SavedNetworkData?
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    fun searchForSavedNetworks(regexForSSID: String): List<SavedNetworkData>
+    fun searchForSavedNetworks(request: SearchForSavedNetworkRequest): List<SavedNetworkData>
 }
 
 internal class LegacySavedNetworkApiImpl(
@@ -44,40 +45,51 @@ internal class LegacySavedNetworkApiImpl(
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun getSavedNetworks(): List<SavedNetworkData> {
         return wifiManager.configuredNetworks.map {
-            SavedNetworkData.Configuration(data = it)
+            SavedNetworkData.Configuration(value = it)
         }
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun isNetworkSaved(ssid: String): Boolean {
+    override fun isNetworkSaved(request: SearchForSavedNetworkRequest): Boolean {
         return wifiManager.configuredNetworks.any {
-            it.SSID.equals(ssid)
+            it.SSID.equals(request)
         }
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun searchForSavedNetwork(regexForSSID: String): SavedNetworkData? {
+    override fun searchForSavedNetwork(request: SearchForSavedNetworkRequest): SavedNetworkData? {
         val savedNetwork = wifiManager.configuredNetworks.firstOrNull {
-            matchesRegexForSSID(it, regexForSSID)
+            matchesRegexForSearch(it, request)
         }
         return if (savedNetwork != null) {
-            SavedNetworkData.Configuration(data = savedNetwork)
+            SavedNetworkData.Configuration(value = savedNetwork)
         } else {
             null
         }
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun searchForSavedNetworks(regexForSSID: String): List<SavedNetworkData> {
+    override fun searchForSavedNetworks(request: SearchForSavedNetworkRequest): List<SavedNetworkData> {
         return wifiManager.configuredNetworks.filter {
-            matchesRegexForSSID(it, regexForSSID)
+            matchesRegexForSearch(it, request)
         }.map { savedNetwork ->
-            SavedNetworkData.Configuration(data = savedNetwork)
+            SavedNetworkData.Configuration(value = savedNetwork)
         }
     }
 
-    private fun matchesRegexForSSID(configuration: WifiConfiguration, regexForSSID: String): Boolean {
-        return configuration.SSID.replace(QUOTE, "").matches(regexForSSID.toRegex()) ||
-            configuration.SSID.matches(regexForSSID.toRegex())
+    private fun matchesRegexForSearch(
+        configuration: WifiConfiguration,
+        request: SearchForSavedNetworkRequest
+    ): Boolean {
+        return when (request) {
+            is SearchForSavedNetworkRequest.SSID -> {
+                configuration.SSID.replace(QUOTE, "").matches(request.regexForSSID.toRegex()) ||
+                    configuration.SSID.matches(request.regexForSSID.toRegex())
+            }
+            is SearchForSavedNetworkRequest.BSSID -> {
+                configuration.BSSID.replace(QUOTE, "").matches(request.regexForBSSID.toRegex()) ||
+                    configuration.BSSID.matches(request.regexForBSSID.toRegex())
+            }
+        }
     }
 }

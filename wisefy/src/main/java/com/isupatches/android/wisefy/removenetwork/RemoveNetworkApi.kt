@@ -19,16 +19,17 @@ import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.CHANGE_WIFI_STATE
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.callbacks.RemoveNetworkCallbacks
+import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkRequest
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkResult
 
 interface RemoveNetworkApi {
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-    fun removeNetwork(ssidToRemove: String): RemoveNetworkResult
+    fun removeNetwork(request: RemoveNetworkRequest): RemoveNetworkResult
 }
 
 interface RemoveNetworkApiAsync {
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-    fun removeNetwork(ssidToRemove: String, callbacks: RemoveNetworkCallbacks?)
+    fun removeNetwork(request: RemoveNetworkRequest, callbacks: RemoveNetworkCallbacks?)
 }

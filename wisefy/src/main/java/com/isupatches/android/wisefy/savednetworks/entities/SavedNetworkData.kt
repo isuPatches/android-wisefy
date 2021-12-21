@@ -21,10 +21,10 @@ import android.net.wifi.WifiNetworkSuggestion
 sealed class SavedNetworkData {
 
     data class Configuration(
-        val data: WifiConfiguration
+        val value: WifiConfiguration
     ) : SavedNetworkData()
 
     data class Suggestion(
-        val data: WifiNetworkSuggestion
+        val value: WifiNetworkSuggestion
     ) : SavedNetworkData()
 }

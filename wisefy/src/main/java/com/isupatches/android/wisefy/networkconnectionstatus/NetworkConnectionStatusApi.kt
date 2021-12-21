@@ -15,6 +15,8 @@
  */
 package com.isupatches.android.wisefy.networkconnectionstatus
 
+import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsNetworkConnectedToSSIDRequest
+
 interface NetworkConnectionStatusApi {
     fun attachNetworkWatcher()
     fun detachNetworkWatcher()
@@ -23,7 +25,7 @@ interface NetworkConnectionStatusApi {
 
     fun isDeviceConnectedToMobileOrWifiNetwork(): Boolean
 
-    fun isDeviceConnectedToSSID(ssid: String): Boolean
+    fun isDeviceConnectedToSSID(request: IsNetworkConnectedToSSIDRequest): Boolean
 
     fun isDeviceConnectedToWifiNetwork(): Boolean
 

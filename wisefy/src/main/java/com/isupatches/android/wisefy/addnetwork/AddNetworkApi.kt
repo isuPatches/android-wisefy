@@ -21,33 +21,33 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
-import com.isupatches.android.wisefy.addnetwork.entities.OpenNetworkData
-import com.isupatches.android.wisefy.addnetwork.entities.WPA2NetworkData
-import com.isupatches.android.wisefy.addnetwork.entities.WPA3NetworkData
+import com.isupatches.android.wisefy.addnetwork.entities.AddOpenNetworkRequest
+import com.isupatches.android.wisefy.addnetwork.entities.AddWPA2NetworkRequest
+import com.isupatches.android.wisefy.addnetwork.entities.AddWPA3NetworkRequest
 import com.isupatches.android.wisefy.callbacks.AddNetworkCallbacks
 
 interface AddNetworkApi {
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-    fun addOpenNetwork(data: OpenNetworkData): AddNetworkResult
+    fun addOpenNetwork(request: AddOpenNetworkRequest): AddNetworkResult
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-    fun addWPA2Network(data: WPA2NetworkData): AddNetworkResult
+    fun addWPA2Network(request: AddWPA2NetworkRequest): AddNetworkResult
 
     @RequiresApi(Build.VERSION_CODES.Q)
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-    fun addWPA3Network(data: WPA3NetworkData): AddNetworkResult
+    fun addWPA3Network(request: AddWPA3NetworkRequest): AddNetworkResult
 }
 
 interface AddNetworkApiAsync {
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-    fun addOpenNetwork(data: OpenNetworkData, callbacks: AddNetworkCallbacks?)
+    fun addOpenNetwork(request: AddOpenNetworkRequest, callbacks: AddNetworkCallbacks?)
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-    fun addWPA2Network(data: WPA2NetworkData, callbacks: AddNetworkCallbacks?)
+    fun addWPA2Network(request: AddWPA2NetworkRequest, callbacks: AddNetworkCallbacks?)
 
     @RequiresApi(Build.VERSION_CODES.Q)
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-    fun addWPA3Network(data: WPA3NetworkData, callbacks: AddNetworkCallbacks?)
+    fun addWPA3Network(request: AddWPA3NetworkRequest, callbacks: AddNetworkCallbacks?)
 }

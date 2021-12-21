@@ -20,6 +20,14 @@ import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.accesspoints.delegates.LegacyAccessPointsDelegate
 import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
+import com.isupatches.android.wisefy.accesspoints.entities.GetNearbyAccessPointsRequest
+import com.isupatches.android.wisefy.accesspoints.entities.GetRSSIRequest
+import com.isupatches.android.wisefy.accesspoints.entities.RSSIData
+import com.isupatches.android.wisefy.accesspoints.entities.SSIDData
+import com.isupatches.android.wisefy.accesspoints.entities.SearchForMultipleAccessPointsRequest
+import com.isupatches.android.wisefy.accesspoints.entities.SearchForMultipleSSIDsRequest
+import com.isupatches.android.wisefy.accesspoints.entities.SearchForSingleAccessPointRequest
+import com.isupatches.android.wisefy.accesspoints.entities.SearchForSingleSSIDRequest
 import com.isupatches.android.wisefy.callbacks.GetNearbyAccessPointCallbacks
 import com.isupatches.android.wisefy.callbacks.GetRSSICallbacks
 import com.isupatches.android.wisefy.callbacks.SearchForAccessPointCallbacks
@@ -52,14 +60,17 @@ internal class WisefyAccessPointsUtil(
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun getNearbyAccessPoints(filterDuplicates: Boolean): List<AccessPointData> {
-        return delegate.getNearbyAccessPoints(filterDuplicates)
+    override fun getNearbyAccessPoints(request: GetNearbyAccessPointsRequest): List<AccessPointData> {
+        return delegate.getNearbyAccessPoints(request)
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun getNearbyAccessPoints(filterDuplicates: Boolean, callbacks: GetNearbyAccessPointCallbacks?) {
+    override fun getNearbyAccessPoints(
+        request: GetNearbyAccessPointsRequest,
+        callbacks: GetNearbyAccessPointCallbacks?
+    ) {
         accessPointScope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
-            val accessPoints = delegate.getNearbyAccessPoints(filterDuplicates)
+            val accessPoints = delegate.getNearbyAccessPoints(request)
             withContext(coroutineDispatcherProvider.main) {
                 when {
                     accessPoints.isNotEmpty() -> callbacks?.onNearbyAccessPointsRetrieved(accessPoints)
@@ -70,19 +81,14 @@ internal class WisefyAccessPointsUtil(
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun getRSSI(regexForSSID: String, takeHighest: Boolean, timeoutInMillis: Int): Int? {
-        return delegate.getRSSI(regexForSSID, takeHighest, timeoutInMillis)
+    override fun getRSSI(request: GetRSSIRequest): RSSIData? {
+        return delegate.getRSSI(request)
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun getRSSI(
-        regexForSSID: String,
-        takeHighest: Boolean,
-        timeoutInMillis: Int,
-        callbacks: GetRSSICallbacks?
-    ) {
+    override fun getRSSI(request: GetRSSIRequest, callbacks: GetRSSICallbacks?) {
         accessPointScope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
-            val rssi = delegate.getRSSI(regexForSSID, takeHighest, timeoutInMillis)
+            val rssi = delegate.getRSSI(request)
             withContext(coroutineDispatcherProvider.main) {
                 when {
                     rssi != null -> callbacks?.onRSSIRetrieved(rssi)
@@ -93,23 +99,17 @@ internal class WisefyAccessPointsUtil(
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun searchForAccessPoint(
-        regexForSSID: String,
-        timeoutInMillis: Int,
-        filterDuplicates: Boolean
-    ): AccessPointData? {
-        return delegate.searchForAccessPoint(regexForSSID, timeoutInMillis, filterDuplicates)
+    override fun searchForAccessPoint(request: SearchForSingleAccessPointRequest): AccessPointData? {
+        return delegate.searchForAccessPoint(request)
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun searchForAccessPoint(
-        regexForSSID: String,
-        timeoutInMillis: Int,
-        filterDuplicates: Boolean,
+        request: SearchForSingleAccessPointRequest,
         callbacks: SearchForAccessPointCallbacks?
     ) {
         accessPointScope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
-            val accessPoint = delegate.searchForAccessPoint(regexForSSID, timeoutInMillis, filterDuplicates)
+            val accessPoint = delegate.searchForAccessPoint(request)
             withContext(coroutineDispatcherProvider.main) {
                 when {
                     accessPoint != null -> callbacks?.onAccessPointFound(accessPoint)
@@ -120,18 +120,17 @@ internal class WisefyAccessPointsUtil(
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun searchForAccessPoints(regexForSSID: String, filterDuplicates: Boolean): List<AccessPointData> {
-        return delegate.searchForAccessPoints(regexForSSID, filterDuplicates)
+    override fun searchForAccessPoints(request: SearchForMultipleAccessPointsRequest): List<AccessPointData> {
+        return delegate.searchForAccessPoints(request)
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun searchForAccessPoints(
-        regexForSSID: String,
-        filterDuplicates: Boolean,
+        request: SearchForMultipleAccessPointsRequest,
         callbacks: SearchForAccessPointsCallbacks?
     ) {
         accessPointScope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
-            val accessPoints = delegate.searchForAccessPoints(regexForSSID, filterDuplicates)
+            val accessPoints = delegate.searchForAccessPoints(request)
             withContext(coroutineDispatcherProvider.main) {
                 when {
                     accessPoints.isNotEmpty() -> callbacks?.onAccessPointsFound(accessPoints)
@@ -142,14 +141,14 @@ internal class WisefyAccessPointsUtil(
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun searchForSSID(regexForSSID: String, timeoutInMillis: Int): String? {
-        return delegate.searchForSSID(regexForSSID, timeoutInMillis)
+    override fun searchForSSID(request: SearchForSingleSSIDRequest): SSIDData? {
+        return delegate.searchForSSID(request)
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun searchForSSID(regexForSSID: String, timeoutInMillis: Int, callbacks: SearchForSSIDCallbacks?) {
+    override fun searchForSSID(request: SearchForSingleSSIDRequest, callbacks: SearchForSSIDCallbacks?) {
         accessPointScope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
-            val ssid = delegate.searchForSSID(regexForSSID, timeoutInMillis)
+            val ssid = delegate.searchForSSID(request)
             withContext(coroutineDispatcherProvider.main) {
                 when {
                     ssid != null -> callbacks?.onSSIDFound(ssid)
@@ -160,14 +159,14 @@ internal class WisefyAccessPointsUtil(
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun searchForSSIDs(regexForSSID: String): List<String> {
-        return delegate.searchForSSIDs(regexForSSID)
+    override fun searchForSSIDs(request: SearchForMultipleSSIDsRequest): List<SSIDData> {
+        return delegate.searchForSSIDs(request)
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun searchForSSIDs(regexForSSID: String, callbacks: SearchForSSIDsCallbacks?) {
+    override fun searchForSSIDs(request: SearchForMultipleSSIDsRequest, callbacks: SearchForSSIDsCallbacks?) {
         accessPointScope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
-            val ssids = delegate.searchForSSIDs(regexForSSID)
+            val ssids = delegate.searchForSSIDs(request)
             withContext(coroutineDispatcherProvider.main) {
                 when {
                     ssids.isNotEmpty() -> callbacks?.onSSIDsFound(ssids)

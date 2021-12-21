@@ -22,11 +22,14 @@ import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import android.net.wifi.WifiManager
+import android.os.Build
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.constants.QUOTE
 import com.isupatches.android.wisefy.logging.WisefyLogger
+import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsNetworkConnectedToSSIDRequest
 import com.isupatches.android.wisefy.networkconnectionstatus.entities.NetworkConnectionStatus
 import com.isupatches.android.wisefy.util.SdkUtil
+import com.isupatches.android.wisefy.util.getNetwork
 
 internal interface LegacyNetworkConnectionStatusApi {
     @RequiresPermission(ACCESS_NETWORK_STATE)
@@ -38,7 +41,7 @@ internal interface LegacyNetworkConnectionStatusApi {
 
     fun isDeviceConnectedToMobileOrWifiNetwork(): Boolean
 
-    fun isDeviceConnectedToSSID(ssid: String): Boolean
+    fun isDeviceConnectedToSSID(request: IsNetworkConnectedToSSIDRequest): Boolean
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
     fun isDeviceConnectedToWifiNetwork(): Boolean
@@ -67,13 +70,25 @@ internal class LegacyNetworkConnectionStatusApiImpl(
         return isNetworkConnected()
     }
 
-    override fun isDeviceConnectedToSSID(ssid: String): Boolean {
-        val connectionInfo = wifiManager.connectionInfo
+    override fun isDeviceConnectedToSSID(request: IsNetworkConnectedToSSIDRequest): Boolean {
+        val connectionInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            connectivityManager.getNetwork()
+        } else {
+            @Suppress("Deprecation")
+            wifiManager.connectionInfo
+        }
         connectionInfo?.let {
             if (!it.ssid.isNullOrEmpty()) {
-                val currentSSID = it.ssid.replace(QUOTE, "")
-                logger?.d(LOG_TAG, "Current SSID: %s, Desired SSID: %s", currentSSID, ssid)
-                if (currentSSID.equals(ssid, ignoreCase = true) && isNetworkConnected()) {
+                val currentValue = when (request) {
+                    is IsNetworkConnectedToSSIDRequest.SSID -> it.ssid.replace(QUOTE, "")
+                    is IsNetworkConnectedToSSIDRequest.BSSID -> it.bssid.replace(QUOTE, "")
+                }
+                val expectedValue = when (request) {
+                    is IsNetworkConnectedToSSIDRequest.SSID -> request.value
+                    is IsNetworkConnectedToSSIDRequest.BSSID -> request.value
+                }
+                logger?.d(LOG_TAG, "Current value: %s, Desired value: %s", currentValue, expectedValue)
+                if (currentValue.equals(expectedValue, ignoreCase = true) && isNetworkConnected()) {
                     logger?.d(LOG_TAG, "Network is connected")
                     return true
                 }
@@ -95,7 +110,9 @@ internal class LegacyNetworkConnectionStatusApiImpl(
             // NET_CAPABILITY_NOT_ROAMING only available for P and above devices :'(
             !doesNetworkHaveCapability(capability = NetworkCapabilities.NET_CAPABILITY_NOT_ROAMING)
         } else {
+            @Suppress("Deprecation")
             val networkInfo = connectivityManager.activeNetworkInfo
+            @Suppress("Deprecation")
             networkInfo != null && networkInfo.isRoaming
         }
     }

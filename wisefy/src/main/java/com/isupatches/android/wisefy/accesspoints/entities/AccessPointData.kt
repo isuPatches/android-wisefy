@@ -15,10 +15,8 @@
  */
 package com.isupatches.android.wisefy.accesspoints.entities
 
-import android.net.wifi.ScanResult
-
 sealed class AccessPointData {
-    data class ScanData(
-        val data: ScanResult
+    data class ScanResult(
+        val value: android.net.wifi.ScanResult
     ) : AccessPointData()
 }

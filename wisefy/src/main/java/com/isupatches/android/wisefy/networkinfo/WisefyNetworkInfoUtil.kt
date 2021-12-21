@@ -17,7 +17,6 @@ package com.isupatches.android.wisefy.networkinfo
 
 import android.Manifest.permission.ACCESS_NETWORK_STATE
 import android.net.ConnectivityManager
-import android.net.Network
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.callbacks.GetCurrentNetworkCallbacks
@@ -27,6 +26,8 @@ import com.isupatches.android.wisefy.logging.WisefyLogger
 import com.isupatches.android.wisefy.networkinfo.delegates.LegacyNetworkInfoDelegate
 import com.isupatches.android.wisefy.networkinfo.entities.CurrentNetworkData
 import com.isupatches.android.wisefy.networkinfo.entities.CurrentNetworkInfoData
+import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkInfoRequest
+import com.isupatches.android.wisefy.networkinfo.entities.IPData
 import com.isupatches.android.wisefy.util.coroutines.CoroutineDispatcherProvider
 import com.isupatches.android.wisefy.util.coroutines.createBaseCoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
@@ -70,17 +71,17 @@ internal class WisefyNetworkInfoUtil(
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun getCurrentNetworkInfo(network: Network?): CurrentNetworkInfoData? {
-        return delegate.getCurrentNetworkInfo(network)
+    override fun getCurrentNetworkInfo(request: GetCurrentNetworkInfoRequest): CurrentNetworkInfoData? {
+        return delegate.getCurrentNetworkInfo(request)
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
     override fun getCurrentNetworkInfo(
         callbacks: GetCurrentNetworkInfoCallbacks?,
-        network: Network?
+        request: GetCurrentNetworkInfoRequest
     ) {
         networkInfoScope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
-            val currentNetworkInfo = delegate.getCurrentNetworkInfo(network)
+            val currentNetworkInfo = delegate.getCurrentNetworkInfo(request)
             withContext(coroutineDispatcherProvider.main) {
                 if (currentNetworkInfo != null) {
                     callbacks?.onCurrentNetworkInfoRetrieved(currentNetworkInfo)
@@ -91,10 +92,12 @@ internal class WisefyNetworkInfoUtil(
         }
     }
 
-    override fun getIP(): String? {
+    @RequiresPermission(ACCESS_NETWORK_STATE)
+    override fun getIP(): IPData? {
         return delegate.getIP()
     }
 
+    @RequiresPermission(ACCESS_NETWORK_STATE)
     override fun getIP(callbacks: GetIPCallbacks?) {
         networkInfoScope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
             val ip = delegate.getIP()

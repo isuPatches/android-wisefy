@@ -19,6 +19,10 @@ import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.ACCESS_WIFI_STATE
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.WisefyApi
+import com.isupatches.android.wisefy.accesspoints.entities.SearchForMultipleAccessPointsRequest
+import com.isupatches.android.wisefy.accesspoints.entities.SearchForMultipleSSIDsRequest
+import com.isupatches.android.wisefy.accesspoints.entities.SearchForSingleAccessPointRequest
+import com.isupatches.android.wisefy.accesspoints.entities.SearchForSingleSSIDRequest
 import com.isupatches.android.wisefy.callbacks.SearchForAccessPointCallbacks
 import com.isupatches.android.wisefy.callbacks.SearchForAccessPointsCallbacks
 import com.isupatches.android.wisefy.callbacks.SearchForSSIDCallbacks
@@ -26,6 +30,7 @@ import com.isupatches.android.wisefy.callbacks.SearchForSSIDsCallbacks
 import com.isupatches.android.wisefy.callbacks.SearchForSavedNetworkCallbacks
 import com.isupatches.android.wisefy.callbacks.SearchForSavedNetworksCallbacks
 import com.isupatches.android.wisefy.sample.internal.scaffolding.BaseModel
+import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkRequest
 import javax.inject.Inject
 
 internal interface SearchModel {
@@ -84,9 +89,11 @@ internal class DefaultSearchModel @Inject constructor(
         callbacks: SearchForAccessPointCallbacks?
     ) {
         wisefy.searchForAccessPoint(
-            regexForSSID = regexForSSID,
-            timeoutInMillis = timeoutInMillis,
-            filterDuplicates = filterDuplicates,
+            request = SearchForSingleAccessPointRequest.SSID(
+                regexForSSID = regexForSSID,
+                timeoutInMillis = timeoutInMillis,
+                filterDuplicates = filterDuplicates
+            ),
             callbacks = callbacks
         )
     }
@@ -98,8 +105,10 @@ internal class DefaultSearchModel @Inject constructor(
         callbacks: SearchForAccessPointsCallbacks?
     ) {
         wisefy.searchForAccessPoints(
-            regexForSSID = regexForSSID,
-            filterDuplicates = filterDuplicates,
+            request = SearchForMultipleAccessPointsRequest.SSID(
+                regexForSSID = regexForSSID,
+                filterDuplicates = filterDuplicates
+            ),
             callbacks = callbacks
         )
     }
@@ -110,7 +119,7 @@ internal class DefaultSearchModel @Inject constructor(
         callbacks: SearchForSavedNetworkCallbacks?
     ) {
         wisefy.searchForSavedNetwork(
-            regexForSSID = regexForSSID,
+            request = SearchForSavedNetworkRequest.SSID(regexForSSID = regexForSSID),
             callbacks = callbacks
         )
     }
@@ -121,7 +130,7 @@ internal class DefaultSearchModel @Inject constructor(
         callbacks: SearchForSavedNetworksCallbacks?
     ) {
         wisefy.searchForSavedNetworks(
-            regexForSSID = regexForSSID,
+            request = SearchForSavedNetworkRequest.SSID(regexForSSID = regexForSSID),
             callbacks = callbacks
         )
     }
@@ -133,8 +142,10 @@ internal class DefaultSearchModel @Inject constructor(
         callbacks: SearchForSSIDCallbacks?
     ) {
         wisefy.searchForSSID(
-            regexForSSID = regexForSSID,
-            timeoutInMillis = timeoutInMillis,
+            request = SearchForSingleSSIDRequest.SSID(
+                regexForSSID = regexForSSID,
+                timeoutInMillis = timeoutInMillis
+            ),
             callbacks = callbacks
         )
     }
@@ -145,7 +156,7 @@ internal class DefaultSearchModel @Inject constructor(
         callbacks: SearchForSSIDsCallbacks?
     ) {
         wisefy.searchForSSIDs(
-            regexForSSID = regexForSSID,
+            request = SearchForMultipleSSIDsRequest.SSID(regexForSSID = regexForSSID),
             callbacks = callbacks
         )
     }

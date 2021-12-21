@@ -20,6 +20,7 @@ import android.Manifest.permission.CHANGE_WIFI_STATE
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.WisefyApi
 import com.isupatches.android.wisefy.callbacks.RemoveNetworkCallbacks
+import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkRequest
 import com.isupatches.android.wisefy.sample.internal.scaffolding.BaseModel
 import javax.inject.Inject
 
@@ -39,6 +40,6 @@ internal class DefaultRemoveNetworkModel @Inject constructor(
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     override fun removeNetwork(networkName: String, callbacks: RemoveNetworkCallbacks?) {
-        wiseFy.removeNetwork(networkName)
+        wiseFy.removeNetwork(RemoveNetworkRequest.SSID(networkName))
     }
 }

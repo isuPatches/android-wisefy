@@ -24,8 +24,10 @@ import android.view.ViewGroup
 import androidx.annotation.VisibleForTesting
 import com.isupatches.android.viewglu.paste
 import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
+import com.isupatches.android.wisefy.frequency.entities.FrequencyData
 import com.isupatches.android.wisefy.networkinfo.entities.CurrentNetworkData
 import com.isupatches.android.wisefy.networkinfo.entities.CurrentNetworkInfoData
+import com.isupatches.android.wisefy.networkinfo.entities.IPData
 import com.isupatches.android.wisefy.sample.R
 import com.isupatches.android.wisefy.sample.databinding.FragmentMiscBinding
 import com.isupatches.android.wisefy.sample.internal.base.BaseFragment
@@ -50,9 +52,9 @@ internal interface MiscView {
     fun displayNoCurrentNetwork()
     fun displayCurrentNetworkInfo(currentNetworkInfo: CurrentNetworkInfoData)
     fun displayNoCurrentNetworkInfo()
-    fun displayFrequency(frequency: Int)
+    fun displayFrequency(frequency: FrequencyData)
     fun displayFailureRetrievingFrequency()
-    fun displayIP(ip: String)
+    fun displayIP(ip: IPData)
     fun displayFailureRetrievingIP()
     fun displayNearbyAccessPoints(accessPoints: List<AccessPointData>)
     fun displayNoAccessPointsFound()
@@ -157,16 +159,16 @@ internal class MiscFragment : BaseFragment(), MiscView {
         displayInfo(R.string.no_current_network_info, R.string.wisefy_action_result)
     }
 
-    override fun displayFrequency(frequency: Int) {
-        displayInfo(getString(R.string.frequency_args, frequency), R.string.wisefy_action_result)
+    override fun displayFrequency(frequency: FrequencyData) {
+        displayInfo(getString(R.string.frequency_args, frequency.value), R.string.wisefy_action_result)
     }
 
     override fun displayFailureRetrievingFrequency() {
         displayInfo(R.string.failure_retrieving_frequency, R.string.wisefy_action_result)
     }
 
-    override fun displayIP(ip: String) {
-        displayInfo(getString(R.string.ip_args, ip), R.string.wisefy_action_result)
+    override fun displayIP(ip: IPData) {
+        displayInfo(getString(R.string.ip_args, ip.ip), R.string.wisefy_action_result)
     }
 
     override fun displayFailureRetrievingIP() {

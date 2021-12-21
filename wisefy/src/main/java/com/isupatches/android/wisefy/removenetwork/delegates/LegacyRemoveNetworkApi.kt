@@ -19,14 +19,16 @@ import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
+import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkRequest
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkResult
+import com.isupatches.android.wisefy.removenetwork.entities.toSearchForNetworkRequest
 import com.isupatches.android.wisefy.savednetworks.SavedNetworkUtil
 import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
 
 internal interface LegacyRemoveNetworkApi {
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    fun removeNetwork(ssidToRemove: String): RemoveNetworkResult
+    fun removeNetwork(removeNetworkRequest: RemoveNetworkRequest): RemoveNetworkResult
 }
 
 internal class LegacyRemoveNetworkApiImpl(
@@ -35,16 +37,18 @@ internal class LegacyRemoveNetworkApiImpl(
 ) : LegacyRemoveNetworkApi {
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun removeNetwork(ssidToRemove: String): RemoveNetworkResult {
-        when (val savedNetwork = savedNetworkUtil.searchForSavedNetwork(ssidToRemove)) {
-            null -> return RemoveNetworkResult.NetworkNotFound
+    override fun removeNetwork(removeNetworkRequest: RemoveNetworkRequest): RemoveNetworkResult {
+        return when (
+            val savedNetwork = savedNetworkUtil.searchForSavedNetwork(removeNetworkRequest.toSearchForNetworkRequest())
+        ) {
+            null -> RemoveNetworkResult.NetworkNotFound
             is SavedNetworkData.Configuration -> {
-                savedNetwork.data.let {
+                savedNetwork.value.let {
                     val result = wifiManager.removeNetwork(it.networkId)
-                    return RemoveNetworkResult.Succeeded(data = result)
+                    return RemoveNetworkResult.Succeeded(value = result)
                 }
             }
+            else -> RemoveNetworkResult.Succeeded(false)
         }
-        return RemoveNetworkResult.Succeeded(false)
     }
 }

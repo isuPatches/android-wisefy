@@ -17,13 +17,14 @@ package com.isupatches.android.wisefy.networkinfo.delegates
 
 import android.Manifest.permission.ACCESS_NETWORK_STATE
 import android.net.ConnectivityManager
-import android.net.Network
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.logging.WisefyLogger
 import com.isupatches.android.wisefy.networkinfo.NetworkInfoApi
 import com.isupatches.android.wisefy.networkinfo.entities.CurrentNetworkData
 import com.isupatches.android.wisefy.networkinfo.entities.CurrentNetworkInfoData
+import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkInfoRequest
+import com.isupatches.android.wisefy.networkinfo.entities.IPData
 
 internal class LegacyNetworkInfoDelegate(
     wifiManager: WifiManager,
@@ -41,11 +42,11 @@ internal class LegacyNetworkInfoDelegate(
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun getCurrentNetworkInfo(network: Network?): CurrentNetworkInfoData? {
-        return impl.getCurrentNetworkInfo(network)
+    override fun getCurrentNetworkInfo(request: GetCurrentNetworkInfoRequest): CurrentNetworkInfoData? {
+        return impl.getCurrentNetworkInfo(request)
     }
 
-    override fun getIP(): String? {
+    override fun getIP(): IPData? {
         return impl.getIP()
     }
 }

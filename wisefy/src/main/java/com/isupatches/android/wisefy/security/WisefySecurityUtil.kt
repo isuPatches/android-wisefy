@@ -15,7 +15,7 @@
  */
 package com.isupatches.android.wisefy.security
 
-import android.net.wifi.ScanResult
+import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
 import com.isupatches.android.wisefy.logging.WisefyLogger
 import com.isupatches.android.wisefy.security.delegates.LegacySecurityDelegate
 
@@ -33,31 +33,31 @@ internal class WisefySecurityUtil(
         logger?.d(LOG_TAG, "WisefySecurityUtil delegate is: ${delegate::class.java.simpleName}")
     }
 
-    override fun isNetworkEAP(scanResult: ScanResult): Boolean {
-        return delegate.isNetworkEAP(scanResult)
+    override fun isNetworkEAP(network: AccessPointData): Boolean {
+        return delegate.isNetworkEAP(network)
     }
 
-    override fun isNetworkPSK(scanResult: ScanResult): Boolean {
-        return delegate.isNetworkPSK(scanResult)
+    override fun isNetworkPSK(network: AccessPointData): Boolean {
+        return delegate.isNetworkPSK(network)
     }
 
-    override fun isNetworkSecure(scanResult: ScanResult): Boolean {
-        return delegate.isNetworkSecure(scanResult)
+    override fun isNetworkSecure(network: AccessPointData): Boolean {
+        return delegate.isNetworkSecure(network)
     }
 
-    override fun isNetworkWEP(scanResult: ScanResult): Boolean {
-        return delegate.isNetworkWEP(scanResult)
+    override fun isNetworkWEP(network: AccessPointData): Boolean {
+        return delegate.isNetworkWEP(network)
     }
 
-    override fun isNetworkWPA(scanResult: ScanResult): Boolean {
-        return delegate.isNetworkWPA(scanResult)
+    override fun isNetworkWPA(network: AccessPointData): Boolean {
+        return delegate.isNetworkWPA(network)
     }
 
-    override fun isNetworkWPA2(scanResult: ScanResult): Boolean {
-        return delegate.isNetworkWPA2(scanResult)
+    override fun isNetworkWPA2(network: AccessPointData): Boolean {
+        return delegate.isNetworkWPA2(network)
     }
 
-    override fun isNetworkWPA3(scanResult: ScanResult): Boolean {
-        return delegate.isNetworkWPA3(scanResult)
+    override fun isNetworkWPA3(network: AccessPointData): Boolean {
+        return delegate.isNetworkWPA3(network)
     }
 }
