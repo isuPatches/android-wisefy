@@ -33,6 +33,8 @@ internal interface DefaultAddNetworkApi {
     fun addWPA2Network(ssid: String, passphrase: String): AddNetworkResult
 }
 
+private const val WIFI_MANAGER_ADD_NETWORK_FAILURE = -1
+
 /**
  * A default internal implementation for adding networks through the Android OS.
  *
@@ -49,7 +51,7 @@ internal class DefaultAddNetworkApiImpl(
     override fun addOpenNetwork(ssid: String): AddNetworkResult {
         val networkConfiguration = generateOpenNetworkConfiguration(ssid)
         val resultCode = wifiManager.addNetwork(networkConfiguration)
-        return if (resultCode > 0) {
+        return if (resultCode > WIFI_MANAGER_ADD_NETWORK_FAILURE) {
             AddNetworkResult.Success.ResultCode(resultCode)
         } else {
             AddNetworkResult.Failure.ResultCode(resultCode)
@@ -60,7 +62,7 @@ internal class DefaultAddNetworkApiImpl(
     override fun addWPA2Network(ssid: String, passphrase: String): AddNetworkResult {
         val networkConfiguration = generateWPA2NetworkConfiguration(ssid, passphrase)
         val resultCode = wifiManager.addNetwork(networkConfiguration)
-        return if (resultCode > 0) {
+        return if (resultCode > WIFI_MANAGER_ADD_NETWORK_FAILURE) {
             AddNetworkResult.Success.ResultCode(resultCode)
         } else {
             AddNetworkResult.Failure.ResultCode(resultCode)

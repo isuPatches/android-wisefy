@@ -68,7 +68,7 @@ internal class Android29AddNetworkApiImpl(
         logger?.w(LOG_TAG, ANDROID_Q_SAVE_NETWORK_WARNING)
         val suggestion = createOpenNetworkSuggestionWithSSID(ssid)
         val resultCode = wifiManager.addNetworkSuggestions(arrayListOf(suggestion))
-        return if (resultCode > 0) {
+        return if (resultCode == WifiManager.STATUS_NETWORK_SUGGESTIONS_SUCCESS) {
             AddNetworkResult.Success.ResultCode(resultCode)
         } else {
             AddNetworkResult.Failure.ResultCode(resultCode)
@@ -80,7 +80,7 @@ internal class Android29AddNetworkApiImpl(
         logger?.w(LOG_TAG, ANDROID_Q_SAVE_NETWORK_WARNING)
         val suggestion = createWPA2NetworkSuggestionWithSSID(ssid, passphrase)
         val resultCode = wifiManager.addNetworkSuggestions(listOf(suggestion))
-        return if (resultCode > 0) {
+        return if (resultCode == WifiManager.STATUS_NETWORK_SUGGESTIONS_SUCCESS) {
             AddNetworkResult.Success.ResultCode(resultCode)
         } else {
             AddNetworkResult.Failure.ResultCode(resultCode)
@@ -92,7 +92,7 @@ internal class Android29AddNetworkApiImpl(
         logger?.w(LOG_TAG, ANDROID_Q_SAVE_NETWORK_WARNING)
         val suggestion = createWPA3NetworkSuggestionWithSSID(ssid, passphrase)
         val resultCode = wifiManager.addNetworkSuggestions(arrayListOf(suggestion))
-        return if (resultCode > 0) {
+        return if (resultCode == WifiManager.STATUS_NETWORK_SUGGESTIONS_SUCCESS) {
             AddNetworkResult.Success.ResultCode(resultCode)
         } else {
             AddNetworkResult.Failure.ResultCode(resultCode)

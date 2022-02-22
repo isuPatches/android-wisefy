@@ -16,7 +16,7 @@
 package com.isupatches.android.wisefy.addnetwork.entities
 
 /**
- * A set of classes that are used in requests to check if an access point matches the given criteria.
+ * A set of classes that are used to denote a failure or success while attempting to add a network.
  *
  * @author Patches Klinefelter
  * @since 02/2022
@@ -24,7 +24,9 @@ package com.isupatches.android.wisefy.addnetwork.entities
 sealed class AddNetworkResult {
 
     /**
-     * A set of classes that are used in requests to check if an access point matches the given criteria.
+     * A set of classes that are used to denote a success while attempting to add a network.
+     *
+     * @see AddNetworkResult
      *
      * @author Patches Klinefelter
      * @since 02/2022
@@ -32,7 +34,17 @@ sealed class AddNetworkResult {
     sealed class Success : AddNetworkResult() {
 
         /**
-         * A set of classes that are used in requests to check if an access point matches the given criteria.
+         * A data representation of a success while attempting to add a network based on Android OS level returns.
+         *
+         * *NOTE* This could be instances such as:
+         *  - Returning the id of the new network for the case of legacy wifiManager.addNetwork()
+         *  https://developer.android.com/reference/android/net/wifi/WifiManager#addNetwork(android.net.wifi.WifiConfiguration))
+         *  - STATUS_NETWORK_SUGGESTIONS_SUCCESS for SDK 30
+         *  https://developer.android.com/reference/android/net/wifi/WifiManager#STATUS_NETWORK_SUGGESTIONS_SUCCESS
+         *
+         * @property value The raw value of the result code from the Android OS
+         *
+         * @see AddNetworkResult.Success
          *
          * @author Patches Klinefelter
          * @since 02/2022
@@ -42,7 +54,11 @@ sealed class AddNetworkResult {
         ) : AddNetworkResult.Success()
 
         /**
-         * A set of classes that are used in requests to check if an access point matches the given criteria.
+         * A data representation of a success while launching a network suggestion intent in Android 30.
+         *
+         * *NOTE* Only applicable to Android 30 and higher
+         *
+         * @see AddNetworkResult.Success
          *
          * @author Patches Klinefelter
          * @since 02/2022
@@ -51,7 +67,9 @@ sealed class AddNetworkResult {
     }
 
     /**
-     * A set of classes that are used in requests to check if an access point matches the given criteria.
+     * A set of classes that are used to denote a failure while attempting to add a network.
+     *
+     * @see AddNetworkResult
      *
      * @author Patches Klinefelter
      * @since 02/2022
@@ -59,7 +77,17 @@ sealed class AddNetworkResult {
     sealed class Failure : AddNetworkResult() {
 
         /**
-         * A set of classes that are used in requests to check if an access point matches the given criteria.
+         * A data representation of a failure to add a network based on Android OS level returns.
+         *
+         * *NOTE* This could be instances such as:
+         *  - Returning -1 for the case of legacy wifiManager.addNetwork()
+         *  https://developer.android.com/reference/android/net/wifi/WifiManager#addNetwork(android.net.wifi.WifiConfiguration))
+         *  - Any of the failure codes for wifiManager.addNetworkSuggestions() for SDK 29
+         *  https://developer.android.com/reference/android/net/wifi/WifiManager#addNetworkSuggestions(java.util.List%3Candroid.net.wifi.WifiNetworkSuggestion%3E)
+         *
+         * @property value The raw value of the result code from the Android OS
+         *
+         * @see AddNetworkResult.Failure
          *
          * @author Patches Klinefelter
          * @since 02/2022
@@ -69,7 +97,14 @@ sealed class AddNetworkResult {
         ) : AddNetworkResult.Failure()
 
         /**
-         * A set of classes that are used in requests to check if an access point matches the given criteria.
+         * A data representation of a failure to add a network due to a function being called for the wrong SDK level.
+         *
+         * *NOTE* This is a developer specific use case to catch instances within Wisefy that proxy to the wrong
+         *  SDK level.  This should NEVER actually be hit and if it is, it is a bug.
+         *
+         * @property message A text description describing the SDK level and error hit
+         *
+         * @see AddNetworkResult.Failure
          *
          * @author Patches Klinefelter
          * @since 02/2022

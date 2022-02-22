@@ -146,7 +146,11 @@ private const val LOG_TAG = "DefaultAccessPointsApiImpl"
 /**
  * A default internal implementation for getting and searching for nearby access points through the Android OS.
  *
+ * @constructor The primary constructor for the implementation class.  It takes in a WifiManager instance and an
+ *  instance of a WisefyLogger
+ *
  * @see DefaultAccessPointsApi
+ * @see WisefyLogger
  *
  * @author Patches Klinefelter
  * @since 02/2022

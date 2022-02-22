@@ -41,7 +41,7 @@ interface AddNetworkCallbacks : BaseWisefyCallbacks {
     fun onFailureAddingNetwork(result: AddNetworkResult.Failure)
 
     /**
-     * A callback triggered when a result is returned for adding a network.
+     * A callback triggered when a success is returned for adding a network.
      *
      * @param result The details from the success while attempting to add the network
      *

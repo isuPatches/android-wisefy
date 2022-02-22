@@ -20,6 +20,15 @@ import com.isupatches.android.wisefy.accesspoints.entities.SearchForMultipleSSID
 import com.isupatches.android.wisefy.accesspoints.entities.SearchForSingleAccessPointRequest
 import com.isupatches.android.wisefy.accesspoints.entities.SearchForSingleSSIDRequest
 
+/**
+ * An internal helper function to convert SearchForSingleSSIDRequest to SearchForSingleAccessPointRequest.
+ *
+ * @see SearchForSingleSSIDRequest
+ * @see SearchForSingleAccessPointRequest
+ *
+ * @author Patches Klinefelter
+ * @since 02/2022
+ */
 internal fun SearchForSingleSSIDRequest.toSearchForSingleAccessPointRequest(): SearchForSingleAccessPointRequest {
     return when (this) {
         is SearchForSingleSSIDRequest.SSID -> SearchForSingleAccessPointRequest.SSID(regexForSSID, timeoutInMillis)
@@ -27,6 +36,15 @@ internal fun SearchForSingleSSIDRequest.toSearchForSingleAccessPointRequest(): S
     }
 }
 
+/**
+ * An internal helper function to convert SearchForMultipleSSIDsRequest to AccessPointMatchData.
+ *
+ * @see SearchForMultipleSSIDsRequest
+ * @see AccessPointMatchData
+ *
+ * @author Patches Klinefelter
+ * @since 02/2022
+ */
 internal fun SearchForMultipleSSIDsRequest.toAccessPointMatchData(): AccessPointMatchData {
     return when (this) {
         is SearchForMultipleSSIDsRequest.SSID -> AccessPointMatchData.SSID(regexForSSID)

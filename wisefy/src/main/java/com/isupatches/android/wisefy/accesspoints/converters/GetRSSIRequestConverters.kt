@@ -18,6 +18,15 @@ package com.isupatches.android.wisefy.accesspoints.converters
 import com.isupatches.android.wisefy.accesspoints.entities.GetRSSIRequest
 import com.isupatches.android.wisefy.accesspoints.entities.SearchForSingleAccessPointRequest
 
+/**
+ * An internal helper function to convert GetRSSIRequest to SearchForSingleAccessPointRequest.
+ *
+ * @see GetRSSIRequest
+ * @see SearchForSingleAccessPointRequest
+ *
+ * @author Patches Klinefelter
+ * @since 02/2022
+ */
 internal fun GetRSSIRequest.toSearchForSingleAccessPointRequest(): SearchForSingleAccessPointRequest {
     return when (this) {
         is GetRSSIRequest.SSID -> SearchForSingleAccessPointRequest.SSID(regexForSSID, timeoutInMillis, takeHighest)

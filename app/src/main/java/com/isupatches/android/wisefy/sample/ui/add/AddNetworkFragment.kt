@@ -81,9 +81,9 @@ internal class AddNetworkFragment : BaseFragment(), AddNetworkView {
                             ?: emptyList()
                         for (resultCode in networkResultList) {
                             if (resultCode == ADD_WIFI_RESULT_SUCCESS) {
-                                displayNetworkAdded(AddNetworkResult.ResultCode(resultCode))
+                                displayNetworkAdded(AddNetworkResult.Success.ResultCode(resultCode))
                             } else {
-                                displayFailureAddingNetwork(AddNetworkResult.ResultCode(resultCode))
+                                displayFailureAddingNetwork(AddNetworkResult.Failure.ResultCode(resultCode))
                             }
                         }
                     }

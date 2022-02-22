@@ -49,6 +49,8 @@ private const val LOG_TAG = "WisefyAccessPointsDelegate"
  * A default delegate for getting and searching for nearby access points.
  *
  * @see AccessPointsApi
+ * @see CoroutineDispatcherProvider
+ * @see WisefyLogger
  *
  * @author Patches Klinefelter
  * @since 02/2022

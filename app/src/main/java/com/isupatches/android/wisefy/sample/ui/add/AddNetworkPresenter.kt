@@ -69,15 +69,16 @@ internal class DefaultAddNetworkPresenter @Inject constructor(
 ) : BasePresenter<AddNetworkFragment>(), AddNetworkPresenter {
 
     private val addNetworkCallbacks = object : AddNetworkCallbacks {
-        override fun onFailureAddingNetwork(result: AddNetworkResult) {
+
+        override fun onNetworkAdded(result: AddNetworkResult.Success) {
             doSafelyWithView { view ->
-                view.displayFailureAddingNetwork(result)
+                view.displayNetworkAdded(result)
             }
         }
 
-        override fun onNetworkAdded(result: AddNetworkResult) {
+        override fun onFailureAddingNetwork(result: AddNetworkResult.Failure) {
             doSafelyWithView { view ->
-                view.displayNetworkAdded(result)
+                view.displayFailureAddingNetwork(result)
             }
         }
 
