@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Patches Klinefelter
+ * Copyright 2022 Patches Klinefelter
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,12 +15,38 @@
  */
 package com.isupatches.android.wisefy.accesspoints.entities
 
+/**
+ * A set of data representations for a networks SSID value.
+ *
+ * @author Patches Klinefelter
+ * @since 02/2022
+ */
 sealed class SSIDData {
 
+    /**
+     * A data representations for a network's SSID value.
+     *
+     * @property value The string value of the SSID for a network
+     *
+     * @see SSIDData
+     *
+     * @author Patches Klinefelter
+     * @since 02/2022
+     */
     data class SSID(
         val value: String
     ) : SSIDData()
 
+    /**
+     * A data representations for a network's BSSID value.
+     *
+     * @property value The string value of the BSSID for a network
+     *
+     * @see SSIDData
+     *
+     * @author Patches Klinefelter
+     * @since 02/2022
+     */
     data class BSSID(
         val value: String
     ) : SSIDData()

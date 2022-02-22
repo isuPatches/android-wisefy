@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Patches Klinefelter
+ * Copyright 2022 Patches Klinefelter
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,14 +15,67 @@
  */
 package com.isupatches.android.wisefy.addnetwork.entities
 
+/**
+ * A set of classes that are used in requests to check if an access point matches the given criteria.
+ *
+ * @author Patches Klinefelter
+ * @since 02/2022
+ */
 sealed class AddNetworkResult {
-    data class ResultCode(
-        val value: Int
-    ) : AddNetworkResult()
 
-    object IntentLaunched : AddNetworkResult()
+    /**
+     * A set of classes that are used in requests to check if an access point matches the given criteria.
+     *
+     * @author Patches Klinefelter
+     * @since 02/2022
+     */
+    sealed class Success : AddNetworkResult() {
 
-    data class WrongSDKLevelError(
-        val message: String
-    ) : AddNetworkResult()
+        /**
+         * A set of classes that are used in requests to check if an access point matches the given criteria.
+         *
+         * @author Patches Klinefelter
+         * @since 02/2022
+         */
+        data class ResultCode(
+            val value: Int
+        ) : AddNetworkResult.Success()
+
+        /**
+         * A set of classes that are used in requests to check if an access point matches the given criteria.
+         *
+         * @author Patches Klinefelter
+         * @since 02/2022
+         */
+        object IntentLaunched : AddNetworkResult.Success()
+    }
+
+    /**
+     * A set of classes that are used in requests to check if an access point matches the given criteria.
+     *
+     * @author Patches Klinefelter
+     * @since 02/2022
+     */
+    sealed class Failure : AddNetworkResult() {
+
+        /**
+         * A set of classes that are used in requests to check if an access point matches the given criteria.
+         *
+         * @author Patches Klinefelter
+         * @since 02/2022
+         */
+        data class ResultCode(
+            val value: Int
+        ) : AddNetworkResult.Failure()
+
+        /**
+         * A set of classes that are used in requests to check if an access point matches the given criteria.
+         *
+         * @author Patches Klinefelter
+         * @since 02/2022
+         */
+        data class WrongSDKLevel(
+            val message: String
+        ) : AddNetworkResult.Failure()
+    }
 }

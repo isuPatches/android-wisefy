@@ -18,12 +18,12 @@ package com.isupatches.android.wisefy.sample.ui.search
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.ACCESS_WIFI_STATE
 import androidx.annotation.RequiresPermission
+import com.isupatches.android.wisefy.accesspoints.callbacks.SearchForAccessPointCallbacks
+import com.isupatches.android.wisefy.accesspoints.callbacks.SearchForAccessPointsCallbacks
+import com.isupatches.android.wisefy.accesspoints.callbacks.SearchForSSIDCallbacks
+import com.isupatches.android.wisefy.accesspoints.callbacks.SearchForSSIDsCallbacks
 import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
 import com.isupatches.android.wisefy.accesspoints.entities.SSIDData
-import com.isupatches.android.wisefy.callbacks.SearchForAccessPointCallbacks
-import com.isupatches.android.wisefy.callbacks.SearchForAccessPointsCallbacks
-import com.isupatches.android.wisefy.callbacks.SearchForSSIDCallbacks
-import com.isupatches.android.wisefy.callbacks.SearchForSSIDsCallbacks
 import com.isupatches.android.wisefy.callbacks.SearchForSavedNetworkCallbacks
 import com.isupatches.android.wisefy.callbacks.SearchForSavedNetworksCallbacks
 import com.isupatches.android.wisefy.sample.internal.scaffolding.BasePresenter

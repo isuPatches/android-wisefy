@@ -18,7 +18,6 @@ package com.isupatches.android.wisefy.removenetwork
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.CHANGE_WIFI_STATE
 import androidx.annotation.RequiresPermission
-import com.isupatches.android.wisefy.callbacks.RemoveNetworkCallbacks
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkRequest
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkResult
 

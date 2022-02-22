@@ -21,7 +21,6 @@ import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.callbacks.GetCurrentNetworkCallbacks
 import com.isupatches.android.wisefy.callbacks.GetCurrentNetworkInfoCallbacks
-import com.isupatches.android.wisefy.callbacks.GetIPCallbacks
 import com.isupatches.android.wisefy.logging.WisefyLogger
 import com.isupatches.android.wisefy.networkinfo.delegates.LegacyNetworkInfoDelegate
 import com.isupatches.android.wisefy.networkinfo.entities.CurrentNetworkData
@@ -35,7 +34,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-internal interface NetworkInfoUtil : NetworkInfoApi, NetworkInfoApiAsync
+internal interface NetworkInfoDelegate : NetworkInfoApi, NetworkInfoApiAsync
 
 private const val LOG_TAG = "WisefyNetworkInfoUtil"
 
@@ -44,7 +43,7 @@ internal class WisefyNetworkInfoUtil(
     connectivityManager: ConnectivityManager,
     logger: WisefyLogger?,
     wifiManager: WifiManager
-) : NetworkInfoUtil {
+) : NetworkInfoDelegate {
 
     private val delegate = LegacyNetworkInfoDelegate(wifiManager, connectivityManager, logger)
     private val networkInfoScope = CoroutineScope(Job() + coroutineDispatcherProvider.io)

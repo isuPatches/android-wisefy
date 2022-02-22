@@ -22,7 +22,7 @@ import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkRequest
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkResult
 import com.isupatches.android.wisefy.removenetwork.entities.toSearchForNetworkRequest
-import com.isupatches.android.wisefy.savednetworks.SavedNetworkUtil
+import com.isupatches.android.wisefy.savednetworks.SavedNetworkDelegate
 import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
 
 internal interface LegacyRemoveNetworkApi {
@@ -33,13 +33,13 @@ internal interface LegacyRemoveNetworkApi {
 
 internal class LegacyRemoveNetworkApiImpl(
     private val wifiManager: WifiManager,
-    private val savedNetworkUtil: SavedNetworkUtil
+    private val savedNetworkDelegate: SavedNetworkDelegate
 ) : LegacyRemoveNetworkApi {
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun removeNetwork(removeNetworkRequest: RemoveNetworkRequest): RemoveNetworkResult {
         return when (
-            val savedNetwork = savedNetworkUtil.searchForSavedNetwork(removeNetworkRequest.toSearchForNetworkRequest())
+            val savedNetwork = savedNetworkDelegate.searchForSavedNetwork(removeNetworkRequest.toSearchForNetworkRequest())
         ) {
             null -> RemoveNetworkResult.NetworkNotFound
             is SavedNetworkData.Configuration -> {

@@ -19,22 +19,22 @@ import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
+import com.isupatches.android.wisefy.accesspoints.callbacks.GetNearbyAccessPointCallbacks
 import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
-import com.isupatches.android.wisefy.callbacks.DisableWifiCallbacks
-import com.isupatches.android.wisefy.callbacks.EnableWifiCallbacks
 import com.isupatches.android.wisefy.callbacks.GetCurrentNetworkCallbacks
 import com.isupatches.android.wisefy.callbacks.GetCurrentNetworkInfoCallbacks
-import com.isupatches.android.wisefy.callbacks.GetFrequencyCallbacks
-import com.isupatches.android.wisefy.callbacks.GetIPCallbacks
-import com.isupatches.android.wisefy.callbacks.GetNearbyAccessPointCallbacks
 import com.isupatches.android.wisefy.callbacks.GetSavedNetworksCallbacks
+import com.isupatches.android.wisefy.frequency.GetFrequencyCallbacks
 import com.isupatches.android.wisefy.frequency.entities.FrequencyData
+import com.isupatches.android.wisefy.networkinfo.GetIPCallbacks
 import com.isupatches.android.wisefy.networkinfo.entities.CurrentNetworkData
 import com.isupatches.android.wisefy.networkinfo.entities.CurrentNetworkInfoData
 import com.isupatches.android.wisefy.networkinfo.entities.IPData
 import com.isupatches.android.wisefy.sample.internal.scaffolding.BasePresenter
 import com.isupatches.android.wisefy.sample.internal.scaffolding.Presenter
 import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
+import com.isupatches.android.wisefy.wifi.callbacks.DisableWifiCallbacks
+import com.isupatches.android.wisefy.wifi.callbacks.EnableWifiCallbacks
 import javax.inject.Inject
 
 internal interface MiscPresenter : Presenter<MiscFragment> {

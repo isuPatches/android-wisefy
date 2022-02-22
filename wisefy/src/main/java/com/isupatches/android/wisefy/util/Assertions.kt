@@ -17,7 +17,7 @@ package com.isupatches.android.wisefy.util
 
 import com.isupatches.android.wisefy.BuildConfig
 
-fun fail(message: String) {
+internal fun fail(message: String) {
     if (BuildConfig.DEBUG) {
         error(message)
     }

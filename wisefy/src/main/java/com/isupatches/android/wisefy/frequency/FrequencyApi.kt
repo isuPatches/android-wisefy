@@ -20,7 +20,6 @@ import android.net.wifi.WifiInfo
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
-import com.isupatches.android.wisefy.callbacks.GetFrequencyCallbacks
 import com.isupatches.android.wisefy.frequency.entities.FrequencyData
 
 const val MIN_FREQUENCY_5GHZ: Int = 4900

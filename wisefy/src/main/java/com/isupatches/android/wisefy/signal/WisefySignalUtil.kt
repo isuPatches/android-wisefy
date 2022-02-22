@@ -24,7 +24,7 @@ import com.isupatches.android.wisefy.signal.delegates.Android30SignalDelegate
 import com.isupatches.android.wisefy.signal.delegates.LegacySignalDelegate
 import com.isupatches.android.wisefy.util.SdkUtil
 
-internal interface SignalUtil : SignalApi
+internal interface SignalDelegate : SignalApi
 
 private const val LOG_TAG = "WisefySignalUtil"
 
@@ -32,7 +32,7 @@ internal class WisefySignalUtil(
     logger: WisefyLogger?,
     sdkUtil: SdkUtil,
     wifiManager: WifiManager
-) : SignalUtil {
+) : SignalDelegate {
 
     private val delegate = when {
         sdkUtil.isAtLeastR() -> Android30SignalDelegate(wifiManager)

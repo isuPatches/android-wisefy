@@ -19,13 +19,12 @@ import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.CHANGE_WIFI_STATE
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
-import com.isupatches.android.wisefy.callbacks.RemoveNetworkCallbacks
 import com.isupatches.android.wisefy.logging.WisefyLogger
 import com.isupatches.android.wisefy.removenetwork.delegates.Android29RemoveNetworkDelegate
 import com.isupatches.android.wisefy.removenetwork.delegates.LegacyRemoveNetworkDelegate
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkRequest
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkResult
-import com.isupatches.android.wisefy.savednetworks.SavedNetworkUtil
+import com.isupatches.android.wisefy.savednetworks.SavedNetworkDelegate
 import com.isupatches.android.wisefy.util.SdkUtil
 import com.isupatches.android.wisefy.util.coroutines.CoroutineDispatcherProvider
 import com.isupatches.android.wisefy.util.coroutines.createBaseCoroutineExceptionHandler
@@ -34,21 +33,21 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-internal interface RemoveNetworkUtil : RemoveNetworkApi, RemoveNetworkApiAsync
+internal interface RemoveNetworkDelegate : RemoveNetworkApi, RemoveNetworkApiAsync
 
 private const val LOG_TAG = "WisefyRemoveNetworkUtil"
 
 internal class WisefyRemoveNetworkUtil(
     private val coroutineDispatcherProvider: CoroutineDispatcherProvider,
     logger: WisefyLogger?,
-    savedNetworkUtil: SavedNetworkUtil,
+    savedNetworkDelegate: SavedNetworkDelegate,
     sdkUtil: SdkUtil,
     wifiManager: WifiManager
-) : RemoveNetworkUtil {
+) : RemoveNetworkDelegate {
 
     private val delegate: RemoveNetworkApi = when {
         sdkUtil.isAtLeastQ() -> Android29RemoveNetworkDelegate(wifiManager)
-        else -> LegacyRemoveNetworkDelegate(wifiManager, savedNetworkUtil)
+        else -> LegacyRemoveNetworkDelegate(wifiManager, savedNetworkDelegate)
     }
     private val removeNetworkScope = CoroutineScope(Job() + coroutineDispatcherProvider.io)
 

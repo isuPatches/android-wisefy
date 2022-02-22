@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Patches Klinefelter
+ * Copyright 2022 Patches Klinefelter
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,28 +16,13 @@
 package com.isupatches.android.wisefy.accesspoints.entities
 
 /**
- * A
+ * A data representation of a request to get all nearby access points.
  *
- * @param filterDuplicates
+ * @property filterDuplicates Whether nearby access points with the same SSID but lower RSSI levels should be excluded
  *
  * @author Patches Klinefelter
- * @since 12/2021
+ * @since 02/2022
  */
-sealed class GetNearbyAccessPointsRequest(
-    open val filterDuplicates: Boolean
-) {
-
-    /**
-     * A
-     *
-     * @param filterDuplicates
-     *
-     * @see GetNearbyAccessPointsRequest
-     *
-     * @author Patches Klinefelter
-     * @since 12/2021
-     */
-    data class All(
-        override val filterDuplicates: Boolean = true
-    ) : GetNearbyAccessPointsRequest(filterDuplicates)
-}
+data class GetNearbyAccessPointsRequest(
+    val filterDuplicates: Boolean = true
+)

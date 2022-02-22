@@ -24,7 +24,7 @@ import com.isupatches.android.wisefy.networkconnectionstatus.delegates.LegacyNet
 import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsNetworkConnectedToSSIDRequest
 import com.isupatches.android.wisefy.util.SdkUtil
 
-internal interface NetworkConnectionStatusUtil : NetworkConnectionStatusApi
+internal interface NetworkConnectionStatusDelegate : NetworkConnectionStatusApi
 
 private const val LOG_TAG = "WisefyNetworkConnectionStatusUtil"
 
@@ -33,7 +33,7 @@ internal class WisefyNetworkConnectionStatusUtil(
     logger: WisefyLogger?,
     sdkUtil: SdkUtil,
     wifiManager: WifiManager
-) : NetworkConnectionStatusUtil {
+) : NetworkConnectionStatusDelegate {
 
     private val delegate = LegacyNetworkConnectionStatusDelegate(
         connectivityManager,

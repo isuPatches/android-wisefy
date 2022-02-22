@@ -36,7 +36,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-internal interface SavedNetworkUtil : SavedNetworkApi, SavedNetworkApiAsync
+internal interface SavedNetworkDelegate : SavedNetworkApi, SavedNetworkApiAsync
 
 private const val LOG_TAG = "WisefySavedNetworkUtil"
 
@@ -45,7 +45,7 @@ internal class WisefySavedNetworkUtil(
     logger: WisefyLogger?,
     sdkUtil: SdkUtil,
     wifiManager: WifiManager
-) : SavedNetworkUtil {
+) : SavedNetworkDelegate {
 
     private val delegate = when {
         sdkUtil.isAtLeastR() -> Android30SavedNetworkDelegate(wifiManager)

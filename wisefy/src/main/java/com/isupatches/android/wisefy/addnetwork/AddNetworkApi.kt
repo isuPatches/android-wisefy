@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Patches Klinefelter
+ * Copyright 2022 Patches Klinefelter
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,11 +20,11 @@ import android.Manifest.permission.CHANGE_WIFI_STATE
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
+import com.isupatches.android.wisefy.addnetwork.callbacks.AddNetworkCallbacks
 import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
 import com.isupatches.android.wisefy.addnetwork.entities.AddOpenNetworkRequest
 import com.isupatches.android.wisefy.addnetwork.entities.AddWPA2NetworkRequest
 import com.isupatches.android.wisefy.addnetwork.entities.AddWPA3NetworkRequest
-import com.isupatches.android.wisefy.callbacks.AddNetworkCallbacks
 
 interface AddNetworkApi {
 

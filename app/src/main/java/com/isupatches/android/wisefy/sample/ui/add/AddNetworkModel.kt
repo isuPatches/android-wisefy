@@ -23,10 +23,10 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.WisefyApi
+import com.isupatches.android.wisefy.addnetwork.callbacks.AddNetworkCallbacks
 import com.isupatches.android.wisefy.addnetwork.entities.AddOpenNetworkRequest
 import com.isupatches.android.wisefy.addnetwork.entities.AddWPA2NetworkRequest
 import com.isupatches.android.wisefy.addnetwork.entities.AddWPA3NetworkRequest
-import com.isupatches.android.wisefy.callbacks.AddNetworkCallbacks
 import com.isupatches.android.wisefy.sample.internal.scaffolding.BaseModel
 import javax.inject.Inject
 

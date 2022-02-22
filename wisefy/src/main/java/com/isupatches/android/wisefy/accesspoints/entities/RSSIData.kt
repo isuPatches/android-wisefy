@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Patches Klinefelter
+ * Copyright 2022 Patches Klinefelter
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,14 @@
  */
 package com.isupatches.android.wisefy.accesspoints.entities
 
+/**
+ * A data representation of a networks RSSI value.
+ *
+ * @property value The RSSI value for a network
+ *
+ * @author Patches Klinefelter
+ * @since 02/2022
+ */
 data class RSSIData(
     val value: Int?
-) : SSIDData()
+)

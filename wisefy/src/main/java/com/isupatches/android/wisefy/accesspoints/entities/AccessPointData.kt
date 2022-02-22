@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Patches Klinefelter
+ * Copyright 2022 Patches Klinefelter
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,13 +20,12 @@ import android.net.wifi.ScanResult
 /**
  * A data class that represent an Access Point in the form of a scan result from the Android OS.
  *
- * @param value The Android OS information about the access point
+ * @property value The Android OS information about the access point
  *
  * @see ScanResult
- * @see AccessPointData
  *
  * @author Patches Klinefelter
- * @since 08/2021
+ * @since 02/2022
  */
 data class AccessPointData(
     val value: ScanResult

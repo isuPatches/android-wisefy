@@ -22,14 +22,14 @@ import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.removenetwork.RemoveNetworkApi
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkRequest
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkResult
-import com.isupatches.android.wisefy.savednetworks.SavedNetworkUtil
+import com.isupatches.android.wisefy.savednetworks.SavedNetworkDelegate
 
 internal class LegacyRemoveNetworkDelegate(
     private val wifiManager: WifiManager,
-    private val savedNetworkUtil: SavedNetworkUtil,
+    private val savedNetworkDelegate: SavedNetworkDelegate,
     private val impl: LegacyRemoveNetworkApi = LegacyRemoveNetworkApiImpl(
         wifiManager,
-        savedNetworkUtil
+        savedNetworkDelegate
     )
 ) : RemoveNetworkApi {
 

@@ -15,9 +15,9 @@
  */
 package com.isupatches.android.wisefy.wifi
 
-import com.isupatches.android.wisefy.callbacks.DisableWifiCallbacks
-import com.isupatches.android.wisefy.callbacks.EnableWifiCallbacks
 import com.isupatches.android.wisefy.constants.DeprecationMessages
+import com.isupatches.android.wisefy.wifi.callbacks.DisableWifiCallbacks
+import com.isupatches.android.wisefy.wifi.callbacks.EnableWifiCallbacks
 
 interface WifiApi {
 

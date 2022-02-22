@@ -19,13 +19,13 @@ import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
 import com.isupatches.android.wisefy.logging.WisefyLogger
 import com.isupatches.android.wisefy.security.delegates.LegacySecurityDelegate
 
-internal interface SecurityUtil : SecurityApi
+internal interface SecurityDelegate : SecurityApi
 
 private const val LOG_TAG = "WisefySecurityUtil"
 
 internal class WisefySecurityUtil(
     logger: WisefyLogger?
-) : SecurityUtil {
+) : SecurityDelegate {
 
     private val delegate = LegacySecurityDelegate()
 

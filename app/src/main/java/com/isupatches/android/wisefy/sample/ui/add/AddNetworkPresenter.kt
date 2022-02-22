@@ -21,8 +21,8 @@ import android.os.Build
 import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
+import com.isupatches.android.wisefy.addnetwork.callbacks.AddNetworkCallbacks
 import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
-import com.isupatches.android.wisefy.callbacks.AddNetworkCallbacks
 import com.isupatches.android.wisefy.sample.internal.scaffolding.BasePresenter
 import com.isupatches.android.wisefy.sample.internal.scaffolding.Presenter
 import javax.inject.Inject
