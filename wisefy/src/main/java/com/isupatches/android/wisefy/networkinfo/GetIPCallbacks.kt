@@ -15,10 +15,10 @@
  */
 package com.isupatches.android.wisefy.networkinfo
 
-import com.isupatches.android.wisefy.callbacks.BaseWisefyCallbacks
+import com.isupatches.android.wisefy.shared.base.BaseWisefyCallbacks
 import com.isupatches.android.wisefy.networkinfo.entities.IPData
 
-interface GetIPCallbacks : BaseWisefyCallbacks {
+interface GetIPCallbacks : com.isupatches.android.wisefy.shared.base.BaseWisefyCallbacks {
     fun onFailureRetrievingIP()
     fun onIPRetrieved(ip: IPData)
 }

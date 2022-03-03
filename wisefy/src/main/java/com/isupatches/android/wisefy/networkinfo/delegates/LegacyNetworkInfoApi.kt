@@ -20,12 +20,12 @@ import android.net.ConnectivityManager
 import android.net.wifi.WifiManager
 import android.os.Build
 import androidx.annotation.RequiresPermission
-import com.isupatches.android.wisefy.logging.WisefyLogger
+import com.isupatches.android.wisefy.shared.logging.WisefyLogger
 import com.isupatches.android.wisefy.networkinfo.entities.CurrentNetworkData
 import com.isupatches.android.wisefy.networkinfo.entities.CurrentNetworkInfoData
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkInfoRequest
 import com.isupatches.android.wisefy.networkinfo.entities.IPData
-import com.isupatches.android.wisefy.util.getNetwork
+import com.isupatches.android.wisefy.shared.util.getNetwork
 import java.math.BigInteger
 import java.net.InetAddress
 import java.net.UnknownHostException

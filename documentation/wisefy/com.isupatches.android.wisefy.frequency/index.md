@@ -9,7 +9,7 @@
 | [FrequencyApi](-frequency-api/index.md) | [androidJvm]<br>interface [FrequencyApi](-frequency-api/index.md) |
 | [FrequencyApiAsync](-frequency-api-async/index.md) | [androidJvm]<br>interface [FrequencyApiAsync](-frequency-api-async/index.md) |
 | [FrequencyUtil](-frequency-util/index.md) | [androidJvm]<br>internal interface [FrequencyUtil](-frequency-util/index.md) : [FrequencyApi](-frequency-api/index.md) |
-| [WisefyFrequencyUtil](-wisefy-frequency-util/index.md) | [androidJvm]<br>internal class [WisefyFrequencyUtil](-wisefy-frequency-util/index.md)(**coroutineDispatcherProvider**: [CoroutineDispatcherProvider](../com.isupatches.android.wisefy.util.coroutines/-coroutine-dispatcher-provider/index.md), **logger**: [WisefyLogger](../com.isupatches.android.wisefy.logging/-wisefy-logger/index.md)?, **wifiManager**: [WifiManager](https://developer.android.com/reference/kotlin/android/net/wifi/WifiManager.html)) : [FrequencyUtil](-frequency-util/index.md) |
+| [WisefyFrequencyUtil](-wisefy-frequency-util/index.md) | [androidJvm]<br>internal class [WisefyFrequencyUtil](-wisefy-frequency-util/index.md)(**coroutineDispatcherProvider**: [CoroutineDispatcherProvider](../com.isupatches.android.wisefy.util.coroutines/-coroutine-dispatcher-provider/index.md), **logger**: [WisefyLogger](../com.isupatches.android.wisefy.shared.logging/-wisefy-logger/index.md)?, **wifiManager**: [WifiManager](https://developer.android.com/reference/kotlin/android/net/wifi/WifiManager.html)) : [FrequencyUtil](-frequency-util/index.md) |
 
 ## Properties
 

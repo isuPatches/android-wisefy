@@ -3,7 +3,7 @@
 # LegacyNetworkConnectionStatusDelegate
 
 [androidJvm]\
-internal class [LegacyNetworkConnectionStatusDelegate](index.md)(**connectivityManager**: [ConnectivityManager](https://developer.android.com/reference/kotlin/android/net/ConnectivityManager.html), **wifiManager**: [WifiManager](https://developer.android.com/reference/kotlin/android/net/wifi/WifiManager.html), **sdkUtil**: [SdkUtil](../../com.isupatches.android.wisefy.util/-sdk-util/index.md), **logger**: [WisefyLogger](../../com.isupatches.android.wisefy.logging/-wisefy-logger/index.md)?, **impl**: [LegacyNetworkConnectionStatusApi](../-legacy-network-connection-status-api/index.md)) : [NetworkConnectionStatusApi](../../com.isupatches.android.wisefy.networkconnectionstatus/-network-connection-status-api/index.md)
+internal class [LegacyNetworkConnectionStatusDelegate](index.md)(**connectivityManager**: [ConnectivityManager](https://developer.android.com/reference/kotlin/android/net/ConnectivityManager.html), **wifiManager**: [WifiManager](https://developer.android.com/reference/kotlin/android/net/wifi/WifiManager.html), **sdkUtil**: [SdkUtil](../../com.isupatches.android.wisefy.util/-sdk-util/index.md), **logger**: [WisefyLogger](../../com.isupatches.android.wisefy.shared.logging/-wisefy-logger/index.md)?, **impl**: [LegacyNetworkConnectionStatusApi](../-legacy-network-connection-status-api/index.md)) : [NetworkConnectionStatusApi](../../com.isupatches.android.wisefy.networkconnectionstatus/-network-connection-status-api/index.md)
 
 ## Functions
 

@@ -3,4 +3,4 @@
 # WisefySecurityUtil
 
 [androidJvm]\
-fun [WisefySecurityUtil](-wisefy-security-util.md)(logger: [WisefyLogger](../../com.isupatches.android.wisefy.logging/-wisefy-logger/index.md)?)
+fun [WisefySecurityUtil](-wisefy-security-util.md)(logger: [WisefyLogger](../../com.isupatches.android.wisefy.shared.logging/-wisefy-logger/index.md)?)

@@ -3,7 +3,7 @@
 # LegacyNetworkInfoApiImpl
 
 [androidJvm]\
-internal class [LegacyNetworkInfoApiImpl](index.md)(**wifiManager**: [WifiManager](https://developer.android.com/reference/kotlin/android/net/wifi/WifiManager.html), **connectivityManager**: [ConnectivityManager](https://developer.android.com/reference/kotlin/android/net/ConnectivityManager.html), **logger**: [WisefyLogger](../../com.isupatches.android.wisefy.logging/-wisefy-logger/index.md)?) : [LegacyNetworkInfoApi](../-legacy-network-info-api/index.md)
+internal class [LegacyNetworkInfoApiImpl](index.md)(**wifiManager**: [WifiManager](https://developer.android.com/reference/kotlin/android/net/wifi/WifiManager.html), **connectivityManager**: [ConnectivityManager](https://developer.android.com/reference/kotlin/android/net/ConnectivityManager.html), **logger**: [WisefyLogger](../../com.isupatches.android.wisefy.shared.logging/-wisefy-logger/index.md)?) : [LegacyNetworkInfoApi](../-legacy-network-info-api/index.md)
 
 ## Functions
 
@@ -21,5 +21,5 @@ internal class [LegacyNetworkInfoApiImpl](index.md)(**wifiManager**: [WifiManage
 | Name | Summary |
 |---|---|
 | [connectivityManager](connectivity-manager.md) | [androidJvm]<br>private val [connectivityManager](connectivity-manager.md): [ConnectivityManager](https://developer.android.com/reference/kotlin/android/net/ConnectivityManager.html) |
-| [logger](logger.md) | [androidJvm]<br>private val [logger](logger.md): [WisefyLogger](../../com.isupatches.android.wisefy.logging/-wisefy-logger/index.md)? |
+| [logger](logger.md) | [androidJvm]<br>private val [logger](logger.md): [WisefyLogger](../../com.isupatches.android.wisefy.shared.logging/-wisefy-logger/index.md)? |
 | [wifiManager](wifi-manager.md) | [androidJvm]<br>private val [wifiManager](wifi-manager.md): [WifiManager](https://developer.android.com/reference/kotlin/android/net/wifi/WifiManager.html) |

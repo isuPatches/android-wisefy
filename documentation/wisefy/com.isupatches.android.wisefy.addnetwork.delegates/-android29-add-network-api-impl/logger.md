@@ -3,4 +3,4 @@
 # logger
 
 [androidJvm]\
-private val [logger](logger.md): [WisefyLogger](../../com.isupatches.android.wisefy.logging/-wisefy-logger/index.md)?
+private val [logger](logger.md): [WisefyLogger](../../com.isupatches.android.wisefy.shared.logging/-wisefy-logger/index.md)?

@@ -3,7 +3,7 @@
 # Android29NetworkConnectionApiImpl
 
 [androidJvm]\
-internal class [Android29NetworkConnectionApiImpl](index.md)(**connectionManager**: [ConnectivityManager](https://developer.android.com/reference/kotlin/android/net/ConnectivityManager.html), **logger**: [WisefyLogger](../../com.isupatches.android.wisefy.logging/-wisefy-logger/index.md)?) : [ConnectivityManager.NetworkCallback](https://developer.android.com/reference/kotlin/android/net/ConnectivityManager.NetworkCallback.html), [Android29NetworkConnectionApi](../-android29-network-connection-api/index.md)
+internal class [Android29NetworkConnectionApiImpl](index.md)(**connectionManager**: [ConnectivityManager](https://developer.android.com/reference/kotlin/android/net/ConnectivityManager.html), **logger**: [WisefyLogger](../../com.isupatches.android.wisefy.shared.logging/-wisefy-logger/index.md)?) : [ConnectivityManager.NetworkCallback](https://developer.android.com/reference/kotlin/android/net/ConnectivityManager.NetworkCallback.html), [Android29NetworkConnectionApi](../-android29-network-connection-api/index.md)
 
 ## Functions
 
@@ -27,5 +27,5 @@ internal class [Android29NetworkConnectionApiImpl](index.md)(**connectionManager
 | Name | Summary |
 |---|---|
 | [connectionManager](connection-manager.md) | [androidJvm]<br>private val [connectionManager](connection-manager.md): [ConnectivityManager](https://developer.android.com/reference/kotlin/android/net/ConnectivityManager.html) |
-| [logger](logger.md) | [androidJvm]<br>private val [logger](logger.md): [WisefyLogger](../../com.isupatches.android.wisefy.logging/-wisefy-logger/index.md)? |
+| [logger](logger.md) | [androidJvm]<br>private val [logger](logger.md): [WisefyLogger](../../com.isupatches.android.wisefy.shared.logging/-wisefy-logger/index.md)? |
 | [networkCallback](network-callback.md) | [androidJvm]<br>private val [networkCallback](network-callback.md): Android29NetworkConnectionApiImpl.<no name provided> |

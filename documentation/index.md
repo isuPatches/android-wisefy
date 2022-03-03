@@ -17,7 +17,7 @@
 | [com.isupatches.android.wisefy.constants](wisefy/com.isupatches.android.wisefy.constants/index.md) |
 | [com.isupatches.android.wisefy.frequency](wisefy/com.isupatches.android.wisefy.frequency/index.md) |
 | [com.isupatches.android.wisefy.frequency.delegates](wisefy/com.isupatches.android.wisefy.frequency.delegates/index.md) |
-| [com.isupatches.android.wisefy.logging](wisefy/com.isupatches.android.wisefy.logging/index.md) |
+| [com.isupatches.android.wisefy.shared.logging](wisefy/com.isupatches.android.wisefy.shared.logging/index.md) |
 | [com.isupatches.android.wisefy.networkconnection](wisefy/com.isupatches.android.wisefy.networkconnection/index.md) |
 | [com.isupatches.android.wisefy.networkconnection.delegates](wisefy/com.isupatches.android.wisefy.networkconnection.delegates/index.md) |
 | [com.isupatches.android.wisefy.networkconnection.entities](wisefy/com.isupatches.android.wisefy.networkconnection.entities/index.md) |

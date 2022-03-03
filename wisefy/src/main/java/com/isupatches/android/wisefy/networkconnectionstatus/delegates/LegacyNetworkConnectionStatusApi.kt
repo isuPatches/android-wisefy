@@ -24,12 +24,12 @@ import android.net.NetworkRequest
 import android.net.wifi.WifiManager
 import android.os.Build
 import androidx.annotation.RequiresPermission
-import com.isupatches.android.wisefy.constants.QUOTE
-import com.isupatches.android.wisefy.logging.WisefyLogger
+import com.isupatches.android.wisefy.shared.logging.WisefyLogger
 import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsNetworkConnectedToSSIDRequest
 import com.isupatches.android.wisefy.networkconnectionstatus.entities.NetworkConnectionStatus
-import com.isupatches.android.wisefy.util.SdkUtil
-import com.isupatches.android.wisefy.util.getNetwork
+import com.isupatches.android.wisefy.shared.entities.QUOTE
+import com.isupatches.android.wisefy.shared.util.SdkUtil
+import com.isupatches.android.wisefy.shared.util.getNetwork
 
 internal interface LegacyNetworkConnectionStatusApi {
     @RequiresPermission(ACCESS_NETWORK_STATE)

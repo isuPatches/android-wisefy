@@ -9,7 +9,7 @@ class [Wisefy](index.md)(**accessPointsUtil**: [AccessPointsUtil](../../com.isup
 
 | Name | Summary |
 |---|---|
-| [Brains](-brains/index.md) | [androidJvm]<br>class [Brains](-brains/index.md)@[JvmOverloads](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html)()constructor(**context**: [Context](https://developer.android.com/reference/kotlin/android/content/Context.html), **logger**: [WisefyLogger](../../com.isupatches.android.wisefy.logging/-wisefy-logger/index.md)?) |
+| [Brains](-brains/index.md) | [androidJvm]<br>class [Brains](-brains/index.md)@[JvmOverloads](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html)()constructor(**context**: [Context](https://developer.android.com/reference/kotlin/android/content/Context.html), **logger**: [WisefyLogger](../../com.isupatches.android.wisefy.shared.logging/-wisefy-logger/index.md)?) |
 
 ## Functions
 

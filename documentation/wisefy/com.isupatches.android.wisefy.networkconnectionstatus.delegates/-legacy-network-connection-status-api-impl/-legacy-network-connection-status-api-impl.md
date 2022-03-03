@@ -3,4 +3,4 @@
 # LegacyNetworkConnectionStatusApiImpl
 
 [androidJvm]\
-fun [LegacyNetworkConnectionStatusApiImpl](-legacy-network-connection-status-api-impl.md)(wifiManager: [WifiManager](https://developer.android.com/reference/kotlin/android/net/wifi/WifiManager.html), connectivityManager: [ConnectivityManager](https://developer.android.com/reference/kotlin/android/net/ConnectivityManager.html), sdkUtil: [SdkUtil](../../com.isupatches.android.wisefy.util/-sdk-util/index.md), logger: [WisefyLogger](../../com.isupatches.android.wisefy.logging/-wisefy-logger/index.md)?)
+fun [LegacyNetworkConnectionStatusApiImpl](-legacy-network-connection-status-api-impl.md)(wifiManager: [WifiManager](https://developer.android.com/reference/kotlin/android/net/wifi/WifiManager.html), connectivityManager: [ConnectivityManager](https://developer.android.com/reference/kotlin/android/net/ConnectivityManager.html), sdkUtil: [SdkUtil](../../com.isupatches.android.wisefy.util/-sdk-util/index.md), logger: [WisefyLogger](../../com.isupatches.android.wisefy.shared.logging/-wisefy-logger/index.md)?)

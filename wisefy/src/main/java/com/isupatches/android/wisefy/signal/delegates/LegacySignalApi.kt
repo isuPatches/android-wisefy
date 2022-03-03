@@ -18,15 +18,15 @@ package com.isupatches.android.wisefy.signal.delegates
 import android.net.wifi.WifiManager
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.isupatches.android.wisefy.constants.DeprecationMessages
-import com.isupatches.android.wisefy.constants.ErrorMessages
-import com.isupatches.android.wisefy.util.fail
+import com.isupatches.android.wisefy.shared.assertions.fail
+import com.isupatches.android.wisefy.shared.entities.DeprecationMessages
+import com.isupatches.android.wisefy.shared.entities.ErrorMessages
 
 internal interface LegacySignalApi {
     @RequiresApi(Build.VERSION_CODES.R)
     fun calculateBars(rssiLevel: Int): Int
 
-    @Deprecated(DeprecationMessages.CALCULATE_BARS)
+    @Deprecated(DeprecationMessages.Signal.CALCULATE_BARS)
     fun calculateBars(rssiLevel: Int, targetNumberOfBars: Int): Int
 
     fun compareSignalLevel(rssi1: Int, rssi2: Int): Int
@@ -36,12 +36,12 @@ internal class LegacySignalApiImpl : LegacySignalApi {
 
     @RequiresApi(Build.VERSION_CODES.R)
     override fun calculateBars(rssiLevel: Int): Int {
-        fail(ErrorMessages.CALCULATE_BARS_LEGACY)
+        fail(ErrorMessages.Signal.CALCULATE_BARS_LEGACY)
         return -1
     }
 
     @Deprecated(
-        message = DeprecationMessages.CALCULATE_BARS,
+        message = DeprecationMessages.Signal.CALCULATE_BARS,
         replaceWith = ReplaceWith("this.calculateBars(rssiLevel)")
     )
     override fun calculateBars(rssiLevel: Int, targetNumberOfBars: Int): Int {

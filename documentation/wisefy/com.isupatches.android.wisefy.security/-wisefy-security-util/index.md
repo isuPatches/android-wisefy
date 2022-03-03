@@ -3,7 +3,7 @@
 # WisefySecurityUtil
 
 [androidJvm]\
-internal class [WisefySecurityUtil](index.md)(**logger**: [WisefyLogger](../../com.isupatches.android.wisefy.logging/-wisefy-logger/index.md)?) : [SecurityUtil](../-security-util/index.md)
+internal class [WisefySecurityUtil](index.md)(**logger**: [WisefyLogger](../../com.isupatches.android.wisefy.shared.logging/-wisefy-logger/index.md)?) : [SecurityUtil](../-security-util/index.md)
 
 ## Functions
 

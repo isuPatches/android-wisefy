@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.android.wisefy.callbacks
+package com.isupatches.android.wisefy.shared.base
 
 import com.isupatches.android.wisefy.networkinfo.entities.CurrentNetworkData
 import com.isupatches.android.wisefy.networkinfo.entities.CurrentNetworkInfoData
 
-interface GetCurrentNetworkCallbacks : BaseWisefyCallbacks {
+interface GetCurrentNetworkCallbacks : com.isupatches.android.wisefy.shared.base.BaseWisefyCallbacks {
     fun onNoCurrentNetwork()
     fun onCurrentNetworkRetrieved(currentNetwork: CurrentNetworkData)
 }
 
-interface GetCurrentNetworkInfoCallbacks : BaseWisefyCallbacks {
+interface GetCurrentNetworkInfoCallbacks : com.isupatches.android.wisefy.shared.base.BaseWisefyCallbacks {
     fun onNoCurrentNetworkInfo()
     fun onCurrentNetworkInfoRetrieved(currentNetworkInfo: CurrentNetworkInfoData)
 }

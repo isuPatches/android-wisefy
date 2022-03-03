@@ -3,7 +3,7 @@
 # LegacyAccessPointsDelegate
 
 [androidJvm]\
-internal class [LegacyAccessPointsDelegate](index.md)(**wifiManager**: [WifiManager](https://developer.android.com/reference/kotlin/android/net/wifi/WifiManager.html), **logger**: [WisefyLogger](../../com.isupatches.android.wisefy.logging/-wisefy-logger/index.md)?, **impl**: [LegacyAccessPointsApi](../-legacy-access-points-api/index.md)) : [AccessPointsApi](../../com.isupatches.android.wisefy.accesspoints/-access-points-api/index.md)
+internal class [LegacyAccessPointsDelegate](index.md)(**wifiManager**: [WifiManager](https://developer.android.com/reference/kotlin/android/net/wifi/WifiManager.html), **logger**: [WisefyLogger](../../com.isupatches.android.wisefy.shared.logging/-wisefy-logger/index.md)?, **impl**: [LegacyAccessPointsApi](../-legacy-access-points-api/index.md)) : [AccessPointsApi](../../com.isupatches.android.wisefy.accesspoints/-access-points-api/index.md)
 
 ## Functions
 

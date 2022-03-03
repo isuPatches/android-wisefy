@@ -23,12 +23,12 @@ androidJvm
 |---|---|
 | [com.isupatches.android.wisefy.accesspoints.AccessPointsApi](../../com.isupatches.android.wisefy.accesspoints/-access-points-api/index.md) |  |
 | [com.isupatches.android.wisefy.accesspoints.AccessPointsApiAsync](../../com.isupatches.android.wisefy.accesspoints/-access-points-api-async/index.md) |  |
-| [com.isupatches.android.wisefy.addnetwork.AddNetworkApi](../../com.isupatches.android.wisefy.addnetwork/-add-network-api/index.md) |  |
-| [com.isupatches.android.wisefy.addnetwork.AddNetworkApiAsync](../../com.isupatches.android.wisefy.addnetwork/-add-network-api-async/index.md) |  |
+| [AddNetworkApi](../../com.isupatches.android.wisefy.addnetwork/-add-network-api/index.md) |  |
+| [AddNetworkApiAsync](../../com.isupatches.android.wisefy.addnetwork/-add-network-api-async/index.md) |  |
 | [com.isupatches.android.wisefy.frequency.FrequencyApi](../../com.isupatches.android.wisefy.frequency/-frequency-api/index.md) |  |
 | [com.isupatches.android.wisefy.frequency.FrequencyApiAsync](../../com.isupatches.android.wisefy.frequency/-frequency-api-async/index.md) |  |
-| [com.isupatches.android.wisefy.networkconnection.NetworkConnectionApi](../../com.isupatches.android.wisefy.networkconnection/-network-connection-api/index.md) |  |
-| [com.isupatches.android.wisefy.networkconnection.NetworkConnectionApiAsync](../../com.isupatches.android.wisefy.networkconnection/-network-connection-api-async/index.md) |  |
+| [NetworkConnectionApi](../../com.isupatches.android.wisefy.networkconnection/-network-connection-api/index.md) |  |
+| [NetworkConnectionApiAsync](../../com.isupatches.android.wisefy.networkconnection/-network-connection-api-async/index.md) |  |
 | [com.isupatches.android.wisefy.networkconnectionstatus.NetworkConnectionStatusApi](../../com.isupatches.android.wisefy.networkconnectionstatus/-network-connection-status-api/index.md) |  |
 | [com.isupatches.android.wisefy.networkinfo.NetworkInfoApi](../../com.isupatches.android.wisefy.networkinfo/-network-info-api/index.md) |  |
 | [com.isupatches.android.wisefy.networkinfo.NetworkInfoApiAsync](../../com.isupatches.android.wisefy.networkinfo/-network-info-api-async/index.md) |  |

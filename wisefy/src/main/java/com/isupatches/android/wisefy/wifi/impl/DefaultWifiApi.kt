@@ -16,14 +16,14 @@
 package com.isupatches.android.wisefy.wifi.impl
 
 import android.net.wifi.WifiManager
-import com.isupatches.android.wisefy.constants.DeprecationMessages
+import com.isupatches.android.wisefy.shared.entities.DeprecationMessages
 
 internal interface DefaultWifiApi {
 
-    @Deprecated(DeprecationMessages.DISABLE_WIFI)
+    @Deprecated(DeprecationMessages.Wifi.DISABLE)
     fun disableWifi(): Boolean
 
-    @Deprecated(DeprecationMessages.ENABLE_WIFI)
+    @Deprecated(DeprecationMessages.Wifi.ENABLE)
     fun enableWifi(): Boolean
 
     fun isWifiEnabled(): Boolean
@@ -33,12 +33,12 @@ internal class DefaultWifiApiImpl(
     private val wifiManager: WifiManager
 ) : DefaultWifiApi {
 
-    @Deprecated(DeprecationMessages.DISABLE_WIFI)
+    @Deprecated(DeprecationMessages.Wifi.DISABLE)
     override fun disableWifi(): Boolean {
         return wifiManager.setWifiEnabled(false)
     }
 
-    @Deprecated(DeprecationMessages.ENABLE_WIFI)
+    @Deprecated(DeprecationMessages.Wifi.ENABLE)
     override fun enableWifi(): Boolean {
         return wifiManager.setWifiEnabled(true)
     }

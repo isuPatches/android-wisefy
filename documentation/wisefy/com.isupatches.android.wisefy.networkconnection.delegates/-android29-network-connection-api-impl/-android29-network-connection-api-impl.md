@@ -3,4 +3,4 @@
 # Android29NetworkConnectionApiImpl
 
 [androidJvm]\
-fun [Android29NetworkConnectionApiImpl](-android29-network-connection-api-impl.md)(connectionManager: [ConnectivityManager](https://developer.android.com/reference/kotlin/android/net/ConnectivityManager.html), logger: [WisefyLogger](../../com.isupatches.android.wisefy.logging/-wisefy-logger/index.md)?)
+fun [Android29NetworkConnectionApiImpl](-android29-network-connection-api-impl.md)(connectionManager: [ConnectivityManager](https://developer.android.com/reference/kotlin/android/net/ConnectivityManager.html), logger: [WisefyLogger](../../com.isupatches.android.wisefy.shared.logging/-wisefy-logger/index.md)?)

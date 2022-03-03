@@ -23,10 +23,10 @@ import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.WisefyApi
 import com.isupatches.android.wisefy.accesspoints.callbacks.GetNearbyAccessPointCallbacks
 import com.isupatches.android.wisefy.accesspoints.entities.GetNearbyAccessPointsRequest
-import com.isupatches.android.wisefy.callbacks.GetCurrentNetworkCallbacks
-import com.isupatches.android.wisefy.callbacks.GetCurrentNetworkInfoCallbacks
-import com.isupatches.android.wisefy.callbacks.GetSavedNetworksCallbacks
-import com.isupatches.android.wisefy.frequency.GetFrequencyCallbacks
+import com.isupatches.android.wisefy.shared.base.GetCurrentNetworkCallbacks
+import com.isupatches.android.wisefy.shared.base.GetCurrentNetworkInfoCallbacks
+import com.isupatches.android.wisefy.shared.base.GetSavedNetworksCallbacks
+import com.isupatches.android.wisefy.frequency.callbacks.GetFrequencyCallbacks
 import com.isupatches.android.wisefy.networkinfo.GetIPCallbacks
 import com.isupatches.android.wisefy.sample.internal.scaffolding.BaseModel
 import com.isupatches.android.wisefy.wifi.callbacks.DisableWifiCallbacks

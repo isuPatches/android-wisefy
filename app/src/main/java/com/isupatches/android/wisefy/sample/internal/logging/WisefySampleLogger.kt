@@ -16,7 +16,7 @@
 package com.isupatches.android.wisefy.sample.internal.logging
 
 import android.util.Log
-import com.isupatches.android.wisefy.logging.WisefyLogger
+import com.isupatches.android.wisefy.shared.logging.WisefyLogger
 import com.isupatches.android.wisefy.sample.BuildConfig
 import java.util.Locale
 

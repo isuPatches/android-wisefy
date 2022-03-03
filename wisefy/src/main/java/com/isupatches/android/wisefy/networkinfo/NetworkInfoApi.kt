@@ -17,8 +17,8 @@ package com.isupatches.android.wisefy.networkinfo
 
 import android.Manifest.permission.ACCESS_NETWORK_STATE
 import androidx.annotation.RequiresPermission
-import com.isupatches.android.wisefy.callbacks.GetCurrentNetworkCallbacks
-import com.isupatches.android.wisefy.callbacks.GetCurrentNetworkInfoCallbacks
+import com.isupatches.android.wisefy.shared.base.GetCurrentNetworkCallbacks
+import com.isupatches.android.wisefy.shared.base.GetCurrentNetworkInfoCallbacks
 import com.isupatches.android.wisefy.networkinfo.entities.CurrentNetworkData
 import com.isupatches.android.wisefy.networkinfo.entities.CurrentNetworkInfoData
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkInfoRequest

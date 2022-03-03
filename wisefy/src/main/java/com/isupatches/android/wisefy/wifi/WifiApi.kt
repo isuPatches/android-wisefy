@@ -15,16 +15,16 @@
  */
 package com.isupatches.android.wisefy.wifi
 
-import com.isupatches.android.wisefy.constants.DeprecationMessages
+import com.isupatches.android.wisefy.shared.entities.DeprecationMessages
 import com.isupatches.android.wisefy.wifi.callbacks.DisableWifiCallbacks
 import com.isupatches.android.wisefy.wifi.callbacks.EnableWifiCallbacks
 
 interface WifiApi {
 
-    @Deprecated(DeprecationMessages.DISABLE_WIFI)
+    @Deprecated(DeprecationMessages.Wifi.DISABLE)
     fun disableWifi(): Boolean
 
-    @Deprecated(DeprecationMessages.ENABLE_WIFI)
+    @Deprecated(DeprecationMessages.Wifi.ENABLE)
     fun enableWifi(): Boolean
 
     fun isWifiEnabled(): Boolean
@@ -32,9 +32,9 @@ interface WifiApi {
 
 interface WifiApiAsync {
 
-    @Deprecated(DeprecationMessages.DISABLE_WIFI)
+    @Deprecated(DeprecationMessages.Wifi.DISABLE)
     fun disableWifi(callbacks: DisableWifiCallbacks?)
 
-    @Deprecated(DeprecationMessages.ENABLE_WIFI)
+    @Deprecated(DeprecationMessages.Wifi.ENABLE)
     fun enableWifi(callbacks: EnableWifiCallbacks?)
 }

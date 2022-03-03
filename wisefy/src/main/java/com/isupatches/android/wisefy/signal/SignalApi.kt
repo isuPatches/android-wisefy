@@ -17,7 +17,7 @@ package com.isupatches.android.wisefy.signal
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.isupatches.android.wisefy.constants.DeprecationMessages
+import com.isupatches.android.wisefy.shared.entities.DeprecationMessages
 
 interface SignalApi {
 
@@ -25,7 +25,7 @@ interface SignalApi {
     fun calculateBars(rssiLevel: Int): Int
 
     @Deprecated(
-        message = DeprecationMessages.CALCULATE_BARS,
+        message = DeprecationMessages.Signal.CALCULATE_BARS,
         replaceWith = ReplaceWith("this.calculateBars(rssiLevel)")
     )
     fun calculateBars(rssiLevel: Int, targetNumberOfBars: Int): Int

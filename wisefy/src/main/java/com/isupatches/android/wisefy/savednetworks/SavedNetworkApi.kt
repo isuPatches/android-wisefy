@@ -18,9 +18,9 @@ package com.isupatches.android.wisefy.savednetworks
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.ACCESS_WIFI_STATE
 import androidx.annotation.RequiresPermission
-import com.isupatches.android.wisefy.callbacks.GetSavedNetworksCallbacks
-import com.isupatches.android.wisefy.callbacks.SearchForSavedNetworkCallbacks
-import com.isupatches.android.wisefy.callbacks.SearchForSavedNetworksCallbacks
+import com.isupatches.android.wisefy.shared.base.GetSavedNetworksCallbacks
+import com.isupatches.android.wisefy.shared.base.SearchForSavedNetworkCallbacks
+import com.isupatches.android.wisefy.shared.base.SearchForSavedNetworksCallbacks
 import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
 import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkRequest
 

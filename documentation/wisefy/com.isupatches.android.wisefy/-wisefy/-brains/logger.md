@@ -3,6 +3,6 @@
 # logger
 
 [androidJvm]\
-internal fun [logger](logger.md)(logger: [WisefyLogger](../../../com.isupatches.android.wisefy.logging/-wisefy-logger/index.md)): [Wisefy.Brains](index.md)
+internal fun [logger](logger.md)(logger: [WisefyLogger](../../../com.isupatches.android.wisefy.shared.logging/-wisefy-logger/index.md)): [Wisefy.Brains](index.md)
 
-private var [logger](logger.md): [WisefyLogger](../../../com.isupatches.android.wisefy.logging/-wisefy-logger/index.md)? = null
+private var [logger](logger.md): [WisefyLogger](../../../com.isupatches.android.wisefy.shared.logging/-wisefy-logger/index.md)? = null

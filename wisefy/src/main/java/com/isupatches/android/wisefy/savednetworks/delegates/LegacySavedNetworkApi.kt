@@ -20,9 +20,9 @@ import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.net.wifi.WifiConfiguration
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
-import com.isupatches.android.wisefy.constants.QUOTE
 import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
 import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkRequest
+import com.isupatches.android.wisefy.shared.entities.QUOTE
 
 internal interface LegacySavedNetworkApi {
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])

@@ -23,8 +23,8 @@ import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkRequest
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkResult
-import com.isupatches.android.wisefy.util.createOpenNetworkSuggestionWithBSSID
-import com.isupatches.android.wisefy.util.createOpenNetworkSuggestionWithSSID
+import com.isupatches.android.wisefy.shared.wifi.createOpenNetworkSuggestionWithBSSID
+import com.isupatches.android.wisefy.shared.wifi.createOpenNetworkSuggestionWithSSID
 
 internal interface Android29RemoveNetworkApi {
 

@@ -16,7 +16,7 @@
 package com.isupatches.android.wisefy.security
 
 import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
-import com.isupatches.android.wisefy.logging.WisefyLogger
+import com.isupatches.android.wisefy.shared.logging.WisefyLogger
 import com.isupatches.android.wisefy.security.delegates.LegacySecurityDelegate
 
 internal interface SecurityDelegate : SecurityApi

@@ -16,11 +16,11 @@
 package com.isupatches.android.wisefy.wifi
 
 import android.net.wifi.WifiManager
-import com.isupatches.android.wisefy.constants.DeprecationMessages
-import com.isupatches.android.wisefy.logging.WisefyLogger
-import com.isupatches.android.wisefy.util.SdkUtil
-import com.isupatches.android.wisefy.util.coroutines.CoroutineDispatcherProvider
-import com.isupatches.android.wisefy.util.coroutines.createBaseCoroutineExceptionHandler
+import com.isupatches.android.wisefy.shared.coroutines.CoroutineDispatcherProvider
+import com.isupatches.android.wisefy.shared.coroutines.createBaseCoroutineExceptionHandler
+import com.isupatches.android.wisefy.shared.entities.DeprecationMessages
+import com.isupatches.android.wisefy.shared.logging.WisefyLogger
+import com.isupatches.android.wisefy.shared.util.SdkUtil
 import com.isupatches.android.wisefy.wifi.callbacks.DisableWifiCallbacks
 import com.isupatches.android.wisefy.wifi.callbacks.EnableWifiCallbacks
 import com.isupatches.android.wisefy.wifi.proxies.Android29WifiProxy
@@ -50,12 +50,12 @@ internal class WisefyWifiDelegate(
         logger?.d(LOG_TAG, "WisefyWifiDelegate proxy is: ${proxy::class.java.simpleName}")
     }
 
-    @Deprecated(DeprecationMessages.DISABLE_WIFI)
+    @Deprecated(DeprecationMessages.Wifi.DISABLE)
     override fun disableWifi(): Boolean {
         return proxy.disableWifi()
     }
 
-    @Deprecated(DeprecationMessages.DISABLE_WIFI)
+    @Deprecated(DeprecationMessages.Wifi.DISABLE)
     override fun disableWifi(callbacks: DisableWifiCallbacks?) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
             val result = proxy.disableWifi()
@@ -69,12 +69,12 @@ internal class WisefyWifiDelegate(
         }
     }
 
-    @Deprecated(DeprecationMessages.ENABLE_WIFI)
+    @Deprecated(DeprecationMessages.Wifi.ENABLE)
     override fun enableWifi(): Boolean {
         return proxy.enableWifi()
     }
 
-    @Deprecated(DeprecationMessages.ENABLE_WIFI)
+    @Deprecated(DeprecationMessages.Wifi.ENABLE)
     override fun enableWifi(callbacks: EnableWifiCallbacks?) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
             val result = proxy.enableWifi()

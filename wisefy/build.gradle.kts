@@ -14,18 +14,11 @@ plugins {
 group = GROUP_ID
 version = BuildVersions.MODULE_VERSION_NAME
 
-android {
-    buildFeatures {
-        viewBinding = true
-    }
-}
-
 dependencies {
-    // AndroidX
-    implementation(Dependencies.AndroidX.APPCOMPAT)
-    implementation(Dependencies.AndroidX.ANNOTATION)
+    api(project(":wisefy:accesspoints"))
+    api(project(":wisefy:addnetwork"))
+    api(project(":wisefy:frequency"))
+    api(project(":wisefy:networkconnection"))
 
-    // Kotlin
-    implementation(Dependencies.Kotlin.STD_LIB)
     implementation(Dependencies.Kotlin.COROUTINES)
 }

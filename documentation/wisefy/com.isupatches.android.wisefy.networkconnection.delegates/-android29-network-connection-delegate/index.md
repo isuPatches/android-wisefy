@@ -3,7 +3,7 @@
 # Android29NetworkConnectionDelegate
 
 [androidJvm]\
-internal class [Android29NetworkConnectionDelegate](index.md)(**connectivityManager**: [ConnectivityManager](https://developer.android.com/reference/kotlin/android/net/ConnectivityManager.html), **logger**: [WisefyLogger](../../com.isupatches.android.wisefy.logging/-wisefy-logger/index.md)?, **impl**: [Android29NetworkConnectionApi](../-android29-network-connection-api/index.md)) : [NetworkConnectionApi](../../com.isupatches.android.wisefy.networkconnection/-network-connection-api/index.md)
+internal class [Android29NetworkConnectionDelegate](index.md)(**connectivityManager**: [ConnectivityManager](https://developer.android.com/reference/kotlin/android/net/ConnectivityManager.html), **logger**: [WisefyLogger](../../com.isupatches.android.wisefy.shared.logging/-wisefy-logger/index.md)?, **impl**: [Android29NetworkConnectionApi](../-android29-network-connection-api/index.md)) : [NetworkConnectionApi](../../com.isupatches.android.wisefy.networkconnection/-network-connection-api/index.md)
 
 ## Functions
 

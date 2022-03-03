@@ -18,7 +18,7 @@ package com.isupatches.android.wisefy.signal.delegates
 import android.net.wifi.WifiManager
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.isupatches.android.wisefy.constants.DeprecationMessages
+import com.isupatches.android.wisefy.shared.entities.DeprecationMessages
 import com.isupatches.android.wisefy.signal.SignalApi
 
 internal class Android30SignalDelegate(
@@ -32,7 +32,7 @@ internal class Android30SignalDelegate(
     }
 
     @Deprecated(
-        message = DeprecationMessages.CALCULATE_BARS,
+        message = DeprecationMessages.Signal.CALCULATE_BARS,
         replaceWith = ReplaceWith("this.calculateBars(rssiLevel)")
     )
     override fun calculateBars(rssiLevel: Int, targetNumberOfBars: Int): Int {

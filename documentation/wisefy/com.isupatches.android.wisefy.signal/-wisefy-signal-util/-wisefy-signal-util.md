@@ -3,4 +3,4 @@
 # WisefySignalUtil
 
 [androidJvm]\
-fun [WisefySignalUtil](-wisefy-signal-util.md)(logger: [WisefyLogger](../../com.isupatches.android.wisefy.logging/-wisefy-logger/index.md)?, sdkUtil: [SdkUtil](../../com.isupatches.android.wisefy.util/-sdk-util/index.md), wifiManager: [WifiManager](https://developer.android.com/reference/kotlin/android/net/wifi/WifiManager.html))
+fun [WisefySignalUtil](-wisefy-signal-util.md)(logger: [WisefyLogger](../../com.isupatches.android.wisefy.shared.logging/-wisefy-logger/index.md)?, sdkUtil: [SdkUtil](../../com.isupatches.android.wisefy.util/-sdk-util/index.md), wifiManager: [WifiManager](https://developer.android.com/reference/kotlin/android/net/wifi/WifiManager.html))

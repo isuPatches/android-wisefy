@@ -1,4 +1,4 @@
-//[wisefy](../../../index.md)/[com.isupatches.android.wisefy.logging](../index.md)/[WisefyLogger](index.md)/[i](i.md)
+//[wisefy](../../../index.md)/[com.isupatches.android.wisefy.shared.logging](../index.md)/[WisefyLogger](index.md)/[i](i.md)
 
 # i
 

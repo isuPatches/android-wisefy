@@ -1,0 +1,82 @@
+  @@ -1,84 +0,0 @@
+  version: 2.1
+
+  jobs:
+    ci_checks:
+      working_directory: ~/code
+      docker:
+        - image: circleci/android:api-30
+      environment:
+        JVM_OPTS: -Xmx3200m
+      steps:
+        - checkout
+        - restore_cache:
+            key: jars-{{ checksum "build.gradle" }}-{{ checksum  "wisefy/build.gradle" }}-{{ checksum  "app/build.gradle" }}
+        - run:
+            name: Chmod permissions
+            command: sudo chmod +x ./gradlew
+        - run:
+            name: Download dependencies
+            command: ./gradlew androidDependencies
+        - run:
+            name: Clean build
+            command: ./gradlew clean assembleDebug wisefy:assembleDebugAndroidTest app:assembleDebugAndroidTest --stacktrace
+        - run:
+            name: Static code analysis
+            command: ./gradlew staticAnalysisSanityCheck
+        - run:
+            name: Unit tests
+            command: ./gradlew :wisefy:jacocoDebugUnitTest :app:jacocoDebugUnitTest --stacktrace
+        - run:
+            name: Store Service Account
+            command: echo $GCLOUD_SERVICE_KEY > ${HOME}/gcloud-service-key.json
+        - run:
+            name: Firebase Testing
+            command: |
+              sudo pip install -U crcmod
+              sudo gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
+              sudo gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
+              sudo gcloud firebase test android run \
+                            --type instrumentation \
+                            --app app/build/outputs/apk/debug/app-debug.apk \
+                            --test wisefy/build/outputs/apk/androidTest/debug/wisefy-debug-androidTest.apk \
+                            --device model=Pixel2,version=28,locale=en,orientation=portrait \
+                            --device model=Nexus6,version=23,locale=en,orientation=portrait \
+                            --device model=Nexus5,version=19,locale=en,orientation=portrait \
+                            --environment-variables coverage=true,coverageFile="/sdcard/coverage.ec" \
+                            --directories-to-pull=/sdcard \
+                            --results-dir=${CIRCLE_BRANCH}_${CIRCLE_BUILD_NUM}
+              sudo gsutil -m cp -r -U gs://${GCLOUD_BUCKET_LOCATION}/${CIRCLE_BRANCH}_${CIRCLE_BUILD_NUM}/Nexus5-19-en-portrait/artifacts/coverage.ec wisefy/build/outputs/code-coverage/connected/wisefy-Nexus5-sdk19-coverage.ec
+              sudo gsutil -m cp -r -U gs://${GCLOUD_BUCKET_LOCATION}/${CIRCLE_BRANCH}_${CIRCLE_BUILD_NUM}/Nexus6-23-en-portrait/artifacts/coverage.ec wisefy/build/outputs/code-coverage/connected/wisefy-Nexus6-sdk23-coverage.ec
+              sudo gsutil -m cp -r -U gs://${GCLOUD_BUCKET_LOCATION}/${CIRCLE_BRANCH}_${CIRCLE_BUILD_NUM}/Pixel2-28-en-portrait/artifacts/coverage.ec wisefy/build/outputs/code-coverage/connected/wisefy-Pixel2-sdk28-coverage.ec
+              sudo gcloud firebase test android run \
+                            --type instrumentation \
+                            --app app/build/outputs/apk/debug/app-debug.apk \
+                            --test app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
+                            --device model=Pixel2,version=28,locale=en,orientation=portrait \
+                            --environment-variables coverage=true,coverageFile="/sdcard/coverage.ec" \
+                            --directories-to-pull=/sdcard \
+                            --results-dir=${CIRCLE_BRANCH}_${CIRCLE_BUILD_NUM}
+              sudo gsutil -m cp -r -U gs://${GCLOUD_BUCKET_LOCATION}/${CIRCLE_BRANCH}_${CIRCLE_BUILD_NUM}/Pixel2-28-en-portrait/artifacts/coverage.ec app/build/outputs/code-coverage/connected/app-coverage.ec
+              sudo gsutil rm -r gs://${GCLOUD_BUCKET_LOCATION}/${CIRCLE_BRANCH}_${CIRCLE_BUILD_NUM}
+        - run:
+            name: Generate coverage report
+            command: ./gradlew :wisefy:jacocoDebugCombinedTestReport :app:jacocoDebugCombinedTestReport --stacktrace
+        - codecov/upload:
+            file: /reports/jacoco/*.xml
+        - store_artifacts:
+            path: wisefy/build/reports
+            destination: reports/wisefy
+        - store_artifacts:
+            path: app/build/reports
+            destination: reports/app
+        - save_cache:
+            key: jars-{{ checksum "build.gradle" }}-{{ checksum  "wisefy/build.gradle" }}-{{ checksum  "app/build.gradle" }}
+            paths:
+              - ~/.gradle
+
+  workflows:
+    version: 2
+    workflow:
+      jobs:
+        - ci_checks

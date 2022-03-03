@@ -13,21 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.android.wisefy.callbacks
+package com.isupatches.android.wisefy.shared.base
 
 import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
 
-interface GetSavedNetworksCallbacks : BaseWisefyCallbacks {
+interface GetSavedNetworksCallbacks : com.isupatches.android.wisefy.shared.base.BaseWisefyCallbacks {
     fun onNoSavedNetworksFound()
     fun onSavedNetworksRetrieved(savedNetworks: List<SavedNetworkData>)
 }
 
-interface SearchForSavedNetworkCallbacks : BaseWisefyCallbacks {
+interface SearchForSavedNetworkCallbacks : com.isupatches.android.wisefy.shared.base.BaseWisefyCallbacks {
     fun onSavedNetworkNotFound()
     fun onSavedNetworkRetrieved(savedNetwork: SavedNetworkData)
 }
 
-interface SearchForSavedNetworksCallbacks : BaseWisefyCallbacks {
+interface SearchForSavedNetworksCallbacks : com.isupatches.android.wisefy.shared.base.BaseWisefyCallbacks {
     fun onNoSavedNetworksFound()
     fun onSavedNetworksRetrieved(savedNetworks: List<SavedNetworkData>)
 }

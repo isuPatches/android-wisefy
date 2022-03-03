@@ -3,7 +3,7 @@
 # LegacyAccessPointsApiImpl
 
 [androidJvm]\
-internal class [LegacyAccessPointsApiImpl](index.md)(**wifiManager**: [WifiManager](https://developer.android.com/reference/kotlin/android/net/wifi/WifiManager.html), **logger**: [WisefyLogger](../../com.isupatches.android.wisefy.logging/-wisefy-logger/index.md)?) : [LegacyAccessPointsApi](../-legacy-access-points-api/index.md)
+internal class [LegacyAccessPointsApiImpl](index.md)(**wifiManager**: [WifiManager](https://developer.android.com/reference/kotlin/android/net/wifi/WifiManager.html), **logger**: [WisefyLogger](../../com.isupatches.android.wisefy.shared.logging/-wisefy-logger/index.md)?) : [LegacyAccessPointsApi](../-legacy-access-points-api/index.md)
 
 ## Functions
 
@@ -26,6 +26,6 @@ internal class [LegacyAccessPointsApiImpl](index.md)(**wifiManager**: [WifiManag
 
 | Name | Summary |
 |---|---|
-| [logger](logger.md) | [androidJvm]<br>private val [logger](logger.md): [WisefyLogger](../../com.isupatches.android.wisefy.logging/-wisefy-logger/index.md)? |
+| [logger](logger.md) | [androidJvm]<br>private val [logger](logger.md): [WisefyLogger](../../com.isupatches.android.wisefy.shared.logging/-wisefy-logger/index.md)? |
 | [scanResultsProvider](scan-results-provider.md) | [androidJvm]<br>private val [scanResultsProvider](scan-results-provider.md): () -> [MutableList](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/index.html)<[ScanResult](https://developer.android.com/reference/kotlin/android/net/wifi/ScanResult.html)> |
 | [wifiManager](wifi-manager.md) | [androidJvm]<br>private val [wifiManager](wifi-manager.md): [WifiManager](https://developer.android.com/reference/kotlin/android/net/wifi/WifiManager.html) |

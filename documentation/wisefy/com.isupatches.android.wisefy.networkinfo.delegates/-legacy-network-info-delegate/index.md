@@ -3,7 +3,7 @@
 # LegacyNetworkInfoDelegate
 
 [androidJvm]\
-internal class [LegacyNetworkInfoDelegate](index.md)(**wifiManager**: [WifiManager](https://developer.android.com/reference/kotlin/android/net/wifi/WifiManager.html), **connectivityManager**: [ConnectivityManager](https://developer.android.com/reference/kotlin/android/net/ConnectivityManager.html), **logger**: [WisefyLogger](../../com.isupatches.android.wisefy.logging/-wisefy-logger/index.md)?, **impl**: [LegacyNetworkInfoApi](../-legacy-network-info-api/index.md)) : [NetworkInfoApi](../../com.isupatches.android.wisefy.networkinfo/-network-info-api/index.md)
+internal class [LegacyNetworkInfoDelegate](index.md)(**wifiManager**: [WifiManager](https://developer.android.com/reference/kotlin/android/net/wifi/WifiManager.html), **connectivityManager**: [ConnectivityManager](https://developer.android.com/reference/kotlin/android/net/ConnectivityManager.html), **logger**: [WisefyLogger](../../com.isupatches.android.wisefy.shared.logging/-wisefy-logger/index.md)?, **impl**: [LegacyNetworkInfoApi](../-legacy-network-info-api/index.md)) : [NetworkInfoApi](../../com.isupatches.android.wisefy.networkinfo/-network-info-api/index.md)
 
 ## Functions
 

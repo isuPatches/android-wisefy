@@ -16,7 +16,7 @@
 package com.isupatches.android.wisefy.wifi.proxies
 
 import android.net.wifi.WifiManager
-import com.isupatches.android.wisefy.constants.DeprecationMessages
+import com.isupatches.android.wisefy.shared.entities.DeprecationMessages
 import com.isupatches.android.wisefy.wifi.WifiApi
 import com.isupatches.android.wisefy.wifi.impl.Android29WifiApi
 import com.isupatches.android.wisefy.wifi.impl.Android29WifiApiImpl
@@ -26,12 +26,12 @@ internal class Android29WifiProxy(
     private val impl: Android29WifiApi = Android29WifiApiImpl(wifiManager)
 ) : WifiApi {
 
-    @Deprecated(DeprecationMessages.DISABLE_WIFI)
+    @Deprecated(DeprecationMessages.Wifi.DISABLE)
     override fun disableWifi(): Boolean {
         return impl.disableWifi()
     }
 
-    @Deprecated(DeprecationMessages.ENABLE_WIFI)
+    @Deprecated(DeprecationMessages.Wifi.ENABLE)
     override fun enableWifi(): Boolean {
         return impl.enableWifi()
     }

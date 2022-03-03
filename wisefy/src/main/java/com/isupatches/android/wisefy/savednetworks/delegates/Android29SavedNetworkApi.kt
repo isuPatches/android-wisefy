@@ -17,7 +17,7 @@ package com.isupatches.android.wisefy.savednetworks.delegates
 
 import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
 import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkRequest
-import com.isupatches.android.wisefy.util.fail
+import com.isupatches.android.wisefy.shared.assertions.fail
 
 internal interface Android29SavedNetworkApi {
     fun getSavedNetworks(): List<SavedNetworkData>

@@ -1,6 +1,6 @@
-//[wisefy](../../index.md)/[com.isupatches.android.wisefy.logging](index.md)
+//[wisefy](../../index.md)/[com.isupatches.android.wisefy.shared.logging](index.md)
 
-# Package com.isupatches.android.wisefy.logging
+# Package com.isupatches.android.wisefy.shared.logging
 
 ## Types
 

@@ -20,7 +20,6 @@ import com.isupatches.android.wisefy.build.BuildVersions
 import com.isupatches.android.wisefy.build.Dependencies
 import com.isupatches.android.wisefy.build.DependencyConstants.IMPLEMENTATION
 import com.isupatches.android.wisefy.build.Versions
-import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply
@@ -82,17 +81,23 @@ class BaseGradleModulePlugin : Plugin<Project> {
                     // Test coverage needs to be disabled to release -SNAPSHOT builds
                     isTestCoverageEnabled = true
                     isMinifyEnabled = false
-                    proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
-                    testProguardFile("proguard-rules-test.pro")
-                    consumerProguardFile("consumer-rules.pro")
+                    proguardFiles(
+                        getDefaultProguardFile("proguard-android-optimize.txt"),
+                        "${target.rootDir}/proguard/r8-lib-debug.pro"
+                    )
+                    testProguardFile("${target.rootDir}/proguard/r8-lib-test.pro")
+                    consumerProguardFile("${target.rootDir}/proguard/r8-lib-consumer.pro")
                     signingConfig = signingConfigs.getByName("debug${target.name.capitalize(Locale.ROOT)}")
                 }
 
                 release {
                     isTestCoverageEnabled = false
                     isMinifyEnabled = true
-                    proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
-                    consumerProguardFile("consumer-rules.pro")
+                    proguardFiles(
+                        getDefaultProguardFile("proguard-android-optimize.txt"),
+                        "${target.rootDir}/proguard/r8-lib-release.pro"
+                    )
+                    consumerProguardFile("${target.rootDir}/proguard/r8-lib-consumer.pro")
                     signingConfig = signingConfigs.getByName("release${target.name.capitalize(Locale.ROOT)}")
                 }
             }
@@ -121,6 +126,7 @@ class BaseGradleModulePlugin : Plugin<Project> {
 
         target.dependencies {
             add(IMPLEMENTATION, Dependencies.AndroidX.ANNOTATION)
+            add(IMPLEMENTATION, Dependencies.AndroidX.APPCOMPAT)
             add(IMPLEMENTATION, Dependencies.Kotlin.STD_LIB)
         }
     }

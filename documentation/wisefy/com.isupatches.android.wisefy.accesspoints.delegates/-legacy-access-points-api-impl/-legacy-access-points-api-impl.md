@@ -3,4 +3,4 @@
 # LegacyAccessPointsApiImpl
 
 [androidJvm]\
-fun [LegacyAccessPointsApiImpl](-legacy-access-points-api-impl.md)(wifiManager: [WifiManager](https://developer.android.com/reference/kotlin/android/net/wifi/WifiManager.html), logger: [WisefyLogger](../../com.isupatches.android.wisefy.logging/-wisefy-logger/index.md)?)
+fun [LegacyAccessPointsApiImpl](-legacy-access-points-api-impl.md)(wifiManager: [WifiManager](https://developer.android.com/reference/kotlin/android/net/wifi/WifiManager.html), logger: [WisefyLogger](../../com.isupatches.android.wisefy.shared.logging/-wisefy-logger/index.md)?)

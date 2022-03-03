@@ -5,7 +5,7 @@
 [androidJvm]\
 @[RequiresApi](https://developer.android.com/reference/kotlin/androidx/annotation/RequiresApi.html)(value = 29)
 
-internal class [Android29AddNetworkDelegate](index.md)(**wifiManager**: [WifiManager](https://developer.android.com/reference/kotlin/android/net/wifi/WifiManager.html), **logger**: [WisefyLogger](../../com.isupatches.android.wisefy.logging/-wisefy-logger/index.md)?, **impl**: [Android29AddNetworkApi](../-android29-add-network-api/index.md)) : [AddNetworkApi](../../com.isupatches.android.wisefy.addnetwork/-add-network-api/index.md)
+internal class [Android29AddNetworkDelegate](index.md)(**wifiManager**: [WifiManager](https://developer.android.com/reference/kotlin/android/net/wifi/WifiManager.html), **logger**: [WisefyLogger](../../com.isupatches.android.wisefy.shared.logging/-wisefy-logger/index.md)?, **impl**: [Android29AddNetworkApi](../-android29-add-network-api/index.md)) : [AddNetworkApi](../../com.isupatches.android.wisefy.addnetwork/-add-network-api/index.md)
 
 ## Functions
 

@@ -21,9 +21,9 @@ import android.net.wifi.WifiNetworkSuggestion
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
-import com.isupatches.android.wisefy.constants.QUOTE
 import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
 import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkRequest
+import com.isupatches.android.wisefy.shared.entities.QUOTE
 
 internal interface Android30SavedNetworkApi {
     @RequiresApi(Build.VERSION_CODES.R)

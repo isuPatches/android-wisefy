@@ -15,7 +15,7 @@ buildscript {
     dependencies {
         val versions = com.isupatches.android.wisefy.build.Versions
         classpath("com.android.tools.build:gradle:${versions.AGP}")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.KOTLIN}")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10")
 
         /**
          * Ideally this would be migrated out of the project level build.gradle.kts to the [DocumentationPlugin],
