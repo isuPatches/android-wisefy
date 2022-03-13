@@ -30,6 +30,10 @@ object ErrorMessages {
         }
     }
 
+    object SavedNetworks {
+        const val USED_ANDROID_29 = "There is no known way to see saved networks with Android Q"
+    }
+
     object Signal {
         const val CALCULATE_BARS_ANDROID_30 = "calculateBars(rssiLevel: Int): Int should be used for Android R"
         const val CALCULATE_BARS_LEGACY = "calculateBars(rssiLevel: Int): Int is not available until Android R"

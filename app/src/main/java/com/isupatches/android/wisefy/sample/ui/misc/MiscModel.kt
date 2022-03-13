@@ -23,11 +23,11 @@ import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.WisefyApi
 import com.isupatches.android.wisefy.accesspoints.callbacks.GetNearbyAccessPointCallbacks
 import com.isupatches.android.wisefy.accesspoints.entities.GetNearbyAccessPointsRequest
-import com.isupatches.android.wisefy.shared.base.GetCurrentNetworkCallbacks
-import com.isupatches.android.wisefy.shared.base.GetCurrentNetworkInfoCallbacks
-import com.isupatches.android.wisefy.shared.base.GetSavedNetworksCallbacks
+import com.isupatches.android.wisefy.savednetworks.callbacks.GetSavedNetworksCallbacks
 import com.isupatches.android.wisefy.frequency.callbacks.GetFrequencyCallbacks
-import com.isupatches.android.wisefy.networkinfo.GetIPCallbacks
+import com.isupatches.android.wisefy.networkinfo.callbacks.GetCurrentNetworkCallbacks
+import com.isupatches.android.wisefy.networkinfo.callbacks.GetCurrentNetworkInfoCallbacks
+import com.isupatches.android.wisefy.networkinfo.callbacks.GetIPCallbacks
 import com.isupatches.android.wisefy.sample.internal.scaffolding.BaseModel
 import com.isupatches.android.wisefy.wifi.callbacks.DisableWifiCallbacks
 import com.isupatches.android.wisefy.wifi.callbacks.EnableWifiCallbacks
@@ -63,19 +63,19 @@ internal class DefaultMiscModel @Inject constructor(
 ) : BaseModel(), MiscModel {
 
     override fun disableWifi(callbacks: DisableWifiCallbacks?) {
-        wiseFy.disableWifi(callbacks)
+        wiseFy.disableWifi(callbacks = callbacks)
     }
 
     override fun enableWifi(callbacks: EnableWifiCallbacks?) {
-        wiseFy.enableWifi(callbacks)
+        wiseFy.enableWifi(callbacks = callbacks)
     }
 
     override fun getCurrentNetwork(callbacks: GetCurrentNetworkCallbacks?) {
-        wiseFy.getCurrentNetwork(callbacks)
+        wiseFy.getCurrentNetwork(callbacks = callbacks)
     }
 
     override fun getCurrentNetworkInfo(callbacks: GetCurrentNetworkInfoCallbacks?) {
-        wiseFy.getCurrentNetworkInfo(callbacks)
+        wiseFy.getCurrentNetworkInfo(callbacks = callbacks)
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
@@ -86,7 +86,7 @@ internal class DefaultMiscModel @Inject constructor(
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun getIP(callbacks: GetIPCallbacks?) {
-        wiseFy.getIP(callbacks)
+        wiseFy.getIP(callbacks = callbacks)
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)

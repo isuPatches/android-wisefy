@@ -18,7 +18,7 @@ package com.isupatches.android.wisefy.shared.entities
 object DeprecationMessages {
 
     object Signal {
-        const val CALCULATE_BARS = "Please replace calculateBars(rssiLevel: Int, targetNumberOfBars: Int) to " +
+        const val CALCULATE_BARS = "Please replace calculateBars(rssiLevel: Int, targetNumberOfBars: Int) with " +
             "calculateBars(rssiLevel: Int)"
     }
 

@@ -19,6 +19,13 @@ dependencies {
     api(project(":wisefy:addnetwork"))
     api(project(":wisefy:frequency"))
     api(project(":wisefy:networkconnection"))
+    api(project(":wisefy:networkconnectionstatus"))
+    api(project(":wisefy:networkinfo"))
+    api(project(":wisefy:removenetwork"))
+    api(project(":wisefy:savednetworks"))
+    api(project(":wisefy:security"))
+    api(project(":wisefy:signal"))
+    api(project(":wisefy:wifi"))
 
     implementation(Dependencies.Kotlin.COROUTINES)
 }

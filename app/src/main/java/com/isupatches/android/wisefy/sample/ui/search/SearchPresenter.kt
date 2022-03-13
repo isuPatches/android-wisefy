@@ -24,8 +24,8 @@ import com.isupatches.android.wisefy.accesspoints.callbacks.SearchForSSIDCallbac
 import com.isupatches.android.wisefy.accesspoints.callbacks.SearchForSSIDsCallbacks
 import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
 import com.isupatches.android.wisefy.accesspoints.entities.SSIDData
-import com.isupatches.android.wisefy.shared.base.SearchForSavedNetworkCallbacks
-import com.isupatches.android.wisefy.shared.base.SearchForSavedNetworksCallbacks
+import com.isupatches.android.wisefy.savednetworks.callbacks.SearchForSavedNetworkCallbacks
+import com.isupatches.android.wisefy.savednetworks.callbacks.SearchForSavedNetworksCallbacks
 import com.isupatches.android.wisefy.sample.internal.scaffolding.BasePresenter
 import com.isupatches.android.wisefy.sample.internal.scaffolding.Presenter
 import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData

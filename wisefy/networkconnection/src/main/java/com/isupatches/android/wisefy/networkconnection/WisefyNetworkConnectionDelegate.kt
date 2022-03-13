@@ -20,8 +20,8 @@ import android.net.wifi.WifiManager
 import com.isupatches.android.wisefy.networkconnection.callbacks.ConnectToNetworkCallbacks
 import com.isupatches.android.wisefy.networkconnection.callbacks.DisconnectFromCurrentNetworkCallbacks
 import com.isupatches.android.wisefy.shared.logging.WisefyLogger
-import com.isupatches.android.wisefy.networkconnection.proxies.Android29NetworkConnectionProxy
-import com.isupatches.android.wisefy.networkconnection.proxies.DefaultNetworkConnectionProxy
+import com.isupatches.android.wisefy.networkconnection.os.adapters.Android29NetworkConnectionAdapter
+import com.isupatches.android.wisefy.networkconnection.os.adapters.DefaultNetworkConnectionAdapter
 import com.isupatches.android.wisefy.networkconnection.entities.NetworkConnectionRequest
 import com.isupatches.android.wisefy.networkconnection.entities.NetworkConnectionResult
 import com.isupatches.android.wisefy.networkconnectionstatus.NetworkConnectionStatusDelegate
@@ -34,11 +34,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-internal interface NetworkConnectionDelegate : NetworkConnectionApi, NetworkConnectionApiAsync
-
-private const val LOG_TAG = "WisefyNetworkConnectionUtil"
-
-internal class WisefyNetworkConnectionDelegate(
+class WisefyNetworkConnectionDelegate(
     private val coroutineDispatcherProvider: CoroutineDispatcherProvider,
     connectivityManager: ConnectivityManager,
     logger: WisefyLogger?,
@@ -48,12 +44,16 @@ internal class WisefyNetworkConnectionDelegate(
     wifiManager: WifiManager
 ) : NetworkConnectionDelegate {
 
+    companion object {
+        private const val LOG_TAG = "WisefyNetworkConnectionUtil"
+    }
+
     private val networkConnectionScope = CoroutineScope(Job() + coroutineDispatcherProvider.io)
 
     private val proxy = when {
-        sdkUtil.isAtLeastQ() -> Android29NetworkConnectionProxy(connectivityManager, logger)
+        sdkUtil.isAtLeastQ() -> Android29NetworkConnectionAdapter(connectivityManager, logger)
         else -> {
-            DefaultNetworkConnectionProxy(
+            DefaultNetworkConnectionAdapter(
                 wifiManager,
                 networkConnectionStatusUtil,
                 savedNetworkUtil,
@@ -82,7 +82,7 @@ internal class WisefyNetworkConnectionDelegate(
                             callbacks?.onFailureConnectingToNetwork()
                         }
                     }
-                    is NetworkConnectionResult.ConnectionRequestPlaced -> {
+                    is NetworkConnectionResult.ConnectionRequestSent -> {
                         callbacks?.onConnectionRequestPlaced()
                     }
                     is NetworkConnectionResult.NetworkNotFound -> {

@@ -7,6 +7,11 @@ include(
     ":wisefy:addnetwork",
     ":wisefy:frequency",
     ":wisefy:networkconnection",
+    ":wisefy:networkconnectionstatus",
+    ":wisefy:networkinfo",
+    ":wisefy:savednetworks",
+    ":wisefy:removenetwork",
+    ":wisefy:security",
     ":wisefy:shared",
     ":wisefy:shared:assertions",
     ":wisefy:shared:base",
@@ -14,5 +19,7 @@ include(
     ":wisefy:shared:entities",
     ":wisefy:shared:logging",
     ":wisefy:shared:util",
-    ":wisefy:shared:wifi"
+    ":wisefy:shared:wifimanager",
+    ":wisefy:signal",
+    ":wisefy:wifi"
 )

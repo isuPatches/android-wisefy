@@ -29,17 +29,17 @@ androidJvm
 | [com.isupatches.android.wisefy.frequency.FrequencyApiAsync](../../com.isupatches.android.wisefy.frequency/-frequency-api-async/index.md) |  |
 | [NetworkConnectionApi](../../com.isupatches.android.wisefy.networkconnection/-network-connection-api/index.md) |  |
 | [NetworkConnectionApiAsync](../../com.isupatches.android.wisefy.networkconnection/-network-connection-api-async/index.md) |  |
-| [com.isupatches.android.wisefy.networkconnectionstatus.NetworkConnectionStatusApi](../../com.isupatches.android.wisefy.networkconnectionstatus/-network-connection-status-api/index.md) |  |
-| [com.isupatches.android.wisefy.networkinfo.NetworkInfoApi](../../com.isupatches.android.wisefy.networkinfo/-network-info-api/index.md) |  |
-| [com.isupatches.android.wisefy.networkinfo.NetworkInfoApiAsync](../../com.isupatches.android.wisefy.networkinfo/-network-info-api-async/index.md) |  |
-| [com.isupatches.android.wisefy.removenetwork.RemoveNetworkApi](../../com.isupatches.android.wisefy.removenetwork/-remove-network-api/index.md) |  |
-| [com.isupatches.android.wisefy.removenetwork.RemoveNetworkApiAsync](../../com.isupatches.android.wisefy.removenetwork/-remove-network-api-async/index.md) |  |
-| [com.isupatches.android.wisefy.savednetworks.SavedNetworkApi](../../com.isupatches.android.wisefy.savednetworks/-saved-network-api/index.md) |  |
-| [com.isupatches.android.wisefy.savednetworks.SavedNetworkApiAsync](../../com.isupatches.android.wisefy.savednetworks/-saved-network-api-async/index.md) |  |
-| [com.isupatches.android.wisefy.security.SecurityApi](../../com.isupatches.android.wisefy.security/-security-api/index.md) |  |
-| [com.isupatches.android.wisefy.signal.SignalApi](../../com.isupatches.android.wisefy.signal/-signal-api/index.md) |  |
-| [com.isupatches.android.wisefy.wifi.WifiApi](../../com.isupatches.android.wisefy.wifi/-wifi-api/index.md) |  |
-| [com.isupatches.android.wisefy.wifi.WifiApiAsync](../../com.isupatches.android.wisefy.wifi/-wifi-api-async/index.md) |  |
+| [NetworkConnectionStatusApi](../../com.isupatches.android.wisefy.networkconnectionstatus/-network-connection-status-api/index.md) |  |
+| [NetworkInfoApi](../../com.isupatches.android.wisefy.networkinfo/-network-info-api/index.md) |  |
+| [NetworkInfoApiAsync](../../com.isupatches.android.wisefy.networkinfo/-network-info-api-async/index.md) |  |
+| [RemoveNetworkApi](../../com.isupatches.android.wisefy.removenetwork/-remove-network-api/index.md) |  |
+| [RemoveNetworkApiAsync](../../com.isupatches.android.wisefy.removenetwork/-remove-network-api-async/index.md) |  |
+| [SavedNetworkApi](../../com.isupatches.android.wisefy.savednetworks/-saved-network-api/index.md) |  |
+| [SavedNetworkApiAsync](../../com.isupatches.android.wisefy.savednetworks/-saved-network-api-async/index.md) |  |
+| [SecurityApi](../../com.isupatches.android.wisefy.security/-security-api/index.md) |  |
+| [SignalApi](../../com.isupatches.android.wisefy.signal/-signal-api/index.md) |  |
+| [WifiApi](../../com.isupatches.android.wisefy.wifi/-wifi-api/index.md) |  |
+| [WifiApiAsync](../../com.isupatches.android.wisefy.wifi/-wifi-api-async/index.md) |  |
 
 ## Functions
 

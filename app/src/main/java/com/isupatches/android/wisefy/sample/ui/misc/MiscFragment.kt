@@ -168,7 +168,7 @@ internal class MiscFragment : BaseFragment(), MiscView {
     }
 
     override fun displayIP(ip: IPData) {
-        displayInfo(getString(R.string.ip_args, ip.ip), R.string.wisefy_action_result)
+        displayInfo(getString(R.string.ip_args, ip.value), R.string.wisefy_action_result)
     }
 
     override fun displayFailureRetrievingIP() {

@@ -27,8 +27,8 @@ import com.isupatches.android.wisefy.accesspoints.entities.SearchForMultipleAcce
 import com.isupatches.android.wisefy.accesspoints.entities.SearchForMultipleSSIDsRequest
 import com.isupatches.android.wisefy.accesspoints.entities.SearchForSingleAccessPointRequest
 import com.isupatches.android.wisefy.accesspoints.entities.SearchForSingleSSIDRequest
-import com.isupatches.android.wisefy.shared.base.SearchForSavedNetworkCallbacks
-import com.isupatches.android.wisefy.shared.base.SearchForSavedNetworksCallbacks
+import com.isupatches.android.wisefy.savednetworks.callbacks.SearchForSavedNetworkCallbacks
+import com.isupatches.android.wisefy.savednetworks.callbacks.SearchForSavedNetworksCallbacks
 import com.isupatches.android.wisefy.sample.internal.scaffolding.BaseModel
 import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkRequest
 import javax.inject.Inject
@@ -119,7 +119,7 @@ internal class DefaultSearchModel @Inject constructor(
         callbacks: SearchForSavedNetworkCallbacks?
     ) {
         wisefy.searchForSavedNetwork(
-            request = SearchForSavedNetworkRequest.SSID(regexForSSID = regexForSSID),
+            request = SearchForSavedNetworkRequest.SSID(regex = regexForSSID),
             callbacks = callbacks
         )
     }
@@ -130,7 +130,7 @@ internal class DefaultSearchModel @Inject constructor(
         callbacks: SearchForSavedNetworksCallbacks?
     ) {
         wisefy.searchForSavedNetworks(
-            request = SearchForSavedNetworkRequest.SSID(regexForSSID = regexForSSID),
+            request = SearchForSavedNetworkRequest.SSID(regex = regexForSSID),
             callbacks = callbacks
         )
     }

@@ -9,8 +9,11 @@ plugins {
 }
 
 dependencies {
+    implementation(project(":wisefy:networkconnectionstatus"))
+    implementation(project(":wisefy:savednetworks"))
     api(project(":wisefy:shared:base"))
     api(project(":wisefy:shared:coroutines"))
+    api(project(":wisefy:shared:entities"))
     api(project(":wisefy:shared:logging"))
     api(project(":wisefy:shared:util"))
 

@@ -15,17 +15,10 @@
  */
 package com.isupatches.android.wisefy.networkconnection
 
-import com.isupatches.android.wisefy.shared.base.ConnectToNetworkCallbacks
-import com.isupatches.android.wisefy.shared.base.DisconnectFromCurrentNetworkCallbacks
 import com.isupatches.android.wisefy.networkconnection.entities.NetworkConnectionRequest
 import com.isupatches.android.wisefy.networkconnection.entities.NetworkConnectionResult
 
 interface NetworkConnectionApi {
     fun connectToNetwork(request: NetworkConnectionRequest): NetworkConnectionResult
     fun disconnectFromCurrentNetwork(): NetworkConnectionResult
-}
-
-interface NetworkConnectionApiAsync {
-    fun connectToNetwork(request: NetworkConnectionRequest, callbacks: ConnectToNetworkCallbacks?)
-    fun disconnectFromCurrentNetwork(callbacks: DisconnectFromCurrentNetworkCallbacks?)
 }

@@ -15,7 +15,7 @@ dependencies {
     api(project(":wisefy:shared:entities"))
     api(project(":wisefy:shared:logging"))
     api(project(":wisefy:shared:util"))
-    api(project(":wisefy:shared:wifi"))
+    api(project(":wisefy:shared:wifimanager"))
 
     // Kotlin
     implementation(Dependencies.Kotlin.COROUTINES)

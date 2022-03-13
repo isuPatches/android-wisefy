@@ -21,12 +21,12 @@ import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.accesspoints.callbacks.GetNearbyAccessPointCallbacks
 import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
-import com.isupatches.android.wisefy.shared.base.GetCurrentNetworkCallbacks
-import com.isupatches.android.wisefy.shared.base.GetCurrentNetworkInfoCallbacks
-import com.isupatches.android.wisefy.shared.base.GetSavedNetworksCallbacks
+import com.isupatches.android.wisefy.savednetworks.callbacks.GetSavedNetworksCallbacks
 import com.isupatches.android.wisefy.frequency.callbacks.GetFrequencyCallbacks
 import com.isupatches.android.wisefy.frequency.entities.FrequencyData
-import com.isupatches.android.wisefy.networkinfo.GetIPCallbacks
+import com.isupatches.android.wisefy.networkinfo.callbacks.GetCurrentNetworkCallbacks
+import com.isupatches.android.wisefy.networkinfo.callbacks.GetCurrentNetworkInfoCallbacks
+import com.isupatches.android.wisefy.networkinfo.callbacks.GetIPCallbacks
 import com.isupatches.android.wisefy.networkinfo.entities.CurrentNetworkData
 import com.isupatches.android.wisefy.networkinfo.entities.CurrentNetworkInfoData
 import com.isupatches.android.wisefy.networkinfo.entities.IPData

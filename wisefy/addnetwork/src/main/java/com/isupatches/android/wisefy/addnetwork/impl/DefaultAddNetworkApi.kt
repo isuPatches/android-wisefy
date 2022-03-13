@@ -19,8 +19,8 @@ import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
-import com.isupatches.android.wisefy.shared.wifi.legacy.createOpenNetworkConfiguration
-import com.isupatches.android.wisefy.shared.wifi.legacy.createWPA2NetworkConfiguration
+import com.isupatches.android.wisefy.shared.wifimanager.legacy.createOpenNetworkConfiguration
+import com.isupatches.android.wisefy.shared.wifimanager.legacy.createWPA2NetworkConfiguration
 
 /**
  * A default internal API for adding networks through the Android OS.

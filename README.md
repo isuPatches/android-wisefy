@@ -39,9 +39,14 @@ I hope you enjoy the rewrite and please create an issue if you see anything odd 
 
 ### Packaging & Naming Conventions
 
-- Delegate -> Determines what proxy to use based on the Android device's SDK level
-- Proxy -> Forwards the request to the appropriate operating system level API
-- API / APIImpl -> Talk directly to the Android OS
+Suffixes:
+
+- Api () - 
+- ApiSuffix () - 
+- Delegate -> Determines what adapter to use based on the Android device's SDK level
+- Adapter -> Middleware that converts requests and responses between the Api and Delegate layers 
+- Api (within os package context) -> Defines the API to talk directly to the Android OS
+- ApiImpl (within os package context) -> Talks directly to the Android OS
 
 Package structure for each section is as follows:
 
@@ -49,11 +54,14 @@ Package structure for each section is as follows:
   
 *Supporting sub-directories can include* 
 
-- callbacks -> Location of callback interfaces for async requests/responses
-- converters -> Location of helpers to convert one data class to another
-- entities -> Location of data classes for requests and responses
-- impl -> Location of the implementation that talks to the Android operating system based on the device's SDK level
-- proxies -> Location of the proxy classes that delegates use to forward requests to appropriate SDK level APIs
+- callbacks (public) -> Location of callback interfaces for async responses/requests
+- entities (public) -> Location of data classes for requests and responses
+- os (internal) - Organizational only directory
+  - adapters (internal) -> Location of the classes that convert requests and responses between the delegate and Android 
+    OS level APIs
+  - converters (internal) -> Location of helpers to convert one data class to another
+  - apis (internal) -> Location of the API interfaces to talk to the Android OS
+  - impls (internal) -> Location of the implementation for an API that talks to the Android OS
 
 ### Deprecations
 

@@ -21,7 +21,7 @@ sealed class NetworkConnectionResult {
         val value: Boolean
     ) : NetworkConnectionResult()
 
-    object ConnectionRequestPlaced : NetworkConnectionResult()
+    object ConnectionRequestSent : NetworkConnectionResult()
 
     object NetworkNotFound : NetworkConnectionResult()
 

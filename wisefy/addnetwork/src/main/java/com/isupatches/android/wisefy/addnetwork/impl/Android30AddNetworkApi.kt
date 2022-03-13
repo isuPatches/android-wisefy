@@ -27,9 +27,9 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
-import com.isupatches.android.wisefy.shared.wifi.createOpenNetworkSuggestionWithSSID
-import com.isupatches.android.wisefy.shared.wifi.createWPA2NetworkSuggestionWithSSID
-import com.isupatches.android.wisefy.shared.wifi.createWPA3NetworkSuggestionWithSSID
+import com.isupatches.android.wisefy.shared.wifimanager.createOpenNetworkSuggestionWithSSID
+import com.isupatches.android.wisefy.shared.wifimanager.createWPA2NetworkSuggestionWithSSID
+import com.isupatches.android.wisefy.shared.wifimanager.createWPA3NetworkSuggestionWithSSID
 
 /**
  * An internal Android 30 specific API for adding networks through the Android OS.
