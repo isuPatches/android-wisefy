@@ -21,4 +21,3 @@ interface EnableWifiCallbacks : BaseWisefyCallbacks {
     fun onFailureEnablingWifi()
     fun onWifiEnabled()
 }
-

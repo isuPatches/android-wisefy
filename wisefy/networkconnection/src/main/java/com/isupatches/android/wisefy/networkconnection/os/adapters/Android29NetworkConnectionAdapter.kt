@@ -22,17 +22,17 @@ import android.net.NetworkRequest
 import android.net.wifi.WifiNetworkSpecifier
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.isupatches.android.wisefy.shared.logging.WisefyLogger
 import com.isupatches.android.wisefy.networkconnection.NetworkConnectionApi
 import com.isupatches.android.wisefy.networkconnection.entities.NetworkConnectionRequest
 import com.isupatches.android.wisefy.networkconnection.entities.NetworkConnectionResult
 import com.isupatches.android.wisefy.networkconnection.os.apis.Android29NetworkConnectionApi
 import com.isupatches.android.wisefy.networkconnection.os.impls.Android29NetworkConnectionApiImpl
+import com.isupatches.android.wisefy.shared.logging.WisefyLogger
 
 internal class Android29NetworkConnectionAdapter(
     connectivityManager: ConnectivityManager,
-    logger: WisefyLogger?,
-    private val impl: Android29NetworkConnectionApi = Android29NetworkConnectionApiImpl(connectivityManager, logger)
+    logger: WisefyLogger,
+    private val api: Android29NetworkConnectionApi = Android29NetworkConnectionApiImpl(connectivityManager, logger)
 ) : NetworkConnectionApi {
 
     @RequiresApi(Build.VERSION_CODES.Q)
@@ -61,12 +61,12 @@ internal class Android29NetworkConnectionAdapter(
                     .build()
             }
         }
-        impl.connectToNetwork(networkRequest, request.timeoutInMillis)
+        api.connectToNetwork(networkRequest, request.timeoutInMillis)
         return NetworkConnectionResult.ConnectionRequestSent
     }
 
     override fun disconnectFromCurrentNetwork(): NetworkConnectionResult {
-        impl.disconnectFromCurrentNetwork()
+        api.disconnectFromCurrentNetwork()
         return NetworkConnectionResult.UnregisterRequestSent
     }
 }

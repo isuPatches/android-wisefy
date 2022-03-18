@@ -57,11 +57,11 @@ internal class MainActivity : BaseActivity() {
         val navController = navHostFragment.navController
         NavigationUI.setupWithNavController(binding.bottomNavigationView, navController)
 
-        wisefy.attachNetworkWatcher()
+        wisefy.init()
     }
 
     override fun onDestroy() {
-        wisefy.detachNetworkWatcher()
+        wisefy.dump()
         super.onDestroy()
     }
 }

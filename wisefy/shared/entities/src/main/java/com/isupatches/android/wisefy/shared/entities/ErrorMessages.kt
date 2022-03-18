@@ -31,7 +31,8 @@ object ErrorMessages {
     }
 
     object SavedNetworks {
-        const val USED_ANDROID_29 = "There is no known way to see saved networks with Android Q"
+        const val USED_ANDROID_29 = "There is no known way to see or save a network on Android Q similar to pre-Q" +
+            " or R+ behavior"
     }
 
     object Signal {

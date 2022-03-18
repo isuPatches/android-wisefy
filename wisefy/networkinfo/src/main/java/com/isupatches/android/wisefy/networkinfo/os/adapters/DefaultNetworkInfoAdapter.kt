@@ -19,7 +19,6 @@ import android.Manifest.permission.ACCESS_NETWORK_STATE
 import android.net.ConnectivityManager
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
-import com.isupatches.android.wisefy.shared.logging.WisefyLogger
 import com.isupatches.android.wisefy.networkinfo.NetworkInfoApi
 import com.isupatches.android.wisefy.networkinfo.entities.CurrentNetworkData
 import com.isupatches.android.wisefy.networkinfo.entities.CurrentNetworkInfoData
@@ -28,15 +27,16 @@ import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkInfoR
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkRequest
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkResult
 import com.isupatches.android.wisefy.networkinfo.entities.GetIPRequest
-import com.isupatches.android.wisefy.networkinfo.entities.IPData
 import com.isupatches.android.wisefy.networkinfo.entities.GetIPResult
+import com.isupatches.android.wisefy.networkinfo.entities.IPData
 import com.isupatches.android.wisefy.networkinfo.os.apis.DefaultNetworkInfoApi
 import com.isupatches.android.wisefy.networkinfo.os.impls.DefaultNetworkInfoApiImpl
+import com.isupatches.android.wisefy.shared.logging.WisefyLogger
 
 internal class DefaultNetworkInfoAdapter(
     wifiManager: WifiManager,
     private val connectivityManager: ConnectivityManager,
-    logger: WisefyLogger?,
+    logger: WisefyLogger,
     private val api: DefaultNetworkInfoApi = DefaultNetworkInfoApiImpl(
         wifiManager = wifiManager,
         connectivityManager = connectivityManager,

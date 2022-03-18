@@ -80,4 +80,8 @@ interface WisefyApi :
     SecurityApi,
     SignalApi,
     WifiApi,
-    WifiApiAsync
+    WifiApiAsync {
+
+    fun init()
+    fun dump()
+}

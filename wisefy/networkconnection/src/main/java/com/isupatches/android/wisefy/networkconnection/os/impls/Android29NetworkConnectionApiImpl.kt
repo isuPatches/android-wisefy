@@ -16,21 +16,16 @@
 package com.isupatches.android.wisefy.networkconnection.os.impls
 
 import android.net.ConnectivityManager
-import android.net.MacAddress
 import android.net.Network
-import android.net.NetworkCapabilities
 import android.net.NetworkRequest
-import android.net.wifi.WifiNetworkSpecifier
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.isupatches.android.wisefy.shared.logging.WisefyLogger
-import com.isupatches.android.wisefy.networkconnection.entities.NetworkConnectionRequest
-import com.isupatches.android.wisefy.networkconnection.entities.NetworkConnectionResult
 import com.isupatches.android.wisefy.networkconnection.os.apis.Android29NetworkConnectionApi
+import com.isupatches.android.wisefy.shared.logging.WisefyLogger
 
 internal class Android29NetworkConnectionApiImpl(
     private val connectionManager: ConnectivityManager,
-    private val logger: WisefyLogger?
+    private val logger: WisefyLogger
 ) : Android29NetworkConnectionApi, ConnectivityManager.NetworkCallback() {
 
     companion object {
@@ -40,12 +35,12 @@ internal class Android29NetworkConnectionApiImpl(
     private val networkCallback = object : ConnectivityManager.NetworkCallback() {
         override fun onAvailable(network: Network) {
             super.onAvailable(network)
-            logger?.d(LOG_TAG, "Network available")
+            logger.d(LOG_TAG, "Network available")
         }
 
         override fun onUnavailable() {
             super.onUnavailable()
-            logger?.d(LOG_TAG, "Network unavailable")
+            logger.d(LOG_TAG, "Network unavailable")
         }
     }
 

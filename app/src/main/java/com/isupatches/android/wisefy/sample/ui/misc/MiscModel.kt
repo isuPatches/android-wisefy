@@ -23,12 +23,12 @@ import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.WisefyApi
 import com.isupatches.android.wisefy.accesspoints.callbacks.GetNearbyAccessPointCallbacks
 import com.isupatches.android.wisefy.accesspoints.entities.GetNearbyAccessPointsRequest
-import com.isupatches.android.wisefy.savednetworks.callbacks.GetSavedNetworksCallbacks
 import com.isupatches.android.wisefy.frequency.callbacks.GetFrequencyCallbacks
 import com.isupatches.android.wisefy.networkinfo.callbacks.GetCurrentNetworkCallbacks
 import com.isupatches.android.wisefy.networkinfo.callbacks.GetCurrentNetworkInfoCallbacks
 import com.isupatches.android.wisefy.networkinfo.callbacks.GetIPCallbacks
 import com.isupatches.android.wisefy.sample.internal.scaffolding.BaseModel
+import com.isupatches.android.wisefy.savednetworks.callbacks.GetSavedNetworksCallbacks
 import com.isupatches.android.wisefy.wifi.callbacks.DisableWifiCallbacks
 import com.isupatches.android.wisefy.wifi.callbacks.EnableWifiCallbacks
 import javax.inject.Inject
@@ -81,7 +81,7 @@ internal class DefaultMiscModel @Inject constructor(
     @RequiresPermission(ACCESS_FINE_LOCATION)
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun getFrequency(callbacks: GetFrequencyCallbacks?) {
-        wiseFy.getFrequency(callbacks)
+        wiseFy.getFrequency(callbacks = callbacks)
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
@@ -99,6 +99,6 @@ internal class DefaultMiscModel @Inject constructor(
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun getSavedNetworks(callbacks: GetSavedNetworksCallbacks?) {
-        wiseFy.getSavedNetworks()
+        wiseFy.getSavedNetworks(callbacks = callbacks)
     }
 }

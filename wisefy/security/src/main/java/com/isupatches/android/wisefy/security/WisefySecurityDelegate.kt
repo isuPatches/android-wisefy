@@ -21,7 +21,7 @@ import com.isupatches.android.wisefy.security.os.adapters.DefaultSecurityAdapter
 import com.isupatches.android.wisefy.shared.logging.WisefyLogger
 
 class WisefySecurityDelegate(
-    logger: WisefyLogger?
+    logger: WisefyLogger
 ) : SecurityDelegate {
 
     companion object {
@@ -31,7 +31,7 @@ class WisefySecurityDelegate(
     private val adapter = DefaultSecurityAdapter()
 
     init {
-        logger?.d(LOG_TAG, "WisefySecurityDelegate adapter is: ${adapter::class.java.simpleName}")
+        logger.d(LOG_TAG, "WisefySecurityDelegate adapter is: ${adapter::class.java.simpleName}")
     }
 
     override fun isNetworkEAP(request: SecurityDetailsRequest): SecurityDetailsResult {

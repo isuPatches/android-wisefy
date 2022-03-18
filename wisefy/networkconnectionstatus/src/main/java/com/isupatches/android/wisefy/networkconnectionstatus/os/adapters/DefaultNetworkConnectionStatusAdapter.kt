@@ -19,27 +19,27 @@ import android.Manifest.permission.ACCESS_NETWORK_STATE
 import android.net.ConnectivityManager
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
-import com.isupatches.android.wisefy.shared.logging.WisefyLogger
-import com.isupatches.android.wisefy.networkconnectionstatus.NetworkConnectionStatusApi
+import com.isupatches.android.wisefy.networkconnectionstatus.NetworkConnectionStatusApiInternal
 import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceConnectedResult
+import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceConnectedToSSIDRequest
 import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceRoamingResult
-import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsNetworkConnectedToSSIDRequest
 import com.isupatches.android.wisefy.networkconnectionstatus.os.apis.DefaultNetworkConnectionStatusApi
 import com.isupatches.android.wisefy.networkconnectionstatus.os.impls.DefaultNetworkConnectionStatusApiImpl
+import com.isupatches.android.wisefy.shared.logging.WisefyLogger
 import com.isupatches.android.wisefy.shared.util.SdkUtil
 
 internal class DefaultNetworkConnectionStatusAdapter(
     connectivityManager: ConnectivityManager,
     wifiManager: WifiManager,
     sdkUtil: SdkUtil,
-    logger: WisefyLogger?,
+    logger: WisefyLogger,
     private val api: DefaultNetworkConnectionStatusApi = DefaultNetworkConnectionStatusApiImpl(
         wifiManager = wifiManager,
         connectivityManager = connectivityManager,
         sdkUtil = sdkUtil,
         logger = logger
     )
-) : NetworkConnectionStatusApi {
+) : NetworkConnectionStatusApiInternal {
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
     override fun attachNetworkWatcher() {
@@ -70,10 +70,10 @@ internal class DefaultNetworkConnectionStatusAdapter(
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun isDeviceConnectedToSSID(request: IsNetworkConnectedToSSIDRequest): IsDeviceConnectedResult {
+    override fun isDeviceConnectedToSSID(request: IsDeviceConnectedToSSIDRequest): IsDeviceConnectedResult {
         val isConnected = when (request) {
-            is IsNetworkConnectedToSSIDRequest.SSID -> api.isDeviceConnectedToSSID(request.regex)
-            is IsNetworkConnectedToSSIDRequest.BSSID -> api.isDeviceConnectedToBSSID(request.regex)
+            is IsDeviceConnectedToSSIDRequest.SSID -> api.isDeviceConnectedToSSID(request.regex)
+            is IsDeviceConnectedToSSIDRequest.BSSID -> api.isDeviceConnectedToBSSID(request.regex)
         }
         return if (isConnected) {
             IsDeviceConnectedResult.True

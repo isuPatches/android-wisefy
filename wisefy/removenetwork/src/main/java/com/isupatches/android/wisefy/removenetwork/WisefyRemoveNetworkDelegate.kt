@@ -20,7 +20,6 @@ import android.Manifest.permission.CHANGE_WIFI_STATE
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.removenetwork.callbacks.RemoveNetworkCallbacks
-import com.isupatches.android.wisefy.shared.logging.WisefyLogger
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkRequest
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkResult
 import com.isupatches.android.wisefy.removenetwork.os.adapters.Android29RemoveNetworkAdapter
@@ -28,6 +27,7 @@ import com.isupatches.android.wisefy.removenetwork.os.adapters.DefaultRemoveNetw
 import com.isupatches.android.wisefy.savednetworks.SavedNetworkDelegate
 import com.isupatches.android.wisefy.shared.coroutines.CoroutineDispatcherProvider
 import com.isupatches.android.wisefy.shared.coroutines.createBaseCoroutineExceptionHandler
+import com.isupatches.android.wisefy.shared.logging.WisefyLogger
 import com.isupatches.android.wisefy.shared.util.SdkUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -36,7 +36,7 @@ import kotlinx.coroutines.withContext
 
 class WisefyRemoveNetworkDelegate(
     private val coroutineDispatcherProvider: CoroutineDispatcherProvider,
-    logger: WisefyLogger?,
+    logger: WisefyLogger,
     savedNetworkDelegate: SavedNetworkDelegate,
     sdkUtil: SdkUtil,
     wifiManager: WifiManager
@@ -53,7 +53,7 @@ class WisefyRemoveNetworkDelegate(
     private val removeNetworkScope = CoroutineScope(Job() + coroutineDispatcherProvider.io)
 
     init {
-        logger?.d(LOG_TAG, "WisefyRemoveNetworkDelegate adapter is: ${adapter::class.java.simpleName}")
+        logger.d(LOG_TAG, "WisefyRemoveNetworkDelegate adapter is: ${adapter::class.java.simpleName}")
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])

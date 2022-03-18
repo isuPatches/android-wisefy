@@ -15,4 +15,4 @@
  */
 package com.isupatches.android.wisefy.networkconnectionstatus
 
-interface NetworkConnectionStatusDelegate : NetworkConnectionStatusApi
+interface NetworkConnectionStatusDelegate : NetworkConnectionStatusApiInternal

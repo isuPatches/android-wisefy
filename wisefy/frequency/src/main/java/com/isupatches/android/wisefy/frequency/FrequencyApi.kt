@@ -16,12 +16,14 @@
 package com.isupatches.android.wisefy.frequency
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
-import android.net.wifi.WifiInfo
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
-import com.isupatches.android.wisefy.frequency.callbacks.GetFrequencyCallbacks
 import com.isupatches.android.wisefy.frequency.entities.FrequencyData
+import com.isupatches.android.wisefy.frequency.entities.GetFrequencyRequest
+import com.isupatches.android.wisefy.frequency.entities.GetFrequencyResult
+import com.isupatches.android.wisefy.frequency.entities.IsNetwork5gHzRequest
+import com.isupatches.android.wisefy.frequency.entities.IsNetwork5gHzResult
 
 /**
  * A constant for the minimum frequency for a 5G network.
@@ -59,22 +61,7 @@ interface FrequencyApi {
      */
     @RequiresPermission(ACCESS_FINE_LOCATION)
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    fun getFrequency(): FrequencyData?
-
-    /**
-     * An synchronous API to get the frequency of a given network.
-     *
-     * @param network The network to get the frequency of
-     *
-     * @see FrequencyData
-     *
-     * @return FrequencyData - The frequency data of the given network
-     *
-     * @author Patches Klinefelter
-     * @since 03/2022
-     */
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    fun getFrequency(network: WifiInfo): FrequencyData
+    fun getFrequency(request: GetFrequencyRequest = GetFrequencyRequest.CurrentNetwork): GetFrequencyResult
 
     /**
      * An synchronous API to check if the frequency of the current network is 5G.
@@ -86,41 +73,5 @@ interface FrequencyApi {
      */
     @RequiresPermission(ACCESS_FINE_LOCATION)
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    fun isNetwork5gHz(): Boolean
-
-    /**
-     * An synchronous API to check if the frequency of a given network is 5G.
-     *
-     * @param network The network to determine if it's frequency is 5G
-     *
-     * @return Boolean - Whether the given network is 5G or not. True if 5G, otherwise false
-     *
-     * @author Patches Klinefelter
-     * @since 03/2022
-     */
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    fun isNetwork5gHz(network: WifiInfo): Boolean
-}
-
-/**
- * A set of asynchronous APIs for getting the frequency of a network.
- *
- * @author Patches Klinefelter
- * @since 03/2022
- */
-interface FrequencyApiAsync {
-
-    /**
-     * An asynchronous API to get the frequency of the current network.
-     *
-     * @param callbacks The callbacks for when the frequency is returned
-     *
-     * @see GetFrequencyCallbacks
-     *
-     * @author Patches Klinefelter
-     * @since 03/2022
-     */
-    @RequiresPermission(ACCESS_FINE_LOCATION)
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    fun getFrequency(callbacks: GetFrequencyCallbacks?)
+    fun isNetwork5gHz(request: IsNetwork5gHzRequest = IsNetwork5gHzRequest.CurrentNetwork): IsNetwork5gHzResult
 }

@@ -18,8 +18,8 @@ package com.isupatches.android.wisefy.security.os.adapters
 import com.isupatches.android.wisefy.security.SecurityApi
 import com.isupatches.android.wisefy.security.entities.SecurityDetailsRequest
 import com.isupatches.android.wisefy.security.entities.SecurityDetailsResult
-import com.isupatches.android.wisefy.security.os.impls.DefaultSecurityApiImpl
 import com.isupatches.android.wisefy.security.os.apis.DefaultSecurityApi
+import com.isupatches.android.wisefy.security.os.impls.DefaultSecurityApiImpl
 
 internal class DefaultSecurityAdapter(
     private val api: DefaultSecurityApi = DefaultSecurityApiImpl()

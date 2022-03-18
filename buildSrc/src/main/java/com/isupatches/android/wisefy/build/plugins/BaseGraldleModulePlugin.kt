@@ -20,15 +20,15 @@ import com.isupatches.android.wisefy.build.BuildVersions
 import com.isupatches.android.wisefy.build.Dependencies
 import com.isupatches.android.wisefy.build.DependencyConstants.IMPLEMENTATION
 import com.isupatches.android.wisefy.build.Versions
+import java.io.File
+import java.io.FileInputStream
+import java.util.*
+import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
-import java.io.File
-import java.io.FileInputStream
-import java.util.Locale
-import java.util.Properties
 
 class BaseGradleModulePlugin : Plugin<Project> {
 

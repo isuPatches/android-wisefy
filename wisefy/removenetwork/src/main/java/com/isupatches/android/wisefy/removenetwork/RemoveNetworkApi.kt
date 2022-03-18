@@ -26,5 +26,3 @@ interface RemoveNetworkApi {
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     fun removeNetwork(request: RemoveNetworkRequest): RemoveNetworkResult
 }
-
-

@@ -20,4 +20,6 @@ import com.isupatches.android.wisefy.shared.base.BaseWisefyCallbacks
 interface DisconnectFromCurrentNetworkCallbacks : BaseWisefyCallbacks {
     fun onDisconnectedFromCurrentNetwork()
     fun onFailureDisconnectingFromCurrentNetwork()
+    fun onNetworkNotFoundToDisconnectFrom()
+    fun onUnregisterRequestPlaced()
 }

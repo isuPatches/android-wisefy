@@ -24,8 +24,8 @@ import android.net.wifi.WifiInfo
 import android.net.wifi.WifiManager
 import android.os.Build
 import androidx.annotation.RequiresPermission
-import com.isupatches.android.wisefy.shared.logging.WisefyLogger
 import com.isupatches.android.wisefy.networkinfo.os.apis.DefaultNetworkInfoApi
+import com.isupatches.android.wisefy.shared.logging.WisefyLogger
 import com.isupatches.android.wisefy.shared.util.getNetwork
 import java.math.BigInteger
 import java.net.InetAddress
@@ -34,7 +34,7 @@ import java.net.UnknownHostException
 internal class DefaultNetworkInfoApiImpl(
     private val wifiManager: WifiManager,
     private val connectivityManager: ConnectivityManager,
-    private val logger: WisefyLogger?
+    private val logger: WisefyLogger
 ) : DefaultNetworkInfoApi {
 
     companion object {
@@ -73,7 +73,7 @@ internal class DefaultNetworkInfoApiImpl(
         return try {
             inetAddress?.hostAddress
         } catch (uhe: UnknownHostException) {
-            logger?.e(LOG_TAG, uhe, "UnknownHostException while gathering IP (sync)")
+            logger.e(LOG_TAG, uhe, "UnknownHostException while gathering IP (sync)")
             null
         }
     }

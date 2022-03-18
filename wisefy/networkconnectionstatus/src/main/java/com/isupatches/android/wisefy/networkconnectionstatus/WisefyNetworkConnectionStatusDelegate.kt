@@ -20,15 +20,15 @@ import android.net.ConnectivityManager
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceConnectedResult
+import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceConnectedToSSIDRequest
 import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceRoamingResult
-import com.isupatches.android.wisefy.shared.logging.WisefyLogger
 import com.isupatches.android.wisefy.networkconnectionstatus.os.adapters.DefaultNetworkConnectionStatusAdapter
-import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsNetworkConnectedToSSIDRequest
+import com.isupatches.android.wisefy.shared.logging.WisefyLogger
 import com.isupatches.android.wisefy.shared.util.SdkUtil
 
 class WisefyNetworkConnectionStatusDelegate(
     connectivityManager: ConnectivityManager,
-    logger: WisefyLogger?,
+    logger: WisefyLogger,
     sdkUtil: SdkUtil,
     wifiManager: WifiManager
 ) : NetworkConnectionStatusDelegate {
@@ -45,7 +45,7 @@ class WisefyNetworkConnectionStatusDelegate(
     )
 
     init {
-        logger?.d(LOG_TAG, "WisefyNetworkConnectionStatusDelegate adapter is: ${adapter::class.java.simpleName}")
+        logger.d(LOG_TAG, "WisefyNetworkConnectionStatusDelegate adapter is: ${adapter::class.java.simpleName}")
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
@@ -67,7 +67,7 @@ class WisefyNetworkConnectionStatusDelegate(
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun isDeviceConnectedToSSID(request: IsNetworkConnectedToSSIDRequest): IsDeviceConnectedResult {
+    override fun isDeviceConnectedToSSID(request: IsDeviceConnectedToSSIDRequest): IsDeviceConnectedResult {
         return adapter.isDeviceConnectedToSSID(request)
     }
 

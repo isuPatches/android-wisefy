@@ -27,9 +27,9 @@ import com.isupatches.android.wisefy.accesspoints.entities.SearchForMultipleAcce
 import com.isupatches.android.wisefy.accesspoints.entities.SearchForMultipleSSIDsRequest
 import com.isupatches.android.wisefy.accesspoints.entities.SearchForSingleAccessPointRequest
 import com.isupatches.android.wisefy.accesspoints.entities.SearchForSingleSSIDRequest
+import com.isupatches.android.wisefy.sample.internal.scaffolding.BaseModel
 import com.isupatches.android.wisefy.savednetworks.callbacks.SearchForSavedNetworkCallbacks
 import com.isupatches.android.wisefy.savednetworks.callbacks.SearchForSavedNetworksCallbacks
-import com.isupatches.android.wisefy.sample.internal.scaffolding.BaseModel
 import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkRequest
 import javax.inject.Inject
 

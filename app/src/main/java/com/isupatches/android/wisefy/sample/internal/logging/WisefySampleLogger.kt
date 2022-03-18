@@ -16,8 +16,8 @@
 package com.isupatches.android.wisefy.sample.internal.logging
 
 import android.util.Log
-import com.isupatches.android.wisefy.shared.logging.WisefyLogger
 import com.isupatches.android.wisefy.sample.BuildConfig
+import com.isupatches.android.wisefy.shared.logging.WisefyLogger
 import java.util.Locale
 
 private const val LOG_TAG = "WisefySample"

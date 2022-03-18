@@ -15,7 +15,6 @@
  */
 package com.isupatches.android.wisefy.savednetworks
 
-import android.Manifest
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.ACCESS_WIFI_STATE
 import androidx.annotation.RequiresPermission
@@ -23,8 +22,9 @@ import com.isupatches.android.wisefy.savednetworks.entities.GetSavedNetworksRequ
 import com.isupatches.android.wisefy.savednetworks.entities.GetSavedNetworksResult
 import com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedRequest
 import com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedResult
-import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
 import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkRequest
+import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkResult
+import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworksResult
 
 interface SavedNetworkApi {
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
@@ -34,8 +34,8 @@ interface SavedNetworkApi {
     fun isNetworkSaved(request: IsNetworkSavedRequest): IsNetworkSavedResult
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    fun searchForSavedNetwork(request: SearchForSavedNetworkRequest): SavedNetworkData?
+    fun searchForSavedNetwork(request: SearchForSavedNetworkRequest): SearchForSavedNetworkResult
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    fun searchForSavedNetworks(request: SearchForSavedNetworkRequest): List<SavedNetworkData>
+    fun searchForSavedNetworks(request: SearchForSavedNetworkRequest): SearchForSavedNetworksResult
 }

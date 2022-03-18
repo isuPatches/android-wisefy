@@ -16,7 +16,6 @@
 package com.isupatches.android.wisefy.sample.internal.scaffolding
 
 import com.isupatches.android.wisefy.sample.internal.logging.WisefySampleLogger
-import java.lang.RuntimeException
 
 internal interface Presenter<in VIEW : View> {
     fun attachView(view: VIEW)

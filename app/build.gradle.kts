@@ -18,7 +18,7 @@ if (keystoreFile.exists()) {
 }
 
 android {
-    compileSdkVersion(BuildVersions.COMPILE_SDK)
+    compileSdk = BuildVersions.COMPILE_SDK
     buildToolsVersion = BuildVersions.BUILD_TOOLS
 
     defaultConfig {
@@ -55,11 +55,11 @@ android {
             isTestCoverageEnabled = true
             isMinifyEnabled = false
             isShrinkResources = false
-            proguardFiles(getDefaultProguardFile(
-                "proguard-android-optimize.txt"),
-                "${rootDir}/proguard/r8-app-debug.pro"
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "$rootDir/proguard/r8-app-debug.pro"
             )
-            testProguardFile(file("${rootDir}/proguard/r8-app-test.pro"))
+            testProguardFile(file("$rootDir/proguard/r8-app-test.pro"))
             signingConfig = signingConfigs.getByName("debug")
         }
 
@@ -67,9 +67,9 @@ android {
             isTestCoverageEnabled = false
             isMinifyEnabled = true
             isShrinkResources = true
-            proguardFiles(getDefaultProguardFile(
-                "proguard-android-optimize.txt"),
-                "${rootDir}/proguard/r8-app-release.pro"
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "$rootDir/proguard/r8-app-release.pro"
             )
             signingConfig = signingConfigs.getByName("release")
         }

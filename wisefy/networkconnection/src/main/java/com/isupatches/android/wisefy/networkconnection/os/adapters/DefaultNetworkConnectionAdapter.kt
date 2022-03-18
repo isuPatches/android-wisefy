@@ -16,7 +16,6 @@
 package com.isupatches.android.wisefy.networkconnection.os.adapters
 
 import android.net.wifi.WifiManager
-import com.isupatches.android.wisefy.shared.logging.WisefyLogger
 import com.isupatches.android.wisefy.networkconnection.NetworkConnectionApi
 import com.isupatches.android.wisefy.networkconnection.entities.NetworkConnectionRequest
 import com.isupatches.android.wisefy.networkconnection.entities.NetworkConnectionResult
@@ -24,13 +23,14 @@ import com.isupatches.android.wisefy.networkconnection.os.apis.DefaultNetworkCon
 import com.isupatches.android.wisefy.networkconnection.os.impls.DefaultNetworkConnectionApiImpl
 import com.isupatches.android.wisefy.networkconnectionstatus.NetworkConnectionStatusDelegate
 import com.isupatches.android.wisefy.savednetworks.SavedNetworkDelegate
+import com.isupatches.android.wisefy.shared.logging.WisefyLogger
 
 internal class DefaultNetworkConnectionAdapter(
     wifiManager: WifiManager,
     networkConnectionStatusUtil: NetworkConnectionStatusDelegate,
     savedNetworkUtil: SavedNetworkDelegate,
-    logger: WisefyLogger?,
-    private val impl: DefaultNetworkConnectionApi = DefaultNetworkConnectionApiImpl(
+    logger: WisefyLogger,
+    private val api: DefaultNetworkConnectionApi = DefaultNetworkConnectionApiImpl(
         wifiManager,
         networkConnectionStatusUtil,
         savedNetworkUtil,
@@ -39,10 +39,10 @@ internal class DefaultNetworkConnectionAdapter(
 ) : NetworkConnectionApi {
 
     override fun connectToNetwork(request: NetworkConnectionRequest): NetworkConnectionResult {
-        return impl.connectToNetwork(request)
+        return api.connectToNetwork(request)
     }
 
     override fun disconnectFromCurrentNetwork(): NetworkConnectionResult {
-        return impl.disconnectFromCurrentNetwork()
+        return api.disconnectFromCurrentNetwork()
     }
 }

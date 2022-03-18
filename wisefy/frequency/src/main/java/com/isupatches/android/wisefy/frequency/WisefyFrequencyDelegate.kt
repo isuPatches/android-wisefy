@@ -17,33 +17,22 @@ package com.isupatches.android.wisefy.frequency
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.net.ConnectivityManager
-import android.net.wifi.WifiInfo
 import android.net.wifi.WifiManager
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.frequency.callbacks.GetFrequencyCallbacks
-import com.isupatches.android.wisefy.frequency.proxies.DefaultFrequencyProxy
-import com.isupatches.android.wisefy.frequency.entities.FrequencyData
+import com.isupatches.android.wisefy.frequency.entities.GetFrequencyRequest
+import com.isupatches.android.wisefy.frequency.entities.GetFrequencyResult
+import com.isupatches.android.wisefy.frequency.entities.IsNetwork5gHzRequest
+import com.isupatches.android.wisefy.frequency.entities.IsNetwork5gHzResult
+import com.isupatches.android.wisefy.frequency.os.adapters.DefaultFrequencyAdapter
 import com.isupatches.android.wisefy.shared.coroutines.CoroutineDispatcherProvider
 import com.isupatches.android.wisefy.shared.coroutines.createBaseCoroutineExceptionHandler
 import com.isupatches.android.wisefy.shared.logging.WisefyLogger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-
-/**
- * A delegate for synchronous and asynchronous APIs to get the frequency of a network.
- *
- * @see FrequencyApi
- * @see FrequencyApiAsync
- *
- * @author Patches Klinefelter
- * @since 03/2022
- */
-interface FrequencyDelegate : FrequencyApi, FrequencyApiAsync
-
-private const val LOG_TAG = "WisefyFrequencyUtil"
 
 /**
  * A default delegate for getting the frequency of a network.
@@ -58,51 +47,46 @@ private const val LOG_TAG = "WisefyFrequencyUtil"
 class WisefyFrequencyDelegate(
     private val coroutineDispatcherProvider: CoroutineDispatcherProvider,
     private val scope: CoroutineScope,
-    logger: WisefyLogger?,
+    logger: WisefyLogger,
     connectivityManager: ConnectivityManager,
     wifiManager: WifiManager
 ) : FrequencyDelegate {
 
-    private val delegate = DefaultFrequencyProxy(wifiManager, connectivityManager)
+    companion object {
+        private const val LOG_TAG = "WisefyFrequencyDelegate"
+    }
+
+    private val adapter = DefaultFrequencyAdapter(wifiManager, connectivityManager)
 
     init {
-        logger?.d(LOG_TAG, "WisefyFrequencyUtil delegate is: ${delegate::class.java.simpleName}")
+        logger.d(LOG_TAG, "WisefyFrequencyDelegate adapter is: ${adapter::class.java.simpleName}")
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    override fun getFrequency(): FrequencyData? {
-        return delegate.getFrequency()
+    override fun getFrequency(request: GetFrequencyRequest): GetFrequencyResult {
+        return adapter.getFrequency(request)
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    override fun getFrequency(callbacks: GetFrequencyCallbacks?) {
+    override fun getFrequency(request: GetFrequencyRequest, callbacks: GetFrequencyCallbacks?) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
-            val frequency = delegate.getFrequency()
+            val result = adapter.getFrequency(request)
             withContext(coroutineDispatcherProvider.main) {
-                if (frequency != null) {
-                    callbacks?.onFrequencyRetrieved(frequency)
-                } else {
-                    callbacks?.onFailureRetrievingFrequency()
+                when (result) {
+                    is GetFrequencyResult.Empty -> callbacks?.onFailureRetrievingFrequency()
+                    is GetFrequencyResult.WithFrequency -> {
+                        callbacks?.onFrequencyRetrieved(result.data)
+                    }
                 }
             }
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    override fun getFrequency(network: WifiInfo): FrequencyData {
-        return delegate.getFrequency(network)
-    }
-
     @RequiresPermission(ACCESS_FINE_LOCATION)
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    override fun isNetwork5gHz(): Boolean {
-        return delegate.isNetwork5gHz()
-    }
-
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    override fun isNetwork5gHz(network: WifiInfo): Boolean {
-        return delegate.isNetwork5gHz(network)
+    override fun isNetwork5gHz(request: IsNetwork5gHzRequest): IsNetwork5gHzResult {
+        return adapter.isNetwork5gHz(request)
     }
 }

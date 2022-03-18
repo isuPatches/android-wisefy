@@ -22,13 +22,13 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.addnetwork.callbacks.AddNetworkCallbacks
-import com.isupatches.android.wisefy.addnetwork.proxies.Android29AddNetworkProxy
-import com.isupatches.android.wisefy.addnetwork.proxies.Android30AddNetworkProxy
-import com.isupatches.android.wisefy.addnetwork.proxies.DefaultAddNetworkProxy
 import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
 import com.isupatches.android.wisefy.addnetwork.entities.AddOpenNetworkRequest
 import com.isupatches.android.wisefy.addnetwork.entities.AddWPA2NetworkRequest
 import com.isupatches.android.wisefy.addnetwork.entities.AddWPA3NetworkRequest
+import com.isupatches.android.wisefy.addnetwork.os.adapters.Android29AddNetworkAdapter
+import com.isupatches.android.wisefy.addnetwork.os.adapters.Android30AddNetworkAdapter
+import com.isupatches.android.wisefy.addnetwork.os.adapters.DefaultAddNetworkAdapter
 import com.isupatches.android.wisefy.shared.coroutines.CoroutineDispatcherProvider
 import com.isupatches.android.wisefy.shared.coroutines.createBaseCoroutineExceptionHandler
 import com.isupatches.android.wisefy.shared.logging.WisefyLogger
@@ -36,19 +36,6 @@ import com.isupatches.android.wisefy.shared.util.SdkUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-
-/**
- * A delegate for synchronous and asynchronous APIs to add networks.
- *
- * @see AddNetworkApi
- * @see AddNetworkApiAsync
- *
- * @author Patches Klinefelter
- * @since 03/2022
- */
-interface AddNetworkDelegate : AddNetworkApi, AddNetworkApiAsync
-
-private const val LOG_TAG = "WisefyAddNetworkDelegate"
 
 /**
  * A default delegate for adding networks.
@@ -63,19 +50,23 @@ private const val LOG_TAG = "WisefyAddNetworkDelegate"
 class WisefyAddNetworkDelegate(
     private val coroutineDispatcherProvider: CoroutineDispatcherProvider,
     private val scope: CoroutineScope,
-    logger: WisefyLogger?,
+    logger: WisefyLogger,
     sdkUtil: SdkUtil,
     wifiManager: WifiManager
 ) : AddNetworkDelegate {
 
-    private val proxy = when {
-        sdkUtil.isAtLeastR() -> Android30AddNetworkProxy(wifiManager)
-        sdkUtil.isAtLeastQ() -> Android29AddNetworkProxy(wifiManager, logger)
-        else -> DefaultAddNetworkProxy(wifiManager)
+    companion object {
+        private const val LOG_TAG = "WisefyAddNetworkDelegate"
+    }
+
+    private val adapter = when {
+        sdkUtil.isAtLeastR() -> Android30AddNetworkAdapter(wifiManager)
+        sdkUtil.isAtLeastQ() -> Android29AddNetworkAdapter(wifiManager)
+        else -> DefaultAddNetworkAdapter(wifiManager)
     }
 
     init {
-        logger?.d(LOG_TAG, "WisefyAddNetworkDelegate proxy is: ${proxy::class.java.simpleName}")
+        logger.d(LOG_TAG, "WisefyAddNetworkDelegate adapter is: ${adapter::class.java.simpleName}")
     }
 
     /*
@@ -83,17 +74,17 @@ class WisefyAddNetworkDelegate(
      */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     override fun addOpenNetwork(request: AddOpenNetworkRequest): AddNetworkResult {
-        return proxy.addOpenNetwork(request)
+        return adapter.addOpenNetwork(request)
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     override fun addOpenNetwork(request: AddOpenNetworkRequest, callbacks: AddNetworkCallbacks?) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
-            val addNetworkResult = addOpenNetwork(request)
+            val result = addOpenNetwork(request)
             withContext(coroutineDispatcherProvider.main) {
-                when (addNetworkResult) {
-                    is AddNetworkResult.Success -> callbacks?.onNetworkAdded(addNetworkResult)
-                    is AddNetworkResult.Failure -> callbacks?.onFailureAddingNetwork(addNetworkResult)
+                when (result) {
+                    is AddNetworkResult.Success -> callbacks?.onNetworkAdded(result)
+                    is AddNetworkResult.Failure -> callbacks?.onFailureAddingNetwork(result)
                 }
             }
         }
@@ -104,17 +95,17 @@ class WisefyAddNetworkDelegate(
      */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     override fun addWPA2Network(request: AddWPA2NetworkRequest): AddNetworkResult {
-        return proxy.addWPA2Network(request)
+        return adapter.addWPA2Network(request)
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     override fun addWPA2Network(request: AddWPA2NetworkRequest, callbacks: AddNetworkCallbacks?) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
-            val addNetworkResult = addWPA2Network(request)
+            val result = addWPA2Network(request)
             withContext(coroutineDispatcherProvider.main) {
-                when (addNetworkResult) {
-                    is AddNetworkResult.Success -> callbacks?.onNetworkAdded(addNetworkResult)
-                    is AddNetworkResult.Failure -> callbacks?.onFailureAddingNetwork(addNetworkResult)
+                when (result) {
+                    is AddNetworkResult.Success -> callbacks?.onNetworkAdded(result)
+                    is AddNetworkResult.Failure -> callbacks?.onFailureAddingNetwork(result)
                 }
             }
         }
@@ -126,18 +117,18 @@ class WisefyAddNetworkDelegate(
     @RequiresApi(Build.VERSION_CODES.Q)
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     override fun addWPA3Network(request: AddWPA3NetworkRequest): AddNetworkResult {
-        return proxy.addWPA3Network(request)
+        return adapter.addWPA3Network(request)
     }
 
     @RequiresApi(Build.VERSION_CODES.Q)
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     override fun addWPA3Network(request: AddWPA3NetworkRequest, callbacks: AddNetworkCallbacks?) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
-            val addNetworkResult = addWPA3Network(request)
+            val result = addWPA3Network(request)
             withContext(coroutineDispatcherProvider.main) {
-                when (addNetworkResult) {
-                    is AddNetworkResult.Success -> callbacks?.onNetworkAdded(addNetworkResult)
-                    is AddNetworkResult.Failure -> callbacks?.onFailureAddingNetwork(addNetworkResult)
+                when (result) {
+                    is AddNetworkResult.Success -> callbacks?.onNetworkAdded(result)
+                    is AddNetworkResult.Failure -> callbacks?.onFailureAddingNetwork(result)
                 }
             }
         }

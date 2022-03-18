@@ -26,7 +26,7 @@ import com.isupatches.android.wisefy.signal.os.adapters.Android30SignalAdapter
 import com.isupatches.android.wisefy.signal.os.adapters.DefaultSignalAdapter
 
 class WisefySignalDelegate(
-    logger: WisefyLogger?,
+    logger: WisefyLogger,
     sdkUtil: SdkUtil,
     wifiManager: WifiManager
 ) : SignalDelegate {
@@ -41,7 +41,7 @@ class WisefySignalDelegate(
     }
 
     init {
-        logger?.d(LOG_TAG, "WisefySignalDelegate adapter is: ${adapter::class.java.simpleName}")
+        logger.d(LOG_TAG, "WisefySignalDelegate adapter is: ${adapter::class.java.simpleName}")
     }
 
     override fun calculateBars(request: CalculateBarsRequest): CalculateBarsResult {

@@ -20,24 +20,24 @@ import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.net.ConnectivityManager
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
-import com.isupatches.android.wisefy.networkconnection.os.converters.toSearchForNetworkRequest
-import com.isupatches.android.wisefy.shared.logging.WisefyLogger
 import com.isupatches.android.wisefy.networkconnection.entities.NetworkConnectionRequest
 import com.isupatches.android.wisefy.networkconnection.entities.NetworkConnectionResult
 import com.isupatches.android.wisefy.networkconnection.os.apis.DefaultNetworkConnectionApi
+import com.isupatches.android.wisefy.networkconnection.os.converters.toSearchForNetworkRequest
 import com.isupatches.android.wisefy.networkconnectionstatus.NetworkConnectionStatusDelegate
 import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceConnectedResult
 import com.isupatches.android.wisefy.savednetworks.SavedNetworkDelegate
-import com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedResult
 import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
+import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkResult
 import com.isupatches.android.wisefy.shared.entities.QUOTE
+import com.isupatches.android.wisefy.shared.logging.WisefyLogger
 import com.isupatches.android.wisefy.shared.util.rest
 
 internal class DefaultNetworkConnectionApiImpl(
     private val wifiManager: WifiManager,
     private val networkConnectionStatusUtil: NetworkConnectionStatusDelegate,
     private val savedNetworkUtil: SavedNetworkDelegate,
-    private val logger: WisefyLogger?
+    private val logger: WisefyLogger
 ) : DefaultNetworkConnectionApi, ConnectivityManager.NetworkCallback() {
 
     companion object {
@@ -47,18 +47,22 @@ internal class DefaultNetworkConnectionApiImpl(
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun connectToNetwork(request: NetworkConnectionRequest): NetworkConnectionResult {
         return when (
-            val savedNetworkData = savedNetworkUtil.searchForSavedNetwork(request.toSearchForNetworkRequest())
+            val savedNetworkSearchResult = savedNetworkUtil.searchForSavedNetwork(request.toSearchForNetworkRequest())
         ) {
-            null -> return NetworkConnectionResult.NetworkNotFound
-            is SavedNetworkData.Configuration -> {
-                savedNetworkData.value.let {
-                    wifiManager.disconnect()
-                    wifiManager.enableNetwork(it.networkId, true)
-                    wifiManager.reconnect()
-                    return NetworkConnectionResult.Succeeded(waitToConnectToSSID(request))
+            is SearchForSavedNetworkResult.Empty -> NetworkConnectionResult.NetworkNotFound
+            is SearchForSavedNetworkResult.SavedNetwork -> {
+                when (val saveNetwork = savedNetworkSearchResult.data) {
+                    is SavedNetworkData.Configuration -> {
+                        saveNetwork.value.let {
+                            wifiManager.disconnect()
+                            wifiManager.enableNetwork(it.networkId, true)
+                            wifiManager.reconnect()
+                            NetworkConnectionResult.Succeeded(waitToConnectToSSID(request))
+                        }
+                    }
+                    else -> NetworkConnectionResult.Succeeded(false)
                 }
             }
-            else -> NetworkConnectionResult.Succeeded(false)
         }
     }
 
@@ -67,7 +71,7 @@ internal class DefaultNetworkConnectionApiImpl(
     }
 
     private fun waitToConnectToSSID(request: NetworkConnectionRequest): Boolean {
-        logger?.d(
+        logger.d(
             LOG_TAG,
             "Waiting %d milliseconds to connect to network with search request %s",
             request.timeoutInMillis,
@@ -81,7 +85,7 @@ internal class DefaultNetworkConnectionApiImpl(
             }
             rest()
             currentTime = System.currentTimeMillis()
-            logger?.d(LOG_TAG, "Current time: %d, End time: %d (waitToConnectToSSID)", currentTime, endTime)
+            logger.d(LOG_TAG, "Current time: %d, End time: %d (waitToConnectToSSID)", currentTime, endTime)
         } while (currentTime < endTime)
         return false
     }
@@ -102,11 +106,11 @@ internal class DefaultNetworkConnectionApiImpl(
                     is NetworkConnectionRequest.SSID -> it.ssid.replace(QUOTE, "")
                     is NetworkConnectionRequest.BSSID -> it.bssid.replace(QUOTE, "")
                 }
-                logger?.d(LOG_TAG, "Current value: %s, Desired value: %s", currentValue, expectedValue)
+                logger.d(LOG_TAG, "Current value: %s, Desired value: %s", currentValue, expectedValue)
                 if (currentValue.equals(expectedValue, ignoreCase = true) &&
                     networkConnectionStatusUtil.isDeviceConnectedToMobileOrWifiNetwork() is IsDeviceConnectedResult.True
                 ) {
-                    logger?.d(LOG_TAG, "Network is connected")
+                    logger.d(LOG_TAG, "Network is connected")
                     return true
                 }
             }

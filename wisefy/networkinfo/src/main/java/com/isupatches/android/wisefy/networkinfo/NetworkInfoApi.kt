@@ -17,10 +17,10 @@ package com.isupatches.android.wisefy.networkinfo
 
 import android.Manifest.permission.ACCESS_NETWORK_STATE
 import androidx.annotation.RequiresPermission
-import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkInfoResult
-import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkResult
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkInfoRequest
+import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkInfoResult
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkRequest
+import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkResult
 import com.isupatches.android.wisefy.networkinfo.entities.GetIPRequest
 import com.isupatches.android.wisefy.networkinfo.entities.GetIPResult
 

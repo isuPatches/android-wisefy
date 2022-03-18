@@ -16,6 +16,9 @@
 package com.isupatches.android.wisefy.build.plugins
 
 import com.android.build.gradle.LibraryExtension
+import java.io.File
+import java.net.URI
+import java.util.*
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaBasePlugin
@@ -27,9 +30,6 @@ import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.get
 import org.gradle.plugins.signing.SigningExtension
-import java.io.File
-import java.net.URI
-import java.util.Properties
 
 private const val DEVELOPER_ID = "isuPatches"
 private const val DEVELOPER_NAME = "Patches Klinefelter"

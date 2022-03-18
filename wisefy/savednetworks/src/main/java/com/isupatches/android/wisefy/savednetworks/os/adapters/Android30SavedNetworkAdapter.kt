@@ -28,6 +28,8 @@ import com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedReques
 import com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedResult
 import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
 import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkRequest
+import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkResult
+import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworksResult
 import com.isupatches.android.wisefy.savednetworks.os.apis.Android30SavedNetworkApi
 import com.isupatches.android.wisefy.savednetworks.os.impls.Android30SavedNetworkApiImpl
 
@@ -39,11 +41,11 @@ internal class Android30SavedNetworkAdapter(
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun getSavedNetworks(request: GetSavedNetworksRequest): GetSavedNetworksResult {
-        val savedNetworks = api.getSavedNetworks().map { networkSuggestion ->
+        val savedNetworkSuggestions = api.getSavedNetworks().map { networkSuggestion ->
             SavedNetworkData.Suggestion(networkSuggestion)
         }
-        return if (savedNetworks.isNotEmpty()) {
-            GetSavedNetworksResult.SavedNetworks(data = savedNetworks)
+        return if (savedNetworkSuggestions.isNotEmpty()) {
+            GetSavedNetworksResult.SavedNetworks(data = savedNetworkSuggestions)
         } else {
             GetSavedNetworksResult.Empty
         }
@@ -51,11 +53,11 @@ internal class Android30SavedNetworkAdapter(
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun isNetworkSaved(request: IsNetworkSavedRequest): IsNetworkSavedResult {
-        val isNetworkSaved = when (request) {
+        val isNetworkSavedAsSuggestion = when (request) {
             is IsNetworkSavedRequest.SSID -> api.isNetworkSavedWithSSID(request.regex)
             is IsNetworkSavedRequest.BSSID -> api.isNetworkSavedWithSSID(request.regex)
         }
-        return if (isNetworkSaved) {
+        return if (isNetworkSavedAsSuggestion) {
             IsNetworkSavedResult.True
         } else {
             IsNetworkSavedResult.False
@@ -63,22 +65,28 @@ internal class Android30SavedNetworkAdapter(
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun searchForSavedNetwork(request: SearchForSavedNetworkRequest): SavedNetworkData? {
-        val networkSuggestion = when (request) {
+    override fun searchForSavedNetwork(request: SearchForSavedNetworkRequest): SearchForSavedNetworkResult {
+        val savedNetworkSuggestion = when (request) {
             is SearchForSavedNetworkRequest.SSID -> api.searchForSavedNetworkBySSID(request.regex)
             is SearchForSavedNetworkRequest.BSSID -> api.searchForSavedNetworkByBSSID(request.regex)
         }
-        return networkSuggestion?.let {
-            SavedNetworkData.Suggestion(networkSuggestion)
-        }
+        return savedNetworkSuggestion?.let {
+            SearchForSavedNetworkResult.SavedNetwork(data = SavedNetworkData.Suggestion(savedNetworkSuggestion))
+        } ?: SearchForSavedNetworkResult.Empty
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun searchForSavedNetworks(request: SearchForSavedNetworkRequest): List<SavedNetworkData> {
-        val savedNetworks = when (request) {
+    override fun searchForSavedNetworks(request: SearchForSavedNetworkRequest): SearchForSavedNetworksResult {
+        val savedNetworkSuggestions = when (request) {
             is SearchForSavedNetworkRequest.SSID -> api.searchForSavedNetworksBySSID(request.regex)
             is SearchForSavedNetworkRequest.BSSID -> api.searchForSavedNetworksByBSSID(request.regex)
+        }.map { networkSuggestion ->
+            SavedNetworkData.Suggestion(networkSuggestion)
         }
-        return savedNetworks.map { networkSuggestion -> SavedNetworkData.Suggestion(networkSuggestion) }
+        return if (savedNetworkSuggestions.isNotEmpty()) {
+            SearchForSavedNetworksResult.SavedNetworks(data = savedNetworkSuggestions)
+        } else {
+            SearchForSavedNetworksResult.Empty
+        }
     }
 }

@@ -38,7 +38,7 @@ import kotlinx.coroutines.withContext
 class WisefyWifiDelegate(
     private val coroutineDispatcherProvider: CoroutineDispatcherProvider,
     private val scope: CoroutineScope,
-    logger: WisefyLogger?,
+    logger: WisefyLogger,
     sdkUtil: SdkUtil,
     wifiManager: WifiManager
 ) : WifiDelegate {
@@ -53,7 +53,7 @@ class WisefyWifiDelegate(
     }
 
     init {
-        logger?.d(LOG_TAG, "WisefyWifiDelegate adapter is: ${adapter::class.java.simpleName}")
+        logger.d(LOG_TAG, "WisefyWifiDelegate adapter is: ${adapter::class.java.simpleName}")
     }
 
     @Deprecated(DeprecationMessages.Wifi.DISABLE)

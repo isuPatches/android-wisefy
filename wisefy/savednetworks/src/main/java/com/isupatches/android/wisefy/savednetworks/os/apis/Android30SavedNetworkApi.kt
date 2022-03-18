@@ -15,7 +15,6 @@
  */
 package com.isupatches.android.wisefy.savednetworks.os.apis
 
-import android.Manifest
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.net.wifi.WifiNetworkSuggestion

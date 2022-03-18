@@ -22,7 +22,6 @@ import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.Manifest.permission.CHANGE_WIFI_STATE
 import android.content.Context
 import android.net.ConnectivityManager
-import android.net.wifi.WifiInfo
 import android.net.wifi.WifiManager
 import android.os.Build
 import android.os.Build.VERSION_CODES.LOLLIPOP
@@ -37,30 +36,32 @@ import com.isupatches.android.wisefy.accesspoints.callbacks.SearchForAccessPoint
 import com.isupatches.android.wisefy.accesspoints.callbacks.SearchForAccessPointsCallbacks
 import com.isupatches.android.wisefy.accesspoints.callbacks.SearchForSSIDCallbacks
 import com.isupatches.android.wisefy.accesspoints.callbacks.SearchForSSIDsCallbacks
-import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
 import com.isupatches.android.wisefy.accesspoints.entities.GetNearbyAccessPointsRequest
+import com.isupatches.android.wisefy.accesspoints.entities.GetNearbyAccessPointsResult
 import com.isupatches.android.wisefy.accesspoints.entities.GetRSSIRequest
-import com.isupatches.android.wisefy.accesspoints.entities.RSSIData
-import com.isupatches.android.wisefy.accesspoints.entities.SSIDData
+import com.isupatches.android.wisefy.accesspoints.entities.GetRSSIResult
+import com.isupatches.android.wisefy.accesspoints.entities.SearchForAccessPointResult
+import com.isupatches.android.wisefy.accesspoints.entities.SearchForAccessPointsResult
 import com.isupatches.android.wisefy.accesspoints.entities.SearchForMultipleAccessPointsRequest
 import com.isupatches.android.wisefy.accesspoints.entities.SearchForMultipleSSIDsRequest
+import com.isupatches.android.wisefy.accesspoints.entities.SearchForSSIDResult
+import com.isupatches.android.wisefy.accesspoints.entities.SearchForSSIDsResult
 import com.isupatches.android.wisefy.accesspoints.entities.SearchForSingleAccessPointRequest
 import com.isupatches.android.wisefy.accesspoints.entities.SearchForSingleSSIDRequest
-import com.isupatches.android.wisefy.addnetwork.callbacks.AddNetworkCallbacks
 import com.isupatches.android.wisefy.addnetwork.AddNetworkDelegate
 import com.isupatches.android.wisefy.addnetwork.WisefyAddNetworkDelegate
+import com.isupatches.android.wisefy.addnetwork.callbacks.AddNetworkCallbacks
 import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
 import com.isupatches.android.wisefy.addnetwork.entities.AddOpenNetworkRequest
 import com.isupatches.android.wisefy.addnetwork.entities.AddWPA2NetworkRequest
 import com.isupatches.android.wisefy.addnetwork.entities.AddWPA3NetworkRequest
-import com.isupatches.android.wisefy.savednetworks.callbacks.GetSavedNetworksCallbacks
-import com.isupatches.android.wisefy.savednetworks.callbacks.SearchForSavedNetworkCallbacks
-import com.isupatches.android.wisefy.savednetworks.callbacks.SearchForSavedNetworksCallbacks
 import com.isupatches.android.wisefy.frequency.FrequencyDelegate
-import com.isupatches.android.wisefy.frequency.callbacks.GetFrequencyCallbacks
 import com.isupatches.android.wisefy.frequency.WisefyFrequencyDelegate
-import com.isupatches.android.wisefy.frequency.entities.FrequencyData
-import com.isupatches.android.wisefy.shared.logging.WisefyLogger
+import com.isupatches.android.wisefy.frequency.callbacks.GetFrequencyCallbacks
+import com.isupatches.android.wisefy.frequency.entities.GetFrequencyRequest
+import com.isupatches.android.wisefy.frequency.entities.GetFrequencyResult
+import com.isupatches.android.wisefy.frequency.entities.IsNetwork5gHzRequest
+import com.isupatches.android.wisefy.frequency.entities.IsNetwork5gHzResult
 import com.isupatches.android.wisefy.networkconnection.NetworkConnectionDelegate
 import com.isupatches.android.wisefy.networkconnection.WisefyNetworkConnectionDelegate
 import com.isupatches.android.wisefy.networkconnection.callbacks.ConnectToNetworkCallbacks
@@ -70,8 +71,8 @@ import com.isupatches.android.wisefy.networkconnection.entities.NetworkConnectio
 import com.isupatches.android.wisefy.networkconnectionstatus.NetworkConnectionStatusDelegate
 import com.isupatches.android.wisefy.networkconnectionstatus.WisefyNetworkConnectionStatusDelegate
 import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceConnectedResult
+import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceConnectedToSSIDRequest
 import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceRoamingResult
-import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsNetworkConnectedToSSIDRequest
 import com.isupatches.android.wisefy.networkinfo.NetworkInfoDelegate
 import com.isupatches.android.wisefy.networkinfo.WisefyNetworkInfoDelegate
 import com.isupatches.android.wisefy.networkinfo.callbacks.GetCurrentNetworkCallbacks
@@ -83,25 +84,31 @@ import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkReque
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkResult
 import com.isupatches.android.wisefy.networkinfo.entities.GetIPRequest
 import com.isupatches.android.wisefy.networkinfo.entities.GetIPResult
-import com.isupatches.android.wisefy.removenetwork.callbacks.RemoveNetworkCallbacks
 import com.isupatches.android.wisefy.removenetwork.RemoveNetworkDelegate
 import com.isupatches.android.wisefy.removenetwork.WisefyRemoveNetworkDelegate
+import com.isupatches.android.wisefy.removenetwork.callbacks.RemoveNetworkCallbacks
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkRequest
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkResult
 import com.isupatches.android.wisefy.savednetworks.SavedNetworkDelegate
 import com.isupatches.android.wisefy.savednetworks.WisefySavedNetworkDelegate
+import com.isupatches.android.wisefy.savednetworks.callbacks.GetSavedNetworksCallbacks
+import com.isupatches.android.wisefy.savednetworks.callbacks.SearchForSavedNetworkCallbacks
+import com.isupatches.android.wisefy.savednetworks.callbacks.SearchForSavedNetworksCallbacks
 import com.isupatches.android.wisefy.savednetworks.entities.GetSavedNetworksRequest
 import com.isupatches.android.wisefy.savednetworks.entities.GetSavedNetworksResult
 import com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedRequest
 import com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedResult
-import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
 import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkRequest
+import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkResult
+import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworksResult
 import com.isupatches.android.wisefy.security.SecurityDelegate
 import com.isupatches.android.wisefy.security.WisefySecurityDelegate
 import com.isupatches.android.wisefy.security.entities.SecurityDetailsRequest
 import com.isupatches.android.wisefy.security.entities.SecurityDetailsResult
 import com.isupatches.android.wisefy.shared.coroutines.CoroutineDispatcherProvider
 import com.isupatches.android.wisefy.shared.entities.DeprecationMessages
+import com.isupatches.android.wisefy.shared.logging.DefaultWisefyLogger
+import com.isupatches.android.wisefy.shared.logging.WisefyLogger
 import com.isupatches.android.wisefy.shared.util.SdkUtilImpl
 import com.isupatches.android.wisefy.signal.SignalDelegate
 import com.isupatches.android.wisefy.signal.WisefySignalDelegate
@@ -121,6 +128,7 @@ import com.isupatches.android.wisefy.wifi.entities.IsWifiEnabledRequest
 import com.isupatches.android.wisefy.wifi.entities.IsWifiEnabledResult
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancelChildren
 
 @Suppress("SyntheticAccessor")
 class Wisefy private constructor(
@@ -140,10 +148,9 @@ class Wisefy private constructor(
 
     class Brains @JvmOverloads constructor(
         context: Context,
-        logger: WisefyLogger? = null
+        private var logger: WisefyLogger = DefaultWisefyLogger()
     ) {
 
-        private var logger: WisefyLogger? = null
         private var connectivityManager: ConnectivityManager
         private var wifiManager: WifiManager
 
@@ -259,44 +266,46 @@ class Wisefy private constructor(
         }
 
         @VisibleForTesting
-        internal fun customAccessPointsUtil(accessPointsDelegate: AccessPointsDelegate): Brains = apply {
+        internal fun customAccessPointsDelegate(accessPointsDelegate: AccessPointsDelegate): Brains = apply {
             this.accessPointsDelegate = accessPointsDelegate
         }
 
         @VisibleForTesting
-        internal fun customAddNetworkUtil(addNetworkDelegate: AddNetworkDelegate): Brains = apply {
+        internal fun customAddNetworkDelegate(addNetworkDelegate: AddNetworkDelegate): Brains = apply {
             this.addNetworkDelegate = addNetworkDelegate
         }
 
         @VisibleForTesting
-        internal fun customFrequencyUtil(frequencyDelegate: FrequencyDelegate): Brains = apply {
+        internal fun customFrequencyDelegate(frequencyDelegate: FrequencyDelegate): Brains = apply {
             this.frequencyDelegate = frequencyDelegate
         }
 
         @VisibleForTesting
-        internal fun customNetworkConnectionUtil(networkConnectionDelegate: NetworkConnectionDelegate): Brains = apply {
+        internal fun customNetworkConnectionDelegate(
+            networkConnectionDelegate: NetworkConnectionDelegate
+        ): Brains = apply {
             this.networkConnectionDelegate = networkConnectionDelegate
         }
 
         @VisibleForTesting
-        internal fun customNetworkConnectionStatusUtil(
+        internal fun customNetworkConnectionStatusDelegate(
             networkConnectionStatusDelegate: NetworkConnectionStatusDelegate
         ): Brains = apply {
             this.networkConnectionStatusDelegate = networkConnectionStatusDelegate
         }
 
         @VisibleForTesting
-        internal fun customNetworkInfoUtil(networkInfoDelegate: NetworkInfoDelegate): Brains = apply {
+        internal fun customNetworkInfoDelegate(networkInfoDelegate: NetworkInfoDelegate): Brains = apply {
             this.networkInfoDelegate = networkInfoDelegate
         }
 
         @VisibleForTesting
-        internal fun customRemoveNetworkUtil(removeNetworkDelegate: RemoveNetworkDelegate): Brains = apply {
+        internal fun customRemoveNetworkDelegate(removeNetworkDelegate: RemoveNetworkDelegate): Brains = apply {
             this.removeNetworkDelegate = removeNetworkDelegate
         }
 
         @VisibleForTesting
-        internal fun customSavedNetworkUtil(savedNetworkDelegate: SavedNetworkDelegate): Brains = apply {
+        internal fun customSavedNetworkDelegate(savedNetworkDelegate: SavedNetworkDelegate): Brains = apply {
             this.savedNetworkDelegate = savedNetworkDelegate
         }
 
@@ -333,11 +342,12 @@ class Wisefy private constructor(
         }
     }
 
-    override fun attachNetworkWatcher() {
+    override fun init() {
         networkConnectionStatusDelegate.attachNetworkWatcher()
     }
 
-    override fun detachNetworkWatcher() {
+    override fun dump() {
+        scope.coroutineContext[Job]?.cancelChildren()
         networkConnectionStatusDelegate.detachNetworkWatcher()
     }
 
@@ -442,19 +452,14 @@ class Wisefy private constructor(
 
     @RequiresApi(LOLLIPOP)
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_NETWORK_STATE])
-    override fun getFrequency(): FrequencyData? {
+    override fun getFrequency(request: GetFrequencyRequest): GetFrequencyResult {
         return frequencyDelegate.getFrequency()
     }
 
     @RequiresApi(LOLLIPOP)
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun getFrequency(callbacks: GetFrequencyCallbacks?) {
-        frequencyDelegate.getFrequency(callbacks)
-    }
-
-    @RequiresApi(LOLLIPOP)
-    override fun getFrequency(network: WifiInfo): FrequencyData {
-        return frequencyDelegate.getFrequency(network)
+    override fun getFrequency(request: GetFrequencyRequest, callbacks: GetFrequencyCallbacks?) {
+        frequencyDelegate.getFrequency(request, callbacks)
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
@@ -468,7 +473,7 @@ class Wisefy private constructor(
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun getNearbyAccessPoints(request: GetNearbyAccessPointsRequest): List<AccessPointData> {
+    override fun getNearbyAccessPoints(request: GetNearbyAccessPointsRequest): GetNearbyAccessPointsResult {
         return accessPointsDelegate.getNearbyAccessPoints(request)
     }
 
@@ -481,7 +486,7 @@ class Wisefy private constructor(
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun getRSSI(request: GetRSSIRequest): RSSIData? {
+    override fun getRSSI(request: GetRSSIRequest): GetRSSIResult {
         return accessPointsDelegate.getRSSI(request)
     }
 
@@ -508,7 +513,7 @@ class Wisefy private constructor(
         return networkConnectionStatusDelegate.isDeviceConnectedToMobileOrWifiNetwork()
     }
 
-    override fun isDeviceConnectedToSSID(request: IsNetworkConnectedToSSIDRequest): IsDeviceConnectedResult {
+    override fun isDeviceConnectedToSSID(request: IsDeviceConnectedToSSIDRequest): IsDeviceConnectedResult {
         return networkConnectionStatusDelegate.isDeviceConnectedToSSID(request)
     }
 
@@ -521,12 +526,8 @@ class Wisefy private constructor(
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_NETWORK_STATE])
-    override fun isNetwork5gHz(): Boolean {
+    override fun isNetwork5gHz(request: IsNetwork5gHzRequest): IsNetwork5gHzResult {
         return frequencyDelegate.isNetwork5gHz()
-    }
-
-    override fun isNetwork5gHz(network: WifiInfo): Boolean {
-        return frequencyDelegate.isNetwork5gHz(network)
     }
 
     override fun isNetworkEAP(request: SecurityDetailsRequest): SecurityDetailsResult {
@@ -577,7 +578,7 @@ class Wisefy private constructor(
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun searchForAccessPoint(request: SearchForSingleAccessPointRequest): AccessPointData? {
+    override fun searchForAccessPoint(request: SearchForSingleAccessPointRequest): SearchForAccessPointResult {
         return accessPointsDelegate.searchForAccessPoint(request)
     }
 
@@ -590,7 +591,7 @@ class Wisefy private constructor(
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun searchForAccessPoints(request: SearchForMultipleAccessPointsRequest): List<AccessPointData> {
+    override fun searchForAccessPoints(request: SearchForMultipleAccessPointsRequest): SearchForAccessPointsResult {
         return accessPointsDelegate.searchForAccessPoints(request)
     }
 
@@ -603,7 +604,7 @@ class Wisefy private constructor(
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun searchForSavedNetwork(request: SearchForSavedNetworkRequest): SavedNetworkData? {
+    override fun searchForSavedNetwork(request: SearchForSavedNetworkRequest): SearchForSavedNetworkResult {
         return savedNetworkDelegate.searchForSavedNetwork(request)
     }
 
@@ -616,7 +617,7 @@ class Wisefy private constructor(
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun searchForSavedNetworks(request: SearchForSavedNetworkRequest): List<SavedNetworkData> {
+    override fun searchForSavedNetworks(request: SearchForSavedNetworkRequest): SearchForSavedNetworksResult {
         return savedNetworkDelegate.searchForSavedNetworks(request)
     }
 
@@ -629,7 +630,7 @@ class Wisefy private constructor(
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun searchForSSID(request: SearchForSingleSSIDRequest): SSIDData? {
+    override fun searchForSSID(request: SearchForSingleSSIDRequest): SearchForSSIDResult {
         return accessPointsDelegate.searchForSSID(request)
     }
 
@@ -639,7 +640,7 @@ class Wisefy private constructor(
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun searchForSSIDs(request: SearchForMultipleSSIDsRequest): List<SSIDData> {
+    override fun searchForSSIDs(request: SearchForMultipleSSIDsRequest): SearchForSSIDsResult {
         return accessPointsDelegate.searchForSSIDs(request)
     }
 

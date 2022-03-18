@@ -26,14 +26,15 @@ import com.isupatches.android.wisefy.savednetworks.entities.GetSavedNetworksRequ
 import com.isupatches.android.wisefy.savednetworks.entities.GetSavedNetworksResult
 import com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedRequest
 import com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedResult
-import com.isupatches.android.wisefy.shared.logging.WisefyLogger
+import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkRequest
+import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkResult
+import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworksResult
+import com.isupatches.android.wisefy.savednetworks.os.adapters.Android29SavedNetworkAdapter
 import com.isupatches.android.wisefy.savednetworks.os.adapters.Android30SavedNetworkAdapter
 import com.isupatches.android.wisefy.savednetworks.os.adapters.DefaultSavedNetworkAdapter
-import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
-import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkRequest
-import com.isupatches.android.wisefy.savednetworks.os.adapters.Android29SavedNetworkAdapter
 import com.isupatches.android.wisefy.shared.coroutines.CoroutineDispatcherProvider
 import com.isupatches.android.wisefy.shared.coroutines.createBaseCoroutineExceptionHandler
+import com.isupatches.android.wisefy.shared.logging.WisefyLogger
 import com.isupatches.android.wisefy.shared.util.SdkUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -42,7 +43,7 @@ import kotlinx.coroutines.withContext
 
 class WisefySavedNetworkDelegate(
     private val coroutineDispatcherProvider: CoroutineDispatcherProvider,
-    logger: WisefyLogger?,
+    logger: WisefyLogger,
     sdkUtil: SdkUtil,
     wifiManager: WifiManager
 ) : SavedNetworkDelegate {
@@ -59,7 +60,7 @@ class WisefySavedNetworkDelegate(
     private val savedNetworkScope = CoroutineScope(Job() + coroutineDispatcherProvider.io)
 
     init {
-        logger?.d(LOG_TAG, "WisefySavedNetworkDelegate adapter is: ${adapter::class.java.simpleName}")
+        logger.d(LOG_TAG, "WisefySavedNetworkDelegate adapter is: ${adapter::class.java.simpleName}")
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
@@ -88,7 +89,7 @@ class WisefySavedNetworkDelegate(
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun searchForSavedNetwork(request: SearchForSavedNetworkRequest): SavedNetworkData? {
+    override fun searchForSavedNetwork(request: SearchForSavedNetworkRequest): SearchForSavedNetworkResult {
         return adapter.searchForSavedNetwork(request)
     }
 
@@ -98,19 +99,18 @@ class WisefySavedNetworkDelegate(
         callbacks: SearchForSavedNetworkCallbacks?
     ) {
         savedNetworkScope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
-            val savedNetwork = adapter.searchForSavedNetwork(request)
+            val result = adapter.searchForSavedNetwork(request)
             withContext(coroutineDispatcherProvider.main) {
-                if (savedNetwork != null) {
-                    callbacks?.onSavedNetworkRetrieved(savedNetwork)
-                } else {
-                    callbacks?.onSavedNetworkNotFound()
+                when (result) {
+                    is SearchForSavedNetworkResult.Empty -> callbacks?.onSavedNetworkNotFound()
+                    is SearchForSavedNetworkResult.SavedNetwork -> callbacks?.onSavedNetworkRetrieved(result.data)
                 }
             }
         }
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun searchForSavedNetworks(request: SearchForSavedNetworkRequest): List<SavedNetworkData> {
+    override fun searchForSavedNetworks(request: SearchForSavedNetworkRequest): SearchForSavedNetworksResult {
         return adapter.searchForSavedNetworks(request)
     }
 
@@ -120,12 +120,11 @@ class WisefySavedNetworkDelegate(
         callbacks: SearchForSavedNetworksCallbacks?
     ) {
         savedNetworkScope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
-            val savedNetworks = adapter.searchForSavedNetworks(request)
+            val result = adapter.searchForSavedNetworks(request)
             withContext(coroutineDispatcherProvider.main) {
-                if (savedNetworks.isNotEmpty()) {
-                    callbacks?.onSavedNetworksRetrieved(savedNetworks)
-                } else {
-                    callbacks?.onNoSavedNetworksFound()
+                when (result) {
+                    is SearchForSavedNetworksResult.Empty -> callbacks?.onNoSavedNetworksFound()
+                    is SearchForSavedNetworksResult.SavedNetworks -> callbacks?.onSavedNetworksRetrieved(result.data)
                 }
             }
         }

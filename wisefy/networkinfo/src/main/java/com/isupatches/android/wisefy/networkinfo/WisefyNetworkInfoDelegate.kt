@@ -22,16 +22,16 @@ import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.networkinfo.callbacks.GetCurrentNetworkCallbacks
 import com.isupatches.android.wisefy.networkinfo.callbacks.GetCurrentNetworkInfoCallbacks
 import com.isupatches.android.wisefy.networkinfo.callbacks.GetIPCallbacks
-import com.isupatches.android.wisefy.networkinfo.os.adapters.DefaultNetworkInfoAdapter
-import com.isupatches.android.wisefy.shared.logging.WisefyLogger
-import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkInfoResult
-import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkResult
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkInfoRequest
+import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkInfoResult
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkRequest
+import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkResult
 import com.isupatches.android.wisefy.networkinfo.entities.GetIPRequest
 import com.isupatches.android.wisefy.networkinfo.entities.GetIPResult
+import com.isupatches.android.wisefy.networkinfo.os.adapters.DefaultNetworkInfoAdapter
 import com.isupatches.android.wisefy.shared.coroutines.CoroutineDispatcherProvider
 import com.isupatches.android.wisefy.shared.coroutines.createBaseCoroutineExceptionHandler
+import com.isupatches.android.wisefy.shared.logging.WisefyLogger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -40,7 +40,7 @@ import kotlinx.coroutines.withContext
 class WisefyNetworkInfoDelegate(
     private val coroutineDispatcherProvider: CoroutineDispatcherProvider,
     connectivityManager: ConnectivityManager,
-    logger: WisefyLogger?,
+    logger: WisefyLogger,
     wifiManager: WifiManager
 ) : NetworkInfoDelegate {
 
@@ -52,7 +52,7 @@ class WisefyNetworkInfoDelegate(
     private val networkInfoScope = CoroutineScope(Job() + coroutineDispatcherProvider.io)
 
     init {
-        logger?.d(LOG_TAG, "WisefyNetworkInfoDelegate adapter is: ${adapter::class.java.simpleName}")
+        logger.d(LOG_TAG, "WisefyNetworkInfoDelegate adapter is: ${adapter::class.java.simpleName}")
     }
 
     override fun getCurrentNetwork(request: GetCurrentNetworkRequest): GetCurrentNetworkResult {

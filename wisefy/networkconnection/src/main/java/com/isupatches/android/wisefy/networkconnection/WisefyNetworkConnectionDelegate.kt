@@ -19,15 +19,15 @@ import android.net.ConnectivityManager
 import android.net.wifi.WifiManager
 import com.isupatches.android.wisefy.networkconnection.callbacks.ConnectToNetworkCallbacks
 import com.isupatches.android.wisefy.networkconnection.callbacks.DisconnectFromCurrentNetworkCallbacks
-import com.isupatches.android.wisefy.shared.logging.WisefyLogger
-import com.isupatches.android.wisefy.networkconnection.os.adapters.Android29NetworkConnectionAdapter
-import com.isupatches.android.wisefy.networkconnection.os.adapters.DefaultNetworkConnectionAdapter
 import com.isupatches.android.wisefy.networkconnection.entities.NetworkConnectionRequest
 import com.isupatches.android.wisefy.networkconnection.entities.NetworkConnectionResult
+import com.isupatches.android.wisefy.networkconnection.os.adapters.Android29NetworkConnectionAdapter
+import com.isupatches.android.wisefy.networkconnection.os.adapters.DefaultNetworkConnectionAdapter
 import com.isupatches.android.wisefy.networkconnectionstatus.NetworkConnectionStatusDelegate
 import com.isupatches.android.wisefy.savednetworks.SavedNetworkDelegate
 import com.isupatches.android.wisefy.shared.coroutines.CoroutineDispatcherProvider
 import com.isupatches.android.wisefy.shared.coroutines.createBaseCoroutineExceptionHandler
+import com.isupatches.android.wisefy.shared.logging.WisefyLogger
 import com.isupatches.android.wisefy.shared.util.SdkUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -37,7 +37,7 @@ import kotlinx.coroutines.withContext
 class WisefyNetworkConnectionDelegate(
     private val coroutineDispatcherProvider: CoroutineDispatcherProvider,
     connectivityManager: ConnectivityManager,
-    logger: WisefyLogger?,
+    logger: WisefyLogger,
     networkConnectionStatusUtil: NetworkConnectionStatusDelegate,
     savedNetworkUtil: SavedNetworkDelegate,
     sdkUtil: SdkUtil,
@@ -63,7 +63,7 @@ class WisefyNetworkConnectionDelegate(
     }
 
     init {
-        logger?.d(LOG_TAG, "WisefyNetworkConnectionUtil proxy is: ${proxy::class.java.simpleName}")
+        logger.d(LOG_TAG, "WisefyNetworkConnectionUtil proxy is: ${proxy::class.java.simpleName}")
     }
 
     override fun connectToNetwork(request: NetworkConnectionRequest): NetworkConnectionResult {
@@ -88,6 +88,9 @@ class WisefyNetworkConnectionDelegate(
                     is NetworkConnectionResult.NetworkNotFound -> {
                         callbacks?.onNetworkNotFoundToConnectTo()
                     }
+                    is NetworkConnectionResult.UnregisterRequestSent -> {
+                        // No-op
+                    }
                 }
             }
         }
@@ -109,7 +112,14 @@ class WisefyNetworkConnectionDelegate(
                             callbacks?.onFailureDisconnectingFromCurrentNetwork()
                         }
                     }
-                    else -> {
+
+                    is NetworkConnectionResult.UnregisterRequestSent -> {
+                        callbacks?.onUnregisterRequestPlaced()
+                    }
+                    is NetworkConnectionResult.NetworkNotFound -> {
+                        callbacks?.onNetworkNotFoundToDisconnectFrom()
+                    }
+                    is NetworkConnectionResult.ConnectionRequestSent -> {
                         // No-op
                     }
                 }

@@ -24,35 +24,25 @@ import com.isupatches.android.wisefy.accesspoints.callbacks.SearchForAccessPoint
 import com.isupatches.android.wisefy.accesspoints.callbacks.SearchForAccessPointsCallbacks
 import com.isupatches.android.wisefy.accesspoints.callbacks.SearchForSSIDCallbacks
 import com.isupatches.android.wisefy.accesspoints.callbacks.SearchForSSIDsCallbacks
-import com.isupatches.android.wisefy.accesspoints.proxies.DefaultAccessPointsProxy
-import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
 import com.isupatches.android.wisefy.accesspoints.entities.GetNearbyAccessPointsRequest
+import com.isupatches.android.wisefy.accesspoints.entities.GetNearbyAccessPointsResult
 import com.isupatches.android.wisefy.accesspoints.entities.GetRSSIRequest
-import com.isupatches.android.wisefy.accesspoints.entities.RSSIData
-import com.isupatches.android.wisefy.accesspoints.entities.SSIDData
+import com.isupatches.android.wisefy.accesspoints.entities.GetRSSIResult
+import com.isupatches.android.wisefy.accesspoints.entities.SearchForAccessPointResult
+import com.isupatches.android.wisefy.accesspoints.entities.SearchForAccessPointsResult
 import com.isupatches.android.wisefy.accesspoints.entities.SearchForMultipleAccessPointsRequest
 import com.isupatches.android.wisefy.accesspoints.entities.SearchForMultipleSSIDsRequest
+import com.isupatches.android.wisefy.accesspoints.entities.SearchForSSIDResult
+import com.isupatches.android.wisefy.accesspoints.entities.SearchForSSIDsResult
 import com.isupatches.android.wisefy.accesspoints.entities.SearchForSingleAccessPointRequest
 import com.isupatches.android.wisefy.accesspoints.entities.SearchForSingleSSIDRequest
+import com.isupatches.android.wisefy.accesspoints.os.adapters.DefaultAccessPointsAdapter
 import com.isupatches.android.wisefy.shared.coroutines.CoroutineDispatcherProvider
 import com.isupatches.android.wisefy.shared.coroutines.createBaseCoroutineExceptionHandler
 import com.isupatches.android.wisefy.shared.logging.WisefyLogger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-
-/**
- * A delegate for synchronous and asynchronous access point APIs.
- *
- * @see AccessPointsApi
- * @see AccessPointsApiAsync
- *
- * @author Patches Klinefelter
- * @since 03/2022
- */
-interface AccessPointsDelegate : AccessPointsApi, AccessPointsApiAsync
-
-private const val LOG_TAG = "WisefyAccessPointsDelegate"
 
 /**
  * A default delegate for getting and searching for nearby access points.
@@ -67,19 +57,23 @@ private const val LOG_TAG = "WisefyAccessPointsDelegate"
 class WisefyAccessPointsDelegate(
     private val coroutineDispatcherProvider: CoroutineDispatcherProvider,
     private val scope: CoroutineScope,
-    logger: WisefyLogger?,
+    logger: WisefyLogger,
     wifiManager: WifiManager
 ) : AccessPointsDelegate {
 
-    private val proxy = DefaultAccessPointsProxy(wifiManager, logger)
+    companion object {
+        private const val LOG_TAG = "WisefyAccessPointsDelegate"
+    }
+
+    private val adapter = DefaultAccessPointsAdapter(wifiManager, logger)
 
     init {
-        logger?.d(LOG_TAG, "WisefyAccessPointsDelegate proxy is: ${proxy::class.java.simpleName}")
+        logger.d(LOG_TAG, "WisefyAccessPointsDelegate adapter is: ${adapter::class.java.simpleName}")
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun getNearbyAccessPoints(request: GetNearbyAccessPointsRequest): List<AccessPointData> {
-        return proxy.getNearbyAccessPoints(request)
+    override fun getNearbyAccessPoints(request: GetNearbyAccessPointsRequest): GetNearbyAccessPointsResult {
+        return adapter.getNearbyAccessPoints(request)
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
@@ -88,37 +82,39 @@ class WisefyAccessPointsDelegate(
         callbacks: GetNearbyAccessPointCallbacks?
     ) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
-            val accessPoints = proxy.getNearbyAccessPoints(request)
+            val result = adapter.getNearbyAccessPoints(request)
             withContext(coroutineDispatcherProvider.main) {
-                when {
-                    accessPoints.isNotEmpty() -> callbacks?.onNearbyAccessPointsRetrieved(accessPoints)
-                    else -> callbacks?.onNoNearbyAccessPoints()
+                when (result) {
+                    is GetNearbyAccessPointsResult.Empty -> callbacks?.onNoNearbyAccessPoints()
+                    is GetNearbyAccessPointsResult.AccessPoints -> {
+                        callbacks?.onNearbyAccessPointsRetrieved(result.data)
+                    }
                 }
             }
         }
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun getRSSI(request: GetRSSIRequest): RSSIData? {
-        return proxy.getRSSI(request)
+    override fun getRSSI(request: GetRSSIRequest): GetRSSIResult {
+        return adapter.getRSSI(request)
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun getRSSI(request: GetRSSIRequest, callbacks: GetRSSICallbacks?) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
-            val rssi = proxy.getRSSI(request)
+            val result = adapter.getRSSI(request)
             withContext(coroutineDispatcherProvider.main) {
-                when {
-                    rssi != null -> callbacks?.onRSSIRetrieved(rssi)
-                    else -> callbacks?.onNoNetworkToRetrieveRSSI()
+                when (result) {
+                    is GetRSSIResult.RSSI -> callbacks?.onRSSIRetrieved(result.data)
+                    is GetRSSIResult.Empty -> callbacks?.onNoNetworkToRetrieveRSSI()
                 }
             }
         }
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun searchForAccessPoint(request: SearchForSingleAccessPointRequest): AccessPointData? {
-        return proxy.searchForAccessPoint(request)
+    override fun searchForAccessPoint(request: SearchForSingleAccessPointRequest): SearchForAccessPointResult {
+        return adapter.searchForAccessPoint(request)
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
@@ -127,19 +123,21 @@ class WisefyAccessPointsDelegate(
         callbacks: SearchForAccessPointCallbacks?
     ) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
-            val accessPoint = proxy.searchForAccessPoint(request)
+            val result = adapter.searchForAccessPoint(request)
             withContext(coroutineDispatcherProvider.main) {
-                when {
-                    accessPoint != null -> callbacks?.onAccessPointFound(accessPoint)
-                    else -> callbacks?.onNoAccessPointFound()
+                when (result) {
+                    is SearchForAccessPointResult.Empty -> callbacks?.onNoAccessPointFound()
+                    is SearchForAccessPointResult.AccessPoint -> callbacks?.onAccessPointFound(result.data)
                 }
             }
         }
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun searchForAccessPoints(request: SearchForMultipleAccessPointsRequest): List<AccessPointData> {
-        return proxy.searchForAccessPoints(request)
+    override fun searchForAccessPoints(
+        request: SearchForMultipleAccessPointsRequest
+    ): SearchForAccessPointsResult {
+        return adapter.searchForAccessPoints(request)
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
@@ -148,47 +146,47 @@ class WisefyAccessPointsDelegate(
         callbacks: SearchForAccessPointsCallbacks?
     ) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
-            val accessPoints = proxy.searchForAccessPoints(request)
+            val result = adapter.searchForAccessPoints(request)
             withContext(coroutineDispatcherProvider.main) {
-                when {
-                    accessPoints.isNotEmpty() -> callbacks?.onAccessPointsFound(accessPoints)
-                    else -> callbacks?.onNoAccessPointsFound()
+                when (result) {
+                    is SearchForAccessPointsResult.Empty -> callbacks?.onNoAccessPointsFound()
+                    is SearchForAccessPointsResult.AccessPoints -> callbacks?.onAccessPointsFound(result.data)
                 }
             }
         }
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun searchForSSID(request: SearchForSingleSSIDRequest): SSIDData? {
-        return proxy.searchForSSID(request)
+    override fun searchForSSID(request: SearchForSingleSSIDRequest): SearchForSSIDResult {
+        return adapter.searchForSSID(request)
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun searchForSSID(request: SearchForSingleSSIDRequest, callbacks: SearchForSSIDCallbacks?) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
-            val ssid = proxy.searchForSSID(request)
+            val result = adapter.searchForSSID(request)
             withContext(coroutineDispatcherProvider.main) {
-                when {
-                    ssid != null -> callbacks?.onSSIDFound(ssid)
-                    else -> callbacks?.onSSIDNotFound()
+                when (result) {
+                    is SearchForSSIDResult.Empty -> callbacks?.onSSIDNotFound()
+                    is SearchForSSIDResult.SSID -> callbacks?.onSSIDFound(result.data)
                 }
             }
         }
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun searchForSSIDs(request: SearchForMultipleSSIDsRequest): List<SSIDData> {
-        return proxy.searchForSSIDs(request)
+    override fun searchForSSIDs(request: SearchForMultipleSSIDsRequest): SearchForSSIDsResult {
+        return adapter.searchForSSIDs(request)
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun searchForSSIDs(request: SearchForMultipleSSIDsRequest, callbacks: SearchForSSIDsCallbacks?) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
-            val ssids = proxy.searchForSSIDs(request)
+            val result = adapter.searchForSSIDs(request)
             withContext(coroutineDispatcherProvider.main) {
-                when {
-                    ssids.isNotEmpty() -> callbacks?.onSSIDsFound(ssids)
-                    else -> callbacks?.onNoSSIDsFound()
+                when (result) {
+                    is SearchForSSIDsResult.Empty -> callbacks?.onNoSSIDsFound()
+                    is SearchForSSIDsResult.SSIDs -> callbacks?.onSSIDsFound(result.data)
                 }
             }
         }

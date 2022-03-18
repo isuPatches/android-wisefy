@@ -27,5 +27,3 @@ internal interface DefaultWifiApi {
 
     fun isWifiEnabled(): Boolean
 }
-
-

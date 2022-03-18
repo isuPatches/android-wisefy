@@ -18,6 +18,7 @@ package com.isupatches.android.wisefy.wifi.os.adapters
 import android.net.wifi.WifiManager
 import android.os.Build
 import androidx.annotation.RequiresApi
+import com.isupatches.android.wisefy.shared.assertions.fail
 import com.isupatches.android.wisefy.shared.entities.DeprecationMessages
 import com.isupatches.android.wisefy.wifi.WifiApi
 import com.isupatches.android.wisefy.wifi.entities.DisableWifiRequest
@@ -26,33 +27,25 @@ import com.isupatches.android.wisefy.wifi.entities.EnableWifiRequest
 import com.isupatches.android.wisefy.wifi.entities.EnableWifiResult
 import com.isupatches.android.wisefy.wifi.entities.IsWifiEnabledRequest
 import com.isupatches.android.wisefy.wifi.entities.IsWifiEnabledResult
-import com.isupatches.android.wisefy.wifi.os.apis.Android29WifiApi
-import com.isupatches.android.wisefy.wifi.os.impls.Android29WifiApiImpl
+import com.isupatches.android.wisefy.wifi.os.apis.DefaultWifiApi
+import com.isupatches.android.wisefy.wifi.os.impls.DefaultWifiApiImpl
 
 @RequiresApi(Build.VERSION_CODES.Q)
 internal class Android29WifiAdapter(
     wifiManager: WifiManager,
-    private val api: Android29WifiApi = Android29WifiApiImpl(wifiManager)
+    private val api: DefaultWifiApi = DefaultWifiApiImpl(wifiManager)
 ) : WifiApi {
 
     @Deprecated(DeprecationMessages.Wifi.DISABLE)
     override fun disableWifi(request: DisableWifiRequest): DisableWifiResult {
-        val result = api.disableWifi()
-        return if (result) {
-            DisableWifiResult.True
-        } else {
-            DisableWifiResult.False
-        }
+        fail(DeprecationMessages.Wifi.DISABLE)
+        return DisableWifiResult.False
     }
 
     @Deprecated(DeprecationMessages.Wifi.ENABLE)
     override fun enableWifi(request: EnableWifiRequest): EnableWifiResult {
-        val result = api.enableWifi()
-        return if (result) {
-            EnableWifiResult.True
-        } else {
-            EnableWifiResult.False
-        }
+        fail(DeprecationMessages.Wifi.ENABLE)
+        return EnableWifiResult.False
     }
 
     override fun isWifiEnabled(request: IsWifiEnabledRequest): IsWifiEnabledResult {

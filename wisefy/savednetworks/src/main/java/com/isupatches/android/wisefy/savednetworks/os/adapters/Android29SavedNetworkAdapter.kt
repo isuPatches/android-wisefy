@@ -25,8 +25,9 @@ import com.isupatches.android.wisefy.savednetworks.entities.GetSavedNetworksRequ
 import com.isupatches.android.wisefy.savednetworks.entities.GetSavedNetworksResult
 import com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedRequest
 import com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedResult
-import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
 import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkRequest
+import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkResult
+import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworksResult
 import com.isupatches.android.wisefy.shared.assertions.fail
 import com.isupatches.android.wisefy.shared.entities.ErrorMessages
 
@@ -46,14 +47,14 @@ internal class Android29SavedNetworkAdapter : SavedNetworkApi {
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun searchForSavedNetwork(request: SearchForSavedNetworkRequest): SavedNetworkData? {
+    override fun searchForSavedNetwork(request: SearchForSavedNetworkRequest): SearchForSavedNetworkResult {
         fail(ErrorMessages.SavedNetworks.USED_ANDROID_29)
-        return null
+        return SearchForSavedNetworkResult.Empty
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun searchForSavedNetworks(request: SearchForSavedNetworkRequest): List<SavedNetworkData> {
+    override fun searchForSavedNetworks(request: SearchForSavedNetworkRequest): SearchForSavedNetworksResult {
         fail(ErrorMessages.SavedNetworks.USED_ANDROID_29)
-        return emptyList()
+        return SearchForSavedNetworksResult.Empty
     }
 }

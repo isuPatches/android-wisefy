@@ -24,10 +24,10 @@ import android.net.NetworkRequest
 import android.net.wifi.WifiManager
 import android.os.Build
 import androidx.annotation.RequiresPermission
-import com.isupatches.android.wisefy.shared.logging.WisefyLogger
 import com.isupatches.android.wisefy.networkconnectionstatus.entities.NetworkConnectionStatus
 import com.isupatches.android.wisefy.networkconnectionstatus.os.apis.DefaultNetworkConnectionStatusApi
 import com.isupatches.android.wisefy.shared.entities.QUOTE
+import com.isupatches.android.wisefy.shared.logging.WisefyLogger
 import com.isupatches.android.wisefy.shared.util.SdkUtil
 import com.isupatches.android.wisefy.shared.util.getNetwork
 
@@ -35,7 +35,7 @@ class DefaultNetworkConnectionStatusApiImpl(
     private val wifiManager: WifiManager,
     private val connectivityManager: ConnectivityManager,
     private val sdkUtil: SdkUtil,
-    private val logger: WisefyLogger?
+    private val logger: WisefyLogger
 ) : DefaultNetworkConnectionStatusApi, ConnectivityManager.NetworkCallback() {
 
     companion object {
@@ -64,9 +64,9 @@ class DefaultNetworkConnectionStatusApiImpl(
         connectionInfo?.let {
             if (!it.ssid.isNullOrEmpty()) {
                 val currentValue = it.ssid.replace(QUOTE, "")
-                logger?.d(LOG_TAG, "Current value: %s, Desired value: %s", currentValue, regexForSSID)
+                logger.d(LOG_TAG, "Current value: %s, Desired value: %s", currentValue, regexForSSID)
                 if (currentValue.equals(regexForSSID, ignoreCase = true) && isNetworkConnected()) {
-                    logger?.d(LOG_TAG, "Network is connected")
+                    logger.d(LOG_TAG, "Network is connected")
                     return true
                 }
             }
@@ -85,9 +85,9 @@ class DefaultNetworkConnectionStatusApiImpl(
         connectionInfo?.let {
             if (!it.ssid.isNullOrEmpty()) {
                 val currentValue = it.bssid.replace(QUOTE, "")
-                logger?.d(LOG_TAG, "Current value: %s, Desired value: %s", currentValue, regexForBSSID)
+                logger.d(LOG_TAG, "Current value: %s, Desired value: %s", currentValue, regexForBSSID)
                 if (currentValue.equals(regexForBSSID, ignoreCase = true) && isNetworkConnected()) {
-                    logger?.d(LOG_TAG, "Network is connected")
+                    logger.d(LOG_TAG, "Network is connected")
                     return true
                 }
             }
@@ -140,13 +140,13 @@ class DefaultNetworkConnectionStatusApiImpl(
 
     override fun onAvailable(network: Network) {
         super.onAvailable(network)
-        logger?.d(LOG_TAG, "onAvailable, $network")
+        logger.d(LOG_TAG, "onAvailable, $network")
         this.connectionStatus = NetworkConnectionStatus.AVAILABLE
     }
 
     override fun onCapabilitiesChanged(network: Network, networkCapabilities: NetworkCapabilities) {
         super.onCapabilitiesChanged(network, networkCapabilities)
-        logger?.d(
+        logger.d(
             LOG_TAG,
             "onCapabilitiesChanged, network: $network, networkCapabilities: $networkCapabilities"
         )
@@ -154,24 +154,24 @@ class DefaultNetworkConnectionStatusApiImpl(
 
     override fun onLinkPropertiesChanged(network: Network, linkProperties: LinkProperties) {
         super.onLinkPropertiesChanged(network, linkProperties)
-        logger?.d(LOG_TAG, "onLinkPropertiesChanged, network: $network, linkProperties: $linkProperties")
+        logger.d(LOG_TAG, "onLinkPropertiesChanged, network: $network, linkProperties: $linkProperties")
     }
 
     override fun onLosing(network: Network, maxMsToLive: Int) {
         super.onLosing(network, maxMsToLive)
-        logger?.d(LOG_TAG, "onLosing, network: $network, maxMsToLive: $maxMsToLive")
+        logger.d(LOG_TAG, "onLosing, network: $network, maxMsToLive: $maxMsToLive")
         this.connectionStatus = NetworkConnectionStatus.LOSING
     }
 
     override fun onLost(network: Network) {
         super.onLost(network)
-        logger?.d(LOG_TAG, "onLost, network: $network")
+        logger.d(LOG_TAG, "onLost, network: $network")
         this.connectionStatus = NetworkConnectionStatus.LOST
     }
 
     override fun onUnavailable() {
         super.onUnavailable()
-        logger?.d(LOG_TAG, "onUnavailable")
+        logger.d(LOG_TAG, "onUnavailable")
         this.connectionStatus = NetworkConnectionStatus.UNAVAILABLE
     }
 
