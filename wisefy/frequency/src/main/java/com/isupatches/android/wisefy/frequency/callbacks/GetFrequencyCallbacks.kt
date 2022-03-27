@@ -19,7 +19,7 @@ import com.isupatches.android.wisefy.frequency.entities.FrequencyData
 import com.isupatches.android.wisefy.shared.base.BaseWisefyCallbacks
 
 /**
- * A set of callbacks for getting the frquency of a network.
+ * A set of callbacks for getting the frequency of a network.
  *
  * @see BaseWisefyCallbacks
  *
@@ -39,7 +39,7 @@ interface GetFrequencyCallbacks : BaseWisefyCallbacks {
     /**
      * A callback triggered when there is a success getting the frequency of a network.
      *
-     * @param frequency The frequency details for the network
+     * @param frequency The frequency data for the network
      *
      * @see FrequencyData
      *

@@ -29,7 +29,7 @@ import androidx.annotation.RequiresApi
 sealed class AddOpenNetworkRequest {
 
     /**
-     * A default data representation of a request to add an open network.
+     * A data representation of a request to add an open network.
      *
      * @property ssid The SSID of the open network to add
      *

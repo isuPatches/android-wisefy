@@ -29,7 +29,7 @@ import androidx.annotation.RequiresApi
 sealed class AddWPA2NetworkRequest {
 
     /**
-     * A default data representation of a request to add a WPA2 network.
+     * A data representation of a request to add a WPA2 network.
      *
      * @property ssid The SSID of the WPA2 network to add
      * @property passphrase The password for the WPA2 network to add

@@ -17,7 +17,33 @@ package com.isupatches.android.wisefy.frequency.entities
 
 import android.net.wifi.WifiInfo
 
+/**
+ * A set of classes that are used in requests to get a network's frequency.
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 sealed class GetFrequencyRequest {
+
+    /**
+     * A data representation of a request to get the current network's frequency.
+     *
+     * @see GetFrequencyRequest
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     object CurrentNetwork : GetFrequencyRequest()
+
+    /**
+     * A data representation of a request to get a given network's frequency.
+     *
+     * @property network The network to get the frequency of
+     *
+     * @see GetFrequencyRequest
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     data class ForNetwork(val network: WifiInfo) : GetFrequencyRequest()
 }

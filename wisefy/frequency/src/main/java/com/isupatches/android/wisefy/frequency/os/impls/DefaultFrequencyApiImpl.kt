@@ -31,6 +31,9 @@ import com.isupatches.android.wisefy.shared.util.getNetwork
 /**
  * A default internal implementation for getting the frequency of a network through the Android OS.
  *
+ * @param wifiManager The WifiManager instance to use
+ * @param connectivityManager The ConnectivityManager instance to use
+ *
  * @see DefaultFrequencyApi
  *
  * @author Patches Klinefelter

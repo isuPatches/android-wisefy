@@ -15,7 +15,33 @@
  */
 package com.isupatches.android.wisefy.frequency.entities
 
+/**
+ * A set of classes that are data representations of a result when getting the frequency of a network.
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 sealed class GetFrequencyResult {
+
+    /**
+     * A data representation for when there is no network to retrieve the frequency.
+     *
+     * @see GetFrequencyResult
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     object Empty : GetFrequencyResult()
+
+    /**
+     * A data representation for when there is a network to retrieve the frequency.
+     *
+     * @property data The frequency value for the network
+     *
+     * @see GetFrequencyResult
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     data class WithFrequency(val data: FrequencyData) : GetFrequencyResult()
 }

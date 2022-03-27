@@ -17,7 +17,33 @@ package com.isupatches.android.wisefy.frequency.entities
 
 import android.net.wifi.WifiInfo
 
+/**
+ * A set of classes that are used in requests to check if a network is 5G.
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 sealed class IsNetwork5gHzRequest {
+
+    /**
+     * A data representation of a request to check if the current network is 5G.
+     *
+     * @see IsNetwork5gHzRequest
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     object CurrentNetwork : IsNetwork5gHzRequest()
+
+    /**
+     * A data representation of a request to check if a given current network is 5G.
+     *
+     * @property network The network to check if it is 5G
+     *
+     * @see IsNetwork5gHzRequest
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     data class ForNetwork(val network: WifiInfo) : IsNetwork5gHzRequest()
 }

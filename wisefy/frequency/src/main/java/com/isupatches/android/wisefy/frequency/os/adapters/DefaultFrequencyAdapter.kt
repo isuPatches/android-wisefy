@@ -32,6 +32,12 @@ import com.isupatches.android.wisefy.frequency.os.impls.DefaultFrequencyApiImpl
 /**
  * A default adapter for getting the frequency of a network.
  *
+ * @param wifiManager The WifiManager instance to use
+ * @param connectivityManager the ConnectivityManager instance to use
+ * @param api The OS level API instance to use
+ *
+ * @see DefaultFrequencyApi
+ * @see DefaultFrequencyApiImpl
  * @see FrequencyApi
  *
  * @author Patches Klinefelter

@@ -15,7 +15,31 @@
  */
 package com.isupatches.android.wisefy.frequency.entities
 
+/**
+ * A set of classes that are data representations of a result when checking if a network if 5G.
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 sealed class IsNetwork5gHzResult {
+
+    /**
+     * A data representation for when a network is 5G.
+     *
+     * @see IsNetwork5gHzResult
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     object True : IsNetwork5gHzResult()
+
+    /**
+     * A data representation for when a network is NOT 5G.
+     *
+     * @see IsNetwork5gHzResult
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     object False : IsNetwork5gHzResult()
 }
