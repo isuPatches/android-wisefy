@@ -30,6 +30,9 @@ import java.util.Locale
 /**
  * A default internal implementation for getting and searching for nearby access points through the Android OS.
  *
+ * @param wifiManager The WifiManager instance to use
+ * @param logger The logger instance to use
+ *
  * @see DefaultAccessPointsApi
  * @see WisefyLogger
  *

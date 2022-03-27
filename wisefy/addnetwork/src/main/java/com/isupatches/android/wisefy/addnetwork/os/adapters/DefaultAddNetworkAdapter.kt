@@ -29,9 +29,14 @@ import com.isupatches.android.wisefy.shared.assertions.fail
 import com.isupatches.android.wisefy.shared.entities.ErrorMessages
 
 /**
- * A default proxy for adding networks.
+ * A default adapter for adding networks.
+ *
+ * @param wifiManager The WifiManager instance to use
+ * @param api The OS level API instance to use
  *
  * @see AddNetworkApi
+ * @see DefaultAddNetworkApi
+ * @see DefaultAddNetworkApiImpl
  *
  * @author Patches Klinefelter
  * @since 03/2022

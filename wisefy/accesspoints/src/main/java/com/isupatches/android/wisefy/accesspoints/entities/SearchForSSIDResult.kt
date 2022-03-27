@@ -15,7 +15,34 @@
  */
 package com.isupatches.android.wisefy.accesspoints.entities
 
+/**
+ * A set of data representations for a result when searching for a nearby SSID from the Android OS.
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 sealed class SearchForSSIDResult {
+
+    /**
+     * A data representation for when there is not a nearby access points matching the SSID.
+     *
+     * @see SearchForAccessPointResult
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     object Empty : SearchForSSIDResult()
+
+    /**
+     * A data representation for when there is a nearby access point matching the SSID.
+     *
+     * @property data The SSID data of the matching nearby access point
+     *
+     * @see SSIDData
+     * @see SearchForSSIDResult
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     data class SSID(val data: SSIDData) : SearchForSSIDResult()
 }

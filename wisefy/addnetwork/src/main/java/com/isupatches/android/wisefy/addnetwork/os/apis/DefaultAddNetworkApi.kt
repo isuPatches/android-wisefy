@@ -15,8 +15,6 @@
  */
 package com.isupatches.android.wisefy.addnetwork.os.apis
 
-import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
-
 /**
  * A default internal API for adding networks through the Android OS.
  *
@@ -30,9 +28,7 @@ internal interface DefaultAddNetworkApi {
      *
      * @param ssid The SSID of the open network to add
      *
-     * @see AddNetworkResult
-     *
-     * @return AddNetworkResult - The result of adding the open network
+     * @return Int - The result code of adding the open network
      *
      * @author Patches Klinefelter
      * @since 03/2022
@@ -45,9 +41,7 @@ internal interface DefaultAddNetworkApi {
      * @param ssid The SSID of the WPA2 network to add
      * @param passphrase The passphrase to authenticate with the WPA2 network
      *
-     * @see AddNetworkResult
-     *
-     * @return AddNetworkResult - The result of adding the WPA2 network
+     * @return Int - The result code of adding the WPA2 network
      *
      * @author Patches Klinefelter
      * @since 03/2022

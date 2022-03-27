@@ -15,7 +15,33 @@
  */
 package com.isupatches.android.wisefy.accesspoints.entities
 
+/**
+ * A set of data representations for a result when getting the RSSI of a nearby access point from the Android OS.
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 sealed class GetRSSIResult {
+
+    /**
+     * A data representation for when there is no matching nearby access point to retrieve the RSSI.
+     *
+     * @see GetRSSIResult
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     object Empty : GetRSSIResult()
+
+    /**
+     * A data representation for when there is a matching nearby access point to retrieve the RSSI.
+     *
+     * @property data The RSSI value for the nearby access point
+     *
+     * @see GetRSSIResult
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     data class RSSI(val data: RSSIData) : GetRSSIResult()
 }

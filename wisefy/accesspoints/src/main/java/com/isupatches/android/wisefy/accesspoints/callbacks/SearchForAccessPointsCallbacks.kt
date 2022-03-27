@@ -29,9 +29,9 @@ import com.isupatches.android.wisefy.shared.base.BaseWisefyCallbacks
 interface SearchForAccessPointsCallbacks : BaseWisefyCallbacks {
 
     /**
-     * A callback triggered when there are any matching access points.
+     * A callback triggered when there are matching access points.
      *
-     * @param accessPoints The list of matching access points
+     * @param accessPoints The list of data for matching access points
      *
      * @see AccessPointData
      *

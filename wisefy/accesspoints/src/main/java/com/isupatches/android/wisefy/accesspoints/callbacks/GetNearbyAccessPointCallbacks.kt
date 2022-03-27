@@ -29,7 +29,7 @@ import com.isupatches.android.wisefy.shared.base.BaseWisefyCallbacks
 interface GetNearbyAccessPointCallbacks : BaseWisefyCallbacks {
 
     /**
-     * A callback triggered when there are matching nearby access points.
+     * A callback triggered when there are nearby access points.
      *
      * @param accessPoints The list of matching nearby access points
      *

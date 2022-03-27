@@ -19,7 +19,7 @@ import com.isupatches.android.wisefy.accesspoints.entities.SSIDData
 import com.isupatches.android.wisefy.shared.base.BaseWisefyCallbacks
 
 /**
- * A set of callbacks for retrieving multiple access SSIDs.
+ * A set of callbacks for retrieving multiple SSIDs.
  *
  * @see BaseWisefyCallbacks
  *
@@ -29,7 +29,7 @@ import com.isupatches.android.wisefy.shared.base.BaseWisefyCallbacks
 interface SearchForSSIDsCallbacks : BaseWisefyCallbacks {
 
     /**
-     * A callback triggered when there are any matching SSIDs.
+     * A callback triggered when there are matching SSIDs.
      *
      * @param ssids The list of matching SSIDs
      *

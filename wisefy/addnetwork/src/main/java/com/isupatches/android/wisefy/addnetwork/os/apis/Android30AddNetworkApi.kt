@@ -20,7 +20,6 @@ import android.Manifest.permission.CHANGE_WIFI_STATE
 import android.content.Intent
 import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.RequiresPermission
-import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
 
 /**
  * An internal Android 30 specific API for adding networks through the Android OS.
@@ -34,10 +33,7 @@ internal interface Android30AddNetworkApi {
      * An API to add an open network for Android 30.
      *
      * @param ssid The SSID of the open network to add
-     *
-     * @see AddNetworkResult
-     *
-     * @return AddNetworkResult - The result of launching the intent to add an open network
+     * @param activityResultLauncher The launcher to add a network and receive results
      *
      * @author Patches Klinefelter
      * @since 03/2022
@@ -53,10 +49,7 @@ internal interface Android30AddNetworkApi {
      *
      * @param ssid The SSID of the WPA2 network to add
      * @param passphrase The passphrase to authenticate with the WPA2 network
-     *
-     * @see AddNetworkResult
-     *
-     * @return AddNetworkResult - The result of launching the intent to add a WPA2 network
+     * @param activityResultLauncher The launcher to add a network and receive results
      *
      * @author Patches Klinefelter
      * @since 03/2022
@@ -73,10 +66,7 @@ internal interface Android30AddNetworkApi {
      *
      * @param ssid The SSID of the WPA3 network to add
      * @param passphrase The passphrase to authenticate with the WPA3 network
-     *
-     * @see AddNetworkResult
-     *
-     * @return AddNetworkResult - The result of launching the intent to add a WPA3 network
+     * @param activityResultLauncher The launcher to add a network and receive results
      *
      * @author Patches Klinefelter
      * @since 03/2022

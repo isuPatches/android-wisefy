@@ -31,7 +31,7 @@ interface SearchForAccessPointCallbacks : BaseWisefyCallbacks {
     /**
      * A callback triggered when there is a matching access point.
      *
-     * @param accessPoint The matching access point
+     * @param accessPoint The matching access point data
      *
      * @see AccessPointData
      *

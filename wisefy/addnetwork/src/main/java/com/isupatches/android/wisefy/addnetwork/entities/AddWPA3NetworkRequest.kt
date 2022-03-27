@@ -26,7 +26,6 @@ import androidx.annotation.RequiresApi
  * @author Patches Klinefelter
  * @since 03/2022
  */
-@RequiresApi(Build.VERSION_CODES.Q)
 sealed class AddWPA3NetworkRequest {
 
     /**

@@ -29,7 +29,7 @@ import com.isupatches.android.wisefy.shared.base.BaseWisefyCallbacks
 interface GetRSSICallbacks : BaseWisefyCallbacks {
 
     /**
-     * A callback triggered when there is a matching access point for RSSI data.
+     * A callback triggered when there is a matching access point to retrieve RSSI data.
      *
      * @param rssi The RSSI data retrieved for the nearby access point
      *
@@ -41,7 +41,7 @@ interface GetRSSICallbacks : BaseWisefyCallbacks {
     fun onRSSIRetrieved(rssi: RSSIData)
 
     /**
-     * A callback triggered when there is no matching nearby access point.
+     * A callback triggered when there is no matching nearby access point to retrieve RSSI.
      *
      * @author Patches Klinefelter
      * @since 03/2022

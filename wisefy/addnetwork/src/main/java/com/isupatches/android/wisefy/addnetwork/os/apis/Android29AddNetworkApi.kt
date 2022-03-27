@@ -15,11 +15,11 @@
  */
 package com.isupatches.android.wisefy.addnetwork.os.apis
 
-import android.Manifest
+import android.Manifest.permission.ACCESS_FINE_LOCATION
+import android.Manifest.permission.CHANGE_WIFI_STATE
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
-import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
 
 /**
  * An internal Android 29 specific API for adding networks through the Android OS.
@@ -35,14 +35,12 @@ internal interface Android29AddNetworkApi {
      *
      * @param ssid The SSID of the open network to add
      *
-     * @see AddNetworkResult
-     *
-     * @return AddNetworkResult - The result of adding the open network
+     * @return Int - The result code of adding the open network
      *
      * @author Patches Klinefelter
      * @since 03/2022
      */
-    @RequiresPermission(allOf = [Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CHANGE_WIFI_STATE])
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     fun addOpenNetwork(ssid: String): Int
 
     /**
@@ -51,14 +49,12 @@ internal interface Android29AddNetworkApi {
      * @param ssid The SSID of the WPA2 network to add
      * @param passphrase The passphrase to authenticate with the WPA2 network
      *
-     * @see AddNetworkResult
-     *
-     * @return AddNetworkResult - The result of adding the WPA2 network
+     * @return Int - The result code of adding the WPA2 network
      *
      * @author Patches Klinefelter
      * @since 03/2022
      */
-    @RequiresPermission(allOf = [Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CHANGE_WIFI_STATE])
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     fun addWPA2Network(ssid: String, passphrase: String): Int
 
     /**
@@ -67,13 +63,11 @@ internal interface Android29AddNetworkApi {
      * @param ssid The SSID of the WPA3 network to add
      * @param passphrase The passphrase to authenticate with the WPA3 network
      *
-     * @see AddNetworkResult
-     *
-     * @return AddNetworkResult - The result of adding the WPA3 network
+     * @return Int - The result coe of adding the WPA3 network
      *
      * @author Patches Klinefelter
      * @since 03/2022
      */
-    @RequiresPermission(allOf = [Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CHANGE_WIFI_STATE])
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     fun addWPA3Network(ssid: String, passphrase: String): Int
 }

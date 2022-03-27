@@ -38,7 +38,13 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 /**
- * A default delegate for adding networks.
+ * A default Wisefy delegate for adding networks.
+ *
+ * @param coroutineDispatcherProvider The instance of the coroutine dispatcher provider to use
+ * @param scope The coroutine scope to use
+ * @param logger The logger instance to use
+ * @param sdkUtil The SDKUtil instance to use
+ * @param wifiManager The WifiManager instance to use
  *
  * @see AddNetworkDelegate
  * @see CoroutineDispatcherProvider

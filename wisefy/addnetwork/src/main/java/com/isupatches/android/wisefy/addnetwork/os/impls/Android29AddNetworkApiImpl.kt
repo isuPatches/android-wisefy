@@ -29,6 +29,8 @@ import com.isupatches.android.wisefy.shared.wifimanager.createWPA3NetworkSuggest
 /**
  * An internal Android 29 specific implementation for adding networks through the Android OS.
  *
+ * @param wifiManager The WifiManager instance to use
+ *
  * @see Android29AddNetworkApi
  *
  * @author Patches Klinefelter

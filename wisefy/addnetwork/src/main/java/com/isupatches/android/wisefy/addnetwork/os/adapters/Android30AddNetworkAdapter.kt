@@ -32,9 +32,14 @@ import com.isupatches.android.wisefy.shared.assertions.fail
 import com.isupatches.android.wisefy.shared.entities.ErrorMessages
 
 /**
- * An Android 30 specific proxy for adding networks.
+ * An Android 30 specific adapter for adding networks.
+ *
+ * @param wifiManager The WifiManager instance to use
+ * @param api The OS level API instance to use
  *
  * @see AddNetworkApi
+ * @see Android30AddNetworkApi
+ * @see Android30AddNetworkApiImpl
  *
  * @author Patches Klinefelter
  * @since 03/2022

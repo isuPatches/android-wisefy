@@ -18,7 +18,7 @@ package com.isupatches.android.wisefy.accesspoints.entities
 import android.net.wifi.ScanResult
 
 /**
- * A data class that represent an Access Point in the form of a scan result from the Android OS.
+ * A data representation of an Access Point from the Android OS.
  *
  * @property value The Android OS information about the access point
  *

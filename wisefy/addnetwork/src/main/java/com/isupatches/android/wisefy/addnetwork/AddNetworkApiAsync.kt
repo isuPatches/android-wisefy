@@ -15,7 +15,8 @@
  */
 package com.isupatches.android.wisefy.addnetwork
 
-import android.Manifest
+import android.Manifest.permission.ACCESS_FINE_LOCATION
+import android.Manifest.permission.CHANGE_WIFI_STATE
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
@@ -44,7 +45,7 @@ interface AddNetworkApiAsync {
      * @author Patches Klinefelter
      * @since 03/2022
      */
-    @RequiresPermission(allOf = [Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CHANGE_WIFI_STATE])
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     fun addOpenNetwork(request: AddOpenNetworkRequest, callbacks: AddNetworkCallbacks?)
 
     /**
@@ -59,7 +60,7 @@ interface AddNetworkApiAsync {
      * @author Patches Klinefelter
      * @since 03/2022
      */
-    @RequiresPermission(allOf = [Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CHANGE_WIFI_STATE])
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     fun addWPA2Network(request: AddWPA2NetworkRequest, callbacks: AddNetworkCallbacks?)
 
     /**
@@ -75,6 +76,6 @@ interface AddNetworkApiAsync {
      * @since 03/2022
      */
     @RequiresApi(Build.VERSION_CODES.Q)
-    @RequiresPermission(allOf = [Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CHANGE_WIFI_STATE])
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     fun addWPA3Network(request: AddWPA3NetworkRequest, callbacks: AddNetworkCallbacks?)
 }

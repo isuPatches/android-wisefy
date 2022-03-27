@@ -25,6 +25,8 @@ import com.isupatches.android.wisefy.shared.wifimanager.legacy.createWPA2Network
 /**
  * A default internal implementation for adding networks through the Android OS.
  *
+ * @param wifiManager The WifiManager instance to use
+ *
  * @see DefaultAddNetworkApi
  *
  * @author Patches Klinefelter

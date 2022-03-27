@@ -16,7 +16,7 @@
 package com.isupatches.android.wisefy.accesspoints.entities
 
 /**
- * A set of data representations to retrieve the RRSI level of a nearby network/access point.
+ * A set of data representations to retrieve the RRSI level of a nearby access point.
  *
  * @property takeHighest Whether the request returns the first RSSI value or the highest RSSI value for the network in
  *  the case of one that has duplicate access points
@@ -31,7 +31,7 @@ sealed class GetRSSIRequest(
 ) {
 
     /**
-     * A data representation to retrieve the RRSI level of a nearby network/access point by SSID.
+     * A data representation to retrieve the RRSI level of a nearby access point by SSID.
      *
      * @property regexForSSID The regex to match for the access point's SSID
      * @property takeHighest Whether the request returns the first RSSI value or the highest RSSI value for the network
@@ -50,7 +50,7 @@ sealed class GetRSSIRequest(
     ) : GetRSSIRequest(takeHighest, timeoutInMillis)
 
     /**
-     * A data representation to retrieve the RRSI level of a nearby network/access point by BSSID.
+     * A data representation to retrieve the RRSI level of a nearby access point by BSSID.
      *
      * @property regexForBSSID The regex to match for the access point's BSSID
      * @property takeHighest Whether the request returns the first RSSI value or the highest RSSI value for the network
