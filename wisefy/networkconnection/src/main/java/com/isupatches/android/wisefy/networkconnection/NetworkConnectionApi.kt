@@ -18,7 +18,38 @@ package com.isupatches.android.wisefy.networkconnection
 import com.isupatches.android.wisefy.networkconnection.entities.NetworkConnectionRequest
 import com.isupatches.android.wisefy.networkconnection.entities.NetworkConnectionResult
 
+/**
+ * A set of synchronous APIs for connecting to and disconnecting from a network.
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 interface NetworkConnectionApi {
+
+    /**
+     * A synchronous API to connect to a network.
+     *
+     * @param request The details of the request to connect to a network
+     *
+     * @see NetworkConnectionRequest
+     * @see NetworkConnectionResult
+     *
+     * @return NetworkConnectionResult - The result of connecting to a network
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     fun connectToNetwork(request: NetworkConnectionRequest): NetworkConnectionResult
+
+    /**
+     * A synchronous API to disconnect from the current network.
+     *
+     * @see NetworkConnectionResult
+     *
+     * @return NetworkConnectionResult - The result of connecting to a network
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     fun disconnectFromCurrentNetwork(): NetworkConnectionResult
 }

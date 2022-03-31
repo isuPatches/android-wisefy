@@ -19,7 +19,6 @@ import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
-import com.isupatches.android.wisefy.frequency.entities.FrequencyData
 import com.isupatches.android.wisefy.frequency.entities.GetFrequencyRequest
 import com.isupatches.android.wisefy.frequency.entities.GetFrequencyResult
 import com.isupatches.android.wisefy.frequency.entities.IsNetwork5gHzRequest
@@ -50,11 +49,14 @@ const val MAX_FREQUENCY_5GHZ: Int = 5900
 interface FrequencyApi {
 
     /**
-     * An synchronous API to get the frequency of the current network.
+     * A synchronous API to get the frequency of the current network.
      *
-     * @see FrequencyData
+     * @param request The details of the request to get the frequency of a network
      *
-     * @return FrequencyData - The frequency data for the current network if there is one, otherwise null
+     * @see GetFrequencyRequest
+     * @see GetFrequencyResult
+     *
+     * @return GetFrequencyResult - The result of getting the frequency of a network
      *
      * @author Patches Klinefelter
      * @since 03/2022
@@ -64,9 +66,14 @@ interface FrequencyApi {
     fun getFrequency(request: GetFrequencyRequest = GetFrequencyRequest.CurrentNetwork): GetFrequencyResult
 
     /**
-     * An synchronous API to check if the frequency of the current network is 5G.
+     * A synchronous API to check if the frequency of the current network is 5G.
      *
-     * @return Boolean - Whether the current network is 5G or not. True if 5G, otherwise false
+     * @param request The details of the request to check if a network is 5G
+     *
+     * @see IsNetwork5gHzRequest
+     * @see IsNetwork5gHzResult
+     *
+     * @return IsNetwork5gHzResult - The result of whether the network is 5G or not
      *
      * @author Patches Klinefelter
      * @since 03/2022

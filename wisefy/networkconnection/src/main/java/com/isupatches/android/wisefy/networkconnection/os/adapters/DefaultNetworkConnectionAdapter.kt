@@ -25,24 +25,62 @@ import com.isupatches.android.wisefy.networkconnectionstatus.NetworkConnectionSt
 import com.isupatches.android.wisefy.savednetworks.SavedNetworkDelegate
 import com.isupatches.android.wisefy.shared.logging.WisefyLogger
 
+/**
+ * An Android 29 specific adapter for connecting to or disconnecting from a network.
+ *
+ * @param wifiManager The WifiManager instance to use
+ * @param networkConnectionStatusDelegate The NetworkConnectionStatusDelegate instance to use
+ * @param savedNetworkDelegate The SavedNetworkDelegate instance to use
+ * @param logger The logger instance to use
+ * @param api The OS level API instance to use
+ *
+ * @see DefaultNetworkConnectionApi
+ * @see DefaultNetworkConnectionApiImpl
+ * @see NetworkConnectionApi
+ * @see NetworkConnectionStatusDelegate
+ * @see SavedNetworkDelegate
+ * @see WisefyLogger
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 internal class DefaultNetworkConnectionAdapter(
     wifiManager: WifiManager,
-    networkConnectionStatusUtil: NetworkConnectionStatusDelegate,
-    savedNetworkUtil: SavedNetworkDelegate,
+    networkConnectionStatusDelegate: NetworkConnectionStatusDelegate,
+    savedNetworkDelegate: SavedNetworkDelegate,
     logger: WisefyLogger,
     private val api: DefaultNetworkConnectionApi = DefaultNetworkConnectionApiImpl(
         wifiManager,
-        networkConnectionStatusUtil,
-        savedNetworkUtil,
+        networkConnectionStatusDelegate,
+        savedNetworkDelegate,
         logger
     )
 ) : NetworkConnectionApi {
 
     override fun connectToNetwork(request: NetworkConnectionRequest): NetworkConnectionResult {
-        return api.connectToNetwork(request)
+        return when (request) {
+            is NetworkConnectionRequest.SSID -> {
+                when (api.connectToNetworkBySSID(request.ssid, request.timeoutInMillis)) {
+                    true -> NetworkConnectionResult.Boolean.True
+                    false -> NetworkConnectionResult.Boolean.False
+                    null -> NetworkConnectionResult.NetworkNotFound
+                }
+            }
+            is NetworkConnectionRequest.BSSID -> {
+                when (api.connectToNetworkBySSID(request.bssid, request.timeoutInMillis)) {
+                    true -> NetworkConnectionResult.Boolean.True
+                    false -> NetworkConnectionResult.Boolean.False
+                    null -> NetworkConnectionResult.NetworkNotFound
+                }
+            }
+        }
     }
 
     override fun disconnectFromCurrentNetwork(): NetworkConnectionResult {
-        return api.disconnectFromCurrentNetwork()
+        return if (api.disconnectFromCurrentNetwork()) {
+            NetworkConnectionResult.Boolean.True
+        } else {
+            NetworkConnectionResult.Boolean.False
+        }
     }
 }

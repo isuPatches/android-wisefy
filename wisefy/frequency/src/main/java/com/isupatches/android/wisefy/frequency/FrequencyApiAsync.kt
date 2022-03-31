@@ -33,8 +33,10 @@ interface FrequencyApiAsync {
     /**
      * An asynchronous API to get the frequency of the current network.
      *
+     * @param request The details of the request to get the frequency of a network
      * @param callbacks The callbacks for when the frequency is returned
      *
+     * @see GetFrequencyRequest
      * @see GetFrequencyCallbacks
      *
      * @author Patches Klinefelter

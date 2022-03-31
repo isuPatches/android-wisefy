@@ -19,9 +19,31 @@ import android.net.NetworkRequest
 import android.os.Build
 import androidx.annotation.RequiresApi
 
+/**
+ * An Android 29 specific internal API for connecting to and disconnecting from a network through the Android OS.
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
+@RequiresApi(Build.VERSION_CODES.Q)
 internal interface Android29NetworkConnectionApi {
-    @RequiresApi(Build.VERSION_CODES.Q)
+
+    /**
+     * An Android 29 internal API to connect to a network through the Android OS.
+     *
+     * @param request The OS level network request to connect to a network
+     * @param timeoutInMillis How long the request should wait to connect to the network
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     fun connectToNetwork(request: NetworkRequest, timeoutInMillis: Int)
 
+    /**
+     * An Android 29 internal API to disconnect from the current network through the Android OS.
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     fun disconnectFromCurrentNetwork()
 }

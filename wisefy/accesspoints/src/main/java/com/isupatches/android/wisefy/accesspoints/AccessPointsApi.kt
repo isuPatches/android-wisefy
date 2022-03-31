@@ -106,7 +106,7 @@ interface AccessPointsApi {
     fun searchForAccessPoints(request: SearchForMultipleAccessPointsRequest): SearchForAccessPointsResult
 
     /**
-     * An synchronous API to search for a nearby SSID.
+     * A synchronous API to search for a nearby SSID.
      *
      * @param request The details of the request to search for a list of a nearby SSID.
      *

@@ -214,10 +214,11 @@ class Wisefy private constructor(
             )
             networkConnectionDelegate = WisefyNetworkConnectionDelegate(
                 coroutineDispatcherProvider = coroutineDispatcherProvider,
+                scope = wisefyScope,
                 connectivityManager = connectivityManager,
                 logger = logger,
-                networkConnectionStatusUtil = networkConnectionStatusDelegate,
-                savedNetworkUtil = savedNetworkDelegate,
+                networkConnectionStatusDelegate = networkConnectionStatusDelegate,
+                savedNetworkDelegate = savedNetworkDelegate,
                 sdkUtil = sdkUtil,
                 wifiManager = wifiManager
             )

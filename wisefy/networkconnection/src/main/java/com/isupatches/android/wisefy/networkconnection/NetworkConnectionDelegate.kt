@@ -15,4 +15,13 @@
  */
 package com.isupatches.android.wisefy.networkconnection
 
+/**
+ * A delegate for synchronous and asynchronous APIs to connect to and disconnect from networks.
+ *
+ * @see NetworkConnectionApi
+ * @see NetworkConnectionApiAsync
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 interface NetworkConnectionDelegate : NetworkConnectionApi, NetworkConnectionApiAsync

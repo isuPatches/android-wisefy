@@ -18,7 +18,9 @@ package com.isupatches.android.wisefy.addnetwork.os.apis
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.CHANGE_WIFI_STATE
 import android.content.Intent
+import android.os.Build
 import androidx.activity.result.ActivityResultLauncher
+import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 
 /**
@@ -27,6 +29,7 @@ import androidx.annotation.RequiresPermission
  * @author Patches Klinefelter
  * @since 03/2022
  */
+@RequiresApi(Build.VERSION_CODES.R)
 internal interface Android30AddNetworkApi {
 
     /**

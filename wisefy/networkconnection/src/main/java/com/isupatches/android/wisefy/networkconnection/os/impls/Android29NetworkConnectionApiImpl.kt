@@ -23,6 +23,18 @@ import androidx.annotation.RequiresApi
 import com.isupatches.android.wisefy.networkconnection.os.apis.Android29NetworkConnectionApi
 import com.isupatches.android.wisefy.shared.logging.WisefyLogger
 
+/**
+ * An Android 29 specific implementation for connecting to or disconnecting from a network through the Android OS.
+ *
+ * @param connectionManager The ConnectivityManager instance to use
+ * @param logger The WisefyLogger instance to use
+ *
+ * @see Android29NetworkConnectionApi
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
+@RequiresApi(Build.VERSION_CODES.Q)
 internal class Android29NetworkConnectionApiImpl(
     private val connectionManager: ConnectivityManager,
     private val logger: WisefyLogger
@@ -44,7 +56,6 @@ internal class Android29NetworkConnectionApiImpl(
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.Q)
     override fun connectToNetwork(request: NetworkRequest, timeoutInMillis: Int) {
         connectionManager.requestNetwork(request, networkCallback, timeoutInMillis)
     }

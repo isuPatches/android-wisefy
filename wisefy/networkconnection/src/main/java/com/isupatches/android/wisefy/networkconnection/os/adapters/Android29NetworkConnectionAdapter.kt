@@ -29,13 +29,28 @@ import com.isupatches.android.wisefy.networkconnection.os.apis.Android29NetworkC
 import com.isupatches.android.wisefy.networkconnection.os.impls.Android29NetworkConnectionApiImpl
 import com.isupatches.android.wisefy.shared.logging.WisefyLogger
 
+/**
+ * An Android 29 specific adapter for connecting to or disconnecting from a network.
+ *
+ * @param connectivityManager The ConnectivityManager instance to use
+ * @param logger The logger instance to use
+ * @param api The OS level API instance to use
+ *
+ * @see Android29NetworkConnectionApi
+ * @see Android29NetworkConnectionApiImpl
+ * @see NetworkConnectionApi
+ * @see WisefyLogger
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
+@RequiresApi(Build.VERSION_CODES.Q)
 internal class Android29NetworkConnectionAdapter(
     connectivityManager: ConnectivityManager,
     logger: WisefyLogger,
     private val api: Android29NetworkConnectionApi = Android29NetworkConnectionApiImpl(connectivityManager, logger)
 ) : NetworkConnectionApi {
 
-    @RequiresApi(Build.VERSION_CODES.Q)
     override fun connectToNetwork(request: NetworkConnectionRequest): NetworkConnectionResult {
         val networkRequest = when (request) {
             is NetworkConnectionRequest.SSID -> {
@@ -67,6 +82,6 @@ internal class Android29NetworkConnectionAdapter(
 
     override fun disconnectFromCurrentNetwork(): NetworkConnectionResult {
         api.disconnectFromCurrentNetwork()
-        return NetworkConnectionResult.UnregisterRequestSent
+        return NetworkConnectionResult.DisconnectRequestSent
     }
 }

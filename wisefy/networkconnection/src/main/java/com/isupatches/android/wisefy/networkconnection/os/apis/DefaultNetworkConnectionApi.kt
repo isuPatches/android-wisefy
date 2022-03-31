@@ -15,10 +15,47 @@
  */
 package com.isupatches.android.wisefy.networkconnection.os.apis
 
-import com.isupatches.android.wisefy.networkconnection.entities.NetworkConnectionRequest
-import com.isupatches.android.wisefy.networkconnection.entities.NetworkConnectionResult
-
+/**
+ * A default internal API for connecting to and disconnecting from a network through the Android OS.
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 internal interface DefaultNetworkConnectionApi {
-    fun connectToNetwork(request: NetworkConnectionRequest): NetworkConnectionResult
-    fun disconnectFromCurrentNetwork(): NetworkConnectionResult
+
+    /**
+     * A default internal API to connect to a network through the Android OS.
+     *
+     * @param ssid The SSID of the network to connect to
+     * @param timeoutInMillis The timeout in milliseconds to wait for a connection/disconnection for the network
+     *
+     * @return Boolean or null - Whether or not connecting to the network was successful, null if no network found
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
+    fun connectToNetworkBySSID(ssid: String, timeoutInMillis: Int): Boolean?
+
+    /**
+     * A default internal API to connect to a network through the Android OS.
+     *
+     * @param bssid The BSSID of the network to connect to
+     * @param timeoutInMillis The timeout in milliseconds to wait for a connection/disconnection for the network
+     *
+     * @return Boolean or null - Whether or not connecting to the network was successful, null if no network found
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
+    fun connectToNetworkByBSSID(bssid: String, timeoutInMillis: Int): Boolean?
+
+    /**
+     * A default internal API to disconnect from the current network through the Android OS.
+     *
+     * @return Boolean - Whether or not disconnecting from the current network was successful
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
+    fun disconnectFromCurrentNetwork(): Boolean
 }
