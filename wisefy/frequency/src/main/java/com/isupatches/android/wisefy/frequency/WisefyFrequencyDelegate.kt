@@ -35,7 +35,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 /**
- * A default delegate for getting the frequency of a network.
+ * An internal Wisefy delegate for getting the frequency of a network.
  *
  * @param coroutineDispatcherProvider The instance of the coroutine dispatcher provider to use
  * @param scope The coroutine scope to use

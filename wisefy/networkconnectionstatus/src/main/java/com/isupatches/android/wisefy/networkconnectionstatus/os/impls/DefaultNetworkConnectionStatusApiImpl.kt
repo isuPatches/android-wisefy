@@ -31,6 +31,21 @@ import com.isupatches.android.wisefy.shared.logging.WisefyLogger
 import com.isupatches.android.wisefy.shared.util.SdkUtil
 import com.isupatches.android.wisefy.shared.util.getNetwork
 
+/**
+ * A default implementation for checking the device's connection status and if it meets certain criteria.
+ *
+ * @param wifiManager The WifiManager instance to use
+ * @param connectivityManager The ConnectivityManager instance to use
+ * @param sdkUtil The SdkUtil instance to use
+ * @param logger The WisefyLogger instance to use
+ *
+ * @see DefaultNetworkConnectionStatusApi
+ * @see SdkUtil
+ * @see WisefyLogger
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 internal class DefaultNetworkConnectionStatusApiImpl(
     private val wifiManager: WifiManager,
     private val connectivityManager: ConnectivityManager,

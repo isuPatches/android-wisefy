@@ -34,7 +34,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 /**
- * A default internal implementation for getting and searching for nearby access points through the Android OS.
+ * An internal Wisefy delegate for getting and searching for nearby access points through the Android OS.
  *
  * @param coroutineDispatcherProvider The instance of the coroutine dispatcher provider to use
  * @param scope The coroutine scope to use
