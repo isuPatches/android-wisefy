@@ -16,7 +16,7 @@
 package com.isupatches.android.wisefy.accesspoints.entities
 
 /**
- * A set of data representations for a request to search for multiple SSIDs.
+ * A set of classes and objects that are used to represent requests to search for multiple SSIDs.
  *
  * @author Patches Klinefelter
  * @since 03/2022

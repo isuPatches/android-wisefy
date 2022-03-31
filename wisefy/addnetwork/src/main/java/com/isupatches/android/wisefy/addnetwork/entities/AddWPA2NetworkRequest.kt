@@ -21,7 +21,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.RequiresApi
 
 /**
- * A set of classes that are used in requests to add a WPA2 network.
+ * A set of classes and objects that are used to represent requests to add a WPA2 network.
  *
  * @author Patches Klinefelter
  * @since 03/2022

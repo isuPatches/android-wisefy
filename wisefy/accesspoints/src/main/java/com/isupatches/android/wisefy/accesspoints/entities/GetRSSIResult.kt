@@ -16,7 +16,7 @@
 package com.isupatches.android.wisefy.accesspoints.entities
 
 /**
- * A set of data representations for a result when getting the RSSI of a nearby access point from the Android OS.
+ * A set of classes and objects that are used to represent a result when getting the RSSI of a nearby access point.
  *
  * @author Patches Klinefelter
  * @since 03/2022

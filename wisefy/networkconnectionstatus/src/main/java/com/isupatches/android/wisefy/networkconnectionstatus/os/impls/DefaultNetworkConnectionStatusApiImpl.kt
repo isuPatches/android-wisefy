@@ -31,7 +31,7 @@ import com.isupatches.android.wisefy.shared.logging.WisefyLogger
 import com.isupatches.android.wisefy.shared.util.SdkUtil
 import com.isupatches.android.wisefy.shared.util.getNetwork
 
-class DefaultNetworkConnectionStatusApiImpl(
+internal class DefaultNetworkConnectionStatusApiImpl(
     private val wifiManager: WifiManager,
     private val connectivityManager: ConnectivityManager,
     private val sdkUtil: SdkUtil,

@@ -15,6 +15,12 @@
  */
 package com.isupatches.android.wisefy.networkconnectionstatus.entities
 
+/**
+ * A set of states for a network connection.
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 internal enum class NetworkConnectionStatus {
     AVAILABLE,
     LOSING,

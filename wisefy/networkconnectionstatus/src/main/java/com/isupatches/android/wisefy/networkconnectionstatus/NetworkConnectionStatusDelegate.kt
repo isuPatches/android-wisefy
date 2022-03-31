@@ -15,4 +15,13 @@
  */
 package com.isupatches.android.wisefy.networkconnectionstatus
 
+/**
+ * A delegate for synchronous and asynchronous APIs to check the device's connection status and
+ * if it meets certain criteria.
+ *
+ * @see NetworkConnectionStatusApiInternal
+ * *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 interface NetworkConnectionStatusDelegate : NetworkConnectionStatusApiInternal

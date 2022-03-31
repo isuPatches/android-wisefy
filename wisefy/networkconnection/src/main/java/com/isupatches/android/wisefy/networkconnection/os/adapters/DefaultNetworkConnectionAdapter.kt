@@ -26,7 +26,7 @@ import com.isupatches.android.wisefy.savednetworks.SavedNetworkDelegate
 import com.isupatches.android.wisefy.shared.logging.WisefyLogger
 
 /**
- * An Android 29 specific adapter for connecting to or disconnecting from a network.
+ * A default adapter for connecting to or disconnecting from a network.
  *
  * @param wifiManager The WifiManager instance to use
  * @param networkConnectionStatusDelegate The NetworkConnectionStatusDelegate instance to use

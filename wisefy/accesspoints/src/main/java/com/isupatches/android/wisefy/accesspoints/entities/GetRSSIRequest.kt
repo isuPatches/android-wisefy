@@ -16,7 +16,7 @@
 package com.isupatches.android.wisefy.accesspoints.entities
 
 /**
- * A set of data representations to retrieve the RRSI level of a nearby access point.
+ * A set of classes and objects that are used to represent requests to retrieve the RRSI level of a nearby access point.
  *
  * @property takeHighest Whether the request returns the first RSSI value or the highest RSSI value for the network in
  *  the case of one that has duplicate access points

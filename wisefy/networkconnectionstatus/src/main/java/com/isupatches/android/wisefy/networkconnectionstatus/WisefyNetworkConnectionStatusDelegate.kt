@@ -23,9 +23,25 @@ import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceCo
 import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceConnectedToSSIDRequest
 import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceRoamingResult
 import com.isupatches.android.wisefy.networkconnectionstatus.os.adapters.DefaultNetworkConnectionStatusAdapter
+import com.isupatches.android.wisefy.shared.coroutines.CoroutineDispatcherProvider
 import com.isupatches.android.wisefy.shared.logging.WisefyLogger
 import com.isupatches.android.wisefy.shared.util.SdkUtil
 
+/**
+ * A default internal implementation for getting and searching for nearby access points through the Android OS.
+ *
+ * @param connectivityManager The ConnectivityManager instance to use
+ * @param logger The logger instance to use
+ * @param sdkUtil The SdkUtil instance to use
+ * @param wifiManager The WifiManager instance to use
+ *
+ * @see NetworkConnectionStatusDelegate
+ * @see SdkUtil
+ * @see WisefyLogger
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 class WisefyNetworkConnectionStatusDelegate(
     connectivityManager: ConnectivityManager,
     logger: WisefyLogger,

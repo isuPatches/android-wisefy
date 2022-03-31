@@ -15,7 +15,36 @@
  */
 package com.isupatches.android.wisefy.networkconnectionstatus.entities
 
+/**
+ * A set of classes and objects that are used to represent requests checking if the device is connected to
+ * a matching network.
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 sealed class IsDeviceConnectedToSSIDRequest {
+
+    /**
+     * A data representation to check if the device is connected to a network given an SSID.
+     *
+     * @param regex The regex to use when checking the SSID
+     *
+     * @see IsDeviceConnectedToSSIDRequest
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     data class SSID(val regex: String) : IsDeviceConnectedToSSIDRequest()
+
+    /**
+     * A data representation to check if the device is connected to a network given an BSSID.
+     *
+     * @param regex The regex to use when checking the BSSID
+     *
+     * @see IsDeviceConnectedToSSIDRequest
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     data class BSSID(val regex: String) : IsDeviceConnectedToSSIDRequest()
 }

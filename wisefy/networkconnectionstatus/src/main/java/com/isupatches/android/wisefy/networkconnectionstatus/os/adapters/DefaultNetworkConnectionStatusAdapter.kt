@@ -20,6 +20,7 @@ import android.net.ConnectivityManager
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.networkconnectionstatus.NetworkConnectionStatusApiInternal
+import com.isupatches.android.wisefy.networkconnectionstatus.NetworkConnectionStatusDelegate
 import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceConnectedResult
 import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceConnectedToSSIDRequest
 import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceRoamingResult
@@ -28,6 +29,25 @@ import com.isupatches.android.wisefy.networkconnectionstatus.os.impls.DefaultNet
 import com.isupatches.android.wisefy.shared.logging.WisefyLogger
 import com.isupatches.android.wisefy.shared.util.SdkUtil
 
+/**
+ * A default adapter for checking the device's connection status and if it meets certain criteria.
+ *
+ * @param connectivityManager The ConnectivityManager instance to use
+ * @param wifiManager The WifiManager instance to use
+ * @param sdkUtil The SdkUtil instance to use
+ * @param logger The logger instance to use
+ * @param api The OS level API instance to use
+ *
+ * @see DefaultNetworkConnectionStatusApi
+ * @see DefaultNetworkConnectionStatusApiImpl
+ * @see NetworkConnectionStatusApiInternal
+ * @see NetworkConnectionStatusDelegate
+ * @see SdkUtil
+ * @see WisefyLogger
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 internal class DefaultNetworkConnectionStatusAdapter(
     connectivityManager: ConnectivityManager,
     wifiManager: WifiManager,

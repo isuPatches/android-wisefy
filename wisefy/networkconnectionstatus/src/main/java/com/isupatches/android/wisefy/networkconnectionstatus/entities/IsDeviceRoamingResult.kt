@@ -15,7 +15,31 @@
  */
 package com.isupatches.android.wisefy.networkconnectionstatus.entities
 
+/**
+ * A set of classes and objects that are used to represent results for checking if the device is roaming.
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 sealed class IsDeviceRoamingResult {
+
+    /**
+     * A data representation for when the device is roaming.
+     *
+     * @see IsDeviceRoamingResult
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     object True : IsDeviceRoamingResult()
+
+    /**
+     * A data representation for when the device is not roaming.
+     *
+     * @see IsDeviceRoamingResult
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     object False : IsDeviceRoamingResult()
 }

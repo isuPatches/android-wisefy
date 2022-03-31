@@ -16,7 +16,7 @@
 package com.isupatches.android.wisefy.accesspoints.entities
 
 /**
- * A set of data representations for a request to search for a single SSID.
+ * A set of classes and objects that are used to represent requests to search for a single SSID.
  *
  * @property timeoutInMillis The timeout in milliseconds to wait for an SSID to appear
  *

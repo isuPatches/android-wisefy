@@ -15,7 +15,31 @@
  */
 package com.isupatches.android.wisefy.networkconnectionstatus.entities
 
+/**
+ * A set of classes and objects that are used to represent results for checking the device's connection.
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 sealed class IsDeviceConnectedResult {
+
+    /**
+     * A data representation for when the device connection meets certain criteria.
+     *
+     * @see IsDeviceConnectedResult
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     object True : IsDeviceConnectedResult()
+
+    /**
+     * A data representation for when the device connection does not meet certain criteria.
+     *
+     * @see IsDeviceConnectedResult
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     object False : IsDeviceConnectedResult()
 }

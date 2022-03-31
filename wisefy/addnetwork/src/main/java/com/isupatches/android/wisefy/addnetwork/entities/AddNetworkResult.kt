@@ -16,7 +16,7 @@
 package com.isupatches.android.wisefy.addnetwork.entities
 
 /**
- * A set of classes that are used to denote a failure or success while attempting to add a network.
+ * A set of classes and objects that are used to represent a result while attempting to add a network.
  *
  * @author Patches Klinefelter
  * @since 03/2022

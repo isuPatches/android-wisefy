@@ -16,7 +16,7 @@
 package com.isupatches.android.wisefy.accesspoints.entities
 
 /**
- * A set of data representations for a result when searching for a nearby SSIDs from the Android OS.
+ * A set of classes and objects that are used to represent a result when searching for a nearby SSIDs.
  *
  * @author Patches Klinefelter
  * @since 03/2022

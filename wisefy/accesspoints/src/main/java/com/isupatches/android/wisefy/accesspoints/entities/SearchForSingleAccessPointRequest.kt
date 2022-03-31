@@ -16,7 +16,7 @@
 package com.isupatches.android.wisefy.accesspoints.entities
 
 /**
- * A set of data representations for a request to search for a single access point.
+ * A set of classes and objects that are used to represent requests to search for a single access point.
  *
  * @property timeoutInMillis The timeout in milliseconds to wait for an access point to appear
  * @property filterDuplicates Whether nearby access points with the same SSID but lower RSSI levels should be excluded

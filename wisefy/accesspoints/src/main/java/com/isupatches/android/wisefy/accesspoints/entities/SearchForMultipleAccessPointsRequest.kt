@@ -16,7 +16,7 @@
 package com.isupatches.android.wisefy.accesspoints.entities
 
 /**
- * A set of data representations for a request to search for multiple access points.
+ * A set of classes and objects that are used to represent requests to search for multiple access points.
  *
  * @property filterDuplicates Whether nearby access points with the same SSID but lower RSSI levels should be excluded
  *
