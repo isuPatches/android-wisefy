@@ -37,9 +37,9 @@ import com.isupatches.android.wisefy.accesspoints.entities.SearchForSSIDsResult
 import com.isupatches.android.wisefy.accesspoints.entities.SearchForSingleAccessPointRequest
 import com.isupatches.android.wisefy.accesspoints.entities.SearchForSingleSSIDRequest
 import com.isupatches.android.wisefy.accesspoints.os.adapters.DefaultAccessPointsAdapter
-import com.isupatches.android.wisefy.shared.coroutines.CoroutineDispatcherProvider
-import com.isupatches.android.wisefy.shared.coroutines.createBaseCoroutineExceptionHandler
-import com.isupatches.android.wisefy.shared.logging.WisefyLogger
+import com.isupatches.android.wisefy.core.coroutines.CoroutineDispatcherProvider
+import com.isupatches.android.wisefy.core.coroutines.createBaseCoroutineExceptionHandler
+import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

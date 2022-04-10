@@ -20,6 +20,9 @@ import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.net.ConnectivityManager
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
+import com.isupatches.android.wisefy.core.entities.QUOTE
+import com.isupatches.android.wisefy.core.logging.WisefyLogger
+import com.isupatches.android.wisefy.core.util.rest
 import com.isupatches.android.wisefy.networkconnection.os.apis.DefaultNetworkConnectionApi
 import com.isupatches.android.wisefy.networkconnectionstatus.NetworkConnectionStatusDelegate
 import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceConnectedResult
@@ -27,9 +30,6 @@ import com.isupatches.android.wisefy.savednetworks.SavedNetworkDelegate
 import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
 import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkRequest
 import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkResult
-import com.isupatches.android.wisefy.shared.entities.QUOTE
-import com.isupatches.android.wisefy.shared.logging.WisefyLogger
-import com.isupatches.android.wisefy.shared.util.rest
 
 /**
  * A default implementation for connecting to or disconnecting from a network through the Android OS.
@@ -114,7 +114,8 @@ internal class DefaultNetworkConnectionApiImpl(
                 val currentValue = it.ssid.replace(QUOTE, "")
                 logger.d(LOG_TAG, "Current value: %s, Desired value: %s", currentValue, ssid)
                 if (currentValue.equals(ssid, ignoreCase = true) &&
-                    networkConnectionStatusDelegate.isDeviceConnectedToMobileOrWifiNetwork() is IsDeviceConnectedResult.True
+                    networkConnectionStatusDelegate.isDeviceConnectedToMobileOrWifiNetwork() is
+                    IsDeviceConnectedResult.True
                 ) {
                     logger.d(LOG_TAG, "Network is connected")
                     return true
@@ -131,7 +132,8 @@ internal class DefaultNetworkConnectionApiImpl(
                 val currentValue = it.bssid.replace(QUOTE, "")
                 logger.d(LOG_TAG, "Current value: %s, Desired value: %s", currentValue, bssid)
                 if (currentValue.equals(bssid, ignoreCase = true) &&
-                    networkConnectionStatusDelegate.isDeviceConnectedToMobileOrWifiNetwork() is IsDeviceConnectedResult.True
+                    networkConnectionStatusDelegate.isDeviceConnectedToMobileOrWifiNetwork() is
+                    IsDeviceConnectedResult.True
                 ) {
                     logger.d(LOG_TAG, "Network is connected")
                     return true

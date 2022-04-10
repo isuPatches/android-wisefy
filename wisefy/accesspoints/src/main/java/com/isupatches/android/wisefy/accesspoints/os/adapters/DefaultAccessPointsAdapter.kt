@@ -33,7 +33,7 @@ import com.isupatches.android.wisefy.accesspoints.entities.SearchForSingleAccess
 import com.isupatches.android.wisefy.accesspoints.entities.SearchForSingleSSIDRequest
 import com.isupatches.android.wisefy.accesspoints.os.apis.DefaultAccessPointsApi
 import com.isupatches.android.wisefy.accesspoints.os.impls.DefaultAccessPointsApiImpl
-import com.isupatches.android.wisefy.shared.logging.WisefyLogger
+import com.isupatches.android.wisefy.core.logging.WisefyLogger
 
 /**
  * A default adapter for getting and searching for nearby access points.

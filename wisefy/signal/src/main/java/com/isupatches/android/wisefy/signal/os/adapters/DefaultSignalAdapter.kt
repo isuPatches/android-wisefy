@@ -15,7 +15,7 @@
  */
 package com.isupatches.android.wisefy.signal.os.adapters
 
-import com.isupatches.android.wisefy.shared.entities.ErrorMessages
+import com.isupatches.android.wisefy.core.entities.ErrorMessages
 import com.isupatches.android.wisefy.signal.SignalApi
 import com.isupatches.android.wisefy.signal.entities.CalculateBarsRequest
 import com.isupatches.android.wisefy.signal.entities.CalculateBarsResult

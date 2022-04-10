@@ -21,13 +21,13 @@ import android.net.wifi.WifiManager
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
+import com.isupatches.android.wisefy.core.wifimanager.createOpenNetworkSuggestionWithBSSID
+import com.isupatches.android.wisefy.core.wifimanager.createOpenNetworkSuggestionWithSSID
 import com.isupatches.android.wisefy.removenetwork.RemoveNetworkApi
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkRequest
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkResult
 import com.isupatches.android.wisefy.removenetwork.os.apis.Android29RemoveNetworkApi
 import com.isupatches.android.wisefy.removenetwork.os.impls.Android29RemoveNetworkApiImpl
-import com.isupatches.android.wisefy.shared.wifimanager.createOpenNetworkSuggestionWithBSSID
-import com.isupatches.android.wisefy.shared.wifimanager.createOpenNetworkSuggestionWithSSID
 
 @RequiresApi(Build.VERSION_CODES.Q)
 internal class Android29RemoveNetworkAdapter(

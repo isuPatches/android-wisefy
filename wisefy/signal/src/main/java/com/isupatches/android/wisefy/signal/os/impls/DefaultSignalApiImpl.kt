@@ -18,9 +18,9 @@ package com.isupatches.android.wisefy.signal.os.impls
 import android.net.wifi.WifiManager
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.isupatches.android.wisefy.shared.assertions.fail
-import com.isupatches.android.wisefy.shared.entities.DeprecationMessages
-import com.isupatches.android.wisefy.shared.entities.ErrorMessages
+import com.isupatches.android.wisefy.core.assertions.fail
+import com.isupatches.android.wisefy.core.entities.DeprecationMessages
+import com.isupatches.android.wisefy.core.entities.ErrorMessages
 import com.isupatches.android.wisefy.signal.os.apis.DefaultSignalApi
 
 internal class DefaultSignalApiImpl : DefaultSignalApi {

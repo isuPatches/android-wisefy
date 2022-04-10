@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Patches Klinefelter
+ * Copyright 2022 Patches Klinefelter
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,8 +25,8 @@ import androidx.annotation.VisibleForTesting
 import com.isupatches.android.viewglu.paste
 import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
 import com.isupatches.android.wisefy.frequency.entities.FrequencyData
-import com.isupatches.android.wisefy.networkinfo.entities.CurrentNetworkData
-import com.isupatches.android.wisefy.networkinfo.entities.CurrentNetworkInfoData
+import com.isupatches.android.wisefy.networkinfo.entities.NetworkData
+import com.isupatches.android.wisefy.networkinfo.entities.NetworkInfoData
 import com.isupatches.android.wisefy.networkinfo.entities.IPData
 import com.isupatches.android.wisefy.sample.R
 import com.isupatches.android.wisefy.sample.databinding.FragmentMiscBinding
@@ -48,9 +48,9 @@ internal interface MiscView {
     fun displayFailureDisablingWifi()
     fun displayWifiEnabled()
     fun displayFailureEnablingWifi()
-    fun displayCurrentNetwork(currentNetwork: CurrentNetworkData)
+    fun displayCurrentNetwork(network: NetworkData)
     fun displayNoCurrentNetwork()
-    fun displayCurrentNetworkInfo(currentNetworkInfo: CurrentNetworkInfoData)
+    fun displayCurrentNetworkInfo(networkInfo: NetworkInfoData)
     fun displayNoCurrentNetworkInfo()
     fun displayFrequency(frequency: FrequencyData)
     fun displayFailureRetrievingFrequency()
@@ -137,9 +137,9 @@ internal class MiscFragment : BaseFragment(), MiscView {
         displayInfo(R.string.failure_enabling_wifi, R.string.wisefy_action_result)
     }
 
-    override fun displayCurrentNetwork(currentNetwork: CurrentNetworkData) {
+    override fun displayCurrentNetwork(network: NetworkData) {
         displayInfoFullScreen(
-            getString(R.string.current_network_args, currentNetwork),
+            getString(R.string.current_network_args, network),
             R.string.wisefy_action_result
         )
     }
@@ -148,9 +148,9 @@ internal class MiscFragment : BaseFragment(), MiscView {
         displayInfo(R.string.no_current_network, R.string.wisefy_action_result)
     }
 
-    override fun displayCurrentNetworkInfo(currentNetworkInfo: CurrentNetworkInfoData) {
+    override fun displayCurrentNetworkInfo(networkInfo: NetworkInfoData) {
         displayInfoFullScreen(
-            getString(R.string.current_network_info_args, currentNetworkInfo),
+            getString(R.string.current_network_info_args, networkInfo),
             R.string.wisefy_action_result
         )
     }

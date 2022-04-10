@@ -15,4 +15,12 @@
  */
 package com.isupatches.android.wisefy.networkinfo.entities
 
+/**
+ * A data representation of the device's IP from Android OS level returns.
+ *
+ * @property value The raw value of the device's IP from the Android OS
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 data class IPData(val value: String)

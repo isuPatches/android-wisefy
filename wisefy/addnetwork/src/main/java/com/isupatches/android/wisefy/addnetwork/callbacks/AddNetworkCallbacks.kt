@@ -16,7 +16,7 @@
 package com.isupatches.android.wisefy.addnetwork.callbacks
 
 import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
-import com.isupatches.android.wisefy.shared.base.BaseWisefyCallbacks
+import com.isupatches.android.wisefy.core.base.BaseWisefyCallbacks
 
 /**
  * A set of callbacks for adding a network.

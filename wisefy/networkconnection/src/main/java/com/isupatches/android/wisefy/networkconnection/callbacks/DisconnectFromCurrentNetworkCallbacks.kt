@@ -15,7 +15,7 @@
  */
 package com.isupatches.android.wisefy.networkconnection.callbacks
 
-import com.isupatches.android.wisefy.shared.base.BaseWisefyCallbacks
+import com.isupatches.android.wisefy.core.base.BaseWisefyCallbacks
 
 /**
  * A set of callbacks for disconnecting from a network.

@@ -16,7 +16,7 @@
 package com.isupatches.android.wisefy.accesspoints.callbacks
 
 import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
-import com.isupatches.android.wisefy.shared.base.BaseWisefyCallbacks
+import com.isupatches.android.wisefy.core.base.BaseWisefyCallbacks
 
 /**
  * A set of callbacks for retrieving multiple access points.

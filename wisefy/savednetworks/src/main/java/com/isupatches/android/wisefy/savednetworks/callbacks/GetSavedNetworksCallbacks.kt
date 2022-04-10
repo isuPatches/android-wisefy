@@ -15,8 +15,8 @@
  */
 package com.isupatches.android.wisefy.savednetworks.callbacks
 
+import com.isupatches.android.wisefy.core.base.BaseWisefyCallbacks
 import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
-import com.isupatches.android.wisefy.shared.base.BaseWisefyCallbacks
 
 interface GetSavedNetworksCallbacks : BaseWisefyCallbacks {
     fun onNoSavedNetworksFound()

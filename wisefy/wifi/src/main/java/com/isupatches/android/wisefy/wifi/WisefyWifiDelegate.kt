@@ -16,11 +16,11 @@
 package com.isupatches.android.wisefy.wifi
 
 import android.net.wifi.WifiManager
-import com.isupatches.android.wisefy.shared.coroutines.CoroutineDispatcherProvider
-import com.isupatches.android.wisefy.shared.coroutines.createBaseCoroutineExceptionHandler
-import com.isupatches.android.wisefy.shared.entities.DeprecationMessages
-import com.isupatches.android.wisefy.shared.logging.WisefyLogger
-import com.isupatches.android.wisefy.shared.util.SdkUtil
+import com.isupatches.android.wisefy.core.coroutines.CoroutineDispatcherProvider
+import com.isupatches.android.wisefy.core.coroutines.createBaseCoroutineExceptionHandler
+import com.isupatches.android.wisefy.core.entities.DeprecationMessages
+import com.isupatches.android.wisefy.core.logging.WisefyLogger
+import com.isupatches.android.wisefy.core.util.SdkUtil
 import com.isupatches.android.wisefy.wifi.callbacks.DisableWifiCallbacks
 import com.isupatches.android.wisefy.wifi.callbacks.EnableWifiCallbacks
 import com.isupatches.android.wisefy.wifi.entities.DisableWifiRequest

@@ -17,12 +17,12 @@ package com.isupatches.android.wisefy.networkinfo
 
 import android.Manifest.permission.ACCESS_NETWORK_STATE
 import androidx.annotation.RequiresPermission
-import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkInfoRequest
-import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkInfoResult
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkRequest
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkResult
 import com.isupatches.android.wisefy.networkinfo.entities.GetIPRequest
 import com.isupatches.android.wisefy.networkinfo.entities.GetIPResult
+import com.isupatches.android.wisefy.networkinfo.entities.GetNetworkInfoRequest
+import com.isupatches.android.wisefy.networkinfo.entities.GetNetworkInfoResult
 
 interface NetworkInfoApi {
 
@@ -31,10 +31,10 @@ interface NetworkInfoApi {
     ): GetCurrentNetworkResult
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    fun getCurrentNetworkInfo(
-        request: GetCurrentNetworkInfoRequest = GetCurrentNetworkInfoRequest()
-    ): GetCurrentNetworkInfoResult
+    fun getIP(request: GetIPRequest = GetIPRequest()): GetIPResult
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    fun getIP(request: GetIPRequest = GetIPRequest()): GetIPResult
+    fun getNetworkInfo(
+        request: GetNetworkInfoRequest = GetNetworkInfoRequest()
+    ): GetNetworkInfoResult
 }

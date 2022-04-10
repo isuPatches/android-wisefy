@@ -16,8 +16,8 @@
 package com.isupatches.android.wisefy.signal
 
 import android.net.wifi.WifiManager
-import com.isupatches.android.wisefy.shared.logging.WisefyLogger
-import com.isupatches.android.wisefy.shared.util.SdkUtil
+import com.isupatches.android.wisefy.core.logging.WisefyLogger
+import com.isupatches.android.wisefy.core.util.SdkUtil
 import com.isupatches.android.wisefy.signal.entities.CalculateBarsRequest
 import com.isupatches.android.wisefy.signal.entities.CalculateBarsResult
 import com.isupatches.android.wisefy.signal.entities.CompareSignalLevelRequest

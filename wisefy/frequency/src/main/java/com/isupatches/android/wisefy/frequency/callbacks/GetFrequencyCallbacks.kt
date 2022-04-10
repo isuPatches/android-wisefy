@@ -15,8 +15,8 @@
  */
 package com.isupatches.android.wisefy.frequency.callbacks
 
+import com.isupatches.android.wisefy.core.base.BaseWisefyCallbacks
 import com.isupatches.android.wisefy.frequency.entities.FrequencyData
-import com.isupatches.android.wisefy.shared.base.BaseWisefyCallbacks
 
 /**
  * A set of callbacks for getting the frequency of a network.

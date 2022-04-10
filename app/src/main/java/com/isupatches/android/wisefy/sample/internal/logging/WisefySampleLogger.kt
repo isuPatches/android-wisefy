@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Patches Klinefelter
+ * Copyright 2022 Patches Klinefelter
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +16,8 @@
 package com.isupatches.android.wisefy.sample.internal.logging
 
 import android.util.Log
+import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.sample.BuildConfig
-import com.isupatches.android.wisefy.shared.logging.WisefyLogger
 import java.util.Locale
 
 private const val LOG_TAG = "WisefySample"

@@ -10,12 +10,7 @@ plugins {
 
 dependencies {
     implementation(project(":wisefy:accesspoints"))
-    api(project(":wisefy:shared:assertions"))
-    api(project(":wisefy:shared:base"))
-    api(project(":wisefy:shared:coroutines"))
-    api(project(":wisefy:shared:entities"))
-    api(project(":wisefy:shared:logging"))
-    api(project(":wisefy:shared:util"))
+    api(project(":wisefy:core"))
 
     // Kotlin
     implementation(Dependencies.Kotlin.COROUTINES)

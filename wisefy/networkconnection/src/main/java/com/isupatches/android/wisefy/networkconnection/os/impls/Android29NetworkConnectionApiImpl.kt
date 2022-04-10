@@ -20,8 +20,8 @@ import android.net.Network
 import android.net.NetworkRequest
 import android.os.Build
 import androidx.annotation.RequiresApi
+import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.networkconnection.os.apis.Android29NetworkConnectionApi
-import com.isupatches.android.wisefy.shared.logging.WisefyLogger
 
 /**
  * An Android 29 specific implementation for connecting to or disconnecting from a network through the Android OS.

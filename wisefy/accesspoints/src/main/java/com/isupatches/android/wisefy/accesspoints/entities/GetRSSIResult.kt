@@ -39,6 +39,7 @@ sealed class GetRSSIResult {
      * @property data The RSSI value for the nearby access point
      *
      * @see GetRSSIResult
+     * @see RSSIData
      *
      * @author Patches Klinefelter
      * @since 03/2022

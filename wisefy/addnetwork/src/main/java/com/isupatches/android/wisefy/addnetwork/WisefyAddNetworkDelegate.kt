@@ -29,10 +29,10 @@ import com.isupatches.android.wisefy.addnetwork.entities.AddWPA3NetworkRequest
 import com.isupatches.android.wisefy.addnetwork.os.adapters.Android29AddNetworkAdapter
 import com.isupatches.android.wisefy.addnetwork.os.adapters.Android30AddNetworkAdapter
 import com.isupatches.android.wisefy.addnetwork.os.adapters.DefaultAddNetworkAdapter
-import com.isupatches.android.wisefy.shared.coroutines.CoroutineDispatcherProvider
-import com.isupatches.android.wisefy.shared.coroutines.createBaseCoroutineExceptionHandler
-import com.isupatches.android.wisefy.shared.logging.WisefyLogger
-import com.isupatches.android.wisefy.shared.util.SdkUtil
+import com.isupatches.android.wisefy.core.coroutines.CoroutineDispatcherProvider
+import com.isupatches.android.wisefy.core.coroutines.createBaseCoroutineExceptionHandler
+import com.isupatches.android.wisefy.core.logging.WisefyLogger
+import com.isupatches.android.wisefy.core.util.SdkUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

@@ -22,11 +22,11 @@ import android.net.wifi.WifiManager
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
+import com.isupatches.android.wisefy.core.util.getNetwork
 import com.isupatches.android.wisefy.frequency.MAX_FREQUENCY_5GHZ
 import com.isupatches.android.wisefy.frequency.MIN_FREQUENCY_5GHZ
 import com.isupatches.android.wisefy.frequency.entities.FrequencyData
 import com.isupatches.android.wisefy.frequency.os.apis.DefaultFrequencyApi
-import com.isupatches.android.wisefy.shared.util.getNetwork
 
 /**
  * A default internal implementation for getting the frequency of a network through the Android OS.

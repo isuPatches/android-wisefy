@@ -22,9 +22,9 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.addnetwork.os.apis.Android29AddNetworkApi
-import com.isupatches.android.wisefy.shared.wifimanager.createOpenNetworkSuggestionWithSSID
-import com.isupatches.android.wisefy.shared.wifimanager.createWPA2NetworkSuggestionWithSSID
-import com.isupatches.android.wisefy.shared.wifimanager.createWPA3NetworkSuggestionWithSSID
+import com.isupatches.android.wisefy.core.wifimanager.createOpenNetworkSuggestionWithSSID
+import com.isupatches.android.wisefy.core.wifimanager.createWPA2NetworkSuggestionWithSSID
+import com.isupatches.android.wisefy.core.wifimanager.createWPA3NetworkSuggestionWithSSID
 
 /**
  * An internal Android 29 specific implementation for adding networks through the Android OS.

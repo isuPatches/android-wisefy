@@ -15,8 +15,8 @@
  */
 package com.isupatches.android.wisefy.removenetwork.callbacks
 
+import com.isupatches.android.wisefy.core.base.BaseWisefyCallbacks
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkResult
-import com.isupatches.android.wisefy.shared.base.BaseWisefyCallbacks
 
 interface RemoveNetworkCallbacks : BaseWisefyCallbacks {
     fun onFailureRemovingNetwork(result: RemoveNetworkResult)

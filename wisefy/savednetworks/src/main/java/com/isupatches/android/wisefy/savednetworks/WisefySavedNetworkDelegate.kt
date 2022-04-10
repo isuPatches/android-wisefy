@@ -19,6 +19,10 @@ import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
+import com.isupatches.android.wisefy.core.coroutines.CoroutineDispatcherProvider
+import com.isupatches.android.wisefy.core.coroutines.createBaseCoroutineExceptionHandler
+import com.isupatches.android.wisefy.core.logging.WisefyLogger
+import com.isupatches.android.wisefy.core.util.SdkUtil
 import com.isupatches.android.wisefy.savednetworks.callbacks.GetSavedNetworksCallbacks
 import com.isupatches.android.wisefy.savednetworks.callbacks.SearchForSavedNetworkCallbacks
 import com.isupatches.android.wisefy.savednetworks.callbacks.SearchForSavedNetworksCallbacks
@@ -32,17 +36,13 @@ import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetwor
 import com.isupatches.android.wisefy.savednetworks.os.adapters.Android29SavedNetworkAdapter
 import com.isupatches.android.wisefy.savednetworks.os.adapters.Android30SavedNetworkAdapter
 import com.isupatches.android.wisefy.savednetworks.os.adapters.DefaultSavedNetworkAdapter
-import com.isupatches.android.wisefy.shared.coroutines.CoroutineDispatcherProvider
-import com.isupatches.android.wisefy.shared.coroutines.createBaseCoroutineExceptionHandler
-import com.isupatches.android.wisefy.shared.logging.WisefyLogger
-import com.isupatches.android.wisefy.shared.util.SdkUtil
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class WisefySavedNetworkDelegate(
     private val coroutineDispatcherProvider: CoroutineDispatcherProvider,
+    private val scope: CoroutineScope,
     logger: WisefyLogger,
     sdkUtil: SdkUtil,
     wifiManager: WifiManager
@@ -57,7 +57,6 @@ class WisefySavedNetworkDelegate(
         sdkUtil.isAtLeastQ() -> Android29SavedNetworkAdapter()
         else -> DefaultSavedNetworkAdapter(wifiManager)
     }
-    private val savedNetworkScope = CoroutineScope(Job() + coroutineDispatcherProvider.io)
 
     init {
         logger.d(LOG_TAG, "WisefySavedNetworkDelegate adapter is: ${adapter::class.java.simpleName}")
@@ -70,7 +69,7 @@ class WisefySavedNetworkDelegate(
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun getSavedNetworks(request: GetSavedNetworksRequest, callbacks: GetSavedNetworksCallbacks?) {
-        savedNetworkScope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
+        scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
             val savedNetworks = adapter.getSavedNetworks(request)
             withContext(coroutineDispatcherProvider.main) {
                 when (savedNetworks) {
@@ -98,7 +97,7 @@ class WisefySavedNetworkDelegate(
         request: SearchForSavedNetworkRequest,
         callbacks: SearchForSavedNetworkCallbacks?
     ) {
-        savedNetworkScope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
+        scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
             val result = adapter.searchForSavedNetwork(request)
             withContext(coroutineDispatcherProvider.main) {
                 when (result) {
@@ -119,7 +118,7 @@ class WisefySavedNetworkDelegate(
         request: SearchForSavedNetworkRequest,
         callbacks: SearchForSavedNetworksCallbacks?
     ) {
-        savedNetworkScope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
+        scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
             val result = adapter.searchForSavedNetworks(request)
             withContext(coroutineDispatcherProvider.main) {
                 when (result) {

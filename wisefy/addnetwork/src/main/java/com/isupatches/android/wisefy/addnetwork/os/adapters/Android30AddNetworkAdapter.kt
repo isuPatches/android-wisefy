@@ -28,8 +28,8 @@ import com.isupatches.android.wisefy.addnetwork.entities.AddWPA2NetworkRequest
 import com.isupatches.android.wisefy.addnetwork.entities.AddWPA3NetworkRequest
 import com.isupatches.android.wisefy.addnetwork.os.apis.Android30AddNetworkApi
 import com.isupatches.android.wisefy.addnetwork.os.impls.Android30AddNetworkApiImpl
-import com.isupatches.android.wisefy.shared.assertions.fail
-import com.isupatches.android.wisefy.shared.entities.ErrorMessages
+import com.isupatches.android.wisefy.core.assertions.fail
+import com.isupatches.android.wisefy.core.entities.ErrorMessages
 
 /**
  * An Android 30 specific adapter for adding networks.

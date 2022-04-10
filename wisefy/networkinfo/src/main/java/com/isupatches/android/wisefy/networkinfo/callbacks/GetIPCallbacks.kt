@@ -15,10 +15,36 @@
  */
 package com.isupatches.android.wisefy.networkinfo.callbacks
 
+import com.isupatches.android.wisefy.core.base.BaseWisefyCallbacks
 import com.isupatches.android.wisefy.networkinfo.entities.IPData
-import com.isupatches.android.wisefy.shared.base.BaseWisefyCallbacks
 
+/**
+ * A set of callbacks for retrieving the current device's IP.
+ *
+ * @see BaseWisefyCallbacks
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 interface GetIPCallbacks : BaseWisefyCallbacks {
-    fun onFailureRetrievingIP()
+
+    /**
+     * A callback triggered when there is a success getting the device's IP.
+     *
+     * @param ip The IP data for the device
+     *
+     * @see IPData
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     fun onIPRetrieved(ip: IPData)
+
+    /**
+     * A callback triggered when there is failure retrieving the device's IP.
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
+    fun onFailureRetrievingIP()
 }

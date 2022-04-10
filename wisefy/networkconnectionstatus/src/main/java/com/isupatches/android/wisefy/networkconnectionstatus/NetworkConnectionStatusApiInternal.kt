@@ -15,7 +15,29 @@
  */
 package com.isupatches.android.wisefy.networkconnectionstatus
 
+/**
+ * A set of synchronous internal APIs for attaching and detaching a network watcher.
+ *
+ * @see NetworkConnectionStatusApi
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 interface NetworkConnectionStatusApiInternal : NetworkConnectionStatusApi {
+
+    /**
+     * A synchronous internal API that is used to add a network watcher.
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     fun attachNetworkWatcher()
+
+    /**
+     * A synchronous internal API that is used to remove a network watcher.
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     fun detachNetworkWatcher()
 }

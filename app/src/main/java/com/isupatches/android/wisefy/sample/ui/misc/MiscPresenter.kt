@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Patches Klinefelter
+ * Copyright 2022 Patches Klinefelter
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,9 +26,9 @@ import com.isupatches.android.wisefy.frequency.entities.FrequencyData
 import com.isupatches.android.wisefy.networkinfo.callbacks.GetCurrentNetworkCallbacks
 import com.isupatches.android.wisefy.networkinfo.callbacks.GetCurrentNetworkInfoCallbacks
 import com.isupatches.android.wisefy.networkinfo.callbacks.GetIPCallbacks
-import com.isupatches.android.wisefy.networkinfo.entities.CurrentNetworkData
-import com.isupatches.android.wisefy.networkinfo.entities.CurrentNetworkInfoData
 import com.isupatches.android.wisefy.networkinfo.entities.IPData
+import com.isupatches.android.wisefy.networkinfo.entities.NetworkData
+import com.isupatches.android.wisefy.networkinfo.entities.NetworkInfoData
 import com.isupatches.android.wisefy.sample.internal.scaffolding.BasePresenter
 import com.isupatches.android.wisefy.sample.internal.scaffolding.Presenter
 import com.isupatches.android.wisefy.savednetworks.callbacks.GetSavedNetworksCallbacks
@@ -134,9 +134,9 @@ internal class DefaultMiscPresenter @Inject constructor(
                     }
                 }
 
-                override fun onCurrentNetworkRetrieved(currentNetwork: CurrentNetworkData) {
+                override fun onCurrentNetworkRetrieved(network: NetworkData) {
                     doSafelyWithView { view ->
-                        view.displayCurrentNetwork(currentNetwork)
+                        view.displayCurrentNetwork(network)
                     }
                 }
 
@@ -158,9 +158,9 @@ internal class DefaultMiscPresenter @Inject constructor(
                     }
                 }
 
-                override fun onCurrentNetworkInfoRetrieved(currentNetworkInfo: CurrentNetworkInfoData) {
+                override fun onCurrentNetworkInfoRetrieved(networkInfo: NetworkInfoData) {
                     doSafelyWithView { view ->
-                        view.displayCurrentNetworkInfo(currentNetworkInfo)
+                        view.displayCurrentNetworkInfo(networkInfo)
                     }
                 }
 

@@ -24,12 +24,12 @@ import android.net.NetworkRequest
 import android.net.wifi.WifiManager
 import android.os.Build
 import androidx.annotation.RequiresPermission
+import com.isupatches.android.wisefy.core.entities.QUOTE
+import com.isupatches.android.wisefy.core.logging.WisefyLogger
+import com.isupatches.android.wisefy.core.util.SdkUtil
+import com.isupatches.android.wisefy.core.util.getNetwork
 import com.isupatches.android.wisefy.networkconnectionstatus.entities.NetworkConnectionStatus
 import com.isupatches.android.wisefy.networkconnectionstatus.os.apis.DefaultNetworkConnectionStatusApi
-import com.isupatches.android.wisefy.shared.entities.QUOTE
-import com.isupatches.android.wisefy.shared.logging.WisefyLogger
-import com.isupatches.android.wisefy.shared.util.SdkUtil
-import com.isupatches.android.wisefy.shared.util.getNetwork
 
 /**
  * A default implementation for checking the device's connection status and if it meets certain criteria.

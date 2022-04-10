@@ -22,14 +22,57 @@ import android.net.NetworkCapabilities
 import android.net.wifi.WifiInfo
 import androidx.annotation.RequiresPermission
 
+/**
+ * A default internal API for getting details about the device's network through the Android OS.
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 internal interface DefaultNetworkInfoApi {
+
+    /**
+     * An internal API that is used to get the device's current network from the Android OS.
+     *
+     * @return WifiInfo or null - The current network or null if the device is not connected to one
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     fun getCurrentNetwork(): WifiInfo?
 
+    /**
+     * An internal API that is used to get the network capabilities of a network from the Android OS.
+     *
+     * @param network The network to get the capabilities of
+     *
+     * @return NetworkCapabilities or null - The network capabilities from the the Android OS (can be null)
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     @RequiresPermission(ACCESS_NETWORK_STATE)
     fun getNetworkCapabilities(network: Network): NetworkCapabilities?
 
+    /**
+     * An internal API that is used to get the link properties of a network from the Android OS.
+     *
+     * @param network The network to get the link properties of
+     *
+     * @return NetworkCapabilities or null - The link properties from the the Android OS (can be null)
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     @RequiresPermission(ACCESS_NETWORK_STATE)
     fun getLinkProperties(network: Network): LinkProperties?
 
+    /**
+     * An internal API that is used to get the device's current IP from the Android OS.
+     *
+     * @return String or null - The current IP of the device or null if unable to retrieve (f.e. no network connection)
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     fun getIP(): String?
 }

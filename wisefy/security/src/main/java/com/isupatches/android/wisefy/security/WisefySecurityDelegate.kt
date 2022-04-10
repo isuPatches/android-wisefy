@@ -15,10 +15,10 @@
  */
 package com.isupatches.android.wisefy.security
 
+import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.security.entities.SecurityDetailsRequest
 import com.isupatches.android.wisefy.security.entities.SecurityDetailsResult
 import com.isupatches.android.wisefy.security.os.adapters.DefaultSecurityAdapter
-import com.isupatches.android.wisefy.shared.logging.WisefyLogger
 
 class WisefySecurityDelegate(
     logger: WisefyLogger

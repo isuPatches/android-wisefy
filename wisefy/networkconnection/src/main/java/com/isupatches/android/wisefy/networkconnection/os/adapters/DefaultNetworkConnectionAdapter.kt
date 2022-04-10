@@ -16,6 +16,7 @@
 package com.isupatches.android.wisefy.networkconnection.os.adapters
 
 import android.net.wifi.WifiManager
+import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.networkconnection.NetworkConnectionApi
 import com.isupatches.android.wisefy.networkconnection.entities.NetworkConnectionRequest
 import com.isupatches.android.wisefy.networkconnection.entities.NetworkConnectionResult
@@ -23,7 +24,6 @@ import com.isupatches.android.wisefy.networkconnection.os.apis.DefaultNetworkCon
 import com.isupatches.android.wisefy.networkconnection.os.impls.DefaultNetworkConnectionApiImpl
 import com.isupatches.android.wisefy.networkconnectionstatus.NetworkConnectionStatusDelegate
 import com.isupatches.android.wisefy.savednetworks.SavedNetworkDelegate
-import com.isupatches.android.wisefy.shared.logging.WisefyLogger
 
 /**
  * A default adapter for connecting to or disconnecting from a network.

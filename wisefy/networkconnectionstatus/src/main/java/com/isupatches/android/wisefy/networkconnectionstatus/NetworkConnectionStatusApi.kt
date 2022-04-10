@@ -19,15 +19,74 @@ import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceCo
 import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceConnectedToSSIDRequest
 import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceRoamingResult
 
+/**
+ * A set of synchronous APIs for checking the device's connection status.
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 interface NetworkConnectionStatusApi {
 
+    /**
+     * An internal API that is used to check if the device is currently connected to a mobile network.
+     *
+     * @return IsDeviceConnectedResult - The result of if the device is currently connected to a mobile network
+     *
+     * @see IsDeviceConnectedResult
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     fun isDeviceConnectedToMobileNetwork(): IsDeviceConnectedResult
 
+    /**
+     * A synchronous API that is used to check if the device is currently connected to a Wifi or mobile network.
+     *
+     * @return IsDeviceConnectedResult - The result of if the device is currently connected to a Wifi or mobile network
+     *
+     * @see IsDeviceConnectedResult
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     fun isDeviceConnectedToMobileOrWifiNetwork(): IsDeviceConnectedResult
 
+    /**
+     * A synchronous API that is used to check if the device is currently connected to a given SSID network.
+     *
+     * @param request The details of the request to check if the device is currently connected to a given SSID
+     *
+     * @return IsDeviceConnectedResult - The result of if the device is currently connected to a given SSID
+     *
+     * @see IsDeviceConnectedToSSIDRequest
+     * @see IsDeviceConnectedResult
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     fun isDeviceConnectedToSSID(request: IsDeviceConnectedToSSIDRequest): IsDeviceConnectedResult
 
+    /**
+     * A synchronous API that is used to check if the device is currently connected to a Wifi network.
+     *
+     * @return IsDeviceConnectedResult - The result of if the device is currently connected to a Wifi network
+     *
+     * @see IsDeviceRoamingResult
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     fun isDeviceConnectedToWifiNetwork(): IsDeviceConnectedResult
 
+    /**
+     * A synchronous API that is used to check if the device is currently roaming.
+     *
+     * @return IsDeviceRoamingResult - The result of if the device is currently roaming
+     *
+     * @see IsDeviceRoamingResult
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     fun isDeviceRoaming(): IsDeviceRoamingResult
 }

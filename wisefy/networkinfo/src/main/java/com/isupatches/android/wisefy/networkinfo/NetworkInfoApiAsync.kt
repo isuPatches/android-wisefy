@@ -20,9 +20,9 @@ import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.networkinfo.callbacks.GetCurrentNetworkCallbacks
 import com.isupatches.android.wisefy.networkinfo.callbacks.GetCurrentNetworkInfoCallbacks
 import com.isupatches.android.wisefy.networkinfo.callbacks.GetIPCallbacks
-import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkInfoRequest
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkRequest
 import com.isupatches.android.wisefy.networkinfo.entities.GetIPRequest
+import com.isupatches.android.wisefy.networkinfo.entities.GetNetworkInfoRequest
 
 interface NetworkInfoApiAsync {
 
@@ -32,11 +32,11 @@ interface NetworkInfoApiAsync {
     )
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    fun getCurrentNetworkInfo(
-        request: GetCurrentNetworkInfoRequest = GetCurrentNetworkInfoRequest(),
-        callbacks: GetCurrentNetworkInfoCallbacks?
-    )
+    fun getIP(request: GetIPRequest = GetIPRequest(), callbacks: GetIPCallbacks?)
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    fun getIP(request: GetIPRequest = GetIPRequest(), callbacks: GetIPCallbacks?)
+    fun getNetworkInfo(
+        request: GetNetworkInfoRequest = GetNetworkInfoRequest(),
+        callbacks: GetCurrentNetworkInfoCallbacks?
+    )
 }

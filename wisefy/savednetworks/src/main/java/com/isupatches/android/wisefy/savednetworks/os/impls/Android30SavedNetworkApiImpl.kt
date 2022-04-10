@@ -22,8 +22,8 @@ import android.net.wifi.WifiNetworkSuggestion
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
+import com.isupatches.android.wisefy.core.entities.QUOTE
 import com.isupatches.android.wisefy.savednetworks.os.apis.Android30SavedNetworkApi
-import com.isupatches.android.wisefy.shared.entities.QUOTE
 
 @RequiresApi(Build.VERSION_CODES.R)
 internal class Android30SavedNetworkApiImpl(

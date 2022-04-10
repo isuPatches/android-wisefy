@@ -17,7 +17,7 @@ package com.isupatches.android.wisefy.signal.os.apis
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.isupatches.android.wisefy.shared.entities.DeprecationMessages
+import com.isupatches.android.wisefy.core.entities.DeprecationMessages
 
 @RequiresApi(Build.VERSION_CODES.R)
 internal interface Android30SignalApi {

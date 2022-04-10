@@ -16,7 +16,7 @@
 package com.isupatches.android.wisefy.wifi.os.impls
 
 import android.net.wifi.WifiManager
-import com.isupatches.android.wisefy.shared.entities.DeprecationMessages
+import com.isupatches.android.wisefy.core.entities.DeprecationMessages
 import com.isupatches.android.wisefy.wifi.os.apis.DefaultWifiApi
 
 internal class DefaultWifiApiImpl(

@@ -15,10 +15,36 @@
  */
 package com.isupatches.android.wisefy.networkinfo.callbacks
 
-import com.isupatches.android.wisefy.networkinfo.entities.CurrentNetworkData
-import com.isupatches.android.wisefy.shared.base.BaseWisefyCallbacks
+import com.isupatches.android.wisefy.core.base.BaseWisefyCallbacks
+import com.isupatches.android.wisefy.networkinfo.entities.NetworkData
 
+/**
+ * A set of callbacks for retrieving the current network.
+ *
+ * @see BaseWisefyCallbacks
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 interface GetCurrentNetworkCallbacks : BaseWisefyCallbacks {
+
+    /**
+     * A callback triggered when there is a success getting the device's current network.
+     *
+     * @param network The current network data for the device
+     *
+     * @see NetworkData
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
+    fun onCurrentNetworkRetrieved(network: NetworkData)
+
+    /**
+     * A callback triggered when there is no current network.
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     fun onNoCurrentNetwork()
-    fun onCurrentNetworkRetrieved(currentNetwork: CurrentNetworkData)
 }

@@ -25,8 +25,8 @@ import com.isupatches.android.wisefy.addnetwork.entities.AddWPA2NetworkRequest
 import com.isupatches.android.wisefy.addnetwork.entities.AddWPA3NetworkRequest
 import com.isupatches.android.wisefy.addnetwork.os.apis.DefaultAddNetworkApi
 import com.isupatches.android.wisefy.addnetwork.os.impls.DefaultAddNetworkApiImpl
-import com.isupatches.android.wisefy.shared.assertions.fail
-import com.isupatches.android.wisefy.shared.entities.ErrorMessages
+import com.isupatches.android.wisefy.core.assertions.fail
+import com.isupatches.android.wisefy.core.entities.ErrorMessages
 
 /**
  * A default adapter for adding networks.

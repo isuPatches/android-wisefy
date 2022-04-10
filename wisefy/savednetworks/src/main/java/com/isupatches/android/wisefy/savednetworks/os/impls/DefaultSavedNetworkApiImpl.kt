@@ -20,8 +20,8 @@ import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.net.wifi.WifiConfiguration
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
+import com.isupatches.android.wisefy.core.entities.QUOTE
 import com.isupatches.android.wisefy.savednetworks.os.apis.DefaultSavedNetworkApi
-import com.isupatches.android.wisefy.shared.entities.QUOTE
 
 internal class DefaultSavedNetworkApiImpl(
     private val wifiManager: WifiManager

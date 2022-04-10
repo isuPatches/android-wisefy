@@ -19,23 +19,23 @@ import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.CHANGE_WIFI_STATE
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
+import com.isupatches.android.wisefy.core.coroutines.CoroutineDispatcherProvider
+import com.isupatches.android.wisefy.core.coroutines.createBaseCoroutineExceptionHandler
+import com.isupatches.android.wisefy.core.logging.WisefyLogger
+import com.isupatches.android.wisefy.core.util.SdkUtil
 import com.isupatches.android.wisefy.removenetwork.callbacks.RemoveNetworkCallbacks
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkRequest
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkResult
 import com.isupatches.android.wisefy.removenetwork.os.adapters.Android29RemoveNetworkAdapter
 import com.isupatches.android.wisefy.removenetwork.os.adapters.DefaultRemoveNetworkAdapter
 import com.isupatches.android.wisefy.savednetworks.SavedNetworkDelegate
-import com.isupatches.android.wisefy.shared.coroutines.CoroutineDispatcherProvider
-import com.isupatches.android.wisefy.shared.coroutines.createBaseCoroutineExceptionHandler
-import com.isupatches.android.wisefy.shared.logging.WisefyLogger
-import com.isupatches.android.wisefy.shared.util.SdkUtil
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class WisefyRemoveNetworkDelegate(
     private val coroutineDispatcherProvider: CoroutineDispatcherProvider,
+    private val scope: CoroutineScope,
     logger: WisefyLogger,
     savedNetworkDelegate: SavedNetworkDelegate,
     sdkUtil: SdkUtil,
@@ -50,7 +50,6 @@ class WisefyRemoveNetworkDelegate(
         sdkUtil.isAtLeastQ() -> Android29RemoveNetworkAdapter(wifiManager)
         else -> DefaultRemoveNetworkAdapter(wifiManager, savedNetworkDelegate)
     }
-    private val removeNetworkScope = CoroutineScope(Job() + coroutineDispatcherProvider.io)
 
     init {
         logger.d(LOG_TAG, "WisefyRemoveNetworkDelegate adapter is: ${adapter::class.java.simpleName}")
@@ -63,7 +62,7 @@ class WisefyRemoveNetworkDelegate(
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     override fun removeNetwork(request: RemoveNetworkRequest, callbacks: RemoveNetworkCallbacks?) {
-        removeNetworkScope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
+        scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
             val result = adapter.removeNetwork(request)
             withContext(coroutineDispatcherProvider.main) {
                 when (result) {

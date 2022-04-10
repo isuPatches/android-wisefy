@@ -15,7 +15,34 @@
  */
 package com.isupatches.android.wisefy.networkinfo.entities
 
+/**
+ * A set of classes and objects that are used to represent results for getting the device's IP address.
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 sealed class GetIPResult {
+
+    /**
+     * A data representation for when there is no current IP address for the device.
+     *
+     * @see GetIPResult
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     object Empty : GetIPResult()
+
+    /**
+     * A data representation for when there is a success retrieving the device's current IP address.
+     *
+     * @property data The IP value for the device
+     *
+     * @see GetIPResult
+     * @see IPData
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     data class IPAddress(val data: IPData) : GetIPResult()
 }

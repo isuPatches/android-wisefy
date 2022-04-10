@@ -16,7 +16,7 @@
 package com.isupatches.android.wisefy.accesspoints.callbacks
 
 import com.isupatches.android.wisefy.accesspoints.entities.SSIDData
-import com.isupatches.android.wisefy.shared.base.BaseWisefyCallbacks
+import com.isupatches.android.wisefy.core.base.BaseWisefyCallbacks
 
 /**
  * A set of callbacks for retrieving a single SSID.

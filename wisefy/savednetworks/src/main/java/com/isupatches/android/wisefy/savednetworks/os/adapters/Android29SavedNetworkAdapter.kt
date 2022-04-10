@@ -20,6 +20,8 @@ import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
+import com.isupatches.android.wisefy.core.assertions.fail
+import com.isupatches.android.wisefy.core.entities.ErrorMessages
 import com.isupatches.android.wisefy.savednetworks.SavedNetworkApi
 import com.isupatches.android.wisefy.savednetworks.entities.GetSavedNetworksRequest
 import com.isupatches.android.wisefy.savednetworks.entities.GetSavedNetworksResult
@@ -28,8 +30,6 @@ import com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedResult
 import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkRequest
 import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkResult
 import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworksResult
-import com.isupatches.android.wisefy.shared.assertions.fail
-import com.isupatches.android.wisefy.shared.entities.ErrorMessages
 
 @RequiresApi(Build.VERSION_CODES.Q)
 internal class Android29SavedNetworkAdapter : SavedNetworkApi {

@@ -15,7 +15,7 @@
  */
 package com.isupatches.android.wisefy.signal.os.apis
 
-import com.isupatches.android.wisefy.shared.entities.DeprecationMessages
+import com.isupatches.android.wisefy.core.entities.DeprecationMessages
 
 internal interface DefaultSignalApi {
     fun calculateBars(rssiLevel: Int): Int

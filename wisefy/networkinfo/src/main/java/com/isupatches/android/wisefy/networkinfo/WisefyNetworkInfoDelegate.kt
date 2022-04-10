@@ -19,26 +19,26 @@ import android.Manifest.permission.ACCESS_NETWORK_STATE
 import android.net.ConnectivityManager
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
+import com.isupatches.android.wisefy.core.coroutines.CoroutineDispatcherProvider
+import com.isupatches.android.wisefy.core.coroutines.createBaseCoroutineExceptionHandler
+import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.networkinfo.callbacks.GetCurrentNetworkCallbacks
 import com.isupatches.android.wisefy.networkinfo.callbacks.GetCurrentNetworkInfoCallbacks
 import com.isupatches.android.wisefy.networkinfo.callbacks.GetIPCallbacks
-import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkInfoRequest
-import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkInfoResult
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkRequest
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkResult
 import com.isupatches.android.wisefy.networkinfo.entities.GetIPRequest
 import com.isupatches.android.wisefy.networkinfo.entities.GetIPResult
+import com.isupatches.android.wisefy.networkinfo.entities.GetNetworkInfoRequest
+import com.isupatches.android.wisefy.networkinfo.entities.GetNetworkInfoResult
 import com.isupatches.android.wisefy.networkinfo.os.adapters.DefaultNetworkInfoAdapter
-import com.isupatches.android.wisefy.shared.coroutines.CoroutineDispatcherProvider
-import com.isupatches.android.wisefy.shared.coroutines.createBaseCoroutineExceptionHandler
-import com.isupatches.android.wisefy.shared.logging.WisefyLogger
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class WisefyNetworkInfoDelegate(
     private val coroutineDispatcherProvider: CoroutineDispatcherProvider,
+    private val scope: CoroutineScope,
     connectivityManager: ConnectivityManager,
     logger: WisefyLogger,
     wifiManager: WifiManager
@@ -49,7 +49,6 @@ class WisefyNetworkInfoDelegate(
     }
 
     private val adapter = DefaultNetworkInfoAdapter(wifiManager, connectivityManager, logger)
-    private val networkInfoScope = CoroutineScope(Job() + coroutineDispatcherProvider.io)
 
     init {
         logger.d(LOG_TAG, "WisefyNetworkInfoDelegate adapter is: ${adapter::class.java.simpleName}")
@@ -60,7 +59,7 @@ class WisefyNetworkInfoDelegate(
     }
 
     override fun getCurrentNetwork(request: GetCurrentNetworkRequest, callbacks: GetCurrentNetworkCallbacks?) {
-        networkInfoScope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
+        scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
             val currentNetwork = adapter.getCurrentNetwork()
             withContext(coroutineDispatcherProvider.main) {
                 when (currentNetwork) {
@@ -72,21 +71,21 @@ class WisefyNetworkInfoDelegate(
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun getCurrentNetworkInfo(request: GetCurrentNetworkInfoRequest): GetCurrentNetworkInfoResult {
-        return adapter.getCurrentNetworkInfo(request)
+    override fun getNetworkInfo(request: GetNetworkInfoRequest): GetNetworkInfoResult {
+        return adapter.getNetworkInfo(request)
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun getCurrentNetworkInfo(
-        request: GetCurrentNetworkInfoRequest,
+    override fun getNetworkInfo(
+        request: GetNetworkInfoRequest,
         callbacks: GetCurrentNetworkInfoCallbacks?
     ) {
-        networkInfoScope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
-            val currentNetworkInfo = adapter.getCurrentNetworkInfo(request)
+        scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
+            val currentNetworkInfo = adapter.getNetworkInfo(request)
             withContext(coroutineDispatcherProvider.main) {
                 when (currentNetworkInfo) {
-                    is GetCurrentNetworkInfoResult.Empty -> callbacks?.onNoCurrentNetworkInfo()
-                    is GetCurrentNetworkInfoResult.NetworkInfo -> callbacks?.onCurrentNetworkInfoRetrieved(
+                    is GetNetworkInfoResult.Empty -> callbacks?.onNoCurrentNetworkInfo()
+                    is GetNetworkInfoResult.NetworkInfo -> callbacks?.onCurrentNetworkInfoRetrieved(
                         currentNetworkInfo.data
                     )
                 }
@@ -101,7 +100,7 @@ class WisefyNetworkInfoDelegate(
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
     override fun getIP(request: GetIPRequest, callbacks: GetIPCallbacks?) {
-        networkInfoScope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
+        scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
             val ip = adapter.getIP()
             withContext(coroutineDispatcherProvider.main) {
                 when (ip) {

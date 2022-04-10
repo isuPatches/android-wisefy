@@ -15,7 +15,7 @@
  */
 package com.isupatches.android.wisefy.wifi.callbacks
 
-import com.isupatches.android.wisefy.shared.base.BaseWisefyCallbacks
+import com.isupatches.android.wisefy.core.base.BaseWisefyCallbacks
 
 interface DisableWifiCallbacks : BaseWisefyCallbacks {
     fun onFailureDisablingWifi()
