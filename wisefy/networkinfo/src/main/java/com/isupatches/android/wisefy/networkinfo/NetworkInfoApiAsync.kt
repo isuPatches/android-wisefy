@@ -18,25 +18,68 @@ package com.isupatches.android.wisefy.networkinfo
 import android.Manifest.permission.ACCESS_NETWORK_STATE
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.networkinfo.callbacks.GetCurrentNetworkCallbacks
-import com.isupatches.android.wisefy.networkinfo.callbacks.GetCurrentNetworkInfoCallbacks
 import com.isupatches.android.wisefy.networkinfo.callbacks.GetIPCallbacks
+import com.isupatches.android.wisefy.networkinfo.callbacks.GetNetworkInfoCallbacks
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkRequest
 import com.isupatches.android.wisefy.networkinfo.entities.GetIPRequest
 import com.isupatches.android.wisefy.networkinfo.entities.GetNetworkInfoRequest
 
+/**
+ * A set of asynchronous APIs for getting information about a network, the device's current network,
+ * and the device's IP.
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 interface NetworkInfoApiAsync {
 
+    /**
+     * An asynchronous API to get the device's current network.
+     *
+     * @param request The details of the request to get the device's current network
+     * @param callbacks The callbacks for retrieving the device's current network
+     *
+     * @see GetCurrentNetworkRequest
+     * @see GetCurrentNetworkCallbacks
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     fun getCurrentNetwork(
         request: GetCurrentNetworkRequest = GetCurrentNetworkRequest(),
         callbacks: GetCurrentNetworkCallbacks?
     )
 
+    /**
+     * An asynchronous API to get the device's IP.
+     *
+     * @param request The details of the request to get the device's IP
+     * @param callbacks The callbacks for retrieving the device's IP
+     *
+     * @see GetIPRequest
+     * @see GetIPCallbacks
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     @RequiresPermission(ACCESS_NETWORK_STATE)
     fun getIP(request: GetIPRequest = GetIPRequest(), callbacks: GetIPCallbacks?)
 
+    /**
+     * An asynchronous API to get the information for a network.
+     *
+     * @param request The details of the request to get the information for a network
+     * @param callbacks The callbacks for retrieving the information for a network
+     *
+     * @see GetNetworkInfoRequest
+     * @see GetNetworkInfoCallbacks
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     @RequiresPermission(ACCESS_NETWORK_STATE)
     fun getNetworkInfo(
         request: GetNetworkInfoRequest = GetNetworkInfoRequest(),
-        callbacks: GetCurrentNetworkInfoCallbacks?
+        callbacks: GetNetworkInfoCallbacks?
     )
 }

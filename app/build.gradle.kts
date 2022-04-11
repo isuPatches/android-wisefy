@@ -95,12 +95,40 @@ android {
 
 dependencies {
     /*
-     * Toggle these to test release binary vs. source code
+     * Set of source code platform imports
      */
-    implementation(project(":wisefy"))
-//    implementation("com.isupatches.android:wisefy:5.0.0-RC2") {
-//        isChanging = true
-//    }
+//    implementation(platform(project(":wisefy:platform")))
+//    implementation(project(":wisefy:core"))
+//    implementation(project(":wisefy"))
+//    implementation(project(":wisefy:accesspoints"))
+//    implementation(project(":wisefy:addnetwork"))
+//    implementation(project(":wisefy:frequency"))
+//    implementation(project(":wisefy:networkconnection"))
+//    implementation(project(":wisefy:networkconnectionstatus"))
+//    implementation(project(":wisefy:networkinfo"))
+//    implementation(project(":wisefy:removenetwork"))
+//    implementation(project(":wisefy:savednetworks"))
+//    implementation(project(":wisefy:security"))
+//    implementation(project(":wisefy:signal"))
+//    implementation(project(":wisefy:wifi"))
+
+    /*
+     * Set of release artifact platform imports
+     */
+    implementation(platform("com.isupatches.android.wisefy:platform:5.0.0-RC3"))
+    implementation("com.isupatches.android.wisefy:core")
+    implementation("com.isupatches.android.wisefy:wisefy")
+    implementation("com.isupatches.android.wisefy:accesspoints")
+    implementation("com.isupatches.android.wisefy:addnetwork")
+    implementation("com.isupatches.android.wisefy:frequency")
+    implementation("com.isupatches.android.wisefy:networkconnection")
+    implementation("com.isupatches.android.wisefy:networkconnectionstatus")
+    implementation("com.isupatches.android.wisefy:networkinfo")
+    implementation("com.isupatches.android.wisefy:removenetwork")
+    implementation("com.isupatches.android.wisefy:savednetworks")
+    implementation("com.isupatches.android.wisefy:security")
+    implementation("com.isupatches.android.wisefy:signal")
+    implementation("com.isupatches.android.wisefy:wifi")
 
     implementation(Dependencies.VIEWGLU)
 

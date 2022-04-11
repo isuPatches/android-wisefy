@@ -19,7 +19,7 @@ package com.isupatches.android.wisefy.build
 object Versions {
     // Core tooling
     const val AGP: String = "7.0.4"
-    const val KOTLIN: String = "1.5.21"
+    const val KOTLIN: String = "1.6.20"
     const val COROUTINES: String = "1.5.1"
 
     // AndroidX

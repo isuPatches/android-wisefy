@@ -8,24 +8,24 @@ plugins {
     id("com.isupatches.android.wisefy.build.plugins.DocumentationPlugin")
     id("com.isupatches.android.wisefy.build.plugins.PublishingPlugin")
     id("kotlin-android")
-    id("kotlin-kapt")
 }
 
 group = GROUP_ID
 version = BuildVersions.MODULE_VERSION_NAME
 
 dependencies {
-    api(project(":wisefy:accesspoints"))
-    api(project(":wisefy:addnetwork"))
-    api(project(":wisefy:frequency"))
-    api(project(":wisefy:networkconnection"))
-    api(project(":wisefy:networkconnectionstatus"))
-    api(project(":wisefy:networkinfo"))
-    api(project(":wisefy:removenetwork"))
-    api(project(":wisefy:savednetworks"))
-    api(project(":wisefy:security"))
-    api(project(":wisefy:signal"))
-    api(project(":wisefy:wifi"))
+    implementation(project(":wisefy:accesspoints"))
+    implementation(project(":wisefy:addnetwork"))
+    implementation(project(":wisefy:core"))
+    implementation(project(":wisefy:frequency"))
+    implementation(project(":wisefy:networkconnection"))
+    implementation(project(":wisefy:networkconnectionstatus"))
+    implementation(project(":wisefy:networkinfo"))
+    implementation(project(":wisefy:removenetwork"))
+    implementation(project(":wisefy:savednetworks"))
+    implementation(project(":wisefy:security"))
+    implementation(project(":wisefy:signal"))
+    implementation(project(":wisefy:wifi"))
 
     implementation(Dependencies.Kotlin.COROUTINES)
 }

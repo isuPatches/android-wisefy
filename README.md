@@ -5,7 +5,7 @@
 There is a new package for 5.0.  Please use:
 
 ```kotlin
-implementation("com.isupatches.android:wisefy:5.0.0-RC2")
+implementation("com.isupatches.android:wisefy:5.0.0-RC3")
 ```
 
 ## 5.0 Rewrite

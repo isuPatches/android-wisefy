@@ -23,8 +23,8 @@ import com.isupatches.android.wisefy.core.coroutines.CoroutineDispatcherProvider
 import com.isupatches.android.wisefy.core.coroutines.createBaseCoroutineExceptionHandler
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.networkinfo.callbacks.GetCurrentNetworkCallbacks
-import com.isupatches.android.wisefy.networkinfo.callbacks.GetCurrentNetworkInfoCallbacks
 import com.isupatches.android.wisefy.networkinfo.callbacks.GetIPCallbacks
+import com.isupatches.android.wisefy.networkinfo.callbacks.GetNetworkInfoCallbacks
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkRequest
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkResult
 import com.isupatches.android.wisefy.networkinfo.entities.GetIPRequest
@@ -36,6 +36,23 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+/**
+ * An internal Wisefy delegate for getting information about a network, the device's current network,
+ * and the device's IP through the Android OS.
+ *
+ * @param coroutineDispatcherProvider The instance of the coroutine dispatcher provider to use
+ * @param scope The coroutine scope to use
+ * @param connectivityManager The ConnectivityManager instance to use
+ * @param logger The logger instance to use
+ * @param wifiManager The WifiManager instance to use
+ *
+ * @see CoroutineDispatcherProvider
+ * @see NetworkInfoDelegate
+ * @see WisefyLogger
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 class WisefyNetworkInfoDelegate(
     private val coroutineDispatcherProvider: CoroutineDispatcherProvider,
     private val scope: CoroutineScope,
@@ -78,14 +95,14 @@ class WisefyNetworkInfoDelegate(
     @RequiresPermission(ACCESS_NETWORK_STATE)
     override fun getNetworkInfo(
         request: GetNetworkInfoRequest,
-        callbacks: GetCurrentNetworkInfoCallbacks?
+        callbacks: GetNetworkInfoCallbacks?
     ) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
             val currentNetworkInfo = adapter.getNetworkInfo(request)
             withContext(coroutineDispatcherProvider.main) {
                 when (currentNetworkInfo) {
-                    is GetNetworkInfoResult.Empty -> callbacks?.onNoCurrentNetworkInfo()
-                    is GetNetworkInfoResult.NetworkInfo -> callbacks?.onCurrentNetworkInfoRetrieved(
+                    is GetNetworkInfoResult.Empty -> callbacks?.onNoNetworkToRetrieveInfo()
+                    is GetNetworkInfoResult.NetworkInfo -> callbacks?.onNetworkInfoRetrieved(
                         currentNetworkInfo.data
                     )
                 }

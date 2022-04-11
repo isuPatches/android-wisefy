@@ -25,9 +25,9 @@ import androidx.annotation.VisibleForTesting
 import com.isupatches.android.viewglu.paste
 import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
 import com.isupatches.android.wisefy.frequency.entities.FrequencyData
+import com.isupatches.android.wisefy.networkinfo.entities.IPData
 import com.isupatches.android.wisefy.networkinfo.entities.NetworkData
 import com.isupatches.android.wisefy.networkinfo.entities.NetworkInfoData
-import com.isupatches.android.wisefy.networkinfo.entities.IPData
 import com.isupatches.android.wisefy.sample.R
 import com.isupatches.android.wisefy.sample.databinding.FragmentMiscBinding
 import com.isupatches.android.wisefy.sample.internal.base.BaseFragment

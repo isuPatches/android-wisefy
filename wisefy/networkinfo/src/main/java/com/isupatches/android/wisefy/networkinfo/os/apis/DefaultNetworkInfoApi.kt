@@ -23,7 +23,8 @@ import android.net.wifi.WifiInfo
 import androidx.annotation.RequiresPermission
 
 /**
- * A default internal API for getting details about the device's network through the Android OS.
+ * A default internal API for getting information about a network, the device's current network, and the device's IP
+ * through the Android OS.
  *
  * @author Patches Klinefelter
  * @since 03/2022

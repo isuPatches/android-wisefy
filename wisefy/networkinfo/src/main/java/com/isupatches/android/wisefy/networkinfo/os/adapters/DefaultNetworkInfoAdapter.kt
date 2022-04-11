@@ -34,7 +34,7 @@ import com.isupatches.android.wisefy.networkinfo.os.apis.DefaultNetworkInfoApi
 import com.isupatches.android.wisefy.networkinfo.os.impls.DefaultNetworkInfoApiImpl
 
 /**
- * A default adapter for getting details about the device's network.
+ * A default adapter for getting information about a network, the device's current network, and the device's IP.
  *
  * @param wifiManager The WifiManager instance to use
  * @param connectivityManager The ConnectivityManager instance to use

@@ -81,8 +81,8 @@ import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceRo
 import com.isupatches.android.wisefy.networkinfo.NetworkInfoDelegate
 import com.isupatches.android.wisefy.networkinfo.WisefyNetworkInfoDelegate
 import com.isupatches.android.wisefy.networkinfo.callbacks.GetCurrentNetworkCallbacks
-import com.isupatches.android.wisefy.networkinfo.callbacks.GetCurrentNetworkInfoCallbacks
 import com.isupatches.android.wisefy.networkinfo.callbacks.GetIPCallbacks
+import com.isupatches.android.wisefy.networkinfo.callbacks.GetNetworkInfoCallbacks
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkRequest
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkResult
 import com.isupatches.android.wisefy.networkinfo.entities.GetIPRequest
@@ -449,7 +449,7 @@ class Wisefy private constructor(
     @RequiresPermission(ACCESS_NETWORK_STATE)
     override fun getNetworkInfo(
         request: GetNetworkInfoRequest,
-        callbacks: GetCurrentNetworkInfoCallbacks?
+        callbacks: GetNetworkInfoCallbacks?
     ) {
         networkInfoDelegate.getNetworkInfo(request, callbacks)
     }
