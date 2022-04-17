@@ -16,10 +16,23 @@
 package com.isupatches.android.wisefy.security
 
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
-import com.isupatches.android.wisefy.security.entities.SecurityDetailsRequest
-import com.isupatches.android.wisefy.security.entities.SecurityDetailsResult
+import com.isupatches.android.wisefy.security.entities.IsNetworkSecureRequest
+import com.isupatches.android.wisefy.security.entities.IsNetworkSecureResult
+import com.isupatches.android.wisefy.security.entities.ContainsSecurityCapabilityRequest
+import com.isupatches.android.wisefy.security.entities.ContainsSecurityCapabilityResult
 import com.isupatches.android.wisefy.security.os.adapters.DefaultSecurityAdapter
 
+/**
+ * An internal Wisefy delegate for checking a network's security capabilities.
+ *
+ * @param logger The logger instance to use
+ *
+ * @see SecurityDelegate
+ * @see WisefyLogger
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 class WisefySecurityDelegate(
     logger: WisefyLogger
 ) : SecurityDelegate {
@@ -34,31 +47,11 @@ class WisefySecurityDelegate(
         logger.d(LOG_TAG, "WisefySecurityDelegate adapter is: ${adapter::class.java.simpleName}")
     }
 
-    override fun isNetworkEAP(request: SecurityDetailsRequest): SecurityDetailsResult {
-        return adapter.isNetworkEAP(request)
+    override fun doesNetworkContainSecurityCapability(request: ContainsSecurityCapabilityRequest): ContainsSecurityCapabilityResult {
+        return adapter.doesNetworkContainSecurityCapability(request)
     }
 
-    override fun isNetworkPSK(request: SecurityDetailsRequest): SecurityDetailsResult {
-        return adapter.isNetworkPSK(request)
-    }
-
-    override fun isNetworkSecure(request: SecurityDetailsRequest): SecurityDetailsResult {
+    override fun isNetworkSecure(request: IsNetworkSecureRequest): IsNetworkSecureResult {
         return adapter.isNetworkSecure(request)
-    }
-
-    override fun isNetworkWEP(request: SecurityDetailsRequest): SecurityDetailsResult {
-        return adapter.isNetworkWEP(request)
-    }
-
-    override fun isNetworkWPA(request: SecurityDetailsRequest): SecurityDetailsResult {
-        return adapter.isNetworkWPA(request)
-    }
-
-    override fun isNetworkWPA2(request: SecurityDetailsRequest): SecurityDetailsResult {
-        return adapter.isNetworkWPA2(request)
-    }
-
-    override fun isNetworkWPA3(request: SecurityDetailsRequest): SecurityDetailsResult {
-        return adapter.isNetworkWPA3(request)
     }
 }

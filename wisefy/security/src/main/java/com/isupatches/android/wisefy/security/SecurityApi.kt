@@ -15,15 +15,48 @@
  */
 package com.isupatches.android.wisefy.security
 
-import com.isupatches.android.wisefy.security.entities.SecurityDetailsRequest
-import com.isupatches.android.wisefy.security.entities.SecurityDetailsResult
+import com.isupatches.android.wisefy.security.entities.IsNetworkSecureRequest
+import com.isupatches.android.wisefy.security.entities.IsNetworkSecureResult
+import com.isupatches.android.wisefy.security.entities.ContainsSecurityCapabilityRequest
+import com.isupatches.android.wisefy.security.entities.ContainsSecurityCapabilityResult
 
+/**
+ * A set of synchronous APIs for checking a network's security capabilities.
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 interface SecurityApi {
-    fun isNetworkEAP(request: SecurityDetailsRequest): SecurityDetailsResult
-    fun isNetworkPSK(request: SecurityDetailsRequest): SecurityDetailsResult
-    fun isNetworkSecure(request: SecurityDetailsRequest): SecurityDetailsResult
-    fun isNetworkWEP(request: SecurityDetailsRequest): SecurityDetailsResult
-    fun isNetworkWPA(request: SecurityDetailsRequest): SecurityDetailsResult
-    fun isNetworkWPA2(request: SecurityDetailsRequest): SecurityDetailsResult
-    fun isNetworkWPA3(request: SecurityDetailsRequest): SecurityDetailsResult
+
+    /**
+     * A synchronous API to check if a network has a given security capability.
+     *
+     * @param request The details of the request to check if a network has a given security capability
+     *
+     * @see ContainsSecurityCapabilityRequest
+     * @see ContainsSecurityCapabilityResult
+     *
+     * @return ContainsSecurityCapabilityResult - The result indicating if the network has the given security capability
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
+    fun doesNetworkContainSecurityCapability(
+        request: ContainsSecurityCapabilityRequest
+    ): ContainsSecurityCapabilityResult
+
+    /**
+     * A synchronous API to check if a network is secure.
+     *
+     * @param request The details of the request to check if a network is secure
+     *
+     * @see IsNetworkSecureRequest
+     * @see IsNetworkSecureResult
+     *
+     * @return IsNetworkSecureResult - The result indicating if the given network is secure
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
+    fun isNetworkSecure(request: IsNetworkSecureRequest): IsNetworkSecureResult
 }

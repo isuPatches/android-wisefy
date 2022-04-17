@@ -16,103 +16,49 @@
 package com.isupatches.android.wisefy.security.os.adapters
 
 import com.isupatches.android.wisefy.security.SecurityApi
-import com.isupatches.android.wisefy.security.entities.SecurityDetailsRequest
-import com.isupatches.android.wisefy.security.entities.SecurityDetailsResult
+import com.isupatches.android.wisefy.security.entities.IsNetworkSecureRequest
+import com.isupatches.android.wisefy.security.entities.IsNetworkSecureResult
+import com.isupatches.android.wisefy.security.entities.ContainsSecurityCapabilityRequest
+import com.isupatches.android.wisefy.security.entities.ContainsSecurityCapabilityResult
 import com.isupatches.android.wisefy.security.os.apis.DefaultSecurityApi
 import com.isupatches.android.wisefy.security.os.impls.DefaultSecurityApiImpl
 
+/**
+ * A default adapter for checking the security details of a network.
+ *
+ * @param api The OS level API instance to use
+ *
+ * @see DefaultSecurityApi
+ * @see DefaultSecurityApiImpl
+ * @see SecurityApi
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 internal class DefaultSecurityAdapter(
     private val api: DefaultSecurityApi = DefaultSecurityApiImpl()
 ) : SecurityApi {
 
-    override fun isNetworkEAP(request: SecurityDetailsRequest): SecurityDetailsResult {
-        return when (request) {
-            is SecurityDetailsRequest.AccessPoint -> {
-                val result = api.isNetworkEAP(request.data.value)
-                if (result) {
-                    SecurityDetailsResult.True
-                } else {
-                    SecurityDetailsResult.False
-                }
-            }
+    override fun doesNetworkContainSecurityCapability(
+        request: ContainsSecurityCapabilityRequest
+    ): ContainsSecurityCapabilityResult {
+        val result = api.doesNetworkContainSecurityCapability(
+            network = request.network.value,
+            securityCapability = request.securityCapability
+        )
+        return if (result) {
+            ContainsSecurityCapabilityResult.True
+        } else {
+            ContainsSecurityCapabilityResult.False
         }
     }
 
-    override fun isNetworkPSK(request: SecurityDetailsRequest): SecurityDetailsResult {
-        return when (request) {
-            is SecurityDetailsRequest.AccessPoint -> {
-                val result = api.isNetworkPSK(request.data.value)
-                if (result) {
-                    SecurityDetailsResult.True
-                } else {
-                    SecurityDetailsResult.False
-                }
-            }
-        }
-    }
-
-    override fun isNetworkSecure(request: SecurityDetailsRequest): SecurityDetailsResult {
-        return when (request) {
-            is SecurityDetailsRequest.AccessPoint -> {
-                val result = api.isNetworkSecure(request.data.value)
-                if (result) {
-                    SecurityDetailsResult.True
-                } else {
-                    SecurityDetailsResult.False
-                }
-            }
-        }
-    }
-
-    override fun isNetworkWEP(request: SecurityDetailsRequest): SecurityDetailsResult {
-        return when (request) {
-            is SecurityDetailsRequest.AccessPoint -> {
-                val result = api.isNetworkWEP(request.data.value)
-                if (result) {
-                    SecurityDetailsResult.True
-                } else {
-                    SecurityDetailsResult.False
-                }
-            }
-        }
-    }
-
-    override fun isNetworkWPA(request: SecurityDetailsRequest): SecurityDetailsResult {
-        return when (request) {
-            is SecurityDetailsRequest.AccessPoint -> {
-                val result = api.isNetworkWPA(request.data.value)
-                if (result) {
-                    SecurityDetailsResult.True
-                } else {
-                    SecurityDetailsResult.False
-                }
-            }
-        }
-    }
-
-    override fun isNetworkWPA2(request: SecurityDetailsRequest): SecurityDetailsResult {
-        return when (request) {
-            is SecurityDetailsRequest.AccessPoint -> {
-                val result = api.isNetworkWPA2(request.data.value)
-                if (result) {
-                    SecurityDetailsResult.True
-                } else {
-                    SecurityDetailsResult.False
-                }
-            }
-        }
-    }
-
-    override fun isNetworkWPA3(request: SecurityDetailsRequest): SecurityDetailsResult {
-        return when (request) {
-            is SecurityDetailsRequest.AccessPoint -> {
-                val result = api.isNetworkWPA3(request.data.value)
-                if (result) {
-                    SecurityDetailsResult.True
-                } else {
-                    SecurityDetailsResult.False
-                }
-            }
+    override fun isNetworkSecure(request: IsNetworkSecureRequest): IsNetworkSecureResult {
+        val result = api.isNetworkSecure(network = request.network.value)
+        return if (result) {
+            IsNetworkSecureResult.True
+        } else {
+            IsNetworkSecureResult.False
         }
     }
 }

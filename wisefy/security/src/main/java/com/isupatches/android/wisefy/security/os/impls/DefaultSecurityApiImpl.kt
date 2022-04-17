@@ -19,18 +19,25 @@ import android.net.wifi.ScanResult
 import com.isupatches.android.wisefy.security.entities.SecurityCapability
 import com.isupatches.android.wisefy.security.os.apis.DefaultSecurityApi
 
+/**
+ * A default internal implementation for checking the security details of a network through the Android OS.
+ *
+ * @see DefaultSecurityApi
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 internal class DefaultSecurityApiImpl : DefaultSecurityApi {
 
-    override fun isNetworkEAP(scanResult: ScanResult): Boolean {
-        return containsCapability(scanResult, SecurityCapability.EAP)
+    override fun doesNetworkContainSecurityCapability(
+        network: ScanResult,
+        securityCapability: SecurityCapability
+    ): Boolean {
+        return containsCapability(network, securityCapability)
     }
 
-    override fun isNetworkPSK(scanResult: ScanResult): Boolean {
-        return containsCapability(scanResult, SecurityCapability.PSK)
-    }
-
-    override fun isNetworkSecure(scanResult: ScanResult): Boolean {
-        scanResult.capabilities?.let { capabilities ->
+    override fun isNetworkSecure(network: ScanResult): Boolean {
+        network.capabilities?.let { capabilities ->
             val securityCapabilities = SecurityCapability.ALL
             for (securityCapability in securityCapabilities) {
                 if (capabilities.contains(securityCapability.stringValue)) {
@@ -41,23 +48,7 @@ internal class DefaultSecurityApiImpl : DefaultSecurityApi {
         return false
     }
 
-    override fun isNetworkWEP(scanResult: ScanResult): Boolean {
-        return containsCapability(scanResult, SecurityCapability.WEP)
-    }
-
-    override fun isNetworkWPA(scanResult: ScanResult): Boolean {
-        return containsCapability(scanResult, SecurityCapability.WPA)
-    }
-
-    override fun isNetworkWPA2(scanResult: ScanResult): Boolean {
-        return containsCapability(scanResult, SecurityCapability.WPA2)
-    }
-
-    override fun isNetworkWPA3(scanResult: ScanResult): Boolean {
-        return containsCapability(scanResult, SecurityCapability.WPA3)
-    }
-
-    private fun containsCapability(scanResult: ScanResult, capability: SecurityCapability): Boolean {
-        return scanResult.capabilities != null && scanResult.capabilities.contains(capability.stringValue)
+    private fun containsCapability(network: ScanResult, capability: SecurityCapability): Boolean {
+        return network.capabilities != null && network.capabilities.contains(capability.stringValue)
     }
 }

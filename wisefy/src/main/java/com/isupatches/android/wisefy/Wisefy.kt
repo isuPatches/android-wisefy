@@ -108,8 +108,10 @@ import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetwor
 import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworksResult
 import com.isupatches.android.wisefy.security.SecurityDelegate
 import com.isupatches.android.wisefy.security.WisefySecurityDelegate
-import com.isupatches.android.wisefy.security.entities.SecurityDetailsRequest
-import com.isupatches.android.wisefy.security.entities.SecurityDetailsResult
+import com.isupatches.android.wisefy.security.entities.ContainsSecurityCapabilityRequest
+import com.isupatches.android.wisefy.security.entities.ContainsSecurityCapabilityResult
+import com.isupatches.android.wisefy.security.entities.IsNetworkSecureRequest
+import com.isupatches.android.wisefy.security.entities.IsNetworkSecureResult
 import com.isupatches.android.wisefy.signal.SignalDelegate
 import com.isupatches.android.wisefy.signal.WisefySignalDelegate
 import com.isupatches.android.wisefy.signal.entities.CalculateBarsRequest
@@ -415,6 +417,10 @@ class Wisefy private constructor(
         wifiDelegate.disableWifi(request, callbacks)
     }
 
+    override fun doesNetworkContainSecurityCapability(request: ContainsSecurityCapabilityRequest): ContainsSecurityCapabilityResult {
+        return securityDelegate.doesNetworkContainSecurityCapability(request)
+    }
+
     override fun disconnectFromCurrentNetwork(): NetworkConnectionResult {
         return networkConnectionDelegate.disconnectFromCurrentNetwork()
     }
@@ -534,37 +540,13 @@ class Wisefy private constructor(
         return frequencyDelegate.isNetwork5gHz()
     }
 
-    override fun isNetworkEAP(request: SecurityDetailsRequest): SecurityDetailsResult {
-        return securityDelegate.isNetworkEAP(request)
-    }
-
-    override fun isNetworkPSK(request: SecurityDetailsRequest): SecurityDetailsResult {
-        return securityDelegate.isNetworkPSK(request)
-    }
-
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun isNetworkSaved(request: IsNetworkSavedRequest): IsNetworkSavedResult {
         return savedNetworkDelegate.isNetworkSaved(request)
     }
 
-    override fun isNetworkSecure(request: SecurityDetailsRequest): SecurityDetailsResult {
+    override fun isNetworkSecure(request: IsNetworkSecureRequest): IsNetworkSecureResult {
         return securityDelegate.isNetworkSecure(request)
-    }
-
-    override fun isNetworkWEP(request: SecurityDetailsRequest): SecurityDetailsResult {
-        return securityDelegate.isNetworkWEP(request)
-    }
-
-    override fun isNetworkWPA(request: SecurityDetailsRequest): SecurityDetailsResult {
-        return securityDelegate.isNetworkWPA(request)
-    }
-
-    override fun isNetworkWPA2(request: SecurityDetailsRequest): SecurityDetailsResult {
-        return securityDelegate.isNetworkWPA2(request)
-    }
-
-    override fun isNetworkWPA3(request: SecurityDetailsRequest): SecurityDetailsResult {
-        return securityDelegate.isNetworkWPA3(request)
     }
 
     override fun isWifiEnabled(request: IsWifiEnabledRequest): IsWifiEnabledResult {

@@ -98,8 +98,8 @@ dependencies {
      * Set of source code platform imports
      */
     implementation(platform(project(":wisefy:platform")))
-    implementation(project(":wisefy:core"))
     implementation(project(":wisefy"))
+    implementation(project(":wisefy:core"))
     implementation(project(":wisefy:accesspoints"))
     implementation(project(":wisefy:addnetwork"))
     implementation(project(":wisefy:frequency"))

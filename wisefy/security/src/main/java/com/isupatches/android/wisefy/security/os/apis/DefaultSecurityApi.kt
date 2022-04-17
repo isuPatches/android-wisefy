@@ -16,13 +16,41 @@
 package com.isupatches.android.wisefy.security.os.apis
 
 import android.net.wifi.ScanResult
+import com.isupatches.android.wisefy.security.entities.ContainsSecurityCapabilityRequest
+import com.isupatches.android.wisefy.security.entities.ContainsSecurityCapabilityResult
+import com.isupatches.android.wisefy.security.entities.SecurityCapability
 
+/**
+ * A default internal API for checking the security details of a network through the Android OS.
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 internal interface DefaultSecurityApi {
-    fun isNetworkEAP(scanResult: ScanResult): Boolean
-    fun isNetworkPSK(scanResult: ScanResult): Boolean
-    fun isNetworkSecure(scanResult: ScanResult): Boolean
-    fun isNetworkWEP(scanResult: ScanResult): Boolean
-    fun isNetworkWPA(scanResult: ScanResult): Boolean
-    fun isNetworkWPA2(scanResult: ScanResult): Boolean
-    fun isNetworkWPA3(scanResult: ScanResult): Boolean
+
+    /**
+     * A default API to check if a network is secure.
+     *
+     * @param network The network to check if it is secure
+     *
+     * @return Boolean - Whether or not the network is secure.  True if secure, otherwise false.
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
+    fun isNetworkSecure(network: ScanResult): Boolean
+
+    /**
+     * A default API to check if a network has a given security capability.
+     *
+     * @param network The network to check if it has a given security capability
+     *
+     * @return Boolean - Whether or not the network has the given security capability.  True if secure, otherwise false.
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
+    fun doesNetworkContainSecurityCapability(
+        network: ScanResult,
+        securityCapability: SecurityCapability
+    ): Boolean
 }

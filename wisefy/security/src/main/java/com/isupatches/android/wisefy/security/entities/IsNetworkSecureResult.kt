@@ -15,7 +15,32 @@
  */
 package com.isupatches.android.wisefy.security.entities
 
-sealed class SecurityDetailsResult {
-    object True : SecurityDetailsResult()
-    object False : SecurityDetailsResult()
+/**
+ * A set of classes and objects that are used to represent a result while checking
+ * if a network is secure.
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
+sealed class IsNetworkSecureResult {
+
+    /**
+     * A data representation of when a network is secure.
+     *
+     * @see IsNetworkSecureResult
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
+    object True : IsNetworkSecureResult()
+
+    /**
+     * A data representation of when a network is NOT secure.
+     *
+     * @see IsNetworkSecureResult
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
+    object False : IsNetworkSecureResult()
 }

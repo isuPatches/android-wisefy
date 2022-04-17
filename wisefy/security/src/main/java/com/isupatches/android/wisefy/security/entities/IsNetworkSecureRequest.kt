@@ -13,14 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.android.wisefy.security
+package com.isupatches.android.wisefy.security.entities
+
+import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
 
 /**
- * A delegate for synchronous APIs to check a network's security capabilities.
+ * A data class that is used to represent requests to check if a network is secure.
  *
- * @see SecurityApi
+ * @property network The network to check if it is secure
+ *
+ * @see AccessPointData
  *
  * @author Patches Klinefelter
  * @since 03/2022
  */
-interface SecurityDelegate : SecurityApi
+data class IsNetworkSecureRequest(val network: AccessPointData)

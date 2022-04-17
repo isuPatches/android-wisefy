@@ -15,15 +15,70 @@
  */
 package com.isupatches.android.wisefy.security.entities
 
+/**
+ * A set of supported security capabilities.
+ *
+ * @property stringValue The string value of the security capability
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 enum class SecurityCapability(val stringValue: String) {
+    /**
+     * A representation of EAP security capability.
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     EAP("EAP"),
+
+    /**
+     * A representation of PSK security capability.
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     PSK("PSK"),
+
+    /**
+     * A representation of WEP security capability.
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     WEP("WEP"),
+
+    /**
+     * A representation of WPA security capability.
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     WPA("WPA"),
+
+    /**
+     * A representation of WPA2 security capability.
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     WPA2("WPA2"),
+
+    /**
+     * A representation of WPA3 security capability.
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     WPA3("WPA3");
 
     companion object {
-        val ALL = values().asList()
+        /**
+         * A list of all representations of security capabilities.
+         *
+         * @author Patches Klinefelter
+         * @since 03/2022
+         */
+        val ALL: List<SecurityCapability> = values().asList()
     }
 }
