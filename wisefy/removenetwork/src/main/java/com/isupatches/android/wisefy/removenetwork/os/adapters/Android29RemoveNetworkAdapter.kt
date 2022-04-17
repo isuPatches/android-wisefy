@@ -21,6 +21,7 @@ import android.net.wifi.WifiManager
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
+import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.core.wifimanager.createOpenNetworkSuggestionWithBSSID
 import com.isupatches.android.wisefy.core.wifimanager.createOpenNetworkSuggestionWithSSID
 import com.isupatches.android.wisefy.removenetwork.RemoveNetworkApi
@@ -29,6 +30,19 @@ import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkResult
 import com.isupatches.android.wisefy.removenetwork.os.apis.Android29RemoveNetworkApi
 import com.isupatches.android.wisefy.removenetwork.os.impls.Android29RemoveNetworkApiImpl
 
+/**
+ * An Android 29 specific adapter for removing a network.
+ *
+ * @param wifiManager The WifiManager instance to use
+ * @param api The OS level API instance to use
+ *
+ * @see Android29RemoveNetworkApi
+ * @see Android29RemoveNetworkApiImpl
+ * @see RemoveNetworkApi
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 @RequiresApi(Build.VERSION_CODES.Q)
 internal class Android29RemoveNetworkAdapter(
     private val wifiManager: WifiManager,
@@ -44,9 +58,9 @@ internal class Android29RemoveNetworkAdapter(
         }
         val resultCode = api.removeNetwork(suggestion)
         return if (resultCode == WifiManager.STATUS_NETWORK_SUGGESTIONS_SUCCESS) {
-            RemoveNetworkResult.ResultCode.Success(value = resultCode)
+            RemoveNetworkResult.Success.ResultCode(value = resultCode)
         } else {
-            RemoveNetworkResult.ResultCode.Failure(value = resultCode)
+            RemoveNetworkResult.Failure.ResultCode(value = resultCode)
         }
     }
 }

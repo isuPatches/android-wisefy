@@ -30,6 +30,21 @@ import com.isupatches.android.wisefy.savednetworks.SavedNetworkDelegate
 import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
 import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkResult
 
+/**
+ * A default adapter for removing a network.
+ *
+ * @param wifiManager The WifiManager instance to use
+ * @param savedNetworkDelegate The SavedNetworkDelegate instance to use
+ * @param api The OS level API instance to use
+ *
+ * @see DefaultRemoveNetworkApi
+ * @see DefaultRemoveNetworkApiImpl
+ * @see RemoveNetworkApi
+ * @see SavedNetworkDelegate
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 internal class DefaultRemoveNetworkAdapter(
     private val wifiManager: WifiManager,
     private val savedNetworkDelegate: SavedNetworkDelegate,
@@ -43,20 +58,20 @@ internal class DefaultRemoveNetworkAdapter(
                 request = request.toSearchForNetworkRequest()
             )
         ) {
-            is SearchForSavedNetworkResult.Empty -> RemoveNetworkResult.NetworkNotFound
+            is SearchForSavedNetworkResult.Empty -> RemoveNetworkResult.Failure.NetworkNotFound
             is SearchForSavedNetworkResult.SavedNetwork -> {
                 when (val savedNetwork = savedNetworkSearchResult.data) {
                     is SavedNetworkData.Configuration -> {
                         val result = api.removeNetwork(savedNetwork.value.networkId)
                         if (result) {
-                            RemoveNetworkResult.BooleanResult.Success
+                            RemoveNetworkResult.Success.True
                         } else {
-                            RemoveNetworkResult.BooleanResult.Failure
+                            RemoveNetworkResult.Failure.False
                         }
                     }
                     is SavedNetworkData.Suggestion -> {
                         fail("")
-                        RemoveNetworkResult.BooleanResult.Failure
+                        RemoveNetworkResult.Failure.False
                     }
                 }
             }

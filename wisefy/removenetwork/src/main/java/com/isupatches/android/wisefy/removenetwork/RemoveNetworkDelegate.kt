@@ -15,4 +15,13 @@
  */
 package com.isupatches.android.wisefy.removenetwork
 
+/**
+ * A delegate for synchronous and asynchronous APIs for removing a network.
+ *
+ * @see RemoveNetworkApi
+ * @see RemoveNetworkApiAsync
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 interface RemoveNetworkDelegate : RemoveNetworkApi, RemoveNetworkApiAsync

@@ -18,6 +18,17 @@ package com.isupatches.android.wisefy.removenetwork.os.converters
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkRequest
 import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkRequest
 
+/**
+ * An internal helper to convert a remove network request to a search for saved network request.
+ *
+ * @see RemoveNetworkRequest
+ * @see SearchForSavedNetworkRequest
+ *
+ * @return SearchForSavedNetworkRequest - The SearchForSavedNetworkRequest created from the RemoveNetworkRequest
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 internal fun RemoveNetworkRequest.toSearchForNetworkRequest(): SearchForSavedNetworkRequest {
     return when (this) {
         is RemoveNetworkRequest.SSID -> SearchForSavedNetworkRequest.SSID(regex)

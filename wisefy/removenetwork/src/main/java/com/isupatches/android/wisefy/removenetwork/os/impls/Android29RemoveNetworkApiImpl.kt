@@ -24,6 +24,16 @@ import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.removenetwork.os.apis.Android29RemoveNetworkApi
 
+/**
+ * An Android 29 specific implementation for removing a network.
+ *
+ * @param wifiManager The WifiManager instance to use
+ *
+ * @see Android29RemoveNetworkApi
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 @RequiresApi(Build.VERSION_CODES.Q)
 internal class Android29RemoveNetworkApiImpl(
     private val wifiManager: WifiManager

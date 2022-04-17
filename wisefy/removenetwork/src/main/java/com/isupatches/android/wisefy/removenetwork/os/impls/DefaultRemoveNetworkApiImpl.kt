@@ -21,6 +21,16 @@ import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.removenetwork.os.apis.DefaultRemoveNetworkApi
 
+/**
+ * A default implementation for removing a network.
+ *
+ * @param wifiManager The WifiManager instance to use
+ *
+ * @see DefaultRemoveNetworkApi
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 internal class DefaultRemoveNetworkApiImpl(
     private val wifiManager: WifiManager
 ) : DefaultRemoveNetworkApi {

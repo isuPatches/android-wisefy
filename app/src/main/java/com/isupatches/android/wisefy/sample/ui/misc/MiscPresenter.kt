@@ -24,8 +24,8 @@ import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
 import com.isupatches.android.wisefy.frequency.callbacks.GetFrequencyCallbacks
 import com.isupatches.android.wisefy.frequency.entities.FrequencyData
 import com.isupatches.android.wisefy.networkinfo.callbacks.GetCurrentNetworkCallbacks
-import com.isupatches.android.wisefy.networkinfo.callbacks.GetCurrentNetworkInfoCallbacks
 import com.isupatches.android.wisefy.networkinfo.callbacks.GetIPCallbacks
+import com.isupatches.android.wisefy.networkinfo.callbacks.GetNetworkInfoCallbacks
 import com.isupatches.android.wisefy.networkinfo.entities.IPData
 import com.isupatches.android.wisefy.networkinfo.entities.NetworkData
 import com.isupatches.android.wisefy.networkinfo.entities.NetworkInfoData
@@ -151,14 +151,14 @@ internal class DefaultMiscPresenter @Inject constructor(
 
     override fun getCurrentNetworkInfo() {
         model.getCurrentNetworkInfo(
-            callbacks = object : GetCurrentNetworkInfoCallbacks {
-                override fun onNoCurrentNetworkInfo() {
+            callbacks = object : GetNetworkInfoCallbacks {
+                override fun onNoNetworkToRetrieveInfo() {
                     doSafelyWithView { view ->
                         view.displayNoCurrentNetworkInfo()
                     }
                 }
 
-                override fun onCurrentNetworkInfoRetrieved(networkInfo: NetworkInfoData) {
+                override fun onNetworkInfoRetrieved(networkInfo: NetworkInfoData) {
                     doSafelyWithView { view ->
                         view.displayCurrentNetworkInfo(networkInfo)
                     }

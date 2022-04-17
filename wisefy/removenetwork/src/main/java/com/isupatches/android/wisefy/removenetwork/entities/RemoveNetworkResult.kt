@@ -15,17 +15,103 @@
  */
 package com.isupatches.android.wisefy.removenetwork.entities
 
+/**
+ * A set of classes and objects that are used to represent a result while attempting to remove a network.
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 sealed class RemoveNetworkResult {
 
-    sealed class ResultCode : RemoveNetworkResult() {
-        data class Success(val value: Int) : ResultCode()
-        data class Failure(val value: Int) : ResultCode()
+    /**
+     * A set of classes that are used to denote a success while attempting to remove a network.
+     *
+     * @see RemoveNetworkResult
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
+    sealed class Success : RemoveNetworkResult() {
+
+        /**
+         * A data representation of a success removing a network based on Android OS level returns.
+         *
+         * *NOTE*
+         * - Returns for this are the same as `removeNetworkSuggestion` found here:
+         *  https://developer.android.com/reference/android/net/wifi/WifiManager#removeNetworkSuggestions(java.util.List%3Candroid.net.wifi.WifiNetworkSuggestion%3E,%20int)
+         *
+         * @property value The raw value of the result code from the Android OS
+         *
+         * @see RemoveNetworkResult.Failure
+         *
+         * @author Patches Klinefelter
+         * @since 03/2022
+         */
+        data class ResultCode(val value: Int) : Success()
+
+        /**
+         * A data representation of a success removing a network on older Android OS levels.
+         *
+         * *NOTE*
+         * - Returns for this are defined the same as `removeNetwork`:
+         *  https://developer.android.com/reference/android/net/wifi/WifiManager#removeNetwork(int)
+         *
+         * @see RemoveNetworkResult.Failure
+         *
+         * @author Patches Klinefelter
+         * @since 03/2022
+         */
+        object True : Success()
     }
 
-    sealed class BooleanResult : RemoveNetworkResult() {
-        object Success : BooleanResult()
-        object Failure : BooleanResult()
-    }
+    /**
+     * A set of classes that are used to denote a failure while attempting to remove a network.
+     *
+     * @see RemoveNetworkResult
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
+    sealed class Failure : RemoveNetworkResult() {
 
-    object NetworkNotFound : RemoveNetworkResult()
+        /**
+         * A data representation of a failure removing a network on older Android OS levels.
+         *
+         * *NOTE*
+         * - Returns for this are defined the same as `removeNetwork`:
+         *  https://developer.android.com/reference/android/net/wifi/WifiManager#removeNetwork(int)
+         *
+         * @see RemoveNetworkResult.Failure
+         *
+         * @author Patches Klinefelter
+         * @since 03/2022
+         */
+        object False : Failure()
+
+        /**
+         * A data representation of a failure finding the network to remove.
+         *
+         * @see RemoveNetworkResult.Failure
+         *
+         * @author Patches Klinefelter
+         * @since 03/2022
+         */
+        object NetworkNotFound : Failure()
+
+        /**
+         * A data representation of a failure removing a network based on Android OS level returns.
+         *
+         * *NOTE*
+         * - Returns for this are the same as `removeNetworkSuggestion` found here:
+         *  https://developer.android.com/reference/android/net/wifi/WifiManager#removeNetworkSuggestions(java.util.List%3Candroid.net.wifi.WifiNetworkSuggestion%3E,%20int)
+         *
+         * @property value The raw value of the result code from the Android OS
+         *
+         * @see RemoveNetworkResult.Failure
+         *
+         * @author Patches Klinefelter
+         * @since 03/2022
+         */
+        data class ResultCode(val value: Int) : Failure()
+    }
 }

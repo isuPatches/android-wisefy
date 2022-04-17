@@ -33,6 +33,24 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+/**
+ * An internal Wisefy delegate for removing a network through the Android OS.
+ *
+ * @param coroutineDispatcherProvider The instance of the coroutine dispatcher provider to use
+ * @param scope The coroutine scope to use
+ * @param logger The logger instance to use
+ * @param savedNetworkDelegate The SavedNetworkDelegate instance to use
+ * @param sdkUtil The SdkUtil instance to use
+ * @param wifiManager The WifiManager instance to use
+ *
+ * @see CoroutineDispatcherProvider
+ * @see SavedNetworkDelegate
+ * @see SdkUtil
+ * @see WisefyLogger
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 class WisefyRemoveNetworkDelegate(
     private val coroutineDispatcherProvider: CoroutineDispatcherProvider,
     private val scope: CoroutineScope,
@@ -66,11 +84,11 @@ class WisefyRemoveNetworkDelegate(
             val result = adapter.removeNetwork(request)
             withContext(coroutineDispatcherProvider.main) {
                 when (result) {
-                    is RemoveNetworkResult.ResultCode.Success -> callbacks?.onNetworkRemoved(result)
-                    is RemoveNetworkResult.ResultCode.Failure -> callbacks?.onFailureRemovingNetwork(result)
-                    is RemoveNetworkResult.BooleanResult.Success -> callbacks?.onNetworkRemoved(result)
-                    is RemoveNetworkResult.BooleanResult.Failure -> callbacks?.onFailureRemovingNetwork(result)
-                    is RemoveNetworkResult.NetworkNotFound -> {
+                    is RemoveNetworkResult.Success.True -> callbacks?.onNetworkRemoved(result)
+                    is RemoveNetworkResult.Success.ResultCode -> callbacks?.onNetworkRemoved(result)
+                    is RemoveNetworkResult.Failure.False -> callbacks?.onFailureRemovingNetwork(result)
+                    is RemoveNetworkResult.Failure.ResultCode -> callbacks?.onFailureRemovingNetwork(result)
+                    is RemoveNetworkResult.Failure.NetworkNotFound -> {
                         callbacks?.onNetworkNotFoundToRemove()
                     }
                 }

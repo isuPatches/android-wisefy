@@ -44,7 +44,7 @@ internal class DefaultRemoveNetworkPresenter @Inject constructor(
         model.removeNetwork(
             networkName = networkName,
             callbacks = object : RemoveNetworkCallbacks {
-                override fun onFailureRemovingNetwork(result: RemoveNetworkResult) {
+                override fun onFailureRemovingNetwork(result: RemoveNetworkResult.Failure) {
                     doSafelyWithView { view ->
                         view.displayFailureRemovingNetwork(result)
                     }
@@ -56,7 +56,7 @@ internal class DefaultRemoveNetworkPresenter @Inject constructor(
                     }
                 }
 
-                override fun onNetworkRemoved(result: RemoveNetworkResult) {
+                override fun onNetworkRemoved(result: RemoveNetworkResult.Success) {
                     doSafelyWithView { view ->
                         view.displayNetworkRemoved(result)
                     }

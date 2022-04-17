@@ -21,8 +21,26 @@ import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.removenetwork.callbacks.RemoveNetworkCallbacks
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkRequest
 
+/**
+ * A set of asynchronous APIs for removing a network.
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 interface RemoveNetworkApiAsync {
 
+    /**
+     * An asynchronous API to remove a network.
+     *
+     * @param request The details of the request to remove a network
+     * @param callbacks The callbacks for removing a network
+     *
+     * @see RemoveNetworkRequest
+     * @see RemoveNetworkCallbacks
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     fun removeNetwork(request: RemoveNetworkRequest, callbacks: RemoveNetworkCallbacks?)
 }

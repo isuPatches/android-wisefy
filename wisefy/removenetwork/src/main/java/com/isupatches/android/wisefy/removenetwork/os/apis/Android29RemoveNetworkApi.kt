@@ -22,9 +22,27 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 
+/**
+ * An Android 29 specific API for removing a network through the Android OS.
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 @RequiresApi(Build.VERSION_CODES.Q)
 internal interface Android29RemoveNetworkApi {
 
+    /**
+     * An Android 29 specific internal API that is used to remove a network through the Android OS.
+     *
+     * *NOTE*
+     * - Returns for this are the same as `removeNetworkSuggestion` found here:
+     *  https://developer.android.com/reference/android/net/wifi/WifiManager#removeNetworkSuggestions(java.util.List%3Candroid.net.wifi.WifiNetworkSuggestion%3E,%20int)
+     *
+     * @return Int - The result code for removing the network
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     fun removeNetwork(suggestion: WifiNetworkSuggestion): Int
 }

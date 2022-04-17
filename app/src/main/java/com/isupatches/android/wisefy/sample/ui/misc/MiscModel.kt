@@ -25,8 +25,8 @@ import com.isupatches.android.wisefy.accesspoints.callbacks.GetNearbyAccessPoint
 import com.isupatches.android.wisefy.accesspoints.entities.GetNearbyAccessPointsRequest
 import com.isupatches.android.wisefy.frequency.callbacks.GetFrequencyCallbacks
 import com.isupatches.android.wisefy.networkinfo.callbacks.GetCurrentNetworkCallbacks
-import com.isupatches.android.wisefy.networkinfo.callbacks.GetCurrentNetworkInfoCallbacks
 import com.isupatches.android.wisefy.networkinfo.callbacks.GetIPCallbacks
+import com.isupatches.android.wisefy.networkinfo.callbacks.GetNetworkInfoCallbacks
 import com.isupatches.android.wisefy.sample.internal.scaffolding.BaseModel
 import com.isupatches.android.wisefy.savednetworks.callbacks.GetSavedNetworksCallbacks
 import com.isupatches.android.wisefy.wifi.callbacks.DisableWifiCallbacks
@@ -41,7 +41,7 @@ internal interface MiscModel {
 
     fun getCurrentNetwork(callbacks: GetCurrentNetworkCallbacks?)
 
-    fun getCurrentNetworkInfo(callbacks: GetCurrentNetworkInfoCallbacks?)
+    fun getCurrentNetworkInfo(callbacks: GetNetworkInfoCallbacks?)
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
@@ -74,7 +74,7 @@ internal class DefaultMiscModel @Inject constructor(
         wiseFy.getCurrentNetwork(callbacks = callbacks)
     }
 
-    override fun getCurrentNetworkInfo(callbacks: GetCurrentNetworkInfoCallbacks?) {
+    override fun getCurrentNetworkInfo(callbacks: GetNetworkInfoCallbacks?) {
         wiseFy.getNetworkInfo(callbacks = callbacks)
     }
 

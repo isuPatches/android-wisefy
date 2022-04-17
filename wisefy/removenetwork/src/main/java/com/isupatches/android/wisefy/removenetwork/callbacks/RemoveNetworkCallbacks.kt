@@ -18,8 +18,47 @@ package com.isupatches.android.wisefy.removenetwork.callbacks
 import com.isupatches.android.wisefy.core.base.BaseWisefyCallbacks
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkResult
 
+/**
+ * A set of callbacks for removing a network.
+ *
+ * @see BaseWisefyCallbacks
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 interface RemoveNetworkCallbacks : BaseWisefyCallbacks {
-    fun onFailureRemovingNetwork(result: RemoveNetworkResult)
+
+    /**
+     * A callback triggered when there is a success removing a network.
+     *
+     * @param result The result of removing the network
+     *
+     * @see RemoveNetworkResult
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
+    fun onNetworkRemoved(result: RemoveNetworkResult.Success)
+
+    /**
+     * A callback triggered when there is a failure removing a network.
+     *
+     * @param result The result of removing the network
+     *
+     * @see RemoveNetworkResult
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
+    fun onFailureRemovingNetwork(result: RemoveNetworkResult.Failure)
+
+    /**
+     * A callback triggered when the network is not found to remove.
+     *
+     * @see RemoveNetworkResult
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     fun onNetworkNotFoundToRemove()
-    fun onNetworkRemoved(result: RemoveNetworkResult)
 }
