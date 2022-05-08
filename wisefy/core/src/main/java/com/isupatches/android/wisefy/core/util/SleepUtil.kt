@@ -15,13 +15,19 @@
  */
 package com.isupatches.android.wisefy.core.util
 
-private const val BASE_DELAY = 1000L
+private const val BASE_DELAY_IN_MS = 1000L
 
+/**
+ * An function that will sleep the calling thread for 1 second at a time.
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 fun rest() {
     sleep()
 }
 
-private fun sleep(timeToSleepInMillis: Long = BASE_DELAY) {
+private fun sleep(timeToSleepInMillis: Long = BASE_DELAY_IN_MS) {
     try {
         Thread.sleep(timeToSleepInMillis)
     } catch (ie: InterruptedException) {

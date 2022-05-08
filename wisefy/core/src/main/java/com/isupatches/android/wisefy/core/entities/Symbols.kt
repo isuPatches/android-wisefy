@@ -15,4 +15,10 @@
  */
 package com.isupatches.android.wisefy.core.entities
 
-const val QUOTE = "\""
+/**
+ * A constant for the string representation of a quote.
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
+const val QUOTE: String = "\""

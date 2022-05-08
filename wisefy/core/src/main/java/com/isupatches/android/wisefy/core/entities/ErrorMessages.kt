@@ -15,28 +15,108 @@
  */
 package com.isupatches.android.wisefy.core.entities
 
+/**
+ * A singleton that houses all of the error messages present throughout the app.
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 object ErrorMessages {
 
+    /**
+     * A singleton that houses the error messages present for the add network features.
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     object AddNetwork {
+
+        /**
+         * A singleton that houses the error messages present for functions using ActivityResultLauncher.
+         *
+         * @author Patches Klinefelter
+         * @since 03/2022
+         */
         object ActivityResultLauncher {
-            const val USED_PRE_ANDROID_30 =
+
+            /**
+             * A string value for the error message for using ActivityResultLauncher prior to Android 30.
+             *
+             * @author Patches Klinefelter
+             * @since 03/2022
+             */
+            const val USED_PRE_ANDROID_30: String =
                 "Adding a network using ActivityResultLauncher is not available until Android R"
-            const val NOT_USED_ANDROID_30 =
+
+            /**
+             * A string value for the error message for not using ActivityResultLauncher on Android 30+.
+             *
+             * @author Patches Klinefelter
+             * @since 03/2022
+             */
+            const val NOT_USED_ANDROID_30: String =
                 "Adding a network should be done with an ActivityResultLauncher on Android R+"
         }
 
+        /**
+         * A singleton that houses the error messages present for functions adding a WPA3 network.
+         *
+         * @author Patches Klinefelter
+         * @since 03/2022
+         */
         object WPA3Network {
-            const val PRE_ANDROID_29 = "WPA3 networks are not supported until Android Q"
+
+            /**
+             * A string value for the error message for trying to add a WPA3 network before Android 29.
+             *
+             * @author Patches Klinefelter
+             * @since 03/2022
+             */
+            const val PRE_ANDROID_29: String = "WPA3 networks are not supported until Android Q"
         }
     }
 
+    /**
+     * A singleton that houses the error messages present for the saved network features.
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     object SavedNetworks {
-        const val USED_ANDROID_29 = "There is no known way to see or save a network on Android Q similar to pre-Q" +
-            " or R+ behavior"
+
+        /**
+         * A string value for the error message for retrieving saved networks on Android Q.
+         *
+         * @author Patches Klinefelter
+         * @since 03/2022
+         */
+        const val USED_ANDROID_29: String = "There is no known way to see or save a network on Android Q similar to " +
+            "pre-Q or R+ behavior"
     }
 
+    /**
+     * A singleton that houses the error messages present for the signal features.
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     object Signal {
-        const val CALCULATE_BARS_ANDROID_30 = "calculateBars(rssiLevel: Int): Int should be used for Android R"
-        const val CALCULATE_BARS_LEGACY = "calculateBars(rssiLevel: Int): Int is not available until Android R"
+
+        /**
+         * A string value for the error message for using calculateBars(rssiLevel: Int) before Android 30.
+         *
+         * @author Patches Klinefelter
+         * @since 03/2022
+         */
+        const val CALCULATE_BARS_ANDROID_30: String = "calculateBars(rssiLevel: Int): Int should be used for Android R"
+
+        /**
+         * A string value for the error message for using calculateBars(rssiLevel: Int, targetNumberOfBars: Int)
+         * on Android 30+.
+         *
+         * @author Patches Klinefelter
+         * @since 03/2022
+         */
+        const val CALCULATE_BARS_LEGACY: String = "calculateBars(rssiLevel: Int): Int is not available until Android R"
     }
 }

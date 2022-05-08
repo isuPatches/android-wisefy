@@ -22,6 +22,14 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 
+/**
+ * A function that will retrieve a network from ConnectivityManager.
+ *
+ * @return WifiInfo or null - The network from ConnectivityManager or null if cannot be retrieved
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 @RequiresApi(Build.VERSION_CODES.Q)
 @RequiresPermission(ACCESS_NETWORK_STATE)
 fun ConnectivityManager.getNetwork(): WifiInfo? {

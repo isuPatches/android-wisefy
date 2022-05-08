@@ -15,13 +15,127 @@
  */
 package com.isupatches.android.wisefy.core.logging
 
+/**
+ * A no-op, default implementation of [WisefyLogger].
+ *
+ * @see WisefyLogger
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 class DefaultWisefyLogger : WisefyLogger {
+
+    /**
+     * A function that logs an information message.
+     *
+     * @param tag The tag for the log message
+     * @param message The message to log (can include placeholders)
+     * @param args The formatting arguments for the log message
+     *
+     * @return Int - 0 bytes logged
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     override fun i(tag: String, message: String, vararg args: Any): Int = 0
+
+    /**
+     * A function that logs a verbose message.
+     *
+     * @param tag The tag for the log message
+     * @param message The message to log (can include placeholders)
+     * @param args The formatting arguments for the log message
+     *
+     * @return Int - 0 bytes logged
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     override fun v(tag: String, message: String, vararg args: Any): Int = 0
+
+    /**
+     * A function that logs a debug message.
+     *
+     * @param tag The tag for the log message
+     * @param message The message to log (can include placeholders)
+     * @param args The formatting arguments for the log message
+     *
+     * @return Int - 0 bytes logged
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     override fun d(tag: String, message: String, vararg args: Any): Int = 0
+
+    /**
+     * A function that logs a warning message.
+     *
+     * @param tag The tag for the log message
+     * @param message The message to log (can include placeholders)
+     * @param args The formatting arguments for the log message
+     *
+     * @return Int - 0 bytes logged
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     override fun w(tag: String, message: String, vararg args: Any): Int = 0
+
+    /**
+     * A function that logs an error message.
+     *
+     * @param tag The tag for the log message
+     * @param message The message to log (can include placeholders)
+     * @param args The formatting arguments for the log message
+     *
+     * @return Int - 0 bytes logged
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     override fun e(tag: String, message: String, vararg args: Any): Int = 0
+
+    /**
+     * A function that logs an error message.
+     *
+     * @param tag The tag for the log message
+     * @param throwable An exception to include with the error log
+     * @param message The message to log (can include placeholders)
+     * @param args The formatting arguments for the log message
+     *
+     * @return Int - 0 bytes logged
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     override fun e(tag: String, throwable: Throwable, message: String, vararg args: Any): Int = 0
+
+    /**
+     * A function that logs a "what a terrible failure" message.
+     *
+     * @param tag The tag for the log message
+     * @param message The message to log (can include placeholders)
+     * @param args The formatting arguments for the log message
+     *
+     * @return Int - 0 bytes logged
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     override fun wtf(tag: String, message: String, vararg args: Any): Int = 0
-    override fun wtf(tag: String, throwable: Throwable, message: String, vararg args: Any) = 0
+
+    /**
+     * A function that logs a "what a terrible failure" message.
+     *
+     * @param tag The tag for the log message
+     * @param throwable An exception to include with the "what a terrible failure" log
+     * @param message The message to log (can include placeholders)
+     * @param args The formatting arguments for the log message
+     *
+     * @return Int - 0 bytes logged
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
+    override fun wtf(tag: String, throwable: Throwable, message: String, vararg args: Any): Int = 0
 }

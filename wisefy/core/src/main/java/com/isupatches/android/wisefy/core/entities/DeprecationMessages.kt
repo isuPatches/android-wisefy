@@ -15,15 +15,55 @@
  */
 package com.isupatches.android.wisefy.core.entities
 
+/**
+ * A singleton that houses all of the deprecation messages present throughout the app.
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 object DeprecationMessages {
 
+    /**
+     * A singleton that houses the deprecation messages present for the signal features.
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     object Signal {
-        const val CALCULATE_BARS = "Please replace calculateBars(rssiLevel: Int, targetNumberOfBars: Int) with " +
-            "calculateBars(rssiLevel: Int)"
+
+        /**
+         * A string value for the deprecation message for calculateBars(rssiLevel: Int, targetNumberOfBars: Int).
+         *
+         * @author Patches Klinefelter
+         * @since 03/2022
+         */
+        const val CALCULATE_BARS: String = "Please replace calculateBars(rssiLevel: Int, targetNumberOfBars: Int) " +
+            "with calculateBars(rssiLevel: Int)"
     }
 
+    /**
+     * A singleton that houses the deprecation messages present for the wifi features.
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     object Wifi {
-        const val ENABLE = "Starting with Build.VERSION_CODES#Q, applications are not allowed to enable Wi-Fi."
-        const val DISABLE = "Starting with Build.VERSION_CODES#Q, applications are not allowed to disable Wi-Fi."
+
+        /**
+         * A string value for the deprecation message for enableWifi().
+         *
+         * @author Patches Klinefelter
+         * @since 03/2022
+         */
+        const val ENABLE: String = "Starting with Build.VERSION_CODES#Q, applications are not allowed to enable Wi-Fi."
+
+        /**
+         * A string value for the deprecation message for disableWifi().
+         *
+         * @author Patches Klinefelter
+         * @since 03/2022
+         */
+        const val DISABLE: String = "Starting with Build.VERSION_CODES#Q, applications are not allowed to disable " +
+            "Wi-Fi."
     }
 }

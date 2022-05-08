@@ -21,7 +21,6 @@ import android.net.wifi.WifiManager
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
-import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.core.wifimanager.createOpenNetworkSuggestionWithBSSID
 import com.isupatches.android.wisefy.core.wifimanager.createOpenNetworkSuggestionWithSSID
 import com.isupatches.android.wisefy.removenetwork.RemoveNetworkApi

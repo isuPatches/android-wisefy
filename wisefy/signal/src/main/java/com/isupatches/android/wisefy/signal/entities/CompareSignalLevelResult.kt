@@ -15,4 +15,9 @@
  */
 package com.isupatches.android.wisefy.signal.entities
 
+/**
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 data class CompareSignalLevelResult(val value: Int)

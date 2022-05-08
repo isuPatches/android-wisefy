@@ -18,7 +18,28 @@ package com.isupatches.android.wisefy.core.coroutines
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 
+/**
+ * A class that contains references to various coroutines dispatchers (primarily used to swap them out in tests if
+ * needed).
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 class CoroutineDispatcherProvider {
+
+    /**
+     * A reference to the I/O dispatcher for background operations.
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     val io: CoroutineDispatcher = Dispatchers.IO
+
+    /**
+     * A reference to the main dispatcher for UI operations.
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     val main: CoroutineDispatcher = Dispatchers.Main
 }

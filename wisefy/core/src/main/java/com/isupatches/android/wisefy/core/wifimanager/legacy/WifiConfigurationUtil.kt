@@ -19,6 +19,16 @@ import android.net.wifi.WifiConfiguration
 import com.isupatches.android.wisefy.core.entities.QUOTE
 import java.util.Locale
 
+/**
+ * A function that will create the network configuration for an open network.
+ *
+ * @param ssid The SSID of the open network
+ *
+ * @return WifiConfiguration - The network configuration for the open network
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 fun createOpenNetworkConfiguration(ssid: String): WifiConfiguration {
     return WifiConfiguration().apply {
         SSID = convertSSIDForConfig(ssid)
@@ -39,10 +49,21 @@ fun createOpenNetworkConfiguration(ssid: String): WifiConfiguration {
     }
 }
 
-fun createWPA2NetworkConfiguration(ssid: String, password: String): WifiConfiguration {
+/**
+ * A function that will create the network configuration for a WPA2 network.
+ *
+ * @param ssid The SSID of the WPA2 network
+ * @param passphrase The passphrase of the WPA2 network
+ *
+ * @return WifiConfiguration - The network configuration for the WPA2 network
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
+fun createWPA2NetworkConfiguration(ssid: String, passphrase: String): WifiConfiguration {
     return WifiConfiguration().apply {
         SSID = convertSSIDForConfig(ssid)
-        preSharedKey = QUOTE + password + QUOTE
+        preSharedKey = QUOTE + passphrase + QUOTE
         allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_PSK)
         status = WifiConfiguration.Status.ENABLED
 

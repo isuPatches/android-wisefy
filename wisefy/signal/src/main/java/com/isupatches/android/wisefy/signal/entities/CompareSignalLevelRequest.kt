@@ -15,4 +15,13 @@
  */
 package com.isupatches.android.wisefy.signal.entities
 
+/**
+ * A data representation of a request to compare the RSSI level of two networks.
+ *
+ * @property rssi1 The RSSI level of the first network
+ * @property rssi2 The RSSI level of the second network
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 data class CompareSignalLevelRequest(val rssi1: Int, val rssi2: Int)

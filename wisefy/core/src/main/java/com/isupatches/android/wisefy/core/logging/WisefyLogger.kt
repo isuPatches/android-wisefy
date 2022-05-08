@@ -15,20 +15,125 @@
  */
 package com.isupatches.android.wisefy.core.logging
 
+/**
+ * A logging interface that can be provided to Wisefy to log messages.
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 interface WisefyLogger {
+
+    /**
+     * A function that logs an information message.
+     *
+     * @param tag The tag for the log message
+     * @param message The message to log (can include placeholders)
+     * @param args The formatting arguments for the log message
+     *
+     * @return Int - The amount of bytes logged
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     fun i(tag: String, message: String, vararg args: Any): Int
 
+    /**
+     * A function that logs a verbose message.
+     *
+     * @param tag The tag for the log message
+     * @param message The message to log (can include placeholders)
+     * @param args The formatting arguments for the log message
+     *
+     * @return Int - The amount of bytes logged
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     fun v(tag: String, message: String, vararg args: Any): Int
 
+    /**
+     * A function that logs a debug message.
+     *
+     * @param tag The tag for the log message
+     * @param message The message to log (can include placeholders)
+     * @param args The formatting arguments for the log message
+     *
+     * @return Int - The amount of bytes logged
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     fun d(tag: String, message: String, vararg args: Any): Int
 
+    /**
+     * A function that logs a warnning message.
+     *
+     * @param tag The tag for the log message
+     * @param message The message to log (can include placeholders)
+     * @param args The formatting arguments for the log message
+     *
+     * @return Int - The amount of bytes logged
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     fun w(tag: String, message: String, vararg args: Any): Int
 
+    /**
+     * A function that logs an error message.
+     *
+     * @param tag The tag for the log message
+     * @param message The message to log (can include placeholders)
+     * @param args The formatting arguments for the log message
+     *
+     * @return Int - The amount of bytes logged
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     fun e(tag: String, message: String, vararg args: Any): Int
 
+    /**
+     * A function that logs an error message.
+     *
+     * @param tag The tag for the log message
+     * @param throwable An exception to include with the error log
+     * @param message The message to log (can include placeholders)
+     * @param args The formatting arguments for the log message
+     *
+     * @return Int - The amount of bytes logged
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     fun e(tag: String, throwable: Throwable, message: String, vararg args: Any): Int
 
+    /**
+     * A function that logs a "what a terrible failure" message.
+     *
+     * @param tag The tag for the log message
+     * @param message The message to log (can include placeholders)
+     * @param args The formatting arguments for the log message
+     *
+     * @return Int - The amount of bytes logged
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     fun wtf(tag: String, message: String, vararg args: Any): Int
 
+    /**
+     * A function that logs a "what a terrible failure" message.
+     *
+     * @param tag The tag for the log message
+     * @param throwable An exception to include with the "what a terrible failure" log
+     * @param message The message to log (can include placeholders)
+     * @param args The formatting arguments for the log message
+     *
+     * @return Int - The amount of bytes logged
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     fun wtf(tag: String, throwable: Throwable, message: String, vararg args: Any): Int
 }

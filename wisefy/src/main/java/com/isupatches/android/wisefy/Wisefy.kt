@@ -105,6 +105,7 @@ import com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedReques
 import com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedResult
 import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkRequest
 import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkResult
+import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworksRequest
 import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworksResult
 import com.isupatches.android.wisefy.security.SecurityDelegate
 import com.isupatches.android.wisefy.security.WisefySecurityDelegate
@@ -603,13 +604,13 @@ class Wisefy private constructor(
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun searchForSavedNetworks(request: SearchForSavedNetworkRequest): SearchForSavedNetworksResult {
+    override fun searchForSavedNetworks(request: SearchForSavedNetworksRequest): SearchForSavedNetworksResult {
         return savedNetworkDelegate.searchForSavedNetworks(request)
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun searchForSavedNetworks(
-        request: SearchForSavedNetworkRequest,
+        request: SearchForSavedNetworksRequest,
         callbacks: SearchForSavedNetworksCallbacks?
     ) {
         savedNetworkDelegate.searchForSavedNetworks(request, callbacks)

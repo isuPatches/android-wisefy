@@ -18,6 +18,17 @@ package com.isupatches.android.wisefy.core.coroutines
 import com.isupatches.android.wisefy.core.base.BaseWisefyCallbacks
 import kotlinx.coroutines.CoroutineExceptionHandler
 
+/**
+ * A function to create a standardized coroutines exception handler for async operations within the library.
+ * This helps return exceptions in a standardized way for all async callbacks.
+ *
+ * @param callbacks The callback interface that implements BaseWisefyCallbacks to return exceptions to
+ *
+ * @see BaseWisefyCallbacks
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 fun createBaseCoroutineExceptionHandler(callbacks: BaseWisefyCallbacks?): CoroutineExceptionHandler {
     return CoroutineExceptionHandler { _, throwable ->
         callbacks?.onWisefyAsyncFailure(throwable)
