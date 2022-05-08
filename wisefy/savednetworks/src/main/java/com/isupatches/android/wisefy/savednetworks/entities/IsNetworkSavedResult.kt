@@ -15,7 +15,31 @@
  */
 package com.isupatches.android.wisefy.savednetworks.entities
 
+/**
+ * A set of classes and objects that are used to represent a result while seeing if a network is saved on the device.
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 sealed class IsNetworkSavedResult {
+
+    /**
+     * A data representation of the network being saved on the device.
+     *
+     * @see IsNetworkSavedResult
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     object True : IsNetworkSavedResult()
+
+    /**
+     * A data representation of the network not being saved on the device.
+     *
+     * @see IsNetworkSavedResult
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     object False : IsNetworkSavedResult()
 }

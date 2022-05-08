@@ -15,7 +15,34 @@
  */
 package com.isupatches.android.wisefy.savednetworks.entities
 
+/**
+ * A set of classes and objects that are used to represent a result when searching for a saved network.
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 sealed class SearchForSavedNetworkResult {
+
+    /**
+     * A data representation for when there is no matching saved network.
+     *
+     * @see SearchForSavedNetworkResult
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     object Empty : SearchForSavedNetworkResult()
+
+    /**
+     * A data representation for when there is a matching saved network.
+     *
+     * @property data The matching saved network
+     *
+     * @see SavedNetworkData
+     * @see SearchForSavedNetworkResult
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     data class SavedNetwork(val data: SavedNetworkData) : SearchForSavedNetworkResult()
 }

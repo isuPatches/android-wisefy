@@ -24,18 +24,78 @@ import com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedReques
 import com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedResult
 import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkRequest
 import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkResult
+import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworksRequest
 import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworksResult
 
+/**
+ * A set of synchronous APIs for getting and searching for saved networks.
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 interface SavedNetworkApi {
+
+    /**
+     * A synchronous API to get the saved networks on the device.
+     *
+     * @param request The details of the request to get the saved networks on the device
+     *
+     * @see GetSavedNetworksRequest
+     * @see GetSavedNetworksResult
+     *
+     * @return GetSavedNetworksResult - The result of getting the saved networks on the device
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     fun getSavedNetworks(request: GetSavedNetworksRequest = GetSavedNetworksRequest()): GetSavedNetworksResult
 
+    /**
+     * A synchronous API to check if a network is saved on the device.
+     *
+     * @param request The details of the request to check if a network is saved on the device.
+     *
+     * @see IsNetworkSavedRequest
+     * @see IsNetworkSavedResult
+     *
+     * @return IsNetworkSavedResult - The result of checking if a network is saved on the device.
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     fun isNetworkSaved(request: IsNetworkSavedRequest): IsNetworkSavedResult
 
+    /**
+     * A synchronous API to search for a saved network.
+     *
+     * @param request The details of the request to search for a saved network
+     *
+     * @see SearchForSavedNetworkRequest
+     * @see SearchForSavedNetworkResult
+     *
+     * @return SearchForSavedNetworkResult - The result of searching for a saved network
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     fun searchForSavedNetwork(request: SearchForSavedNetworkRequest): SearchForSavedNetworkResult
 
+    /**
+     * A synchronous API to search for a set of saved networks.
+     *
+     * @param request The details of the request to search for a set of saved networks
+     *
+     * @see SearchForSavedNetworksRequest
+     * @see SearchForSavedNetworksResult
+     *
+     * @return SearchForSavedNetworksResult - The result of searching for a set of saved networks
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    fun searchForSavedNetworks(request: SearchForSavedNetworkRequest): SearchForSavedNetworksResult
+    fun searchForSavedNetworks(request: SearchForSavedNetworksRequest): SearchForSavedNetworksResult
 }

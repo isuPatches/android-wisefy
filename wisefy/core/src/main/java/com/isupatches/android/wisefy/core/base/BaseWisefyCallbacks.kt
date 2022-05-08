@@ -15,6 +15,21 @@
  */
 package com.isupatches.android.wisefy.core.base
 
+/**
+ * A base interface for all callbacks to enforce any common APIs.
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 interface BaseWisefyCallbacks {
+
+    /**
+     * A callback called when there is a thrown exception in the library.
+     *
+     * @param throwable The exception that was thrown within the library
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     fun onWisefyAsyncFailure(throwable: Throwable)
 }

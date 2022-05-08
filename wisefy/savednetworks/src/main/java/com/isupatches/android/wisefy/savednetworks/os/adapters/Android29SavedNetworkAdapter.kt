@@ -29,8 +29,17 @@ import com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedReques
 import com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedResult
 import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkRequest
 import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkResult
+import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworksRequest
 import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworksResult
 
+/**
+ * An Android 29 specific adapter for adding networks.
+ *
+ * @see SavedNetworkApi
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 @RequiresApi(Build.VERSION_CODES.Q)
 internal class Android29SavedNetworkAdapter : SavedNetworkApi {
 
@@ -53,7 +62,7 @@ internal class Android29SavedNetworkAdapter : SavedNetworkApi {
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun searchForSavedNetworks(request: SearchForSavedNetworkRequest): SearchForSavedNetworksResult {
+    override fun searchForSavedNetworks(request: SearchForSavedNetworksRequest): SearchForSavedNetworksResult {
         fail(ErrorMessages.SavedNetworks.USED_ANDROID_29)
         return SearchForSavedNetworksResult.Empty
     }

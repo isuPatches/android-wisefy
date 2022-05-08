@@ -17,6 +17,14 @@ package com.isupatches.android.wisefy.core.assertions
 
 import com.isupatches.android.wisefy.core.BuildConfig
 
+/**
+ * An assertion function that will only throw in debug builds.
+ *
+ * @param message The message for the exception to throw
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 fun fail(message: String) {
     if (BuildConfig.DEBUG) {
         error(message)

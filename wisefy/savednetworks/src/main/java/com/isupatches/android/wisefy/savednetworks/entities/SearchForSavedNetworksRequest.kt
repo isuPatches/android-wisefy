@@ -15,7 +15,35 @@
  */
 package com.isupatches.android.wisefy.savednetworks.entities
 
+/**
+ * A set of classes and objects that are used to represent requests to search for saved networks.
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 sealed class SearchForSavedNetworksRequest {
+
+    /**
+     * A data representation of a request to search for saved networks by SSID.
+     *
+     * @property regex The regex to use when matching the SSID
+     *
+     * @see SearchForSavedNetworksRequest
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     data class SSID(val regex: String) : SearchForSavedNetworksRequest()
+
+    /**
+     * A data representation of a request to search for saved networks by BSSID.
+     *
+     * @property regex The regex to use when matching the BSSID
+     *
+     * @see SearchForSavedNetworksRequest
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     data class BSSID(val regex: String) : SearchForSavedNetworksRequest()
 }

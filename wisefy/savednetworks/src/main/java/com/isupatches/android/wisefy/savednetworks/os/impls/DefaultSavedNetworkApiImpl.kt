@@ -23,6 +23,16 @@ import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.core.entities.QUOTE
 import com.isupatches.android.wisefy.savednetworks.os.apis.DefaultSavedNetworkApi
 
+/**
+ * An internal default implementation for getting and searching for saved networks through the Android OS.
+ *
+ * @param wifiManager The WifiManager instance to use
+ *
+ * @see DefaultSavedNetworkApi
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 internal class DefaultSavedNetworkApiImpl(
     private val wifiManager: WifiManager
 ) : DefaultSavedNetworkApi {

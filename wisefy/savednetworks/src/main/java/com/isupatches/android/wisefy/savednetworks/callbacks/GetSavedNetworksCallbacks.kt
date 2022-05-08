@@ -18,7 +18,33 @@ package com.isupatches.android.wisefy.savednetworks.callbacks
 import com.isupatches.android.wisefy.core.base.BaseWisefyCallbacks
 import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
 
+/**
+ * A set of callbacks for retrieving the saved networks on a device.
+ *
+ * @see BaseWisefyCallbacks
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 interface GetSavedNetworksCallbacks : BaseWisefyCallbacks {
+
+    /**
+     * A callback triggered when there are no saved networks on the device.
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     fun onNoSavedNetworksFound()
+
+    /**
+     * A callback triggered when there is a success retrieving saved networks on the device.
+     *
+     * @param savedNetworks The list of saved networks retrieved
+     *
+     * @see SavedNetworkData
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     fun onSavedNetworksRetrieved(savedNetworks: List<SavedNetworkData>)
 }

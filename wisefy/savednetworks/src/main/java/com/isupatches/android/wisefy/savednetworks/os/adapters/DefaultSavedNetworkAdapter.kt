@@ -27,10 +27,22 @@ import com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedResult
 import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
 import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkRequest
 import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkResult
+import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworksRequest
 import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworksResult
 import com.isupatches.android.wisefy.savednetworks.os.apis.DefaultSavedNetworkApi
 import com.isupatches.android.wisefy.savednetworks.os.impls.DefaultSavedNetworkApiImpl
 
+/**
+ * A default adapter for adding networks.
+ *
+ * @param wifiManager The WifiManager instance to use
+ * @param api The OS level API instance to use
+ *
+ * @see SavedNetworkApi
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 internal class DefaultSavedNetworkAdapter(
     wifiManager: WifiManager,
     private val api: DefaultSavedNetworkApi = DefaultSavedNetworkApiImpl(wifiManager)
@@ -73,10 +85,10 @@ internal class DefaultSavedNetworkAdapter(
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun searchForSavedNetworks(request: SearchForSavedNetworkRequest): SearchForSavedNetworksResult {
+    override fun searchForSavedNetworks(request: SearchForSavedNetworksRequest): SearchForSavedNetworksResult {
         val savedNetworkConfigurations = when (request) {
-            is SearchForSavedNetworkRequest.SSID -> api.searchForSavedNetworksBySSID(request.regex)
-            is SearchForSavedNetworkRequest.BSSID -> api.searchForSavedNetworksByBSSID(request.regex)
+            is SearchForSavedNetworksRequest.SSID -> api.searchForSavedNetworksBySSID(request.regex)
+            is SearchForSavedNetworksRequest.BSSID -> api.searchForSavedNetworksByBSSID(request.regex)
         }.map { networkSuggestion ->
             SavedNetworkData.Configuration(networkSuggestion)
         }

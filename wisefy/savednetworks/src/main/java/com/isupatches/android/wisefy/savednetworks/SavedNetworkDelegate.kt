@@ -15,4 +15,13 @@
  */
 package com.isupatches.android.wisefy.savednetworks
 
+/**
+ * A delegate for synchronous and asynchronous APIs for getting and searching for saved networks.
+ *
+ * @see SavedNetworkApi
+ * @see SavedNetworkApiAsync
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 interface SavedNetworkDelegate : SavedNetworkApi, SavedNetworkApiAsync

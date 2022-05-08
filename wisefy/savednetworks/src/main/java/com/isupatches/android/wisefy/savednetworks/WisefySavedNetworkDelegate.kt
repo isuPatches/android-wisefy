@@ -32,6 +32,7 @@ import com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedReques
 import com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedResult
 import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkRequest
 import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkResult
+import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworksRequest
 import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworksResult
 import com.isupatches.android.wisefy.savednetworks.os.adapters.Android29SavedNetworkAdapter
 import com.isupatches.android.wisefy.savednetworks.os.adapters.Android30SavedNetworkAdapter
@@ -40,6 +41,22 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+/**
+ * An internal Wisefy delegate for getting and searching for saved networks.
+ *
+ * @param coroutineDispatcherProvider The CoroutineDispatcherProvider instance to use
+ * @param scope The CoroutineScope to use
+ * @param logger The logger instance to use
+ * @param sdkUtil The SdkUtil instance to use
+ * @param wifiManager The WifiManager instance to use
+ *
+ * @see CoroutineDispatcherProvider
+ * @see WisefyLogger
+ * @see SdkUtil
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 class WisefySavedNetworkDelegate(
     private val coroutineDispatcherProvider: CoroutineDispatcherProvider,
     private val scope: CoroutineScope,
@@ -109,13 +126,13 @@ class WisefySavedNetworkDelegate(
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun searchForSavedNetworks(request: SearchForSavedNetworkRequest): SearchForSavedNetworksResult {
+    override fun searchForSavedNetworks(request: SearchForSavedNetworksRequest): SearchForSavedNetworksResult {
         return adapter.searchForSavedNetworks(request)
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun searchForSavedNetworks(
-        request: SearchForSavedNetworkRequest,
+        request: SearchForSavedNetworksRequest,
         callbacks: SearchForSavedNetworksCallbacks?
     ) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {

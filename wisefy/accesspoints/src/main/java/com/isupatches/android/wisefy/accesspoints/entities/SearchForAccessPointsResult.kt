@@ -16,7 +16,7 @@
 package com.isupatches.android.wisefy.accesspoints.entities
 
 /**
- * A set of classes and objects that are used to represent a result when searching for a nearby access points.
+ * A set of classes and objects that are used to represent a result when searching for nearby access points.
  *
  * @author Patches Klinefelter
  * @since 03/2022

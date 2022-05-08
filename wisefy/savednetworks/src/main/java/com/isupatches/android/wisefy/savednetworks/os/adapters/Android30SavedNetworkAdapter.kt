@@ -29,10 +29,22 @@ import com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedResult
 import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
 import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkRequest
 import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkResult
+import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworksRequest
 import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworksResult
 import com.isupatches.android.wisefy.savednetworks.os.apis.Android30SavedNetworkApi
 import com.isupatches.android.wisefy.savednetworks.os.impls.Android30SavedNetworkApiImpl
 
+/**
+ * An Android 30 specific adapter for adding networks.
+ *
+ * @param wifiManager The WifiManager instance to use
+ * @param api The OS level API instance to use
+ *
+ * @see SavedNetworkApi
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 @RequiresApi(Build.VERSION_CODES.R)
 internal class Android30SavedNetworkAdapter(
     wifiManager: WifiManager,
@@ -76,10 +88,10 @@ internal class Android30SavedNetworkAdapter(
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun searchForSavedNetworks(request: SearchForSavedNetworkRequest): SearchForSavedNetworksResult {
+    override fun searchForSavedNetworks(request: SearchForSavedNetworksRequest): SearchForSavedNetworksResult {
         val savedNetworkSuggestions = when (request) {
-            is SearchForSavedNetworkRequest.SSID -> api.searchForSavedNetworksBySSID(request.regex)
-            is SearchForSavedNetworkRequest.BSSID -> api.searchForSavedNetworksByBSSID(request.regex)
+            is SearchForSavedNetworksRequest.SSID -> api.searchForSavedNetworksBySSID(request.regex)
+            is SearchForSavedNetworksRequest.BSSID -> api.searchForSavedNetworksByBSSID(request.regex)
         }.map { networkSuggestion ->
             SavedNetworkData.Suggestion(networkSuggestion)
         }
