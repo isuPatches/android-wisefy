@@ -15,4 +15,12 @@
  */
 package com.isupatches.android.wisefy.signal
 
+/**
+ * A delegate for synchronous signal strength APIs.
+ *
+ * @see SignalApi
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 interface SignalDelegate : SignalApi

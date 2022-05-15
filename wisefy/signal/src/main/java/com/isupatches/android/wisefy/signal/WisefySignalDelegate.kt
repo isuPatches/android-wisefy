@@ -25,6 +25,20 @@ import com.isupatches.android.wisefy.signal.entities.CompareSignalLevelResult
 import com.isupatches.android.wisefy.signal.os.adapters.Android30SignalAdapter
 import com.isupatches.android.wisefy.signal.os.adapters.DefaultSignalAdapter
 
+/**
+ * An internal Wisefy delegate for signal strength functionality.
+ *
+ * @param logger The logger instance to use
+ * @param sdkUtil The SdkUtil instance to use
+ * @param wifiManager The WifiManager instance to use
+ *
+ * @see SignalDelegate
+ * @see SdkUtil
+ * @see WisefyLogger
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 class WisefySignalDelegate(
     logger: WisefyLogger,
     sdkUtil: SdkUtil,

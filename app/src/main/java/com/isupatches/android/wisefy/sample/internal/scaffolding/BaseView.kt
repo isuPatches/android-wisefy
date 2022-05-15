@@ -21,4 +21,5 @@ internal interface View {
     fun displayWisefyAsyncError(throwable: Throwable)
 }
 
+@Suppress("UnnecessaryAbstractClass")
 internal abstract class BaseView : Fragment(), View

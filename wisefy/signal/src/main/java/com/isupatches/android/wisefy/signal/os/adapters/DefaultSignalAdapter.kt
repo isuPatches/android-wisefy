@@ -24,6 +24,18 @@ import com.isupatches.android.wisefy.signal.entities.CompareSignalLevelResult
 import com.isupatches.android.wisefy.signal.os.apis.DefaultSignalApi
 import com.isupatches.android.wisefy.signal.os.impls.DefaultSignalApiImpl
 
+/**
+ * A default adapter for functions related to the signal strength of networks.
+ *
+ * @param api The OS level API instance to use
+ *
+ * @see DefaultSignalApi
+ * @see DefaultSignalApiImpl
+ * @see SignalApi
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 internal class DefaultSignalAdapter(
     private val api: DefaultSignalApi = DefaultSignalApiImpl()
 ) : SignalApi {

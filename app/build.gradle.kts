@@ -84,12 +84,13 @@ android {
     }
 
     lint {
-        isCheckAllWarnings = true
-        isShowAll = true
-        isExplainIssues = true
-        isAbortOnError = true
-        isWarningsAsErrors = true
-        disable("UnusedIds", "ConvertToWebp")
+        checkAllWarnings = true
+        showAll = true
+        explainIssues = true
+        abortOnError = true
+        warningsAsErrors = true
+        disable += "UnusedIds"
+        disable += "ConvertToWebp"
     }
 }
 

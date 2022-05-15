@@ -17,4 +17,5 @@ package com.isupatches.android.wisefy.sample.internal.scaffolding
 
 private interface Model
 
+@Suppress("UnnecessaryAbstractClass")
 internal abstract class BaseModel : Model

@@ -20,7 +20,6 @@ import android.net.ConnectivityManager
 import android.net.wifi.WifiInfo
 import android.net.wifi.WifiManager
 import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.core.util.getNetwork
 import com.isupatches.android.wisefy.frequency.MAX_FREQUENCY_5GHZ
@@ -45,7 +44,6 @@ internal class DefaultFrequencyApiImpl(
 ) : DefaultFrequencyApi {
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun getFrequency(): FrequencyData? {
         val currentNetwork = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             connectivityManager.getNetwork()
@@ -58,19 +56,16 @@ internal class DefaultFrequencyApiImpl(
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun getFrequency(network: WifiInfo): FrequencyData {
         return FrequencyData(network.frequency)
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun isNetwork5gHz(): Boolean {
         val frequency = getFrequency()
         return frequency != null && frequency.value > MIN_FREQUENCY_5GHZ && frequency.value < MAX_FREQUENCY_5GHZ
     }
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun isNetwork5gHz(network: WifiInfo): Boolean {
         val frequency = getFrequency(network)
         return frequency.value in (MIN_FREQUENCY_5GHZ + 1) until MAX_FREQUENCY_5GHZ

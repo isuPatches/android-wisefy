@@ -18,8 +18,6 @@ package com.isupatches.android.wisefy.frequency
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.net.ConnectivityManager
 import android.net.wifi.WifiManager
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.core.coroutines.CoroutineDispatcherProvider
 import com.isupatches.android.wisefy.core.coroutines.createBaseCoroutineExceptionHandler
@@ -69,13 +67,11 @@ class WisefyFrequencyDelegate(
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun getFrequency(request: GetFrequencyRequest): GetFrequencyResult {
         return adapter.getFrequency(request)
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun getFrequency(request: GetFrequencyRequest, callbacks: GetFrequencyCallbacks?) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
             val result = adapter.getFrequency(request)
@@ -91,7 +87,6 @@ class WisefyFrequencyDelegate(
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun isNetwork5gHz(request: IsNetwork5gHzRequest): IsNetwork5gHzResult {
         return adapter.isNetwork5gHz(request)
     }

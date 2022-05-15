@@ -17,8 +17,6 @@ package com.isupatches.android.wisefy.sample.ui.misc
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.ACCESS_WIFI_STATE
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.WisefyApi
 import com.isupatches.android.wisefy.accesspoints.callbacks.GetNearbyAccessPointCallbacks
@@ -44,7 +42,6 @@ internal interface MiscModel {
     fun getCurrentNetworkInfo(callbacks: GetNetworkInfoCallbacks?)
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     fun getFrequency(callbacks: GetFrequencyCallbacks?)
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
@@ -79,7 +76,6 @@ internal class DefaultMiscModel @Inject constructor(
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun getFrequency(callbacks: GetFrequencyCallbacks?) {
         wiseFy.getFrequency(callbacks = callbacks)
     }

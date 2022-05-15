@@ -17,11 +17,54 @@ package com.isupatches.android.wisefy.signal.os.apis
 
 import com.isupatches.android.wisefy.core.entities.DeprecationMessages
 
+/**
+ * A default API for functions related to the signal strength of networks.
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 internal interface DefaultSignalApi {
+
+    /**
+     * A default API to calculate the bars of signal strength given the network's RSSI.
+     *
+     * @param rssiLevel The RSSI level of the network
+     *
+     * @return Int - The number of signal strength bars for the network given RSSI level.
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     fun calculateBars(rssiLevel: Int): Int
 
+    /**
+     * A default API to calculate the bars of signal strength given the network's RSSI.
+     *
+     * @param rssiLevel The RSSI level of the network
+     * @param targetNumberOfBars The desired number of signal strength bars
+     *
+     * @return Int - The number of signal strength bars for the network given RSSI level and a desired number of bars.
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     @Deprecated(DeprecationMessages.Signal.CALCULATE_BARS)
     fun calculateBars(rssiLevel: Int, targetNumberOfBars: Int): Int
 
+    /**
+     * A default API to compare the RSSI levels of two networks.
+     *
+     * @param rssi1 The RSSI level of the first network
+     * @param rssi2 The RSSI level of the second network
+     *
+     * *Notes*
+     * See https://developer.android.com/reference/android/net/wifi/WifiManager#compareSignalLevel(int,%20int)
+     *
+     * @return Int - The result of the comparison - less than 0 if first signal is weaker, 0 if the same, and greater
+     * zero if the second signal is stronger
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     fun compareSignalLevel(rssi1: Int, rssi2: Int): Int
 }

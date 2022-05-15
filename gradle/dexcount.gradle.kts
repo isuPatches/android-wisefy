@@ -1,6 +1,4 @@
-import com.getkeepsafe.dexcount.DexCountExtension
 import com.getkeepsafe.dexcount.DexMethodCountPlugin
-import com.getkeepsafe.dexcount.OutputFormat
 
 buildscript {
     repositories {
@@ -14,13 +12,3 @@ buildscript {
 }
 
 plugins.apply(DexMethodCountPlugin::class)
-
-configure<DexCountExtension> {
-    format = OutputFormat.TREE
-    includeClasses = true
-    includeFieldCount = true
-    includeTotalMethodCount = true
-    orderByMethodCount = true
-    verbose = false
-    runOnEachPackage = true
-}

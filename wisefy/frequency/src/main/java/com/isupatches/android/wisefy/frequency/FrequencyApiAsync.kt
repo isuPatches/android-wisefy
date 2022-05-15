@@ -16,8 +16,6 @@
 package com.isupatches.android.wisefy.frequency
 
 import android.Manifest
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.frequency.callbacks.GetFrequencyCallbacks
 import com.isupatches.android.wisefy.frequency.entities.GetFrequencyRequest
@@ -43,7 +41,6 @@ interface FrequencyApiAsync {
      * @since 03/2022
      */
     @RequiresPermission(Manifest.permission.ACCESS_FINE_LOCATION)
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     fun getFrequency(
         request: GetFrequencyRequest = GetFrequencyRequest.CurrentNetwork,
         callbacks: GetFrequencyCallbacks?

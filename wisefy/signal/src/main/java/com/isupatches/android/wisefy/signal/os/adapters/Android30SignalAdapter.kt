@@ -27,6 +27,18 @@ import com.isupatches.android.wisefy.signal.entities.CompareSignalLevelResult
 import com.isupatches.android.wisefy.signal.os.apis.Android30SignalApi
 import com.isupatches.android.wisefy.signal.os.impls.Android30SignalApiImpl
 
+/**
+ * An Android 30 specific adapter for functions related to the signal strength of networks.
+ *
+ * @param api The OS level API instance to use
+ *
+ * @see Android30SignalApi
+ * @see Android30SignalApiImpl
+ * @see SignalApi
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 @RequiresApi(Build.VERSION_CODES.R)
 internal class Android30SignalAdapter(
     wifiManager: WifiManager,

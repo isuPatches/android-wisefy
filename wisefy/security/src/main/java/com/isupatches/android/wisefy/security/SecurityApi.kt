@@ -15,10 +15,10 @@
  */
 package com.isupatches.android.wisefy.security
 
-import com.isupatches.android.wisefy.security.entities.IsNetworkSecureRequest
-import com.isupatches.android.wisefy.security.entities.IsNetworkSecureResult
 import com.isupatches.android.wisefy.security.entities.ContainsSecurityCapabilityRequest
 import com.isupatches.android.wisefy.security.entities.ContainsSecurityCapabilityResult
+import com.isupatches.android.wisefy.security.entities.IsNetworkSecureRequest
+import com.isupatches.android.wisefy.security.entities.IsNetworkSecureResult
 
 /**
  * A set of synchronous APIs for checking a network's security capabilities.

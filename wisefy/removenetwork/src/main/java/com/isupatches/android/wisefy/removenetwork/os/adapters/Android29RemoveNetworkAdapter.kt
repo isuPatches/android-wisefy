@@ -48,7 +48,6 @@ internal class Android29RemoveNetworkAdapter(
     private val api: Android29RemoveNetworkApi = Android29RemoveNetworkApiImpl(wifiManager)
 ) : RemoveNetworkApi {
 
-    @RequiresApi(Build.VERSION_CODES.Q)
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     override fun removeNetwork(request: RemoveNetworkRequest): RemoveNetworkResult {
         val suggestion = when (request) {

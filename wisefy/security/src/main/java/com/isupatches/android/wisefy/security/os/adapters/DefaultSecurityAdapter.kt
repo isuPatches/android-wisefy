@@ -16,10 +16,10 @@
 package com.isupatches.android.wisefy.security.os.adapters
 
 import com.isupatches.android.wisefy.security.SecurityApi
-import com.isupatches.android.wisefy.security.entities.IsNetworkSecureRequest
-import com.isupatches.android.wisefy.security.entities.IsNetworkSecureResult
 import com.isupatches.android.wisefy.security.entities.ContainsSecurityCapabilityRequest
 import com.isupatches.android.wisefy.security.entities.ContainsSecurityCapabilityResult
+import com.isupatches.android.wisefy.security.entities.IsNetworkSecureRequest
+import com.isupatches.android.wisefy.security.entities.IsNetworkSecureResult
 import com.isupatches.android.wisefy.security.os.apis.DefaultSecurityApi
 import com.isupatches.android.wisefy.security.os.impls.DefaultSecurityApiImpl
 

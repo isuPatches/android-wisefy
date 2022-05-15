@@ -18,8 +18,6 @@ package com.isupatches.android.wisefy.frequency.os.adapters
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.net.ConnectivityManager
 import android.net.wifi.WifiManager
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.frequency.FrequencyApi
 import com.isupatches.android.wisefy.frequency.entities.GetFrequencyRequest
@@ -53,7 +51,6 @@ internal class DefaultFrequencyAdapter(
 ) : FrequencyApi {
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun getFrequency(request: GetFrequencyRequest): GetFrequencyResult {
         val frequency = when (request) {
             is GetFrequencyRequest.CurrentNetwork -> api.getFrequency()
@@ -67,7 +64,6 @@ internal class DefaultFrequencyAdapter(
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun isNetwork5gHz(request: IsNetwork5gHzRequest): IsNetwork5gHzResult {
         val isNetwork5gHz = when (request) {
             is IsNetwork5gHzRequest.CurrentNetwork -> api.isNetwork5gHz()

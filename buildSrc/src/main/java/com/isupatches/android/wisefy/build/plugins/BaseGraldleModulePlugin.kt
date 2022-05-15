@@ -20,10 +20,11 @@ import com.isupatches.android.wisefy.build.BuildVersions
 import com.isupatches.android.wisefy.build.Dependencies
 import com.isupatches.android.wisefy.build.DependencyConstants.IMPLEMENTATION
 import com.isupatches.android.wisefy.build.Versions
+import groovy.lang.ExpandoMetaClassCreationHandle.disable
 import java.io.File
 import java.io.FileInputStream
-import java.util.*
-import org.gradle.api.JavaVersion
+import java.util.Locale
+import java.util.Properties
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply
@@ -107,12 +108,12 @@ class BaseGradleModulePlugin : Plugin<Project> {
             }
 
             lint {
-                isCheckAllWarnings = true
-                isShowAll = true
-                isExplainIssues = true
-                isAbortOnError = true
-                isWarningsAsErrors = true
-                disable("UnusedIds")
+                checkAllWarnings = true
+                showAll = true
+                explainIssues = true
+                abortOnError = true
+                warningsAsErrors = true
+                disable += "UnusedIds"
             }
 
             testOptions {

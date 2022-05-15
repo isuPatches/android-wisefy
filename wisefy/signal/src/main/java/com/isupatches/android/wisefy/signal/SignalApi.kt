@@ -20,7 +20,41 @@ import com.isupatches.android.wisefy.signal.entities.CalculateBarsResult
 import com.isupatches.android.wisefy.signal.entities.CompareSignalLevelRequest
 import com.isupatches.android.wisefy.signal.entities.CompareSignalLevelResult
 
+/**
+ * A set of synchronous APIs for signal strength functionality.
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 interface SignalApi {
+
+    /**
+     * A synchronous API to calculate the number of signal strength bars for a network.
+     *
+     * @param request The details of the request to calculate the number of signal strength bars for a network
+     *
+     * @see CalculateBarsRequest
+     * @see CalculateBarsResult
+     *
+     * @return CalculateBarsResult - The result of calculating the signal strength bars for a network
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     fun calculateBars(request: CalculateBarsRequest): CalculateBarsResult
+
+    /**
+     * A synchronous API to compare the signal strength of two networks.
+     *
+     * @param request The details of the request to compare the signal strength of two networks
+     *
+     * @see CompareSignalLevelRequest
+     * @see CompareSignalLevelResult
+     *
+     * @return CompareSignalLevelResult - The result of comparing the RSSI levels of two networks
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     fun compareSignalLevel(request: CompareSignalLevelRequest): CompareSignalLevelResult
 }

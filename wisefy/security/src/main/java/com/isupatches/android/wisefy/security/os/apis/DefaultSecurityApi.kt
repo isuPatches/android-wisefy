@@ -16,8 +16,6 @@
 package com.isupatches.android.wisefy.security.os.apis
 
 import android.net.wifi.ScanResult
-import com.isupatches.android.wisefy.security.entities.ContainsSecurityCapabilityRequest
-import com.isupatches.android.wisefy.security.entities.ContainsSecurityCapabilityResult
 import com.isupatches.android.wisefy.security.entities.SecurityCapability
 
 /**
@@ -34,6 +32,7 @@ internal interface DefaultSecurityApi {
      * @param network The network to check if it is secure
      *
      * @return Boolean - Whether or not the network is secure.  True if secure, otherwise false.
+     *
      * @author Patches Klinefelter
      * @since 03/2022
      */

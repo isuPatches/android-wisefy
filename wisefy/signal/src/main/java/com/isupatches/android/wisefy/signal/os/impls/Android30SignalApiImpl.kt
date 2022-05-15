@@ -23,6 +23,16 @@ import com.isupatches.android.wisefy.core.entities.DeprecationMessages
 import com.isupatches.android.wisefy.core.entities.ErrorMessages
 import com.isupatches.android.wisefy.signal.os.apis.Android30SignalApi
 
+/**
+ * An Android 30+ internal implementation for signal strength functionality through the Android OS.
+ *
+ * @param wifiManager The WifiManager instance to use
+ *
+ * @see Android30SignalApi
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 @RequiresApi(Build.VERSION_CODES.R)
 internal class Android30SignalApiImpl(
     private val wifiManager: WifiManager

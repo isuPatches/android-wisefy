@@ -17,7 +17,6 @@ package com.isupatches.android.wisefy.sample.ui.misc
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.accesspoints.callbacks.GetNearbyAccessPointCallbacks
 import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
@@ -174,7 +173,6 @@ internal class DefaultMiscPresenter @Inject constructor(
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun getFrequency() {
         model.getFrequency(
             callbacks = object : GetFrequencyCallbacks {

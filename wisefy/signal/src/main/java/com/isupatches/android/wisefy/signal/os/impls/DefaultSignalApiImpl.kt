@@ -23,6 +23,14 @@ import com.isupatches.android.wisefy.core.entities.DeprecationMessages
 import com.isupatches.android.wisefy.core.entities.ErrorMessages
 import com.isupatches.android.wisefy.signal.os.apis.DefaultSignalApi
 
+/**
+ * A default implementation for signal strength functionality through the Android OS.
+ *
+ * @see DefaultSignalApi
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 internal class DefaultSignalApiImpl : DefaultSignalApi {
 
     @RequiresApi(Build.VERSION_CODES.R)

@@ -16,10 +16,10 @@
 package com.isupatches.android.wisefy.security
 
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
-import com.isupatches.android.wisefy.security.entities.IsNetworkSecureRequest
-import com.isupatches.android.wisefy.security.entities.IsNetworkSecureResult
 import com.isupatches.android.wisefy.security.entities.ContainsSecurityCapabilityRequest
 import com.isupatches.android.wisefy.security.entities.ContainsSecurityCapabilityResult
+import com.isupatches.android.wisefy.security.entities.IsNetworkSecureRequest
+import com.isupatches.android.wisefy.security.entities.IsNetworkSecureResult
 import com.isupatches.android.wisefy.security.os.adapters.DefaultSecurityAdapter
 
 /**
@@ -47,7 +47,9 @@ class WisefySecurityDelegate(
         logger.d(LOG_TAG, "WisefySecurityDelegate adapter is: ${adapter::class.java.simpleName}")
     }
 
-    override fun doesNetworkContainSecurityCapability(request: ContainsSecurityCapabilityRequest): ContainsSecurityCapabilityResult {
+    override fun doesNetworkContainSecurityCapability(
+        request: ContainsSecurityCapabilityRequest
+    ): ContainsSecurityCapabilityResult {
         return adapter.doesNetworkContainSecurityCapability(request)
     }
 

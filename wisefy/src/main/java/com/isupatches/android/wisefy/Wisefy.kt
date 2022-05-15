@@ -24,7 +24,6 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.wifi.WifiManager
 import android.os.Build
-import android.os.Build.VERSION_CODES.LOLLIPOP
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import androidx.annotation.VisibleForTesting
@@ -418,7 +417,9 @@ class Wisefy private constructor(
         wifiDelegate.disableWifi(request, callbacks)
     }
 
-    override fun doesNetworkContainSecurityCapability(request: ContainsSecurityCapabilityRequest): ContainsSecurityCapabilityResult {
+    override fun doesNetworkContainSecurityCapability(
+        request: ContainsSecurityCapabilityRequest
+    ): ContainsSecurityCapabilityResult {
         return securityDelegate.doesNetworkContainSecurityCapability(request)
     }
 
@@ -461,13 +462,11 @@ class Wisefy private constructor(
         networkInfoDelegate.getNetworkInfo(request, callbacks)
     }
 
-    @RequiresApi(LOLLIPOP)
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_NETWORK_STATE])
     override fun getFrequency(request: GetFrequencyRequest): GetFrequencyResult {
         return frequencyDelegate.getFrequency()
     }
 
-    @RequiresApi(LOLLIPOP)
     @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun getFrequency(request: GetFrequencyRequest, callbacks: GetFrequencyCallbacks?) {
         frequencyDelegate.getFrequency(request, callbacks)

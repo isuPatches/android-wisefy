@@ -31,6 +31,7 @@ import com.isupatches.android.wisefy.sample.internal.scaffolding.BaseModel
 import com.isupatches.android.wisefy.savednetworks.callbacks.SearchForSavedNetworkCallbacks
 import com.isupatches.android.wisefy.savednetworks.callbacks.SearchForSavedNetworksCallbacks
 import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkRequest
+import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworksRequest
 import javax.inject.Inject
 
 internal interface SearchModel {
@@ -130,7 +131,7 @@ internal class DefaultSearchModel @Inject constructor(
         callbacks: SearchForSavedNetworksCallbacks?
     ) {
         wisefy.searchForSavedNetworks(
-            request = SearchForSavedNetworkRequest.SSID(regex = regexForSSID),
+            request = SearchForSavedNetworksRequest.SSID(regex = regexForSSID),
             callbacks = callbacks
         )
     }
