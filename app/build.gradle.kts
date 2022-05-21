@@ -97,6 +97,19 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
+    afterEvaluate {
+        configurations.getByName("releaseRuntimeClasspath") {
+            resolutionStrategy.activateDependencyLocking()
+        }
+        configurations.getByName("debugRuntimeClasspath") {
+            resolutionStrategy.activateDependencyLocking()
+        }
+    }
+
+    dependencyLocking {
+        lockMode.set(LockMode.STRICT)
+    }
 }
 
 dependencies {
