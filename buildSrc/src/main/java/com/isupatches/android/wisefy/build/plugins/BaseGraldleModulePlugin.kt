@@ -20,11 +20,11 @@ import com.isupatches.android.wisefy.build.BuildVersions
 import com.isupatches.android.wisefy.build.Dependencies
 import com.isupatches.android.wisefy.build.DependencyConstants.IMPLEMENTATION
 import com.isupatches.android.wisefy.build.Versions
-import groovy.lang.ExpandoMetaClassCreationHandle.disable
 import java.io.File
 import java.io.FileInputStream
 import java.util.Locale
 import java.util.Properties
+import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply
@@ -93,7 +93,7 @@ class BaseGradleModulePlugin : Plugin<Project> {
 
                 release {
                     isTestCoverageEnabled = false
-                    isMinifyEnabled = true
+                    isMinifyEnabled = false
                     proguardFiles(
                         getDefaultProguardFile("proguard-android-optimize.txt"),
                         "${target.rootDir}/proguard/r8-lib-release.pro"
@@ -122,6 +122,20 @@ class BaseGradleModulePlugin : Plugin<Project> {
 
             testCoverage {
                 jacocoVersion = Versions.JACOCO
+            }
+
+            compileOptions {
+                sourceCompatibility = JavaVersion.VERSION_11
+                targetCompatibility = JavaVersion.VERSION_11
+            }
+        }
+
+        target.afterEvaluate {
+            configurations.getByName("releaseRuntimeClasspath") {
+                resolutionStrategy.activateDependencyLocking()
+            }
+            configurations.getByName("debugRuntimeClasspath") {
+                resolutionStrategy.activateDependencyLocking()
             }
         }
 

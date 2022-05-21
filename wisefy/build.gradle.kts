@@ -14,18 +14,18 @@ group = GROUP_ID
 version = BuildVersions.MODULE_VERSION_NAME
 
 dependencies {
-    implementation(project(":wisefy:accesspoints"))
-    implementation(project(":wisefy:addnetwork"))
-    implementation(project(":wisefy:core"))
-    implementation(project(":wisefy:frequency"))
-    implementation(project(":wisefy:networkconnection"))
-    implementation(project(":wisefy:networkconnectionstatus"))
-    implementation(project(":wisefy:networkinfo"))
-    implementation(project(":wisefy:removenetwork"))
-    implementation(project(":wisefy:savednetworks"))
-    implementation(project(":wisefy:security"))
-    implementation(project(":wisefy:signal"))
-    implementation(project(":wisefy:wifi"))
+    api("com.isupatches.android.wisefy:core:[5.0,6.0)")
+    api("com.isupatches.android.wisefy:accesspoints:[5.0,6.0)")
+    api("com.isupatches.android.wisefy:addnetwork:[5.0,6.0)")
+    api("com.isupatches.android.wisefy:frequency:[5.0,6.0)")
+    api("com.isupatches.android.wisefy:networkconnection:[5.0,6.0)")
+    api("com.isupatches.android.wisefy:networkconnectionstatus:[5.0,6.0)")
+    api("com.isupatches.android.wisefy:networkinfo:[5.0,6.0)")
+    api("com.isupatches.android.wisefy:removenetwork:[5.0,6.0)")
+    api("com.isupatches.android.wisefy:savednetworks:[5.0,6.0)")
+    api("com.isupatches.android.wisefy:security:[5.0,6.0)")
+    api("com.isupatches.android.wisefy:signal:[5.0,6.0)")
+    api("com.isupatches.android.wisefy:wifi:[5.0,6.0)")
 
     implementation(Dependencies.Kotlin.COROUTINES)
 }

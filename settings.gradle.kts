@@ -12,7 +12,6 @@ include(
     ":wisefy:networkinfo",
     ":wisefy:savednetworks",
     ":wisefy:removenetwork",
-    ":wisefy:platform",
     ":wisefy:security",
     ":wisefy:signal",
     ":wisefy:wifi"

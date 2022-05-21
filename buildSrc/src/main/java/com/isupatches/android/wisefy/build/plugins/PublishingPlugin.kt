@@ -58,10 +58,10 @@ class PublishingPlugin : Plugin<Project> {
 
         target.configure<LibraryExtension> {
 
-            target.tasks.create<Jar>("kdocJar") {
+            target.tasks.create<Jar>("javadocJar") {
                 group = JavaBasePlugin.DOCUMENTATION_GROUP
                 description = "Assembles Kotlin docs with Dokka"
-                archiveClassifier.set("kdoc")
+                archiveClassifier.set("javadoc")
                 from(target.tasks.getByName("dokkaGfm"))
                 dependsOn(target.tasks.getByName("dokkaGfm"))
             }
@@ -69,6 +69,18 @@ class PublishingPlugin : Plugin<Project> {
             target.tasks.create<Jar>("sourcesJar") {
                 archiveClassifier.set("sources")
                 from(sourceSets.getByName("main").java.srcDirs)
+            }
+
+            publishing {
+                singleVariant("debug") {
+                    withSourcesJar()
+                    withJavadocJar()
+                }
+
+                singleVariant("release") {
+                    withSourcesJar()
+                    withJavadocJar()
+                }
             }
         }
 
@@ -81,9 +93,6 @@ class PublishingPlugin : Plugin<Project> {
                         version = project.version.toString()
 
                         from(project.components["debug"])
-
-                        artifact(tasks["sourcesJar"])
-                        artifact(tasks["kdocJar"])
 
                         pom {
                             name.set(LIBRARY_NAME)
@@ -116,9 +125,6 @@ class PublishingPlugin : Plugin<Project> {
                         version = project.version.toString()
 
                         from(project.components["release"])
-
-                        artifact(tasks["sourcesJar"])
-                        artifact(tasks["kdocJar"])
 
                         pom {
                             name.set(LIBRARY_NAME)
@@ -174,7 +180,6 @@ class PublishingPlugin : Plugin<Project> {
                     )
                     sign(publications)
                 }
-
             }
         }
     }

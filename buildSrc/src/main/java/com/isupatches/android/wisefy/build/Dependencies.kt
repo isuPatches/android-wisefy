@@ -30,8 +30,8 @@ object Dependencies {
         }
 
         object Navigation {
-            const val FRAGMENT = "androidx.navigation:navigation-fragment:${Versions.ANDROIDX_NAVIGATION}"
-            const val UI ="androidx.navigation:navigation-ui:${Versions.ANDROIDX_NAVIGATION}"
+            const val FRAGMENT: String = "androidx.navigation:navigation-fragment:${Versions.ANDROIDX_NAVIGATION}"
+            const val UI: String ="androidx.navigation:navigation-ui:${Versions.ANDROIDX_NAVIGATION}"
         }
     }
 
@@ -45,11 +45,11 @@ object Dependencies {
     }
 
     object Dagger {
-        const val CORE = "com.google.dagger:dagger:${Versions.DAGGER}"
-        const val COMPILER = "com.google.dagger:dagger-compiler:${Versions.DAGGER}"
-        const val ANDROID_SUPPORT = "com.google.dagger:dagger-android-support:${Versions.DAGGER}"
-        const val ANDROID_PROCESSOR = "com.google.dagger:dagger-android-processor:${Versions.DAGGER}"
+        const val CORE: String = "com.google.dagger:dagger:${Versions.DAGGER}"
+        const val COMPILER: String = "com.google.dagger:dagger-compiler:${Versions.DAGGER}"
+        const val ANDROID_SUPPORT: String = "com.google.dagger:dagger-android-support:${Versions.DAGGER}"
+        const val ANDROID_PROCESSOR: String = "com.google.dagger:dagger-android-processor:${Versions.DAGGER}"
     }
 
-    const val VIEWGLU = "com.isupatches.android:viewglu:${Versions.VIEWGLU_VERSION}"
+    const val VIEWGLU: String = "com.isupatches.android:viewglu:${Versions.VIEWGLU_VERSION}"
 }

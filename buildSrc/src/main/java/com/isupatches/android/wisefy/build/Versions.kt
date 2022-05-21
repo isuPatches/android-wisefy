@@ -34,10 +34,10 @@ object Versions {
     const val GOOGLE_MATERIAL: String = "1.6.0"
 
     // Dependency Injection
-    const val DAGGER = "2.42"
+    const val DAGGER: String = "2.42"
 
     // isuPatches
-    const val VIEWGLU_VERSION = "1.1.0"
+    const val VIEWGLU_VERSION: String = "1.1.0"
 
     // Static Analysis
     const val CPD: String = "3.2"
