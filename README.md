@@ -8,6 +8,44 @@ There is a new package for 5.0.  Please use:
 implementation("com.isupatches.android:wisefy:5.0.0-RC3")
 ```
 
+There are also new more modular artifacts published so that individual pieces of Wisefy can be imported:
+
+For base Wisefy functionality:
+- com.isupatches.android.wisefy:core:<LATEST VERSION>
+
+For getting and searching for nearby networks:
+- com.isupatches.android.wisefy:accesspoints:<LATEST VERSION>:
+
+For adding a Wifi network:
+- com.isupatches.android.wisefy:addnetwork:<LATEST VERSION>
+
+For getting the frequency of a network:
+- com.isupatches.android.wisefy:frequency:<LATEST VERSION>
+
+For connecting and disconnecting from networks:
+- com.isupatches.android.wisefy:networkconnection:<LATEST VERSION>:
+
+For current network status (wifi, mobile, connected, etc.):
+- com.isupatches.android.wisefy:networkconnectionstatus:<LATEST VERSION> 
+
+For information about the device's current network:
+- com.isupatches.android.wisefy:networkinfo:<LATEST VERSION> 
+
+For removing a Wifi network:
+- com.isupatches.android.wisefy:removenetwork:<LATEST VERSION>
+- 
+For getting and searching for saved networks:
+- com.isupatches.android.wisefy:savednetworks:<LATEST VERSION> 
+
+For determining the security capabilities of a network:
+- com.isupatches.android.wisefy:security:<LATEST VERSION>
+
+For calculating signal strength bars and comparing signal strength:
+- com.isupatches.android.wisefy:signal:<LATEST VERSION>
+
+For enabling and disabling Wifi:
+- com.isupatches.android.wisefy:wifi:<LATEST VERSION>
+
 ## 5.0 Rewrite
 
 The 5.0 version of WiseFy works to rectify the problems that caused it to be overly challenging as a single developer 
@@ -31,11 +69,13 @@ I hope you enjoy the rewrite and please create an issue if you see anything odd 
 - WPA3 networks now supported
 - wisefysample renamed to app
 - BSSID support now added
+- More modular artifacts are available now (less bloat if there are things you're not going to use)
 
 ### New Structure
 
-- WiseFy Public API -> WiseFy Implementation -> Delegate to determine which OS level proxy to use -> 
-  Proxy for specific SDK level -> Implementation with OS level APIs for specific SDK version
+- WiseFy public API -> WiseFy implementation -> Delegate to determine which adapter to use -> 
+  Adapter converts request for usage by the Android OS -> Android OS APIs are used and adapter returns their response 
+  into a result Wisefy returns
 
 ### Packaging & Naming Conventions
 
