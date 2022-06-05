@@ -1,5 +1,13 @@
 ## Wisefy
 
+> Wifi configuration and util library built for Android.
+>
+> Developed by Patches 04/24/2016 - present 
+> Logo/icon created by mansya (2018)
+> Supports Android SDK levels 23-32
+
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-WiseFy-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/6011) [![Android Weekly](https://img.shields.io/badge/Android%20Weekly-%23230-blue.svg)](http://androidweekly.net/issues/issue-230)
+
 - [Installation](#installation)
 - [5.0 Rewrite](#5.0-rewrite)
   - [Highlights](#highlights)
@@ -138,9 +146,10 @@ documentation was stripped and then completely re-written.
 
 ## Links
 
-For auto-generated [Dokka](https://kotlin.github.io/dokka) markdown files based on the KDocs please see [here](/dokka).
+For auto-generated [Dokka](https://kotlin.github.io/dokka) markdown files based on the KDocs please see 
+[here](/dokka/index.md).
 
-For more high-level examples based on different functionality please see [here](/documentation).
+For more high-level examples based on different functionality please see [here](/documentation/index.md).
 
 ## FAQ
 

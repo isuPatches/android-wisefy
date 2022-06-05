@@ -1,19 +1,19 @@
 ## Wisefy Documentation
 
 - `:accesspoints`
-  - Getting nearby access points
-  - Getting the RSSI level of an access point
-  - Searching for a single access point
-  - Searching for multiple access points
-  - Searching for a single SSID/BSSID
-  - Searching for multiple SSIDs/BSSIDs
+  - [Getting nearby access points](/documentation/accesspoints/getting-nearby-access-points.md)
+  - [Getting the RSSI level of an access point](/documentation/accesspoints/getting-rssi-level-of-an-access-point.md)
+  - [Searching for a single access point](/documentation/accesspoints/searching-for-a-single-access-point.md)
+  - [Searching for multiple access points](/documentation/accesspoints/searching-for-multiple-access-points.md)
+  - [Searching for a single SSID/BSSID](/documentation/accesspoints/searching-for-a-single-ssid-or-bssid.md)
+  - [Searching for multiple SSIDs/BSSIDs](/documentation/accesspoints/searching-for-multiple-ssids-or-bssids.md)
 - `:addnetwork`
-  - Adding an open network
-  - Adding a WPA2 network
-  - Adding a WPA3 network
+  - [Adding an open network](/documentation/addnetwork/adding-an-open-network.md)
+  - [Adding a WPA2 network](/documentation/addnetwork/adding-a-wpa2-network.md)
+  - [Adding a WPA3 network](/documentation/addnetwork/adding-a-wpa3-network.md)
 - `:frequency`
-  - Getting the frequency of a network
-  - Checking if a network is 5gHz
+  - [Getting the frequency of a network](/documentation/frequency/getting-the-frequency-of-a-network.md)
+  - [Checking if a network is 5gHz](/documentation/frequency/checking-if-a-network-if-5gHz.md)
 - `:networkconnection`
   - Connecting to a network
   - Disconnecting from the current network
