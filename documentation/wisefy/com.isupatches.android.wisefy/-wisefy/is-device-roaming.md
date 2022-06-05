@@ -3,4 +3,4 @@
 # isDeviceRoaming
 
 [androidJvm]\
-open override fun [isDeviceRoaming](is-device-roaming.md)(): [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)
+open override fun [isDeviceRoaming](is-device-roaming.md)(): IsDeviceRoamingResult

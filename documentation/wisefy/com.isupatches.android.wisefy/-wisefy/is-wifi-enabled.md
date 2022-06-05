@@ -3,4 +3,4 @@
 # isWifiEnabled
 
 [androidJvm]\
-open override fun [isWifiEnabled](is-wifi-enabled.md)(): [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)
+open override fun [isWifiEnabled](is-wifi-enabled.md)(request: IsWifiEnabledRequest): IsWifiEnabledResult

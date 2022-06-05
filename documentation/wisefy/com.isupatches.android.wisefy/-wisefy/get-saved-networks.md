@@ -4,10 +4,10 @@
 
 [androidJvm]\
 
-@[RequiresPermission](https://developer.android.com/reference/kotlin/androidx/annotation/RequiresPermission.html)(allOf = [android.permission.ACCESS_FINE_LOCATION, android.permission.ACCESS_WIFI_STATE])
+@[RequiresPermission](https://developer.android.com/reference/kotlin/androidx/annotation/RequiresPermission.html)(allOf = [&quot;android.permission.ACCESS_FINE_LOCATION&quot;, &quot;android.permission.ACCESS_WIFI_STATE&quot;])
 
-open override fun [getSavedNetworks](get-saved-networks.md)(): [List](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)<[SavedNetworkData](../../com.isupatches.android.wisefy.savednetworks.entities/-saved-network-data/index.md)>
+open override fun [getSavedNetworks](get-saved-networks.md)(request: GetSavedNetworksRequest): GetSavedNetworksResult
 
-@[RequiresPermission](https://developer.android.com/reference/kotlin/androidx/annotation/RequiresPermission.html)(allOf = [android.permission.ACCESS_FINE_LOCATION, android.permission.ACCESS_WIFI_STATE])
+@[RequiresPermission](https://developer.android.com/reference/kotlin/androidx/annotation/RequiresPermission.html)(allOf = [&quot;android.permission.ACCESS_FINE_LOCATION&quot;, &quot;android.permission.ACCESS_WIFI_STATE&quot;])
 
-open override fun [getSavedNetworks](get-saved-networks.md)(callbacks: [GetSavedNetworksCallbacks](../../com.isupatches.android.wisefy.callbacks/-get-saved-networks-callbacks/index.md)?)
+open override fun [getSavedNetworks](get-saved-networks.md)(request: GetSavedNetworksRequest, callbacks: GetSavedNetworksCallbacks?)

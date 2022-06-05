@@ -4,18 +4,10 @@
 
 [androidJvm]\
 
-@[RequiresApi](https://developer.android.com/reference/kotlin/androidx/annotation/RequiresApi.html)(value = 21)
+@[RequiresPermission](https://developer.android.com/reference/kotlin/androidx/annotation/RequiresPermission.html)(allOf = [&quot;android.permission.ACCESS_FINE_LOCATION&quot;, &quot;android.permission.ACCESS_NETWORK_STATE&quot;])
 
-@[RequiresPermission](https://developer.android.com/reference/kotlin/androidx/annotation/RequiresPermission.html)(value = android.permission.ACCESS_FINE_LOCATION)
+open override fun [getFrequency](get-frequency.md)(request: GetFrequencyRequest): GetFrequencyResult
 
-open override fun [getFrequency](get-frequency.md)(): [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)?
+@[RequiresPermission](https://developer.android.com/reference/kotlin/androidx/annotation/RequiresPermission.html)(value = &quot;android.permission.ACCESS_FINE_LOCATION&quot;)
 
-@[RequiresApi](https://developer.android.com/reference/kotlin/androidx/annotation/RequiresApi.html)(value = 21)
-
-@[RequiresPermission](https://developer.android.com/reference/kotlin/androidx/annotation/RequiresPermission.html)(value = android.permission.ACCESS_FINE_LOCATION)
-
-open override fun [getFrequency](get-frequency.md)(callbacks: [GetFrequencyCallbacks](../../com.isupatches.android.wisefy.callbacks/-get-frequency-callbacks/index.md)?)
-
-@[RequiresApi](https://developer.android.com/reference/kotlin/androidx/annotation/RequiresApi.html)(value = 21)
-
-open override fun [getFrequency](get-frequency.md)(network: [WifiInfo](https://developer.android.com/reference/kotlin/android/net/wifi/WifiInfo.html)): [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)
+open override fun [getFrequency](get-frequency.md)(request: GetFrequencyRequest, callbacks: GetFrequencyCallbacks?)

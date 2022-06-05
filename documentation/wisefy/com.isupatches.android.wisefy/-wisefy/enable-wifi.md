@@ -3,6 +3,6 @@
 # enableWifi
 
 [androidJvm]\
-~~open~~ ~~override~~ ~~fun~~ [~~enableWifi~~](enable-wifi.md)~~(~~~~)~~~~:~~ [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)
+~~open~~ ~~override~~ ~~fun~~ [~~enableWifi~~](enable-wifi.md)~~(~~request: EnableWifiRequest~~)~~~~:~~ EnableWifiResult
 
-~~open~~ ~~override~~ ~~fun~~ [~~enableWifi~~](enable-wifi.md)~~(~~~~callbacks~~~~:~~ [EnableWifiCallbacks](../../com.isupatches.android.wisefy.callbacks/-enable-wifi-callbacks/index.md)?~~)~~
+~~open~~ ~~override~~ ~~fun~~ [~~enableWifi~~](enable-wifi.md)~~(~~request: EnableWifiRequest, callbacks: EnableWifiCallbacks?~~)~~

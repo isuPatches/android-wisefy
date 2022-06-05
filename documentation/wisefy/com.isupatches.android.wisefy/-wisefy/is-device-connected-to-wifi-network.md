@@ -3,4 +3,4 @@
 # isDeviceConnectedToWifiNetwork
 
 [androidJvm]\
-open override fun [isDeviceConnectedToWifiNetwork](is-device-connected-to-wifi-network.md)(): [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)
+open override fun [isDeviceConnectedToWifiNetwork](is-device-connected-to-wifi-network.md)(): IsDeviceConnectedResult

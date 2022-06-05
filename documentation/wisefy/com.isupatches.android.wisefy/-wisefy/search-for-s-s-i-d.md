@@ -4,10 +4,10 @@
 
 [androidJvm]\
 
-@[RequiresPermission](https://developer.android.com/reference/kotlin/androidx/annotation/RequiresPermission.html)(value = android.permission.ACCESS_FINE_LOCATION)
+@[RequiresPermission](https://developer.android.com/reference/kotlin/androidx/annotation/RequiresPermission.html)(value = &quot;android.permission.ACCESS_FINE_LOCATION&quot;)
 
-open override fun [searchForSSID](search-for-s-s-i-d.md)(regexForSSID: [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html), timeoutInMillis: [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)): [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)?
+open override fun [searchForSSID](search-for-s-s-i-d.md)(request: SearchForSingleSSIDRequest): SearchForSSIDResult
 
-@[RequiresPermission](https://developer.android.com/reference/kotlin/androidx/annotation/RequiresPermission.html)(value = android.permission.ACCESS_FINE_LOCATION)
+@[RequiresPermission](https://developer.android.com/reference/kotlin/androidx/annotation/RequiresPermission.html)(value = &quot;android.permission.ACCESS_FINE_LOCATION&quot;)
 
-open override fun [searchForSSID](search-for-s-s-i-d.md)(regexForSSID: [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html), timeoutInMillis: [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html), callbacks: [SearchForSSIDCallbacks](../../com.isupatches.android.wisefy.callbacks/-search-for-s-s-i-d-callbacks/index.md)?)
+open override fun [searchForSSID](search-for-s-s-i-d.md)(request: SearchForSingleSSIDRequest, callbacks: SearchForSSIDCallbacks?)

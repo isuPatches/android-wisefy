@@ -1,0 +1,58 @@
+$dokka.format:gfm-v1
+$dokka.linkExtension:md
+$dokka.location:com.isupatches.android.wisefy.signal.entities////PointingToDeclaration/signal/com.isupatches.android.wisefy.signal.entities/index.md
+$dokka.location:com.isupatches.android.wisefy.signal.entities/CalculateBarsRequest.Android30AndAbove///PointingToDeclaration/signal/com.isupatches.android.wisefy.signal.entities/-calculate-bars-request/-android30-and-above/index.md
+$dokka.location:com.isupatches.android.wisefy.signal.entities/CalculateBarsRequest.Android30AndAbove/Android30AndAbove/#kotlin.Int/PointingToDeclaration/signal/com.isupatches.android.wisefy.signal.entities/-calculate-bars-request/-android30-and-above/-android30-and-above.md
+$dokka.location:com.isupatches.android.wisefy.signal.entities/CalculateBarsRequest.Android30AndAbove/component1/#/PointingToDeclaration/signal/com.isupatches.android.wisefy.signal.entities/-calculate-bars-request/-android30-and-above/component1.md
+$dokka.location:com.isupatches.android.wisefy.signal.entities/CalculateBarsRequest.Android30AndAbove/copy/#kotlin.Int/PointingToDeclaration/signal/com.isupatches.android.wisefy.signal.entities/-calculate-bars-request/-android30-and-above/copy.md
+$dokka.location:com.isupatches.android.wisefy.signal.entities/CalculateBarsRequest.Android30AndAbove/rssiLevel/#/PointingToDeclaration/signal/com.isupatches.android.wisefy.signal.entities/-calculate-bars-request/-android30-and-above/rssi-level.md
+$dokka.location:com.isupatches.android.wisefy.signal.entities/CalculateBarsRequest.BelowAndroid30///PointingToDeclaration/signal/com.isupatches.android.wisefy.signal.entities/-calculate-bars-request/-below-android30/index.md
+$dokka.location:com.isupatches.android.wisefy.signal.entities/CalculateBarsRequest.BelowAndroid30/BelowAndroid30/#kotlin.Int#kotlin.Int/PointingToDeclaration/signal/com.isupatches.android.wisefy.signal.entities/-calculate-bars-request/-below-android30/-below-android30.md
+$dokka.location:com.isupatches.android.wisefy.signal.entities/CalculateBarsRequest.BelowAndroid30/component1/#/PointingToDeclaration/signal/com.isupatches.android.wisefy.signal.entities/-calculate-bars-request/-below-android30/component1.md
+$dokka.location:com.isupatches.android.wisefy.signal.entities/CalculateBarsRequest.BelowAndroid30/component2/#/PointingToDeclaration/signal/com.isupatches.android.wisefy.signal.entities/-calculate-bars-request/-below-android30/component2.md
+$dokka.location:com.isupatches.android.wisefy.signal.entities/CalculateBarsRequest.BelowAndroid30/copy/#kotlin.Int#kotlin.Int/PointingToDeclaration/signal/com.isupatches.android.wisefy.signal.entities/-calculate-bars-request/-below-android30/copy.md
+$dokka.location:com.isupatches.android.wisefy.signal.entities/CalculateBarsRequest.BelowAndroid30/rssiLevel/#/PointingToDeclaration/signal/com.isupatches.android.wisefy.signal.entities/-calculate-bars-request/-below-android30/rssi-level.md
+$dokka.location:com.isupatches.android.wisefy.signal.entities/CalculateBarsRequest.BelowAndroid30/targetNumberOfBars/#/PointingToDeclaration/signal/com.isupatches.android.wisefy.signal.entities/-calculate-bars-request/-below-android30/target-number-of-bars.md
+$dokka.location:com.isupatches.android.wisefy.signal.entities/CalculateBarsRequest///PointingToDeclaration/signal/com.isupatches.android.wisefy.signal.entities/-calculate-bars-request/index.md
+$dokka.location:com.isupatches.android.wisefy.signal.entities/CalculateBarsResult.Success///PointingToDeclaration/signal/com.isupatches.android.wisefy.signal.entities/-calculate-bars-result/-success/index.md
+$dokka.location:com.isupatches.android.wisefy.signal.entities/CalculateBarsResult.Success/Success/#kotlin.Int/PointingToDeclaration/signal/com.isupatches.android.wisefy.signal.entities/-calculate-bars-result/-success/-success.md
+$dokka.location:com.isupatches.android.wisefy.signal.entities/CalculateBarsResult.Success/component1/#/PointingToDeclaration/signal/com.isupatches.android.wisefy.signal.entities/-calculate-bars-result/-success/component1.md
+$dokka.location:com.isupatches.android.wisefy.signal.entities/CalculateBarsResult.Success/copy/#kotlin.Int/PointingToDeclaration/signal/com.isupatches.android.wisefy.signal.entities/-calculate-bars-result/-success/copy.md
+$dokka.location:com.isupatches.android.wisefy.signal.entities/CalculateBarsResult.Success/value/#/PointingToDeclaration/signal/com.isupatches.android.wisefy.signal.entities/-calculate-bars-result/-success/value.md
+$dokka.location:com.isupatches.android.wisefy.signal.entities/CalculateBarsResult.WrongSDKLevel///PointingToDeclaration/signal/com.isupatches.android.wisefy.signal.entities/-calculate-bars-result/-wrong-s-d-k-level/index.md
+$dokka.location:com.isupatches.android.wisefy.signal.entities/CalculateBarsResult.WrongSDKLevel/WrongSDKLevel/#kotlin.String/PointingToDeclaration/signal/com.isupatches.android.wisefy.signal.entities/-calculate-bars-result/-wrong-s-d-k-level/-wrong-s-d-k-level.md
+$dokka.location:com.isupatches.android.wisefy.signal.entities/CalculateBarsResult.WrongSDKLevel/component1/#/PointingToDeclaration/signal/com.isupatches.android.wisefy.signal.entities/-calculate-bars-result/-wrong-s-d-k-level/component1.md
+$dokka.location:com.isupatches.android.wisefy.signal.entities/CalculateBarsResult.WrongSDKLevel/copy/#kotlin.String/PointingToDeclaration/signal/com.isupatches.android.wisefy.signal.entities/-calculate-bars-result/-wrong-s-d-k-level/copy.md
+$dokka.location:com.isupatches.android.wisefy.signal.entities/CalculateBarsResult.WrongSDKLevel/message/#/PointingToDeclaration/signal/com.isupatches.android.wisefy.signal.entities/-calculate-bars-result/-wrong-s-d-k-level/message.md
+$dokka.location:com.isupatches.android.wisefy.signal.entities/CalculateBarsResult///PointingToDeclaration/signal/com.isupatches.android.wisefy.signal.entities/-calculate-bars-result/index.md
+$dokka.location:com.isupatches.android.wisefy.signal.entities/CompareSignalLevelRequest///PointingToDeclaration/signal/com.isupatches.android.wisefy.signal.entities/-compare-signal-level-request/index.md
+$dokka.location:com.isupatches.android.wisefy.signal.entities/CompareSignalLevelRequest/CompareSignalLevelRequest/#kotlin.Int#kotlin.Int/PointingToDeclaration/signal/com.isupatches.android.wisefy.signal.entities/-compare-signal-level-request/-compare-signal-level-request.md
+$dokka.location:com.isupatches.android.wisefy.signal.entities/CompareSignalLevelRequest/component1/#/PointingToDeclaration/signal/com.isupatches.android.wisefy.signal.entities/-compare-signal-level-request/component1.md
+$dokka.location:com.isupatches.android.wisefy.signal.entities/CompareSignalLevelRequest/component2/#/PointingToDeclaration/signal/com.isupatches.android.wisefy.signal.entities/-compare-signal-level-request/component2.md
+$dokka.location:com.isupatches.android.wisefy.signal.entities/CompareSignalLevelRequest/copy/#kotlin.Int#kotlin.Int/PointingToDeclaration/signal/com.isupatches.android.wisefy.signal.entities/-compare-signal-level-request/copy.md
+$dokka.location:com.isupatches.android.wisefy.signal.entities/CompareSignalLevelRequest/rssi1/#/PointingToDeclaration/signal/com.isupatches.android.wisefy.signal.entities/-compare-signal-level-request/rssi1.md
+$dokka.location:com.isupatches.android.wisefy.signal.entities/CompareSignalLevelRequest/rssi2/#/PointingToDeclaration/signal/com.isupatches.android.wisefy.signal.entities/-compare-signal-level-request/rssi2.md
+$dokka.location:com.isupatches.android.wisefy.signal.entities/CompareSignalLevelResult///PointingToDeclaration/signal/com.isupatches.android.wisefy.signal.entities/-compare-signal-level-result/index.md
+$dokka.location:com.isupatches.android.wisefy.signal.entities/CompareSignalLevelResult/CompareSignalLevelResult/#kotlin.Int/PointingToDeclaration/signal/com.isupatches.android.wisefy.signal.entities/-compare-signal-level-result/-compare-signal-level-result.md
+$dokka.location:com.isupatches.android.wisefy.signal.entities/CompareSignalLevelResult/component1/#/PointingToDeclaration/signal/com.isupatches.android.wisefy.signal.entities/-compare-signal-level-result/component1.md
+$dokka.location:com.isupatches.android.wisefy.signal.entities/CompareSignalLevelResult/copy/#kotlin.Int/PointingToDeclaration/signal/com.isupatches.android.wisefy.signal.entities/-compare-signal-level-result/copy.md
+$dokka.location:com.isupatches.android.wisefy.signal.entities/CompareSignalLevelResult/value/#/PointingToDeclaration/signal/com.isupatches.android.wisefy.signal.entities/-compare-signal-level-result/value.md
+$dokka.location:com.isupatches.android.wisefy.signal.os.adapters////PointingToDeclaration/signal/com.isupatches.android.wisefy.signal.os.adapters.md
+$dokka.location:com.isupatches.android.wisefy.signal.os.apis////PointingToDeclaration/signal/com.isupatches.android.wisefy.signal.os.apis.md
+$dokka.location:com.isupatches.android.wisefy.signal.os.impls////PointingToDeclaration/signal/com.isupatches.android.wisefy.signal.os.impls.md
+$dokka.location:com.isupatches.android.wisefy.signal////PointingToDeclaration/signal/com.isupatches.android.wisefy.signal/index.md
+$dokka.location:com.isupatches.android.wisefy.signal/SignalApi///PointingToDeclaration/signal/com.isupatches.android.wisefy.signal/-signal-api/index.md
+$dokka.location:com.isupatches.android.wisefy.signal/SignalApi/calculateBars/#com.isupatches.android.wisefy.signal.entities.CalculateBarsRequest/PointingToDeclaration/signal/com.isupatches.android.wisefy.signal/-signal-api/calculate-bars.md
+$dokka.location:com.isupatches.android.wisefy.signal/SignalApi/compareSignalLevel/#com.isupatches.android.wisefy.signal.entities.CompareSignalLevelRequest/PointingToDeclaration/signal/com.isupatches.android.wisefy.signal/-signal-api/compare-signal-level.md
+$dokka.location:com.isupatches.android.wisefy.signal/SignalDelegate///PointingToDeclaration/signal/com.isupatches.android.wisefy.signal/-signal-delegate/index.md
+$dokka.location:com.isupatches.android.wisefy.signal/WisefySignalDelegate.Companion///PointingToDeclaration/signal/com.isupatches.android.wisefy.signal/-wisefy-signal-delegate/-companion/index.md
+$dokka.location:com.isupatches.android.wisefy.signal/WisefySignalDelegate///PointingToDeclaration/signal/com.isupatches.android.wisefy.signal/-wisefy-signal-delegate/index.md
+$dokka.location:com.isupatches.android.wisefy.signal/WisefySignalDelegate/WisefySignalDelegate/#com.isupatches.android.wisefy.core.logging.WisefyLogger#com.isupatches.android.wisefy.core.util.SdkUtil#android.net.wifi.WifiManager/PointingToDeclaration/signal/com.isupatches.android.wisefy.signal/-wisefy-signal-delegate/-wisefy-signal-delegate.md
+$dokka.location:com.isupatches.android.wisefy.signal/WisefySignalDelegate/calculateBars/#com.isupatches.android.wisefy.signal.entities.CalculateBarsRequest/PointingToDeclaration/signal/com.isupatches.android.wisefy.signal/-wisefy-signal-delegate/calculate-bars.md
+$dokka.location:com.isupatches.android.wisefy.signal/WisefySignalDelegate/compareSignalLevel/#com.isupatches.android.wisefy.signal.entities.CompareSignalLevelRequest/PointingToDeclaration/signal/com.isupatches.android.wisefy.signal/-wisefy-signal-delegate/compare-signal-level.md
+com.isupatches.android.wisefy.signal
+com.isupatches.android.wisefy.signal.entities
+com.isupatches.android.wisefy.signal.os.adapters
+com.isupatches.android.wisefy.signal.os.apis
+com.isupatches.android.wisefy.signal.os.impls
+

@@ -3,4 +3,4 @@
 # isNetworkSecure
 
 [androidJvm]\
-open override fun [isNetworkSecure](is-network-secure.md)(scanResult: [ScanResult](https://developer.android.com/reference/kotlin/android/net/wifi/ScanResult.html)): [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html)
+open override fun [isNetworkSecure](is-network-secure.md)(request: IsNetworkSecureRequest): IsNetworkSecureResult

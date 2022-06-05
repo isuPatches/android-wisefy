@@ -3,6 +3,11 @@
 # getIP
 
 [androidJvm]\
-open override fun [getIP](get-i-p.md)(): [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)?
 
-open override fun [getIP](get-i-p.md)(callbacks: [GetIPCallbacks](../../com.isupatches.android.wisefy.callbacks/-get-i-p-callbacks/index.md)?)
+@[RequiresPermission](https://developer.android.com/reference/kotlin/androidx/annotation/RequiresPermission.html)(value = &quot;android.permission.ACCESS_NETWORK_STATE&quot;)
+
+open override fun [getIP](get-i-p.md)(request: GetIPRequest): GetIPResult
+
+@[RequiresPermission](https://developer.android.com/reference/kotlin/androidx/annotation/RequiresPermission.html)(value = &quot;android.permission.ACCESS_NETWORK_STATE&quot;)
+
+open override fun [getIP](get-i-p.md)(request: GetIPRequest, callbacks: GetIPCallbacks?)
