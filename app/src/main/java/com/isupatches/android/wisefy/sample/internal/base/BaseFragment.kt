@@ -15,26 +15,22 @@
  */
 package com.isupatches.android.wisefy.sample.internal.base
 
-import android.content.Context
 import androidx.annotation.StringRes
 import com.isupatches.android.wisefy.sample.R
 import com.isupatches.android.wisefy.sample.internal.scaffolding.BaseView
 import com.isupatches.android.wisefy.sample.internal.util.PermissionUtil
 import com.isupatches.android.wisefy.sample.ui.dialogs.FullScreenNoticeDialogFragment
 import com.isupatches.android.wisefy.sample.ui.dialogs.NoticeDialogFragment
-import dagger.android.support.AndroidSupportInjection
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 internal abstract class BaseFragment : BaseView() {
 
-    @Inject lateinit var permissionUtil: PermissionUtil
+    @Inject
+    lateinit var permissionUtil: PermissionUtil
 
     private fun isActivityInvalid(): Boolean = activity == null || (activity?.isFinishing == true)
-
-    override fun onAttach(context: Context) {
-        AndroidSupportInjection.inject(this)
-        super.onAttach(context)
-    }
 
     protected fun displayInfo(@StringRes infoMessageResId: Int, @StringRes infoTitleResId: Int = R.string.info) {
         showDialogNoDuplicates(

@@ -33,12 +33,20 @@ import com.isupatches.android.wisefy.sample.databinding.FragmentMiscBinding
 import com.isupatches.android.wisefy.sample.internal.base.BaseFragment
 import com.isupatches.android.wisefy.sample.internal.logging.WisefySampleLogger
 import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-@VisibleForTesting internal const val WISEFY_GET_FREQUENCY_REQUEST_CODE = 1
-@VisibleForTesting internal const val WISEFY_GET_IP_REQUEST_CODE = 2
-@VisibleForTesting internal const val WISEFY_GET_NEARBY_ACCESS_POINTS_REQUEST_CODE = 3
-@VisibleForTesting internal const val WISEFY_GET_SAVED_NETWORKS_REQUEST_CODE = 4
+@VisibleForTesting
+internal const val WISEFY_GET_FREQUENCY_REQUEST_CODE = 1
+
+@VisibleForTesting
+internal const val WISEFY_GET_IP_REQUEST_CODE = 2
+
+@VisibleForTesting
+internal const val WISEFY_GET_NEARBY_ACCESS_POINTS_REQUEST_CODE = 3
+
+@VisibleForTesting
+internal const val WISEFY_GET_SAVED_NETWORKS_REQUEST_CODE = 4
 
 private const val LOG_TAG = "MiscFragment"
 
@@ -63,9 +71,11 @@ internal interface MiscView {
 }
 
 @Suppress("LargeClass")
+@AndroidEntryPoint
 internal class MiscFragment : BaseFragment(), MiscView {
 
-    @MiscScope @Inject lateinit var presenter: MiscPresenter
+    @Inject
+    lateinit var presenter: MiscPresenter
 
     private var binding: FragmentMiscBinding by paste()
 

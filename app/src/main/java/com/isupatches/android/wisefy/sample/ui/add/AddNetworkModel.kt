@@ -77,7 +77,6 @@ internal interface AddNetworkModel {
     )
 }
 
-@AddNetworkScope
 internal class DefaultAddNetworkModel @Inject constructor(
     private val wisefy: WisefyApi
 ) : BaseModel(), AddNetworkModel {

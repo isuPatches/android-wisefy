@@ -15,20 +15,18 @@
  */
 package com.isupatches.android.wisefy.sample.internal.di
 
-import com.isupatches.android.wisefy.sample.ui.main.MainActivity
-import com.isupatches.android.wisefy.sample.ui.main.MainActivityFragmentBindings
-import com.isupatches.android.wisefy.sample.ui.main.MainActivityModule
+import com.isupatches.android.wisefy.sample.internal.util.PermissionUtil
+import com.isupatches.android.wisefy.sample.internal.util.PermissionsUtilImpl
+import dagger.Binds
 import dagger.Module
-import dagger.android.ContributesAndroidInjector
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.FragmentComponent
 
 @Suppress("unused")
-@Module internal interface ScreenBindingsModule {
+@Module
+@InstallIn(FragmentComponent::class)
+internal interface PermissionsModule {
 
-    @ContributesAndroidInjector(
-        modules = [
-            MainActivityModule::class,
-            MainActivityFragmentBindings::class
-        ]
-    )
-    fun mainActivity(): MainActivity
+    @Binds
+    fun permissionUtil(impl: PermissionsUtilImpl): PermissionUtil
 }

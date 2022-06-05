@@ -13,24 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.android.wisefy.sample.ui.search
+package com.isupatches.android.wisefy.sample.ui.main
 
+import android.content.Context
+import com.isupatches.android.wisefy.sample.internal.util.SdkUtil
+import com.isupatches.android.wisefy.sample.internal.util.SdkUtilImpl
+import com.isupatches.android.wisefy.sample.internal.util.createWiseFy
 import dagger.Binds
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.FragmentComponent
+import dagger.hilt.android.components.ActivityComponent
+import dagger.hilt.android.qualifiers.ApplicationContext
 
 @Suppress("unused")
 @Module
-@InstallIn(FragmentComponent::class)
-internal interface SearchFragmentModule {
+@InstallIn(ActivityComponent::class)
+internal abstract class MainActivityModule {
 
     @Binds
-    fun bindSearchModel(impl: DefaultSearchModel): SearchModel
+    abstract fun bindSdkUtil(impl: SdkUtilImpl): SdkUtil
 
-    @Binds
-    fun bindSearchPresenter(impl: DefaultSearchPresenter): SearchPresenter
-
-    @Binds
-    fun bindSearchStore(impl: SharedPreferencesSearchStore): SearchStore
+    companion object {
+        @Provides
+        fun provideWiseFy(@ApplicationContext app: Context) = createWiseFy(app)
+    }
 }

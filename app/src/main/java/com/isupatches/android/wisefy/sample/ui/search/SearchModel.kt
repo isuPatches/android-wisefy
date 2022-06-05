@@ -77,7 +77,6 @@ internal interface SearchModel {
     )
 }
 
-@SearchScope
 internal class DefaultSearchModel @Inject constructor(
     private val wisefy: WisefyApi
 ) : BaseModel(), SearchModel {

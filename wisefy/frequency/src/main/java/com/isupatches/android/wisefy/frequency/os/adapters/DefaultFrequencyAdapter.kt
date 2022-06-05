@@ -20,6 +20,7 @@ import android.net.ConnectivityManager
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.frequency.FrequencyApi
+import com.isupatches.android.wisefy.frequency.entities.FrequencyData
 import com.isupatches.android.wisefy.frequency.entities.GetFrequencyRequest
 import com.isupatches.android.wisefy.frequency.entities.GetFrequencyResult
 import com.isupatches.android.wisefy.frequency.entities.IsNetwork5gHzRequest
@@ -57,7 +58,7 @@ internal class DefaultFrequencyAdapter(
             is GetFrequencyRequest.ForNetwork -> api.getFrequency(request.network)
         }
         return if (frequency != null) {
-            GetFrequencyResult.WithFrequency(frequency)
+            GetFrequencyResult.WithFrequency(FrequencyData(frequency))
         } else {
             GetFrequencyResult.Empty
         }

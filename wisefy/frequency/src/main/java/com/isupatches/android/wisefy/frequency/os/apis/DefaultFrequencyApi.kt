@@ -31,29 +31,25 @@ internal interface DefaultFrequencyApi {
     /**
      * A default API to get the frequency of the current network from the Android OS.
      *
-     * @see FrequencyData
-     *
-     * @return FrequencyData - The frequency data for the current network if there is one, otherwise null
+     * @return Int or null - The frequency of the current network if there is one, otherwise null
      *
      * @author Patches Klinefelter
      * @since 03/2022
      */
     @RequiresPermission(Manifest.permission.ACCESS_FINE_LOCATION)
-    fun getFrequency(): FrequencyData?
+    fun getFrequency(): Int?
 
     /**
      * A default API to get the frequency of a given network from the Android OS.
      *
      * @param network The network to get the frequency of
      *
-     * @see FrequencyData
-     *
-     * @return FrequencyData - The frequency data for the given network
+     * @return Int - The frequency of the given network
      *
      * @author Patches Klinefelter
      * @since 03/2022
      */
-    fun getFrequency(network: WifiInfo): FrequencyData
+    fun getFrequency(network: WifiInfo): Int
 
     /**
      * A default API to check if the frequency of the current network is 5G from the Android OS.

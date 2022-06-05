@@ -63,7 +63,6 @@ internal interface AddNetworkPresenter : Presenter<AddNetworkFragment> {
     )
 }
 
-@AddNetworkScope
 internal class DefaultAddNetworkPresenter @Inject constructor(
     private val model: AddNetworkModel,
 ) : BasePresenter<AddNetworkFragment>(), AddNetworkPresenter {

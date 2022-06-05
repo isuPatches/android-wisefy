@@ -17,25 +17,20 @@ package com.isupatches.android.wisefy.sample.ui.remove
 
 import dagger.Binds
 import dagger.Module
-import javax.inject.Scope
-
-@Scope
-@Retention(AnnotationRetention.RUNTIME)
-internal annotation class RemoveNetworkScope
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.FragmentComponent
 
 @Suppress("unused")
 @Module
+@InstallIn(FragmentComponent::class)
 internal interface RemoveNetworkFragmentModule {
 
     @Binds
-    @RemoveNetworkScope
     fun bindRemoveNetworkModel(impl: DefaultRemoveNetworkModel): RemoveNetworkModel
 
     @Binds
-    @RemoveNetworkScope
     fun bindRemoveNetworkPresenter(impl: DefaultRemoveNetworkPresenter): RemoveNetworkPresenter
 
     @Binds
-    @RemoveNetworkScope
     fun bindRemoveNetworkStore(impl: SharedPreferencesRemoveNetworkStore): RemoveNetworkStore
 }

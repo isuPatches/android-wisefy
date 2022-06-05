@@ -19,6 +19,7 @@ import android.content.Context
 import androidx.core.content.edit
 import com.isupatches.android.wisefy.sample.R
 import com.isupatches.android.wisefy.sample.internal.scaffolding.BaseSharedPreferenceStore
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 internal interface RemoveNetworkStore {
@@ -29,9 +30,8 @@ internal interface RemoveNetworkStore {
     fun setLastUsedRegex(lastUsedRegex: String)
 }
 
-@RemoveNetworkScope
 internal class SharedPreferencesRemoveNetworkStore @Inject constructor(
-    context: Context
+    @ApplicationContext context: Context
 ) : BaseSharedPreferenceStore(), RemoveNetworkStore {
 
     private val sharedPreferences = getSharedPreferences(

@@ -19,6 +19,16 @@ import android.net.wifi.WifiManager
 import com.isupatches.android.wisefy.core.entities.DeprecationMessages
 import com.isupatches.android.wisefy.wifi.os.apis.DefaultWifiApi
 
+/**
+ * A default internal implementation for enabling, disabling, and checking the state of wifi through the Android OS.
+ *
+ * @param wifiManager The WifiManager instance to use
+ *
+ * @see DefaultWifiApi
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 internal class DefaultWifiApiImpl(
     private val wifiManager: WifiManager
 ) : DefaultWifiApi {

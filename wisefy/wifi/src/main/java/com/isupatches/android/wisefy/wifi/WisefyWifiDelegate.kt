@@ -35,6 +35,22 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+/**
+ * An internal Wisefy delegate for enabling, disabling, and checking the state of Wifi.
+ *
+ * @param coroutineDispatcherProvider The instance of the coroutine dispatcher provider to use
+ * @param scope The coroutine scope to use
+ * @param logger The logger instance to use
+ * @param sdkUtil The SdkUtil instance to use
+ * @param wifiManager The WifiManager instance to use
+ *
+ * @see WifiDelegate
+ * @see CoroutineDispatcherProvider
+ * @see WisefyLogger
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 class WisefyWifiDelegate(
     private val coroutineDispatcherProvider: CoroutineDispatcherProvider,
     private val scope: CoroutineScope,

@@ -21,12 +21,20 @@ import androidx.core.content.edit
 import com.isupatches.android.wisefy.sample.R
 import com.isupatches.android.wisefy.sample.internal.entities.SearchType
 import com.isupatches.android.wisefy.sample.internal.scaffolding.BaseSharedPreferenceStore
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
-@VisibleForTesting internal const val PREF_SEARCH_TYPE = "search type"
-@VisibleForTesting internal const val PREF_RETURN_FULL_LIST = "return full list"
-@VisibleForTesting internal const val PREF_FILTER_DUPLICATES = "filter duplicates"
-@VisibleForTesting internal const val PREF_TIMEOUT = "timeout"
+@VisibleForTesting
+internal const val PREF_SEARCH_TYPE = "search_type"
+
+@VisibleForTesting
+internal const val PREF_RETURN_FULL_LIST = "return_full_list"
+
+@VisibleForTesting
+internal const val PREF_FILTER_DUPLICATES = "filter_duplicates"
+
+@VisibleForTesting
+internal const val PREF_TIMEOUT = "timeout"
 
 internal interface SearchStore {
     fun clear()
@@ -44,9 +52,8 @@ internal interface SearchStore {
     fun setTimeout(timeout: Int)
 }
 
-@SearchScope
 internal class SharedPreferencesSearchStore @Inject constructor(
-    context: Context
+    @ApplicationContext context: Context
 ) : BaseSharedPreferenceStore(), SearchStore {
 
     private val sharedPreferences = getSharedPreferences(

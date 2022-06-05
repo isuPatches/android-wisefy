@@ -16,55 +16,8 @@
 package com.isupatches.android.wisefy.sample
 
 import android.app.Application
-import android.content.Context
-import com.isupatches.android.wisefy.sample.internal.di.ScreenBindingsModule
-import com.isupatches.android.wisefy.sample.internal.util.PermissionUtil
-import com.isupatches.android.wisefy.sample.internal.util.PermissionsUtilImpl
-import dagger.BindsInstance
-import dagger.Component
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasAndroidInjector
-import dagger.android.support.AndroidSupportInjectionModule
-import javax.inject.Inject
-import javax.inject.Singleton
+import dagger.hilt.android.HiltAndroidApp
 
-@Suppress("Registered", "UndocumentedPublicClass", "UndocumentedPublicFunction")
-internal open class MainApplication : Application(), HasAndroidInjector {
-
-    override fun onCreate() {
-        super.onCreate()
-        initializeDependencyInjection()
-    }
-
-    private fun initializeDependencyInjection() {
-        mainApplicationComponent = DaggerMainApplication_MainApplicationComponent.builder()
-            .application(this)
-            .permissionsUtil(PermissionsUtilImpl())
-            .build()
-        mainApplicationComponent.inject(this)
-    }
-
-    @Inject lateinit var androidInjector: DispatchingAndroidInjector<Any>
-    override fun androidInjector() = androidInjector
-
-    protected lateinit var mainApplicationComponent: MainApplicationComponent
-
-    @Singleton
-    @Component(
-        modules = [
-            AndroidSupportInjectionModule::class,
-            ScreenBindingsModule::class
-        ]
-    )
-    internal interface MainApplicationComponent {
-
-        fun inject(mainApplication: MainApplication)
-
-        @Component.Builder interface Builder {
-            fun build(): MainApplicationComponent
-
-            @BindsInstance fun application(prov: Context): Builder
-            @BindsInstance fun permissionsUtil(prov: PermissionUtil): Builder
-        }
-    }
-}
+@Suppress("Registered")
+@HiltAndroidApp
+internal open class MainApplication : Application()

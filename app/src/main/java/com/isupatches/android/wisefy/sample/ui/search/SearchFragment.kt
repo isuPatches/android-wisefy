@@ -36,6 +36,7 @@ import com.isupatches.android.wisefy.sample.internal.util.asHtmlSpanned
 import com.isupatches.android.wisefy.sample.internal.util.getTrimmedInput
 import com.isupatches.android.wisefy.sample.internal.util.hideKeyboardFrom
 import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlin.math.max
 
@@ -69,10 +70,14 @@ internal interface SearchView {
 }
 
 @Suppress("LargeClass")
+@AndroidEntryPoint
 internal class SearchFragment : BaseFragment(), SearchView {
 
-    @SearchScope @Inject lateinit var presenter: SearchPresenter
-    @SearchScope @Inject lateinit var searchStore: SearchStore
+    @Inject
+    lateinit var presenter: SearchPresenter
+
+    @Inject
+    lateinit var searchStore: SearchStore
 
     private var binding: FragmentSearchBinding by paste()
 

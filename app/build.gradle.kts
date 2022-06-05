@@ -9,6 +9,7 @@ plugins {
     id("com.android.application")
     id("kotlin-android")
     id("kotlin-kapt")
+    id("dagger.hilt.android.plugin")
 }
 
 val keystoreProperties: Properties = Properties()
@@ -139,4 +140,8 @@ dependencies {
 
     // Dependency Injection
     dagger()
+}
+
+kapt {
+    correctErrorTypes = true
 }

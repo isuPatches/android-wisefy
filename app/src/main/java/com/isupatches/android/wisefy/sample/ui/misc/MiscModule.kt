@@ -17,15 +17,17 @@ package com.isupatches.android.wisefy.sample.ui.misc
 
 import dagger.Binds
 import dagger.Module
-import javax.inject.Scope
-
-@Scope
-@Retention(AnnotationRetention.RUNTIME)
-internal annotation class MiscScope
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.FragmentComponent
 
 @Suppress("unused")
 @Module
+@InstallIn(FragmentComponent::class)
 internal interface MiscFragmentModule {
-    @Binds @MiscScope fun bindMiscModel(impl: DefaultMiscModel): MiscModel
-    @Binds @MiscScope fun bindMiscPresenter(impl: DefaultMiscPresenter): MiscPresenter
+
+    @Binds
+    fun bindMiscModel(impl: DefaultMiscModel): MiscModel
+
+    @Binds
+    fun bindMiscPresenter(impl: DefaultMiscPresenter): MiscPresenter
 }

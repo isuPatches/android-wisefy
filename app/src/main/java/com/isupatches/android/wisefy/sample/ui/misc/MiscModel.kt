@@ -54,7 +54,6 @@ internal interface MiscModel {
     fun getSavedNetworks(callbacks: GetSavedNetworksCallbacks?)
 }
 
-@MiscScope
 internal class DefaultMiscModel @Inject constructor(
     private val wiseFy: WisefyApi
 ) : BaseModel(), MiscModel {

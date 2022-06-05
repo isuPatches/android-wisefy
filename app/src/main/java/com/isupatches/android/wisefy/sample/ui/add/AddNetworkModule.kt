@@ -17,24 +17,20 @@ package com.isupatches.android.wisefy.sample.ui.add
 
 import dagger.Binds
 import dagger.Module
-import javax.inject.Scope
-
-@Scope
-@Retention(AnnotationRetention.RUNTIME)
-internal annotation class AddNetworkScope
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.FragmentComponent
 
 @Suppress("unused")
 @Module
+@InstallIn(FragmentComponent::class)
 internal interface AddNetworkFragmentModule {
+
     @Binds
-    @AddNetworkScope
     fun bindAddNetworkModel(impl: DefaultAddNetworkModel): AddNetworkModel
 
     @Binds
-    @AddNetworkScope
     fun bindAddNetworkPresenter(impl: DefaultAddNetworkPresenter): AddNetworkPresenter
 
     @Binds
-    @AddNetworkScope
     fun bindAddNetworkStore(impl: SharedPreferencesAddNetworkStore): AddNetworkStore
 }

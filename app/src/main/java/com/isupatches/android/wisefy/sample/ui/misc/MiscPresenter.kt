@@ -59,7 +59,6 @@ internal interface MiscPresenter : Presenter<MiscFragment> {
     fun getSavedNetworks()
 }
 
-@MiscScope
 internal class DefaultMiscPresenter @Inject constructor(
     private val model: MiscModel,
 ) : BasePresenter<MiscFragment>(), MiscPresenter {

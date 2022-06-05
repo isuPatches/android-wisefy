@@ -30,6 +30,19 @@ import com.isupatches.android.wisefy.wifi.entities.IsWifiEnabledResult
 import com.isupatches.android.wisefy.wifi.os.apis.DefaultWifiApi
 import com.isupatches.android.wisefy.wifi.os.impls.DefaultWifiApiImpl
 
+/**
+ * An Android 29 specific adapter for enabling, disabling, and checking the state of Wifi.
+ *
+ * @param wifiManager The WifiManager instance to use
+ * @param api The OS level API instance to use
+ *
+ * @see DefaultWifiApi
+ * @see DefaultWifiApiImpl
+ * @see WifiApi
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 @RequiresApi(Build.VERSION_CODES.Q)
 internal class Android29WifiAdapter(
     wifiManager: WifiManager,

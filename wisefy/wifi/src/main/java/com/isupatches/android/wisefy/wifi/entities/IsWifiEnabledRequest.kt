@@ -15,4 +15,10 @@
  */
 package com.isupatches.android.wisefy.wifi.entities
 
+/**
+ * A class that is used to represent requests to check if Wifi is enabled.
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 class IsWifiEnabledRequest

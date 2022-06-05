@@ -15,4 +15,10 @@
  */
 package com.isupatches.android.wisefy.wifi.entities
 
+/**
+ * A class that is used to represent requests to disable Wifi.
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 class DisableWifiRequest

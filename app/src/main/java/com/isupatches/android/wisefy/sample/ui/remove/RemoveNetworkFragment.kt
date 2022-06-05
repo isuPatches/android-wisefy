@@ -31,9 +31,11 @@ import com.isupatches.android.wisefy.sample.internal.base.BaseFragment
 import com.isupatches.android.wisefy.sample.internal.logging.WisefySampleLogger
 import com.isupatches.android.wisefy.sample.internal.util.getTrimmedInput
 import com.isupatches.android.wisefy.sample.internal.util.hideKeyboardFrom
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-@VisibleForTesting internal const val WISEFY_REMOVE_NETWORK_REQUEST_CODE = 1
+@VisibleForTesting
+internal const val WISEFY_REMOVE_NETWORK_REQUEST_CODE = 1
 
 private const val LOG_TAG = "RemoveNetworkFragment"
 
@@ -43,10 +45,14 @@ internal interface RemoveNetworkView {
     fun displayNetworkRemoved(result: RemoveNetworkResult)
 }
 
+@AndroidEntryPoint
 internal class RemoveNetworkFragment : BaseFragment(), RemoveNetworkView {
 
-    @RemoveNetworkScope @Inject lateinit var presenter: RemoveNetworkPresenter
-    @RemoveNetworkScope @Inject lateinit var removeNetworkStore: RemoveNetworkStore
+    @Inject
+    lateinit var presenter: RemoveNetworkPresenter
+
+    @Inject
+    lateinit var removeNetworkStore: RemoveNetworkStore
 
     private var binding: FragmentRemoveNetworkBinding by paste()
 

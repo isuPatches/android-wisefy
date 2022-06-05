@@ -15,7 +15,31 @@
  */
 package com.isupatches.android.wisefy.wifi.entities
 
+/**
+ * A set of classes that are data representations of a result when enabling Wifi.
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 sealed class EnableWifiResult {
+
+    /**
+     * A data representation for when there is a success enabling Wifi.
+     *
+     * @see EnableWifiResult
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     object True : EnableWifiResult()
+
+    /**
+     * A data representation for when there is a failure disabling Wifi.
+     *
+     * @see EnableWifiResult
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     object False : EnableWifiResult()
 }

@@ -24,11 +24,6 @@ object Dependencies {
             Versions.ANDROIDX_CONSTRAINT_LAYOUT
         const val CORE_KTX: String = "androidx.core:core-ktx:${Versions.ANDROIDX_CORE_KTX}"
 
-        object Lifecycle {
-            const val RUNTIME: String = "androidx.lifecycle:lifecycle-runtime:${Versions.ANDROIDX_LIFECYCLE}"
-            const val COMPILER: String = "androidx.lifecycle:lifecycle-compiler:${Versions.ANDROIDX_LIFECYCLE}"
-        }
-
         object Navigation {
             const val FRAGMENT: String = "androidx.navigation:navigation-fragment:${Versions.ANDROIDX_NAVIGATION}"
             const val UI: String ="androidx.navigation:navigation-ui:${Versions.ANDROIDX_NAVIGATION}"
@@ -47,8 +42,8 @@ object Dependencies {
     object Dagger {
         const val CORE: String = "com.google.dagger:dagger:${Versions.DAGGER}"
         const val COMPILER: String = "com.google.dagger:dagger-compiler:${Versions.DAGGER}"
-        const val ANDROID_SUPPORT: String = "com.google.dagger:dagger-android-support:${Versions.DAGGER}"
-        const val ANDROID_PROCESSOR: String = "com.google.dagger:dagger-android-processor:${Versions.DAGGER}"
+        const val HILT_ANDROID: String = "com.google.dagger:hilt-android:${Versions.DAGGER}"
+        const val HILT_COMPILER: String = "com.google.dagger:hilt-compiler:${Versions.DAGGER}"
     }
 
     const val VIEWGLU: String = "com.isupatches.android:viewglu:${Versions.VIEWGLU_VERSION}"

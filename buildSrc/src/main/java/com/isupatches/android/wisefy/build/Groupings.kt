@@ -20,13 +20,8 @@ import org.gradle.api.artifacts.dsl.DependencyHandler
 fun DependencyHandler.dagger() {
     add(DependencyConstants.IMPLEMENTATION, Dependencies.Dagger.CORE)
     add(DependencyConstants.KAPT, Dependencies.Dagger.COMPILER)
-    add(DependencyConstants.IMPLEMENTATION, Dependencies.Dagger.ANDROID_SUPPORT)
-    add(DependencyConstants.KAPT, Dependencies.Dagger.ANDROID_PROCESSOR)
-}
-
-fun DependencyHandler.lifecycle() {
-    add(DependencyConstants.IMPLEMENTATION, Dependencies.AndroidX.Lifecycle.RUNTIME)
-    add(DependencyConstants.KAPT, Dependencies.AndroidX.Lifecycle.COMPILER)
+    add(DependencyConstants.IMPLEMENTATION, Dependencies.Dagger.HILT_ANDROID)
+    add(DependencyConstants.KAPT, Dependencies.Dagger.HILT_COMPILER)
 }
 
 fun DependencyHandler.navigation() {

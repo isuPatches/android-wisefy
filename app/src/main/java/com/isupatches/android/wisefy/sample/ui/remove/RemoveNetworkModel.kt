@@ -33,7 +33,6 @@ internal interface RemoveNetworkModel {
     )
 }
 
-@RemoveNetworkScope
 internal class DefaultRemoveNetworkModel @Inject constructor(
     private val wiseFy: WisefyApi
 ) : BaseModel(), RemoveNetworkModel {

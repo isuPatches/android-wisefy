@@ -41,11 +41,17 @@ import com.isupatches.android.wisefy.sample.internal.logging.WisefySampleLogger
 import com.isupatches.android.wisefy.sample.internal.util.SdkUtil
 import com.isupatches.android.wisefy.sample.internal.util.getTrimmedInput
 import com.isupatches.android.wisefy.sample.internal.util.hideKeyboardFrom
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-@VisibleForTesting internal const val WISEFY_ADD_OPEN_NETWORK_REQUEST_CODE = 1
-@VisibleForTesting internal const val WISEFY_ADD_WPA2_NETWORK_REQUEST_CODE = 2
-@VisibleForTesting internal const val WISEFY_ADD_WPA3_NETWORK_REQUEST_CODE = 3
+@VisibleForTesting
+internal const val WISEFY_ADD_OPEN_NETWORK_REQUEST_CODE = 1
+
+@VisibleForTesting
+internal const val WISEFY_ADD_WPA2_NETWORK_REQUEST_CODE = 2
+
+@VisibleForTesting
+internal const val WISEFY_ADD_WPA3_NETWORK_REQUEST_CODE = 3
 
 private const val LOG_TAG = "AddNetworkFragment"
 
@@ -54,11 +60,17 @@ internal interface AddNetworkView {
     fun displayNetworkAdded(result: AddNetworkResult)
 }
 
+@AndroidEntryPoint
 internal class AddNetworkFragment : BaseFragment(), AddNetworkView {
 
-    @AddNetworkScope @Inject lateinit var presenter: AddNetworkPresenter
-    @AddNetworkScope @Inject lateinit var addNetworkStore: AddNetworkStore
-    @AddNetworkScope @Inject lateinit var sdkUtil: SdkUtil
+    @Inject
+    lateinit var presenter: AddNetworkPresenter
+
+    @Inject
+    lateinit var addNetworkStore: AddNetworkStore
+
+    @Inject
+    lateinit var sdkUtil: SdkUtil
 
     private var binding: FragmentAddNetworkBinding by paste()
     private lateinit var addNetworkResult: ActivityResultLauncher<Intent>

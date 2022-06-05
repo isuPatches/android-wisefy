@@ -30,7 +30,6 @@ internal interface RemoveNetworkPresenter : Presenter<RemoveNetworkFragment> {
     fun removeNetwork(networkName: String)
 }
 
-@RemoveNetworkScope
 internal class DefaultRemoveNetworkPresenter @Inject constructor(
     private val model: RemoveNetworkModel,
 ) : BasePresenter<RemoveNetworkFragment>(), RemoveNetworkPresenter {

@@ -21,11 +21,41 @@ import com.isupatches.android.wisefy.wifi.callbacks.EnableWifiCallbacks
 import com.isupatches.android.wisefy.wifi.entities.DisableWifiRequest
 import com.isupatches.android.wisefy.wifi.entities.EnableWifiRequest
 
+/**
+ * A set of asynchronous APIs for enabling and disabling Wifi.
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 interface WifiApiAsync {
 
+    /**
+     * An asynchronous API to disable Wifi.
+     *
+     * @param request The details of the request to disable Wifi
+     * @param callbacks The callbacks for results while disabling Wifi
+     *
+     * @see DisableWifiRequest
+     * @see DisableWifiCallbacks
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     @Deprecated(DeprecationMessages.Wifi.DISABLE)
     fun disableWifi(request: DisableWifiRequest = DisableWifiRequest(), callbacks: DisableWifiCallbacks?)
 
+    /**
+     * An asynchronous API to enable Wifi.
+     *
+     * @param request The details of the request to enable Wifi
+     * @param callbacks The callbacks for results while enabling Wifi
+     *
+     * @see EnableWifiRequest
+     * @see EnableWifiCallbacks
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     @Deprecated(DeprecationMessages.Wifi.ENABLE)
     fun enableWifi(request: EnableWifiRequest = EnableWifiRequest(), callbacks: EnableWifiCallbacks?)
 }

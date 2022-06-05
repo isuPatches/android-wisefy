@@ -16,10 +16,10 @@
 package com.isupatches.android.wisefy.sample.internal.base
 
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
-import dagger.android.support.DaggerAppCompatActivity
 
-internal abstract class BaseActivity : DaggerAppCompatActivity() {
+internal abstract class BaseActivity : AppCompatActivity() {
 
     protected abstract val binding: ViewBinding
 

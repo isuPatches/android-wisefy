@@ -51,7 +51,6 @@ internal interface SearchPresenter : Presenter<SearchFragment> {
     fun searchForSSIDs(regexForSSID: String)
 }
 
-@SearchScope
 internal class DefaultSearchPresenter @Inject constructor(
     private val model: SearchModel
 ) : BasePresenter<SearchFragment>(), SearchPresenter {

@@ -18,7 +18,7 @@ package com.isupatches.android.wisefy.build
 @Suppress("StringLiteralDuplication")
 object Versions {
     // Core tooling
-    const val AGP: String = "7.2.0"
+    const val AGP: String = "7.2.1"
     const val KOTLIN: String = "1.6.21"
     const val COROUTINES: String = "1.6.1"
 
@@ -27,7 +27,6 @@ object Versions {
     const val ANDROIDX_APPCOMPAT: String = "1.4.1"
     const val ANDROIDX_CONSTRAINT_LAYOUT: String = "2.1.3"
     const val ANDROIDX_CORE_KTX = "1.7.0"
-    const val ANDROIDX_LIFECYCLE: String = "2.5.0-rc01"
     const val ANDROIDX_NAVIGATION: String = "2.5.0-rc01"
 
     // Google

@@ -16,6 +16,7 @@ buildscript {
         val versions = com.isupatches.android.wisefy.build.Versions
         classpath("com.android.tools.build:gradle:${versions.AGP}")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.KOTLIN}")
+        classpath("com.google.dagger:hilt-android-gradle-plugin:${versions.DAGGER}")
 
         /**
          * Ideally this would be migrated out of the project level build.gradle.kts to the [DocumentationPlugin],
@@ -94,7 +95,7 @@ subprojects {
                 reportUndocumented.set(true)
                 skipEmptyPackages.set(false)
                 platform.set(jvm)
-                jdkVersion.set(8)
+                jdkVersion.set(11)
                 noStdlibLink.set(false)
                 noJdkLink.set(false)
                 noAndroidSdkLink.set(false)

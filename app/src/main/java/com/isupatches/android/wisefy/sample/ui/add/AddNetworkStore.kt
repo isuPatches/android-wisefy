@@ -22,11 +22,17 @@ import androidx.core.content.edit
 import com.isupatches.android.wisefy.sample.R
 import com.isupatches.android.wisefy.sample.internal.entities.NetworkType
 import com.isupatches.android.wisefy.sample.internal.scaffolding.BaseSharedPreferenceStore
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
-@VisibleForTesting internal const val PREF_NETWORK_TYPE = "network type"
-@VisibleForTesting internal const val PREF_LAST_USED_NETWORK_NAME = "last used network name"
-@VisibleForTesting internal const val PREF_LAST_USED_NETWORK_PASSWORD = "last used network password"
+@VisibleForTesting
+internal const val PREF_NETWORK_TYPE = "network_type"
+
+@VisibleForTesting
+internal const val PREF_LAST_USED_NETWORK_NAME = "last_used_network_name"
+
+@VisibleForTesting
+internal const val PREF_LAST_USED_NETWORK_PASSWORD = "last_used_network_password"
 
 internal interface AddNetworkStore {
     fun clear()
@@ -40,9 +46,8 @@ internal interface AddNetworkStore {
     fun setLastUsedNetworkPassword(lastUsedNetworkPassword: String)
 }
 
-@AddNetworkScope
 internal class SharedPreferencesAddNetworkStore @Inject constructor(
-    context: Context
+    @ApplicationContext context: Context
 ) : BaseSharedPreferenceStore(), AddNetworkStore {
 
     private val sharedPreferences: SharedPreferences = getSharedPreferences(
