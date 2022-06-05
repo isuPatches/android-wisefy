@@ -2,8 +2,8 @@
 
 <img src="Banner.png" width="40%" height="40%" />
 
-> Wifi configuration and util library built for Android.
->
+A Wifi configuration and util library built in Kotlin for Android.
+
 > Developed by Patches 04/24/2016 - present  
 > Logo/icon created by mansya (2018)  
 > 
