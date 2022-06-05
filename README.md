@@ -5,7 +5,6 @@
 > Wifi configuration and util library built for Android.
 >
 > Developed by Patches 04/24/2016 - present  
-> 
 > Logo/icon created by mansya (2018)  
 > 
 > Supports Android SDK levels 23-32
