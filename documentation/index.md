@@ -1,0 +1,45 @@
+## Wisefy Documentation
+
+- `:accesspoints`
+  - Getting nearby access points
+  - Getting the RSSI level of an access point
+  - Searching for a single access point
+  - Searching for multiple access points
+  - Searching for a single SSID/BSSID
+  - Searching for multiple SSIDs/BSSIDs
+- `:addnetwork`
+  - Adding an open network
+  - Adding a WPA2 network
+  - Adding a WPA3 network
+- `:frequency`
+  - Getting the frequency of a network
+  - Checking if a network is 5gHz
+- `:networkconnection`
+  - Connecting to a network
+  - Disconnecting from the current network
+- `:networkconnectionstatus`
+  - Checking if the device is connected to a mobile network
+  - Checking if the device is connected to a mobile or wifi network
+  - Checking if the device is connected to a given SSID/BSSID
+  - Checking if the device is connected to a wifi network
+  - Checking if the device is roaming
+- `:networkinfo`
+  - Getting the device's current network
+  - Getting the device's IP
+  - Getting the device's current network information
+- `:removenetwork`
+  - Removing a network
+- `:savednetworks`
+  - Getting the saved networks on a device
+  - Checking if a specific network is saved
+  - Searching for a single saved network
+  - Searching for multiple saved networks
+- `:security`
+  - Checking if the network contains a specific security capability
+  - Checking if the network is secure
+- `:sginal`
+  - Calculating signal strength bars
+  - Comparing signal strength
+- `:wifi`
+  - Enabling Wifi
+  - Disabling Wifi

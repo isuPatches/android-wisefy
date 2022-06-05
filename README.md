@@ -1,5 +1,19 @@
 ## Wisefy
 
+- [Installation](#installation)
+- [5.0 Rewrite](#5.0-rewrite)
+  - [Highlights](#highlights)
+  - [New Structure](#new-structure)
+  - [Packaging & Naming Conventions](#packaging-and-naming-conventions)
+  - [Deprecations](#deprecations)
+  - [Known Android Q Problems](#known-android-q-problems)
+- [Documentation](#documentation)
+  - [Reset](#reset)
+  - [Links](#links)
+- [FAQ](#faq)
+- [For Contributors](#for-contributors)
+- [License](#license)
+
 ## Installation
 
 There is a new package for 5.0.  Please use:
@@ -8,20 +22,39 @@ There is a new package for 5.0.  Please use:
 implementation("com.isupatches.android:wisefy:5.0.0-RC3")
 ```
 
-There are also new more modular artifacts published so that individual pieces of Wisefy can be imported:
+This will include all of the Wisefy sub-artifacts through `api` dependencies.
 
-For base Wisefy functionality: `com.isupatches.android.wisefy:core:<LATEST VERSION>`
-- For getting and searching for nearby networks: `com.isupatches.android.wisefy:accesspoints:<LATEST VERSION>`
-- For adding a Wifi network: `com.isupatches.android.wisefy:addnetwork:<LATEST VERSION>`
-- For getting the frequency of a network: `com.isupatches.android.wisefy:frequency:<LATEST VERSION>`
-- For connecting and disconnecting from networks: `com.isupatches.android.wisefy:networkconnection:<LATEST VERSION>`
-- For current network status (wifi, mobile, connected, etc.): `com.isupatches.android.wisefy:networkconnectionstatus:<LATEST VERSION> `
-- For information about the device's current network: `com.isupatches.android.wisefy:networkinfo:<LATEST VERSION>`
-- For removing a Wifi network: `com.isupatches.android.wisefy:removenetwork:<LATEST VERSION>`
-- For getting and searching for saved networks: `com.isupatches.android.wisefy:savednetworks:<LATEST VERSION>`
-- For determining the security capabilities of a network: `com.isupatches.android.wisefy:security:<LATEST VERSION>`
-- For calculating signal strength bars and comparing signal strength: `com.isupatches.android.wisefy:signal:<LATEST VERSION>`
-- For enabling and disabling Wifi: `com.isupatches.android.wisefy:wifi:<LATEST VERSION>`
+There are also new more modular artifacts published so that individual pieces of Wisefy can be imported directly:
+
+> `com.isupatches.android.wisefy:core:<LATEST VERSION>` will be a requirement for the other Wisefy artifacts.
+
+- `com.isupatches.android.wisefy:core:<LATEST VERSION>`
+- `com.isupatches.android.wisefy:accesspoints:<LATEST VERSION>`
+- `com.isupatches.android.wisefy:addnetwork:<LATEST VERSION>`
+- `com.isupatches.android.wisefy:frequency:<LATEST VERSION>`
+- `com.isupatches.android.wisefy:networkconnection:<LATEST VERSION>`
+- `com.isupatches.android.wisefy:networkconnectionstatus:<LATEST VERSION>`
+- `com.isupatches.android.wisefy:networkinfo:<LATEST VERSION>`
+- `com.isupatches.android.wisefy:removenetwork:<LATEST VERSION>`
+- `com.isupatches.android.wisefy:savednetworks:<LATEST VERSION>`
+- `com.isupatches.android.wisefy:security:<LATEST VERSION>`
+- `com.isupatches.android.wisefy:signal:<LATEST VERSION>`
+- `com.isupatches.android.wisefy:wifi:<LATEST VERSION>`
+
+Here are the descriptions of what functionality each artifact provides:
+
+- `:core` For base Wisefy functionality
+- `:accesspoints` For getting and searching for nearby networks
+- `:addnetwork` For getting and searching for nearby networks
+- `:frequency` For getting the frequency of a network
+- `:networkconnection` For connecting and disconnecting from networks
+- `:networkconnectionstatus` For current network status (wifi, mobile, connected, etc.)
+- `:networkinfo` For information about the device's current network
+- `:removenetwork` For removing a Wifi network
+- `:savednetworks` For getting and searching for saved networks
+- `:security` For determining the security capabilities of a network
+- `:signal` For calculating signal strength bars and comparing signal strength
+- `:wifi` For enabling and disabling Wifi
 
 ## 5.0 Rewrite
 
@@ -36,45 +69,50 @@ I hope you enjoy the rewrite and please create an issue if you see anything odd 
 - Android P, Android Q, Android R, and Android S are now supported
 - Compiled with Java 11
 - Rewritten with extensibility and future Android OS's in-mind
-    * Future versions of the Android OS will be easier to support with the new delegate system
+    * Future versions of the Android OS will be easier to support with the new delegate/adapter system
     * Improved modularity where APIs for OS versions are contained in their own API / API implementation files
-- Async operations updated to internally leverage Coroutines and new exception handler
-- Returns are now Wisefy classes or primitives opposed to a class from the OS, making it easier to add new variants
-  in the future through sealed classes
+- Async operations updated to internally leverage Coroutines and a new exception handler
+- Returns are now Wisefy classes opposed to a class from the OS, making it easier to add new variants in the future 
+  through sealed classes
 - Updated names for callbacks
 - Kotlin first mentality (but willing to support Java as first class too!)
 - WPA3 networks now supported
-- wisefysample renamed to app
-- BSSID support now added
-- More modular artifacts are available now (less bloat if there are things you're not going to use)
+- `wisefysample` renamed to `app`
+- BSSID support is now added
+- More modular artifacts are available now 
+  - Less bloat if there are things you're not going to use
+  - Able to iterate and update portions of the library without the overhead of the entire project
+- `gradle.lockfile`s and Gradle ranges are enabled for more control over versioning
+  - [Locking dependency versions](https://docs.gradle.org/current/userguide/dependency_locking.html)
+  - [Declaring Versions and Ranges](https://docs.gradle.org/current/userguide/single_versions.html)
 
 ### New Structure
 
-- WiseFy public API -> WiseFy implementation -> Delegate to determine which adapter to use -> 
-  Adapter converts request for usage by the Android OS -> Android OS APIs are used and adapter returns their response 
-  into a result Wisefy returns
+- Wisefy public API -> Wisefy implementation -> Delegate to determine which adapter to use -> 
+  Adapter converts request for usage by the Android OS -> Android OS APIs are used and the adapter returns information
+  as a Wisefy result
 
-### Packaging & Naming Conventions
+### Packaging and Naming Conventions
 
 Suffixes:
 
-- Api () - 
-- ApiSuffix () - 
-- Delegate -> Determines what adapter to use based on the Android device's SDK level
-- Adapter -> Middleware that converts requests and responses between the Api and Delegate layers 
-- Api (within os package context) -> Defines the API to talk directly to the Android OS
-- ApiImpl (within os package context) -> Talks directly to the Android OS
+- Api (top-level of a feature package) -> Contains the definitions of synchronous APIs available for the feature
+- ApiAsync (top-level of a feature package) -> Contains the definitions of asynchronous APIs available for the feature
+- Delegate -> Determines which adapter to use based on the Android device's SDK level
+- Adapter -> Middleware that converts requests and responses between the API and Delegate layers 
+- Api (within os package context) -> House the definitions of Android OS level APIs that Adapter classes may use
+- ApiImpl (within os package context) -> House the implementation for executing Android OS level APIs
 
 Package structure for each section is as follows:
 
-- Category (accesspoints, addnetwork, etc.) -> Location of Wisefy Specific delegate -> supporting sub-directories
+- Feature (accesspoints, addnetwork, etc.) -> Location of Wisefy Specific delegate -> supporting sub-directories
   
-*Supporting sub-directories can include* 
+*Supporting sub-directories can include*
 
 - callbacks (public) -> Location of callback interfaces for async responses/requests
-- entities (public) -> Location of data classes for requests and responses
-- os (internal) - Organizational only directory
-  - adapters (internal) -> Location of the classes that convert requests and responses between the delegate and Android 
+- entities (public) -> Location of data classes for requests, responses, and data
+- os (internal) - Purely on organizational directory
+  - adapters (internal) -> Location of the classes that convert requests and responses between the Delegate and Android 
     OS level APIs
   - converters (internal) -> Location of helpers to convert one data class to another
   - apis (internal) -> Location of the API interfaces to talk to the Android OS
@@ -91,10 +129,27 @@ Package structure for each section is as follows:
 - Saving a network doesn't seem possible.  A notification is presented if not connected to the suggestion, but even the 
 appearance of the notification seems flakey
 
-### Documentation Reset
+## Documentation
+
+### Reset
 
 To keep the documentation clean and because of the amount of architectural changes for the 5.x release, the 
 documentation was stripped and then completely re-written.
+
+## Links
+
+For auto-generated [Dokka](https://kotlin.github.io/dokka) markdown files based on the KDocs please see [here](/dokka).
+
+For more high-level examples based on different functionality please see [here](/documentation).
+
+## FAQ
+
+You may find a list of frequently asked questions [here](/documentation/FAQ.md).
+
+## For Contributors
+
+Want to help? Have an idea for a cool feature or want to fix a bug for the community? See 
+[CONTRIBUTING](CONTRIBUTING.md) for how you can make impactful changes for Wisefy.
 
 ## License ##
 Copyright 2022 Patches Klinefelter

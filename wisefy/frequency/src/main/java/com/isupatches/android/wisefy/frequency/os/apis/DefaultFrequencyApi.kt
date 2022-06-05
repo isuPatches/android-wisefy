@@ -18,7 +18,6 @@ package com.isupatches.android.wisefy.frequency.os.apis
 import android.Manifest
 import android.net.wifi.WifiInfo
 import androidx.annotation.RequiresPermission
-import com.isupatches.android.wisefy.frequency.entities.FrequencyData
 
 /**
  * A default internal API for getting the frequency of a network through the Android OS.
