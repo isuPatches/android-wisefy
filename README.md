@@ -4,8 +4,9 @@
 
 > Wifi configuration and util library built for Android.
 >
-> Developed by Patches 04/24/2016 - present 
-> Logo/icon created by mansya (2018)
+> Developed by Patches 04/24/2016 - present  
+> Logo/icon created by mansya (2018)  
+> 
 > Supports Android SDK levels 23-32
 
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-WiseFy-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/6011) [![Android Weekly](https://img.shields.io/badge/Android%20Weekly-%23230-blue.svg)](http://androidweekly.net/issues/issue-230)
