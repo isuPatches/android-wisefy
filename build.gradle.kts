@@ -1,6 +1,7 @@
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.jetbrains.dokka.Platform.jvm
+import org.jetbrains.dokka.gradle.DokkaMultiModuleTask
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -84,7 +85,7 @@ subprojects {
      * but currently the buildSrc directory cannot see [DokkaTask] or [jvm] and unsure why.
      */
     tasks.withType<DokkaTask>().configureEach {
-        outputDirectory.set(rootProject.projectDir.resolve("documentation"))
+        outputDirectory.set(project.projectDir.resolve("dokka"))
         moduleName.set(project.name)
         suppressObviousFunctions.set(false)
         dokkaSourceSets {
@@ -101,6 +102,12 @@ subprojects {
                 noAndroidSdkLink.set(false)
             }
         }
+    }
+
+    tasks.withType<DokkaMultiModuleTask>().configureEach {
+        outputDirectory.set(rootProject.projectDir.resolve("dokka"))
+        moduleName.set(project.name)
+        suppressObviousFunctions.set(false)
     }
 
     configurations.all {
