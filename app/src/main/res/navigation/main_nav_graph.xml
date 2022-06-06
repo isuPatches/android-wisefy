@@ -8,34 +8,34 @@
 
     <fragment
         android:id="@id/mainFragment"
-        android:name="com.isupatches.android.wisefy.sample.ui.main.MainFragment"
+        android:name="com.isupatches.android.wisefy.sample.main.MainFragment"
         android:label="main_fragment"
         tools:layout="@layout/fragment_main"/>
 
     <fragment
         android:id="@id/addNetwork"
-        android:name="com.isupatches.android.wisefy.sample.ui.add.AddNetworkFragment"
+        android:name="com.isupatches.android.wisefy.sample.features.add.AddNetworkFragment"
         android:label="add_network_fragment"
         tools:layout="@layout/fragment_add_network"
         />
 
     <fragment
         android:id="@id/removeNetwork"
-        android:name="com.isupatches.android.wisefy.sample.ui.remove.RemoveNetworkFragment"
+        android:name="com.isupatches.android.wisefy.sample.features.remove.RemoveNetworkFragment"
         android:label="remove_network_fragment"
         tools:layout="@layout/fragment_remove_network"
         />
 
     <fragment
         android:id="@id/misc"
-        android:name="com.isupatches.android.wisefy.sample.ui.misc.MiscFragment"
+        android:name="com.isupatches.android.wisefy.sample.features.misc.MiscFragment"
         android:label="misc_fragment"
         tools:layout="@layout/fragment_misc"
         />
 
     <fragment
         android:id="@+id/search"
-        android:name="com.isupatches.android.wisefy.sample.ui.search.SearchFragment"
+        android:name="com.isupatches.android.wisefy.sample.features.search.SearchFragment"
         android:label="search_fragment"
         tools:layout="@layout/fragment_search"
         />

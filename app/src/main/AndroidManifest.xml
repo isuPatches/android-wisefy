@@ -24,7 +24,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <activity android:name="com.isupatches.android.wisefy.sample.ui.main.MainActivity"
+        <activity android:name="com.isupatches.android.wisefy.sample.main.MainActivity"
             android:screenOrientation="portrait"
             android:exported="true"
             tools:ignore="LockedOrientationActivity">

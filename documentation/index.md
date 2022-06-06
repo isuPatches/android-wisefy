@@ -1,7 +1,7 @@
 ## Wisefy Documentation
 
 - `:accesspoints`
-  - [Getting nearby access points](/documentation/accesspoints/getting-nearby-access-points.md)
+  - [Getting nearby access points](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscModel.kt)
   - [Getting the RSSI level of an access point](/documentation/accesspoints/getting-rssi-level-of-an-access-point.md)
   - [Searching for a single access point](/documentation/accesspoints/searching-for-a-single-access-point.md)
   - [Searching for multiple access points](/documentation/accesspoints/searching-for-multiple-access-points.md)

@@ -8,6 +8,8 @@
         android:name="com.isupatches.android.wisefy.sample.DebugMainApplication"
         android:label="@string/app_name"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning"
-        tools:replace="android:name,android:label"/>
+        tools:replace="android:name,android:label"
+        android:icon="@mipmap/ic_launcher"
+        />
 
 </manifest>

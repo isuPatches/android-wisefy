@@ -28,9 +28,6 @@
 
     <!-- Permissions -->
     <string name="permission_error">Permission Error</string>
-    <string name="permission_error_unhandled_request_code_args">
-        Unhandled permission requested.  Request code: %d
-    </string>
     <string name="android_q_wifi_message">Starting with Android Q, applications are not allowed to enable or disable Wi-Fi</string>
     <string name="android_q_notice">Android Q Notice</string>
 

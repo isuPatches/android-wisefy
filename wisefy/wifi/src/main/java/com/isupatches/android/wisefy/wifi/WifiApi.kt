@@ -63,7 +63,6 @@ interface WifiApi {
     @Deprecated(DeprecationMessages.Wifi.ENABLE)
     fun enableWifi(request: EnableWifiRequest = EnableWifiRequest()): EnableWifiResult
 
-
     /**
      * A synchronous API to check if Wifi is enabled.
      *
