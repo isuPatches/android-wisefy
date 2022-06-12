@@ -17,9 +17,9 @@ package com.isupatches.android.wisefy.sample.scaffolding
 
 import androidx.annotation.StringRes
 import com.isupatches.android.wisefy.sample.R
-import com.isupatches.android.wisefy.sample.util.PermissionUtil
 import com.isupatches.android.wisefy.sample.dialogs.FullScreenNoticeDialogFragment
 import com.isupatches.android.wisefy.sample.dialogs.NoticeDialogFragment
+import com.isupatches.android.wisefy.sample.util.PermissionUtil
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

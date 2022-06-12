@@ -26,7 +26,7 @@ import com.isupatches.android.wisefy.networkinfo.entities.NetworkInfoData
  * @author Patches Klinefelter
  * @since 03/2022
  */
-interface GetNetworkInfoCallbacks : BaseWisefyCallbacks {
+interface GetCurrentNetworkInfoCallbacks : BaseWisefyCallbacks {
 
     /**
      * A callback triggered when there is a success getting information for a network.
@@ -38,7 +38,7 @@ interface GetNetworkInfoCallbacks : BaseWisefyCallbacks {
      * @author Patches Klinefelter
      * @since 03/2022
      */
-    fun onNetworkInfoRetrieved(networkInfo: NetworkInfoData)
+    fun onCurrentNetworkInfoRetrieved(networkInfo: NetworkInfoData)
 
     /**
      * A callback triggered when there is no network found to retrieve information.
@@ -46,5 +46,5 @@ interface GetNetworkInfoCallbacks : BaseWisefyCallbacks {
      * @author Patches Klinefelter
      * @since 03/2022
      */
-    fun onNoNetworkToRetrieveInfo()
+    fun onNoCurrentNetworkToRetrieveInfo()
 }

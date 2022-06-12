@@ -15,4 +15,7 @@ dependencies {
 
     // https://github.com/Kotlin/dokka/issues/2452
     implementation("org.jetbrains.dokka:dokka-core:1.6.21")
+
+    // https://issuetracker.google.com/issues/195342732?pli=1
+    implementation(kotlin("gradle-plugin","1.6.10"))
 }

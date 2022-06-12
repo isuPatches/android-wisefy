@@ -27,6 +27,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
 import com.isupatches.android.viewglu.paste
 import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
 import com.isupatches.android.wisefy.sample.R
@@ -34,6 +36,7 @@ import com.isupatches.android.wisefy.sample.databinding.FragmentAddNetworkBindin
 import com.isupatches.android.wisefy.sample.entities.NetworkType
 import com.isupatches.android.wisefy.sample.logging.WisefySampleLogger
 import com.isupatches.android.wisefy.sample.scaffolding.BaseFragment
+import com.isupatches.android.wisefy.sample.ui.theme.WisefySampleTheme
 import com.isupatches.android.wisefy.sample.util.SdkUtil
 import com.isupatches.android.wisefy.sample.util.getTrimmedInput
 import com.isupatches.android.wisefy.sample.util.hideKeyboardFrom
@@ -264,5 +267,12 @@ internal class AddNetworkFragment : BaseFragment(), AddNetworkView {
                 displayInfo(R.string.add_wpa3_android_q_notice)
             }
         }
+    }
+}
+
+@Composable
+internal fun AddScreen() {
+    WisefySampleTheme {
+        Text(text = "Add")
     }
 }

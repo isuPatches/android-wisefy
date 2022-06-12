@@ -13,21 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.android.wisefy.sample.features.misc
+package com.isupatches.android.wisefy.networkinfo.entities
 
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.android.components.FragmentComponent
+import android.net.Network
 
-@Suppress("unused")
-@Module
-@InstallIn(FragmentComponent::class)
-internal interface MiscModule {
-
-    @Binds
-    fun bindMiscModel(impl: DefaultMiscModel): MiscModel
-
-    @Binds
-    fun bindMiscPresenter(impl: DefaultMiscPresenter): MiscPresenter
-}
+/**
+ * A data representation of a request to get information for a network.
+ *
+ * *NOTES*
+ *  - Assumes current network if a network is not passed in
+ *
+ * @property network The optional network to use while getting network information
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
+data class GetCurrentNetworkInfoRequest(val network: Network? = null)

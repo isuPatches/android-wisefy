@@ -18,11 +18,11 @@ package com.isupatches.android.wisefy.networkinfo
 import android.Manifest.permission.ACCESS_NETWORK_STATE
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.networkinfo.callbacks.GetCurrentNetworkCallbacks
+import com.isupatches.android.wisefy.networkinfo.callbacks.GetCurrentNetworkInfoCallbacks
 import com.isupatches.android.wisefy.networkinfo.callbacks.GetIPCallbacks
-import com.isupatches.android.wisefy.networkinfo.callbacks.GetNetworkInfoCallbacks
+import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkInfoRequest
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkRequest
 import com.isupatches.android.wisefy.networkinfo.entities.GetIPRequest
-import com.isupatches.android.wisefy.networkinfo.entities.GetNetworkInfoRequest
 
 /**
  * A set of asynchronous APIs for getting information about a network, the device's current network,
@@ -71,15 +71,15 @@ interface NetworkInfoApiAsync {
      * @param request The details of the request to get the information for a network
      * @param callbacks The callbacks for retrieving the information for a network
      *
-     * @see GetNetworkInfoRequest
-     * @see GetNetworkInfoCallbacks
+     * @see GetCurrentNetworkInfoRequest
+     * @see GetCurrentNetworkInfoCallbacks
      *
      * @author Patches Klinefelter
      * @since 03/2022
      */
     @RequiresPermission(ACCESS_NETWORK_STATE)
     fun getNetworkInfo(
-        request: GetNetworkInfoRequest = GetNetworkInfoRequest(),
-        callbacks: GetNetworkInfoCallbacks?
+        request: GetCurrentNetworkInfoRequest = GetCurrentNetworkInfoRequest(),
+        callbacks: GetCurrentNetworkInfoCallbacks?
     )
 }

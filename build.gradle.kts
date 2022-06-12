@@ -60,7 +60,11 @@ allprojects {
 
     tasks {
         withType<KotlinCompile> {
-            kotlinOptions.jvmTarget = "11"
+            kotlinOptions {
+                jvmTarget = "11"
+                // https://issuetracker.google.com/issues/217593040
+                freeCompilerArgs = freeCompilerArgs + "-Xjvm-default=all"
+            }
         }
 
         withType<JavaCompile> {

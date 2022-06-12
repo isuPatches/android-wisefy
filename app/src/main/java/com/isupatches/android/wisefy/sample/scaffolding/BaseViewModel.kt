@@ -13,10 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.android.wisefy.build
+package com.isupatches.android.wisefy.sample.scaffolding
 
-object DependencyConstants {
-    const val DEBUG_IMPLEMENTATION: String = "debugImplementation"
-    const val IMPLEMENTATION: String = "implementation"
-    const val KAPT: String = "kapt"
-}
+import androidx.lifecycle.ViewModel
+
+internal open class BaseViewModel : ViewModel()

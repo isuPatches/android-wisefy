@@ -23,6 +23,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
 import com.isupatches.android.viewglu.paste
 import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
 import com.isupatches.android.wisefy.accesspoints.entities.SSIDData
@@ -31,6 +33,7 @@ import com.isupatches.android.wisefy.sample.databinding.FragmentSearchBinding
 import com.isupatches.android.wisefy.sample.entities.SearchType
 import com.isupatches.android.wisefy.sample.logging.WisefySampleLogger
 import com.isupatches.android.wisefy.sample.scaffolding.BaseFragment
+import com.isupatches.android.wisefy.sample.ui.theme.WisefySampleTheme
 import com.isupatches.android.wisefy.sample.util.asHtmlSpanned
 import com.isupatches.android.wisefy.sample.util.getTrimmedInput
 import com.isupatches.android.wisefy.sample.util.hideKeyboardFrom
@@ -392,5 +395,12 @@ internal class SearchFragment : BaseFragment(), SearchView {
 
     override fun displayWisefyAsyncError(throwable: Throwable) {
         displayWisefyAsyncErrorDialog(throwable)
+    }
+}
+
+@Composable
+internal fun SearchScreen() {
+    WisefySampleTheme {
+        Text(text = "Search")
     }
 }

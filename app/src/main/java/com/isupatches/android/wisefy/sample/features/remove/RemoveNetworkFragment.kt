@@ -22,12 +22,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
 import com.isupatches.android.viewglu.paste
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkResult
 import com.isupatches.android.wisefy.sample.R
 import com.isupatches.android.wisefy.sample.databinding.FragmentRemoveNetworkBinding
 import com.isupatches.android.wisefy.sample.logging.WisefySampleLogger
 import com.isupatches.android.wisefy.sample.scaffolding.BaseFragment
+import com.isupatches.android.wisefy.sample.ui.theme.WisefySampleTheme
 import com.isupatches.android.wisefy.sample.util.getTrimmedInput
 import com.isupatches.android.wisefy.sample.util.hideKeyboardFrom
 import dagger.hilt.android.AndroidEntryPoint
@@ -120,5 +123,12 @@ internal class RemoveNetworkFragment : BaseFragment(), RemoveNetworkView {
 
     override fun displayWisefyAsyncError(throwable: Throwable) {
         displayWisefyAsyncErrorDialog(throwable)
+    }
+}
+
+@Composable
+internal fun RemoveScreen() {
+    WisefySampleTheme {
+        Text(text = "Remove")
     }
 }

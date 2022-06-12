@@ -13,19 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.android.wisefy.networkinfo.entities
+package com.isupatches.android.wisefy.sample.ui.primitives
 
-import android.net.Network
+import androidx.compose.ui.unit.dp
 
-/**
- * A data representation of a request to get information for a network.
- *
- * *NOTES*
- *  - Assumes current network if a network is not passed in
- *
- * @property network The optional network to use while getting network information
- *
- * @author Patches Klinefelter
- * @since 03/2022
- */
-data class GetNetworkInfoRequest(val network: Network? = null)
+internal object WisefySampleCornerRadii {
+    val Default = 16.dp
+}

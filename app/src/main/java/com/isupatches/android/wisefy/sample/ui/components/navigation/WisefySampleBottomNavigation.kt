@@ -1,0 +1,78 @@
+/*
+ * Copyright 2022 Patches Klinefelter
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.isupatches.android.wisefy.sample.ui.components.navigation
+
+import androidx.compose.material.BottomNavigation
+import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material.Icon
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.navigation.NavController
+import androidx.navigation.compose.currentBackStackEntryAsState
+import com.isupatches.android.wisefy.sample.ui.primitives.WisefySampleColorPalette
+
+@Composable
+internal fun WisefySampleBottomNavigation(navController: NavController) {
+    val items = listOf(
+        WisefySampleNavigationItem.Add,
+        WisefySampleNavigationItem.Remove,
+        WisefySampleNavigationItem.Home,
+        WisefySampleNavigationItem.Misc,
+        WisefySampleNavigationItem.Search
+    )
+    BottomNavigation(
+        backgroundColor = WisefySampleColorPalette.Primary,
+        contentColor = WisefySampleColorPalette.Gray1
+    ) {
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
+        val currentRoute = navBackStackEntry?.destination?.route
+        items.forEach { item ->
+            BottomNavigationItem(
+                icon = {
+                    Icon(
+                        painter = painterResource(id = item.icon),
+                        contentDescription = LocalContext.current.getString(item.title)
+                    )
+                },
+                label = { Text(text = LocalContext.current.getString(item.title)) },
+                selectedContentColor = WisefySampleColorPalette.Gray1,
+                unselectedContentColor = WisefySampleColorPalette.Gray1.copy(0.4f),
+                alwaysShowLabel = true,
+                selected = currentRoute == item.route,
+                onClick = {
+                    navController.navigate(item.route) {
+                        // Pop up to the start destination of the graph to
+                        // avoid building up a large stack of destinations
+                        // on the back stack as users select items
+                        navController.graph.startDestinationRoute?.let { route ->
+                            popUpTo(route) {
+                                saveState = true
+                            }
+                        }
+                        // Avoid multiple copies of the same destination when
+                        // reselecting the same item
+                        launchSingleTop = true
+                        // Restore state when reselecting a previously selected item
+                        restoreState = true
+                    }
+                }
+            )
+        }
+    }
+}

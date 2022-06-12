@@ -19,15 +19,19 @@ package com.isupatches.android.wisefy.build
 object Versions {
     // Core tooling
     const val AGP: String = "7.2.1"
-    const val KOTLIN: String = "1.6.21"
+    const val KOTLIN: String = "1.6.10"
     const val COROUTINES: String = "1.6.1"
 
     // AndroidX
+    const val ANDROIDX_ACTIVITY_COMPOSE = "1.4.0"
     const val ANDROIDX_ANNOTATION: String = "1.3.0"
     const val ANDROIDX_APPCOMPAT: String = "1.4.1"
+    const val ANDROIDX_COMPOSE = "1.1.1"
     const val ANDROIDX_CONSTRAINT_LAYOUT: String = "2.1.3"
     const val ANDROIDX_CORE_KTX = "1.7.0"
+    const val ANDROIDX_LIFECYCLE_VIEW_MODEL_COMPOSE = "2.4.1"
     const val ANDROIDX_NAVIGATION: String = "2.5.0-rc01"
+    const val ANDROIDX_NAVIGATION_COMPOSE: String = "2.4.2"
 
     // Google
     const val GOOGLE_MATERIAL: String = "1.6.0"

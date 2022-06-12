@@ -21,28 +21,28 @@ package com.isupatches.android.wisefy.networkinfo.entities
  * @author Patches Klinefelter
  * @since 03/2022
  */
-sealed class GetNetworkInfoResult {
+sealed class GetCurrentNetworkInfoResult {
 
     /**
      * A data representation for when there is no information for a network.
      *
-     * @see GetNetworkInfoResult
+     * @see GetCurrentNetworkInfoResult
      *
      * @author Patches Klinefelter
      * @since 03/2022
      */
-    object Empty : GetNetworkInfoResult()
+    object Empty : GetCurrentNetworkInfoResult()
 
     /**
      * A data representation for when there is a success retrieving the device's current IP address.
      *
      * @property data The information value for the network
      *
-     * @see GetNetworkInfoResult
+     * @see GetCurrentNetworkInfoResult
      * @see NetworkInfoData
      *
      * @author Patches Klinefelter
      * @since 03/2022
      */
-    data class NetworkInfo(val data: NetworkInfoData) : GetNetworkInfoResult()
+    data class NetworkInfo(val data: NetworkInfoData) : GetCurrentNetworkInfoResult()
 }

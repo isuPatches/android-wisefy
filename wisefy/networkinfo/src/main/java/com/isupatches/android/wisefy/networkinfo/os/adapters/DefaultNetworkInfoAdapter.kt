@@ -21,12 +21,12 @@ import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.networkinfo.NetworkInfoApi
+import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkInfoRequest
+import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkInfoResult
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkRequest
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkResult
 import com.isupatches.android.wisefy.networkinfo.entities.GetIPRequest
 import com.isupatches.android.wisefy.networkinfo.entities.GetIPResult
-import com.isupatches.android.wisefy.networkinfo.entities.GetNetworkInfoRequest
-import com.isupatches.android.wisefy.networkinfo.entities.GetNetworkInfoResult
 import com.isupatches.android.wisefy.networkinfo.entities.IPData
 import com.isupatches.android.wisefy.networkinfo.entities.NetworkData
 import com.isupatches.android.wisefy.networkinfo.entities.NetworkInfoData
@@ -68,16 +68,16 @@ internal class DefaultNetworkInfoAdapter(
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun getNetworkInfo(request: GetNetworkInfoRequest): GetNetworkInfoResult {
+    override fun getCurrentNetworkInfo(request: GetCurrentNetworkInfoRequest): GetCurrentNetworkInfoResult {
         val network = request.network ?: connectivityManager.activeNetwork
         return network?.let {
-            GetNetworkInfoResult.NetworkInfo(
+            GetCurrentNetworkInfoResult.NetworkInfo(
                 data = NetworkInfoData(
                     capabilities = api.getNetworkCapabilities(network),
                     linkProperties = api.getLinkProperties(network)
                 )
             )
-        } ?: GetNetworkInfoResult.Empty
+        } ?: GetCurrentNetworkInfoResult.Empty
     }
 
     override fun getIP(request: GetIPRequest): GetIPResult {

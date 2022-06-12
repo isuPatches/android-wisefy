@@ -17,6 +17,19 @@ package com.isupatches.android.wisefy.build
 
 import org.gradle.api.artifacts.dsl.DependencyHandler
 
+fun DependencyHandler.compose() {
+    add(DependencyConstants.IMPLEMENTATION, Dependencies.AndroidX.Compose.ANIMATION)
+    add(DependencyConstants.IMPLEMENTATION, Dependencies.AndroidX.Compose.MATERIAL)
+    add(DependencyConstants.IMPLEMENTATION, Dependencies.AndroidX.Compose.UI)
+    add(DependencyConstants.IMPLEMENTATION, Dependencies.AndroidX.Compose.UI_TOOLING_PREVIEW)
+
+    add(DependencyConstants.DEBUG_IMPLEMENTATION, Dependencies.AndroidX.Compose.UI_TOOLING)
+
+    add(DependencyConstants.IMPLEMENTATION, Dependencies.AndroidX.Activity.COMPOSE)
+    add(DependencyConstants.IMPLEMENTATION, Dependencies.AndroidX.Lifecycle.VIEW_MODEL_COMPOSE)
+    add(DependencyConstants.IMPLEMENTATION, Dependencies.AndroidX.Navigation.COMPOSE)
+}
+
 fun DependencyHandler.dagger() {
     add(DependencyConstants.IMPLEMENTATION, Dependencies.Dagger.CORE)
     add(DependencyConstants.KAPT, Dependencies.Dagger.COMPILER)

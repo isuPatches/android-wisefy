@@ -1,13 +1,14 @@
 import com.isupatches.android.wisefy.build.BuildVersions
 import com.isupatches.android.wisefy.build.Dependencies
 import com.isupatches.android.wisefy.build.Versions
+import com.isupatches.android.wisefy.build.compose
 import com.isupatches.android.wisefy.build.dagger
 import com.isupatches.android.wisefy.build.navigation
 import java.util.Properties
 
 plugins {
     id("com.android.application")
-    id("kotlin-android")
+    id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
 }
@@ -78,6 +79,7 @@ android {
 
     buildFeatures {
         viewBinding = true
+        compose = true
     }
 
     testCoverage {
@@ -99,6 +101,10 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 
+    kotlinOptions {
+        jvmTarget = "11"
+    }
+
     afterEvaluate {
         configurations.getByName("releaseRuntimeClasspath") {
             resolutionStrategy.activateDependencyLocking()
@@ -110,6 +116,10 @@ android {
 
     dependencyLocking {
         lockMode.set(LockMode.STRICT)
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = Versions.ANDROIDX_COMPOSE
     }
 }
 
@@ -127,6 +137,7 @@ dependencies {
     implementation(Dependencies.VIEWGLU)
 
     // AndroidX
+    compose()
     implementation(Dependencies.AndroidX.APPCOMPAT)
     implementation(Dependencies.AndroidX.CONSTRAINT_LAYOUT)
     implementation(Dependencies.AndroidX.CORE_KTX)
@@ -140,8 +151,4 @@ dependencies {
 
     // Dependency Injection
     dagger()
-}
-
-kapt {
-    correctErrorTypes = true
 }

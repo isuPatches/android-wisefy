@@ -25,9 +25,7 @@
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity android:name="com.isupatches.android.wisefy.sample.main.MainActivity"
-            android:screenOrientation="portrait"
-            android:exported="true"
-            tools:ignore="LockedOrientationActivity">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
