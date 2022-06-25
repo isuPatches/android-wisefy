@@ -16,28 +16,12 @@
 package com.isupatches.android.wisefy.sample.ui.primitives
 
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 
 internal object WisefySampleSizes {
-    object Padding {
-        val Small = 4.dp
-        val Medium = 8.dp
-        val Large = 16.dp
-        val XLARGE = 24.dp
-        val XXLARGE = 32.dp
-        val XXXLARGE = 48.dp
-    }
-
-    object Margin {
-        val Small = 4.dp
-        val Medium = 8.dp
-        val Large = 16.dp
-    }
-
-    object FontSize {
-        val Small = 14.sp
-        val Medium = 16.sp
-        val Large = 18.sp
-        val Toolbar = 32.sp
-    }
+    val Small = 4.dp
+    val Medium = 8.dp
+    val Large = 16.dp
+    val XLarge = 24.dp
+    val XXLarge = 32.dp
+    val XXXLarge = 48.dp
 }

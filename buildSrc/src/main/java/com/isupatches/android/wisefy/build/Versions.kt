@@ -39,9 +39,6 @@ object Versions {
     // Dependency Injection
     const val DAGGER: String = "2.42"
 
-    // isuPatches
-    const val VIEWGLU_VERSION: String = "1.1.0"
-
     // Static Analysis
     const val CPD: String = "3.2"
     const val DETEKT: String = "1.20.0"

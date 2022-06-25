@@ -26,18 +26,36 @@ import com.isupatches.android.wisefy.sample.ui.primitives.WisefySampleTypography
 private val WisefySampleDarkColors = darkColors(
     primary = WisefySampleColorPalette.Primary,
     primaryVariant = WisefySampleColorPalette.PrimaryDark,
+    onPrimary = WisefySampleColorPalette.Gray1,
     secondary = WisefySampleColorPalette.Secondary,
+    secondaryVariant = WisefySampleColorPalette.SecondaryLight,
+    onSecondary = WisefySampleColorPalette.Gray10,
+    background = WisefySampleColorPalette.Gray10,
+    onBackground = WisefySampleColorPalette.Gray1,
+    surface = WisefySampleColorPalette.Gray9,
+    onSurface = WisefySampleColorPalette.Gray2,
+    error = WisefySampleColorPalette.ErrorDarkMode,
+    onError = WisefySampleColorPalette.Gray1
 )
 private val WisefySampleLightColors = lightColors(
     primary = WisefySampleColorPalette.Primary,
     primaryVariant = WisefySampleColorPalette.PrimaryDark,
-    secondary = WisefySampleColorPalette.Secondary
+    onPrimary = WisefySampleColorPalette.Gray1,
+    secondary = WisefySampleColorPalette.Secondary,
+    secondaryVariant = WisefySampleColorPalette.SecondaryLight,
+    onSecondary = WisefySampleColorPalette.Gray10,
+    background = WisefySampleColorPalette.Gray1,
+    onBackground = WisefySampleColorPalette.Gray10,
+    surface = WisefySampleColorPalette.Gray3,
+    onSurface = WisefySampleColorPalette.Gray9,
+    error = WisefySampleColorPalette.Error,
+    onError = WisefySampleColorPalette.Gray1,
 )
 
 @Composable
 internal fun WisefySampleTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     MaterialTheme(
         colors = if (darkTheme) WisefySampleDarkColors else WisefySampleLightColors,

@@ -20,20 +20,25 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.isupatches.android.wisefy.WisefyApi
-import com.isupatches.android.wisefy.sample.features.add.AddScreen
+import com.isupatches.android.wisefy.sample.features.add.AddNetworkScreen
 import com.isupatches.android.wisefy.sample.features.misc.MiscScreen
-import com.isupatches.android.wisefy.sample.features.remove.RemoveScreen
+import com.isupatches.android.wisefy.sample.features.remove.RemoveNetworkScreen
 import com.isupatches.android.wisefy.sample.features.search.SearchScreen
 import com.isupatches.android.wisefy.sample.main.HomeScreen
+import com.isupatches.android.wisefy.sample.util.SdkUtil
 
 @Composable
-internal fun WisefySampleNavHost(navController: NavHostController, wisefy: WisefyApi) {
+internal fun WisefySampleNavHost(
+    navController: NavHostController,
+    wisefy: WisefyApi,
+    sdkUtil: SdkUtil
+) {
     NavHost(navController = navController, startDestination = WisefySampleNavigationItem.Home.route) {
         composable(WisefySampleNavigationItem.Add.route) {
-            AddScreen()
+            AddNetworkScreen(wisefy, sdkUtil)
         }
         composable(WisefySampleNavigationItem.Remove.route) {
-            RemoveScreen()
+            RemoveNetworkScreen(wisefy)
         }
         composable(WisefySampleNavigationItem.Home.route) {
             HomeScreen()
@@ -42,7 +47,7 @@ internal fun WisefySampleNavHost(navController: NavHostController, wisefy: Wisef
             MiscScreen(wisefy)
         }
         composable(WisefySampleNavigationItem.Search.route) {
-            SearchScreen()
+            SearchScreen(wisefy)
         }
     }
 }

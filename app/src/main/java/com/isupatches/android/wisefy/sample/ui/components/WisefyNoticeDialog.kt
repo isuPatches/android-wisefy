@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.android.wisefy.sample.dialogs
+package com.isupatches.android.wisefy.sample.ui.components
 
 import android.content.res.Configuration
 import androidx.annotation.StringRes
@@ -22,8 +22,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -33,11 +33,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.window.Dialog
 import com.isupatches.android.wisefy.sample.R
-import com.isupatches.android.wisefy.sample.ui.components.WisefyPrimaryButton
-import com.isupatches.android.wisefy.sample.ui.primitives.WisefySampleColorPalette
 import com.isupatches.android.wisefy.sample.ui.primitives.WisefySampleCornerRadii
 import com.isupatches.android.wisefy.sample.ui.primitives.WisefySampleSizes
-import com.isupatches.android.wisefy.sample.ui.primitives.WisefySampleTypography
 import com.isupatches.android.wisefy.sample.ui.theme.WisefySampleTheme
 
 @Composable
@@ -49,7 +46,10 @@ internal fun NoticeDialog(
 ) {
     WisefySampleTheme {
         Dialog(onDismissRequest = onClose) {
-            Surface(shape = RoundedCornerShape(WisefySampleCornerRadii.Default)) {
+            Surface(
+                shape = RoundedCornerShape(WisefySampleCornerRadii.Default),
+                color = MaterialTheme.colors.surface
+            ) {
                 Column {
                     Row(modifier = Modifier.fillMaxWidth()) {
                         Box(modifier = Modifier.fillMaxWidth()) {
@@ -57,30 +57,31 @@ internal fun NoticeDialog(
                                 modifier = Modifier
                                     .align(Alignment.TopCenter)
                                     .padding(
-                                        top = WisefySampleSizes.Padding.Large,
-                                        bottom = WisefySampleSizes.Padding.Small,
-                                        start = WisefySampleSizes.Padding.Large,
-                                        end = WisefySampleSizes.Padding.Large
+                                        top = WisefySampleSizes.XLarge,
+                                        bottom = WisefySampleSizes.Small,
+                                        start = WisefySampleSizes.Large,
+                                        end = WisefySampleSizes.Large
                                     ),
                                 text = LocalContext.current.getString(title),
-                                style = WisefySampleTypography.h5,
-                                color = WisefySampleColorPalette.Primary
+                                style = MaterialTheme.typography.h5,
+                                color = MaterialTheme.colors.primary
                             )
                         }
                     }
                     Row(modifier = Modifier.fillMaxWidth()) {
                         Text(
                             text = LocalContext.current.getString(body, *bodyFormatArgs),
-                            style = WisefySampleTypography.body1,
+                            style = MaterialTheme.typography.body1,
                             modifier = Modifier.padding(
-                                top = WisefySampleSizes.Padding.Small,
-                                bottom = WisefySampleSizes.Padding.Large,
-                                start = WisefySampleSizes.Padding.Large,
-                                end = WisefySampleSizes.Padding.Large
-                            )
+                                top = WisefySampleSizes.Medium,
+                                bottom = WisefySampleSizes.XLarge,
+                                start = WisefySampleSizes.XLarge,
+                                end = WisefySampleSizes.XLarge
+                            ),
+                            color = MaterialTheme.colors.onSurface
                         )
                     }
-                    Row(modifier = Modifier.fillMaxWidth().padding(bottom = WisefySampleSizes.Padding.Large)) {
+                    Row(modifier = Modifier.fillMaxWidth().padding(bottom = WisefySampleSizes.XLarge)) {
                         WisefyPrimaryButton(stringResId = R.string.ok, onClick = onClose)
                     }
                 }

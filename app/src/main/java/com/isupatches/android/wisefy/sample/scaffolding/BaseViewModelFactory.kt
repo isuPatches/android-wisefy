@@ -17,18 +17,12 @@ package com.isupatches.android.wisefy.sample.scaffolding
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import javax.inject.Provider
 import kotlin.reflect.KClass
 
 internal abstract class BaseViewModelFactory<VIEW_MODEL : ViewModel>(
     private val supportedClass: KClass<VIEW_MODEL>,
     private val vmProvider: () -> VIEW_MODEL
 ) : ViewModelProvider.Factory {
-
-    constructor(
-        supportedClass: KClass<VIEW_MODEL>,
-        provider: Provider<VIEW_MODEL>
-    ) : this(supportedClass, provider::get)
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(supportedClass.java)) {

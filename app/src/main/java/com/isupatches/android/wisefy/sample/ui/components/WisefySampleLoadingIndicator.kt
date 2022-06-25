@@ -16,40 +16,29 @@
 package com.isupatches.android.wisefy.sample.ui.components
 
 import android.content.res.Configuration
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.isupatches.android.wisefy.sample.R
 import com.isupatches.android.wisefy.sample.ui.theme.WisefySampleTheme
 
 @Composable
-internal fun WisefySampleToolbar() {
+internal fun WisefySampleLoadingIndicator() {
     WisefySampleTheme {
-        TopAppBar(
-            title = {
-                Text(
-                    text = LocalContext.current.getString(R.string.app_name),
-                    color = MaterialTheme.colors.onPrimary,
-                    style = MaterialTheme.typography.h5
-                )
-            },
-            backgroundColor = MaterialTheme.colors.primary,
-            contentColor = MaterialTheme.colors.onPrimary
-        )
+        LinearProgressIndicator(color = MaterialTheme.colors.secondary, modifier = Modifier.fillMaxWidth())
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-internal fun WisefySampleToolbarLightPreview() {
-    WisefySampleToolbar()
+internal fun WisefySampleLoadingIndicatorLightPreview() {
+    WisefySampleLoadingIndicator()
 }
 
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-internal fun WisefySampleToolbarDarkPreview() {
-    WisefySampleToolbar()
+internal fun WisefySampleLoadingIndicatorDarkPreview() {
+    WisefySampleLoadingIndicator()
 }

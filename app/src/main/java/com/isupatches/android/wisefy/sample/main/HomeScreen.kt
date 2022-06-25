@@ -20,8 +20,8 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -33,61 +33,58 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.isupatches.android.wisefy.sample.R
-import com.isupatches.android.wisefy.sample.ui.primitives.WisefySampleColorPalette
 import com.isupatches.android.wisefy.sample.ui.primitives.WisefySampleSizes
-import com.isupatches.android.wisefy.sample.ui.primitives.WisefySampleTypography
 import com.isupatches.android.wisefy.sample.ui.theme.WisefySampleTheme
 
 @Composable
 internal fun HomeScreen() {
     WisefySampleTheme {
-        Box(modifier = Modifier.fillMaxSize()) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Row {
-                    Box(
-                        modifier = Modifier.padding(
-                            top = 48.dp,
-                            bottom = WisefySampleSizes.Margin.Small,
-                            start = WisefySampleSizes.Margin.Large,
-                            end = WisefySampleSizes.Margin.Large
-                        )
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.ic_logo),
-                            contentDescription = LocalContext.current.getString(R.string.content_description_logo),
-                            colorFilter = ColorFilter.tint(WisefySampleColorPalette.Primary)
-                        )
-                    }
-                }
-                Row(
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Row {
+                Box(
                     modifier = Modifier.padding(
-                        top = WisefySampleSizes.Margin.Small,
-                        bottom = WisefySampleSizes.Margin.Large,
-                        start = WisefySampleSizes.Margin.Large,
-                        end = WisefySampleSizes.Margin.Large
+                        top = 48.dp,
+                        bottom = WisefySampleSizes.Small,
+                        start = WisefySampleSizes.Large,
+                        end = WisefySampleSizes.Large
                     )
                 ) {
-                    Text(
-                        text = LocalContext.current.getString(R.string.wisefy),
-                        style = WisefySampleTypography.h2,
-                        color = WisefySampleColorPalette.Primary,
-                        textAlign = TextAlign.Center
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_logo),
+                        contentDescription = LocalContext.current.getString(R.string.content_description_logo),
+                        colorFilter = ColorFilter.tint(MaterialTheme.colors.primary)
                     )
                 }
-                Row(
-                    modifier = Modifier.padding(
-                        top = WisefySampleSizes.Margin.Large,
-                        bottom = WisefySampleSizes.Margin.Large,
-                        start = WisefySampleSizes.Margin.Large,
-                        end = WisefySampleSizes.Margin.Large
-                    )
-                ) {
-                    Text(
-                        text = LocalContext.current.getString(R.string.wisefy_sample_description),
-                        style = WisefySampleTypography.subtitle1,
-                        textAlign = TextAlign.Center
-                    )
-                }
+            }
+            Row(
+                modifier = Modifier.padding(
+                    top = WisefySampleSizes.Small,
+                    bottom = WisefySampleSizes.Large,
+                    start = WisefySampleSizes.Large,
+                    end = WisefySampleSizes.Large
+                )
+            ) {
+                Text(
+                    text = LocalContext.current.getString(R.string.wisefy),
+                    style = MaterialTheme.typography.h2,
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colors.primary
+                )
+            }
+            Row(
+                modifier = Modifier.padding(
+                    top = WisefySampleSizes.Large,
+                    bottom = WisefySampleSizes.Large,
+                    start = WisefySampleSizes.Large,
+                    end = WisefySampleSizes.Large
+                )
+            ) {
+                Text(
+                    text = LocalContext.current.getString(R.string.wisefy_sample_description),
+                    style = MaterialTheme.typography.subtitle1,
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colors.onBackground
+                )
             }
         }
     }

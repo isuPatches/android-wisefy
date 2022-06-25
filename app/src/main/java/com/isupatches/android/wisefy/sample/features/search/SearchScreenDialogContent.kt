@@ -13,17 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.android.wisefy.sample.util
+package com.isupatches.android.wisefy.sample.features.search
 
-import android.os.Build
-import android.text.Html
-import android.text.Spanned
+import androidx.compose.runtime.Composable
 
-@Suppress("deprecation")
-internal fun String.asHtmlSpanned(): Spanned {
-    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-        Html.fromHtml(this, Html.FROM_HTML_MODE_COMPACT)
-    } else {
-        Html.fromHtml(this)
-    }
+@Composable
+internal fun SearchScreenDialogContent(
+    dialogState: SearchDialogState,
+    viewModel: SearchViewModel
+) {
+
 }

@@ -14,7 +14,7 @@
     <!-- Results -->
     <string name="add_wpa3_android_q_notice">WPA3 networks are not supported until Android Q</string>
 
-    <string name="wisefy_action_result">WiseFy Action Result</string>
+    <string name="wisefy_action_result">Wisefy Action Result</string>
 
     <string name="wifi_disabled">Wifi disabled!</string>
     <string name="failure_disabling_wifi">Failure disabling wifi</string>

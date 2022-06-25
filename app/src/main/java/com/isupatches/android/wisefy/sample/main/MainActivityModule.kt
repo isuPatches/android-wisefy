@@ -18,7 +18,7 @@ package com.isupatches.android.wisefy.sample.main
 import android.content.Context
 import com.isupatches.android.wisefy.sample.util.SdkUtil
 import com.isupatches.android.wisefy.sample.util.SdkUtilImpl
-import com.isupatches.android.wisefy.sample.util.createWiseFy
+import com.isupatches.android.wisefy.sample.util.createWisefy
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -36,6 +36,6 @@ internal abstract class MainActivityModule {
 
     companion object {
         @Provides
-        fun provideWiseFy(@ApplicationContext app: Context) = createWiseFy(app)
+        fun provideWiseFy(@ApplicationContext app: Context) = createWisefy(app)
     }
 }

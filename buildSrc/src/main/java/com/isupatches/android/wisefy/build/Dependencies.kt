@@ -64,6 +64,4 @@ object Dependencies {
         const val HILT_ANDROID: String = "com.google.dagger:hilt-android:${Versions.DAGGER}"
         const val HILT_COMPILER: String = "com.google.dagger:hilt-compiler:${Versions.DAGGER}"
     }
-
-    const val VIEWGLU: String = "com.isupatches.android:viewglu:${Versions.VIEWGLU_VERSION}"
 }

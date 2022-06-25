@@ -78,7 +78,6 @@ android {
     }
 
     buildFeatures {
-        viewBinding = true
         compose = true
     }
 
@@ -133,8 +132,6 @@ dependencies {
      * Set of release artifact platform imports
      */
 //    implementation(platform("com.isupatches.android.wisefy:platform:5.0.0-RC3"))
-
-    implementation(Dependencies.VIEWGLU)
 
     // AndroidX
     compose()

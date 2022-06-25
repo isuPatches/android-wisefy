@@ -13,13 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.android.wisefy.sample.util
+package com.isupatches.android.wisefy.sample.features.search
 
-import android.content.Context
-import com.isupatches.android.wisefy.Wisefy
-import com.isupatches.android.wisefy.WisefyApi
-import com.isupatches.android.wisefy.sample.logging.WisefySampleLogger
+internal data class SearchUIState(
+    val loadingState: SearchLoadingState,
+    val dialogState: SearchDialogState
+)
 
-internal fun createWiseFy(context: Context): WisefyApi {
-    return Wisefy.Brains(context, WisefySampleLogger).getSmarts()
+internal data class SearchLoadingState(val isLoading: Boolean)
+
+internal sealed class SearchDialogState {
+    object None : SearchDialogState()
 }

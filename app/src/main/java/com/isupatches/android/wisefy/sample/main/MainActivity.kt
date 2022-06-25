@@ -18,15 +18,15 @@ package com.isupatches.android.wisefy.sample.main
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.rememberNavController
 import com.isupatches.android.wisefy.WisefyApi
-import com.isupatches.android.wisefy.sample.ui.WisefySampleToolbar
+import com.isupatches.android.wisefy.sample.ui.components.WisefySampleToolbar
 import com.isupatches.android.wisefy.sample.ui.components.navigation.WisefySampleBottomNavigation
 import com.isupatches.android.wisefy.sample.ui.components.navigation.WisefySampleNavHost
 import com.isupatches.android.wisefy.sample.ui.theme.WisefySampleTheme
+import com.isupatches.android.wisefy.sample.util.SdkUtil
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -36,12 +36,15 @@ internal class MainActivity : ComponentActivity() {
     @Inject
     lateinit var wisefy: WisefyApi
 
+    @Inject
+    lateinit var sdkUtil: SdkUtil
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         wisefy.init()
         setContent {
-            WisefySampleTheme(isSystemInDarkTheme()) {
-                MainScreenLayout(wisefy)
+            WisefySampleTheme {
+                MainScreenLayout(wisefy, sdkUtil)
             }
         }
     }
@@ -53,11 +56,11 @@ internal class MainActivity : ComponentActivity() {
 }
 
 @Composable
-internal fun MainScreenLayout(wisefy: WisefyApi) {
+internal fun MainScreenLayout(wisefy: WisefyApi, sdkUtil: SdkUtil) {
     val navController = rememberNavController()
     Scaffold(
         topBar = { WisefySampleToolbar() },
-        content = { WisefySampleNavHost(navController, wisefy) },
+        content = { WisefySampleNavHost(navController, wisefy, sdkUtil) },
         bottomBar = { WisefySampleBottomNavigation(navController) }
     )
 }

@@ -26,11 +26,5 @@ import dagger.hilt.android.components.FragmentComponent
 internal interface AddNetworkModule {
 
     @Binds
-    fun bindAddNetworkModel(impl: DefaultAddNetworkModel): AddNetworkModel
-
-    @Binds
-    fun bindAddNetworkPresenter(impl: DefaultAddNetworkPresenter): AddNetworkPresenter
-
-    @Binds
     fun bindAddNetworkStore(impl: SharedPreferencesAddNetworkStore): AddNetworkStore
 }

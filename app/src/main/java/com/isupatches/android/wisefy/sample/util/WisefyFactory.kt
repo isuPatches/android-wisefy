@@ -15,10 +15,11 @@
  */
 package com.isupatches.android.wisefy.sample.util
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.content.Context
+import com.isupatches.android.wisefy.Wisefy
+import com.isupatches.android.wisefy.WisefyApi
+import com.isupatches.android.wisefy.sample.logging.WisefySampleLogger
 
-internal fun <T : Fragment> T.applyArguments(block: Bundle.() -> Unit): T {
-    arguments = Bundle().apply(block)
-    return this
+internal fun createWisefy(context: Context): WisefyApi {
+    return Wisefy.Brains(context, WisefySampleLogger).getSmarts()
 }

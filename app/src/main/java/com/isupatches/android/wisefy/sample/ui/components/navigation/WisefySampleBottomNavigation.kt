@@ -18,6 +18,7 @@ package com.isupatches.android.wisefy.sample.ui.components.navigation
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -25,7 +26,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.isupatches.android.wisefy.sample.ui.primitives.WisefySampleColorPalette
 
 @Composable
 internal fun WisefySampleBottomNavigation(navController: NavController) {
@@ -37,8 +37,8 @@ internal fun WisefySampleBottomNavigation(navController: NavController) {
         WisefySampleNavigationItem.Search
     )
     BottomNavigation(
-        backgroundColor = WisefySampleColorPalette.Primary,
-        contentColor = WisefySampleColorPalette.Gray1
+        backgroundColor = MaterialTheme.colors.primary,
+        contentColor = MaterialTheme.colors.onPrimary
     ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
@@ -51,8 +51,8 @@ internal fun WisefySampleBottomNavigation(navController: NavController) {
                     )
                 },
                 label = { Text(text = LocalContext.current.getString(item.title)) },
-                selectedContentColor = WisefySampleColorPalette.Gray1,
-                unselectedContentColor = WisefySampleColorPalette.Gray1.copy(0.4f),
+                selectedContentColor = MaterialTheme.colors.onPrimary,
+                unselectedContentColor = MaterialTheme.colors.onPrimary.copy(0.45f),
                 alwaysShowLabel = true,
                 selected = currentRoute == item.route,
                 onClick = {

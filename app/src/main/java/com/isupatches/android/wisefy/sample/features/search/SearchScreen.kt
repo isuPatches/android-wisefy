@@ -15,22 +15,18 @@
  */
 package com.isupatches.android.wisefy.sample.features.search
 
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.android.components.FragmentComponent
+import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.isupatches.android.wisefy.WisefyApi
 
-@Suppress("unused")
-@Module
-@InstallIn(FragmentComponent::class)
-internal interface SearchModule {
-
-    @Binds
-    fun bindSearchModel(impl: DefaultSearchModel): SearchModel
-
-    @Binds
-    fun bindSearchPresenter(impl: DefaultSearchPresenter): SearchPresenter
-
-    @Binds
-    fun bindSearchStore(impl: SharedPreferencesSearchStore): SearchStore
+@Composable
+internal fun SearchScreen(
+    wisefy: WisefyApi,
+    viewModel: SearchViewModel = viewModel(factory = SearchViewModelFactory(wisefy))
+) {
+    SearchScreenContent(
+        uiState = { viewModel.uiState.value },
+        searchType = { viewModel.searchType.value },
+        viewModel = viewModel
+    )
 }

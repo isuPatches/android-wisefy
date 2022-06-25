@@ -23,14 +23,14 @@ import com.isupatches.android.wisefy.core.coroutines.CoroutineDispatcherProvider
 import com.isupatches.android.wisefy.core.coroutines.createBaseCoroutineExceptionHandler
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.networkinfo.callbacks.GetCurrentNetworkCallbacks
+import com.isupatches.android.wisefy.networkinfo.callbacks.GetCurrentNetworkInfoCallbacks
 import com.isupatches.android.wisefy.networkinfo.callbacks.GetIPCallbacks
-import com.isupatches.android.wisefy.networkinfo.callbacks.GetNetworkInfoCallbacks
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkInfoRequest
+import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkInfoResult
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkRequest
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkResult
 import com.isupatches.android.wisefy.networkinfo.entities.GetIPRequest
 import com.isupatches.android.wisefy.networkinfo.entities.GetIPResult
-import com.isupatches.android.wisefy.networkinfo.entities.GetNetworkInfoResult
 import com.isupatches.android.wisefy.networkinfo.os.adapters.DefaultNetworkInfoAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -88,21 +88,21 @@ class WisefyNetworkInfoDelegate(
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun getCurrentNetworkInfo(request: GetCurrentNetworkInfoRequest): GetNetworkInfoResult {
+    override fun getCurrentNetworkInfo(request: GetCurrentNetworkInfoRequest): GetCurrentNetworkInfoResult {
         return adapter.getCurrentNetworkInfo(request)
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
     override fun getNetworkInfo(
         request: GetCurrentNetworkInfoRequest,
-        callbacks: GetNetworkInfoCallbacks?
+        callbacks: GetCurrentNetworkInfoCallbacks?
     ) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
             val currentNetworkInfo = adapter.getCurrentNetworkInfo(request)
             withContext(coroutineDispatcherProvider.main) {
                 when (currentNetworkInfo) {
-                    is GetNetworkInfoResult.Empty -> callbacks?.onNoNetworkToRetrieveInfo()
-                    is GetNetworkInfoResult.NetworkInfo -> callbacks?.onNetworkInfoRetrieved(
+                    is GetCurrentNetworkInfoResult.Empty -> callbacks?.onNoCurrentNetworkToRetrieveInfo()
+                    is GetCurrentNetworkInfoResult.NetworkInfo -> callbacks?.onCurrentNetworkInfoRetrieved(
                         currentNetworkInfo.data
                     )
                 }
