@@ -25,10 +25,21 @@ import com.isupatches.android.wisefy.sample.scaffolding.BaseViewModelFactory
 internal abstract class SearchViewModel : BaseViewModel() {
     abstract val uiState: State<SearchUIState>
     abstract val searchType: State<SearchType>
+    abstract val returnFullList: State<Boolean>
+    abstract val filterDuplicates: State<Boolean>
+    abstract val searchTimeout: State<Int>
 
     abstract fun onAccessPointSearchTypeSelected()
     abstract fun onSSIDSearchTypeSelected()
     abstract fun onSavedNetworkSearchTypeSelected()
+
+    abstract fun onReturnFullListSelected()
+    abstract fun onReturnFullListDeselected()
+
+    abstract fun onFilterDuplicatesSelected()
+    abstract fun onFilterDuplicatesDeselected()
+
+    abstract fun onSearchTimeoutValueUpdated(timeout: Int)
 
     abstract fun onDialogClosed()
 }
@@ -48,6 +59,18 @@ internal class DefaultSearchViewModel(val wisefy: WisefyApi) : SearchViewModel()
     override val searchType: State<SearchType>
         get() = _searchType
 
+    private val _returnFullList = mutableStateOf(true)
+    override val returnFullList: State<Boolean>
+        get() = _returnFullList
+
+    private val _filterDuplicates = mutableStateOf(true)
+    override val filterDuplicates: State<Boolean>
+        get() = _filterDuplicates
+
+    private val _searchTimeout = mutableStateOf(1)
+    override val searchTimeout: State<Int>
+        get() = _searchTimeout
+
     override fun onAccessPointSearchTypeSelected() {
         _searchType.value = SearchType.ACCESS_POINT
     }
@@ -58,6 +81,26 @@ internal class DefaultSearchViewModel(val wisefy: WisefyApi) : SearchViewModel()
 
     override fun onSavedNetworkSearchTypeSelected() {
         _searchType.value = SearchType.SAVED_NETWORK
+    }
+
+    override fun onReturnFullListSelected() {
+        _returnFullList.value = true
+    }
+
+    override fun onReturnFullListDeselected() {
+        _returnFullList.value = false
+    }
+
+    override fun onFilterDuplicatesSelected() {
+        _filterDuplicates.value = true
+    }
+
+    override fun onFilterDuplicatesDeselected() {
+        _filterDuplicates.value = false
+    }
+
+    override fun onSearchTimeoutValueUpdated(timeout: Int) {
+        _searchTimeout.value = timeout
     }
 
     override fun onDialogClosed() {

@@ -22,5 +22,5 @@ internal fun SearchScreenDialogContent(
     dialogState: SearchDialogState,
     viewModel: SearchViewModel
 ) {
-
+    // todo@patches
 }

@@ -17,19 +17,19 @@ package com.isupatches.android.wisefy.sample.ui.components
 
 import android.content.res.Configuration
 import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.window.Dialog
 import com.isupatches.android.wisefy.sample.R
@@ -38,7 +38,7 @@ import com.isupatches.android.wisefy.sample.ui.primitives.WisefySampleSizes
 import com.isupatches.android.wisefy.sample.ui.theme.WisefySampleTheme
 
 @Composable
-internal fun NoticeDialog(
+internal fun WisefySampleNoticeDialog(
     @StringRes title: Int,
     @StringRes body: Int,
     vararg bodyFormatArgs: Any,
@@ -46,43 +46,37 @@ internal fun NoticeDialog(
 ) {
     WisefySampleTheme {
         Dialog(onDismissRequest = onClose) {
-            Surface(
-                shape = RoundedCornerShape(WisefySampleCornerRadii.Default),
-                color = MaterialTheme.colors.surface
-            ) {
-                Column {
-                    Row(modifier = Modifier.fillMaxWidth()) {
-                        Box(modifier = Modifier.fillMaxWidth()) {
-                            Text(
-                                modifier = Modifier
-                                    .align(Alignment.TopCenter)
-                                    .padding(
-                                        top = WisefySampleSizes.XLarge,
-                                        bottom = WisefySampleSizes.Small,
-                                        start = WisefySampleSizes.Large,
-                                        end = WisefySampleSizes.Large
-                                    ),
-                                text = LocalContext.current.getString(title),
-                                style = MaterialTheme.typography.h5,
-                                color = MaterialTheme.colors.primary
+            Box(modifier = Modifier.padding(top = WisefySampleSizes.XXLarge, bottom = WisefySampleSizes.XXLarge)) {
+                Surface(
+                    shape = RoundedCornerShape(WisefySampleCornerRadii.Default),
+                    color = MaterialTheme.colors.surface
+                ) {
+                    Column(
+                        modifier = Modifier.padding(
+                            top = WisefySampleSizes.Large,
+                            bottom = WisefySampleSizes.XLarge,
+                            start = WisefySampleSizes.WisefySampleHorizontalMargins,
+                            end = WisefySampleSizes.WisefySampleHorizontalMargins
+                        )
+                    ) {
+                        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+                            WisefySampleDialogTitleLabel(stringResId = title)
+                        }
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .verticalScroll(state = rememberScrollState())
+                                .weight(weight = 1f, fill = false)
+                        ) {
+                            WisefySampleDialogBodyLabel(
+                                stringResId = body,
+                                modifier = Modifier.padding(top = WisefySampleSizes.Large),
+                                formatArgs = bodyFormatArgs
                             )
                         }
-                    }
-                    Row(modifier = Modifier.fillMaxWidth()) {
-                        Text(
-                            text = LocalContext.current.getString(body, *bodyFormatArgs),
-                            style = MaterialTheme.typography.body1,
-                            modifier = Modifier.padding(
-                                top = WisefySampleSizes.Medium,
-                                bottom = WisefySampleSizes.XLarge,
-                                start = WisefySampleSizes.XLarge,
-                                end = WisefySampleSizes.XLarge
-                            ),
-                            color = MaterialTheme.colors.onSurface
-                        )
-                    }
-                    Row(modifier = Modifier.fillMaxWidth().padding(bottom = WisefySampleSizes.XLarge)) {
-                        WisefyPrimaryButton(stringResId = R.string.ok, onClick = onClose)
+                        Row(modifier = Modifier.fillMaxWidth().padding(top = WisefySampleSizes.XLarge)) {
+                            WisefyPrimaryButton(stringResId = R.string.ok, onClick = onClose)
+                        }
                     }
                 }
             }
@@ -92,8 +86,8 @@ internal fun NoticeDialog(
 
 @Preview(showBackground = true)
 @Composable
-internal fun NoticeDialogLightPreview() {
-    NoticeDialog(
+internal fun WisefySampleNoticeDialogLightPreview() {
+    WisefySampleNoticeDialog(
         R.string.permission_error,
         R.string.permission_error_add_open_network,
         onClose = { }
@@ -102,8 +96,8 @@ internal fun NoticeDialogLightPreview() {
 
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-internal fun NoticeDialogDarkPreview() {
-    NoticeDialog(
+internal fun WisefySampleNoticeDialogDarkPreview() {
+    WisefySampleNoticeDialog(
         R.string.permission_error,
         R.string.permission_error_add_open_network,
         onClose = { }

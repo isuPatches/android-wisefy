@@ -39,9 +39,7 @@ internal fun WisefyPrimaryButton(
     WisefySampleTheme {
 
         Button(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = WisefySampleSizes.Large, end = WisefySampleSizes.Large),
+            modifier = Modifier.fillMaxWidth(),
             content = {
                 Text(
                     text = LocalContext.current.getString(stringResId),

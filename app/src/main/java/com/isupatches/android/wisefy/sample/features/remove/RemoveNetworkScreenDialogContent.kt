@@ -17,7 +17,7 @@ package com.isupatches.android.wisefy.sample.features.remove
 
 import androidx.compose.runtime.Composable
 import com.isupatches.android.wisefy.sample.R
-import com.isupatches.android.wisefy.sample.ui.components.NoticeDialog
+import com.isupatches.android.wisefy.sample.ui.components.WisefySampleNoticeDialog
 
 @Composable
 internal fun RemoveNetworkScreenDialogContent(
@@ -29,7 +29,7 @@ internal fun RemoveNetworkScreenDialogContent(
             // No-op, no dialog
         }
         is RemoveNetworkDialogState.Success -> {
-            NoticeDialog(
+            WisefySampleNoticeDialog(
                 title = R.string.remove_network_result,
                 body = R.string.succeeded_removing_network_args,
                 dialogState.result,
@@ -39,7 +39,7 @@ internal fun RemoveNetworkScreenDialogContent(
             )
         }
         is RemoveNetworkDialogState.PermissionsError -> {
-            NoticeDialog(
+            WisefySampleNoticeDialog(
                 title = R.string.permission_error,
                 body = R.string.permission_error_remove_network,
                 onClose = {
@@ -48,7 +48,7 @@ internal fun RemoveNetworkScreenDialogContent(
             )
         }
         is RemoveNetworkDialogState.Failure.NotFoundToRemove -> {
-            NoticeDialog(
+            WisefySampleNoticeDialog(
                 title = R.string.remove_network_result,
                 body = R.string.network_not_found_to_remove,
                 onClose = {
@@ -57,7 +57,7 @@ internal fun RemoveNetworkScreenDialogContent(
             )
         }
         is RemoveNetworkDialogState.Failure.UnableToRemove -> {
-            NoticeDialog(
+            WisefySampleNoticeDialog(
                 title = R.string.remove_network_result,
                 body = R.string.failed_removing_network_args,
                 dialogState.result,
@@ -67,7 +67,7 @@ internal fun RemoveNetworkScreenDialogContent(
             )
         }
         is RemoveNetworkDialogState.Failure.WisefyAsync -> {
-            NoticeDialog(
+            WisefySampleNoticeDialog(
                 title = R.string.wisefy_async_error,
                 body = R.string.wisefy_async_error_descriptions_args,
                 dialogState.throwable.message ?: "",
@@ -77,7 +77,7 @@ internal fun RemoveNetworkScreenDialogContent(
             )
         }
         is RemoveNetworkDialogState.InputError -> {
-            NoticeDialog(
+            WisefySampleNoticeDialog(
                 title = R.string.wisefy_action_result,
                 body = R.string.network_input_invalid,
                 onClose = {

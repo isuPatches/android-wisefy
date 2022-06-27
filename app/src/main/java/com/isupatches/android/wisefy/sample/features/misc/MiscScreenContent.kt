@@ -20,7 +20,6 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -42,11 +41,22 @@ internal fun MiscScreenContent(
     WisefySampleTheme {
         val listState = rememberLazyListState()
         val currentUIState = uiState()
+
+        if (currentUIState.loadingState.isLoading) {
+            WisefySampleLoadingIndicator()
+        }
+
+        MiscScreenDialogContent(dialogState = currentUIState.dialogState, viewModel = viewModel)
+
         LazyColumn(
             state = listState,
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(WisefySampleSizes.XLarge),
-            contentPadding = PaddingValues(top = WisefySampleSizes.XXLarge, bottom = WisefySampleSizes.Large)
+            verticalArrangement = Arrangement.spacedBy(WisefySampleSizes.Large),
+            contentPadding = PaddingValues(
+                top = WisefySampleSizes.WisefySampleTopMargin,
+                bottom = WisefySampleSizes.WisefySampleBottomMargin,
+                start = WisefySampleSizes.WisefySampleHorizontalMargins,
+                end = WisefySampleSizes.WisefySampleHorizontalMargins
+            )
         ) {
             items(MiscScreenOption.values(), { it.id }) { option ->
                 Row(modifier = Modifier.animateItemPlacement()) {
@@ -54,12 +64,6 @@ internal fun MiscScreenContent(
                 }
             }
         }
-
-        if (currentUIState.loadingState.isLoading) {
-            WisefySampleLoadingIndicator()
-        }
-
-        MiscScreenDialogContent(dialogState = currentUIState.dialogState, viewModel = viewModel)
     }
 }
 
@@ -75,10 +79,7 @@ internal enum class MiscScreenOption(val id: Long, @StringRes val stringResId: I
 }
 
 @Composable
-private fun MiscScreenOptionRow(
-    option: MiscScreenOption,
-    onClick: (MiscScreenOption) -> Unit
-) {
+private fun MiscScreenOptionRow(option: MiscScreenOption, onClick: (MiscScreenOption) -> Unit) {
     WisefyPrimaryButton(
         stringResId = option.stringResId,
         onClick = {

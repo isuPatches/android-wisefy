@@ -18,12 +18,18 @@ package com.isupatches.android.wisefy.sample.util
 import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets
 
+private const val MIN_SSID_LENGTH = 2
+private const val MAX_SSID_LENGTH = 32
+
+private const val MIN_PASSPHRASE_LENGTH = 8
+private const val MAX_PASSPHRASE_LENGTH = 63
+
 internal fun String.validateSSID(): SSIDInputError {
     val unicodeEncoder = StandardCharsets.UTF_8.newEncoder()
     return when {
         isBlank() -> SSIDInputError.EMPTY
-        length < 2 -> SSIDInputError.TOO_SHORT
-        length > 32 -> SSIDInputError.TOO_LONG
+        length < MIN_SSID_LENGTH -> SSIDInputError.TOO_SHORT
+        length > MAX_SSID_LENGTH -> SSIDInputError.TOO_LONG
         contains("?") ||
             contains("\"") ||
             contains("$") ||
@@ -49,8 +55,8 @@ internal fun String.validateSSID(): SSIDInputError {
 
 internal fun String.validatePassphrase(): PassphraseInputError {
     return when {
-        length < 8 -> PassphraseInputError.TOO_SHORT
-        length > 63 -> PassphraseInputError.TOO_LONG
+        length < MIN_PASSPHRASE_LENGTH -> PassphraseInputError.TOO_SHORT
+        length > MAX_PASSPHRASE_LENGTH -> PassphraseInputError.TOO_LONG
         !Charset.forName("US-ASCII").newEncoder().canEncode(this) -> PassphraseInputError.NOT_VALID_ASCII
         else -> PassphraseInputError.NONE
     }

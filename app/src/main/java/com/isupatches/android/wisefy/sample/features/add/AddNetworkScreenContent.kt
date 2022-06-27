@@ -27,18 +27,20 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.RadioButton
-import androidx.compose.material.Text
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import com.isupatches.android.wisefy.sample.R
 import com.isupatches.android.wisefy.sample.entities.NetworkType
 import com.isupatches.android.wisefy.sample.ui.components.WisefyPrimaryButton
+import com.isupatches.android.wisefy.sample.ui.components.WisefySampleBodyLabel
+import com.isupatches.android.wisefy.sample.ui.components.WisefySampleRadioButton
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleEditText
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleEditTextError
+import com.isupatches.android.wisefy.sample.ui.components.WisefySampleLoadingIndicator
 import com.isupatches.android.wisefy.sample.ui.primitives.WisefySampleSizes
 import com.isupatches.android.wisefy.sample.ui.theme.WisefySampleTheme
 
@@ -75,48 +77,48 @@ internal fun AddNetworkScreenContent(
             }
         }
         val currentInputState = inputState()
+
+        if (currentUIState.loadingState.isLoading) {
+            WisefySampleLoadingIndicator()
+        }
+
+        AddNetworkScreenDialogContent(dialogState = currentUIState.dialogState, viewModel = viewModel)
+
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = WisefySampleSizes.XXLarge)
+                .verticalScroll(rememberScrollState())
+                .padding(
+                    top = WisefySampleSizes.WisefySampleTopMargin,
+                    bottom = WisefySampleSizes.WisefySampleBottomMargin,
+                    start = WisefySampleSizes.WisefySampleHorizontalMargins,
+                    end = WisefySampleSizes.WisefySampleHorizontalMargins
+                )
         ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceEvenly
-            ) {
-                Text(LocalContext.current.getString(R.string.open))
-                Text(LocalContext.current.getString(R.string.wpa2))
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
+                WisefySampleBodyLabel(stringResId = R.string.open)
+                WisefySampleBodyLabel(stringResId = R.string.wpa2)
                 if (isAtLeastAndroidQ) {
-                    Text(LocalContext.current.getString(R.string.wpa3))
+                    WisefySampleBodyLabel(stringResId = R.string.wpa3)
                 }
             }
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceEvenly
-            ) {
-                RadioButton(
-                    selected = networkType() == NetworkType.OPEN,
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
+                WisefySampleRadioButton(
+                    isSelected = networkType() == NetworkType.OPEN,
                     onClick = { viewModel.onOpenNetworkTypeSelected() }
                 )
-                RadioButton(
-                    selected = networkType() == NetworkType.WPA2,
+                WisefySampleRadioButton(
+                    isSelected = networkType() == NetworkType.WPA2,
                     onClick = { viewModel.onWPA2NetworkTypeSelected() }
                 )
                 if (isAtLeastAndroidQ) {
-                    RadioButton(
-                        selected = networkType() == NetworkType.WPA3,
+                    WisefySampleRadioButton(
+                        isSelected = networkType() == NetworkType.WPA3,
                         onClick = { viewModel.onWPA3NetworkTypeSelected() }
                     )
                 }
             }
-            Row(
-                modifier = Modifier.padding(
-                    top = WisefySampleSizes.XLarge,
-                    bottom = WisefySampleSizes.Large,
-                    start = WisefySampleSizes.Large,
-                    end = WisefySampleSizes.Large
-                )
-            ) {
+            Row(modifier = Modifier.padding(top = WisefySampleSizes.XLarge)) {
                 WisefySampleEditText(
                     text = ssid.value,
                     onTextChange = { newSSID ->
@@ -151,14 +153,7 @@ internal fun AddNetworkScreenContent(
                 )
             }
             if (networkType() == NetworkType.WPA2 || networkType() == NetworkType.WPA3) {
-                Row(
-                    modifier = Modifier.padding(
-                        top = WisefySampleSizes.Large,
-                        bottom = WisefySampleSizes.Large,
-                        start = WisefySampleSizes.Large,
-                        end = WisefySampleSizes.Large
-                    )
-                ) {
+                Row(modifier = Modifier.padding(top = WisefySampleSizes.Large)) {
                     WisefySampleEditText(
                         text = passphrase.value,
                         onTextChange = { newPassphrase ->
@@ -194,7 +189,5 @@ internal fun AddNetworkScreenContent(
                 }
             }
         }
-
-        AddNetworkScreenDialogContent(dialogState = currentUIState.dialogState, viewModel = viewModel)
     }
 }

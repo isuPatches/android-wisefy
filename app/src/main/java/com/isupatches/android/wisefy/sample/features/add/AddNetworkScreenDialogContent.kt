@@ -18,7 +18,7 @@ package com.isupatches.android.wisefy.sample.features.add
 import androidx.compose.runtime.Composable
 import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
 import com.isupatches.android.wisefy.sample.R
-import com.isupatches.android.wisefy.sample.ui.components.NoticeDialog
+import com.isupatches.android.wisefy.sample.ui.components.WisefySampleNoticeDialog
 
 @Composable
 internal fun AddNetworkScreenDialogContent(
@@ -30,7 +30,7 @@ internal fun AddNetworkScreenDialogContent(
             // No-op, no dialog
         }
         is AddNetworkDialogState.Failure.UnableToAdd -> {
-            NoticeDialog(
+            WisefySampleNoticeDialog(
                 title = R.string.add_network_result,
                 body = R.string.failed_adding_network_args,
                 dialogState.result,
@@ -40,7 +40,7 @@ internal fun AddNetworkScreenDialogContent(
             )
         }
         is AddNetworkDialogState.Failure.WisefyAsync -> {
-            NoticeDialog(
+            WisefySampleNoticeDialog(
                 title = R.string.wisefy_async_error,
                 body = R.string.wisefy_async_error_descriptions_args,
                 dialogState.throwable.message ?: "",
@@ -50,7 +50,7 @@ internal fun AddNetworkScreenDialogContent(
             )
         }
         is AddNetworkDialogState.PermissionsError.AddOpenNetwork -> {
-            NoticeDialog(
+            WisefySampleNoticeDialog(
                 title = R.string.add_network_result,
                 body = R.string.permission_error_add_open_network,
                 onClose = {
@@ -59,7 +59,7 @@ internal fun AddNetworkScreenDialogContent(
             )
         }
         is AddNetworkDialogState.PermissionsError.AddWPA2Network -> {
-            NoticeDialog(
+            WisefySampleNoticeDialog(
                 title = R.string.add_network_result,
                 body = R.string.permission_error_add_wpa2_network,
                 onClose = {
@@ -68,7 +68,7 @@ internal fun AddNetworkScreenDialogContent(
             )
         }
         is AddNetworkDialogState.PermissionsError.AddWPA3Network -> {
-            NoticeDialog(
+            WisefySampleNoticeDialog(
                 title = R.string.add_network_result,
                 body = R.string.permission_error_add_wpa3_network,
                 onClose = {
@@ -78,7 +78,7 @@ internal fun AddNetworkScreenDialogContent(
         }
         is AddNetworkDialogState.Success -> {
             if (dialogState.result !is AddNetworkResult.Success.IntentLaunched) {
-                NoticeDialog(
+                WisefySampleNoticeDialog(
                     title = R.string.add_network_result,
                     body = R.string.succeeded_adding_network_args,
                     dialogState.result,
@@ -89,7 +89,7 @@ internal fun AddNetworkScreenDialogContent(
             }
         }
         AddNetworkDialogState.InputError.SSID -> {
-            NoticeDialog(
+            WisefySampleNoticeDialog(
                 title = R.string.add_network_result,
                 body = R.string.network_input_invalid,
                 onClose = {
@@ -98,7 +98,7 @@ internal fun AddNetworkScreenDialogContent(
             )
         }
         AddNetworkDialogState.InputError.Passphrase -> {
-            NoticeDialog(
+            WisefySampleNoticeDialog(
                 title = R.string.add_network_result,
                 body = R.string.passphrase_input_invalid,
                 onClose = {

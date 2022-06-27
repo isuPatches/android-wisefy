@@ -16,7 +16,7 @@
 
     <string name="filter_duplicates">Filter Duplicates</string>
 
-    <string name="timeout_after_x_seconds_args_html">Timeout after <![CDATA[<b>%d</b>]]> seconds</string>
+    <string name="timeout_after_x_seconds_args_html">Timeout after %d seconds</string>
 
     <!-- Results -->
     <string name="search_result">Search Result</string>

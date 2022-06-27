@@ -29,16 +29,19 @@ private val WisefySampleFontFamily = FontFamily(
     Font(R.font.rubik_bold, FontWeight.Bold)
 )
 
+private const val H1_LETTER_SPACING = -1.5
+private const val H2_LETTER_SPACING = -0.5
+
 internal val WisefySampleTypography = Typography(
     h1 = TextStyle(
         fontWeight = FontWeight.Light,
         fontSize = 96.sp,
-        letterSpacing = (-1.5).sp
+        letterSpacing = H1_LETTER_SPACING.sp
     ),
     h2 = TextStyle(
         fontWeight = FontWeight.Light,
         fontSize = 60.sp,
-        letterSpacing = (-0.5).sp
+        letterSpacing = H2_LETTER_SPACING.sp
     ),
     h3 = TextStyle(
         fontWeight = FontWeight.Normal,

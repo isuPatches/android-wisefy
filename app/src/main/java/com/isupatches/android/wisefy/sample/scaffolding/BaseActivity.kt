@@ -17,4 +17,4 @@ package com.isupatches.android.wisefy.sample.scaffolding
 
 import androidx.activity.ComponentActivity
 
-internal abstract class BaseActivity : ComponentActivity()
+internal open class BaseActivity : ComponentActivity()

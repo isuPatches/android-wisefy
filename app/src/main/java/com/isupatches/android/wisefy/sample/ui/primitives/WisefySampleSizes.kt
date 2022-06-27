@@ -24,4 +24,10 @@ internal object WisefySampleSizes {
     val XLarge = 24.dp
     val XXLarge = 32.dp
     val XXXLarge = 48.dp
+
+    private val BottomNavigationHeight = 56.dp
+
+    val WisefySampleTopMargin = XLarge
+    val WisefySampleBottomMargin = BottomNavigationHeight + Large
+    val WisefySampleHorizontalMargins = Large
 }

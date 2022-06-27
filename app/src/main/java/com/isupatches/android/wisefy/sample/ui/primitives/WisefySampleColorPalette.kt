@@ -18,6 +18,7 @@ package com.isupatches.android.wisefy.sample.ui.primitives
 import androidx.compose.foundation.interaction.InteractionSource
 import androidx.compose.material.ButtonColors
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.SliderColors
 import androidx.compose.material.TextFieldColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
@@ -127,6 +128,34 @@ internal class WisefySampleTextFieldColors : TextFieldColors {
     override fun trailingIconColor(enabled: Boolean, isError: Boolean): State<Color> {
         return object : State<Color> {
             override val value: Color = MaterialTheme.colors.primary
+        }
+    }
+}
+
+internal class  WisefySliderColors : SliderColors {
+
+    @Composable
+    override fun thumbColor(enabled: Boolean): State<Color> {
+        return object : State<Color> {
+            override val value: Color = MaterialTheme.colors.primary
+        }
+    }
+
+    @Composable
+    override fun tickColor(enabled: Boolean, active: Boolean): State<Color> {
+        return object : State<Color> {
+            override val value: Color = MaterialTheme.colors.primaryVariant
+        }
+    }
+
+    @Composable
+    override fun trackColor(enabled: Boolean, active: Boolean): State<Color> {
+        return object : State<Color> {
+            override val value: Color = if (active) {
+                MaterialTheme.colors.primary
+            } else {
+                WisefySampleColorPalette.Gray4
+            }
         }
     }
 }

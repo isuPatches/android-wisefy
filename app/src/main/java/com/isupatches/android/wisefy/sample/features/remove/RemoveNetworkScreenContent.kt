@@ -17,8 +17,9 @@ package com.isupatches.android.wisefy.sample.features.remove
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -40,17 +41,24 @@ internal fun RemoveNetworkScreenContent(
     WisefySampleTheme {
         val currentUIState = uiState()
         val text = remember { mutableStateOf("") }
-        Column {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        top = WisefySampleSizes.XXLarge,
-                        bottom = WisefySampleSizes.XLarge,
-                        start = WisefySampleSizes.XLarge,
-                        end = WisefySampleSizes.XLarge
-                    )
-            ) {
+
+        if (currentUIState.loadingState.isLoading) {
+            WisefySampleLoadingIndicator()
+        }
+
+        RemoveNetworkScreenDialogContent(dialogState = currentUIState.dialogState, viewModel = viewModel)
+
+        Column(
+            modifier = Modifier
+                .verticalScroll(rememberScrollState())
+                .padding(
+                    top = WisefySampleSizes.WisefySampleTopMargin,
+                    bottom = WisefySampleSizes.WisefySampleBottomMargin,
+                    start = WisefySampleSizes.WisefySampleHorizontalMargins,
+                    end = WisefySampleSizes.WisefySampleHorizontalMargins
+                )
+        ) {
+            Row {
                 WisefySampleEditText(
                     text = text.value,
                     onTextChange = { newText ->
@@ -84,17 +92,11 @@ internal fun RemoveNetworkScreenContent(
                     }
                 )
             }
-            Row {
+            Row(modifier = Modifier.padding(top = WisefySampleSizes.Large)) {
                 WisefyPrimaryButton(stringResId = R.string.remove_network) {
                     viewModel.removeNetwork()
                 }
             }
         }
-
-        if (currentUIState.loadingState.isLoading) {
-            WisefySampleLoadingIndicator()
-        }
-
-        RemoveNetworkScreenDialogContent(dialogState = currentUIState.dialogState, viewModel = viewModel)
     }
 }

@@ -15,6 +15,7 @@
  */
 package com.isupatches.android.wisefy.sample.ui.components.navigation
 
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
@@ -22,10 +23,16 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.isupatches.android.wisefy.sample.ui.primitives.WisefySampleTypography
+
+private const val UNSELECTED_NAVIGATION_ITEM_ALPHA = 0.45f
 
 @Composable
 internal fun WisefySampleBottomNavigation(navController: NavController) {
@@ -50,25 +57,28 @@ internal fun WisefySampleBottomNavigation(navController: NavController) {
                         contentDescription = LocalContext.current.getString(item.title)
                     )
                 },
-                label = { Text(text = LocalContext.current.getString(item.title)) },
+                label = {
+                    Text(
+                        text = LocalContext.current.getString(item.title),
+                        style = WisefySampleTypography.caption
+                    )
+                },
                 selectedContentColor = MaterialTheme.colors.onPrimary,
-                unselectedContentColor = MaterialTheme.colors.onPrimary.copy(0.45f),
+                unselectedContentColor = MaterialTheme.colors.onPrimary.copy(UNSELECTED_NAVIGATION_ITEM_ALPHA),
                 alwaysShowLabel = true,
                 selected = currentRoute == item.route,
                 onClick = {
                     navController.navigate(item.route) {
-                        // Pop up to the start destination of the graph to
-                        // avoid building up a large stack of destinations
-                        // on the back stack as users select items
+                        // Pop up to the start destination of the graph to avoid building up a large stack of
+                        // destinations on the back stack as users select items
                         navController.graph.startDestinationRoute?.let { route ->
                             popUpTo(route) {
                                 saveState = true
                             }
                         }
-                        // Avoid multiple copies of the same destination when
-                        // reselecting the same item
+                        // Avoid multiple copies of the same destination when re-selecting the same item
                         launchSingleTop = true
-                        // Restore state when reselecting a previously selected item
+                        // Restore state when re-selecting a previously selected item
                         restoreState = true
                     }
                 }
