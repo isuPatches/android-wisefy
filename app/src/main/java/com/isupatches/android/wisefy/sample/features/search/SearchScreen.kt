@@ -27,6 +27,7 @@ internal fun SearchScreen(
     SearchScreenContent(
         uiState = { viewModel.uiState.value },
         searchType = { viewModel.searchType.value },
+        inputState = { viewModel.inputState.value },
         viewModel = viewModel
     )
 }

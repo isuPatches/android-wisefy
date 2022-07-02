@@ -15,6 +15,10 @@
  */
 package com.isupatches.android.wisefy.sample.features.search
 
+import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
+import com.isupatches.android.wisefy.accesspoints.entities.SSIDData
+import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
+
 internal data class SearchUIState(
     val loadingState: SearchLoadingState,
     val dialogState: SearchDialogState
@@ -24,4 +28,48 @@ internal data class SearchLoadingState(val isLoading: Boolean)
 
 internal sealed class SearchDialogState {
     object None : SearchDialogState()
+
+    object InputError : SearchDialogState()
+
+    sealed class Failure : SearchDialogState() {
+        object NoAccessPointFound : Failure()
+        object NoAccessPointsFound : Failure()
+        object NoSavedNetworkFound : Failure()
+        object NoSavedNetworksFound : Failure()
+        object NoSSIDFound : Failure()
+        object NoSSIDsFound : Failure()
+        data class WisefyAsync(val throwable: Throwable) : Failure()
+    }
+
+    sealed class PermissionError : SearchDialogState() {
+        object AccessPoint : PermissionError()
+        object AccessPoints : PermissionError()
+        object SavedNetwork : PermissionError()
+        object SavedNetworks : PermissionError()
+        object SSID : PermissionError()
+        object SSIDs : PermissionError()
+    }
+
+    sealed class Success : SearchDialogState() {
+        data class AccessPoint(val data: AccessPointData) : Success()
+        data class AccessPoints(val data: List<AccessPointData>) : Success()
+        data class SavedNetwork(val data: SavedNetworkData) : Success()
+        data class SavedNetworks(val data: List<SavedNetworkData>) : Success()
+        data class SSID(val data: SSIDData) : Success()
+        data class SSIDs(val data: List<SSIDData>) : Success()
+    }
+}
+
+internal sealed class SearchInputState {
+    data class Valid(val value: String) : SearchInputState()
+
+    sealed class Invalid : SearchInputState() {
+        object Empty : Invalid()
+        object TooShort : Invalid()
+        object TooLong : Invalid()
+        object InvalidCharacters : Invalid()
+        object InvalidStartCharacters : Invalid()
+        object LeadingOrTrailingSpaces : Invalid()
+        object InvalidUnicode : Invalid()
+    }
 }
