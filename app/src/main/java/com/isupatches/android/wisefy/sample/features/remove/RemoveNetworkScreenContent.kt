@@ -15,6 +15,10 @@
  */
 package com.isupatches.android.wisefy.sample.features.remove
 
+import android.Manifest.permission.ACCESS_FINE_LOCATION
+import android.Manifest.permission.CHANGE_WIFI_STATE
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -23,14 +27,22 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.isupatches.android.wisefy.sample.R
+import com.isupatches.android.wisefy.sample.entities.SSIDType
+import com.isupatches.android.wisefy.sample.logging.WisefySampleLogger
 import com.isupatches.android.wisefy.sample.ui.components.WisefyPrimaryButton
+import com.isupatches.android.wisefy.sample.ui.components.WisefySampleBodyLabel
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleEditText
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleEditTextError
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleLoadingIndicator
+import com.isupatches.android.wisefy.sample.ui.components.WisefySampleRadioButton
+import com.isupatches.android.wisefy.sample.ui.components.WisefySampleSubHeaderLabel
 import com.isupatches.android.wisefy.sample.ui.primitives.WisefySampleSizes
 import com.isupatches.android.wisefy.sample.ui.theme.WisefySampleTheme
+
+private const val LOG_TAG = "RemoveNetworkScreenContent"
 
 @Composable
 internal fun RemoveNetworkScreenContent(
@@ -38,6 +50,17 @@ internal fun RemoveNetworkScreenContent(
     inputState: () -> RemoveNetworkInputState,
     viewModel: RemoveNetworkViewModel
 ) {
+    val removeNetworkPermissionsLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result ->
+            if (result.all { it.value }) {
+                @Suppress("MissingPermission")
+                viewModel.removeNetwork()
+            } else {
+                WisefySampleLogger.w(LOG_TAG, "Permissions required to remove a network are denied")
+                viewModel.onRemoveNetworkPermissionsError()
+            }
+        }
+
     WisefySampleTheme {
         val currentUIState = uiState()
         val text = remember { mutableStateOf("") }
@@ -65,36 +88,68 @@ internal fun RemoveNetworkScreenContent(
                         text.value = newText
                         viewModel.onInputChanged(newText)
                     },
-                    labelResId = R.string.network_name,
+                    labelResId = R.string.regex_for_network,
                     error = when (inputState()) {
-                        is RemoveNetworkInputState.Invalid.Empty -> {
+                        is RemoveNetworkInputState.SSID.Invalid.Empty -> {
                             WisefySampleEditTextError(R.string.network_input_empty)
                         }
-                        is RemoveNetworkInputState.Invalid.TooShort -> {
+                        is RemoveNetworkInputState.SSID.Invalid.TooShort -> {
                             WisefySampleEditTextError(R.string.network_input_too_short)
                         }
-                        is RemoveNetworkInputState.Invalid.TooLong -> {
+                        is RemoveNetworkInputState.SSID.Invalid.TooLong -> {
                             WisefySampleEditTextError(R.string.network_input_too_long)
                         }
-                        is RemoveNetworkInputState.Invalid.InvalidCharacters -> {
+                        is RemoveNetworkInputState.SSID.Invalid.InvalidCharacters -> {
                             WisefySampleEditTextError(R.string.network_input_invalid_characters)
                         }
-                        is RemoveNetworkInputState.Invalid.InvalidStartCharacters -> {
+                        is RemoveNetworkInputState.SSID.Invalid.InvalidStartCharacters -> {
                             WisefySampleEditTextError(R.string.network_input_invalid_start_characters)
                         }
-                        is RemoveNetworkInputState.Invalid.LeadingOrTrailingSpaces -> {
+                        is RemoveNetworkInputState.SSID.Invalid.LeadingOrTrailingSpaces -> {
                             WisefySampleEditTextError(R.string.network_input_leading_or_trailing_spaces)
                         }
-                        is RemoveNetworkInputState.Invalid.InvalidUnicode -> {
+                        is RemoveNetworkInputState.SSID.Invalid.InvalidUnicode -> {
                             WisefySampleEditTextError(R.string.network_input_not_valid_unicode)
                         }
-                        is RemoveNetworkInputState.Valid -> null
+                        is RemoveNetworkInputState.BSSID.Invalid.Empty -> {
+                            WisefySampleEditTextError(R.string.bssid_input_empty)
+                        }
+                        is RemoveNetworkInputState.BSSID.Invalid.ImproperFormat -> {
+                            WisefySampleEditTextError(R.string.bssid_input_improper_format)
+                        }
+                        is RemoveNetworkInputState.SSID.Valid -> null
+                        is RemoveNetworkInputState.BSSID.Valid -> null
                     }
                 )
             }
+            Row {
+                WisefySampleSubHeaderLabel(
+                    modifier = Modifier.padding(top = WisefySampleSizes.Large),
+                    stringResId = R.string.ssid_type
+                )
+            }
+            Row(
+                modifier = Modifier.padding(top = WisefySampleSizes.Medium),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                WisefySampleRadioButton(
+                    isSelected = viewModel.ssidType.value == SSIDType.SSID,
+                    onClick = {
+                        viewModel.onSSIDTypeChanged(SSIDType.SSID)
+                    }
+                )
+                WisefySampleBodyLabel(stringResId = R.string.ssid)
+                WisefySampleRadioButton(
+                    isSelected = viewModel.ssidType.value == SSIDType.BSSID,
+                    onClick = {
+                        viewModel.onSSIDTypeChanged(SSIDType.BSSID)
+                    }
+                )
+                WisefySampleBodyLabel(stringResId = R.string.bssid)
+            }
             Row(modifier = Modifier.padding(top = WisefySampleSizes.Large)) {
                 WisefyPrimaryButton(stringResId = R.string.remove_network) {
-                    viewModel.removeNetwork()
+                    removeNetworkPermissionsLauncher.launch(arrayOf(ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE))
                 }
             }
         }

@@ -36,7 +36,7 @@ import com.isupatches.android.wisefy.wifi.WifiApi
 import com.isupatches.android.wisefy.wifi.WifiApiAsync
 
 /**
- * The culmination of APIs that create WiseFy's public interface.
+ * The culmination of APIs that create Wisefy's public interface.
  *
  * @see AccessPointsApi
  * @see AccessPointsApiAsync
@@ -59,7 +59,7 @@ import com.isupatches.android.wisefy.wifi.WifiApiAsync
  * @see WifiApiAsync
  *
  * @author Patches Klinefelter
- * @since 07/2021
+ * @since 03/2022
  */
 interface WisefyApi :
     AccessPointsApi,
@@ -82,6 +82,21 @@ interface WisefyApi :
     WifiApi,
     WifiApiAsync {
 
+    /**
+     * The initialization function for Wisefy.  This is recommended to be called in the `onCreate` of the activity for
+     * the application.
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     fun init()
+
+    /**
+     * The cleanup function for Wisefy.  This is recommended to be called in the `onDestroy` of the activity for the
+     * application.
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     fun dump()
 }

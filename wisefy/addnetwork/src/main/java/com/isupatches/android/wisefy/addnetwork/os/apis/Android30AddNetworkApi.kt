@@ -44,7 +44,8 @@ internal interface Android30AddNetworkApi {
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     fun addOpenNetwork(
         ssid: String,
-        activityResultLauncher: ActivityResultLauncher<Intent>
+        activityResultLauncher: ActivityResultLauncher<Intent>,
+        bssid: String?
     )
 
     /**
@@ -61,7 +62,8 @@ internal interface Android30AddNetworkApi {
     fun addWPA2Network(
         ssid: String,
         passphrase: String,
-        activityResultLauncher: ActivityResultLauncher<Intent>
+        activityResultLauncher: ActivityResultLauncher<Intent>,
+        bssid: String?
     )
 
     /**
@@ -78,6 +80,7 @@ internal interface Android30AddNetworkApi {
     fun addWPA3Network(
         ssid: String,
         passphrase: String,
-        activityResultLauncher: ActivityResultLauncher<Intent>
+        activityResultLauncher: ActivityResultLauncher<Intent>,
+        bssid: String?
     )
 }

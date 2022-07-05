@@ -26,28 +26,24 @@ sealed class SearchForMultipleSSIDsRequest {
     /**
      * A data representation of a request to search for multiple SSIDs by regex.
      *
-     * @property regexForSSID The regex to use when matching the SSID
+     * @property regex The regex to use when matching the SSID
      *
      * @see SearchForMultipleSSIDsRequest
      *
      * @author Patches Klinefelter
      * @since 03/2022
      */
-    data class SSID(
-        val regexForSSID: String
-    ) : SearchForMultipleSSIDsRequest()
+    data class SSID(val regex: String) : SearchForMultipleSSIDsRequest()
 
     /**
      * A data representation of a request to search for multiple BSSIDs by regex.
      *
-     * @property regexForBSSID The regex to use when matching the BSSID
+     * @property regex The regex to use when matching the BSSID
      *
      * @see SearchForMultipleSSIDsRequest
      *
      * @author Patches Klinefelter
      * @since 03/2022
      */
-    data class BSSID(
-        val regexForBSSID: String
-    ) : SearchForMultipleSSIDsRequest()
+    data class BSSID(val regex: String) : SearchForMultipleSSIDsRequest()
 }

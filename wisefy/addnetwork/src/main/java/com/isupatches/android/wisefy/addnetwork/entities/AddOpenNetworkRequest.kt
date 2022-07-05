@@ -29,9 +29,10 @@ import androidx.annotation.RequiresApi
 sealed class AddOpenNetworkRequest {
 
     /**
-     * A data representation of a request to add an open network.
+     * A data representation of a request to add an open network by SSID.
      *
      * @property ssid The SSID of the open network to add
+     * @property bssid The optional BSSID for the open network being added
      *
      * @see AddOpenNetworkRequest
      *
@@ -39,14 +40,16 @@ sealed class AddOpenNetworkRequest {
      * @since 03/2022
      */
     data class Default(
-        val ssid: String
+        val ssid: String,
+        val bssid: String? = null
     ) : AddOpenNetworkRequest()
 
     /**
-     * A data representation of a request to add an open network on Android 30 and above devices.
+     * A data representation of a request to add an open network on Android 30 and above devices by SSID.
      *
      * @property ssid The SSID of the open network to add
      * @property launcher The activity result launcher for the request to add an open network
+     * @property bssid The optional BSSID for the open network being added
      *
      * @see AddOpenNetworkRequest
      *
@@ -56,6 +59,7 @@ sealed class AddOpenNetworkRequest {
     @RequiresApi(Build.VERSION_CODES.R)
     data class Android30OrAbove(
         val ssid: String,
-        val launcher: ActivityResultLauncher<Intent>
+        val launcher: ActivityResultLauncher<Intent>,
+        val bssid: String? = null
     ) : AddOpenNetworkRequest()
 }

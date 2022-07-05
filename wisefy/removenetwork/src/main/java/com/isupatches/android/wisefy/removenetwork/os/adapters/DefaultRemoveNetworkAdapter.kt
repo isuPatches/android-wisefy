@@ -70,8 +70,8 @@ internal class DefaultRemoveNetworkAdapter(
                         }
                     }
                     is SavedNetworkData.Suggestion -> {
-                        fail("")
-                        RemoveNetworkResult.Failure.False
+                        fail("Before Android Q, configurations should be used. Suggestion was used instead.")
+                        RemoveNetworkResult.Failure.WrongSDKLevel
                     }
                 }
             }

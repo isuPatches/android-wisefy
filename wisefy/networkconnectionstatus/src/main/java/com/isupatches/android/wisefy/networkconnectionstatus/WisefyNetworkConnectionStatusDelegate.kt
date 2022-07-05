@@ -22,7 +22,11 @@ import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.core.util.SdkUtil
 import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceConnectedResult
+import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceConnectedToMobileNetworkRequest
+import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceConnectedToMobileOrWifiNetworkRequest
 import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceConnectedToSSIDRequest
+import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceConnectedToWifiNetworkRequest
+import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceRoamingRequest
 import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceRoamingResult
 import com.isupatches.android.wisefy.networkconnectionstatus.os.adapters.DefaultNetworkConnectionStatusAdapter
 
@@ -73,11 +77,15 @@ class WisefyNetworkConnectionStatusDelegate(
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun isDeviceConnectedToMobileNetwork(): IsDeviceConnectedResult {
+    override fun isDeviceConnectedToMobileNetwork(
+        request: IsDeviceConnectedToMobileNetworkRequest
+    ): IsDeviceConnectedResult {
         return adapter.isDeviceConnectedToMobileNetwork()
     }
 
-    override fun isDeviceConnectedToMobileOrWifiNetwork(): IsDeviceConnectedResult {
+    override fun isDeviceConnectedToMobileOrWifiNetwork(
+        request: IsDeviceConnectedToMobileOrWifiNetworkRequest
+    ): IsDeviceConnectedResult {
         return adapter.isDeviceConnectedToMobileOrWifiNetwork()
     }
 
@@ -87,12 +95,14 @@ class WisefyNetworkConnectionStatusDelegate(
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun isDeviceConnectedToWifiNetwork(): IsDeviceConnectedResult {
+    override fun isDeviceConnectedToWifiNetwork(
+        request: IsDeviceConnectedToWifiNetworkRequest
+    ): IsDeviceConnectedResult {
         return adapter.isDeviceConnectedToWifiNetwork()
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun isDeviceRoaming(): IsDeviceRoamingResult {
+    override fun isDeviceRoaming(request: IsDeviceRoamingRequest): IsDeviceRoamingResult {
         return adapter.isDeviceRoaming()
     }
 }

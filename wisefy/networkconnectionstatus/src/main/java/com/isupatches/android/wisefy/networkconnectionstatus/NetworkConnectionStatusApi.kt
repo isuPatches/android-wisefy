@@ -16,7 +16,11 @@
 package com.isupatches.android.wisefy.networkconnectionstatus
 
 import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceConnectedResult
+import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceConnectedToMobileNetworkRequest
+import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceConnectedToMobileOrWifiNetworkRequest
 import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceConnectedToSSIDRequest
+import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceConnectedToWifiNetworkRequest
+import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceRoamingRequest
 import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceRoamingResult
 
 /**
@@ -30,26 +34,36 @@ interface NetworkConnectionStatusApi {
     /**
      * An internal API that is used to check if the device is currently connected to a mobile network.
      *
+     * @param request The details of the request to check if the device is connected to a mobile network
+     *
      * @return IsDeviceConnectedResult - The result of if the device is currently connected to a mobile network
      *
+     * @see IsDeviceConnectedToMobileNetworkRequest
      * @see IsDeviceConnectedResult
      *
      * @author Patches Klinefelter
      * @since 03/2022
      */
-    fun isDeviceConnectedToMobileNetwork(): IsDeviceConnectedResult
+    fun isDeviceConnectedToMobileNetwork(
+        request: IsDeviceConnectedToMobileNetworkRequest = IsDeviceConnectedToMobileNetworkRequest()
+    ): IsDeviceConnectedResult
 
     /**
      * A synchronous API that is used to check if the device is currently connected to a Wifi or mobile network.
      *
+     * @param request The details of the request to check if the device is connected to a mobile or Wifi network
+     *
      * @return IsDeviceConnectedResult - The result of if the device is currently connected to a Wifi or mobile network
      *
+     * @see IsDeviceConnectedToMobileOrWifiNetworkRequest
      * @see IsDeviceConnectedResult
      *
      * @author Patches Klinefelter
      * @since 03/2022
      */
-    fun isDeviceConnectedToMobileOrWifiNetwork(): IsDeviceConnectedResult
+    fun isDeviceConnectedToMobileOrWifiNetwork(
+        request: IsDeviceConnectedToMobileOrWifiNetworkRequest = IsDeviceConnectedToMobileOrWifiNetworkRequest()
+    ): IsDeviceConnectedResult
 
     /**
      * A synchronous API that is used to check if the device is currently connected to a given SSID network.
@@ -69,24 +83,32 @@ interface NetworkConnectionStatusApi {
     /**
      * A synchronous API that is used to check if the device is currently connected to a Wifi network.
      *
+     * @param request The details of the request to check if the device is connected to a Wifi network
+     *
      * @return IsDeviceConnectedResult - The result of if the device is currently connected to a Wifi network
      *
-     * @see IsDeviceRoamingResult
+     * @see IsDeviceConnectedToWifiNetworkRequest
+     * @see IsDeviceConnectedResult
      *
      * @author Patches Klinefelter
      * @since 03/2022
      */
-    fun isDeviceConnectedToWifiNetwork(): IsDeviceConnectedResult
+    fun isDeviceConnectedToWifiNetwork(
+        request: IsDeviceConnectedToWifiNetworkRequest = IsDeviceConnectedToWifiNetworkRequest()
+    ): IsDeviceConnectedResult
 
     /**
      * A synchronous API that is used to check if the device is currently roaming.
      *
+     * @param request The details of the request to see if the device is roaming
+     *
      * @return IsDeviceRoamingResult - The result of if the device is currently roaming
      *
+     * @see IsDeviceRoamingRequest
      * @see IsDeviceRoamingResult
      *
      * @author Patches Klinefelter
      * @since 03/2022
      */
-    fun isDeviceRoaming(): IsDeviceRoamingResult
+    fun isDeviceRoaming(request: IsDeviceRoamingRequest = IsDeviceRoamingRequest()): IsDeviceRoamingResult
 }

@@ -15,7 +15,9 @@
  */
 package com.isupatches.android.wisefy.sample.features.misc
 
+import android.Manifest
 import android.Manifest.permission.ACCESS_FINE_LOCATION
+import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.content.res.Configuration
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -68,8 +70,8 @@ internal fun MiscScreen(
         }
 
     val getSavedNetworksPermissionLauncher =
-        rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-            if (isGranted) {
+        rememberLauncherForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result ->
+            if (result.all { it.value }) {
                 @Suppress("MissingPermission")
                 viewModel.getSavedNetworks()
             } else {
@@ -81,6 +83,7 @@ internal fun MiscScreen(
     val onMiscOptionClicked: (MiscScreenOption) -> Unit = { option ->
         when (option) {
             MiscScreenOption.DISABLE_WIFI -> viewModel.disableWifi()
+            MiscScreenOption.DISCONNECT_FROM_CURRENT_NETWORK -> viewModel.disconnectFromCurrentNetwork()
             MiscScreenOption.ENABLE_WIFI -> viewModel.enableWifi()
             MiscScreenOption.GET_CURRENT_NETWORK -> viewModel.getCurrentNetwork()
             MiscScreenOption.GET_CURRENT_NETWORK_INFO -> viewModel.getCurrentNetworkInfo()
@@ -89,7 +92,9 @@ internal fun MiscScreen(
             MiscScreenOption.GET_NEARBY_ACCESS_POINTS -> {
                 getNearbyAccessPointsPermissionsLauncher.launch(ACCESS_FINE_LOCATION)
             }
-            MiscScreenOption.GET_SAVED_NETWORKS -> getSavedNetworksPermissionLauncher.launch(ACCESS_FINE_LOCATION)
+            MiscScreenOption.GET_SAVED_NETWORKS -> getSavedNetworksPermissionLauncher.launch(
+                arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE)
+            )
         }
     }
 

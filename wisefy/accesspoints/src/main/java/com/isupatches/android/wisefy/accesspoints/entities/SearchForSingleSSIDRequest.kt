@@ -28,7 +28,7 @@ sealed class SearchForSingleSSIDRequest(open val timeoutInMillis: Int) {
     /**
      * A data representation of a request to search for a single SSID by regex.
      *
-     * @property regexForSSID The regex to use when matching the SSID
+     * @property regex The regex to use when matching the SSID
      *
      * @see SearchForSingleSSIDRequest
      *
@@ -36,14 +36,14 @@ sealed class SearchForSingleSSIDRequest(open val timeoutInMillis: Int) {
      * @since 03/2022
      */
     data class SSID(
-        val regexForSSID: String,
+        val regex: String,
         override val timeoutInMillis: Int
     ) : SearchForSingleSSIDRequest(timeoutInMillis)
 
     /**
      * A data representation of a request to search for a single BSSID by regex.
      *
-     * @property regexForBSSID The regex to use when matching the BSSID
+     * @property regex The regex to use when matching the BSSID
      *
      * @see SearchForSingleSSIDRequest
      *
@@ -51,7 +51,7 @@ sealed class SearchForSingleSSIDRequest(open val timeoutInMillis: Int) {
      * @since 03/2022
      */
     data class BSSID(
-        val regexForBSSID: String,
+        val regex: String,
         override val timeoutInMillis: Int
     ) : SearchForSingleSSIDRequest(timeoutInMillis)
 }

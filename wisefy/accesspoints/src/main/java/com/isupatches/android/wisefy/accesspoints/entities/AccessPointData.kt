@@ -27,6 +27,4 @@ import android.net.wifi.ScanResult
  * @author Patches Klinefelter
  * @since 03/2022
  */
-data class AccessPointData(
-    val value: ScanResult
-)
+data class AccessPointData(val value: ScanResult)

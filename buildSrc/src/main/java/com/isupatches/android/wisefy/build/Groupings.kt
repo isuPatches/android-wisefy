@@ -20,6 +20,7 @@ import org.gradle.api.artifacts.dsl.DependencyHandler
 fun DependencyHandler.compose() {
     add(DependencyConstants.IMPLEMENTATION, Dependencies.AndroidX.Compose.ANIMATION)
     add(DependencyConstants.IMPLEMENTATION, Dependencies.AndroidX.Compose.MATERIAL)
+    add(DependencyConstants.IMPLEMENTATION, Dependencies.AndroidX.Compose.MATERIAL_ICONS_EXTENDED)
     add(DependencyConstants.IMPLEMENTATION, Dependencies.AndroidX.Compose.UI)
     add(DependencyConstants.IMPLEMENTATION, Dependencies.AndroidX.Compose.UI_TOOLING_PREVIEW)
 

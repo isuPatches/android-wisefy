@@ -28,32 +28,32 @@ internal fun SearchScreenDialogContent(
         is SearchDialogState.None -> {
             // No-op, no dialog
         }
-        is SearchDialogState.Failure.NoAccessPointFound -> {
+        is SearchDialogState.SearchForAccessPoint.NoAccessPointFound -> {
             WisefySampleNoticeDialog(title = R.string.search_result, body = R.string.access_point_not_found) {
                 viewModel.onDialogClosed()
             }
         }
-        is SearchDialogState.Failure.NoAccessPointsFound -> {
+        is SearchDialogState.SearchForAccessPoints.NoAccessPointsFound -> {
             WisefySampleNoticeDialog(title = R.string.search_result, body = R.string.no_access_points_found) {
                 viewModel.onDialogClosed()
             }
         }
-        is SearchDialogState.Failure.NoSSIDFound -> {
+        is SearchDialogState.SearchForSSID.NoSSIDFound -> {
             WisefySampleNoticeDialog(title = R.string.search_result, body = R.string.ssid_not_found) {
                 viewModel.onDialogClosed()
             }
         }
-        is SearchDialogState.Failure.NoSSIDsFound -> {
+        is SearchDialogState.SearchForSSIDs.NoSSIDsFound -> {
             WisefySampleNoticeDialog(title = R.string.search_result, body = R.string.no_ssids_found) {
                 viewModel.onDialogClosed()
             }
         }
-        is SearchDialogState.Failure.NoSavedNetworkFound -> {
+        is SearchDialogState.SearchForSavedNetwork.NoSavedNetworkFound -> {
             WisefySampleNoticeDialog(title = R.string.search_result, body = R.string.saved_network_not_found) {
                 viewModel.onDialogClosed()
             }
         }
-        is SearchDialogState.Failure.NoSavedNetworksFound -> {
+        is SearchDialogState.SearchForSavedNetworks.NoSavedNetworksFound -> {
             WisefySampleNoticeDialog(title = R.string.search_result, body = R.string.no_saved_networks_found) {
                 viewModel.onDialogClosed()
             }
@@ -68,12 +68,12 @@ internal fun SearchScreenDialogContent(
                 }
             )
         }
-        is SearchDialogState.InputError -> {
-            WisefySampleNoticeDialog(title = R.string.wisefy_action_result, body = R.string.network_input_invalid) {
+        is SearchDialogState.Failure.InputError -> {
+            WisefySampleNoticeDialog(title = R.string.search_result, body = R.string.network_input_invalid) {
                 viewModel.onDialogClosed()
             }
         }
-        is SearchDialogState.PermissionError.AccessPoint -> {
+        is SearchDialogState.SearchForAccessPoint.PermissionError -> {
             WisefySampleNoticeDialog(
                 title = R.string.permission_error,
                 body = R.string.permission_error_search_for_access_point
@@ -81,7 +81,7 @@ internal fun SearchScreenDialogContent(
                 viewModel.onDialogClosed()
             }
         }
-        is SearchDialogState.PermissionError.AccessPoints -> {
+        is SearchDialogState.SearchForAccessPoints.PermissionError -> {
             WisefySampleNoticeDialog(
                 title = R.string.permission_error,
                 body = R.string.permission_error_search_for_access_points
@@ -89,7 +89,7 @@ internal fun SearchScreenDialogContent(
                 viewModel.onDialogClosed()
             }
         }
-        is SearchDialogState.PermissionError.SSID -> {
+        is SearchDialogState.SearchForSSID.PermissionError -> {
             WisefySampleNoticeDialog(
                 title = R.string.permission_error,
                 body = R.string.permission_error_search_for_ssid
@@ -97,7 +97,7 @@ internal fun SearchScreenDialogContent(
                 viewModel.onDialogClosed()
             }
         }
-        is SearchDialogState.PermissionError.SSIDs -> {
+        is SearchDialogState.SearchForSSIDs.PermissionError -> {
             WisefySampleNoticeDialog(
                 title = R.string.permission_error,
                 body = R.string.permission_error_search_for_ssids
@@ -105,7 +105,7 @@ internal fun SearchScreenDialogContent(
                 viewModel.onDialogClosed()
             }
         }
-        is SearchDialogState.PermissionError.SavedNetwork -> {
+        is SearchDialogState.SearchForSavedNetwork.PermissionError -> {
             WisefySampleNoticeDialog(
                 title = R.string.permission_error,
                 body = R.string.permission_error_search_for_saved_network
@@ -113,7 +113,7 @@ internal fun SearchScreenDialogContent(
                 viewModel.onDialogClosed()
             }
         }
-        is SearchDialogState.PermissionError.SavedNetworks -> {
+        is SearchDialogState.SearchForSavedNetworks.PermissionError -> {
             WisefySampleNoticeDialog(
                 title = R.string.permission_error,
                 body = R.string.permission_error_search_for_saved_networks
@@ -121,7 +121,7 @@ internal fun SearchScreenDialogContent(
                 viewModel.onDialogClosed()
             }
         }
-        is SearchDialogState.Success.AccessPoint -> {
+        is SearchDialogState.SearchForAccessPoint.Success -> {
             WisefySampleNoticeDialog(
                 title = R.string.search_result,
                 body = R.string.access_point_args,
@@ -130,7 +130,7 @@ internal fun SearchScreenDialogContent(
                 viewModel.onDialogClosed()
             }
         }
-        is SearchDialogState.Success.AccessPoints -> {
+        is SearchDialogState.SearchForAccessPoints.Success -> {
             WisefySampleNoticeDialog(
                 title = R.string.search_result,
                 body = R.string.access_points_args,
@@ -139,7 +139,7 @@ internal fun SearchScreenDialogContent(
                 viewModel.onDialogClosed()
             }
         }
-        is SearchDialogState.Success.SSID -> {
+        is SearchDialogState.SearchForSSID.Success -> {
             WisefySampleNoticeDialog(
                 title = R.string.search_result,
                 body = R.string.ssid_args,
@@ -148,7 +148,7 @@ internal fun SearchScreenDialogContent(
                 viewModel.onDialogClosed()
             }
         }
-        is SearchDialogState.Success.SSIDs -> {
+        is SearchDialogState.SearchForSSIDs.Success -> {
             WisefySampleNoticeDialog(
                 title = R.string.search_result,
                 body = R.string.ssids_args,
@@ -157,7 +157,7 @@ internal fun SearchScreenDialogContent(
                 viewModel.onDialogClosed()
             }
         }
-        is SearchDialogState.Success.SavedNetwork -> {
+        is SearchDialogState.SearchForSavedNetwork.Success -> {
             WisefySampleNoticeDialog(
                 title = R.string.search_result,
                 body = R.string.saved_network_args,
@@ -166,7 +166,7 @@ internal fun SearchScreenDialogContent(
                 viewModel.onDialogClosed()
             }
         }
-        is SearchDialogState.Success.SavedNetworks -> {
+        is SearchDialogState.SearchForSavedNetworks.Success -> {
             WisefySampleNoticeDialog(
                 title = R.string.search_result,
                 body = R.string.saved_networks_args,

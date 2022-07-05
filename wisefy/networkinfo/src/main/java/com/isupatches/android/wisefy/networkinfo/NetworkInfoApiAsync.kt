@@ -78,7 +78,7 @@ interface NetworkInfoApiAsync {
      * @since 03/2022
      */
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    fun getNetworkInfo(
+    fun getCurrentNetworkInfo(
         request: GetCurrentNetworkInfoRequest = GetCurrentNetworkInfoRequest(),
         callbacks: GetCurrentNetworkInfoCallbacks?
     )

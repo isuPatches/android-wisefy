@@ -33,9 +33,7 @@ sealed class SSIDData {
      * @author Patches Klinefelter
      * @since 03/2022
      */
-    data class SSID(
-        val value: String
-    ) : SSIDData()
+    data class SSID(val value: String) : SSIDData()
 
     /**
      * A data representations for a network's BSSID value.
@@ -47,7 +45,5 @@ sealed class SSIDData {
      * @author Patches Klinefelter
      * @since 03/2022
      */
-    data class BSSID(
-        val value: String
-    ) : SSIDData()
+    data class BSSID(val value: String) : SSIDData()
 }

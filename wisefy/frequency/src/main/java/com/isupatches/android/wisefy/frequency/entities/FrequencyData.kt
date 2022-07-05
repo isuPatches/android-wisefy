@@ -23,6 +23,4 @@ package com.isupatches.android.wisefy.frequency.entities
  * @author Patches Klinefelter
  * @since 03/2022
  */
-data class FrequencyData(
-    val value: Int
-)
+data class FrequencyData(val value: Int)

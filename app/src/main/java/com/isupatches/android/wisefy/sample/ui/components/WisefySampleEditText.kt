@@ -20,12 +20,23 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
+import com.isupatches.android.wisefy.sample.R
 import com.isupatches.android.wisefy.sample.ui.primitives.WisefySampleSizes
 import com.isupatches.android.wisefy.sample.ui.primitives.WisefySampleTextFieldColors
 
@@ -35,25 +46,62 @@ internal fun WisefySampleEditText(
     onTextChange: (String) -> Unit,
     @StringRes labelResId: Int,
     singleLine: Boolean = true,
-    error: WisefySampleEditTextError? = null
+    error: WisefySampleEditTextError? = null,
+    isPasswordField: Boolean = false
 ) {
+    val colors = WisefySampleTextFieldColors()
+    val passwordVisible = rememberSaveable { mutableStateOf(false) }
     Column {
         Row {
             TextField(
                 value = text,
                 onValueChange = onTextChange,
-                label = { LocalContext.current.getString(labelResId) },
+                label = {
+                    Text(
+                        text = stringResource(labelResId),
+                        style = MaterialTheme.typography.body1,
+                        color = colors.placeholderColor(enabled = true).value
+                    )
+                },
                 singleLine = singleLine,
                 textStyle = MaterialTheme.typography.body1,
-                colors = WisefySampleTextFieldColors(),
+                colors = colors,
                 modifier = Modifier.fillMaxWidth(),
-                isError = error != null
+                isError = error != null,
+                visualTransformation = if (isPasswordField) {
+                    if (passwordVisible.value) {
+                        VisualTransformation.None
+                    } else {
+                        PasswordVisualTransformation()
+                    }
+                } else {
+                    VisualTransformation.None
+                },
+                trailingIcon = {
+                    if (isPasswordField) {
+                        val image = if (passwordVisible.value) {
+                            Icons.Filled.Visibility
+                        } else {
+                            Icons.Filled.VisibilityOff
+                        }
+
+                        val description = if (passwordVisible.value) {
+                            stringResource(R.string.hide_password)
+                        } else {
+                            stringResource(R.string.show_password)
+                        }
+
+                        IconButton(onClick = { passwordVisible.value = !passwordVisible.value }) {
+                            Icon(imageVector = image, description)
+                        }
+                    }
+                }
             )
         }
         error?.let {
             Row(modifier = Modifier.padding(top = WisefySampleSizes.Medium, bottom = WisefySampleSizes.Medium)) {
                 Text(
-                    text = LocalContext.current.getString(it.errorMessageResId),
+                    text = stringResource(it.errorMessageResId),
                     color = MaterialTheme.colors.error,
                     style = MaterialTheme.typography.caption,
                     modifier = Modifier.padding(start = WisefySampleSizes.Large)

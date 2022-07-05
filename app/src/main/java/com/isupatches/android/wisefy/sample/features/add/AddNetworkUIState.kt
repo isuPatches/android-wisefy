@@ -16,6 +16,7 @@
 package com.isupatches.android.wisefy.sample.features.add
 
 import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
+import com.isupatches.android.wisefy.networkconnection.entities.ConnectToNetworkResult
 
 internal data class AddNetworkUIState(
     val loadingState: AddNetworkLoadingState,
@@ -29,27 +30,38 @@ internal sealed class AddNetworkDialogState {
     object None : AddNetworkDialogState()
 
     sealed class Failure : AddNetworkDialogState() {
-        data class UnableToAdd(val result: AddNetworkResult.Failure) : Failure()
         data class WisefyAsync(val throwable: Throwable) : Failure()
     }
 
-    data class Success(val result: AddNetworkResult.Success) : AddNetworkDialogState()
+    sealed class AddNetwork : AddNetworkDialogState() {
+        data class Failure(val result: AddNetworkResult.Failure) : AddNetwork()
 
-    sealed class PermissionsError : AddNetworkDialogState() {
-        object AddOpenNetwork : PermissionsError()
-        object AddWPA2Network : PermissionsError()
-        object AddWPA3Network : PermissionsError()
+        data class Success(val result: AddNetworkResult.Success) : AddNetwork()
+
+        sealed class PermissionsError : AddNetwork() {
+            object AddOpenNetwork : PermissionsError()
+            object AddWPA2Network : PermissionsError()
+            object AddWPA3Network : PermissionsError()
+        }
+    }
+
+    sealed class ConnectToNetwork : AddNetworkDialogState() {
+        data class Failure(val result: ConnectToNetworkResult.Failure) : ConnectToNetwork()
+        data class Success(val result: ConnectToNetworkResult.Success) : ConnectToNetwork()
+        sealed class PermissionsError : ConnectToNetwork()
     }
 
     sealed class InputError : AddNetworkDialogState() {
         object SSID : InputError()
         object Passphrase : InputError()
+        object BSSID : InputError()
     }
 }
 
 internal data class AddNetworkInputState(
     val ssidState: AddNetworkInputSSIDState,
-    val passphraseState: AddNetworkPassphraseState
+    val passphraseState: AddNetworkPassphraseState,
+    val bssidState: AddNetworkBSSIDState
 )
 
 internal sealed class AddNetworkInputSSIDState {
@@ -75,4 +87,13 @@ internal sealed class AddNetworkPassphraseState {
         object TooLong : Invalid()
         object InvalidASCII : Invalid()
     }
+}
+
+internal sealed class AddNetworkBSSIDState {
+    sealed class Valid : AddNetworkBSSIDState() {
+        object Empty : Valid()
+        data class BSSID(val value: String) : Valid()
+    }
+
+    object Invalid : AddNetworkBSSIDState()
 }

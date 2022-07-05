@@ -3,6 +3,7 @@
 
     <!-- Actions -->
     <string name="add_network">Add Network</string>
+    <string name="connect_to_network">Connect to Network</string>
 
     <!-- Network Types -->
     <string name="open">Open</string>

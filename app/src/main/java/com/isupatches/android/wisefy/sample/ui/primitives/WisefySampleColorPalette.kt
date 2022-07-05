@@ -16,6 +16,7 @@
 package com.isupatches.android.wisefy.sample.ui.primitives
 
 import androidx.compose.foundation.interaction.InteractionSource
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.ButtonColors
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.SliderColors
@@ -113,7 +114,11 @@ internal class WisefySampleTextFieldColors : TextFieldColors {
     @Composable
     override fun placeholderColor(enabled: Boolean): State<Color> {
         return object : State<Color> {
-            override val value: Color = WisefySampleColorPalette.Gray3
+            override val value: Color = if (isSystemInDarkTheme()) {
+                WisefySampleColorPalette.Gray7
+            } else {
+                WisefySampleColorPalette.Gray5
+            }
         }
     }
 
@@ -132,7 +137,7 @@ internal class WisefySampleTextFieldColors : TextFieldColors {
     }
 }
 
-internal class  WisefySliderColors : SliderColors {
+internal class WisefySliderColors : SliderColors {
 
     @Composable
     override fun thumbColor(enabled: Boolean): State<Color> {

@@ -93,7 +93,7 @@ class WisefyNetworkInfoDelegate(
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun getNetworkInfo(
+    override fun getCurrentNetworkInfo(
         request: GetCurrentNetworkInfoRequest,
         callbacks: GetCurrentNetworkInfoCallbacks?
     ) {

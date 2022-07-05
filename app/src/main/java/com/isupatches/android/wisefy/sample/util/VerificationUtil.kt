@@ -62,6 +62,14 @@ internal fun String.validatePassphrase(): PassphraseInputError {
     }
 }
 
+internal fun String.validateBSSID(): BSSIDInputError {
+    return when {
+        isBlank() -> BSSIDInputError.EMPTY
+        !matches(Regex("^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$")) -> BSSIDInputError.INVALID
+        else -> BSSIDInputError.NONE
+    }
+}
+
 internal enum class SSIDInputError {
     NONE,
     EMPTY,
@@ -78,4 +86,10 @@ internal enum class PassphraseInputError {
     TOO_SHORT,
     TOO_LONG,
     NOT_VALID_ASCII
+}
+
+internal enum class BSSIDInputError {
+    NONE,
+    EMPTY,
+    INVALID
 }

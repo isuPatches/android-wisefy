@@ -55,7 +55,7 @@ interface ConnectToNetworkCallbacks : BaseWisefyCallbacks {
     fun onFailureConnectingToNetwork()
 
     /**
-     * A callback triggered when there is a no network found to connect to.
+     * A callback triggered when there is no network found to connect to.
      *
      * @author Patches Klinefelter
      * @since 03/2022

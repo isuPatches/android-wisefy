@@ -28,7 +28,7 @@ internal fun RemoveNetworkScreenDialogContent(
         is RemoveNetworkDialogState.None -> {
             // No-op, no dialog
         }
-        is RemoveNetworkDialogState.Success -> {
+        is RemoveNetworkDialogState.RemoveNetwork.Success -> {
             WisefySampleNoticeDialog(
                 title = R.string.remove_network_result,
                 body = R.string.succeeded_removing_network_args,
@@ -38,7 +38,7 @@ internal fun RemoveNetworkScreenDialogContent(
                 }
             )
         }
-        is RemoveNetworkDialogState.PermissionsError -> {
+        is RemoveNetworkDialogState.RemoveNetwork.PermissionsError -> {
             WisefySampleNoticeDialog(
                 title = R.string.permission_error,
                 body = R.string.permission_error_remove_network,
@@ -47,7 +47,7 @@ internal fun RemoveNetworkScreenDialogContent(
                 }
             )
         }
-        is RemoveNetworkDialogState.Failure.NotFoundToRemove -> {
+        is RemoveNetworkDialogState.RemoveNetwork.Failure.NotFoundToRemove -> {
             WisefySampleNoticeDialog(
                 title = R.string.remove_network_result,
                 body = R.string.network_not_found_to_remove,
@@ -56,7 +56,7 @@ internal fun RemoveNetworkScreenDialogContent(
                 }
             )
         }
-        is RemoveNetworkDialogState.Failure.UnableToRemove -> {
+        is RemoveNetworkDialogState.RemoveNetwork.Failure.UnableToRemove -> {
             WisefySampleNoticeDialog(
                 title = R.string.remove_network_result,
                 body = R.string.failed_removing_network_args,
@@ -76,9 +76,9 @@ internal fun RemoveNetworkScreenDialogContent(
                 }
             )
         }
-        is RemoveNetworkDialogState.InputError -> {
+        is RemoveNetworkDialogState.Failure.InputError -> {
             WisefySampleNoticeDialog(
-                title = R.string.wisefy_action_result,
+                title = R.string.remove_network_result,
                 body = R.string.network_input_invalid,
                 onClose = {
                     viewModel.onDialogClosed()

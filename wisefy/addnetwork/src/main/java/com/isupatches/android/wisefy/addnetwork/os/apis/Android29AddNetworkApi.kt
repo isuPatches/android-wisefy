@@ -41,7 +41,7 @@ internal interface Android29AddNetworkApi {
      * @since 03/2022
      */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-    fun addOpenNetwork(ssid: String): Int
+    fun addOpenNetwork(ssid: String, bssid: String?): Int
 
     /**
      * An API to add a WPA2 network for Android 29.
@@ -55,7 +55,7 @@ internal interface Android29AddNetworkApi {
      * @since 03/2022
      */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-    fun addWPA2Network(ssid: String, passphrase: String): Int
+    fun addWPA2Network(ssid: String, passphrase: String, bssid: String?): Int
 
     /**
      * An API to add a WPA3 network for Android 29.
@@ -69,5 +69,5 @@ internal interface Android29AddNetworkApi {
      * @since 03/2022
      */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-    fun addWPA3Network(ssid: String, passphrase: String): Int
+    fun addWPA3Network(ssid: String, passphrase: String, bssid: String?): Int
 }

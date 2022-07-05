@@ -54,7 +54,7 @@ internal class DefaultAddNetworkAdapter(
     override fun addOpenNetwork(request: AddOpenNetworkRequest): AddNetworkResult {
         return when (request) {
             is AddOpenNetworkRequest.Default -> {
-                val resultCode = api.addOpenNetwork(request.ssid)
+                val resultCode = api.addOpenNetwork(request.ssid, request.bssid)
                 if (resultCode > WIFI_MANAGER_ADD_NETWORK_FAILURE) {
                     AddNetworkResult.Success.ResultCode(resultCode)
                 } else {
@@ -73,7 +73,7 @@ internal class DefaultAddNetworkAdapter(
     override fun addWPA2Network(request: AddWPA2NetworkRequest): AddNetworkResult {
         return when (request) {
             is AddWPA2NetworkRequest.Default -> {
-                val resultCode = api.addWPA2Network(request.ssid, request.passphrase)
+                val resultCode = api.addWPA2Network(request.ssid, request.passphrase, request.bssid)
                 if (resultCode > WIFI_MANAGER_ADD_NETWORK_FAILURE) {
                     AddNetworkResult.Success.ResultCode(resultCode)
                 } else {

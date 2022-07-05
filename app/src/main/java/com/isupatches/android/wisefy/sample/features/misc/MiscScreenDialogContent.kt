@@ -28,7 +28,7 @@ internal fun MiscScreenDialogContent(
         is MiscScreenDialogState.None -> {
             // No-op, no dialog
         }
-        is MiscScreenDialogState.Success.DisableWifi -> {
+        is MiscScreenDialogState.DisableWifi.Success -> {
             WisefySampleNoticeDialog(
                 title = R.string.wisefy_action_result,
                 body = R.string.wifi_disabled,
@@ -37,7 +37,7 @@ internal fun MiscScreenDialogContent(
                 }
             )
         }
-        is MiscScreenDialogState.Success.EnableWifi -> {
+        is MiscScreenDialogState.EnableWifi.Success -> {
             WisefySampleNoticeDialog(
                 title = R.string.wisefy_action_result,
                 body = R.string.wifi_enabled,
@@ -46,7 +46,7 @@ internal fun MiscScreenDialogContent(
                 }
             )
         }
-        is MiscScreenDialogState.Success.GetCurrentNetwork -> {
+        is MiscScreenDialogState.GetCurrentNetwork.Success -> {
             WisefySampleNoticeDialog(
                 title = R.string.wisefy_action_result,
                 body = R.string.current_network_args,
@@ -56,7 +56,7 @@ internal fun MiscScreenDialogContent(
                 }
             )
         }
-        is MiscScreenDialogState.Success.GetCurrentNetworkInfo -> {
+        is MiscScreenDialogState.GetCurrentNetworkInfo.Success -> {
             WisefySampleNoticeDialog(
                 title = R.string.wisefy_action_result,
                 body = R.string.current_network_info_args,
@@ -66,7 +66,7 @@ internal fun MiscScreenDialogContent(
                 }
             )
         }
-        is MiscScreenDialogState.Success.GetFrequency -> {
+        is MiscScreenDialogState.GetFrequency.Success -> {
             WisefySampleNoticeDialog(
                 title = R.string.wisefy_action_result,
                 body = R.string.frequency_args,
@@ -76,7 +76,7 @@ internal fun MiscScreenDialogContent(
                 }
             )
         }
-        is MiscScreenDialogState.Success.GetIP -> {
+        is MiscScreenDialogState.GetIP.Success -> {
             WisefySampleNoticeDialog(
                 title = R.string.wisefy_action_result,
                 body = R.string.ip_args,
@@ -86,7 +86,7 @@ internal fun MiscScreenDialogContent(
                 }
             )
         }
-        is MiscScreenDialogState.Success.GetNearbyAccessPoints -> {
+        is MiscScreenDialogState.GetNearbyAccessPoints.Success -> {
             WisefySampleNoticeDialog(
                 title = R.string.wisefy_action_result,
                 body = R.string.access_point_args,
@@ -96,7 +96,7 @@ internal fun MiscScreenDialogContent(
                 }
             )
         }
-        is MiscScreenDialogState.Success.GetSavedNetworks -> {
+        is MiscScreenDialogState.GetSavedNetworks.Success -> {
             WisefySampleNoticeDialog(
                 title = R.string.wisefy_action_result,
                 body = R.string.saved_network_args,
@@ -106,16 +106,34 @@ internal fun MiscScreenDialogContent(
                 }
             )
         }
-        is MiscScreenDialogState.Failure.DisplayAndroidQMessage -> {
+        is MiscScreenDialogState.EnableWifi.DisplayAndroidQMessage -> {
             WisefySampleNoticeDialog(
                 title = R.string.android_q_notice,
-                body = R.string.android_q_wifi_message,
+                body = R.string.android_q_enable_wifi_message,
                 onClose = {
                     viewModel.onDialogClosed()
                 }
             )
         }
-        is MiscScreenDialogState.Failure.DisableWifi -> {
+        is MiscScreenDialogState.DisableWifi.DisplayAndroidQMessage -> {
+            WisefySampleNoticeDialog(
+                title = R.string.android_q_notice,
+                body = R.string.android_q_disable_wifi_message,
+                onClose = {
+                    viewModel.onDialogClosed()
+                }
+            )
+        }
+        is MiscScreenDialogState.DisconnectFromCurrentNetwork.DisplayAndroidQMessage -> {
+            WisefySampleNoticeDialog(
+                title = R.string.android_q_notice,
+                body = R.string.android_q_disconnect_message,
+                onClose = {
+                    viewModel.onDialogClosed()
+                }
+            )
+        }
+        is MiscScreenDialogState.DisableWifi.Failure -> {
             WisefySampleNoticeDialog(
                 title = R.string.wisefy_action_result,
                 body = R.string.failure_disabling_wifi,
@@ -124,7 +142,7 @@ internal fun MiscScreenDialogContent(
                 }
             )
         }
-        is MiscScreenDialogState.Failure.EnableWifi -> {
+        is MiscScreenDialogState.EnableWifi.Failure -> {
             WisefySampleNoticeDialog(
                 title = R.string.wisefy_action_result,
                 body = R.string.failure_enabling_wifi,
@@ -133,7 +151,7 @@ internal fun MiscScreenDialogContent(
                 }
             )
         }
-        is MiscScreenDialogState.Failure.GetCurrentNetwork -> {
+        is MiscScreenDialogState.GetCurrentNetwork.Failure -> {
             WisefySampleNoticeDialog(
                 title = R.string.wisefy_action_result,
                 body = R.string.no_current_network,
@@ -142,7 +160,7 @@ internal fun MiscScreenDialogContent(
                 }
             )
         }
-        is MiscScreenDialogState.Failure.GetCurrentNetworkInfo -> {
+        is MiscScreenDialogState.GetCurrentNetworkInfo.Failure -> {
             WisefySampleNoticeDialog(
                 title = R.string.wisefy_action_result,
                 body = R.string.no_current_network_info,
@@ -151,7 +169,7 @@ internal fun MiscScreenDialogContent(
                 }
             )
         }
-        is MiscScreenDialogState.Failure.GetFrequency -> {
+        is MiscScreenDialogState.GetFrequency.Failure -> {
             WisefySampleNoticeDialog(
                 title = R.string.wisefy_action_result,
                 body = R.string.failure_retrieving_frequency,
@@ -160,7 +178,7 @@ internal fun MiscScreenDialogContent(
                 }
             )
         }
-        is MiscScreenDialogState.Failure.GetIP -> {
+        is MiscScreenDialogState.GetIP.Failure -> {
             WisefySampleNoticeDialog(
                 title = R.string.wisefy_action_result,
                 body = R.string.failure_retrieving_ip,
@@ -169,7 +187,7 @@ internal fun MiscScreenDialogContent(
                 }
             )
         }
-        is MiscScreenDialogState.Failure.GetNearbyAccessPoints -> {
+        is MiscScreenDialogState.GetNearbyAccessPoints.Failure -> {
             WisefySampleNoticeDialog(
                 title = R.string.wisefy_action_result,
                 body = R.string.no_access_points_found,
@@ -178,7 +196,7 @@ internal fun MiscScreenDialogContent(
                 }
             )
         }
-        is MiscScreenDialogState.Failure.GetSavedNetworks -> {
+        is MiscScreenDialogState.GetSavedNetworks.Failure -> {
             WisefySampleNoticeDialog(
                 title = R.string.wisefy_action_result,
                 body = R.string.no_saved_networks_found,
@@ -197,7 +215,7 @@ internal fun MiscScreenDialogContent(
                 }
             )
         }
-        is MiscScreenDialogState.PermissionsError.GetFrequency -> {
+        is MiscScreenDialogState.GetFrequency.PermissionsError -> {
             WisefySampleNoticeDialog(
                 title = R.string.permission_error,
                 body = R.string.permission_error_get_frequency,
@@ -206,7 +224,7 @@ internal fun MiscScreenDialogContent(
                 }
             )
         }
-        is MiscScreenDialogState.PermissionsError.GetIP -> {
+        is MiscScreenDialogState.GetIP.PermissionsError -> {
             WisefySampleNoticeDialog(
                 title = R.string.permission_error,
                 body = R.string.permission_error_get_ip,
@@ -215,7 +233,7 @@ internal fun MiscScreenDialogContent(
                 }
             )
         }
-        is MiscScreenDialogState.PermissionsError.GetNearbyAccessPoints -> {
+        is MiscScreenDialogState.GetNearbyAccessPoints.PermissionsError -> {
             WisefySampleNoticeDialog(
                 title = R.string.permission_error,
                 body = R.string.permission_error_get_nearby_access_points,
@@ -228,6 +246,51 @@ internal fun MiscScreenDialogContent(
             WisefySampleNoticeDialog(
                 title = R.string.permission_error,
                 body = R.string.permission_error_get_saved_networks,
+                onClose = {
+                    viewModel.onDialogClosed()
+                }
+            )
+        }
+        is MiscScreenDialogState.DisconnectFromCurrentNetwork.Success.RequestPlaced -> {
+            WisefySampleNoticeDialog(
+                title = R.string.disconnect_from_current_network,
+                body = R.string.succeeded_placing_request_to_disconnect_from_current_network,
+                onClose = {
+                    viewModel.onDialogClosed()
+                }
+            )
+        }
+        is MiscScreenDialogState.DisconnectFromCurrentNetwork.Success.Disconnected -> {
+            WisefySampleNoticeDialog(
+                title = R.string.disconnect_from_current_network,
+                body = R.string.succeeded_disconnecting_from_current_network,
+                onClose = {
+                    viewModel.onDialogClosed()
+                }
+            )
+        }
+        is MiscScreenDialogState.DisconnectFromCurrentNetwork.Failure.NetworkNotFound -> {
+            WisefySampleNoticeDialog(
+                title = R.string.disconnect_from_current_network,
+                body = R.string.network_not_found_to_disconnect,
+                onClose = {
+                    viewModel.onDialogClosed()
+                }
+            )
+        }
+        is MiscScreenDialogState.DisconnectFromCurrentNetwork.Failure.UnableToDisconnect -> {
+            WisefySampleNoticeDialog(
+                title = R.string.disconnect_from_current_network,
+                body = R.string.failed_disconnecting_from_current_network,
+                onClose = {
+                    viewModel.onDialogClosed()
+                }
+            )
+        }
+        is MiscScreenDialogState.DisconnectFromCurrentNetwork.PermissionsError -> {
+            WisefySampleNoticeDialog(
+                title = R.string.permission_error,
+                body = R.string.permission_error_disconnecting_from_current_network,
                 onClose = {
                     viewModel.onDialogClosed()
                 }

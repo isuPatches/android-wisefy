@@ -24,7 +24,11 @@ import com.isupatches.android.wisefy.core.util.SdkUtil
 import com.isupatches.android.wisefy.networkconnectionstatus.NetworkConnectionStatusApiInternal
 import com.isupatches.android.wisefy.networkconnectionstatus.NetworkConnectionStatusDelegate
 import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceConnectedResult
+import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceConnectedToMobileNetworkRequest
+import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceConnectedToMobileOrWifiNetworkRequest
 import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceConnectedToSSIDRequest
+import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceConnectedToWifiNetworkRequest
+import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceRoamingRequest
 import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceRoamingResult
 import com.isupatches.android.wisefy.networkconnectionstatus.os.apis.DefaultNetworkConnectionStatusApi
 import com.isupatches.android.wisefy.networkconnectionstatus.os.impls.DefaultNetworkConnectionStatusApiImpl
@@ -71,7 +75,9 @@ internal class DefaultNetworkConnectionStatusAdapter(
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun isDeviceConnectedToMobileNetwork(): IsDeviceConnectedResult {
+    override fun isDeviceConnectedToMobileNetwork(
+        request: IsDeviceConnectedToMobileNetworkRequest
+    ): IsDeviceConnectedResult {
         val isConnected = api.isDeviceConnectedToMobileNetwork()
         return if (isConnected) {
             IsDeviceConnectedResult.True
@@ -80,7 +86,9 @@ internal class DefaultNetworkConnectionStatusAdapter(
         }
     }
 
-    override fun isDeviceConnectedToMobileOrWifiNetwork(): IsDeviceConnectedResult {
+    override fun isDeviceConnectedToMobileOrWifiNetwork(
+        request: IsDeviceConnectedToMobileOrWifiNetworkRequest
+    ): IsDeviceConnectedResult {
         val isConnected = api.isDeviceConnectedToMobileOrWifiNetwork()
         return if (isConnected) {
             IsDeviceConnectedResult.True
@@ -103,7 +111,9 @@ internal class DefaultNetworkConnectionStatusAdapter(
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun isDeviceConnectedToWifiNetwork(): IsDeviceConnectedResult {
+    override fun isDeviceConnectedToWifiNetwork(
+        request: IsDeviceConnectedToWifiNetworkRequest
+    ): IsDeviceConnectedResult {
         val isConnected = api.isDeviceConnectedToWifiNetwork()
         return if (isConnected) {
             IsDeviceConnectedResult.True
@@ -113,7 +123,7 @@ internal class DefaultNetworkConnectionStatusAdapter(
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun isDeviceRoaming(): IsDeviceRoamingResult {
+    override fun isDeviceRoaming(request: IsDeviceRoamingRequest): IsDeviceRoamingResult {
         val isRoaming = api.isDeviceRoaming()
         return if (isRoaming) {
             IsDeviceRoamingResult.True

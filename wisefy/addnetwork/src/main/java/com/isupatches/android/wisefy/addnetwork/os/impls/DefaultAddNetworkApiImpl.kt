@@ -37,14 +37,14 @@ internal class DefaultAddNetworkApiImpl(
 ) : DefaultAddNetworkApi {
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun addOpenNetwork(ssid: String): Int {
-        val networkConfiguration = createOpenNetworkConfiguration(ssid)
+    override fun addOpenNetwork(ssid: String, bssid: String?): Int {
+        val networkConfiguration = createOpenNetworkConfiguration(ssid, bssid)
         return wifiManager.addNetwork(networkConfiguration)
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun addWPA2Network(ssid: String, passphrase: String): Int {
-        val networkConfiguration = createWPA2NetworkConfiguration(ssid, passphrase)
+    override fun addWPA2Network(ssid: String, passphrase: String, bssid: String?): Int {
+        val networkConfiguration = createWPA2NetworkConfiguration(ssid, passphrase, bssid)
         return wifiManager.addNetwork(networkConfiguration)
     }
 }

@@ -22,15 +22,15 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.core.text.HtmlCompat
 import com.isupatches.android.wisefy.sample.R
 import com.isupatches.android.wisefy.sample.ui.primitives.WisefySampleTypography
 
 @Composable
 internal fun WisefySampleDialogTitleLabel(@StringRes stringResId: Int, modifier: Modifier = Modifier) {
     Text(
-        text = LocalContext.current.getString(stringResId),
+        text = stringResource(stringResId),
         style = WisefySampleTypography.h5,
         color = MaterialTheme.colors.primary,
         modifier = modifier
@@ -44,9 +44,9 @@ internal fun WisefySampleDialogBodyLabel(
     vararg formatArgs: Any
 ) {
     val text = if (formatArgs.any()) {
-        LocalContext.current.getString(stringResId, *formatArgs)
+        stringResource(stringResId, *formatArgs)
     } else {
-        LocalContext.current.getString(stringResId)
+        stringResource(stringResId)
     }
     Text(
         text = text,
@@ -59,7 +59,7 @@ internal fun WisefySampleDialogBodyLabel(
 @Composable
 internal fun WisefySampleBodyLabel(@StringRes stringResId: Int, modifier: Modifier = Modifier) {
     Text(
-        text = LocalContext.current.getString(stringResId),
+        text = stringResource(stringResId),
         style = WisefySampleTypography.body1,
         color = MaterialTheme.colors.onBackground,
         modifier = modifier
@@ -84,7 +84,7 @@ internal fun WisefySampleSubHeaderLabel(
     modifier: Modifier = Modifier
 ) {
     Text(
-        text = LocalContext.current.getString(stringResId),
+        text = stringResource(stringResId),
         style = WisefySampleTypography.h6,
         color = MaterialTheme.colors.onBackground,
         modifier = modifier
@@ -110,9 +110,9 @@ internal fun WisefySampleCaptionLabel(
     vararg formatArgs: Any
 ) {
     val text = if (formatArgs.any()) {
-        LocalContext.current.getString(stringResId, *formatArgs)
+        stringResource(stringResId, *formatArgs)
     } else {
-        LocalContext.current.getString(stringResId)
+        stringResource(stringResId)
     }
     Text(
         text = text,

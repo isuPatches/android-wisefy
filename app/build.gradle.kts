@@ -136,15 +136,11 @@ dependencies {
     // AndroidX
     compose()
     implementation(Dependencies.AndroidX.APPCOMPAT)
-    implementation(Dependencies.AndroidX.CONSTRAINT_LAYOUT)
     implementation(Dependencies.AndroidX.CORE_KTX)
     navigation()
 
     // Koltin
     implementation(Dependencies.Kotlin.STD_LIB)
-
-    // Google
-    implementation(Dependencies.Google.MATERIAL)
 
     // Dependency Injection
     dagger()

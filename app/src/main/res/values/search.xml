@@ -6,7 +6,6 @@
 
     <string name="search_for">Search for…</string>
     <string name="access_point">Access Point</string>
-    <string name="ssid">SSID</string>
     <string name="saved_network">Saved Network</string>
 
     <string name="return_full_list_label">Return full list of results?</string>
@@ -15,6 +14,7 @@
     </string>
 
     <string name="filter_duplicates">Filter Duplicates</string>
+    <string name="ssid_type">SSID Type</string>
 
     <string name="timeout_after_x_seconds_args_html">Timeout after %d seconds</string>
 

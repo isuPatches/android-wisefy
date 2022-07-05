@@ -91,12 +91,12 @@ internal class DefaultAccessPointsAdapter(
     override fun searchForAccessPoint(request: SearchForSingleAccessPointRequest): SearchForAccessPointResult {
         val accessPoint = when (request) {
             is SearchForSingleAccessPointRequest.SSID -> api.searchForAccessPointBySSID(
-                regexForSSID = request.regexForSSID,
+                regexForSSID = request.regex,
                 timeoutInMillis = request.timeoutInMillis,
                 filterDuplicates = request.filterDuplicates
             )
             is SearchForSingleAccessPointRequest.BSSID -> api.searchForAccessPointByBSSID(
-                regexForBSSID = request.regexForBSSID,
+                regexForBSSID = request.regex,
                 timeoutInMillis = request.timeoutInMillis,
                 filterDuplicates = request.filterDuplicates
             )
@@ -112,11 +112,11 @@ internal class DefaultAccessPointsAdapter(
     override fun searchForAccessPoints(request: SearchForMultipleAccessPointsRequest): SearchForAccessPointsResult {
         val accessPoints = when (request) {
             is SearchForMultipleAccessPointsRequest.SSID -> api.searchForAccessPointsBySSID(
-                regexForSSID = request.regexForSSID,
+                regexForSSID = request.regex,
                 filterDuplicates = request.filterDuplicates
             )
             is SearchForMultipleAccessPointsRequest.BSSID -> api.searchForAccessPointsByBSSID(
-                regexForBSSID = request.regexForBSSID,
+                regexForBSSID = request.regex,
                 filterDuplicates = request.filterDuplicates
             )
         }
@@ -131,11 +131,11 @@ internal class DefaultAccessPointsAdapter(
     override fun searchForSSID(request: SearchForSingleSSIDRequest): SearchForSSIDResult {
         val ssid = when (request) {
             is SearchForSingleSSIDRequest.SSID -> api.searchForSSIDByRegex(
-                regexForSSID = request.regexForSSID,
+                regexForSSID = request.regex,
                 timeoutInMillis = request.timeoutInMillis
             )
             is SearchForSingleSSIDRequest.BSSID -> api.searchForBSSIDByRegex(
-                regexForBSSID = request.regexForBSSID,
+                regexForBSSID = request.regex,
                 timeoutInMillis = request.timeoutInMillis
             )
         }
@@ -149,8 +149,8 @@ internal class DefaultAccessPointsAdapter(
     @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun searchForSSIDs(request: SearchForMultipleSSIDsRequest): SearchForSSIDsResult {
         val ssids = when (request) {
-            is SearchForMultipleSSIDsRequest.SSID -> api.searchForSSIDsByRegex(regexForSSID = request.regexForSSID)
-            is SearchForMultipleSSIDsRequest.BSSID -> api.searchForBSSIDsByRegex(regexForBSSID = request.regexForBSSID)
+            is SearchForMultipleSSIDsRequest.SSID -> api.searchForSSIDsByRegex(regexForSSID = request.regex)
+            is SearchForMultipleSSIDsRequest.BSSID -> api.searchForBSSIDsByRegex(regexForBSSID = request.regex)
         }
         return if (ssids.isNotEmpty()) {
             SearchForSSIDsResult.SSIDs(data = ssids)

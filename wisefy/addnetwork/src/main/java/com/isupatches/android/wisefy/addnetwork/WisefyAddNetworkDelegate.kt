@@ -75,9 +75,6 @@ class WisefyAddNetworkDelegate(
         logger.d(LOG_TAG, "WisefyAddNetworkDelegate adapter is: ${adapter::class.java.simpleName}")
     }
 
-    /*
-     * Legacy API requires ACCESS_FINE_LOCATION while API 29+ requires CHANGE_WIFI_STATE
-     */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     override fun addOpenNetwork(request: AddOpenNetworkRequest): AddNetworkResult {
         return adapter.addOpenNetwork(request)
@@ -96,9 +93,6 @@ class WisefyAddNetworkDelegate(
         }
     }
 
-    /*
-     * Legacy API requires ACCESS_FINE_LOCATION while API 29+ requires CHANGE_WIFI_STATE
-     */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     override fun addWPA2Network(request: AddWPA2NetworkRequest): AddNetworkResult {
         return adapter.addWPA2Network(request)
@@ -117,9 +111,6 @@ class WisefyAddNetworkDelegate(
         }
     }
 
-    /*
-     * Legacy API requires ACCESS_FINE_LOCATION while API 29+ requires CHANGE_WIFI_STATE
-     */
     @RequiresApi(Build.VERSION_CODES.Q)
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     override fun addWPA3Network(request: AddWPA3NetworkRequest): AddNetworkResult {

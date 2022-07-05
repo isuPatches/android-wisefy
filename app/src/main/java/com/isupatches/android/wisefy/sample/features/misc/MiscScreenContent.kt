@@ -69,6 +69,10 @@ internal fun MiscScreenContent(
 
 internal enum class MiscScreenOption(val id: Long, @StringRes val stringResId: Int) {
     DISABLE_WIFI(R.id.disable_wifi.toLong(), R.string.disable_wifi),
+    DISCONNECT_FROM_CURRENT_NETWORK(
+        R.id.disconnect_from_current_network.toLong(),
+        R.string.disconnect_from_current_network
+    ),
     ENABLE_WIFI(R.id.enable_wifi.toLong(), R.string.enabled_wifi),
     GET_CURRENT_NETWORK(R.id.get_current_network.toLong(), R.string.get_current_network),
     GET_CURRENT_NETWORK_INFO(R.id.get_current_network_info.toLong(), R.string.get_current_network_info),

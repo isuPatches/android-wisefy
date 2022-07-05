@@ -15,7 +15,8 @@
  */
 package com.isupatches.android.wisefy.frequency.os.apis
 
-import android.Manifest
+import android.Manifest.permission.ACCESS_FINE_LOCATION
+import android.Manifest.permission.ACCESS_NETWORK_STATE
 import android.net.wifi.WifiInfo
 import androidx.annotation.RequiresPermission
 
@@ -35,7 +36,7 @@ internal interface DefaultFrequencyApi {
      * @author Patches Klinefelter
      * @since 03/2022
      */
-    @RequiresPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_NETWORK_STATE])
     fun getFrequency(): Int?
 
     /**
@@ -58,7 +59,7 @@ internal interface DefaultFrequencyApi {
      * @author Patches Klinefelter
      * @since 03/2022
      */
-    @RequiresPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_NETWORK_STATE])
     fun isNetwork5gHz(): Boolean
 
     /**

@@ -29,28 +29,44 @@ internal sealed class RemoveNetworkDialogState {
     object None : RemoveNetworkDialogState()
 
     sealed class Failure : RemoveNetworkDialogState() {
-        object NotFoundToRemove : Failure()
-        data class UnableToRemove(val result: RemoveNetworkResult.Failure) : Failure()
         data class WisefyAsync(val throwable: Throwable) : Failure()
+        object InputError : Failure()
     }
 
-    data class Success(val result: RemoveNetworkResult.Success) : RemoveNetworkDialogState()
+    sealed class RemoveNetwork : RemoveNetworkDialogState() {
+        sealed class Failure : RemoveNetwork() {
+            object NotFoundToRemove : Failure()
+            data class UnableToRemove(val result: RemoveNetworkResult.Failure) : Failure()
+        }
 
-    object PermissionsError : RemoveNetworkDialogState()
+        data class Success(val result: RemoveNetworkResult.Success) : RemoveNetwork()
 
-    object InputError : RemoveNetworkDialogState()
+        object PermissionsError : RemoveNetwork()
+    }
 }
 
 internal sealed class RemoveNetworkInputState {
-    data class Valid(val value: String) : RemoveNetworkInputState()
 
-    sealed class Invalid : RemoveNetworkInputState() {
-        object Empty : Invalid()
-        object TooShort : Invalid()
-        object TooLong : Invalid()
-        object InvalidCharacters : Invalid()
-        object InvalidStartCharacters : Invalid()
-        object LeadingOrTrailingSpaces : Invalid()
-        object InvalidUnicode : Invalid()
+    sealed class SSID : RemoveNetworkInputState() {
+        data class Valid(val value: String) : SSID()
+
+        sealed class Invalid : SSID() {
+            object Empty : Invalid()
+            object TooShort : Invalid()
+            object TooLong : Invalid()
+            object InvalidCharacters : Invalid()
+            object InvalidStartCharacters : Invalid()
+            object LeadingOrTrailingSpaces : Invalid()
+            object InvalidUnicode : Invalid()
+        }
+    }
+
+    sealed class BSSID : RemoveNetworkInputState() {
+        data class Valid(val value: String) : BSSID()
+
+        sealed class Invalid : BSSID() {
+            object Empty : Invalid()
+            object ImproperFormat : Invalid()
+        }
     }
 }

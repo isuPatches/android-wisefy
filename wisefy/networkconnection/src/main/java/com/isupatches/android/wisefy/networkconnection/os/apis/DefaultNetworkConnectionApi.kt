@@ -15,6 +15,8 @@
  */
 package com.isupatches.android.wisefy.networkconnection.os.apis
 
+import com.isupatches.android.wisefy.core.entities.DeprecationMessages
+
 /**
  * A default internal API for connecting to and disconnecting from a network through the Android OS.
  *
@@ -57,5 +59,6 @@ internal interface DefaultNetworkConnectionApi {
      * @author Patches Klinefelter
      * @since 03/2022
      */
+    @Deprecated(DeprecationMessages.NetworkConnection.DisconnectFromCurrentNetwork)
     fun disconnectFromCurrentNetwork(): Boolean
 }

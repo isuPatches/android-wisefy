@@ -36,33 +36,71 @@ internal sealed class MiscScreenDialogState {
     object None : MiscScreenDialogState()
 
     sealed class Failure : MiscScreenDialogState() {
-        object DisableWifi : Failure()
-        object DisplayAndroidQMessage : Failure()
-        object EnableWifi : Failure()
-        object GetCurrentNetwork : Failure()
-        object GetCurrentNetworkInfo : Failure()
-        object GetFrequency : Failure()
-        object GetIP : Failure()
         data class WisefyAsync(val throwable: Throwable) : Failure()
-        object GetNearbyAccessPoints : Failure()
-        object GetSavedNetworks : Failure()
-    }
-
-    sealed class Success : MiscScreenDialogState() {
-        object DisableWifi : Success()
-        object EnableWifi : Success()
-        data class GetCurrentNetwork(val network: NetworkData) : Success()
-        data class GetCurrentNetworkInfo(val networkInfo: NetworkInfoData) : Success()
-        data class GetFrequency(val frequency: FrequencyData) : Success()
-        data class GetIP(val ip: IPData) : Success()
-        data class GetNearbyAccessPoints(val accessPoints: List<AccessPointData>) : Success()
-        data class GetSavedNetworks(val savedNetworks: List<SavedNetworkData>) : Success()
     }
 
     sealed class PermissionsError : MiscScreenDialogState() {
-        object GetFrequency : PermissionsError()
-        object GetIP : PermissionsError()
-        object GetNearbyAccessPoints : PermissionsError()
         object GetSavedNetworks : PermissionsError()
+    }
+
+    sealed class DisableWifi : MiscScreenDialogState() {
+        object Success : DisableWifi()
+        object Failure : DisableWifi()
+        object DisplayAndroidQMessage : DisableWifi()
+    }
+
+    sealed class DisconnectFromCurrentNetwork : MiscScreenDialogState() {
+        sealed class Success : DisconnectFromCurrentNetwork() {
+            object RequestPlaced : Success()
+            object Disconnected : Success()
+        }
+
+        sealed class Failure : DisconnectFromCurrentNetwork() {
+            object NetworkNotFound : Failure()
+            object UnableToDisconnect : Failure()
+        }
+
+        object DisplayAndroidQMessage : DisconnectFromCurrentNetwork()
+
+        object PermissionsError : DisconnectFromCurrentNetwork()
+    }
+
+    sealed class EnableWifi : MiscScreenDialogState() {
+        object Success : EnableWifi()
+        object Failure : EnableWifi()
+        object DisplayAndroidQMessage : EnableWifi()
+    }
+
+    sealed class GetCurrentNetwork : MiscScreenDialogState() {
+        data class Success(val network: NetworkData) : GetCurrentNetwork()
+        object Failure : GetCurrentNetwork()
+    }
+
+    sealed class GetCurrentNetworkInfo : MiscScreenDialogState() {
+        data class Success(val networkInfo: NetworkInfoData) : GetCurrentNetworkInfo()
+        object Failure : GetCurrentNetworkInfo()
+    }
+
+    sealed class GetFrequency : MiscScreenDialogState() {
+        data class Success(val frequency: FrequencyData) : GetFrequency()
+        object Failure : GetFrequency()
+        object PermissionsError : GetFrequency()
+    }
+
+    sealed class GetIP : MiscScreenDialogState() {
+        data class Success(val ip: IPData) : GetIP()
+        object Failure : GetIP()
+        object PermissionsError : GetIP()
+    }
+
+    sealed class GetNearbyAccessPoints : MiscScreenDialogState() {
+        data class Success(val accessPoints: List<AccessPointData>) : GetNearbyAccessPoints()
+        object Failure : GetNearbyAccessPoints()
+        object PermissionsError : GetNearbyAccessPoints()
+    }
+
+    sealed class GetSavedNetworks : MiscScreenDialogState() {
+        data class Success(val savedNetworks: List<SavedNetworkData>) : GetSavedNetworks()
+        object Failure : GetSavedNetworks()
     }
 }

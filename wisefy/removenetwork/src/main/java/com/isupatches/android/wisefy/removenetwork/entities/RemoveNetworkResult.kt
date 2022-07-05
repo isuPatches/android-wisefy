@@ -113,5 +113,7 @@ sealed class RemoveNetworkResult {
          * @since 03/2022
          */
         data class ResultCode(val value: Int) : Failure()
+
+        object WrongSDKLevel : Failure()
     }
 }

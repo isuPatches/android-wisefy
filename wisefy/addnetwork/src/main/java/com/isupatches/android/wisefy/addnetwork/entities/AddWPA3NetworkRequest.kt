@@ -33,6 +33,7 @@ sealed class AddWPA3NetworkRequest {
      *
      * @property ssid The SSID of the WPA3 network to add
      * @property passphrase The password for the WPA3 network to add
+     * @property bssid The optional BSSID for the WPA3 network being added
      *
      * @see AddWPA3NetworkRequest
      *
@@ -42,7 +43,8 @@ sealed class AddWPA3NetworkRequest {
     @RequiresApi(Build.VERSION_CODES.Q)
     data class Default(
         val ssid: String,
-        val passphrase: String
+        val passphrase: String,
+        val bssid: String? = null
     ) : AddWPA3NetworkRequest()
 
     /**
@@ -51,6 +53,7 @@ sealed class AddWPA3NetworkRequest {
      * @property ssid The SSID of the WPA3 network to add
      * @property passphrase The password for the WPA3 network to add
      * @property launcher The activity result launcher for the request to add a WPA3 network
+     * @property bssid The optional BSSID for the WPA3 network being added
      *
      * @see AddWPA3NetworkRequest
      *
@@ -61,6 +64,7 @@ sealed class AddWPA3NetworkRequest {
     data class Android30OrAbove(
         val ssid: String,
         val passphrase: String,
-        val launcher: ActivityResultLauncher<Intent>
+        val launcher: ActivityResultLauncher<Intent>,
+        val bssid: String? = null
     ) : AddWPA3NetworkRequest()
 }

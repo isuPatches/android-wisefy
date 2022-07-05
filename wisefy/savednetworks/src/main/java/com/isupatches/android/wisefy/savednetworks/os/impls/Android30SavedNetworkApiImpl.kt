@@ -67,17 +67,17 @@ internal class Android30SavedNetworkApiImpl(
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun searchForSavedNetworksBySSID(regexForSSID: String): List<WifiNetworkSuggestion> {
-        return wifiManager.networkSuggestions.filter { configuration ->
-            configuration.ssid?.replace(QUOTE, "")?.matches(regexForSSID.toRegex()) == true ||
-                configuration.ssid?.matches(regexForSSID.toRegex()) == true
+        return getSavedNetworks().filter { suggestion ->
+            suggestion.ssid?.replace(QUOTE, "")?.matches(regexForSSID.toRegex()) == true ||
+                suggestion.ssid?.matches(regexForSSID.toRegex()) == true
         }
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun searchForSavedNetworksByBSSID(regexForBSSID: String): List<WifiNetworkSuggestion> {
-        return wifiManager.networkSuggestions.filter { configuration ->
-            configuration.bssid?.toString()?.replace(QUOTE, "")?.matches(regexForBSSID.toRegex()) == true ||
-                configuration.bssid?.toString()?.matches(regexForBSSID.toRegex()) == true
+        return getSavedNetworks().filter { suggestion ->
+            suggestion.bssid?.toString()?.replace(QUOTE, "")?.matches(regexForBSSID.toRegex()) == true ||
+                suggestion.bssid?.toString()?.matches(regexForBSSID.toRegex()) == true
         }
     }
 }

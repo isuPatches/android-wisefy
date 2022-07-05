@@ -17,7 +17,8 @@ package com.isupatches.android.wisefy.networkconnection
 
 import com.isupatches.android.wisefy.networkconnection.callbacks.ConnectToNetworkCallbacks
 import com.isupatches.android.wisefy.networkconnection.callbacks.DisconnectFromCurrentNetworkCallbacks
-import com.isupatches.android.wisefy.networkconnection.entities.NetworkConnectionRequest
+import com.isupatches.android.wisefy.networkconnection.entities.ConnectToNetworkRequest
+import com.isupatches.android.wisefy.networkconnection.entities.DisconnectFromCurrentNetworkRequest
 
 /**
  * A set of asynchronous APIs for connecting to and disconnecting from a network.
@@ -34,22 +35,27 @@ interface NetworkConnectionApiAsync {
      * @param callbacks The callbacks for connecting to a network
      *
      * @see ConnectToNetworkCallbacks
-     * @see NetworkConnectionRequest
+     * @see ConnectToNetworkRequest
      *
      * @author Patches Klinefelter
      * @since 03/2022
      */
-    fun connectToNetwork(request: NetworkConnectionRequest, callbacks: ConnectToNetworkCallbacks?)
+    fun connectToNetwork(request: ConnectToNetworkRequest, callbacks: ConnectToNetworkCallbacks?)
 
     /**
      * An asynchronous API to disconnect from the current network.
      *
+     * @param request The details of the request to disconnect from the current network
      * @param callbacks The callbacks for disconnecting from a network
      *
+     * @see DisconnectFromCurrentNetworkRequest
      * @see DisconnectFromCurrentNetworkCallbacks
      *
      * @author Patches Klinefelter
      * @since 03/2022
      */
-    fun disconnectFromCurrentNetwork(callbacks: DisconnectFromCurrentNetworkCallbacks?)
+    fun disconnectFromCurrentNetwork(
+        request: DisconnectFromCurrentNetworkRequest,
+        callbacks: DisconnectFromCurrentNetworkCallbacks?
+    )
 }

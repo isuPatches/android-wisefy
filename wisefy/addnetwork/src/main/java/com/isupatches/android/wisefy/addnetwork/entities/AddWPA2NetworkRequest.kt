@@ -33,6 +33,7 @@ sealed class AddWPA2NetworkRequest {
      *
      * @property ssid The SSID of the WPA2 network to add
      * @property passphrase The password for the WPA2 network to add
+     * @property bssid The optional BSSID for the WPA2 network being added
      *
      * @see AddWPA2NetworkRequest
      *
@@ -41,7 +42,8 @@ sealed class AddWPA2NetworkRequest {
      */
     data class Default(
         val ssid: String,
-        val passphrase: String
+        val passphrase: String,
+        val bssid: String? = null
     ) : AddWPA2NetworkRequest()
 
     /**
@@ -50,6 +52,7 @@ sealed class AddWPA2NetworkRequest {
      * @property ssid The SSID of the WPA2 network to add
      * @property passphrase The password for the WPA2 network to add
      * @property launcher The activity result launcher for the request to add a WPA2 network
+     * @property bssid The optional BSSID for the WPA2 network being added
      *
      * @see AddWPA2NetworkRequest
      *
@@ -60,6 +63,7 @@ sealed class AddWPA2NetworkRequest {
     data class Android30OrAbove(
         val ssid: String,
         val passphrase: String,
-        val launcher: ActivityResultLauncher<Intent>
+        val launcher: ActivityResultLauncher<Intent>,
+        val bssid: String? = null
     ) : AddWPA2NetworkRequest()
 }

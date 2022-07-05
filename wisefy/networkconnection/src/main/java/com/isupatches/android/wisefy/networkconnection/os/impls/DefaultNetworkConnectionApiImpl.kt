@@ -20,6 +20,7 @@ import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.net.ConnectivityManager
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
+import com.isupatches.android.wisefy.core.entities.DeprecationMessages
 import com.isupatches.android.wisefy.core.entities.QUOTE
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.core.util.rest
@@ -103,6 +104,7 @@ internal class DefaultNetworkConnectionApiImpl(
         }
     }
 
+    @Deprecated(DeprecationMessages.NetworkConnection.DisconnectFromCurrentNetwork)
     override fun disconnectFromCurrentNetwork(): Boolean {
         return wifiManager.disconnect()
     }

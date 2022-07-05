@@ -22,10 +22,14 @@ import android.net.NetworkRequest
 import android.net.wifi.WifiNetworkSpecifier
 import android.os.Build
 import androidx.annotation.RequiresApi
+import com.isupatches.android.wisefy.core.assertions.fail
+import com.isupatches.android.wisefy.core.entities.DeprecationMessages
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.networkconnection.NetworkConnectionApi
-import com.isupatches.android.wisefy.networkconnection.entities.NetworkConnectionRequest
-import com.isupatches.android.wisefy.networkconnection.entities.NetworkConnectionResult
+import com.isupatches.android.wisefy.networkconnection.entities.ConnectToNetworkRequest
+import com.isupatches.android.wisefy.networkconnection.entities.ConnectToNetworkResult
+import com.isupatches.android.wisefy.networkconnection.entities.DisconnectFromCurrentNetworkRequest
+import com.isupatches.android.wisefy.networkconnection.entities.DisconnectFromCurrentNetworkResult
 import com.isupatches.android.wisefy.networkconnection.os.apis.Android29NetworkConnectionApi
 import com.isupatches.android.wisefy.networkconnection.os.impls.Android29NetworkConnectionApiImpl
 
@@ -51,9 +55,9 @@ internal class Android29NetworkConnectionAdapter(
     private val api: Android29NetworkConnectionApi = Android29NetworkConnectionApiImpl(connectivityManager, logger)
 ) : NetworkConnectionApi {
 
-    override fun connectToNetwork(request: NetworkConnectionRequest): NetworkConnectionResult {
+    override fun connectToNetwork(request: ConnectToNetworkRequest): ConnectToNetworkResult {
         val networkRequest = when (request) {
-            is NetworkConnectionRequest.SSID -> {
+            is ConnectToNetworkRequest.SSID -> {
                 NetworkRequest.Builder()
                     .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
                     .removeCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
@@ -64,7 +68,7 @@ internal class Android29NetworkConnectionAdapter(
                     )
                     .build()
             }
-            is NetworkConnectionRequest.BSSID -> {
+            is ConnectToNetworkRequest.BSSID -> {
                 NetworkRequest.Builder()
                     .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
                     .removeCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
@@ -77,11 +81,14 @@ internal class Android29NetworkConnectionAdapter(
             }
         }
         api.connectToNetwork(networkRequest, request.timeoutInMillis)
-        return NetworkConnectionResult.ConnectionRequestSent
+        return ConnectToNetworkResult.Success.ConnectionRequestSent
     }
 
-    override fun disconnectFromCurrentNetwork(): NetworkConnectionResult {
-        api.disconnectFromCurrentNetwork()
-        return NetworkConnectionResult.DisconnectRequestSent
+    @Deprecated(DeprecationMessages.NetworkConnection.DisconnectFromCurrentNetwork)
+    override fun disconnectFromCurrentNetwork(
+        request: DisconnectFromCurrentNetworkRequest
+    ): DisconnectFromCurrentNetworkResult {
+        fail(DeprecationMessages.NetworkConnection.DisconnectFromCurrentNetwork)
+        return DisconnectFromCurrentNetworkResult.Success.DisconnectRequestSent
     }
 }

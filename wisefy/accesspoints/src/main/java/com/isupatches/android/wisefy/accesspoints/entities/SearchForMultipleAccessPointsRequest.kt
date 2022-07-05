@@ -28,7 +28,7 @@ sealed class SearchForMultipleAccessPointsRequest(open val filterDuplicates: Boo
     /**
      * A data representation of a request to search for multiple access points by SSID.
      *
-     * @property regexForSSID The regex to use when matching the SSID
+     * @property regex The regex to use when matching the SSID
      * @property filterDuplicates Whether nearby access points with the same SSID but lower RSSI levels should be
      *  excluded
      *
@@ -38,14 +38,14 @@ sealed class SearchForMultipleAccessPointsRequest(open val filterDuplicates: Boo
      * @since 03/2022
      */
     data class SSID(
-        val regexForSSID: String,
+        val regex: String,
         override val filterDuplicates: Boolean = true
     ) : SearchForMultipleAccessPointsRequest(filterDuplicates)
 
     /**
      * A data representation of a request to search for multiple access points by BSSID.
      *
-     * @property regexForBSSID The regex to use when matching the BSSID
+     * @property regex The regex to use when matching the BSSID
      * @property filterDuplicates Whether nearby access points with the same SSID but lower RSSI levels should be
      *  excluded
      *
@@ -55,7 +55,7 @@ sealed class SearchForMultipleAccessPointsRequest(open val filterDuplicates: Boo
      * @since 03/2022
      */
     data class BSSID(
-        val regexForBSSID: String,
+        val regex: String,
         override val filterDuplicates: Boolean = true
     ) : SearchForMultipleAccessPointsRequest(filterDuplicates)
 }

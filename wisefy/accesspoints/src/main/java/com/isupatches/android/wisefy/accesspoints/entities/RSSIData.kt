@@ -23,6 +23,4 @@ package com.isupatches.android.wisefy.accesspoints.entities
  * @author Patches Klinefelter
  * @since 03/2022
  */
-data class RSSIData(
-    val value: Int?
-)
+data class RSSIData(val value: Int?)

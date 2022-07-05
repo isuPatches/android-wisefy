@@ -31,7 +31,7 @@ interface GetNearbyAccessPointCallbacks : BaseWisefyCallbacks {
     /**
      * A callback triggered when there are nearby access points.
      *
-     * @param accessPoints The list of matching nearby access points
+     * @param accessPoints The list of nearby access points
      *
      * @see AccessPointData
      *

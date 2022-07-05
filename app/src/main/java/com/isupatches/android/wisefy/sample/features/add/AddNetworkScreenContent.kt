@@ -15,6 +15,8 @@
  */
 package com.isupatches.android.wisefy.sample.features.add
 
+import android.Manifest.permission.ACCESS_FINE_LOCATION
+import android.Manifest.permission.CHANGE_WIFI_STATE
 import android.app.Activity
 import android.os.Build
 import android.provider.Settings.ADD_WIFI_RESULT_SUCCESS
@@ -35,14 +37,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.isupatches.android.wisefy.sample.R
 import com.isupatches.android.wisefy.sample.entities.NetworkType
+import com.isupatches.android.wisefy.sample.logging.WisefySampleLogger
 import com.isupatches.android.wisefy.sample.ui.components.WisefyPrimaryButton
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleBodyLabel
-import com.isupatches.android.wisefy.sample.ui.components.WisefySampleRadioButton
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleEditText
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleEditTextError
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleLoadingIndicator
+import com.isupatches.android.wisefy.sample.ui.components.WisefySampleRadioButton
 import com.isupatches.android.wisefy.sample.ui.primitives.WisefySampleSizes
 import com.isupatches.android.wisefy.sample.ui.theme.WisefySampleTheme
+
+private const val LOG_TAG = "AddNetworkScreenContent"
 
 @Composable
 internal fun AddNetworkScreenContent(
@@ -55,7 +60,9 @@ internal fun AddNetworkScreenContent(
     WisefySampleTheme {
         val currentUIState = uiState()
         val ssid = remember { mutableStateOf("") }
+        val bssid = remember { mutableStateOf("") }
         val passphrase = remember { mutableStateOf("") }
+
         val addNetworkRequestLauncher = rememberLauncherForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) { result: ActivityResult ->
@@ -76,6 +83,22 @@ internal fun AddNetworkScreenContent(
                 }
             }
         }
+
+        val addNetworkPermissionLauncher =
+            rememberLauncherForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result ->
+                if (result.all { it.value }) {
+                    @Suppress("MissingPermission")
+                    if (isAtLeastAndroidQ) {
+                        viewModel.addNetwork(launcher = addNetworkRequestLauncher)
+                    } else {
+                        viewModel.addNetwork()
+                    }
+                } else {
+                    WisefySampleLogger.w(LOG_TAG, "Permissions required to remove a network are denied")
+                    viewModel.onAddNetworkPermissionsError()
+                }
+            }
+
         val currentInputState = inputState()
 
         if (currentUIState.loadingState.isLoading) {
@@ -105,16 +128,16 @@ internal fun AddNetworkScreenContent(
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
                 WisefySampleRadioButton(
                     isSelected = networkType() == NetworkType.OPEN,
-                    onClick = { viewModel.onOpenNetworkTypeSelected() }
+                    onClick = { viewModel.onNetworkTypeSelected(NetworkType.OPEN) }
                 )
                 WisefySampleRadioButton(
                     isSelected = networkType() == NetworkType.WPA2,
-                    onClick = { viewModel.onWPA2NetworkTypeSelected() }
+                    onClick = { viewModel.onNetworkTypeSelected(NetworkType.WPA2) }
                 )
                 if (isAtLeastAndroidQ) {
                     WisefySampleRadioButton(
                         isSelected = networkType() == NetworkType.WPA3,
-                        onClick = { viewModel.onWPA3NetworkTypeSelected() }
+                        onClick = { viewModel.onNetworkTypeSelected(NetworkType.WPA3) }
                     )
                 }
             }
@@ -152,6 +175,24 @@ internal fun AddNetworkScreenContent(
                     }
                 )
             }
+            Row(modifier = Modifier.padding(top = WisefySampleSizes.XLarge)) {
+                WisefySampleEditText(
+                    text = bssid.value,
+                    onTextChange = { newBSSID ->
+                        bssid.value = newBSSID
+                        viewModel.onBSSIDInputChanged(newBSSID)
+                    },
+                    labelResId = R.string.bssid,
+                    error = when (currentInputState.bssidState) {
+                        is AddNetworkBSSIDState.Invalid -> {
+                            WisefySampleEditTextError(R.string.bssid_input_invalid)
+                        }
+                        is AddNetworkBSSIDState.Valid.Empty, is AddNetworkBSSIDState.Valid.BSSID -> {
+                            null
+                        }
+                    }
+                )
+            }
             if (networkType() == NetworkType.WPA2 || networkType() == NetworkType.WPA3) {
                 Row(modifier = Modifier.padding(top = WisefySampleSizes.Large)) {
                     WisefySampleEditText(
@@ -160,7 +201,8 @@ internal fun AddNetworkScreenContent(
                             passphrase.value = newPassphrase
                             viewModel.onPassphraseInputChanged(newPassphrase)
                         },
-                        labelResId = R.string.network_name,
+                        labelResId = R.string.network_passphrase,
+                        isPasswordField = true,
                         error = when (currentInputState.passphraseState) {
                             is AddNetworkPassphraseState.Invalid.Empty -> {
                                 WisefySampleEditTextError(R.string.passphrase_input_empty)
@@ -181,11 +223,17 @@ internal fun AddNetworkScreenContent(
             }
             Row(modifier = Modifier.padding(top = WisefySampleSizes.Large)) {
                 WisefyPrimaryButton(stringResId = R.string.add_network) {
-                    if (isAtLeastAndroidQ) {
-                        viewModel.addNetwork(launcher = addNetworkRequestLauncher)
-                    } else {
-                        viewModel.addNetwork()
-                    }
+                    addNetworkPermissionLauncher.launch(arrayOf(ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE))
+                }
+            }
+            Row(modifier = Modifier.padding(top = WisefySampleSizes.Large)) {
+                WisefyPrimaryButton(stringResId = R.string.connect_to_network) {
+                    // todo@patches
+//                    if (isAtLeastAndroidQ) {
+//                        viewModel.addNetwork(launcher = addNetworkRequestLauncher)
+//                    } else {
+//                        viewModel.addNetwork()
+//                    }
                 }
             }
         }

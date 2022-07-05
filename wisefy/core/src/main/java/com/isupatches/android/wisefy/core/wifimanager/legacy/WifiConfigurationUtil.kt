@@ -29,9 +29,12 @@ import java.util.Locale
  * @author Patches Klinefelter
  * @since 03/2022
  */
-fun createOpenNetworkConfiguration(ssid: String): WifiConfiguration {
+fun createOpenNetworkConfiguration(ssid: String, bssid: String?): WifiConfiguration {
     return WifiConfiguration().apply {
         SSID = convertSSIDForConfig(ssid)
+        if (!bssid.isNullOrBlank()) {
+            BSSID = convertSSIDForConfig(bssid)
+        }
         allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE)
 
         // Allowed auth algorithms
@@ -60,9 +63,12 @@ fun createOpenNetworkConfiguration(ssid: String): WifiConfiguration {
  * @author Patches Klinefelter
  * @since 03/2022
  */
-fun createWPA2NetworkConfiguration(ssid: String, passphrase: String): WifiConfiguration {
+fun createWPA2NetworkConfiguration(ssid: String, passphrase: String, bssid: String?): WifiConfiguration {
     return WifiConfiguration().apply {
         SSID = convertSSIDForConfig(ssid)
+        if (!bssid.isNullOrBlank()) {
+            BSSID = convertSSIDForConfig(bssid)
+        }
         preSharedKey = QUOTE + passphrase + QUOTE
         allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_PSK)
         status = WifiConfiguration.Status.ENABLED

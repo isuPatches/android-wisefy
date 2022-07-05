@@ -16,6 +16,7 @@
 package com.isupatches.android.wisefy.frequency
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
+import android.Manifest.permission.ACCESS_NETWORK_STATE
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.frequency.entities.GetFrequencyRequest
 import com.isupatches.android.wisefy.frequency.entities.GetFrequencyResult
@@ -59,7 +60,7 @@ interface FrequencyApi {
      * @author Patches Klinefelter
      * @since 03/2022
      */
-    @RequiresPermission(ACCESS_FINE_LOCATION)
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_NETWORK_STATE])
     fun getFrequency(request: GetFrequencyRequest = GetFrequencyRequest.CurrentNetwork): GetFrequencyResult
 
     /**

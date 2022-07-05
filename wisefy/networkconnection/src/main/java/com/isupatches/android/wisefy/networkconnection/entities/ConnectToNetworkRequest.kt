@@ -23,7 +23,7 @@ package com.isupatches.android.wisefy.networkconnection.entities
  * @author Patches Klinefelter
  * @since 03/2022
  */
-sealed class NetworkConnectionRequest(
+sealed class ConnectToNetworkRequest(
     open val timeoutInMillis: Int
 ) {
 
@@ -33,7 +33,7 @@ sealed class NetworkConnectionRequest(
      * @property ssid The SSID of the network to connect to or disconnect from
      * @property timeoutInMillis The timeout in milliseconds to wait for a connection/disconnection for the network
      *
-     * @see NetworkConnectionRequest
+     * @see ConnectToNetworkRequest
      *
      * @author Patches Klinefelter
      * @since 03/2022
@@ -41,7 +41,7 @@ sealed class NetworkConnectionRequest(
     data class SSID(
         val ssid: String,
         override val timeoutInMillis: Int
-    ) : NetworkConnectionRequest(timeoutInMillis)
+    ) : ConnectToNetworkRequest(timeoutInMillis)
 
     /**
      * A data representation of a request to connect or disconnect from a network by BSSID.
@@ -49,7 +49,7 @@ sealed class NetworkConnectionRequest(
      * @property bssid The BSSID of the network to connect to or disconnect from
      * @property timeoutInMillis The timeout in milliseconds to wait for a connection/disconnection for the network
      *
-     * @see NetworkConnectionRequest
+     * @see ConnectToNetworkRequest
      *
      * @author Patches Klinefelter
      * @since 03/2022
@@ -57,5 +57,5 @@ sealed class NetworkConnectionRequest(
     data class BSSID(
         val bssid: String,
         override val timeoutInMillis: Int
-    ) : NetworkConnectionRequest(timeoutInMillis)
+    ) : ConnectToNetworkRequest(timeoutInMillis)
 }

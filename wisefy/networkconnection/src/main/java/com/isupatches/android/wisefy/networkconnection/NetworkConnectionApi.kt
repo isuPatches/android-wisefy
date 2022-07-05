@@ -15,8 +15,11 @@
  */
 package com.isupatches.android.wisefy.networkconnection
 
-import com.isupatches.android.wisefy.networkconnection.entities.NetworkConnectionRequest
-import com.isupatches.android.wisefy.networkconnection.entities.NetworkConnectionResult
+import com.isupatches.android.wisefy.core.entities.DeprecationMessages
+import com.isupatches.android.wisefy.networkconnection.entities.ConnectToNetworkRequest
+import com.isupatches.android.wisefy.networkconnection.entities.ConnectToNetworkResult
+import com.isupatches.android.wisefy.networkconnection.entities.DisconnectFromCurrentNetworkRequest
+import com.isupatches.android.wisefy.networkconnection.entities.DisconnectFromCurrentNetworkResult
 
 /**
  * A set of synchronous APIs for connecting to and disconnecting from a network.
@@ -31,25 +34,27 @@ interface NetworkConnectionApi {
      *
      * @param request The details of the request to connect to a network
      *
-     * @see NetworkConnectionRequest
-     * @see NetworkConnectionResult
+     * @see ConnectToNetworkRequest
+     * @see ConnectToNetworkResult
      *
-     * @return NetworkConnectionResult - The result of connecting to a network
+     * @return ConnectToNetworkResult - The result of connecting to a network
      *
      * @author Patches Klinefelter
      * @since 03/2022
      */
-    fun connectToNetwork(request: NetworkConnectionRequest): NetworkConnectionResult
+    fun connectToNetwork(request: ConnectToNetworkRequest): ConnectToNetworkResult
 
     /**
      * A synchronous API to disconnect from the current network.
      *
-     * @see NetworkConnectionResult
+     * @see DisconnectFromCurrentNetworkRequest
+     * @see DisconnectFromCurrentNetworkResult
      *
-     * @return NetworkConnectionResult - The result of connecting to a network
+     * @return DisconnectFromCurrentNetworkResult - The result of disconnecting from the current network
      *
      * @author Patches Klinefelter
      * @since 03/2022
      */
-    fun disconnectFromCurrentNetwork(): NetworkConnectionResult
+    @Deprecated(DeprecationMessages.NetworkConnection.DisconnectFromCurrentNetwork)
+    fun disconnectFromCurrentNetwork(request: DisconnectFromCurrentNetworkRequest): DisconnectFromCurrentNetworkResult
 }

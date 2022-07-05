@@ -27,9 +27,9 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.addnetwork.os.apis.Android30AddNetworkApi
-import com.isupatches.android.wisefy.core.wifimanager.createOpenNetworkSuggestionWithSSID
-import com.isupatches.android.wisefy.core.wifimanager.createWPA2NetworkSuggestionWithSSID
-import com.isupatches.android.wisefy.core.wifimanager.createWPA3NetworkSuggestionWithSSID
+import com.isupatches.android.wisefy.core.wifimanager.createOpenNetworkSuggestion
+import com.isupatches.android.wisefy.core.wifimanager.createWPA2NetworkSuggestion
+import com.isupatches.android.wisefy.core.wifimanager.createWPA3NetworkSuggestion
 
 /**
  * An internal Android 30 specific implementation for adding networks through the Android OS.
@@ -49,9 +49,10 @@ internal class Android30AddNetworkApiImpl(
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     override fun addOpenNetwork(
         ssid: String,
-        activityResultLauncher: ActivityResultLauncher<Intent>
+        activityResultLauncher: ActivityResultLauncher<Intent>,
+        bssid: String?
     ) {
-        val suggestion = createOpenNetworkSuggestionWithSSID(ssid)
+        val suggestion = createOpenNetworkSuggestion(ssid, bssid)
         launchIntent(suggestion, activityResultLauncher)
     }
 
@@ -59,9 +60,10 @@ internal class Android30AddNetworkApiImpl(
     override fun addWPA2Network(
         ssid: String,
         passphrase: String,
-        activityResultLauncher: ActivityResultLauncher<Intent>
+        activityResultLauncher: ActivityResultLauncher<Intent>,
+        bssid: String?
     ) {
-        val suggestion = createWPA2NetworkSuggestionWithSSID(ssid, passphrase)
+        val suggestion = createWPA2NetworkSuggestion(ssid, passphrase, bssid)
         launchIntent(suggestion, activityResultLauncher)
     }
 
@@ -69,9 +71,10 @@ internal class Android30AddNetworkApiImpl(
     override fun addWPA3Network(
         ssid: String,
         passphrase: String,
-        activityResultLauncher: ActivityResultLauncher<Intent>
+        activityResultLauncher: ActivityResultLauncher<Intent>,
+        bssid: String?
     ) {
-        val suggestion = createWPA3NetworkSuggestionWithSSID(ssid, passphrase)
+        val suggestion = createWPA3NetworkSuggestion(ssid, passphrase, bssid)
         return launchIntent(suggestion, activityResultLauncher)
     }
 

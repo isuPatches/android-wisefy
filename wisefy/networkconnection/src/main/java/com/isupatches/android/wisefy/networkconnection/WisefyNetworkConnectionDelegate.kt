@@ -19,12 +19,15 @@ import android.net.ConnectivityManager
 import android.net.wifi.WifiManager
 import com.isupatches.android.wisefy.core.coroutines.CoroutineDispatcherProvider
 import com.isupatches.android.wisefy.core.coroutines.createBaseCoroutineExceptionHandler
+import com.isupatches.android.wisefy.core.entities.DeprecationMessages
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.core.util.SdkUtil
 import com.isupatches.android.wisefy.networkconnection.callbacks.ConnectToNetworkCallbacks
 import com.isupatches.android.wisefy.networkconnection.callbacks.DisconnectFromCurrentNetworkCallbacks
-import com.isupatches.android.wisefy.networkconnection.entities.NetworkConnectionRequest
-import com.isupatches.android.wisefy.networkconnection.entities.NetworkConnectionResult
+import com.isupatches.android.wisefy.networkconnection.entities.ConnectToNetworkRequest
+import com.isupatches.android.wisefy.networkconnection.entities.ConnectToNetworkResult
+import com.isupatches.android.wisefy.networkconnection.entities.DisconnectFromCurrentNetworkRequest
+import com.isupatches.android.wisefy.networkconnection.entities.DisconnectFromCurrentNetworkResult
 import com.isupatches.android.wisefy.networkconnection.os.adapters.Android29NetworkConnectionAdapter
 import com.isupatches.android.wisefy.networkconnection.os.adapters.DefaultNetworkConnectionAdapter
 import com.isupatches.android.wisefy.networkconnectionstatus.NetworkConnectionStatusDelegate
@@ -86,58 +89,49 @@ class WisefyNetworkConnectionDelegate(
         logger.d(LOG_TAG, "WisefyNetworkConnectionDelegate adapter is: ${adapter::class.java.simpleName}")
     }
 
-    override fun connectToNetwork(request: NetworkConnectionRequest): NetworkConnectionResult {
+    override fun connectToNetwork(request: ConnectToNetworkRequest): ConnectToNetworkResult {
         return adapter.connectToNetwork(request)
     }
 
-    override fun connectToNetwork(request: NetworkConnectionRequest, callbacks: ConnectToNetworkCallbacks?) {
+    override fun connectToNetwork(request: ConnectToNetworkRequest, callbacks: ConnectToNetworkCallbacks?) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
             val result = adapter.connectToNetwork(request)
             withContext(coroutineDispatcherProvider.main) {
                 when (result) {
-                    is NetworkConnectionResult.Boolean.True -> {
-                        callbacks?.onConnectedToNetwork()
-                    }
-                    is NetworkConnectionResult.Boolean.False -> {
-                        callbacks?.onFailureConnectingToNetwork()
-                    }
-                    is NetworkConnectionResult.ConnectionRequestSent -> {
-                        callbacks?.onConnectionRequestPlaced()
-                    }
-                    is NetworkConnectionResult.NetworkNotFound -> {
-                        callbacks?.onNetworkNotFoundToConnectTo()
-                    }
-                    is NetworkConnectionResult.DisconnectRequestSent -> {
-                        // No-op
-                    }
+                    is ConnectToNetworkResult.Success.True -> callbacks?.onConnectedToNetwork()
+                    is ConnectToNetworkResult.Success.ConnectionRequestSent -> callbacks?.onConnectionRequestPlaced()
+                    is ConnectToNetworkResult.Failure.False -> callbacks?.onFailureConnectingToNetwork()
+                    is ConnectToNetworkResult.Failure.NetworkNotFound -> callbacks?.onNetworkNotFoundToConnectTo()
                 }
             }
         }
     }
 
-    override fun disconnectFromCurrentNetwork(): NetworkConnectionResult {
-        return adapter.disconnectFromCurrentNetwork()
+    @Deprecated(DeprecationMessages.NetworkConnection.DisconnectFromCurrentNetwork)
+    override fun disconnectFromCurrentNetwork(
+        request: DisconnectFromCurrentNetworkRequest
+    ): DisconnectFromCurrentNetworkResult {
+        return adapter.disconnectFromCurrentNetwork(request)
     }
 
-    override fun disconnectFromCurrentNetwork(callbacks: DisconnectFromCurrentNetworkCallbacks?) {
+    @Deprecated(DeprecationMessages.NetworkConnection.DisconnectFromCurrentNetwork)
+    override fun disconnectFromCurrentNetwork(
+        request: DisconnectFromCurrentNetworkRequest,
+        callbacks: DisconnectFromCurrentNetworkCallbacks?
+    ) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
-            val result = adapter.disconnectFromCurrentNetwork()
+            val result = adapter.disconnectFromCurrentNetwork(request)
             withContext(coroutineDispatcherProvider.main) {
                 when (result) {
-                    is NetworkConnectionResult.Boolean.True -> {
-                        callbacks?.onDisconnectedFromCurrentNetwork()
-                    }
-                    is NetworkConnectionResult.Boolean.False -> {
-                        callbacks?.onFailureDisconnectingFromCurrentNetwork()
-                    }
-                    is NetworkConnectionResult.DisconnectRequestSent -> {
+                    is DisconnectFromCurrentNetworkResult.Success.True -> callbacks?.onDisconnectedFromCurrentNetwork()
+                    is DisconnectFromCurrentNetworkResult.Success.DisconnectRequestSent -> {
                         callbacks?.onDisconnectRequestPlaced()
                     }
-                    is NetworkConnectionResult.NetworkNotFound -> {
-                        callbacks?.onNetworkNotFoundToDisconnectFrom()
+                    is DisconnectFromCurrentNetworkResult.Failure.False -> {
+                        callbacks?.onFailureDisconnectingFromCurrentNetwork()
                     }
-                    is NetworkConnectionResult.ConnectionRequestSent -> {
-                        // No-op
+                    is DisconnectFromCurrentNetworkResult.Failure.NetworkNotFound -> {
+                        callbacks?.onNetworkNotFoundToDisconnectFrom()
                     }
                 }
             }

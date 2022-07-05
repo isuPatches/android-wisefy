@@ -65,7 +65,7 @@ class WisefyRemoveNetworkDelegate(
     }
 
     private val adapter: RemoveNetworkApi = when {
-        sdkUtil.isAtLeastQ() -> Android29RemoveNetworkAdapter(wifiManager)
+        sdkUtil.isAtLeastQ() -> Android29RemoveNetworkAdapter(wifiManager, savedNetworkDelegate)
         else -> DefaultRemoveNetworkAdapter(wifiManager, savedNetworkDelegate)
     }
 
@@ -85,12 +85,11 @@ class WisefyRemoveNetworkDelegate(
             withContext(coroutineDispatcherProvider.main) {
                 when (result) {
                     is RemoveNetworkResult.Success.True -> callbacks?.onNetworkRemoved(result)
-                    is RemoveNetworkResult.Success.ResultCode -> callbacks?.onNetworkRemoved(result)
                     is RemoveNetworkResult.Failure.False -> callbacks?.onFailureRemovingNetwork(result)
+                    is RemoveNetworkResult.Success.ResultCode -> callbacks?.onNetworkRemoved(result)
                     is RemoveNetworkResult.Failure.ResultCode -> callbacks?.onFailureRemovingNetwork(result)
-                    is RemoveNetworkResult.Failure.NetworkNotFound -> {
-                        callbacks?.onNetworkNotFoundToRemove()
-                    }
+                    is RemoveNetworkResult.Failure.NetworkNotFound -> callbacks?.onNetworkNotFoundToRemove()
+                    is RemoveNetworkResult.Failure.WrongSDKLevel -> callbacks?.onFailureRemovingNetwork(result)
                 }
             }
         }

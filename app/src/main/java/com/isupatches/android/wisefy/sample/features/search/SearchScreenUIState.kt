@@ -17,6 +17,7 @@ package com.isupatches.android.wisefy.sample.features.search
 
 import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
 import com.isupatches.android.wisefy.accesspoints.entities.SSIDData
+import com.isupatches.android.wisefy.sample.features.remove.RemoveNetworkInputState
 import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
 
 internal data class SearchUIState(
@@ -29,47 +30,69 @@ internal data class SearchLoadingState(val isLoading: Boolean)
 internal sealed class SearchDialogState {
     object None : SearchDialogState()
 
-    object InputError : SearchDialogState()
-
     sealed class Failure : SearchDialogState() {
-        object NoAccessPointFound : Failure()
-        object NoAccessPointsFound : Failure()
-        object NoSavedNetworkFound : Failure()
-        object NoSavedNetworksFound : Failure()
-        object NoSSIDFound : Failure()
-        object NoSSIDsFound : Failure()
         data class WisefyAsync(val throwable: Throwable) : Failure()
+        object InputError : Failure()
     }
 
-    sealed class PermissionError : SearchDialogState() {
-        object AccessPoint : PermissionError()
-        object AccessPoints : PermissionError()
-        object SavedNetwork : PermissionError()
-        object SavedNetworks : PermissionError()
-        object SSID : PermissionError()
-        object SSIDs : PermissionError()
+    sealed class SearchForAccessPoint : SearchDialogState() {
+        data class Success(val data: AccessPointData) : SearchForAccessPoint()
+        object NoAccessPointFound : SearchForAccessPoint()
+        object PermissionError : SearchForAccessPoint()
     }
 
-    sealed class Success : SearchDialogState() {
-        data class AccessPoint(val data: AccessPointData) : Success()
-        data class AccessPoints(val data: List<AccessPointData>) : Success()
-        data class SavedNetwork(val data: SavedNetworkData) : Success()
-        data class SavedNetworks(val data: List<SavedNetworkData>) : Success()
-        data class SSID(val data: SSIDData) : Success()
-        data class SSIDs(val data: List<SSIDData>) : Success()
+    sealed class SearchForAccessPoints : SearchDialogState() {
+        data class Success(val data: List<AccessPointData>) : SearchForAccessPoints()
+        object NoAccessPointsFound : SearchForAccessPoints()
+        object PermissionError : SearchForAccessPoints()
+    }
+
+    sealed class SearchForSSID : SearchDialogState() {
+        data class Success(val data: SSIDData) : SearchForSSID()
+        object NoSSIDFound : SearchForSSID()
+        object PermissionError : SearchForSSID()
+    }
+
+    sealed class SearchForSSIDs : SearchDialogState() {
+        data class Success(val data: List<SSIDData>) : SearchForSSIDs()
+        object NoSSIDsFound : SearchForSSIDs()
+        object PermissionError : SearchForSSIDs()
+    }
+
+    sealed class SearchForSavedNetwork : SearchDialogState() {
+        data class Success(val data: SavedNetworkData) : SearchForSavedNetwork()
+        object NoSavedNetworkFound : SearchForSavedNetwork()
+        object PermissionError : SearchForSavedNetwork()
+    }
+
+    sealed class SearchForSavedNetworks : SearchDialogState() {
+        data class Success(val data: List<SavedNetworkData>) : SearchForSavedNetworks()
+        object NoSavedNetworksFound : SearchForSavedNetworks()
+        object PermissionError : SearchForSavedNetworks()
     }
 }
 
 internal sealed class SearchInputState {
-    data class Valid(val value: String) : SearchInputState()
+    sealed class SSID : SearchInputState() {
+        data class Valid(val value: String) : SearchInputState()
 
-    sealed class Invalid : SearchInputState() {
-        object Empty : Invalid()
-        object TooShort : Invalid()
-        object TooLong : Invalid()
-        object InvalidCharacters : Invalid()
-        object InvalidStartCharacters : Invalid()
-        object LeadingOrTrailingSpaces : Invalid()
-        object InvalidUnicode : Invalid()
+        sealed class Invalid : SearchInputState() {
+            object Empty : Invalid()
+            object TooShort : Invalid()
+            object TooLong : Invalid()
+            object InvalidCharacters : Invalid()
+            object InvalidStartCharacters : Invalid()
+            object LeadingOrTrailingSpaces : Invalid()
+            object InvalidUnicode : Invalid()
+        }
+    }
+
+    sealed class BSSID : SearchInputState() {
+        data class Valid(val value: String) : BSSID()
+
+        sealed class Invalid : BSSID() {
+            object Empty : Invalid()
+            object ImproperFormat : Invalid()
+        }
     }
 }

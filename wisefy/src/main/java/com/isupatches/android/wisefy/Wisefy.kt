@@ -16,6 +16,7 @@
 @file:JvmName("WiseFy")
 package com.isupatches.android.wisefy
 
+import android.Manifest.permission.ACCESS_COARSE_LOCATION
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.ACCESS_NETWORK_STATE
 import android.Manifest.permission.ACCESS_WIFI_STATE
@@ -70,24 +71,30 @@ import com.isupatches.android.wisefy.networkconnection.NetworkConnectionDelegate
 import com.isupatches.android.wisefy.networkconnection.WisefyNetworkConnectionDelegate
 import com.isupatches.android.wisefy.networkconnection.callbacks.ConnectToNetworkCallbacks
 import com.isupatches.android.wisefy.networkconnection.callbacks.DisconnectFromCurrentNetworkCallbacks
-import com.isupatches.android.wisefy.networkconnection.entities.NetworkConnectionRequest
-import com.isupatches.android.wisefy.networkconnection.entities.NetworkConnectionResult
+import com.isupatches.android.wisefy.networkconnection.entities.ConnectToNetworkRequest
+import com.isupatches.android.wisefy.networkconnection.entities.ConnectToNetworkResult
+import com.isupatches.android.wisefy.networkconnection.entities.DisconnectFromCurrentNetworkRequest
+import com.isupatches.android.wisefy.networkconnection.entities.DisconnectFromCurrentNetworkResult
 import com.isupatches.android.wisefy.networkconnectionstatus.NetworkConnectionStatusDelegate
 import com.isupatches.android.wisefy.networkconnectionstatus.WisefyNetworkConnectionStatusDelegate
 import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceConnectedResult
+import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceConnectedToMobileNetworkRequest
+import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceConnectedToMobileOrWifiNetworkRequest
 import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceConnectedToSSIDRequest
+import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceConnectedToWifiNetworkRequest
+import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceRoamingRequest
 import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceRoamingResult
 import com.isupatches.android.wisefy.networkinfo.NetworkInfoDelegate
 import com.isupatches.android.wisefy.networkinfo.WisefyNetworkInfoDelegate
 import com.isupatches.android.wisefy.networkinfo.callbacks.GetCurrentNetworkCallbacks
+import com.isupatches.android.wisefy.networkinfo.callbacks.GetCurrentNetworkInfoCallbacks
 import com.isupatches.android.wisefy.networkinfo.callbacks.GetIPCallbacks
-import com.isupatches.android.wisefy.networkinfo.callbacks.GetNetworkInfoCallbacks
+import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkInfoRequest
+import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkInfoResult
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkRequest
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkResult
 import com.isupatches.android.wisefy.networkinfo.entities.GetIPRequest
 import com.isupatches.android.wisefy.networkinfo.entities.GetIPResult
-import com.isupatches.android.wisefy.networkinfo.entities.GetNetworkInfoRequest
-import com.isupatches.android.wisefy.networkinfo.entities.GetNetworkInfoResult
 import com.isupatches.android.wisefy.removenetwork.RemoveNetworkDelegate
 import com.isupatches.android.wisefy.removenetwork.WisefyRemoveNetworkDelegate
 import com.isupatches.android.wisefy.removenetwork.callbacks.RemoveNetworkCallbacks
@@ -132,6 +139,25 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelChildren
 
+/**
+ * The private constructor used by [Brains] to create a Wisefy instance.
+ *
+ * @param accessPointsDelegate The [AccessPointsDelegate] instance to use
+ * @param addNetworkDelegate The [AddNetworkDelegate] instance to use
+ * @param frequencyDelegate The [FrequencyDelegate] instance to use
+ * @param networkConnectionDelegate The [NetworkConnectionDelegate] instance to use
+ * @param networkConnectionStatusDelegate The [NetworkConnectionStatusDelegate] instance to use
+ * @param networkInfoDelegate The [NetworkInfoDelegate] instance to use
+ * @param removeNetworkDelegate The [RemoveNetworkDelegate] instance to use
+ * @param savedNetworkDelegate The [SavedNetworkDelegate] instance to use
+ * @param securityDelegate The [SecurityDelegate] instance to use
+ * @param signalDelegate The [SignalDelegate] instance to use
+ * @param wifiDelegate The [WifiDelegate] instance to use
+ * @param scope The [CoroutineScope] to use for async operations
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 @Suppress("SyntheticAccessor")
 class Wisefy private constructor(
     private val accessPointsDelegate: AccessPointsDelegate,
@@ -148,6 +174,16 @@ class Wisefy private constructor(
     private val scope: CoroutineScope
 ) : WisefyApi {
 
+    /**
+     * The public builder to create a Wisefy instance.
+     *
+     * @param context The application context. Used for creating a [ConnectivityManager] and [wifiManager] instance
+     * within Wisefy to use
+     * @param logger The [WisefyLogger] instance to use within Wisefy
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     class Brains @JvmOverloads constructor(
         context: Context,
         private var logger: WisefyLogger = DefaultWisefyLogger()
@@ -257,35 +293,93 @@ class Wisefy private constructor(
             )
         }
 
+        /**
+         * A function to override the logger that Wisefy uses.
+         *
+         * @see WisefyLogger
+         *
+         * @param logger The custom [WisefyLogger] instance to use
+         *
+         * @author Patches Klinefelter
+         * @since 03/2022
+         */
         internal fun logger(logger: WisefyLogger): Brains = apply {
             this.logger = logger
         }
 
+        /**
+         * A function to override the [ConnectivityManager] that Wisefy uses.
+         *
+         * @param connectivityManager The custom [ConnectivityManager] instance to use
+         *
+         * @author Patches Klinefelter
+         * @since 03/2022
+         */
         @VisibleForTesting
         internal fun customConnectivityManager(connectivityManager: ConnectivityManager): Brains = apply {
             this.connectivityManager = connectivityManager
         }
 
+        /**
+         * A function to override the [WifiManager] that Wisefy uses.
+         *
+         * @param wifiManager The custom [WifiManager] instance to use
+         *
+         * @author Patches Klinefelter
+         * @since 03/2022
+         */
         @VisibleForTesting
         internal fun customWifiManager(wifiManager: WifiManager): Brains = apply {
             this.wifiManager = wifiManager
         }
 
+        /**
+         * A function to override the [AccessPointsDelegate] that Wisefy uses.
+         *
+         * @param accessPointsDelegate The custom [AccessPointsDelegate] instance to use
+         *
+         * @author Patches Klinefelter
+         * @since 03/2022
+         */
         @VisibleForTesting
         internal fun customAccessPointsDelegate(accessPointsDelegate: AccessPointsDelegate): Brains = apply {
             this.accessPointsDelegate = accessPointsDelegate
         }
 
+        /**
+         * A function to override the [AddNetworkDelegate] that Wisefy uses.
+         *
+         * @param addNetworkDelegate The custom [AddNetworkDelegate] instance to use
+         *
+         * @author Patches Klinefelter
+         * @since 03/2022
+         */
         @VisibleForTesting
         internal fun customAddNetworkDelegate(addNetworkDelegate: AddNetworkDelegate): Brains = apply {
             this.addNetworkDelegate = addNetworkDelegate
         }
 
+        /**
+         * A function to override the [FrequencyDelegate] that Wisefy uses.
+         *
+         * @param frequencyDelegate The custom [FrequencyDelegate] instance to use
+         *
+         * @author Patches Klinefelter
+         * @since 03/2022
+         */
         @VisibleForTesting
         internal fun customFrequencyDelegate(frequencyDelegate: FrequencyDelegate): Brains = apply {
             this.frequencyDelegate = frequencyDelegate
         }
 
+        /**
+         * A function to override the [NetworkConnectionDelegate] that Wisefy uses.
+         *
+         * @param networkConnectionDelegate The custom [NetworkConnectionDelegate] instance to use
+         *
+         * @author Patches Klinefelter
+         * @since 03/2022
+         */
         @VisibleForTesting
         internal fun customNetworkConnectionDelegate(
             networkConnectionDelegate: NetworkConnectionDelegate
@@ -293,6 +387,14 @@ class Wisefy private constructor(
             this.networkConnectionDelegate = networkConnectionDelegate
         }
 
+        /**
+         * A function to override the [NetworkConnectionStatusDelegate] that Wisefy uses.
+         *
+         * @param networkConnectionStatusDelegate The custom [NetworkConnectionStatusDelegate] instance to use
+         *
+         * @author Patches Klinefelter
+         * @since 03/2022
+         */
         @VisibleForTesting
         internal fun customNetworkConnectionStatusDelegate(
             networkConnectionStatusDelegate: NetworkConnectionStatusDelegate
@@ -300,36 +402,91 @@ class Wisefy private constructor(
             this.networkConnectionStatusDelegate = networkConnectionStatusDelegate
         }
 
+        /**
+         * A function to override the [NetworkInfoDelegate] that Wisefy uses.
+         *
+         * @param networkInfoDelegate The custom [NetworkInfoDelegate] instance to use
+         *
+         * @author Patches Klinefelter
+         * @since 03/2022
+         */
         @VisibleForTesting
         internal fun customNetworkInfoDelegate(networkInfoDelegate: NetworkInfoDelegate): Brains = apply {
             this.networkInfoDelegate = networkInfoDelegate
         }
 
+        /**
+         * A function to override the [RemoveNetworkDelegate] that Wisefy uses.
+         *
+         * @param removeNetworkDelegate The custom [RemoveNetworkDelegate] instance to use
+         *
+         * @author Patches Klinefelter
+         * @since 03/2022
+         */
         @VisibleForTesting
         internal fun customRemoveNetworkDelegate(removeNetworkDelegate: RemoveNetworkDelegate): Brains = apply {
             this.removeNetworkDelegate = removeNetworkDelegate
         }
 
+        /**
+         * A function to override the [SavedNetworkDelegate] that Wisefy uses.
+         *
+         * @param savedNetworkDelegate The custom [SavedNetworkDelegate] instance to use
+         *
+         * @author Patches Klinefelter
+         * @since 03/2022
+         */
         @VisibleForTesting
         internal fun customSavedNetworkDelegate(savedNetworkDelegate: SavedNetworkDelegate): Brains = apply {
             this.savedNetworkDelegate = savedNetworkDelegate
         }
 
+        /**
+         * A function to override the [SecurityDelegate] that Wisefy uses.
+         *
+         * @param securityDelegate The custom [SecurityDelegate] instance to use
+         *
+         * @author Patches Klinefelter
+         * @since 03/2022
+         */
         @VisibleForTesting
         internal fun customSecurityDelegate(securityDelegate: SecurityDelegate): Brains = apply {
             this.securityDelegate = securityDelegate
         }
 
+        /**
+         * A function to override the [SignalDelegate] that Wisefy uses.
+         *
+         * @param signalDelegate The custom [SignalDelegate] instance to use
+         *
+         * @author Patches Klinefelter
+         * @since 03/2022
+         */
         @VisibleForTesting
         internal fun customSignalDelegate(signalDelegate: SignalDelegate): Brains = apply {
             this.signalDelegate = signalDelegate
         }
 
+        /**
+         * A function to override the [WifiDelegate] that Wisefy uses.
+         *
+         * @param wifiDelegate The custom [WifiDelegate] instance to use
+         *
+         * @author Patches Klinefelter
+         * @since 03/2022
+         */
         @VisibleForTesting
         internal fun customWifiDelegate(wifiDelegate: WifiDelegate): Brains = apply {
             this.wifiDelegate = wifiDelegate
         }
 
+        /**
+         * A function on the [Brains] builder class that returns a Wisefy instance ([WisefyApi]) and the equivalent to a
+         * builder.build() call.
+         *
+         * @author Patches Klinefelter
+         * @since 03/2022
+         */
         fun getSmarts(): WisefyApi {
             return Wisefy(
                 accessPointsDelegate = accessPointsDelegate,
@@ -398,12 +555,12 @@ class Wisefy private constructor(
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun connectToNetwork(request: NetworkConnectionRequest): NetworkConnectionResult {
+    override fun connectToNetwork(request: ConnectToNetworkRequest): ConnectToNetworkResult {
         return networkConnectionDelegate.connectToNetwork(request)
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun connectToNetwork(request: NetworkConnectionRequest, callbacks: ConnectToNetworkCallbacks?) {
+    override fun connectToNetwork(request: ConnectToNetworkRequest, callbacks: ConnectToNetworkCallbacks?) {
         networkConnectionDelegate.connectToNetwork(request, callbacks)
     }
 
@@ -423,12 +580,19 @@ class Wisefy private constructor(
         return securityDelegate.doesNetworkContainSecurityCapability(request)
     }
 
-    override fun disconnectFromCurrentNetwork(): NetworkConnectionResult {
-        return networkConnectionDelegate.disconnectFromCurrentNetwork()
+    @Deprecated(DeprecationMessages.NetworkConnection.DisconnectFromCurrentNetwork)
+    override fun disconnectFromCurrentNetwork(
+        request: DisconnectFromCurrentNetworkRequest
+    ): DisconnectFromCurrentNetworkResult {
+        return networkConnectionDelegate.disconnectFromCurrentNetwork(request)
     }
 
-    override fun disconnectFromCurrentNetwork(callbacks: DisconnectFromCurrentNetworkCallbacks?) {
-        networkConnectionDelegate.disconnectFromCurrentNetwork(callbacks)
+    @Deprecated(DeprecationMessages.NetworkConnection.DisconnectFromCurrentNetwork)
+    override fun disconnectFromCurrentNetwork(
+        request: DisconnectFromCurrentNetworkRequest,
+        callbacks: DisconnectFromCurrentNetworkCallbacks?
+    ) {
+        networkConnectionDelegate.disconnectFromCurrentNetwork(request, callbacks)
     }
 
     @Deprecated(DeprecationMessages.Wifi.ENABLE)
@@ -450,16 +614,16 @@ class Wisefy private constructor(
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun getNetworkInfo(request: GetNetworkInfoRequest): GetNetworkInfoResult {
-        return networkInfoDelegate.getNetworkInfo(request)
+    override fun getCurrentNetworkInfo(request: GetCurrentNetworkInfoRequest): GetCurrentNetworkInfoResult {
+        return networkInfoDelegate.getCurrentNetworkInfo(request)
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun getNetworkInfo(
-        request: GetNetworkInfoRequest,
-        callbacks: GetNetworkInfoCallbacks?
+    override fun getCurrentNetworkInfo(
+        request: GetCurrentNetworkInfoRequest,
+        callbacks: GetCurrentNetworkInfoCallbacks?
     ) {
-        networkInfoDelegate.getNetworkInfo(request, callbacks)
+        networkInfoDelegate.getCurrentNetworkInfo(request, callbacks)
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_NETWORK_STATE])
@@ -467,7 +631,7 @@ class Wisefy private constructor(
         return frequencyDelegate.getFrequency()
     }
 
-    @RequiresPermission(ACCESS_FINE_LOCATION)
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_NETWORK_STATE])
     override fun getFrequency(request: GetFrequencyRequest, callbacks: GetFrequencyCallbacks?) {
         frequencyDelegate.getFrequency(request, callbacks)
     }
@@ -505,21 +669,25 @@ class Wisefy private constructor(
         accessPointsDelegate.getRSSI(request, callbacks)
     }
 
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
+    @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun getSavedNetworks(request: GetSavedNetworksRequest): GetSavedNetworksResult {
         return savedNetworkDelegate.getSavedNetworks(request)
     }
 
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
+    @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun getSavedNetworks(request: GetSavedNetworksRequest, callbacks: GetSavedNetworksCallbacks?) {
         savedNetworkDelegate.getSavedNetworks(request, callbacks)
     }
 
-    override fun isDeviceConnectedToMobileNetwork(): IsDeviceConnectedResult {
+    override fun isDeviceConnectedToMobileNetwork(
+        request: IsDeviceConnectedToMobileNetworkRequest
+    ): IsDeviceConnectedResult {
         return networkConnectionStatusDelegate.isDeviceConnectedToMobileNetwork()
     }
 
-    override fun isDeviceConnectedToMobileOrWifiNetwork(): IsDeviceConnectedResult {
+    override fun isDeviceConnectedToMobileOrWifiNetwork(
+        request: IsDeviceConnectedToMobileOrWifiNetworkRequest
+    ): IsDeviceConnectedResult {
         return networkConnectionStatusDelegate.isDeviceConnectedToMobileOrWifiNetwork()
     }
 
@@ -527,11 +695,13 @@ class Wisefy private constructor(
         return networkConnectionStatusDelegate.isDeviceConnectedToSSID(request)
     }
 
-    override fun isDeviceConnectedToWifiNetwork(): IsDeviceConnectedResult {
+    override fun isDeviceConnectedToWifiNetwork(
+        request: IsDeviceConnectedToWifiNetworkRequest
+    ): IsDeviceConnectedResult {
         return networkConnectionStatusDelegate.isDeviceConnectedToWifiNetwork()
     }
 
-    override fun isDeviceRoaming(): IsDeviceRoamingResult {
+    override fun isDeviceRoaming(request: IsDeviceRoamingRequest): IsDeviceRoamingResult {
         return networkConnectionStatusDelegate.isDeviceRoaming()
     }
 

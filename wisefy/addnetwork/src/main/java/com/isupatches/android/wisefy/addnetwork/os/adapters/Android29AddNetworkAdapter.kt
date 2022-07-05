@@ -54,7 +54,7 @@ internal class Android29AddNetworkAdapter(
     override fun addOpenNetwork(request: AddOpenNetworkRequest): AddNetworkResult {
         return when (request) {
             is AddOpenNetworkRequest.Default -> {
-                val resultCode = api.addOpenNetwork(request.ssid)
+                val resultCode = api.addOpenNetwork(request.ssid, request.bssid)
                 if (resultCode == WifiManager.STATUS_NETWORK_SUGGESTIONS_SUCCESS) {
                     AddNetworkResult.Success.ResultCode(resultCode)
                 } else {
@@ -73,7 +73,7 @@ internal class Android29AddNetworkAdapter(
     override fun addWPA2Network(request: AddWPA2NetworkRequest): AddNetworkResult {
         return when (request) {
             is AddWPA2NetworkRequest.Default -> {
-                val resultCode = api.addWPA2Network(request.ssid, request.passphrase)
+                val resultCode = api.addWPA2Network(request.ssid, request.passphrase, request.bssid)
                 if (resultCode == WifiManager.STATUS_NETWORK_SUGGESTIONS_SUCCESS) {
                     AddNetworkResult.Success.ResultCode(resultCode)
                 } else {
@@ -92,7 +92,7 @@ internal class Android29AddNetworkAdapter(
     override fun addWPA3Network(request: AddWPA3NetworkRequest): AddNetworkResult {
         return when (request) {
             is AddWPA3NetworkRequest.Default -> {
-                val resultCode = api.addWPA3Network(request.ssid, request.passphrase)
+                val resultCode = api.addWPA3Network(request.ssid, request.passphrase, request.bssid)
                 if (resultCode == WifiManager.STATUS_NETWORK_SUGGESTIONS_SUCCESS) {
                     AddNetworkResult.Success.ResultCode(resultCode)
                 } else {

@@ -132,6 +132,7 @@ Package structure for each section is as follows:
 ### Deprecations
 
 - disableWifi() and disableWifi(callbacks: DisableWifiCallbacks?)
+- disconnectFromCurrentNetwork() and disconnectFromCurrentNetwork(callbacks: DisconnectFromCurrentNetworkCallbacks?)
 - enableWifi() and enableWifi(callbacks: EnableWifiCallbacks?)
 - calculateBars(rssiLevel: Int, targetNumberOfBars: Int)
 

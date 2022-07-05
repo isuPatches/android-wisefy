@@ -32,7 +32,7 @@ sealed class SearchForSingleAccessPointRequest(
     /**
      * A data representation of a request to search for a single access point by SSID.
      *
-     * @property regexForSSID The regex to use when matching the SSID
+     * @property regex The regex to use when matching the SSID
      * @property timeoutInMillis The timeout in milliseconds to wait for an access point to appear
      * @property filterDuplicates Whether nearby access points with the same SSID but lower RSSI levels
      *  should be excluded
@@ -43,7 +43,7 @@ sealed class SearchForSingleAccessPointRequest(
      * @since 03/2022
      */
     data class SSID(
-        val regexForSSID: String,
+        val regex: String,
         override val timeoutInMillis: Int,
         override val filterDuplicates: Boolean = true
     ) : SearchForSingleAccessPointRequest(timeoutInMillis, filterDuplicates)
@@ -51,7 +51,7 @@ sealed class SearchForSingleAccessPointRequest(
     /**
      * A data representation of a request to search for a single access point by BSSID.
      *
-     * @property regexForBSSID The regex to use when matching the BSSID
+     * @property regex The regex to use when matching the BSSID
      * @property timeoutInMillis The timeout in milliseconds to wait for an access point to appear
      * @property filterDuplicates Whether nearby access points with the same SSID but lower RSSI levels
      *  should be excluded
@@ -62,7 +62,7 @@ sealed class SearchForSingleAccessPointRequest(
      * @since 03/2022
      */
     data class BSSID(
-        val regexForBSSID: String,
+        val regex: String,
         override val timeoutInMillis: Int,
         override val filterDuplicates: Boolean = true
     ) : SearchForSingleAccessPointRequest(timeoutInMillis, filterDuplicates)

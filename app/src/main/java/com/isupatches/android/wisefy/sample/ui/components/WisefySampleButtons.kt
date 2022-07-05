@@ -25,6 +25,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.isupatches.android.wisefy.sample.R
 import com.isupatches.android.wisefy.sample.ui.primitives.WisefySamplePrimaryButtonColors
@@ -42,7 +43,7 @@ internal fun WisefyPrimaryButton(
             modifier = Modifier.fillMaxWidth(),
             content = {
                 Text(
-                    text = LocalContext.current.getString(stringResId),
+                    text = stringResource(stringResId),
                     style = MaterialTheme.typography.subtitle1,
                     modifier = Modifier.padding(
                         top = WisefySampleSizes.Medium,

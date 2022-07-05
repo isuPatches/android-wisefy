@@ -38,12 +38,4 @@ internal interface Android29NetworkConnectionApi {
      * @since 03/2022
      */
     fun connectToNetwork(request: NetworkRequest, timeoutInMillis: Int)
-
-    /**
-     * An Android 29 internal API to disconnect from the current network through the Android OS.
-     *
-     * @author Patches Klinefelter
-     * @since 03/2022
-     */
-    fun disconnectFromCurrentNetwork()
 }

@@ -20,60 +20,83 @@ import android.net.wifi.WifiNetworkSuggestion
 import android.os.Build
 import androidx.annotation.RequiresApi
 
+/**
+ * A function that will create the network configuration for a WPA2 network.
+ *
+ * @param ssid The SSID of the open network
+ * @param bssid The optional BSSID for the open network
+ *
+ * @return WifiNetworkSuggestion - The network suggestion for the open network
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 @RequiresApi(Build.VERSION_CODES.Q)
-fun createOpenNetworkSuggestionWithSSID(ssid: String): WifiNetworkSuggestion {
-    return WifiNetworkSuggestion.Builder()
-        .setSsid(ssid)
-        .build()
-}
-
-@RequiresApi(Build.VERSION_CODES.Q)
-fun createOpenNetworkSuggestionWithBSSID(bssid: String): WifiNetworkSuggestion {
-    return WifiNetworkSuggestion.Builder()
-        .setBssid(MacAddress.fromString(bssid))
-        .build()
-}
-
-@RequiresApi(Build.VERSION_CODES.Q)
-fun createWPA2NetworkSuggestionWithSSID(
+fun createOpenNetworkSuggestion(
     ssid: String,
-    passphrase: String
+    bssid: String?
 ): WifiNetworkSuggestion {
-    return WifiNetworkSuggestion.Builder()
+    val builder = WifiNetworkSuggestion.Builder()
+        .setSsid(ssid)
+        .setIsAppInteractionRequired(true) // Optional (Needs location permission)
+    if (!bssid.isNullOrBlank()) {
+        builder.setBssid(MacAddress.fromString(bssid))
+    }
+    return builder.build()
+}
+
+/**
+ * A function that will create the network configuration for a WPA2 network.
+ *
+ * @param ssid The SSID of the WPA2 network
+ * @param passphrase The passphrase of the WPA2 network
+ * @param bssid The optional BSSID for the WPA2 network
+ *
+ * @return WifiNetworkSuggestion - The network suggestion for the WPA2 network
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
+@RequiresApi(Build.VERSION_CODES.Q)
+fun createWPA2NetworkSuggestion(
+    ssid: String,
+    passphrase: String,
+    bssid: String?
+): WifiNetworkSuggestion {
+    val builder = WifiNetworkSuggestion.Builder()
         .setSsid(ssid)
         .setWpa2Passphrase(passphrase)
-        .build()
+        .setIsAppInteractionRequired(true) // Optional (Needs location permission)
+    if (!bssid.isNullOrBlank()) {
+        builder.setBssid(MacAddress.fromString(bssid))
+    }
+    return builder.build()
 }
 
+/**
+ * A function that will create the network configuration for a WPA2 network.
+ *
+ * @param ssid The SSID of the WPA3 network
+ * @param passphrase The passphrase of the WPA3 network
+ * @param bssid The optional BSSID for the WPA3 network
+ *
+ * @return WifiNetworkSuggestion - The network suggestion for the WPA3 network
+ *
+ * @author Patches Klinefelter
+ * @since 03/2022
+ */
 @RequiresApi(Build.VERSION_CODES.Q)
-fun createWPA2NetworkSuggestionWithBSSID(
-    bssid: String,
-    passphrase: String
-): WifiNetworkSuggestion {
-    return WifiNetworkSuggestion.Builder()
-        .setBssid(MacAddress.fromString(bssid))
-        .setWpa2Passphrase(passphrase)
-        .build()
-}
-
-@RequiresApi(Build.VERSION_CODES.Q)
-fun createWPA3NetworkSuggestionWithSSID(
+fun createWPA3NetworkSuggestion(
     ssid: String,
-    passphrase: String
+    passphrase: String,
+    bssid: String?
 ): WifiNetworkSuggestion {
-    return WifiNetworkSuggestion.Builder()
+    val builder = WifiNetworkSuggestion.Builder()
         .setSsid(ssid)
         .setWpa3Passphrase(passphrase)
-        .build()
-}
-
-@RequiresApi(Build.VERSION_CODES.Q)
-fun createWPA3NetworkSuggestionWithBSSID(
-    bssid: String,
-    passphrase: String
-): WifiNetworkSuggestion {
-    return WifiNetworkSuggestion.Builder()
-        .setBssid(MacAddress.fromString(bssid))
-        .setWpa3Passphrase(passphrase)
-        .build()
+        .setIsAppInteractionRequired(true) // Optional (Needs location permission)
+    if (!bssid.isNullOrBlank()) {
+        builder.setBssid(MacAddress.fromString(bssid))
+    }
+    return builder.build()
 }

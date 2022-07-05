@@ -27,7 +27,4 @@ import android.net.NetworkCapabilities
  * @author Patches Klinefelter
  * @since 03/2022
  */
-data class NetworkInfoData(
-    val capabilities: NetworkCapabilities?,
-    val linkProperties: LinkProperties?
-)
+data class NetworkInfoData(val capabilities: NetworkCapabilities?, val linkProperties: LinkProperties?)

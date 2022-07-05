@@ -44,23 +44,21 @@ internal class Android29NetworkConnectionApiImpl(
         private const val LOG_TAG = "Android29NetworkConnectionApiImpl"
     }
 
-    private val networkCallback = object : ConnectivityManager.NetworkCallback() {
-        override fun onAvailable(network: Network) {
-            super.onAvailable(network)
-            logger.d(LOG_TAG, "Network available")
-        }
-
-        override fun onUnavailable() {
-            super.onUnavailable()
-            logger.d(LOG_TAG, "Network unavailable")
-        }
-    }
+    private var networkCallback: ConnectivityManager.NetworkCallback? = null
 
     override fun connectToNetwork(request: NetworkRequest, timeoutInMillis: Int) {
-        connectionManager.requestNetwork(request, networkCallback, timeoutInMillis)
-    }
+        val networkCallback = object : ConnectivityManager.NetworkCallback() {
+            override fun onAvailable(network: Network) {
+                super.onAvailable(network)
+                logger.d(LOG_TAG, "Network available")
+            }
 
-    override fun disconnectFromCurrentNetwork() {
-        connectionManager.unregisterNetworkCallback(networkCallback)
+            override fun onUnavailable() {
+                super.onUnavailable()
+                logger.d(LOG_TAG, "Network unavailable")
+            }
+        }
+        this.networkCallback = networkCallback
+        connectionManager.requestNetwork(request, networkCallback, timeoutInMillis)
     }
 }

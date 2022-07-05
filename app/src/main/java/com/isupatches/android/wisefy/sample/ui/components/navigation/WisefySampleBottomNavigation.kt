@@ -24,6 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.isupatches.android.wisefy.sample.ui.primitives.WisefySampleTypography
@@ -50,12 +51,12 @@ internal fun WisefySampleBottomNavigation(navController: NavController) {
                 icon = {
                     Icon(
                         painter = painterResource(id = item.icon),
-                        contentDescription = LocalContext.current.getString(item.title)
+                        contentDescription = stringResource(item.title)
                     )
                 },
                 label = {
                     Text(
-                        text = LocalContext.current.getString(item.title),
+                        text = stringResource(item.title),
                         style = WisefySampleTypography.caption
                     )
                 },

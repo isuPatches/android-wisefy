@@ -34,7 +34,7 @@ sealed class SearchForAccessPointsResult {
     object Empty : SearchForAccessPointsResult()
 
     /**
-     * A data representation for when there are matching nearby access points.
+     * A data representation for when there are one or more matching nearby access points.
      *
      * @property data This list of matching nearby access points
      *

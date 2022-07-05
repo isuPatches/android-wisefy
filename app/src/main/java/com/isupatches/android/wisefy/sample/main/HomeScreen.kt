@@ -31,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import com.isupatches.android.wisefy.sample.R
@@ -55,7 +56,7 @@ internal fun HomeScreen() {
                 Box {
                     Image(
                         painter = painterResource(id = R.drawable.ic_logo),
-                        contentDescription = LocalContext.current.getString(R.string.content_description_logo),
+                        contentDescription = stringResource(R.string.content_description_logo),
                         colorFilter = ColorFilter.tint(MaterialTheme.colors.primary)
                     )
                 }
@@ -63,7 +64,7 @@ internal fun HomeScreen() {
             Row {
                 Box(modifier = Modifier.padding(top = WisefySampleSizes.Medium)) {
                     Text(
-                        text = LocalContext.current.getString(R.string.wisefy),
+                        text = stringResource(R.string.wisefy),
                         style = MaterialTheme.typography.h2,
                         textAlign = TextAlign.Center,
                         color = MaterialTheme.colors.primary
@@ -73,7 +74,7 @@ internal fun HomeScreen() {
             Row {
                 Box(modifier = Modifier.padding(top = WisefySampleSizes.XLarge)) {
                     Text(
-                        text = LocalContext.current.getString(R.string.wisefy_sample_description),
+                        text = stringResource(R.string.wisefy_sample_description),
                         style = MaterialTheme.typography.subtitle1,
                         textAlign = TextAlign.Center,
                         color = MaterialTheme.colors.onBackground

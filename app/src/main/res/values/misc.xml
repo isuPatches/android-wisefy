@@ -44,4 +44,14 @@
     </string>
     <string name="permission_error_get_saved_networks">Permissions for getting saved networks are denied</string>
 
+    <string name="android_q_enable_wifi_message">
+        Starting with Android Q, applications are not allowed to enable Wi-Fi
+    </string>
+    <string name="android_q_disable_wifi_message">
+        Starting with Android Q, applications are not allowed to disable Wi-Fi
+    </string>
+    <string name="android_q_disconnect_message">
+        Starting with Android Q, applications are not allowed to alter connections, only offer suggestions
+    </string>
+    <string name="android_q_notice">Android Q Notice</string>
 </resources>

@@ -22,9 +22,9 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.addnetwork.os.apis.Android29AddNetworkApi
-import com.isupatches.android.wisefy.core.wifimanager.createOpenNetworkSuggestionWithSSID
-import com.isupatches.android.wisefy.core.wifimanager.createWPA2NetworkSuggestionWithSSID
-import com.isupatches.android.wisefy.core.wifimanager.createWPA3NetworkSuggestionWithSSID
+import com.isupatches.android.wisefy.core.wifimanager.createOpenNetworkSuggestion
+import com.isupatches.android.wisefy.core.wifimanager.createWPA2NetworkSuggestion
+import com.isupatches.android.wisefy.core.wifimanager.createWPA3NetworkSuggestion
 
 /**
  * An internal Android 29 specific implementation for adding networks through the Android OS.
@@ -42,20 +42,20 @@ internal class Android29AddNetworkApiImpl(
 ) : Android29AddNetworkApi {
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-    override fun addOpenNetwork(ssid: String): Int {
-        val suggestion = createOpenNetworkSuggestionWithSSID(ssid)
+    override fun addOpenNetwork(ssid: String, bssid: String?): Int {
+        val suggestion = createOpenNetworkSuggestion(ssid, bssid)
         return wifiManager.addNetworkSuggestions(arrayListOf(suggestion))
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-    override fun addWPA2Network(ssid: String, passphrase: String): Int {
-        val suggestion = createWPA2NetworkSuggestionWithSSID(ssid, passphrase)
+    override fun addWPA2Network(ssid: String, passphrase: String, bssid: String?): Int {
+        val suggestion = createWPA2NetworkSuggestion(ssid, passphrase, bssid)
         return wifiManager.addNetworkSuggestions(listOf(suggestion))
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-    override fun addWPA3Network(ssid: String, passphrase: String): Int {
-        val suggestion = createWPA3NetworkSuggestionWithSSID(ssid, passphrase)
+    override fun addWPA3Network(ssid: String, passphrase: String, bssid: String?): Int {
+        val suggestion = createWPA3NetworkSuggestion(ssid, passphrase, bssid)
         return wifiManager.addNetworkSuggestions(arrayListOf(suggestion))
     }
 }

@@ -64,17 +64,17 @@ internal class DefaultSavedNetworkApiImpl(
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun searchForSavedNetworksBySSID(regexForSSID: String): List<WifiConfiguration> {
-        return wifiManager.configuredNetworks?.filter { configuration ->
+        return getSavedNetworks().filter { configuration ->
             configuration.SSID.replace(QUOTE, "").matches(regexForSSID.toRegex()) ||
                 configuration.SSID.matches(regexForSSID.toRegex())
-        } ?: emptyList()
+        }
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun searchForSavedNetworksByBSSID(regexForBSSID: String): List<WifiConfiguration> {
-        return wifiManager.configuredNetworks?.filter { configuration ->
+        return getSavedNetworks().filter { configuration ->
             configuration.BSSID.replace(QUOTE, "").matches(regexForBSSID.toRegex()) ||
                 configuration.BSSID.matches(regexForBSSID.toRegex())
-        } ?: emptyList()
+        }
     }
 }

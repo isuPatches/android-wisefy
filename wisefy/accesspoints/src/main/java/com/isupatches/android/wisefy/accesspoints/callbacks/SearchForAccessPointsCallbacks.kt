@@ -31,7 +31,7 @@ interface SearchForAccessPointsCallbacks : BaseWisefyCallbacks {
     /**
      * A callback triggered when there are matching access points.
      *
-     * @param accessPoints The list of data for matching access points
+     * @param accessPoints The list of matching access points
      *
      * @see AccessPointData
      *
@@ -41,7 +41,7 @@ interface SearchForAccessPointsCallbacks : BaseWisefyCallbacks {
     fun onAccessPointsFound(accessPoints: List<AccessPointData>)
 
     /**
-     * A callback triggered when there are no matching matching access points.
+     * A callback triggered when there are no matching access points.
      *
      * @author Patches Klinefelter
      * @since 03/2022

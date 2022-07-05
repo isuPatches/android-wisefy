@@ -15,7 +15,11 @@
  */
 package com.isupatches.android.wisefy.sample.features.misc
 
+import android.Manifest.permission.ACCESS_COARSE_LOCATION
+import android.Manifest.permission.ACCESS_FINE_LOCATION
+import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.os.Build
+import androidx.annotation.RequiresPermission
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import com.isupatches.android.wisefy.WisefyApi
@@ -25,12 +29,14 @@ import com.isupatches.android.wisefy.accesspoints.entities.GetNearbyAccessPoints
 import com.isupatches.android.wisefy.frequency.callbacks.GetFrequencyCallbacks
 import com.isupatches.android.wisefy.frequency.entities.FrequencyData
 import com.isupatches.android.wisefy.frequency.entities.GetFrequencyRequest
+import com.isupatches.android.wisefy.networkconnection.callbacks.DisconnectFromCurrentNetworkCallbacks
+import com.isupatches.android.wisefy.networkconnection.entities.DisconnectFromCurrentNetworkRequest
 import com.isupatches.android.wisefy.networkinfo.callbacks.GetCurrentNetworkCallbacks
+import com.isupatches.android.wisefy.networkinfo.callbacks.GetCurrentNetworkInfoCallbacks
 import com.isupatches.android.wisefy.networkinfo.callbacks.GetIPCallbacks
-import com.isupatches.android.wisefy.networkinfo.callbacks.GetNetworkInfoCallbacks
+import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkInfoRequest
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkRequest
 import com.isupatches.android.wisefy.networkinfo.entities.GetIPRequest
-import com.isupatches.android.wisefy.networkinfo.entities.GetNetworkInfoRequest
 import com.isupatches.android.wisefy.networkinfo.entities.IPData
 import com.isupatches.android.wisefy.networkinfo.entities.NetworkData
 import com.isupatches.android.wisefy.networkinfo.entities.NetworkInfoData
@@ -49,18 +55,22 @@ internal abstract class MiscViewModel : BaseViewModel() {
 
     abstract fun onDialogClosed()
 
+    abstract fun onDisconnectFromCurrentNetworkPermissionsError()
     abstract fun onGetFrequencyPermissionsError()
     abstract fun onGetIPPermissionsError()
     abstract fun onGetNearbyAccessPointsPermissionError()
     abstract fun onGetSavedNetworksPermissionsError()
 
     abstract fun disableWifi()
+    abstract fun disconnectFromCurrentNetwork()
     abstract fun enableWifi()
     abstract fun getCurrentNetwork()
     abstract fun getCurrentNetworkInfo()
     abstract fun getFrequency()
     abstract fun getIP()
     abstract fun getNearbyAccessPoints()
+
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     abstract fun getSavedNetworks()
 }
 
@@ -89,14 +99,14 @@ internal class DefaultMiscViewModel(
                     override fun onWifiDisabled() {
                         _uiState.value = MiscScreenUIState(
                             loadingState = MiscScreenLoadingState(isLoading = false),
-                            dialogState = MiscScreenDialogState.Success.DisableWifi
+                            dialogState = MiscScreenDialogState.DisableWifi.Success
                         )
                     }
 
                     override fun onFailureDisablingWifi() {
                         _uiState.value = MiscScreenUIState(
                             loadingState = MiscScreenLoadingState(isLoading = false),
-                            dialogState = MiscScreenDialogState.Failure.DisableWifi
+                            dialogState = MiscScreenDialogState.DisableWifi.Failure
                         )
                     }
 
@@ -111,7 +121,63 @@ internal class DefaultMiscViewModel(
         } else {
             _uiState.value = MiscScreenUIState(
                 loadingState = MiscScreenLoadingState(isLoading = false),
-                dialogState = MiscScreenDialogState.Failure.DisplayAndroidQMessage
+                dialogState = MiscScreenDialogState.DisableWifi.DisplayAndroidQMessage
+            )
+        }
+    }
+
+    override fun disconnectFromCurrentNetwork() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+
+            _uiState.value = MiscScreenUIState(
+                loadingState = MiscScreenLoadingState(isLoading = true),
+                dialogState = MiscScreenDialogState.None
+            )
+            wisefy.disconnectFromCurrentNetwork(
+                request = DisconnectFromCurrentNetworkRequest(),
+                callbacks = object : DisconnectFromCurrentNetworkCallbacks {
+                    override fun onDisconnectRequestPlaced() {
+                        _uiState.value = MiscScreenUIState(
+                            loadingState = MiscScreenLoadingState(isLoading = false),
+                            dialogState = MiscScreenDialogState.DisconnectFromCurrentNetwork.Success.RequestPlaced
+                        )
+                    }
+
+                    override fun onDisconnectedFromCurrentNetwork() {
+                        _uiState.value = MiscScreenUIState(
+                            loadingState = MiscScreenLoadingState(isLoading = false),
+                            dialogState = MiscScreenDialogState.DisconnectFromCurrentNetwork.Success.Disconnected
+                        )
+                    }
+
+                    override fun onNetworkNotFoundToDisconnectFrom() {
+                        _uiState.value = MiscScreenUIState(
+                            loadingState = MiscScreenLoadingState(isLoading = false),
+                            dialogState = MiscScreenDialogState.DisconnectFromCurrentNetwork.Failure.NetworkNotFound
+                        )
+                    }
+
+                    override fun onFailureDisconnectingFromCurrentNetwork() {
+                        _uiState.value = MiscScreenUIState(
+                            loadingState = MiscScreenLoadingState(isLoading = false),
+                            dialogState = MiscScreenDialogState.DisconnectFromCurrentNetwork.Failure.UnableToDisconnect
+                        )
+                    }
+
+                    override fun onWisefyAsyncFailure(throwable: Throwable) {
+                        _uiState.value = MiscScreenUIState(
+                            loadingState = MiscScreenLoadingState(isLoading = false),
+                            dialogState = MiscScreenDialogState.Failure.WisefyAsync(
+                                throwable = throwable
+                            )
+                        )
+                    }
+                }
+            )
+        } else {
+            _uiState.value = MiscScreenUIState(
+                loadingState = MiscScreenLoadingState(isLoading = false),
+                dialogState = MiscScreenDialogState.DisconnectFromCurrentNetwork.DisplayAndroidQMessage
             )
         }
     }
@@ -128,14 +194,14 @@ internal class DefaultMiscViewModel(
                     override fun onWifiEnabled() {
                         _uiState.value = MiscScreenUIState(
                             loadingState = MiscScreenLoadingState(isLoading = false),
-                            dialogState = MiscScreenDialogState.Success.EnableWifi
+                            dialogState = MiscScreenDialogState.EnableWifi.Success
                         )
                     }
 
                     override fun onFailureEnablingWifi() {
                         _uiState.value = MiscScreenUIState(
                             loadingState = MiscScreenLoadingState(isLoading = false),
-                            dialogState = MiscScreenDialogState.Failure.EnableWifi
+                            dialogState = MiscScreenDialogState.EnableWifi.Failure
                         )
                     }
 
@@ -150,7 +216,7 @@ internal class DefaultMiscViewModel(
         } else {
             _uiState.value = MiscScreenUIState(
                 loadingState = MiscScreenLoadingState(isLoading = false),
-                dialogState = MiscScreenDialogState.Failure.DisplayAndroidQMessage
+                dialogState = MiscScreenDialogState.EnableWifi.DisplayAndroidQMessage
             )
         }
     }
@@ -166,14 +232,14 @@ internal class DefaultMiscViewModel(
                 override fun onCurrentNetworkRetrieved(network: NetworkData) {
                     _uiState.value = MiscScreenUIState(
                         loadingState = MiscScreenLoadingState(isLoading = false),
-                        dialogState = MiscScreenDialogState.Success.GetCurrentNetwork(network = network)
+                        dialogState = MiscScreenDialogState.GetCurrentNetwork.Success(network = network)
                     )
                 }
 
                 override fun onNoCurrentNetwork() {
                     _uiState.value = MiscScreenUIState(
                         loadingState = MiscScreenLoadingState(isLoading = false),
-                        dialogState = MiscScreenDialogState.Failure.GetCurrentNetwork
+                        dialogState = MiscScreenDialogState.GetCurrentNetwork.Failure
                     )
                 }
 
@@ -192,20 +258,20 @@ internal class DefaultMiscViewModel(
             loadingState = MiscScreenLoadingState(isLoading = true),
             dialogState = MiscScreenDialogState.None
         )
-        wisefy.getNetworkInfo(
-            request = GetNetworkInfoRequest(),
-            callbacks = object : GetNetworkInfoCallbacks {
-                override fun onNetworkInfoRetrieved(networkInfo: NetworkInfoData) {
+        wisefy.getCurrentNetworkInfo(
+            request = GetCurrentNetworkInfoRequest(),
+            callbacks = object : GetCurrentNetworkInfoCallbacks {
+                override fun onCurrentNetworkInfoRetrieved(networkInfo: NetworkInfoData) {
                     _uiState.value = MiscScreenUIState(
                         loadingState = MiscScreenLoadingState(isLoading = false),
-                        dialogState = MiscScreenDialogState.Success.GetCurrentNetworkInfo(networkInfo = networkInfo)
+                        dialogState = MiscScreenDialogState.GetCurrentNetworkInfo.Success(networkInfo = networkInfo)
                     )
                 }
 
-                override fun onNoNetworkToRetrieveInfo() {
+                override fun onNoCurrentNetworkToRetrieveInfo() {
                     _uiState.value = MiscScreenUIState(
                         loadingState = MiscScreenLoadingState(isLoading = false),
-                        dialogState = MiscScreenDialogState.Failure.GetCurrentNetworkInfo
+                        dialogState = MiscScreenDialogState.GetCurrentNetworkInfo.Failure
                     )
                 }
 
@@ -230,14 +296,14 @@ internal class DefaultMiscViewModel(
                 override fun onFrequencyRetrieved(frequency: FrequencyData) {
                     _uiState.value = MiscScreenUIState(
                         loadingState = MiscScreenLoadingState(isLoading = false),
-                        dialogState = MiscScreenDialogState.Success.GetFrequency(frequency = frequency)
+                        dialogState = MiscScreenDialogState.GetFrequency.Success(frequency = frequency)
                     )
                 }
 
                 override fun onFailureRetrievingFrequency() {
                     _uiState.value = MiscScreenUIState(
                         loadingState = MiscScreenLoadingState(isLoading = false),
-                        dialogState = MiscScreenDialogState.Failure.GetFrequency
+                        dialogState = MiscScreenDialogState.GetFrequency.Failure
                     )
                 }
 
@@ -262,14 +328,14 @@ internal class DefaultMiscViewModel(
                 override fun onIPRetrieved(ip: IPData) {
                     _uiState.value = MiscScreenUIState(
                         loadingState = MiscScreenLoadingState(isLoading = false),
-                        dialogState = MiscScreenDialogState.Success.GetIP(ip = ip)
+                        dialogState = MiscScreenDialogState.GetIP.Success(ip = ip)
                     )
                 }
 
                 override fun onFailureRetrievingIP() {
                     _uiState.value = MiscScreenUIState(
                         loadingState = MiscScreenLoadingState(isLoading = false),
-                        dialogState = MiscScreenDialogState.Failure.GetIP
+                        dialogState = MiscScreenDialogState.GetIP.Failure
                     )
                 }
 
@@ -294,14 +360,14 @@ internal class DefaultMiscViewModel(
                 override fun onNearbyAccessPointsRetrieved(accessPoints: List<AccessPointData>) {
                     _uiState.value = MiscScreenUIState(
                         loadingState = MiscScreenLoadingState(isLoading = false),
-                        dialogState = MiscScreenDialogState.Success.GetNearbyAccessPoints(accessPoints = accessPoints)
+                        dialogState = MiscScreenDialogState.GetNearbyAccessPoints.Success(accessPoints = accessPoints)
                     )
                 }
 
                 override fun onNoNearbyAccessPoints() {
                     _uiState.value = MiscScreenUIState(
                         loadingState = MiscScreenLoadingState(isLoading = false),
-                        dialogState = MiscScreenDialogState.Failure.GetNearbyAccessPoints
+                        dialogState = MiscScreenDialogState.GetNearbyAccessPoints.Failure
                     )
                 }
 
@@ -315,6 +381,7 @@ internal class DefaultMiscViewModel(
         )
     }
 
+    @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun getSavedNetworks() {
         _uiState.value = MiscScreenUIState(
             loadingState = MiscScreenLoadingState(isLoading = true),
@@ -326,14 +393,14 @@ internal class DefaultMiscViewModel(
                 override fun onSavedNetworksRetrieved(savedNetworks: List<SavedNetworkData>) {
                     _uiState.value = MiscScreenUIState(
                         loadingState = MiscScreenLoadingState(isLoading = false),
-                        dialogState = MiscScreenDialogState.Success.GetSavedNetworks(savedNetworks = savedNetworks)
+                        dialogState = MiscScreenDialogState.GetSavedNetworks.Success(savedNetworks = savedNetworks)
                     )
                 }
 
                 override fun onNoSavedNetworksFound() {
                     _uiState.value = MiscScreenUIState(
                         loadingState = MiscScreenLoadingState(isLoading = false),
-                        dialogState = MiscScreenDialogState.Failure.GetSavedNetworks
+                        dialogState = MiscScreenDialogState.GetSavedNetworks.Failure
                     )
                 }
 
@@ -354,24 +421,31 @@ internal class DefaultMiscViewModel(
         )
     }
 
+    override fun onDisconnectFromCurrentNetworkPermissionsError() {
+        _uiState.value = MiscScreenUIState(
+            loadingState = MiscScreenLoadingState(isLoading = false),
+            dialogState = MiscScreenDialogState.DisconnectFromCurrentNetwork.PermissionsError
+        )
+    }
+
     override fun onGetFrequencyPermissionsError() {
         _uiState.value = MiscScreenUIState(
             loadingState = MiscScreenLoadingState(isLoading = false),
-            dialogState = MiscScreenDialogState.PermissionsError.GetFrequency
+            dialogState = MiscScreenDialogState.GetFrequency.PermissionsError
         )
     }
 
     override fun onGetIPPermissionsError() {
         _uiState.value = MiscScreenUIState(
             loadingState = MiscScreenLoadingState(isLoading = false),
-            dialogState = MiscScreenDialogState.PermissionsError.GetIP
+            dialogState = MiscScreenDialogState.GetIP.PermissionsError
         )
     }
 
     override fun onGetNearbyAccessPointsPermissionError() {
         _uiState.value = MiscScreenUIState(
             loadingState = MiscScreenLoadingState(isLoading = false),
-            dialogState = MiscScreenDialogState.PermissionsError.GetNearbyAccessPoints
+            dialogState = MiscScreenDialogState.GetNearbyAccessPoints.PermissionsError
         )
     }
 

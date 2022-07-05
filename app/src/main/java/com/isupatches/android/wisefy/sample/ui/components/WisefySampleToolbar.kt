@@ -21,6 +21,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.isupatches.android.wisefy.sample.R
 import com.isupatches.android.wisefy.sample.ui.theme.WisefySampleTheme
@@ -31,7 +32,7 @@ internal fun WisefySampleToolbar() {
         TopAppBar(
             title = {
                 Text(
-                    text = LocalContext.current.getString(R.string.app_name),
+                    text = stringResource(R.string.app_name),
                     color = MaterialTheme.colors.onPrimary,
                     style = MaterialTheme.typography.h5
                 )

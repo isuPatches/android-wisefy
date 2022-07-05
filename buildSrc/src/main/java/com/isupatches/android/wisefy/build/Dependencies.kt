@@ -22,40 +22,35 @@ object Dependencies {
         const val APPCOMPAT: String = "androidx.appcompat:appcompat:${Versions.ANDROIDX_APPCOMPAT}"
 
         object Activity {
-            const val COMPOSE = "androidx.activity:activity-compose:${Versions.ANDROIDX_ACTIVITY_COMPOSE}"
+            const val COMPOSE: String = "androidx.activity:activity-compose:${Versions.ANDROIDX_ACTIVITY}"
         }
 
         object Compose {
-            const val ANIMATION = "androidx.compose.animation:animation:${Versions.ANDROIDX_COMPOSE}"
-            const val MATERIAL = "androidx.compose.material:material:${Versions.ANDROIDX_COMPOSE}"
-            const val UI = "androidx.compose.ui:ui:${Versions.ANDROIDX_COMPOSE}"
-            const val UI_TOOLING = "androidx.compose.ui:ui-tooling:${Versions.ANDROIDX_COMPOSE}"
-            const val UI_TOOLING_PREVIEW = "androidx.compose.ui:ui-tooling-preview:${Versions.ANDROIDX_COMPOSE}"
+            const val ANIMATION: String = "androidx.compose.animation:animation:${Versions.ANDROIDX_COMPOSE}"
+            const val MATERIAL: String = "androidx.compose.material:material:${Versions.ANDROIDX_COMPOSE}"
+            const val MATERIAL_ICONS_EXTENDED: String = "androidx.compose.material:material-icons-extended:${Versions.ANDROIDX_COMPOSE}"
+            const val UI: String = "androidx.compose.ui:ui:${Versions.ANDROIDX_COMPOSE}"
+            const val UI_TOOLING: String = "androidx.compose.ui:ui-tooling:${Versions.ANDROIDX_COMPOSE}"
+            const val UI_TOOLING_PREVIEW: String = "androidx.compose.ui:ui-tooling-preview:${Versions.ANDROIDX_COMPOSE}"
         }
 
-        const val CONSTRAINT_LAYOUT: String = "androidx.constraintlayout:constraintlayout:" +
-            Versions.ANDROIDX_CONSTRAINT_LAYOUT
         const val CORE_KTX: String = "androidx.core:core-ktx:${Versions.ANDROIDX_CORE_KTX}"
 
         object Lifecycle {
             val VIEW_MODEL_COMPOSE: String = "androidx.lifecycle:lifecycle-viewmodel-compose:" +
-                "${Versions.ANDROIDX_LIFECYCLE_VIEW_MODEL_COMPOSE}"
+                "${Versions.ANDROIDX_LIFECYCLE}"
         }
 
         object Navigation {
-            const val COMPOSE = "androidx.navigation:navigation-compose:${Versions.ANDROIDX_NAVIGATION_COMPOSE}"
+            const val COMPOSE: String = "androidx.navigation:navigation-compose:${Versions.ANDROIDX_NAVIGATION}"
             const val FRAGMENT: String = "androidx.navigation:navigation-fragment:${Versions.ANDROIDX_NAVIGATION}"
-            const val UI: String ="androidx.navigation:navigation-ui:${Versions.ANDROIDX_NAVIGATION}"
+            const val UI: String = "androidx.navigation:navigation-ui:${Versions.ANDROIDX_NAVIGATION}"
         }
     }
 
     object Kotlin {
         const val STD_LIB: String = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.KOTLIN}"
         const val COROUTINES: String = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.COROUTINES}"
-    }
-
-    object Google {
-        const val MATERIAL: String = "com.google.android.material:material:${Versions.GOOGLE_MATERIAL}"
     }
 
     object Dagger {

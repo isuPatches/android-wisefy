@@ -18,7 +18,7 @@ package com.isupatches.android.wisefy.networkconnection.callbacks
 import com.isupatches.android.wisefy.core.base.BaseWisefyCallbacks
 
 /**
- * A set of callbacks for disconnecting from a network.
+ * A set of callbacks for disconnecting from the current network.
  *
  * @see BaseWisefyCallbacks
  *
@@ -28,7 +28,7 @@ import com.isupatches.android.wisefy.core.base.BaseWisefyCallbacks
 interface DisconnectFromCurrentNetworkCallbacks : BaseWisefyCallbacks {
 
     /**
-     * A callback triggered when the device has successfully disconnected from a network.
+     * A callback triggered when the device has successfully disconnected from the current network.
      *
      * @author Patches Klinefelter
      * @since 03/2022
@@ -36,7 +36,7 @@ interface DisconnectFromCurrentNetworkCallbacks : BaseWisefyCallbacks {
     fun onDisconnectedFromCurrentNetwork()
 
     /**
-     * A callback triggered when a request is placed to disconnect from a network.
+     * A callback triggered when a request is placed to disconnect from the current network.
      *
      * *NOTES*
      *  - Android 30 specific
@@ -47,7 +47,7 @@ interface DisconnectFromCurrentNetworkCallbacks : BaseWisefyCallbacks {
     fun onDisconnectRequestPlaced()
 
     /**
-     * A callback triggered when there is a failure disconnecting from a network.
+     * A callback triggered when there is a failure disconnecting from the current network.
      *
      * @author Patches Klinefelter
      * @since 03/2022
@@ -55,7 +55,7 @@ interface DisconnectFromCurrentNetworkCallbacks : BaseWisefyCallbacks {
     fun onFailureDisconnectingFromCurrentNetwork()
 
     /**
-     * A callback triggered when there is a no network found to disconnect from.
+     * A callback triggered when there is a no current network found to disconnect from.
      *
      * @author Patches Klinefelter
      * @since 03/2022

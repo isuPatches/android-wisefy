@@ -21,67 +21,67 @@ package com.isupatches.android.wisefy.networkconnection.entities
  * @author Patches Klinefelter
  * @since 03/2022
  */
-sealed class NetworkConnectionResult {
+sealed class ConnectToNetworkResult {
 
     /**
-     * A set of classes that are data representations of a boolean result when connecting to or disconnecting
-     * from a network.
+     * A set of classes that are data representations of a success when connecting to a network.
      *
-     * @see NetworkConnectionResult
+     * @see ConnectToNetworkResult
      *
      * @author Patches Klinefelter
      * @since 03/2022
      */
-    sealed class Boolean : NetworkConnectionResult() {
+    sealed class Success : ConnectToNetworkResult() {
 
         /**
          * A data representation for when there is a success connecting to or disconnecting from a network.
          *
-         * @see NetworkConnectionResult.Boolean
+         * @see Success
          *
          * @author Patches Klinefelter
          * @since 03/2022
          */
-        object True : NetworkConnectionResult.Boolean()
+        object True : Success()
+
+        /**
+         * A data representation for when there is a request sent to connecting to a network.
+         *
+         * @see Success
+         *
+         * @author Patches Klinefelter
+         * @since 03/2022
+         */
+        object ConnectionRequestSent : Success()
+    }
+
+    /**
+     * A set of classes that are data representations of a failure when connecting to a network.
+     *
+     * @see ConnectToNetworkResult
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
+    sealed class Failure : ConnectToNetworkResult() {
 
         /**
          * A data representation for when there is a failure connecting to or disconnecting from a network.
          *
-         * @see NetworkConnectionResult.Boolean
+         * @see Failure
          *
          * @author Patches Klinefelter
          * @since 03/2022
          */
-        object False : NetworkConnectionResult.Boolean()
+        object False : Failure()
+
+        /**
+         * A data representation for when there is no network found to connect to or disconnect from.
+         *
+         * @see Failure
+         *
+         * @author Patches Klinefelter
+         * @since 03/2022
+         */
+        object NetworkNotFound : Failure()
     }
-
-    /**
-     * A data representation for when there is a request sent to connecting to a network.
-     *
-     * @see NetworkConnectionResult
-     *
-     * @author Patches Klinefelter
-     * @since 03/2022
-     */
-    object ConnectionRequestSent : NetworkConnectionResult()
-
-    /**
-     * A data representation for when there is no network found to connect to or disconnect from.
-     *
-     * @see NetworkConnectionResult
-     *
-     * @author Patches Klinefelter
-     * @since 03/2022
-     */
-    object NetworkNotFound : NetworkConnectionResult()
-
-    /**
-     * A data representation for when there is a request sent to disconnect from a network.
-     *
-     * @see NetworkConnectionResult
-     *
-     * @author Patches Klinefelter
-     * @since 03/2022
-     */
-    object DisconnectRequestSent : NetworkConnectionResult()
 }

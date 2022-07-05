@@ -18,8 +18,10 @@ package com.isupatches.android.wisefy.sample.main
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.toArgb
 import androidx.navigation.compose.rememberNavController
 import com.isupatches.android.wisefy.WisefyApi
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleToolbar
@@ -44,6 +46,7 @@ internal class MainActivity : ComponentActivity() {
         wisefy.init()
         setContent {
             WisefySampleTheme {
+                window?.statusBarColor = MaterialTheme.colors.primaryVariant.toArgb()
                 MainScreenLayout(wisefy, sdkUtil)
             }
         }

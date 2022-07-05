@@ -54,7 +54,7 @@ internal class Android30AddNetworkAdapter(
     override fun addOpenNetwork(request: AddOpenNetworkRequest): AddNetworkResult {
         return when (request) {
             is AddOpenNetworkRequest.Android30OrAbove -> {
-                api.addOpenNetwork(request.ssid, request.launcher)
+                api.addOpenNetwork(request.ssid, request.launcher, request.bssid)
                 AddNetworkResult.Success.IntentLaunched
             }
             is AddOpenNetworkRequest.Default -> {
@@ -69,7 +69,7 @@ internal class Android30AddNetworkAdapter(
     override fun addWPA2Network(request: AddWPA2NetworkRequest): AddNetworkResult {
         return when (request) {
             is AddWPA2NetworkRequest.Android30OrAbove -> {
-                api.addWPA2Network(request.ssid, request.passphrase, request.launcher)
+                api.addWPA2Network(request.ssid, request.passphrase, request.launcher, request.bssid)
                 AddNetworkResult.Success.IntentLaunched
             }
             is AddWPA2NetworkRequest.Default -> {
@@ -84,7 +84,7 @@ internal class Android30AddNetworkAdapter(
     override fun addWPA3Network(request: AddWPA3NetworkRequest): AddNetworkResult {
         return when (request) {
             is AddWPA3NetworkRequest.Android30OrAbove -> {
-                api.addWPA3Network(request.ssid, request.passphrase, request.launcher)
+                api.addWPA3Network(request.ssid, request.passphrase, request.launcher, request.bssid)
                 AddNetworkResult.Success.IntentLaunched
             }
             is AddWPA3NetworkRequest.Default -> {

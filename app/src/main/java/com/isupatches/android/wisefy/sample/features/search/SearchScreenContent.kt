@@ -33,6 +33,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.isupatches.android.wisefy.sample.R
+import com.isupatches.android.wisefy.sample.entities.SSIDType
 import com.isupatches.android.wisefy.sample.entities.SearchType
 import com.isupatches.android.wisefy.sample.logging.WisefySampleLogger
 import com.isupatches.android.wisefy.sample.ui.components.WisefyPrimaryButton
@@ -49,6 +50,9 @@ import com.isupatches.android.wisefy.sample.ui.theme.WisefySampleTheme
 import kotlin.math.roundToInt
 
 private const val LOG_TAG = "SearchScreenContent"
+
+private const val MIN_SEARCH_TIMEOUT = 1f
+private const val MAX_SEARCH_TIMEOUT = 60f
 
 @Composable
 internal fun SearchScreenContent(
@@ -155,28 +159,35 @@ internal fun SearchScreenContent(
                     },
                     labelResId = R.string.regex_for_network,
                     error = when (inputState()) {
-                        is SearchInputState.Invalid.Empty -> {
+                        is SearchInputState.SSID.Invalid.Empty -> {
                             WisefySampleEditTextError(R.string.network_input_empty)
                         }
-                        is SearchInputState.Invalid.TooShort -> {
+                        is SearchInputState.SSID.Invalid.TooShort -> {
                             WisefySampleEditTextError(R.string.network_input_too_short)
                         }
-                        is SearchInputState.Invalid.TooLong -> {
+                        is SearchInputState.SSID.Invalid.TooLong -> {
                             WisefySampleEditTextError(R.string.network_input_too_long)
                         }
-                        is SearchInputState.Invalid.InvalidCharacters -> {
+                        is SearchInputState.SSID.Invalid.InvalidCharacters -> {
                             WisefySampleEditTextError(R.string.network_input_invalid_characters)
                         }
-                        is SearchInputState.Invalid.InvalidStartCharacters -> {
+                        is SearchInputState.SSID.Invalid.InvalidStartCharacters -> {
                             WisefySampleEditTextError(R.string.network_input_invalid_start_characters)
                         }
-                        is SearchInputState.Invalid.LeadingOrTrailingSpaces -> {
+                        is SearchInputState.SSID.Invalid.LeadingOrTrailingSpaces -> {
                             WisefySampleEditTextError(R.string.network_input_leading_or_trailing_spaces)
                         }
-                        is SearchInputState.Invalid.InvalidUnicode -> {
+                        is SearchInputState.SSID.Invalid.InvalidUnicode -> {
                             WisefySampleEditTextError(R.string.network_input_not_valid_unicode)
                         }
-                        is SearchInputState.Valid -> null
+                        is SearchInputState.SSID.Valid -> null
+                        is SearchInputState.BSSID.Invalid.Empty -> {
+                            WisefySampleEditTextError(R.string.bssid_input_empty)
+                        }
+                        is SearchInputState.BSSID.Invalid.ImproperFormat -> {
+                            WisefySampleEditTextError(R.string.bssid_input_improper_format)
+                        }
+                        is SearchInputState.BSSID.Valid -> null
                     }
                 )
             }
@@ -222,23 +233,48 @@ internal fun SearchScreenContent(
             Row(verticalAlignment = Alignment.CenterVertically) {
                 WisefySampleRadioButton(
                     isSelected = searchType() == SearchType.ACCESS_POINT,
-                    onClick = { viewModel.onAccessPointSearchTypeSelected() }
+                    onClick = { viewModel.onSearchTypeSelected(SearchType.ACCESS_POINT) }
                 )
                 WisefySampleBodyLabel(stringResId = R.string.access_point)
             }
             Row(verticalAlignment = Alignment.CenterVertically) {
                 WisefySampleRadioButton(
                     isSelected = searchType() == SearchType.SSID,
-                    onClick = { viewModel.onSSIDSearchTypeSelected() }
+                    onClick = { viewModel.onSearchTypeSelected(SearchType.SSID) }
                 )
                 WisefySampleBodyLabel(stringResId = R.string.ssid)
             }
             Row(verticalAlignment = Alignment.CenterVertically) {
                 WisefySampleRadioButton(
                     isSelected = searchType() == SearchType.SAVED_NETWORK,
-                    onClick = { viewModel.onSavedNetworkSearchTypeSelected() }
+                    onClick = { viewModel.onSearchTypeSelected(SearchType.SAVED_NETWORK) }
                 )
                 WisefySampleBodyLabel(stringResId = R.string.saved_network)
+            }
+            Row {
+                WisefySampleSubHeaderLabel(
+                    modifier = Modifier.padding(top = WisefySampleSizes.Large),
+                    stringResId = R.string.ssid_type
+                )
+            }
+            Row(
+                modifier = Modifier.padding(top = WisefySampleSizes.Medium),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                WisefySampleRadioButton(
+                    isSelected = viewModel.ssidType.value == SSIDType.SSID,
+                    onClick = {
+                        viewModel.onSSIDTypeChanged(SSIDType.SSID)
+                    }
+                )
+                WisefySampleBodyLabel(stringResId = R.string.ssid)
+                WisefySampleRadioButton(
+                    isSelected = viewModel.ssidType.value == SSIDType.BSSID,
+                    onClick = {
+                        viewModel.onSSIDTypeChanged(SSIDType.BSSID)
+                    }
+                )
+                WisefySampleBodyLabel(stringResId = R.string.bssid)
             }
             Row {
                 WisefySampleSubHeaderLabel(
@@ -259,14 +295,14 @@ internal fun SearchScreenContent(
                 WisefySampleRadioButton(
                     isSelected = viewModel.returnFullList.value,
                     onClick = {
-                        viewModel.onReturnFullListSelected()
+                        viewModel.onReturnFullListChanged(true)
                     }
                 )
                 WisefySampleBodyLabel(stringResId = R.string.yes)
                 WisefySampleRadioButton(
                     isSelected = !viewModel.returnFullList.value,
                     onClick = {
-                        viewModel.onReturnFullListDeselected()
+                        viewModel.onReturnFullListChanged(false)
                     }
                 )
                 WisefySampleBodyLabel(stringResId = R.string.no)
@@ -284,14 +320,14 @@ internal fun SearchScreenContent(
                 WisefySampleRadioButton(
                     isSelected = viewModel.filterDuplicates.value,
                     onClick = {
-                        viewModel.onFilterDuplicatesSelected()
+                        viewModel.onFilterDuplicatesChanged(true)
                     }
                 )
                 WisefySampleBodyLabel(stringResId = R.string.yes)
                 WisefySampleRadioButton(
                     isSelected = !viewModel.filterDuplicates.value,
                     onClick = {
-                        viewModel.onFilterDuplicatesDeselected()
+                        viewModel.onFilterDuplicatesChanged(false)
                     }
                 )
                 WisefySampleBodyLabel(stringResId = R.string.no)
@@ -304,8 +340,8 @@ internal fun SearchScreenContent(
                                 return a < b
                             }
 
-                            override val endInclusive: Float = 60f
-                            override val start: Float = 1f
+                            override val start: Float = MIN_SEARCH_TIMEOUT
+                            override val endInclusive: Float = MAX_SEARCH_TIMEOUT
                         },
                         onValueChanged = { newTimeoutValue ->
                             viewModel.onSearchTimeoutValueUpdated(newTimeoutValue.roundToInt())
