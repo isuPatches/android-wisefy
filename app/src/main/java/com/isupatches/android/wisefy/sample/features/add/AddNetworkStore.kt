@@ -16,88 +16,116 @@
 package com.isupatches.android.wisefy.sample.features.add
 
 import android.content.Context
-import android.content.SharedPreferences
-import androidx.annotation.VisibleForTesting
-import androidx.core.content.edit
-import com.isupatches.android.wisefy.sample.R
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
 import com.isupatches.android.wisefy.sample.entities.NetworkType
-import com.isupatches.android.wisefy.sample.scaffolding.BaseSharedPreferenceStore
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
-@VisibleForTesting
-internal const val PREF_NETWORK_TYPE = "network_type"
-
-@VisibleForTesting
-internal const val PREF_LAST_USED_NETWORK_NAME = "last_used_network_name"
-
-@VisibleForTesting
-internal const val PREF_LAST_USED_NETWORK_PASSWORD = "last_used_network_password"
+private const val PREF_NETWORK_TYPE = "network_type"
+private const val PREF_LAST_USED_NETWORK_INPUT = "last_used_network_input"
+private const val PREF_LAST_USED_NETWORK_PASSPHRASE_INPUT = "last_used_network_passphrase_input"
+private const val PREF_LAST_USED_NETWORK_BSSID_INPUT = "last_used_network_bssid_input"
 
 internal interface AddNetworkStore {
-    fun clear()
+    suspend fun clear()
 
-    fun getNetworkType(): NetworkType
-    fun getLastUsedNetworkName(): String
-    fun getLastUsedNetworkPassword(): String
+    suspend fun getNetworkType(): Flow<NetworkType>
+    suspend fun getLastUsedNetworkInput(): Flow<String>
+    suspend fun getLastUsedNetworkPassphraseInput(): Flow<String>
+    suspend fun getLastUsedNetworkBSSIDInput(): Flow<String>
 
-    fun setNetworkType(networkType: NetworkType)
-    fun setLastUsedNetworkName(lastUsedNetworkName: String)
-    fun setLastUsedNetworkPassword(lastUsedNetworkPassword: String)
+    suspend fun setNetworkType(networkType: NetworkType)
+    suspend fun setLastUsedNetworkInput(lastUsedNetworkInput: String)
+    suspend fun setLastUsedNetworkPassphraseInput(lastUsedNetworkPassphraseInput: String)
+    suspend fun setLastUsedNetworkBSSIDInput(lastUsedNetworkBSSIDInput: String)
 }
 
-internal class SharedPreferencesAddNetworkStore @Inject constructor(
-    @ApplicationContext context: Context
-) : BaseSharedPreferenceStore(), AddNetworkStore {
+internal class DefaultAddNetworkStore @Inject constructor(
+    @ApplicationContext val context: Context
+) : AddNetworkStore {
 
-    private val sharedPreferences: SharedPreferences = getSharedPreferences(
-        context,
-        R.string.preferences_add_network_data
+    private val Context.addNetworkDataStore: DataStore<Preferences> by preferencesDataStore(
+        name = "addNetworkDataStore"
     )
+    private val networkTypeKey = intPreferencesKey(PREF_NETWORK_TYPE)
+    private val lastUsedNetworkInputKey = stringPreferencesKey(PREF_LAST_USED_NETWORK_INPUT)
+    private val lastUsedNetworkPassphraseInputKey = stringPreferencesKey(PREF_LAST_USED_NETWORK_PASSPHRASE_INPUT)
+    private val lastUsedNetworkBSSIDInputKey = stringPreferencesKey(PREF_LAST_USED_NETWORK_BSSID_INPUT)
 
-    override fun clear() {
-        sharedPreferences.edit { clear() }
+    override suspend fun clear() {
+        context.addNetworkDataStore.edit {
+            clear()
+        }
     }
 
     /*
      * Network type
      */
 
-    override fun getNetworkType() = NetworkType.of(
-        sharedPreferences.getInt(PREF_NETWORK_TYPE, NetworkType.WPA2.intVal)
-    )
+    override suspend fun getNetworkType(): Flow<NetworkType> {
+        return context.addNetworkDataStore.data.map { preferences ->
+            NetworkType.of(preferences[networkTypeKey] ?: NetworkType.WPA2.intVal)
+        }
+    }
 
-    override fun setNetworkType(networkType: NetworkType) {
-        sharedPreferences.edit {
-            putInt(PREF_NETWORK_TYPE, networkType.intVal)
+    override suspend fun setNetworkType(networkType: NetworkType) {
+        context.addNetworkDataStore.edit { preferences ->
+            preferences[networkTypeKey] = networkType.intVal
         }
     }
 
     /*
-    * Last used network name
+    * Last used network input
     */
 
-    override fun getLastUsedNetworkName() = sharedPreferences.getNonNullString(
-        PREF_LAST_USED_NETWORK_NAME
-    )
+    override suspend fun getLastUsedNetworkInput(): Flow<String> {
+        return context.addNetworkDataStore.data.map { preferences ->
+            preferences[lastUsedNetworkInputKey] ?: ""
+        }
+    }
 
-    override fun setLastUsedNetworkName(lastUsedNetworkName: String) {
-        sharedPreferences.edit {
-            putString(PREF_LAST_USED_NETWORK_NAME, lastUsedNetworkName)
+    override suspend fun setLastUsedNetworkInput(lastUsedNetworkInput: String) {
+        context.addNetworkDataStore.edit { preferences ->
+            preferences[lastUsedNetworkInputKey] = lastUsedNetworkInput
         }
     }
 
     /*
-     * Last used network password
+     * Last used network passphrase input
      */
 
-    override fun getLastUsedNetworkPassword() = sharedPreferences.getNonNullString(
-        PREF_LAST_USED_NETWORK_PASSWORD
-    )
+    override suspend fun getLastUsedNetworkPassphraseInput(): Flow<String> {
+        return context.addNetworkDataStore.data.map { preferences ->
+            preferences[lastUsedNetworkPassphraseInputKey] ?: ""
+        }
+    }
 
-    override fun setLastUsedNetworkPassword(lastUsedNetworkPassword: String) {
-        sharedPreferences.edit {
-            putString(PREF_LAST_USED_NETWORK_PASSWORD, lastUsedNetworkPassword)
+    override suspend fun setLastUsedNetworkPassphraseInput(lastUsedNetworkPassphraseInput: String) {
+        context.addNetworkDataStore.edit { preferences ->
+            preferences[lastUsedNetworkPassphraseInputKey] = lastUsedNetworkPassphraseInput
+        }
+    }
+
+    /*
+     * Last used network BSSID input
+     */
+
+    override suspend fun getLastUsedNetworkBSSIDInput(): Flow<String> {
+        return context.addNetworkDataStore.data.map { preferences ->
+            preferences[lastUsedNetworkBSSIDInputKey] ?: ""
+        }
+    }
+
+    override suspend fun setLastUsedNetworkBSSIDInput(lastUsedNetworkBSSIDInput: String) {
+        context.addNetworkDataStore.edit { preferences ->
+            preferences[lastUsedNetworkBSSIDInputKey] = lastUsedNetworkBSSIDInput
         }
     }
 }

@@ -16,10 +16,13 @@
 package com.isupatches.android.wisefy.sample.features.remove
 
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkResult
+import com.isupatches.android.wisefy.sample.entities.SSIDType
 
 internal data class RemoveNetworkUIState(
     val loadingState: RemoveNetworkLoadingState,
-    val dialogState: RemoveNetworkDialogState
+    val dialogState: RemoveNetworkDialogState,
+    val inputState: RemoveNetworkInputState,
+    val ssidType: SSIDType
 )
 
 internal data class RemoveNetworkLoadingState(val isLoading: Boolean)

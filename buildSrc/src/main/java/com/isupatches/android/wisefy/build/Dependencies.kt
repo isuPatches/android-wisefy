@@ -36,6 +36,8 @@ object Dependencies {
 
         const val CORE_KTX: String = "androidx.core:core-ktx:${Versions.ANDROIDX_CORE_KTX}"
 
+        const val DATA_STORE: String = "androidx.datastore:datastore-preferences:${Versions.ANDROIDX_DATA_STORE}"
+
         object Lifecycle {
             val VIEW_MODEL_COMPOSE: String = "androidx.lifecycle:lifecycle-viewmodel-compose:" +
                 "${Versions.ANDROIDX_LIFECYCLE}"

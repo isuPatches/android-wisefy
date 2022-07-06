@@ -33,7 +33,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.isupatches.android.wisefy.sample.R
-import com.isupatches.android.wisefy.sample.entities.SSIDType
 import com.isupatches.android.wisefy.sample.entities.SearchType
 import com.isupatches.android.wisefy.sample.logging.WisefySampleLogger
 import com.isupatches.android.wisefy.sample.ui.components.WisefyPrimaryButton
@@ -41,8 +40,8 @@ import com.isupatches.android.wisefy.sample.ui.components.WisefySampleBodyLabel
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleCaptionLabel
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleEditText
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleEditTextError
-import com.isupatches.android.wisefy.sample.ui.components.WisefySampleLoadingIndicator
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleRadioButton
+import com.isupatches.android.wisefy.sample.ui.components.WisefySampleSSIDTypeSelectionRows
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleSlider
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleSubHeaderLabel
 import com.isupatches.android.wisefy.sample.ui.primitives.WisefySampleSizes
@@ -55,12 +54,7 @@ private const val MIN_SEARCH_TIMEOUT = 1f
 private const val MAX_SEARCH_TIMEOUT = 60f
 
 @Composable
-internal fun SearchScreenContent(
-    uiState: () -> SearchUIState,
-    searchType: () -> SearchType,
-    inputState: () -> SearchInputState,
-    viewModel: SearchViewModel
-) {
+internal fun SearchScreenContent(viewModel: SearchViewModel) {
 
     val searchForAccessPointPermissionsLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
@@ -129,14 +123,6 @@ internal fun SearchScreenContent(
         }
 
     WisefySampleTheme {
-        val currentUIState = uiState()
-
-        if (currentUIState.loadingState.isLoading) {
-            WisefySampleLoadingIndicator()
-        }
-
-        SearchScreenDialogContent(dialogState = currentUIState.dialogState, viewModel = viewModel)
-
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -148,62 +134,23 @@ internal fun SearchScreenContent(
                     end = WisefySampleSizes.WisefySampleHorizontalMargins
                 )
         ) {
-            Row {
-                val text = remember { mutableStateOf("") }
-
-                WisefySampleEditText(
-                    text = text.value,
-                    onTextChange = { newText ->
-                        text.value = newText
-                        viewModel.onSearchNetworkInputChanged(newText)
-                    },
-                    labelResId = R.string.regex_for_network,
-                    error = when (inputState()) {
-                        is SearchInputState.SSID.Invalid.Empty -> {
-                            WisefySampleEditTextError(R.string.network_input_empty)
-                        }
-                        is SearchInputState.SSID.Invalid.TooShort -> {
-                            WisefySampleEditTextError(R.string.network_input_too_short)
-                        }
-                        is SearchInputState.SSID.Invalid.TooLong -> {
-                            WisefySampleEditTextError(R.string.network_input_too_long)
-                        }
-                        is SearchInputState.SSID.Invalid.InvalidCharacters -> {
-                            WisefySampleEditTextError(R.string.network_input_invalid_characters)
-                        }
-                        is SearchInputState.SSID.Invalid.InvalidStartCharacters -> {
-                            WisefySampleEditTextError(R.string.network_input_invalid_start_characters)
-                        }
-                        is SearchInputState.SSID.Invalid.LeadingOrTrailingSpaces -> {
-                            WisefySampleEditTextError(R.string.network_input_leading_or_trailing_spaces)
-                        }
-                        is SearchInputState.SSID.Invalid.InvalidUnicode -> {
-                            WisefySampleEditTextError(R.string.network_input_not_valid_unicode)
-                        }
-                        is SearchInputState.SSID.Valid -> null
-                        is SearchInputState.BSSID.Invalid.Empty -> {
-                            WisefySampleEditTextError(R.string.bssid_input_empty)
-                        }
-                        is SearchInputState.BSSID.Invalid.ImproperFormat -> {
-                            WisefySampleEditTextError(R.string.bssid_input_improper_format)
-                        }
-                        is SearchInputState.BSSID.Valid -> null
-                    }
-                )
-            }
+            SearchScreenNetworkInputRows(
+                inputState = { viewModel.uiState.value.inputState },
+                viewModel = viewModel
+            )
             Row {
                 Box(Modifier.padding(top = WisefySampleSizes.XLarge)) {
                     WisefyPrimaryButton(stringResId = R.string.search) {
-                        when (viewModel.searchType.value) {
+                        when (viewModel.uiState.value.searchType) {
                             SearchType.ACCESS_POINT -> {
-                                if (viewModel.returnFullList.value) {
+                                if (viewModel.uiState.value.returnFullList) {
                                     searchForAccessPointsPermissionsLauncher.launch(ACCESS_FINE_LOCATION)
                                 } else {
                                     searchForAccessPointPermissionsLauncher.launch(ACCESS_FINE_LOCATION)
                                 }
                             }
                             SearchType.SAVED_NETWORK -> {
-                                if (viewModel.returnFullList.value) {
+                                if (viewModel.uiState.value.returnFullList) {
                                     searchForSavedNetworksPermissionsLauncher.launch(
                                         arrayOf(ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE)
                                     )
@@ -214,7 +161,7 @@ internal fun SearchScreenContent(
                                 }
                             }
                             SearchType.SSID -> {
-                                if (viewModel.returnFullList.value) {
+                                if (viewModel.uiState.value.returnFullList) {
                                     searchForSSIDsPermissionsLauncher.launch(ACCESS_FINE_LOCATION)
                                 } else {
                                     searchForSSIDPermissionsLauncher.launch(ACCESS_FINE_LOCATION)
@@ -224,138 +171,221 @@ internal fun SearchScreenContent(
                     }
                 }
             }
-            Row {
-                WisefySampleSubHeaderLabel(
-                    stringResId = R.string.search_for,
-                    modifier = Modifier.padding(top = WisefySampleSizes.XLarge)
-                )
-            }
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                WisefySampleRadioButton(
-                    isSelected = searchType() == SearchType.ACCESS_POINT,
-                    onClick = { viewModel.onSearchTypeSelected(SearchType.ACCESS_POINT) }
-                )
-                WisefySampleBodyLabel(stringResId = R.string.access_point)
-            }
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                WisefySampleRadioButton(
-                    isSelected = searchType() == SearchType.SSID,
-                    onClick = { viewModel.onSearchTypeSelected(SearchType.SSID) }
-                )
-                WisefySampleBodyLabel(stringResId = R.string.ssid)
-            }
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                WisefySampleRadioButton(
-                    isSelected = searchType() == SearchType.SAVED_NETWORK,
-                    onClick = { viewModel.onSearchTypeSelected(SearchType.SAVED_NETWORK) }
-                )
-                WisefySampleBodyLabel(stringResId = R.string.saved_network)
-            }
-            Row {
-                WisefySampleSubHeaderLabel(
-                    modifier = Modifier.padding(top = WisefySampleSizes.Large),
-                    stringResId = R.string.ssid_type
-                )
-            }
-            Row(
-                modifier = Modifier.padding(top = WisefySampleSizes.Medium),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                WisefySampleRadioButton(
-                    isSelected = viewModel.ssidType.value == SSIDType.SSID,
-                    onClick = {
-                        viewModel.onSSIDTypeChanged(SSIDType.SSID)
-                    }
-                )
-                WisefySampleBodyLabel(stringResId = R.string.ssid)
-                WisefySampleRadioButton(
-                    isSelected = viewModel.ssidType.value == SSIDType.BSSID,
-                    onClick = {
-                        viewModel.onSSIDTypeChanged(SSIDType.BSSID)
-                    }
-                )
-                WisefySampleBodyLabel(stringResId = R.string.bssid)
-            }
-            Row {
-                WisefySampleSubHeaderLabel(
-                    modifier = Modifier.padding(top = WisefySampleSizes.Medium),
-                    stringResId = R.string.return_full_list_label
-                )
-            }
-            Row {
-                WisefySampleBodyLabel(
-                    modifier = Modifier.padding(top = WisefySampleSizes.Large),
-                    stringResId = R.string.return_full_list_description
-                )
-            }
-            Row(
-                modifier = Modifier.padding(top = WisefySampleSizes.Medium),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                WisefySampleRadioButton(
-                    isSelected = viewModel.returnFullList.value,
-                    onClick = {
-                        viewModel.onReturnFullListChanged(true)
-                    }
-                )
-                WisefySampleBodyLabel(stringResId = R.string.yes)
-                WisefySampleRadioButton(
-                    isSelected = !viewModel.returnFullList.value,
-                    onClick = {
-                        viewModel.onReturnFullListChanged(false)
-                    }
-                )
-                WisefySampleBodyLabel(stringResId = R.string.no)
-            }
-            Row {
-                WisefySampleSubHeaderLabel(
-                    modifier = Modifier.padding(top = WisefySampleSizes.Large),
-                    stringResId = R.string.filter_duplicates
-                )
-            }
-            Row(
-                modifier = Modifier.padding(top = WisefySampleSizes.Medium),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                WisefySampleRadioButton(
-                    isSelected = viewModel.filterDuplicates.value,
-                    onClick = {
-                        viewModel.onFilterDuplicatesChanged(true)
-                    }
-                )
-                WisefySampleBodyLabel(stringResId = R.string.yes)
-                WisefySampleRadioButton(
-                    isSelected = !viewModel.filterDuplicates.value,
-                    onClick = {
-                        viewModel.onFilterDuplicatesChanged(false)
-                    }
-                )
-                WisefySampleBodyLabel(stringResId = R.string.no)
-            }
-            if (!viewModel.returnFullList.value && viewModel.searchType.value != SearchType.SAVED_NETWORK) {
-                Row(modifier = Modifier.padding(top = WisefySampleSizes.Medium)) {
-                    WisefySampleSlider(
-                        valueRange = object : ClosedFloatingPointRange<Float> {
-                            override fun lessThanOrEquals(a: Float, b: Float): Boolean {
-                                return a < b
-                            }
+            SearchScreenSearchTypeInputRows(
+                searchType = { viewModel.uiState.value.searchType },
+                viewModel = viewModel
+            )
+            WisefySampleSSIDTypeSelectionRows(
+                ssidType = { viewModel.uiState.value.ssidType },
+                onSSIDTypeChanged = { ssidType -> viewModel.onSSIDTypeChanged(ssidType) }
+            )
+            SearchScreenReturnFullListInputRows(
+                returnFullList = { viewModel.uiState.value.returnFullList },
+                viewModel = viewModel
+            )
+            SearchScreenFilterDuplicatesInputRows(
+                filterDuplicates = { viewModel.uiState.value.filterDuplicates },
+                viewModel = viewModel
+            )
+            SearchScreenTimeoutInputRows(
+                returnFullList = { viewModel.uiState.value.returnFullList },
+                searchType = { viewModel.uiState.value.searchType },
+                viewModel = viewModel
+            )
+        }
+    }
+}
 
-                            override val start: Float = MIN_SEARCH_TIMEOUT
-                            override val endInclusive: Float = MAX_SEARCH_TIMEOUT
-                        },
-                        onValueChanged = { newTimeoutValue ->
-                            viewModel.onSearchTimeoutValueUpdated(newTimeoutValue.roundToInt())
-                        }
-                    )
+@Composable
+internal fun SearchScreenNetworkInputRows(
+    inputState: () -> SearchInputState,
+    viewModel: SearchViewModel
+) {
+    val currentInputState = inputState()
+    Row {
+        val text = remember { mutableStateOf("") }
+
+        WisefySampleEditText(
+            text = text.value,
+            onTextChange = { newText ->
+                text.value = newText
+                viewModel.onSearchNetworkInputChanged(newText)
+            },
+            labelResId = R.string.regex_for_network,
+            error = when (currentInputState) {
+                is SearchInputState.SSID.Invalid.Empty -> {
+                    WisefySampleEditTextError(R.string.network_input_empty)
                 }
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-                    WisefySampleCaptionLabel(
-                        stringResId = R.string.timeout_after_x_seconds_args_html,
-                        modifier = Modifier,
-                        viewModel.searchTimeout.value
-                    )
+                is SearchInputState.SSID.Invalid.TooShort -> {
+                    WisefySampleEditTextError(R.string.network_input_too_short)
                 }
+                is SearchInputState.SSID.Invalid.TooLong -> {
+                    WisefySampleEditTextError(R.string.network_input_too_long)
+                }
+                is SearchInputState.SSID.Invalid.InvalidCharacters -> {
+                    WisefySampleEditTextError(R.string.network_input_invalid_characters)
+                }
+                is SearchInputState.SSID.Invalid.InvalidStartCharacters -> {
+                    WisefySampleEditTextError(R.string.network_input_invalid_start_characters)
+                }
+                is SearchInputState.SSID.Invalid.LeadingOrTrailingSpaces -> {
+                    WisefySampleEditTextError(R.string.network_input_leading_or_trailing_spaces)
+                }
+                is SearchInputState.SSID.Invalid.InvalidUnicode -> {
+                    WisefySampleEditTextError(R.string.network_input_not_valid_unicode)
+                }
+                is SearchInputState.SSID.Valid -> null
+                is SearchInputState.BSSID.Invalid.Empty -> {
+                    WisefySampleEditTextError(R.string.bssid_input_empty)
+                }
+                is SearchInputState.BSSID.Invalid.ImproperFormat -> {
+                    WisefySampleEditTextError(R.string.bssid_input_improper_format)
+                }
+                is SearchInputState.BSSID.Valid -> null
             }
+        )
+    }
+}
+
+@Composable
+internal fun SearchScreenSearchTypeInputRows(
+    searchType: () -> SearchType,
+    viewModel: SearchViewModel
+) {
+    val currentSearchType = searchType()
+    Row {
+        WisefySampleSubHeaderLabel(
+            stringResId = R.string.search_for,
+            modifier = Modifier.padding(top = WisefySampleSizes.XLarge)
+        )
+    }
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        WisefySampleRadioButton(
+            isSelected = currentSearchType == SearchType.ACCESS_POINT,
+            onClick = { viewModel.onSearchTypeSelected(SearchType.ACCESS_POINT) }
+        )
+        WisefySampleBodyLabel(stringResId = R.string.access_point)
+    }
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        WisefySampleRadioButton(
+            isSelected = currentSearchType == SearchType.SSID,
+            onClick = { viewModel.onSearchTypeSelected(SearchType.SSID) }
+        )
+        WisefySampleBodyLabel(stringResId = R.string.ssid)
+    }
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        WisefySampleRadioButton(
+            isSelected = currentSearchType == SearchType.SAVED_NETWORK,
+            onClick = { viewModel.onSearchTypeSelected(SearchType.SAVED_NETWORK) }
+        )
+        WisefySampleBodyLabel(stringResId = R.string.saved_network)
+    }
+}
+
+@Composable
+internal fun SearchScreenReturnFullListInputRows(
+    returnFullList: () -> Boolean,
+    viewModel: SearchViewModel
+) {
+    val currentReturnFullListValue = returnFullList()
+    Row {
+        WisefySampleSubHeaderLabel(
+            modifier = Modifier.padding(top = WisefySampleSizes.Medium),
+            stringResId = R.string.return_full_list_label
+        )
+    }
+    Row {
+        WisefySampleBodyLabel(
+            modifier = Modifier.padding(top = WisefySampleSizes.Large),
+            stringResId = R.string.return_full_list_description
+        )
+    }
+    Row(
+        modifier = Modifier.padding(top = WisefySampleSizes.Medium),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        WisefySampleRadioButton(
+            isSelected = currentReturnFullListValue,
+            onClick = {
+                viewModel.onReturnFullListChanged(true)
+            }
+        )
+        WisefySampleBodyLabel(stringResId = R.string.yes)
+        WisefySampleRadioButton(
+            isSelected = !currentReturnFullListValue,
+            onClick = {
+                viewModel.onReturnFullListChanged(false)
+            }
+        )
+        WisefySampleBodyLabel(stringResId = R.string.no)
+    }
+}
+
+@Composable
+internal fun SearchScreenFilterDuplicatesInputRows(
+    filterDuplicates: () -> Boolean,
+    viewModel: SearchViewModel
+) {
+    val currentFilterDuplicatesValue = filterDuplicates()
+    Row {
+        WisefySampleSubHeaderLabel(
+            modifier = Modifier.padding(top = WisefySampleSizes.Large),
+            stringResId = R.string.filter_duplicates
+        )
+    }
+    Row(
+        modifier = Modifier.padding(top = WisefySampleSizes.Medium),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        WisefySampleRadioButton(
+            isSelected = currentFilterDuplicatesValue,
+            onClick = {
+                viewModel.onFilterDuplicatesChanged(true)
+            }
+        )
+        WisefySampleBodyLabel(stringResId = R.string.yes)
+        WisefySampleRadioButton(
+            isSelected = !currentFilterDuplicatesValue,
+            onClick = {
+                viewModel.onFilterDuplicatesChanged(false)
+            }
+        )
+        WisefySampleBodyLabel(stringResId = R.string.no)
+    }
+}
+
+@Composable
+internal fun SearchScreenTimeoutInputRows(
+    returnFullList: () -> Boolean,
+    searchType: () -> SearchType,
+    viewModel: SearchViewModel
+) {
+    val searchTimeout = remember { mutableStateOf(1) }
+    val currentReturnFullListValue = returnFullList()
+    val currentSearchType = searchType()
+    if (!currentReturnFullListValue && currentSearchType != SearchType.SAVED_NETWORK) {
+        Row(modifier = Modifier.padding(top = WisefySampleSizes.Medium)) {
+            WisefySampleSlider(
+                valueRange = object : ClosedFloatingPointRange<Float> {
+                    override fun lessThanOrEquals(a: Float, b: Float): Boolean {
+                        return a < b
+                    }
+
+                    override val start: Float = MIN_SEARCH_TIMEOUT
+                    override val endInclusive: Float = MAX_SEARCH_TIMEOUT
+                },
+                onValueChanged = { newTimeoutValue ->
+                    searchTimeout.value = newTimeoutValue.roundToInt()
+                    viewModel.onSearchTimeoutValueUpdated(newTimeoutValue.roundToInt())
+                }
+            )
+        }
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+            WisefySampleCaptionLabel(
+                stringResId = R.string.timeout_after_x_seconds_args_html,
+                modifier = Modifier,
+                searchTimeout.value
+            )
         }
     }
 }

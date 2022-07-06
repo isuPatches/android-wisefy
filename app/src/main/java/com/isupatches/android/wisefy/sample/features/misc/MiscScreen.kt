@@ -15,94 +15,23 @@
  */
 package com.isupatches.android.wisefy.sample.features.misc
 
-import android.Manifest
-import android.Manifest.permission.ACCESS_FINE_LOCATION
-import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.content.res.Configuration
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.isupatches.android.wisefy.Wisefy
 import com.isupatches.android.wisefy.WisefyApi
-import com.isupatches.android.wisefy.sample.logging.WisefySampleLogger
-
-private const val LOG_TAG = "MiscScreen"
+import com.isupatches.android.wisefy.sample.ui.components.WisefySampleLoadingIndicator
 
 @Composable
 internal fun MiscScreen(
     wisefy: WisefyApi,
     viewModel: MiscViewModel = viewModel(factory = MiscViewModelFactory(wisefy))
 ) {
-    val getFrequencyPermissionLauncher =
-        rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-            if (isGranted) {
-                @Suppress("MissingPermission")
-                viewModel.getFrequency()
-            } else {
-                WisefySampleLogger.w(LOG_TAG, "Permissions for getting frequency are denied")
-                viewModel.onGetFrequencyPermissionsError()
-            }
-        }
-
-    val getIPPermissionLauncher =
-        rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-            if (isGranted) {
-                @Suppress("MissingPermission")
-                viewModel.getIP()
-            } else {
-                WisefySampleLogger.w(LOG_TAG, "Permissions for getting ip are denied")
-                viewModel.onGetIPPermissionsError()
-            }
-        }
-
-    val getNearbyAccessPointsPermissionsLauncher =
-        rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-            if (isGranted) {
-                @Suppress("MissingPermission")
-                viewModel.getNearbyAccessPoints()
-            } else {
-                WisefySampleLogger.w(LOG_TAG, "Permissions for getting nearby access points are denied")
-                viewModel.onGetNearbyAccessPointsPermissionError()
-            }
-        }
-
-    val getSavedNetworksPermissionLauncher =
-        rememberLauncherForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result ->
-            if (result.all { it.value }) {
-                @Suppress("MissingPermission")
-                viewModel.getSavedNetworks()
-            } else {
-                WisefySampleLogger.w(LOG_TAG, "Permissions for getting saved networks are denied")
-                viewModel.onGetSavedNetworksPermissionsError()
-            }
-        }
-
-    val onMiscOptionClicked: (MiscScreenOption) -> Unit = { option ->
-        when (option) {
-            MiscScreenOption.DISABLE_WIFI -> viewModel.disableWifi()
-            MiscScreenOption.DISCONNECT_FROM_CURRENT_NETWORK -> viewModel.disconnectFromCurrentNetwork()
-            MiscScreenOption.ENABLE_WIFI -> viewModel.enableWifi()
-            MiscScreenOption.GET_CURRENT_NETWORK -> viewModel.getCurrentNetwork()
-            MiscScreenOption.GET_CURRENT_NETWORK_INFO -> viewModel.getCurrentNetworkInfo()
-            MiscScreenOption.GET_FREQUENCY -> getFrequencyPermissionLauncher.launch(ACCESS_FINE_LOCATION)
-            MiscScreenOption.GET_IP -> getIPPermissionLauncher.launch(ACCESS_FINE_LOCATION)
-            MiscScreenOption.GET_NEARBY_ACCESS_POINTS -> {
-                getNearbyAccessPointsPermissionsLauncher.launch(ACCESS_FINE_LOCATION)
-            }
-            MiscScreenOption.GET_SAVED_NETWORKS -> getSavedNetworksPermissionLauncher.launch(
-                arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE)
-            )
-        }
-    }
-
-    MiscScreenContent(
-        uiState = { viewModel.uiState.value },
-        onMiscOptionClicked = onMiscOptionClicked,
-        viewModel = viewModel
-    )
+    WisefySampleLoadingIndicator(isLoading = { viewModel.uiState.value.loadingState.isLoading })
+    MiscScreenDialogContent(dialogState = { viewModel.uiState.value.dialogState }, viewModel = viewModel)
+    MiscScreenContent(viewModel = viewModel)
 }
 
 @Preview(showBackground = true)

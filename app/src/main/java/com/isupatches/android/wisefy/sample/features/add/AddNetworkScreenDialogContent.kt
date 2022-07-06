@@ -22,10 +22,10 @@ import com.isupatches.android.wisefy.sample.ui.components.WisefySampleNoticeDial
 
 @Composable
 internal fun AddNetworkScreenDialogContent(
-    dialogState: AddNetworkDialogState,
+    dialogState: () -> AddNetworkDialogState,
     viewModel: AddNetworkViewModel
 ) {
-    when (dialogState) {
+    when (val currentDialogState = dialogState()) {
         is AddNetworkDialogState.None -> {
             // No-op, no dialog
         }
@@ -33,7 +33,7 @@ internal fun AddNetworkScreenDialogContent(
             WisefySampleNoticeDialog(
                 title = R.string.add_network_result,
                 body = R.string.failed_adding_network_args,
-                dialogState.result,
+                currentDialogState.result,
                 onClose = {
                     viewModel.onDialogClosed()
                 }
@@ -43,7 +43,7 @@ internal fun AddNetworkScreenDialogContent(
             WisefySampleNoticeDialog(
                 title = R.string.wisefy_async_error,
                 body = R.string.wisefy_async_error_descriptions_args,
-                dialogState.throwable.message ?: "",
+                currentDialogState.throwable.message ?: "",
                 onClose = {
                     viewModel.onDialogClosed()
                 }
@@ -77,11 +77,11 @@ internal fun AddNetworkScreenDialogContent(
             )
         }
         is AddNetworkDialogState.AddNetwork.Success -> {
-            if (dialogState.result !is AddNetworkResult.Success.IntentLaunched) {
+            if (currentDialogState.result !is AddNetworkResult.Success.IntentLaunched) {
                 WisefySampleNoticeDialog(
                     title = R.string.add_network_result,
                     body = R.string.succeeded_adding_network_args,
-                    dialogState.result,
+                    currentDialogState.result,
                     onClose = {
                         viewModel.onDialogClosed()
                     }

@@ -18,7 +18,6 @@ package com.isupatches.android.wisefy.sample.features.remove
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.CHANGE_WIFI_STATE
 import androidx.annotation.RequiresPermission
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import com.isupatches.android.wisefy.WisefyApi
@@ -35,8 +34,6 @@ import com.isupatches.android.wisefy.sample.util.validateSSID
 
 internal abstract class RemoveNetworkViewModel : BaseViewModel() {
     abstract val uiState: State<RemoveNetworkUIState>
-    abstract val inputState: State<RemoveNetworkInputState>
-    abstract val ssidType: State<SSIDType>
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     abstract fun removeNetwork()
@@ -56,40 +53,32 @@ internal class DefaultRemoveNetworkViewModel(
     private val _uiState = mutableStateOf(
         RemoveNetworkUIState(
             loadingState = RemoveNetworkLoadingState(isLoading = false),
-            dialogState = RemoveNetworkDialogState.None
+            dialogState = RemoveNetworkDialogState.None,
+            inputState = RemoveNetworkInputState.SSID.Invalid.Empty,
+            ssidType = SSIDType.SSID
         )
     )
     override val uiState: State<RemoveNetworkUIState>
         get() = _uiState
 
-    private val _inputState: MutableState<RemoveNetworkInputState> = mutableStateOf(
-        RemoveNetworkInputState.SSID.Invalid.Empty
-    )
-    override val inputState: State<RemoveNetworkInputState>
-        get() = _inputState
-
-    private val _ssidType = mutableStateOf(SSIDType.SSID)
-    override val ssidType: State<SSIDType>
-        get() = _ssidType
-
     private var networkToRemove: String? = null
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     override fun removeNetwork() {
-        val currentInputState = inputState.value
+        val currentInputState = uiState.value.inputState
         if (!isInputValid()) {
-            _uiState.value = RemoveNetworkUIState(
+            _uiState.value = uiState.value.copy(
                 loadingState = RemoveNetworkLoadingState(isLoading = false),
                 dialogState = RemoveNetworkDialogState.Failure.InputError
             )
             return
         }
-        _uiState.value = RemoveNetworkUIState(
+        _uiState.value = uiState.value.copy(
             loadingState = RemoveNetworkLoadingState(isLoading = true),
             dialogState = RemoveNetworkDialogState.None
         )
         wisefy.removeNetwork(
-            request = when (_ssidType.value) {
+            request = when (uiState.value.ssidType) {
                 SSIDType.SSID -> {
                     if (currentInputState is RemoveNetworkInputState.SSID.Valid) {
                         RemoveNetworkRequest.SSID(regex = currentInputState.value)
@@ -107,28 +96,28 @@ internal class DefaultRemoveNetworkViewModel(
             },
             callbacks = object : RemoveNetworkCallbacks {
                 override fun onNetworkRemoved(result: RemoveNetworkResult.Success) {
-                    _uiState.value = RemoveNetworkUIState(
+                    _uiState.value = uiState.value.copy(
                         loadingState = RemoveNetworkLoadingState(isLoading = false),
                         dialogState = RemoveNetworkDialogState.RemoveNetwork.Success(result)
                     )
                 }
 
                 override fun onNetworkNotFoundToRemove() {
-                    _uiState.value = RemoveNetworkUIState(
+                    _uiState.value = uiState.value.copy(
                         loadingState = RemoveNetworkLoadingState(isLoading = false),
                         dialogState = RemoveNetworkDialogState.RemoveNetwork.Failure.NotFoundToRemove
                     )
                 }
 
                 override fun onFailureRemovingNetwork(result: RemoveNetworkResult.Failure) {
-                    _uiState.value = RemoveNetworkUIState(
+                    _uiState.value = uiState.value.copy(
                         loadingState = RemoveNetworkLoadingState(isLoading = false),
                         dialogState = RemoveNetworkDialogState.RemoveNetwork.Failure.UnableToRemove(result)
                     )
                 }
 
                 override fun onWisefyAsyncFailure(throwable: Throwable) {
-                    _uiState.value = RemoveNetworkUIState(
+                    _uiState.value = uiState.value.copy(
                         loadingState = RemoveNetworkLoadingState(isLoading = false),
                         dialogState = RemoveNetworkDialogState.Failure.WisefyAsync(throwable)
                     )
@@ -139,9 +128,9 @@ internal class DefaultRemoveNetworkViewModel(
 
     override fun onInputChanged(networkToRemove: String) {
         this.networkToRemove = networkToRemove
-        when (_ssidType.value) {
+        val inputState = when (uiState.value.ssidType) {
             SSIDType.SSID -> {
-                _inputState.value = when (networkToRemove.validateSSID()) {
+                when (networkToRemove.validateSSID()) {
                     SSIDInputError.EMPTY -> RemoveNetworkInputState.SSID.Invalid.Empty
                     SSIDInputError.TOO_SHORT -> RemoveNetworkInputState.SSID.Invalid.TooShort
                     SSIDInputError.TOO_LONG -> RemoveNetworkInputState.SSID.Invalid.TooLong
@@ -157,38 +146,39 @@ internal class DefaultRemoveNetworkViewModel(
                 }
             }
             SSIDType.BSSID -> {
-                _inputState.value = when (networkToRemove.validateBSSID()) {
+                when (networkToRemove.validateBSSID()) {
                     BSSIDInputError.EMPTY -> RemoveNetworkInputState.BSSID.Invalid.Empty
                     BSSIDInputError.INVALID -> RemoveNetworkInputState.BSSID.Invalid.ImproperFormat
                     BSSIDInputError.NONE -> RemoveNetworkInputState.BSSID.Valid(networkToRemove)
                 }
             }
         }
+        _uiState.value = uiState.value.copy(inputState = inputState)
     }
 
     override fun onSSIDTypeChanged(ssidType: SSIDType) {
-        _ssidType.value = ssidType
+        _uiState.value = uiState.value.copy(ssidType = ssidType)
         networkToRemove?.let {
             onInputChanged(it)
         }
     }
 
     override fun onDialogClosed() {
-        _uiState.value = RemoveNetworkUIState(
+        _uiState.value = uiState.value.copy(
             loadingState = RemoveNetworkLoadingState(isLoading = false),
             dialogState = RemoveNetworkDialogState.None
         )
     }
 
     override fun onRemoveNetworkPermissionsError() {
-        _uiState.value = RemoveNetworkUIState(
+        _uiState.value = uiState.value.copy(
             loadingState = RemoveNetworkLoadingState(isLoading = false),
             dialogState = RemoveNetworkDialogState.RemoveNetwork.PermissionsError
         )
     }
 
     private fun isInputValid(): Boolean {
-        val currentInputState = inputState.value
+        val currentInputState = uiState.value.inputState
         return currentInputState is RemoveNetworkInputState.SSID.Valid ||
             currentInputState is RemoveNetworkInputState.BSSID.Valid
     }

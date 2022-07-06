@@ -21,10 +21,10 @@ import com.isupatches.android.wisefy.sample.ui.components.WisefySampleNoticeDial
 
 @Composable
 internal fun MiscScreenDialogContent(
-    dialogState: MiscScreenDialogState,
+    dialogState: () -> MiscScreenDialogState,
     viewModel: MiscViewModel
 ) {
-    when (dialogState) {
+    when (val currentDialogState = dialogState()) {
         is MiscScreenDialogState.None -> {
             // No-op, no dialog
         }
@@ -50,7 +50,7 @@ internal fun MiscScreenDialogContent(
             WisefySampleNoticeDialog(
                 title = R.string.wisefy_action_result,
                 body = R.string.current_network_args,
-                dialogState.network,
+                currentDialogState.network,
                 onClose = {
                     viewModel.onDialogClosed()
                 }
@@ -60,7 +60,7 @@ internal fun MiscScreenDialogContent(
             WisefySampleNoticeDialog(
                 title = R.string.wisefy_action_result,
                 body = R.string.current_network_info_args,
-                dialogState.networkInfo,
+                currentDialogState.networkInfo,
                 onClose = {
                     viewModel.onDialogClosed()
                 }
@@ -70,7 +70,7 @@ internal fun MiscScreenDialogContent(
             WisefySampleNoticeDialog(
                 title = R.string.wisefy_action_result,
                 body = R.string.frequency_args,
-                dialogState.frequency.value,
+                currentDialogState.frequency.value,
                 onClose = {
                     viewModel.onDialogClosed()
                 }
@@ -80,7 +80,7 @@ internal fun MiscScreenDialogContent(
             WisefySampleNoticeDialog(
                 title = R.string.wisefy_action_result,
                 body = R.string.ip_args,
-                dialogState.ip.value,
+                currentDialogState.ip.value,
                 onClose = {
                     viewModel.onDialogClosed()
                 }
@@ -90,7 +90,7 @@ internal fun MiscScreenDialogContent(
             WisefySampleNoticeDialog(
                 title = R.string.wisefy_action_result,
                 body = R.string.access_point_args,
-                dialogState.accessPoints,
+                currentDialogState.accessPoints,
                 onClose = {
                     viewModel.onDialogClosed()
                 }
@@ -100,7 +100,7 @@ internal fun MiscScreenDialogContent(
             WisefySampleNoticeDialog(
                 title = R.string.wisefy_action_result,
                 body = R.string.saved_network_args,
-                dialogState.savedNetworks,
+                currentDialogState.savedNetworks,
                 onClose = {
                     viewModel.onDialogClosed()
                 }
@@ -209,7 +209,7 @@ internal fun MiscScreenDialogContent(
             WisefySampleNoticeDialog(
                 title = R.string.wisefy_async_error,
                 body = R.string.wisefy_async_error_descriptions_args,
-                dialogState.throwable.message ?: "",
+                currentDialogState.throwable.message ?: "",
                 onClose = {
                     viewModel.onDialogClosed()
                 }

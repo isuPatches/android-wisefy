@@ -28,6 +28,7 @@ object Versions {
     const val ANDROIDX_APPCOMPAT: String = "1.4.2"
     const val ANDROIDX_COMPOSE: String = "1.1.1"
     const val ANDROIDX_CORE_KTX: String = "1.8.0"
+    const val ANDROIDX_DATA_STORE: String = "1.0.0"
     const val ANDROIDX_LIFECYCLE: String = "2.5.0"
     const val ANDROIDX_NAVIGATION: String = "2.4.2"
 

@@ -17,10 +17,13 @@ package com.isupatches.android.wisefy.sample.features.add
 
 import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
 import com.isupatches.android.wisefy.networkconnection.entities.ConnectToNetworkResult
+import com.isupatches.android.wisefy.sample.entities.NetworkType
 
 internal data class AddNetworkUIState(
     val loadingState: AddNetworkLoadingState,
-    val dialogState: AddNetworkDialogState
+    val dialogState: AddNetworkDialogState,
+    val inputState: AddNetworkInputState,
+    val networkType: NetworkType
 )
 
 internal data class AddNetworkLoadingState(val isLoading: Boolean)
@@ -59,13 +62,16 @@ internal sealed class AddNetworkDialogState {
 }
 
 internal data class AddNetworkInputState(
+    val ssidInput: String,
     val ssidState: AddNetworkInputSSIDState,
+    val passphraseInput: String,
     val passphraseState: AddNetworkPassphraseState,
+    val bssidInput: String?,
     val bssidState: AddNetworkBSSIDState
 )
 
 internal sealed class AddNetworkInputSSIDState {
-    data class Valid(val value: String) : AddNetworkInputSSIDState()
+    object Valid : AddNetworkInputSSIDState()
 
     sealed class Invalid : AddNetworkInputSSIDState() {
         object Empty : Invalid()
@@ -79,7 +85,7 @@ internal sealed class AddNetworkInputSSIDState {
 }
 
 internal sealed class AddNetworkPassphraseState {
-    data class Valid(val value: String) : AddNetworkPassphraseState()
+    object Valid : AddNetworkPassphraseState()
 
     sealed class Invalid : AddNetworkPassphraseState() {
         object Empty : Invalid()
@@ -92,7 +98,7 @@ internal sealed class AddNetworkPassphraseState {
 internal sealed class AddNetworkBSSIDState {
     sealed class Valid : AddNetworkBSSIDState() {
         object Empty : Valid()
-        data class BSSID(val value: String) : Valid()
+        object BSSID : Valid()
     }
 
     object Invalid : AddNetworkBSSIDState()

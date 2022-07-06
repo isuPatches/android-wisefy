@@ -1,0 +1,58 @@
+/*
+ * Copyright 2022 Patches Klinefelter
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.isupatches.android.wisefy.sample.ui.components
+
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import com.isupatches.android.wisefy.sample.R
+import com.isupatches.android.wisefy.sample.entities.SSIDType
+import com.isupatches.android.wisefy.sample.ui.primitives.WisefySampleSizes
+
+@Composable
+internal fun WisefySampleSSIDTypeSelectionRows(
+    ssidType: () -> SSIDType,
+    onSSIDTypeChanged: (SSIDType) -> Unit
+) {
+    val currentSSIDType = ssidType()
+    Row {
+        WisefySampleSubHeaderLabel(
+            modifier = Modifier.padding(top = WisefySampleSizes.Large),
+            stringResId = R.string.ssid_type
+        )
+    }
+    Row(
+        modifier = Modifier.padding(top = WisefySampleSizes.Medium),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        WisefySampleRadioButton(
+            isSelected = currentSSIDType == SSIDType.SSID,
+            onClick = {
+                onSSIDTypeChanged(SSIDType.SSID)
+            }
+        )
+        WisefySampleBodyLabel(stringResId = R.string.ssid)
+        WisefySampleRadioButton(
+            isSelected = currentSSIDType == SSIDType.BSSID,
+            onClick = {
+                onSSIDTypeChanged(SSIDType.BSSID)
+            }
+        )
+        WisefySampleBodyLabel(stringResId = R.string.bssid)
+    }
+}

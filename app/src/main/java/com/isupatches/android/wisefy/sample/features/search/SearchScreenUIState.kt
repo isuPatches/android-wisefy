@@ -17,12 +17,19 @@ package com.isupatches.android.wisefy.sample.features.search
 
 import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
 import com.isupatches.android.wisefy.accesspoints.entities.SSIDData
-import com.isupatches.android.wisefy.sample.features.remove.RemoveNetworkInputState
+import com.isupatches.android.wisefy.sample.entities.SSIDType
+import com.isupatches.android.wisefy.sample.entities.SearchType
 import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
 
 internal data class SearchUIState(
     val loadingState: SearchLoadingState,
-    val dialogState: SearchDialogState
+    val dialogState: SearchDialogState,
+    val inputState: SearchInputState,
+    val searchType: SearchType,
+    val ssidType: SSIDType,
+    val returnFullList: Boolean,
+    val filterDuplicates: Boolean,
+    val searchTimeout: Int
 )
 
 internal data class SearchLoadingState(val isLoading: Boolean)

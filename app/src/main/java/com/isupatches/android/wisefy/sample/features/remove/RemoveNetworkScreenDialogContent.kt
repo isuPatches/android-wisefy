@@ -21,10 +21,10 @@ import com.isupatches.android.wisefy.sample.ui.components.WisefySampleNoticeDial
 
 @Composable
 internal fun RemoveNetworkScreenDialogContent(
-    dialogState: RemoveNetworkDialogState,
+    dialogState: () -> RemoveNetworkDialogState,
     viewModel: RemoveNetworkViewModel
 ) {
-    when (dialogState) {
+    when (val currentDialogState = dialogState()) {
         is RemoveNetworkDialogState.None -> {
             // No-op, no dialog
         }
@@ -32,7 +32,7 @@ internal fun RemoveNetworkScreenDialogContent(
             WisefySampleNoticeDialog(
                 title = R.string.remove_network_result,
                 body = R.string.succeeded_removing_network_args,
-                dialogState.result,
+                currentDialogState.result,
                 onClose = {
                     viewModel.onDialogClosed()
                 }
@@ -60,7 +60,7 @@ internal fun RemoveNetworkScreenDialogContent(
             WisefySampleNoticeDialog(
                 title = R.string.remove_network_result,
                 body = R.string.failed_removing_network_args,
-                dialogState.result,
+                currentDialogState.result,
                 onClose = {
                     viewModel.onDialogClosed()
                 }
@@ -70,7 +70,7 @@ internal fun RemoveNetworkScreenDialogContent(
             WisefySampleNoticeDialog(
                 title = R.string.wisefy_async_error,
                 body = R.string.wisefy_async_error_descriptions_args,
-                dialogState.throwable.message ?: "",
+                currentDialogState.throwable.message ?: "",
                 onClose = {
                     viewModel.onDialogClosed()
                 }

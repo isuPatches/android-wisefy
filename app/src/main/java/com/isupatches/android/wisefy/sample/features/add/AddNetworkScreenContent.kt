@@ -42,7 +42,6 @@ import com.isupatches.android.wisefy.sample.ui.components.WisefyPrimaryButton
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleBodyLabel
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleEditText
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleEditTextError
-import com.isupatches.android.wisefy.sample.ui.components.WisefySampleLoadingIndicator
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleRadioButton
 import com.isupatches.android.wisefy.sample.ui.primitives.WisefySampleSizes
 import com.isupatches.android.wisefy.sample.ui.theme.WisefySampleTheme
@@ -50,19 +49,8 @@ import com.isupatches.android.wisefy.sample.ui.theme.WisefySampleTheme
 private const val LOG_TAG = "AddNetworkScreenContent"
 
 @Composable
-internal fun AddNetworkScreenContent(
-    uiState: () -> AddNetworkUIState,
-    inputState: () -> AddNetworkInputState,
-    networkType: () -> NetworkType,
-    viewModel: AddNetworkViewModel,
-    isAtLeastAndroidQ: Boolean
-) {
+internal fun AddNetworkScreenContent(viewModel: AddNetworkViewModel, isAtLeastAndroidQ: Boolean) {
     WisefySampleTheme {
-        val currentUIState = uiState()
-        val ssid = remember { mutableStateOf("") }
-        val bssid = remember { mutableStateOf("") }
-        val passphrase = remember { mutableStateOf("") }
-
         val addNetworkRequestLauncher = rememberLauncherForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) { result: ActivityResult ->
@@ -99,14 +87,6 @@ internal fun AddNetworkScreenContent(
                 }
             }
 
-        val currentInputState = inputState()
-
-        if (currentUIState.loadingState.isLoading) {
-            WisefySampleLoadingIndicator()
-        }
-
-        AddNetworkScreenDialogContent(dialogState = currentUIState.dialogState, viewModel = viewModel)
-
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -126,101 +106,17 @@ internal fun AddNetworkScreenContent(
                 }
             }
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
-                WisefySampleRadioButton(
-                    isSelected = networkType() == NetworkType.OPEN,
-                    onClick = { viewModel.onNetworkTypeSelected(NetworkType.OPEN) }
-                )
-                WisefySampleRadioButton(
-                    isSelected = networkType() == NetworkType.WPA2,
-                    onClick = { viewModel.onNetworkTypeSelected(NetworkType.WPA2) }
-                )
-                if (isAtLeastAndroidQ) {
-                    WisefySampleRadioButton(
-                        isSelected = networkType() == NetworkType.WPA3,
-                        onClick = { viewModel.onNetworkTypeSelected(NetworkType.WPA3) }
-                    )
-                }
-            }
-            Row(modifier = Modifier.padding(top = WisefySampleSizes.XLarge)) {
-                WisefySampleEditText(
-                    text = ssid.value,
-                    onTextChange = { newSSID ->
-                        ssid.value = newSSID
-                        viewModel.onSSIDInputChanged(newSSID)
-                    },
-                    labelResId = R.string.network_name,
-                    error = when (currentInputState.ssidState) {
-                        is AddNetworkInputSSIDState.Invalid.Empty -> {
-                            WisefySampleEditTextError(R.string.network_input_empty)
-                        }
-                        is AddNetworkInputSSIDState.Invalid.TooShort -> {
-                            WisefySampleEditTextError(R.string.network_input_too_short)
-                        }
-                        is AddNetworkInputSSIDState.Invalid.TooLong -> {
-                            WisefySampleEditTextError(R.string.network_input_too_long)
-                        }
-                        is AddNetworkInputSSIDState.Invalid.InvalidCharacters -> {
-                            WisefySampleEditTextError(R.string.network_input_invalid_characters)
-                        }
-                        is AddNetworkInputSSIDState.Invalid.InvalidStartCharacters -> {
-                            WisefySampleEditTextError(R.string.network_input_invalid_start_characters)
-                        }
-                        is AddNetworkInputSSIDState.Invalid.LeadingOrTrailingSpaces -> {
-                            WisefySampleEditTextError(R.string.network_input_leading_or_trailing_spaces)
-                        }
-                        is AddNetworkInputSSIDState.Invalid.InvalidUnicode -> {
-                            WisefySampleEditTextError(R.string.network_input_not_valid_unicode)
-                        }
-                        is AddNetworkInputSSIDState.Valid -> null
-                    }
+                AddNetworkRadioButtonGroup(
+                    networkType = { viewModel.uiState.value.networkType },
+                    viewModel = viewModel,
+                    isAtLeastAndroidQ = isAtLeastAndroidQ
                 )
             }
-            Row(modifier = Modifier.padding(top = WisefySampleSizes.XLarge)) {
-                WisefySampleEditText(
-                    text = bssid.value,
-                    onTextChange = { newBSSID ->
-                        bssid.value = newBSSID
-                        viewModel.onBSSIDInputChanged(newBSSID)
-                    },
-                    labelResId = R.string.bssid,
-                    error = when (currentInputState.bssidState) {
-                        is AddNetworkBSSIDState.Invalid -> {
-                            WisefySampleEditTextError(R.string.bssid_input_invalid)
-                        }
-                        is AddNetworkBSSIDState.Valid.Empty, is AddNetworkBSSIDState.Valid.BSSID -> {
-                            null
-                        }
-                    }
-                )
-            }
-            if (networkType() == NetworkType.WPA2 || networkType() == NetworkType.WPA3) {
-                Row(modifier = Modifier.padding(top = WisefySampleSizes.Large)) {
-                    WisefySampleEditText(
-                        text = passphrase.value,
-                        onTextChange = { newPassphrase ->
-                            passphrase.value = newPassphrase
-                            viewModel.onPassphraseInputChanged(newPassphrase)
-                        },
-                        labelResId = R.string.network_passphrase,
-                        isPasswordField = true,
-                        error = when (currentInputState.passphraseState) {
-                            is AddNetworkPassphraseState.Invalid.Empty -> {
-                                WisefySampleEditTextError(R.string.passphrase_input_empty)
-                            }
-                            is AddNetworkPassphraseState.Invalid.TooShort -> {
-                                WisefySampleEditTextError(R.string.passphrase_input_too_short)
-                            }
-                            is AddNetworkPassphraseState.Invalid.TooLong -> {
-                                WisefySampleEditTextError(R.string.passphrase_input_too_long)
-                            }
-                            is AddNetworkPassphraseState.Invalid.InvalidASCII -> {
-                                WisefySampleEditTextError(R.string.passphrase_input_not_valid_ascii)
-                            }
-                            is AddNetworkPassphraseState.Valid -> null
-                        }
-                    )
-                }
-            }
+            AddNetworkInputRows(
+                networkType = { viewModel.uiState.value.networkType },
+                inputState = { viewModel.uiState.value.inputState },
+                viewModel = viewModel
+            )
             Row(modifier = Modifier.padding(top = WisefySampleSizes.Large)) {
                 WisefyPrimaryButton(stringResId = R.string.add_network) {
                     addNetworkPermissionLauncher.launch(arrayOf(ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE))
@@ -236,6 +132,117 @@ internal fun AddNetworkScreenContent(
 //                    }
                 }
             }
+        }
+    }
+}
+
+@Composable
+internal fun AddNetworkRadioButtonGroup(
+    networkType: () -> NetworkType,
+    viewModel: AddNetworkViewModel,
+    isAtLeastAndroidQ: Boolean
+) {
+    val currentNetworkType = networkType()
+    WisefySampleRadioButton(
+        isSelected = currentNetworkType == NetworkType.OPEN,
+        onClick = { viewModel.onNetworkTypeSelected(NetworkType.OPEN) }
+    )
+    WisefySampleRadioButton(
+        isSelected = currentNetworkType == NetworkType.WPA2,
+        onClick = { viewModel.onNetworkTypeSelected(NetworkType.WPA2) }
+    )
+    if (isAtLeastAndroidQ) {
+        WisefySampleRadioButton(
+            isSelected = currentNetworkType == NetworkType.WPA3,
+            onClick = { viewModel.onNetworkTypeSelected(NetworkType.WPA3) }
+        )
+    }
+}
+
+@Composable
+internal fun AddNetworkInputRows(
+    networkType: () -> NetworkType,
+    inputState: () -> AddNetworkInputState,
+    viewModel: AddNetworkViewModel
+) {
+    val currentNetworkType = networkType()
+    val currentInputState = inputState()
+
+    Row(modifier = Modifier.padding(top = WisefySampleSizes.XLarge)) {
+        WisefySampleEditText(
+            text = currentInputState.ssidInput,
+            onTextChange = { newSSID ->
+                viewModel.onSSIDInputChanged(newSSID)
+            },
+            labelResId = R.string.network_name,
+            error = when (currentInputState.ssidState) {
+                is AddNetworkInputSSIDState.Invalid.Empty -> {
+                    WisefySampleEditTextError(R.string.network_input_empty)
+                }
+                is AddNetworkInputSSIDState.Invalid.TooShort -> {
+                    WisefySampleEditTextError(R.string.network_input_too_short)
+                }
+                is AddNetworkInputSSIDState.Invalid.TooLong -> {
+                    WisefySampleEditTextError(R.string.network_input_too_long)
+                }
+                is AddNetworkInputSSIDState.Invalid.InvalidCharacters -> {
+                    WisefySampleEditTextError(R.string.network_input_invalid_characters)
+                }
+                is AddNetworkInputSSIDState.Invalid.InvalidStartCharacters -> {
+                    WisefySampleEditTextError(R.string.network_input_invalid_start_characters)
+                }
+                is AddNetworkInputSSIDState.Invalid.LeadingOrTrailingSpaces -> {
+                    WisefySampleEditTextError(R.string.network_input_leading_or_trailing_spaces)
+                }
+                is AddNetworkInputSSIDState.Invalid.InvalidUnicode -> {
+                    WisefySampleEditTextError(R.string.network_input_not_valid_unicode)
+                }
+                is AddNetworkInputSSIDState.Valid -> null
+            }
+        )
+    }
+    Row(modifier = Modifier.padding(top = WisefySampleSizes.XLarge)) {
+        WisefySampleEditText(
+            text = currentInputState.bssidInput ?: "",
+            onTextChange = { newBSSID ->
+                viewModel.onBSSIDInputChanged(newBSSID)
+            },
+            labelResId = R.string.bssid,
+            error = when (currentInputState.bssidState) {
+                is AddNetworkBSSIDState.Invalid -> {
+                    WisefySampleEditTextError(R.string.bssid_input_invalid)
+                }
+                is AddNetworkBSSIDState.Valid.Empty, is AddNetworkBSSIDState.Valid.BSSID -> {
+                    null
+                }
+            }
+        )
+    }
+    if (currentNetworkType == NetworkType.WPA2 || currentNetworkType == NetworkType.WPA3) {
+        Row(modifier = Modifier.padding(top = WisefySampleSizes.Large)) {
+            WisefySampleEditText(
+                text = currentInputState.passphraseInput,
+                onTextChange = { newPassphrase ->
+                    viewModel.onPassphraseInputChanged(newPassphrase)
+                },
+                labelResId = R.string.network_passphrase,
+                isPasswordField = true,
+                error = when (currentInputState.passphraseState) {
+                    is AddNetworkPassphraseState.Invalid.Empty -> {
+                        WisefySampleEditTextError(R.string.passphrase_input_empty)
+                    }
+                    is AddNetworkPassphraseState.Invalid.TooShort -> {
+                        WisefySampleEditTextError(R.string.passphrase_input_too_short)
+                    }
+                    is AddNetworkPassphraseState.Invalid.TooLong -> {
+                        WisefySampleEditTextError(R.string.passphrase_input_too_long)
+                    }
+                    is AddNetworkPassphraseState.Invalid.InvalidASCII -> {
+                        WisefySampleEditTextError(R.string.passphrase_input_not_valid_ascii)
+                    }
+                    is AddNetworkPassphraseState.Valid -> null
+                }
+            )
         }
     }
 }

@@ -21,10 +21,10 @@ import com.isupatches.android.wisefy.sample.ui.components.WisefySampleNoticeDial
 
 @Composable
 internal fun SearchScreenDialogContent(
-    dialogState: SearchDialogState,
+    dialogState: () -> SearchDialogState,
     viewModel: SearchViewModel
 ) {
-    when (dialogState) {
+    when (val currentDialogState = dialogState()) {
         is SearchDialogState.None -> {
             // No-op, no dialog
         }
@@ -62,7 +62,7 @@ internal fun SearchScreenDialogContent(
             WisefySampleNoticeDialog(
                 title = R.string.wisefy_async_error,
                 body = R.string.wisefy_async_error_descriptions_args,
-                dialogState.throwable.message ?: "",
+                currentDialogState.throwable.message ?: "",
                 onClose = {
                     viewModel.onDialogClosed()
                 }
@@ -125,7 +125,7 @@ internal fun SearchScreenDialogContent(
             WisefySampleNoticeDialog(
                 title = R.string.search_result,
                 body = R.string.access_point_args,
-                dialogState.data
+                currentDialogState.data
             ) {
                 viewModel.onDialogClosed()
             }
@@ -134,7 +134,7 @@ internal fun SearchScreenDialogContent(
             WisefySampleNoticeDialog(
                 title = R.string.search_result,
                 body = R.string.access_points_args,
-                dialogState.data
+                currentDialogState.data
             ) {
                 viewModel.onDialogClosed()
             }
@@ -143,7 +143,7 @@ internal fun SearchScreenDialogContent(
             WisefySampleNoticeDialog(
                 title = R.string.search_result,
                 body = R.string.ssid_args,
-                dialogState.data
+                currentDialogState.data
             ) {
                 viewModel.onDialogClosed()
             }
@@ -152,7 +152,7 @@ internal fun SearchScreenDialogContent(
             WisefySampleNoticeDialog(
                 title = R.string.search_result,
                 body = R.string.ssids_args,
-                dialogState.data
+                currentDialogState.data
             ) {
                 viewModel.onDialogClosed()
             }
@@ -161,7 +161,7 @@ internal fun SearchScreenDialogContent(
             WisefySampleNoticeDialog(
                 title = R.string.search_result,
                 body = R.string.saved_network_args,
-                dialogState.data
+                currentDialogState.data
             ) {
                 viewModel.onDialogClosed()
             }
@@ -170,7 +170,7 @@ internal fun SearchScreenDialogContent(
             WisefySampleNoticeDialog(
                 title = R.string.search_result,
                 body = R.string.saved_networks_args,
-                dialogState.data
+                currentDialogState.data
             ) {
                 viewModel.onDialogClosed()
             }

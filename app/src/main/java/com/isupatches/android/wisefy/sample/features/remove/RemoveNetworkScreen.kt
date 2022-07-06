@@ -22,17 +22,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.isupatches.android.wisefy.Wisefy
 import com.isupatches.android.wisefy.WisefyApi
+import com.isupatches.android.wisefy.sample.ui.components.WisefySampleLoadingIndicator
 
 @Composable
 internal fun RemoveNetworkScreen(
     wisefy: WisefyApi,
     viewModel: RemoveNetworkViewModel = viewModel(factory = RemoveNetworkViewModelFactory(wisefy))
 ) {
-    RemoveNetworkScreenContent(
-        uiState = { viewModel.uiState.value },
-        inputState = { viewModel.inputState.value },
-        viewModel = viewModel
-    )
+    WisefySampleLoadingIndicator(isLoading = { viewModel.uiState.value.loadingState.isLoading })
+    RemoveNetworkScreenDialogContent(dialogState = { viewModel.uiState.value.dialogState }, viewModel = viewModel)
+    RemoveNetworkScreenContent(viewModel = viewModel)
 }
 
 @Preview(showBackground = true)

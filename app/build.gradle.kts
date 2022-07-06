@@ -137,6 +137,7 @@ dependencies {
     compose()
     implementation(Dependencies.AndroidX.APPCOMPAT)
     implementation(Dependencies.AndroidX.CORE_KTX)
+    implementation(Dependencies.AndroidX.DATA_STORE)
     navigation()
 
     // Koltin
