@@ -175,7 +175,9 @@ internal class DefaultAddNetworkViewModel(
                         PassphraseInputError.NONE -> AddNetworkPassphraseInputValidityState.Valid
                         PassphraseInputError.TOO_SHORT -> AddNetworkPassphraseInputValidityState.Invalid.TooShort
                         PassphraseInputError.TOO_LONG -> AddNetworkPassphraseInputValidityState.Invalid.TooLong
-                        PassphraseInputError.NOT_VALID_ASCII -> AddNetworkPassphraseInputValidityState.Invalid.InvalidASCII
+                        PassphraseInputError.NOT_VALID_ASCII -> {
+                            AddNetworkPassphraseInputValidityState.Invalid.InvalidASCII
+                        }
                     }
                     _uiState.value = uiState.value.copy(
                         inputState = uiState.value.inputState.copy(
@@ -359,7 +361,8 @@ internal class DefaultAddNetworkViewModel(
         return when (uiState.value.networkType) {
             NetworkType.WPA2, NetworkType.WPA3 -> {
                 if (uiState.value.inputState.passphraseInputValidityState !is
-                        AddNetworkPassphraseInputValidityState.Valid) {
+                    AddNetworkPassphraseInputValidityState.Valid
+                ) {
                     _uiState.value = uiState.value.copy(
                         loadingState = AddNetworkLoadingState(isLoading = false),
                         dialogState = AddNetworkDialogState.InputError.Passphrase

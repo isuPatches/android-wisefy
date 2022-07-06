@@ -16,7 +16,6 @@
 package com.isupatches.android.wisefy.sample.ui.components
 
 import android.content.res.Configuration
-import android.util.Log
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.MaterialTheme
