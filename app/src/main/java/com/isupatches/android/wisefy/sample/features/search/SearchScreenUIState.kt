@@ -29,7 +29,7 @@ internal data class SearchUIState(
     val ssidType: SSIDType,
     val returnFullList: Boolean,
     val filterDuplicates: Boolean,
-    val searchTimeout: Int
+    val timeout: Int
 )
 
 internal data class SearchLoadingState(val isLoading: Boolean)
@@ -79,11 +79,16 @@ internal sealed class SearchDialogState {
     }
 }
 
-internal sealed class SearchInputState {
-    sealed class SSID : SearchInputState() {
-        data class Valid(val value: String) : SearchInputState()
+internal data class SearchInputState(
+    val input: String,
+    val inputValidityState: SearchInputValidityState
+)
 
-        sealed class Invalid : SearchInputState() {
+internal sealed class SearchInputValidityState {
+    sealed class SSID : SearchInputValidityState() {
+        object Valid : SearchInputValidityState()
+
+        sealed class Invalid : SearchInputValidityState() {
             object Empty : Invalid()
             object TooShort : Invalid()
             object TooLong : Invalid()
@@ -94,8 +99,8 @@ internal sealed class SearchInputState {
         }
     }
 
-    sealed class BSSID : SearchInputState() {
-        data class Valid(val value: String) : BSSID()
+    sealed class BSSID : SearchInputValidityState() {
+        object Valid : BSSID()
 
         sealed class Invalid : BSSID() {
             object Empty : Invalid()

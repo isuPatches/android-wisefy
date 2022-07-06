@@ -48,10 +48,15 @@ internal sealed class RemoveNetworkDialogState {
     }
 }
 
-internal sealed class RemoveNetworkInputState {
+internal data class RemoveNetworkInputState(
+    val networkInput: String,
+    val networkInputValidityState: RemoveNetworkInputValidityState
+)
 
-    sealed class SSID : RemoveNetworkInputState() {
-        data class Valid(val value: String) : SSID()
+internal sealed class RemoveNetworkInputValidityState {
+
+    sealed class SSID : RemoveNetworkInputValidityState() {
+        object Valid : SSID()
 
         sealed class Invalid : SSID() {
             object Empty : Invalid()
@@ -64,8 +69,8 @@ internal sealed class RemoveNetworkInputState {
         }
     }
 
-    sealed class BSSID : RemoveNetworkInputState() {
-        data class Valid(val value: String) : BSSID()
+    sealed class BSSID : RemoveNetworkInputValidityState() {
+        object Valid : BSSID()
 
         sealed class Invalid : BSSID() {
             object Empty : Invalid()

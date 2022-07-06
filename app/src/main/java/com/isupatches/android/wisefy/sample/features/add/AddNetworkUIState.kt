@@ -63,17 +63,17 @@ internal sealed class AddNetworkDialogState {
 
 internal data class AddNetworkInputState(
     val ssidInput: String,
-    val ssidState: AddNetworkInputSSIDState,
+    val ssidInputValidityState: AddNetworkSSIDInputValidityState,
     val passphraseInput: String,
-    val passphraseState: AddNetworkPassphraseState,
+    val passphraseInputValidityState: AddNetworkPassphraseInputValidityState,
     val bssidInput: String?,
-    val bssidState: AddNetworkBSSIDState
+    val bssidInputValidityState: AddNetworkBSSIDInputValidityState
 )
 
-internal sealed class AddNetworkInputSSIDState {
-    object Valid : AddNetworkInputSSIDState()
+internal sealed class AddNetworkSSIDInputValidityState {
+    object Valid : AddNetworkSSIDInputValidityState()
 
-    sealed class Invalid : AddNetworkInputSSIDState() {
+    sealed class Invalid : AddNetworkSSIDInputValidityState() {
         object Empty : Invalid()
         object TooShort : Invalid()
         object TooLong : Invalid()
@@ -84,10 +84,10 @@ internal sealed class AddNetworkInputSSIDState {
     }
 }
 
-internal sealed class AddNetworkPassphraseState {
-    object Valid : AddNetworkPassphraseState()
+internal sealed class AddNetworkPassphraseInputValidityState {
+    object Valid : AddNetworkPassphraseInputValidityState()
 
-    sealed class Invalid : AddNetworkPassphraseState() {
+    sealed class Invalid : AddNetworkPassphraseInputValidityState() {
         object Empty : Invalid()
         object TooShort : Invalid()
         object TooLong : Invalid()
@@ -95,11 +95,11 @@ internal sealed class AddNetworkPassphraseState {
     }
 }
 
-internal sealed class AddNetworkBSSIDState {
-    sealed class Valid : AddNetworkBSSIDState() {
+internal sealed class AddNetworkBSSIDInputValidityState {
+    sealed class Valid : AddNetworkBSSIDInputValidityState() {
         object Empty : Valid()
         object BSSID : Valid()
     }
 
-    object Invalid : AddNetworkBSSIDState()
+    object Invalid : AddNetworkBSSIDInputValidityState()
 }

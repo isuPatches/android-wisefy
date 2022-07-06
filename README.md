@@ -96,6 +96,9 @@ I hope you enjoy the rewrite and please create an issue if you see anything odd 
 - `gradle.lockfile`s and Gradle ranges are enabled for more control over versioning
   - [Locking dependency versions](https://docs.gradle.org/current/userguide/dependency_locking.html)
   - [Declaring Versions and Ranges](https://docs.gradle.org/current/userguide/single_versions.html)
+- Sample app re-written
+  - Down with SharedPreferences, migrated to DataStore
+  - Written in Compose
 
 ### New Structure
 

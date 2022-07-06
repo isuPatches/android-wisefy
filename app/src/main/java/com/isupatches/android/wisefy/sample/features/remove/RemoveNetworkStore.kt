@@ -16,40 +16,76 @@
 package com.isupatches.android.wisefy.sample.features.remove
 
 import android.content.Context
-import androidx.core.content.edit
-import com.isupatches.android.wisefy.sample.R
-import com.isupatches.android.wisefy.sample.scaffolding.BaseSharedPreferenceStore
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
+import com.isupatches.android.wisefy.sample.entities.SSIDType
 import dagger.hilt.android.qualifiers.ApplicationContext
-import javax.inject.Inject
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+
+private const val PREF_SSID_TYPE = "ssid_type"
+private const val PREF_LAST_USED_NETWORK_INPUT = "last_used_network_input"
 
 internal interface RemoveNetworkStore {
-    fun clear()
+    suspend fun clear()
 
-    fun getLastUsedRegex(): String
+    fun getLastUsedNetworkInput(): Flow<String>
+    fun getSSIDType(): Flow<SSIDType>
 
-    fun setLastUsedRegex(lastUsedRegex: String)
+    suspend fun setLastUsedNetworkInput(lastUsedNetworkInput: String)
+    suspend fun setSSIDType(ssidType: SSIDType)
 }
 
-internal class SharedPreferencesRemoveNetworkStore @Inject constructor(
-    @ApplicationContext context: Context
-) : BaseSharedPreferenceStore(), RemoveNetworkStore {
+private val Context.removeNetworkDataStore: DataStore<Preferences> by preferencesDataStore(
+    name = "removeNetworkDataStore"
+)
 
-    private val sharedPreferences = getSharedPreferences(
-        context,
-        R.string.preferences_remove_network_data
-    )
+internal class DefaultRemoveNetworkStore(
+    @ApplicationContext private val context: Context
+) : RemoveNetworkStore {
 
-    override fun clear() {
-        sharedPreferences.edit { clear() }
+    private val ssidTypeKey = intPreferencesKey(PREF_SSID_TYPE)
+    private val lastUsedNetworkInputKey = stringPreferencesKey(PREF_LAST_USED_NETWORK_INPUT)
+
+    override suspend fun clear() {
+        context.removeNetworkDataStore.edit {
+            clear()
+        }
     }
 
     /*
-     * Last used Regex
+     * Last used network input
      */
 
-    override fun getLastUsedRegex() = sharedPreferences.getLastUsedRegex()
+    override fun getLastUsedNetworkInput(): Flow<String> {
+        return context.removeNetworkDataStore.data.map { preferences ->
+            preferences[lastUsedNetworkInputKey] ?: ""
+        }
+    }
 
-    override fun setLastUsedRegex(lastUsedRegex: String) {
-        sharedPreferences.setLastUsedRegex(lastUsedRegex)
+    override suspend fun setLastUsedNetworkInput(lastUsedNetworkInput: String) {
+        context.removeNetworkDataStore.edit { preferences ->
+            preferences[lastUsedNetworkInputKey] = lastUsedNetworkInput
+        }
+    }
+
+    /*
+     * SSID Type
+     */
+
+    override fun getSSIDType(): Flow<SSIDType> {
+        return context.removeNetworkDataStore.data.map { preferences ->
+            SSIDType.of(preferences[ssidTypeKey] ?: SSIDType.SSID.intVal)
+        }
+    }
+
+    override suspend fun setSSIDType(ssidType: SSIDType) {
+        context.removeNetworkDataStore.edit { preferences ->
+            preferences[ssidTypeKey] = ssidType.intVal
+        }
     }
 }

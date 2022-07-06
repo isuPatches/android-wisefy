@@ -32,8 +32,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.isupatches.android.wisefy.sample.R
 import com.isupatches.android.wisefy.sample.entities.NetworkType
@@ -175,29 +173,29 @@ internal fun AddNetworkInputRows(
                 viewModel.onSSIDInputChanged(newSSID)
             },
             labelResId = R.string.network_name,
-            error = when (currentInputState.ssidState) {
-                is AddNetworkInputSSIDState.Invalid.Empty -> {
+            error = when (currentInputState.ssidInputValidityState) {
+                is AddNetworkSSIDInputValidityState.Invalid.Empty -> {
                     WisefySampleEditTextError(R.string.network_input_empty)
                 }
-                is AddNetworkInputSSIDState.Invalid.TooShort -> {
+                is AddNetworkSSIDInputValidityState.Invalid.TooShort -> {
                     WisefySampleEditTextError(R.string.network_input_too_short)
                 }
-                is AddNetworkInputSSIDState.Invalid.TooLong -> {
+                is AddNetworkSSIDInputValidityState.Invalid.TooLong -> {
                     WisefySampleEditTextError(R.string.network_input_too_long)
                 }
-                is AddNetworkInputSSIDState.Invalid.InvalidCharacters -> {
+                is AddNetworkSSIDInputValidityState.Invalid.InvalidCharacters -> {
                     WisefySampleEditTextError(R.string.network_input_invalid_characters)
                 }
-                is AddNetworkInputSSIDState.Invalid.InvalidStartCharacters -> {
+                is AddNetworkSSIDInputValidityState.Invalid.InvalidStartCharacters -> {
                     WisefySampleEditTextError(R.string.network_input_invalid_start_characters)
                 }
-                is AddNetworkInputSSIDState.Invalid.LeadingOrTrailingSpaces -> {
+                is AddNetworkSSIDInputValidityState.Invalid.LeadingOrTrailingSpaces -> {
                     WisefySampleEditTextError(R.string.network_input_leading_or_trailing_spaces)
                 }
-                is AddNetworkInputSSIDState.Invalid.InvalidUnicode -> {
+                is AddNetworkSSIDInputValidityState.Invalid.InvalidUnicode -> {
                     WisefySampleEditTextError(R.string.network_input_not_valid_unicode)
                 }
-                is AddNetworkInputSSIDState.Valid -> null
+                is AddNetworkSSIDInputValidityState.Valid -> null
             }
         )
     }
@@ -208,11 +206,11 @@ internal fun AddNetworkInputRows(
                 viewModel.onBSSIDInputChanged(newBSSID)
             },
             labelResId = R.string.bssid,
-            error = when (currentInputState.bssidState) {
-                is AddNetworkBSSIDState.Invalid -> {
+            error = when (currentInputState.bssidInputValidityState) {
+                is AddNetworkBSSIDInputValidityState.Invalid -> {
                     WisefySampleEditTextError(R.string.bssid_input_invalid)
                 }
-                is AddNetworkBSSIDState.Valid.Empty, is AddNetworkBSSIDState.Valid.BSSID -> {
+                is AddNetworkBSSIDInputValidityState.Valid.Empty, is AddNetworkBSSIDInputValidityState.Valid.BSSID -> {
                     null
                 }
             }
@@ -227,20 +225,20 @@ internal fun AddNetworkInputRows(
                 },
                 labelResId = R.string.network_passphrase,
                 isPasswordField = true,
-                error = when (currentInputState.passphraseState) {
-                    is AddNetworkPassphraseState.Invalid.Empty -> {
+                error = when (currentInputState.passphraseInputValidityState) {
+                    is AddNetworkPassphraseInputValidityState.Invalid.Empty -> {
                         WisefySampleEditTextError(R.string.passphrase_input_empty)
                     }
-                    is AddNetworkPassphraseState.Invalid.TooShort -> {
+                    is AddNetworkPassphraseInputValidityState.Invalid.TooShort -> {
                         WisefySampleEditTextError(R.string.passphrase_input_too_short)
                     }
-                    is AddNetworkPassphraseState.Invalid.TooLong -> {
+                    is AddNetworkPassphraseInputValidityState.Invalid.TooLong -> {
                         WisefySampleEditTextError(R.string.passphrase_input_too_long)
                     }
-                    is AddNetworkPassphraseState.Invalid.InvalidASCII -> {
+                    is AddNetworkPassphraseInputValidityState.Invalid.InvalidASCII -> {
                         WisefySampleEditTextError(R.string.passphrase_input_not_valid_ascii)
                     }
-                    is AddNetworkPassphraseState.Valid -> null
+                    is AddNetworkPassphraseInputValidityState.Valid -> null
                 }
             )
         }

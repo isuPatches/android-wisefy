@@ -203,45 +203,42 @@ internal fun SearchScreenNetworkInputRows(
 ) {
     val currentInputState = inputState()
     Row {
-        val text = remember { mutableStateOf("") }
-
         WisefySampleEditText(
-            text = text.value,
+            text = currentInputState.input,
             onTextChange = { newText ->
-                text.value = newText
                 viewModel.onSearchNetworkInputChanged(newText)
             },
             labelResId = R.string.regex_for_network,
-            error = when (currentInputState) {
-                is SearchInputState.SSID.Invalid.Empty -> {
+            error = when (currentInputState.inputValidityState) {
+                is SearchInputValidityState.SSID.Invalid.Empty -> {
                     WisefySampleEditTextError(R.string.network_input_empty)
                 }
-                is SearchInputState.SSID.Invalid.TooShort -> {
+                is SearchInputValidityState.SSID.Invalid.TooShort -> {
                     WisefySampleEditTextError(R.string.network_input_too_short)
                 }
-                is SearchInputState.SSID.Invalid.TooLong -> {
+                is SearchInputValidityState.SSID.Invalid.TooLong -> {
                     WisefySampleEditTextError(R.string.network_input_too_long)
                 }
-                is SearchInputState.SSID.Invalid.InvalidCharacters -> {
+                is SearchInputValidityState.SSID.Invalid.InvalidCharacters -> {
                     WisefySampleEditTextError(R.string.network_input_invalid_characters)
                 }
-                is SearchInputState.SSID.Invalid.InvalidStartCharacters -> {
+                is SearchInputValidityState.SSID.Invalid.InvalidStartCharacters -> {
                     WisefySampleEditTextError(R.string.network_input_invalid_start_characters)
                 }
-                is SearchInputState.SSID.Invalid.LeadingOrTrailingSpaces -> {
+                is SearchInputValidityState.SSID.Invalid.LeadingOrTrailingSpaces -> {
                     WisefySampleEditTextError(R.string.network_input_leading_or_trailing_spaces)
                 }
-                is SearchInputState.SSID.Invalid.InvalidUnicode -> {
+                is SearchInputValidityState.SSID.Invalid.InvalidUnicode -> {
                     WisefySampleEditTextError(R.string.network_input_not_valid_unicode)
                 }
-                is SearchInputState.SSID.Valid -> null
-                is SearchInputState.BSSID.Invalid.Empty -> {
+                is SearchInputValidityState.SSID.Valid -> null
+                is SearchInputValidityState.BSSID.Invalid.Empty -> {
                     WisefySampleEditTextError(R.string.bssid_input_empty)
                 }
-                is SearchInputState.BSSID.Invalid.ImproperFormat -> {
+                is SearchInputValidityState.BSSID.Invalid.ImproperFormat -> {
                     WisefySampleEditTextError(R.string.bssid_input_improper_format)
                 }
-                is SearchInputState.BSSID.Valid -> null
+                is SearchInputValidityState.BSSID.Valid -> null
             }
         )
     }
@@ -360,9 +357,9 @@ internal fun SearchScreenTimeoutInputRows(
     searchType: () -> SearchType,
     viewModel: SearchViewModel
 ) {
-    val searchTimeout = remember { mutableStateOf(1) }
     val currentReturnFullListValue = returnFullList()
     val currentSearchType = searchType()
+    val searchTimeout = remember { mutableStateOf(1) }
     if (!currentReturnFullListValue && currentSearchType != SearchType.SAVED_NETWORK) {
         Row(modifier = Modifier.padding(top = WisefySampleSizes.Medium)) {
             WisefySampleSlider(
@@ -374,18 +371,27 @@ internal fun SearchScreenTimeoutInputRows(
                     override val start: Float = MIN_SEARCH_TIMEOUT
                     override val endInclusive: Float = MAX_SEARCH_TIMEOUT
                 },
-                onValueChanged = { newTimeoutValue ->
-                    searchTimeout.value = newTimeoutValue.roundToInt()
-                    viewModel.onSearchTimeoutValueUpdated(newTimeoutValue.roundToInt())
+                onValueChange = { timeout ->
+                    searchTimeout.value = timeout.roundToInt()
+                },
+                onValueChangeFinished = { timeout ->
+                    viewModel.onSearchTimeoutValueChangeFinished(timeout.roundToInt())
                 }
             )
         }
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-            WisefySampleCaptionLabel(
-                stringResId = R.string.timeout_after_x_seconds_args_html,
-                modifier = Modifier,
-                searchTimeout.value
-            )
+            SearchScreenTimeoutLabelRow(timeout = { searchTimeout.value })
         }
     }
+}
+
+@Composable
+internal fun SearchScreenTimeoutLabelRow(
+    timeout: () -> Int
+) {
+    WisefySampleCaptionLabel(
+        stringResId = R.string.timeout_after_x_seconds_args_html,
+        modifier = Modifier,
+        timeout()
+    )
 }

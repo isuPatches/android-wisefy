@@ -15,7 +15,18 @@
  */
 package com.isupatches.android.wisefy.sample.entities
 
-internal enum class SSIDType {
-    SSID,
-    BSSID
+internal enum class SSIDType(val intVal: Int) {
+    SSID(0),
+    BSSID(1);
+
+    companion object {
+
+        fun of(intVal: Int): SSIDType {
+            return when (intVal) {
+                SSID.intVal -> SSID
+                BSSID.intVal -> BSSID
+                else -> throw IllegalArgumentException("Invalid SSIDType, intVal: $intVal")
+            }
+        }
+    }
 }

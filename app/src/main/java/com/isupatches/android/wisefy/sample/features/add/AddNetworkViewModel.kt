@@ -94,12 +94,12 @@ internal class DefaultAddNetworkViewModel(
             loadingState = AddNetworkLoadingState(false),
             dialogState = AddNetworkDialogState.None,
             inputState = AddNetworkInputState(
-                ssidInput  = "",
-                ssidState = AddNetworkInputSSIDState.Invalid.Empty,
+                ssidInput = "",
+                ssidInputValidityState = AddNetworkSSIDInputValidityState.Invalid.Empty,
                 passphraseInput = "",
-                passphraseState = AddNetworkPassphraseState.Invalid.Empty,
+                passphraseInputValidityState = AddNetworkPassphraseInputValidityState.Invalid.Empty,
                 bssidInput = "",
-                bssidState = AddNetworkBSSIDState.Valid.Empty
+                bssidInputValidityState = AddNetworkBSSIDInputValidityState.Valid.Empty
             ),
             networkType = NetworkType.OPEN
         )
@@ -145,24 +145,24 @@ internal class DefaultAddNetworkViewModel(
         viewModelScope.launch {
             addNetworkStore.getLastUsedNetworkInput()
                 .collectLatest { input ->
-                    val newSSIDInputState = when (input.validateSSID()) {
-                        SSIDInputError.EMPTY -> AddNetworkInputSSIDState.Invalid.Empty
-                        SSIDInputError.TOO_SHORT -> AddNetworkInputSSIDState.Invalid.TooShort
-                        SSIDInputError.TOO_LONG -> AddNetworkInputSSIDState.Invalid.TooLong
-                        SSIDInputError.INVALID_CHARACTERS -> AddNetworkInputSSIDState.Invalid.InvalidCharacters
+                    val newSSIDInputValidityState = when (input.validateSSID()) {
+                        SSIDInputError.EMPTY -> AddNetworkSSIDInputValidityState.Invalid.Empty
+                        SSIDInputError.TOO_SHORT -> AddNetworkSSIDInputValidityState.Invalid.TooShort
+                        SSIDInputError.TOO_LONG -> AddNetworkSSIDInputValidityState.Invalid.TooLong
+                        SSIDInputError.INVALID_CHARACTERS -> AddNetworkSSIDInputValidityState.Invalid.InvalidCharacters
                         SSIDInputError.INVALID_START_CHARACTERS -> {
-                            AddNetworkInputSSIDState.Invalid.InvalidStartCharacters
+                            AddNetworkSSIDInputValidityState.Invalid.InvalidStartCharacters
                         }
                         SSIDInputError.LEADING_OR_TRAILING_SPACES -> {
-                            AddNetworkInputSSIDState.Invalid.LeadingOrTrailingSpaces
+                            AddNetworkSSIDInputValidityState.Invalid.LeadingOrTrailingSpaces
                         }
-                        SSIDInputError.NOT_VALID_UNICODE -> AddNetworkInputSSIDState.Invalid.InvalidUnicode
-                        SSIDInputError.NONE -> AddNetworkInputSSIDState.Valid
+                        SSIDInputError.NOT_VALID_UNICODE -> AddNetworkSSIDInputValidityState.Invalid.InvalidUnicode
+                        SSIDInputError.NONE -> AddNetworkSSIDInputValidityState.Valid
                     }
                     _uiState.value = uiState.value.copy(
                         inputState = uiState.value.inputState.copy(
                             ssidInput = input,
-                            ssidState = newSSIDInputState
+                            ssidInputValidityState = newSSIDInputValidityState
                         )
                     )
                 }
@@ -171,16 +171,16 @@ internal class DefaultAddNetworkViewModel(
         viewModelScope.launch {
             addNetworkStore.getLastUsedNetworkPassphraseInput()
                 .collectLatest { input ->
-                    val newPassphraseInputState = when (input.validatePassphrase()) {
-                        PassphraseInputError.NONE -> AddNetworkPassphraseState.Valid
-                        PassphraseInputError.TOO_SHORT -> AddNetworkPassphraseState.Invalid.TooShort
-                        PassphraseInputError.TOO_LONG -> AddNetworkPassphraseState.Invalid.TooLong
-                        PassphraseInputError.NOT_VALID_ASCII -> AddNetworkPassphraseState.Invalid.InvalidASCII
+                    val newPassphraseInputValidityState = when (input.validatePassphrase()) {
+                        PassphraseInputError.NONE -> AddNetworkPassphraseInputValidityState.Valid
+                        PassphraseInputError.TOO_SHORT -> AddNetworkPassphraseInputValidityState.Invalid.TooShort
+                        PassphraseInputError.TOO_LONG -> AddNetworkPassphraseInputValidityState.Invalid.TooLong
+                        PassphraseInputError.NOT_VALID_ASCII -> AddNetworkPassphraseInputValidityState.Invalid.InvalidASCII
                     }
                     _uiState.value = uiState.value.copy(
                         inputState = uiState.value.inputState.copy(
                             passphraseInput = input,
-                            passphraseState = newPassphraseInputState
+                            passphraseInputValidityState = newPassphraseInputValidityState
                         )
                     )
                 }
@@ -189,15 +189,15 @@ internal class DefaultAddNetworkViewModel(
         viewModelScope.launch {
             addNetworkStore.getLastUsedNetworkBSSIDInput()
                 .collectLatest { input ->
-                    val newBSSIDInputState = when (input.validateBSSID()) {
-                        BSSIDInputError.NONE -> AddNetworkBSSIDState.Valid.BSSID
-                        BSSIDInputError.EMPTY -> AddNetworkBSSIDState.Valid.Empty
-                        BSSIDInputError.INVALID -> AddNetworkBSSIDState.Invalid
+                    val newBSSIDInputValidityState = when (input.validateBSSID()) {
+                        BSSIDInputError.NONE -> AddNetworkBSSIDInputValidityState.Valid.BSSID
+                        BSSIDInputError.EMPTY -> AddNetworkBSSIDInputValidityState.Valid.Empty
+                        BSSIDInputError.INVALID -> AddNetworkBSSIDInputValidityState.Invalid
                     }
                     _uiState.value = uiState.value.copy(
                         inputState = uiState.value.inputState.copy(
                             bssidInput = input,
-                            bssidState = newBSSIDInputState
+                            bssidInputValidityState = newBSSIDInputValidityState
                         )
                     )
                 }
@@ -342,14 +342,14 @@ internal class DefaultAddNetworkViewModel(
     }
 
     private fun isInputValid(): Boolean {
-        if (uiState.value.inputState.ssidState !is AddNetworkInputSSIDState.Valid) {
+        if (uiState.value.inputState.ssidInputValidityState !is AddNetworkSSIDInputValidityState.Valid) {
             _uiState.value = uiState.value.copy(
                 loadingState = AddNetworkLoadingState(isLoading = false),
                 dialogState = AddNetworkDialogState.InputError.SSID
             )
             return false
         }
-        if (uiState.value.inputState.bssidState !is AddNetworkBSSIDState.Valid) {
+        if (uiState.value.inputState.bssidInputValidityState !is AddNetworkBSSIDInputValidityState.Valid) {
             _uiState.value = uiState.value.copy(
                 loadingState = AddNetworkLoadingState(isLoading = false),
                 dialogState = AddNetworkDialogState.InputError.BSSID
@@ -358,7 +358,8 @@ internal class DefaultAddNetworkViewModel(
         }
         return when (uiState.value.networkType) {
             NetworkType.WPA2, NetworkType.WPA3 -> {
-                if (uiState.value.inputState.passphraseState !is AddNetworkPassphraseState.Valid) {
+                if (uiState.value.inputState.passphraseInputValidityState !is
+                        AddNetworkPassphraseInputValidityState.Valid) {
                     _uiState.value = uiState.value.copy(
                         loadingState = AddNetworkLoadingState(isLoading = false),
                         dialogState = AddNetworkDialogState.InputError.Passphrase
@@ -393,6 +394,12 @@ internal class DefaultAddNetworkViewModel(
     override fun onNetworkTypeSelected(networkType: NetworkType) {
         viewModelScope.launch {
             addNetworkStore.setNetworkType(networkType = networkType)
+            when (networkType) {
+                NetworkType.OPEN -> addNetworkStore.setLastUsedNetworkPassphraseInput("")
+                NetworkType.WPA2, NetworkType.WPA3 -> {
+                    // No-op
+                }
+            }
         }
     }
 

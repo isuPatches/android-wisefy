@@ -17,6 +17,7 @@ package com.isupatches.android.wisefy.sample.features.remove
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.CHANGE_WIFI_STATE
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
@@ -85,46 +86,44 @@ internal fun RemoveNetworkInputRows(
     inputState: () -> RemoveNetworkInputState,
     viewModel: RemoveNetworkViewModel
 ) {
-    val text = remember { mutableStateOf("") }
-
+    val currentInputState = inputState()
     Row {
         WisefySampleEditText(
-            text = text.value,
+            text = currentInputState.networkInput,
             onTextChange = { newText ->
-                text.value = newText
                 viewModel.onInputChanged(newText)
             },
             labelResId = R.string.regex_for_network,
-            error = when (inputState()) {
-                is RemoveNetworkInputState.SSID.Invalid.Empty -> {
+            error = when (currentInputState.networkInputValidityState) {
+                is RemoveNetworkInputValidityState.SSID.Invalid.Empty -> {
                     WisefySampleEditTextError(R.string.network_input_empty)
                 }
-                is RemoveNetworkInputState.SSID.Invalid.TooShort -> {
+                is RemoveNetworkInputValidityState.SSID.Invalid.TooShort -> {
                     WisefySampleEditTextError(R.string.network_input_too_short)
                 }
-                is RemoveNetworkInputState.SSID.Invalid.TooLong -> {
+                is RemoveNetworkInputValidityState.SSID.Invalid.TooLong -> {
                     WisefySampleEditTextError(R.string.network_input_too_long)
                 }
-                is RemoveNetworkInputState.SSID.Invalid.InvalidCharacters -> {
+                is RemoveNetworkInputValidityState.SSID.Invalid.InvalidCharacters -> {
                     WisefySampleEditTextError(R.string.network_input_invalid_characters)
                 }
-                is RemoveNetworkInputState.SSID.Invalid.InvalidStartCharacters -> {
+                is RemoveNetworkInputValidityState.SSID.Invalid.InvalidStartCharacters -> {
                     WisefySampleEditTextError(R.string.network_input_invalid_start_characters)
                 }
-                is RemoveNetworkInputState.SSID.Invalid.LeadingOrTrailingSpaces -> {
+                is RemoveNetworkInputValidityState.SSID.Invalid.LeadingOrTrailingSpaces -> {
                     WisefySampleEditTextError(R.string.network_input_leading_or_trailing_spaces)
                 }
-                is RemoveNetworkInputState.SSID.Invalid.InvalidUnicode -> {
+                is RemoveNetworkInputValidityState.SSID.Invalid.InvalidUnicode -> {
                     WisefySampleEditTextError(R.string.network_input_not_valid_unicode)
                 }
-                is RemoveNetworkInputState.BSSID.Invalid.Empty -> {
+                is RemoveNetworkInputValidityState.BSSID.Invalid.Empty -> {
                     WisefySampleEditTextError(R.string.bssid_input_empty)
                 }
-                is RemoveNetworkInputState.BSSID.Invalid.ImproperFormat -> {
+                is RemoveNetworkInputValidityState.BSSID.Invalid.ImproperFormat -> {
                     WisefySampleEditTextError(R.string.bssid_input_improper_format)
                 }
-                is RemoveNetworkInputState.SSID.Valid -> null
-                is RemoveNetworkInputState.BSSID.Valid -> null
+                is RemoveNetworkInputValidityState.SSID.Valid -> null
+                is RemoveNetworkInputValidityState.BSSID.Valid -> null
             }
         )
     }

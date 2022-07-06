@@ -26,7 +26,8 @@ import com.isupatches.android.wisefy.sample.ui.primitives.WisefySliderColors
 @Composable
 internal fun WisefySampleSlider(
     valueRange: ClosedFloatingPointRange<Float>,
-    onValueChanged: (Float) -> Unit
+    onValueChange: (Float) -> Unit,
+    onValueChangeFinished: (Float) -> Unit
 ) {
     var sliderPosition by remember { mutableStateOf(0f) }
     Slider(
@@ -34,7 +35,10 @@ internal fun WisefySampleSlider(
         valueRange = valueRange,
         onValueChange = {
             sliderPosition = it
-            onValueChanged(it)
+            onValueChange(it)
+        },
+        onValueChangeFinished = {
+            onValueChangeFinished(sliderPosition)
         },
         colors = WisefySliderColors()
     )

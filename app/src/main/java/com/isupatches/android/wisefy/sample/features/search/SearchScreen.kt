@@ -16,6 +16,7 @@
 package com.isupatches.android.wisefy.sample.features.search
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.isupatches.android.wisefy.WisefyApi
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleLoadingIndicator
@@ -23,7 +24,12 @@ import com.isupatches.android.wisefy.sample.ui.components.WisefySampleLoadingInd
 @Composable
 internal fun SearchScreen(
     wisefy: WisefyApi,
-    viewModel: SearchViewModel = viewModel(factory = SearchViewModelFactory(wisefy))
+    viewModel: SearchViewModel = viewModel(
+        factory = SearchViewModelFactory(
+            context = LocalContext.current.applicationContext,
+            wisefy = wisefy
+        )
+    )
 ) {
     WisefySampleLoadingIndicator(isLoading = { viewModel.uiState.value.loadingState.isLoading })
     SearchScreenDialogContent(dialogState = { viewModel.uiState.value.dialogState }, viewModel = viewModel)

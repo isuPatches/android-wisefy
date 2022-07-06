@@ -24,7 +24,6 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.isupatches.android.wisefy.sample.entities.NetworkType
 import dagger.hilt.android.qualifiers.ApplicationContext
-import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -36,10 +35,10 @@ private const val PREF_LAST_USED_NETWORK_BSSID_INPUT = "last_used_network_bssid_
 internal interface AddNetworkStore {
     suspend fun clear()
 
-    suspend fun getNetworkType(): Flow<NetworkType>
-    suspend fun getLastUsedNetworkInput(): Flow<String>
-    suspend fun getLastUsedNetworkPassphraseInput(): Flow<String>
-    suspend fun getLastUsedNetworkBSSIDInput(): Flow<String>
+    fun getNetworkType(): Flow<NetworkType>
+    fun getLastUsedNetworkInput(): Flow<String>
+    fun getLastUsedNetworkPassphraseInput(): Flow<String>
+    fun getLastUsedNetworkBSSIDInput(): Flow<String>
 
     suspend fun setNetworkType(networkType: NetworkType)
     suspend fun setLastUsedNetworkInput(lastUsedNetworkInput: String)
@@ -47,13 +46,12 @@ internal interface AddNetworkStore {
     suspend fun setLastUsedNetworkBSSIDInput(lastUsedNetworkBSSIDInput: String)
 }
 
-internal class DefaultAddNetworkStore @Inject constructor(
-    @ApplicationContext val context: Context
+private val Context.addNetworkDataStore: DataStore<Preferences> by preferencesDataStore(name = "addNetworkDataStore")
+
+internal class DefaultAddNetworkStore(
+    @ApplicationContext private val context: Context
 ) : AddNetworkStore {
 
-    private val Context.addNetworkDataStore: DataStore<Preferences> by preferencesDataStore(
-        name = "addNetworkDataStore"
-    )
     private val networkTypeKey = intPreferencesKey(PREF_NETWORK_TYPE)
     private val lastUsedNetworkInputKey = stringPreferencesKey(PREF_LAST_USED_NETWORK_INPUT)
     private val lastUsedNetworkPassphraseInputKey = stringPreferencesKey(PREF_LAST_USED_NETWORK_PASSPHRASE_INPUT)
@@ -69,7 +67,7 @@ internal class DefaultAddNetworkStore @Inject constructor(
      * Network type
      */
 
-    override suspend fun getNetworkType(): Flow<NetworkType> {
+    override fun getNetworkType(): Flow<NetworkType> {
         return context.addNetworkDataStore.data.map { preferences ->
             NetworkType.of(preferences[networkTypeKey] ?: NetworkType.WPA2.intVal)
         }
@@ -85,7 +83,7 @@ internal class DefaultAddNetworkStore @Inject constructor(
     * Last used network input
     */
 
-    override suspend fun getLastUsedNetworkInput(): Flow<String> {
+    override fun getLastUsedNetworkInput(): Flow<String> {
         return context.addNetworkDataStore.data.map { preferences ->
             preferences[lastUsedNetworkInputKey] ?: ""
         }
@@ -101,7 +99,7 @@ internal class DefaultAddNetworkStore @Inject constructor(
      * Last used network passphrase input
      */
 
-    override suspend fun getLastUsedNetworkPassphraseInput(): Flow<String> {
+    override fun getLastUsedNetworkPassphraseInput(): Flow<String> {
         return context.addNetworkDataStore.data.map { preferences ->
             preferences[lastUsedNetworkPassphraseInputKey] ?: ""
         }
@@ -117,7 +115,7 @@ internal class DefaultAddNetworkStore @Inject constructor(
      * Last used network BSSID input
      */
 
-    override suspend fun getLastUsedNetworkBSSIDInput(): Flow<String> {
+    override fun getLastUsedNetworkBSSIDInput(): Flow<String> {
         return context.addNetworkDataStore.data.map { preferences ->
             preferences[lastUsedNetworkBSSIDInputKey] ?: ""
         }
