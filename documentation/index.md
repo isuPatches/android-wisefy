@@ -90,5 +90,12 @@
 
 ####`:wifi`
 
-    - [Enabling Wifi](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#enableWifi) **DEPRECATED**
-    - [Disabling Wifi](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#disableWifi) **DEPRECATED**
+  - [Enabling Wifi](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#enableWifi) **DEPRECATED**
+    - Synchronous option: `fun enableWifi(request: EnableWifiRequest): EnableWifiResult`
+    - Async option: `fun enableWifi(request: EnableWifiRequest, callbacks: EnableWifiCallbacks?)`
+    - Coroutine option: `suspend fun WisefyApi.enableWifiAsync(request: EnableWifiRequest): EnableWifiResult`
+
+  - [Disabling Wifi](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#disableWifi) **DEPRECATED**
+    - Synchronous option: `fun disableWifi(request: DisableWifiRequest): DisableWifiResult`
+    - Async option: `fun disableWifi(request: DisableWifiRequest, callbacks: DisableWifiCallbacks?)`
+    - Coroutine option: `suspend fun WisefyApi.disableWifiAsync(request: DisableWifiRequest): DisableWifiResult`
