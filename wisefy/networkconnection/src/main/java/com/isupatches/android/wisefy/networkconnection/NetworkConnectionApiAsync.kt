@@ -55,7 +55,7 @@ interface NetworkConnectionApiAsync {
      * @since 03/2022
      */
     fun disconnectFromCurrentNetwork(
-        request: DisconnectFromCurrentNetworkRequest,
+        request: DisconnectFromCurrentNetworkRequest = DisconnectFromCurrentNetworkRequest(),
         callbacks: DisconnectFromCurrentNetworkCallbacks?
     )
 }

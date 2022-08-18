@@ -25,6 +25,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import com.isupatches.android.wisefy.sample.R
 import com.isupatches.android.wisefy.sample.logging.WisefySampleLogger
@@ -34,16 +35,20 @@ import com.isupatches.android.wisefy.sample.ui.components.WisefySampleEditTextEr
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleSSIDTypeSelectionRows
 import com.isupatches.android.wisefy.sample.ui.primitives.WisefySampleSizes
 import com.isupatches.android.wisefy.sample.ui.theme.WisefySampleTheme
+import kotlinx.coroutines.launch
 
 private const val LOG_TAG = "RemoveNetworkScreenContent"
 
 @Composable
 internal fun RemoveNetworkScreenContent(viewModel: RemoveNetworkViewModel) {
+    val scope = rememberCoroutineScope()
     val removeNetworkPermissionsLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result ->
             if (result.all { it.value }) {
-                @Suppress("MissingPermission")
-                viewModel.removeNetwork()
+                scope.launch {
+                    @Suppress("MissingPermission")
+                    viewModel.removeNetwork()
+                }
             } else {
                 WisefySampleLogger.w(LOG_TAG, "Permissions required to remove a network are denied")
                 viewModel.onRemoveNetworkPermissionsError()

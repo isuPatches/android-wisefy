@@ -16,11 +16,10 @@
 package com.isupatches.android.wisefy.security.entities
 
 /**
- * A set of classes and objects that are used to represent a result while checking
- * if a network is secure.
+ * A set of classes and objects that are used to represent a result while checking if a network is secure.
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 07/2022, version 5.0.0
  */
 sealed class IsNetworkSecureResult {
 
@@ -30,7 +29,7 @@ sealed class IsNetworkSecureResult {
      * @see IsNetworkSecureResult
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 07/2022, version 5.0.0
      */
     object True : IsNetworkSecureResult()
 
@@ -40,7 +39,7 @@ sealed class IsNetworkSecureResult {
      * @see IsNetworkSecureResult
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 07/2022, version 5.0.0
      */
     object False : IsNetworkSecureResult()
 }

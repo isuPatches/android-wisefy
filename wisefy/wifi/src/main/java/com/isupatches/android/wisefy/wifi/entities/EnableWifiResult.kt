@@ -16,10 +16,10 @@
 package com.isupatches.android.wisefy.wifi.entities
 
 /**
- * A set of classes that are data representations of a result when enabling Wifi.
+ * A set of classes and objects that are data representations of a result when enabling Wifi.
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 07/2022, version 5.0.0
  */
 sealed class EnableWifiResult {
 
@@ -29,17 +29,42 @@ sealed class EnableWifiResult {
      * @see EnableWifiResult
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 07/2022, version 5.0.0
      */
-    object True : EnableWifiResult()
+    object Success : EnableWifiResult()
 
     /**
-     * A data representation for when there is a failure disabling Wifi.
+     * A set of classes and objects that are data representations of a failure when enabling Wifi.
      *
      * @see EnableWifiResult
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 07/2022, version 5.0.0
      */
-    object False : EnableWifiResult()
+    sealed class Failure : EnableWifiResult() {
+
+        /**
+         * A data representation for when there is a failure enabling Wifi.
+         *
+         * @see Failure
+         *
+         * @author Patches Klinefelter
+         * @since 07/2022, version 5.0.0
+         */
+        object UnableToEnable : Failure()
+
+        /**
+         * A data representation of a failure to enable Wifi due to hitting an unexpected path causing an assertion.
+         *
+         * *NOTE* This is for developer specific feedback and should NEVER actually be hit unless there is a bug.
+         *
+         * @property message A text description describing the assertion error hit
+         *
+         * @see Failure
+         *
+         * @author Patches Klinefelter
+         * @since 07/2022, version 5.0.0
+         */
+        data class Assertion(val message: String) : Failure()
+    }
 }

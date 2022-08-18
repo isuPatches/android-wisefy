@@ -38,7 +38,7 @@ import com.isupatches.android.wisefy.wifi.os.impls.DefaultWifiApiImpl
  * @see WifiApi
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 07/2022, version 5.0.0
  */
 internal class DefaultWifiAdapter(
     wifiManager: WifiManager,
@@ -49,9 +49,9 @@ internal class DefaultWifiAdapter(
     override fun disableWifi(request: DisableWifiRequest): DisableWifiResult {
         val result = api.disableWifi()
         return if (result) {
-            DisableWifiResult.True
+            DisableWifiResult.Success
         } else {
-            DisableWifiResult.False
+            DisableWifiResult.Failure.UnableToDisable
         }
     }
 
@@ -59,9 +59,9 @@ internal class DefaultWifiAdapter(
     override fun enableWifi(request: EnableWifiRequest): EnableWifiResult {
         val result = api.enableWifi()
         return if (result) {
-            EnableWifiResult.True
+            EnableWifiResult.Success
         } else {
-            EnableWifiResult.False
+            EnableWifiResult.Failure.UnableToEnable
         }
     }
 

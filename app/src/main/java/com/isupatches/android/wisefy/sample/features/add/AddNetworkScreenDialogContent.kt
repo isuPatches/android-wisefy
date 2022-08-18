@@ -43,7 +43,7 @@ internal fun AddNetworkScreenDialogContent(
             WisefySampleNoticeDialog(
                 title = R.string.wisefy_async_error,
                 body = R.string.wisefy_async_error_descriptions_args,
-                currentDialogState.throwable.message ?: "",
+                currentDialogState.exception.message ?: "",
                 onClose = {
                     viewModel.onDialogClosed()
                 }

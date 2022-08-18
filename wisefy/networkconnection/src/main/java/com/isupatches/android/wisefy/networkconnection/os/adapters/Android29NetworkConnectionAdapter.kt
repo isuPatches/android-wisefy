@@ -22,7 +22,7 @@ import android.net.NetworkRequest
 import android.net.wifi.WifiNetworkSpecifier
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.isupatches.android.wisefy.core.assertions.fail
+import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
 import com.isupatches.android.wisefy.core.entities.DeprecationMessages
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.networkconnection.NetworkConnectionApi
@@ -52,6 +52,7 @@ import com.isupatches.android.wisefy.networkconnection.os.impls.Android29Network
 internal class Android29NetworkConnectionAdapter(
     connectivityManager: ConnectivityManager,
     logger: WisefyLogger,
+    private val assertions: WisefyAssertions,
     private val api: Android29NetworkConnectionApi = Android29NetworkConnectionApiImpl(connectivityManager, logger)
 ) : NetworkConnectionApi {
 
@@ -88,7 +89,7 @@ internal class Android29NetworkConnectionAdapter(
     override fun disconnectFromCurrentNetwork(
         request: DisconnectFromCurrentNetworkRequest
     ): DisconnectFromCurrentNetworkResult {
-        fail(DeprecationMessages.NetworkConnection.DisconnectFromCurrentNetwork)
+        assertions.fail(DeprecationMessages.NetworkConnection.DisconnectFromCurrentNetwork)
         return DisconnectFromCurrentNetworkResult.Success.DisconnectRequestSent
     }
 }

@@ -18,11 +18,11 @@ package com.isupatches.android.wisefy.accesspoints.entities
 /**
  * A set of classes and objects that are used to represent requests to search for a single access point.
  *
- * @property timeoutInMillis The timeout in milliseconds to wait for an access point to appear
+ * @property timeoutInMillis The timeout in milliseconds to wait for a matching access point to appear
  * @property filterDuplicates Whether nearby access points with the same SSID but lower RSSI levels should be excluded
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 08/2022, version 5.0.0
  */
 sealed class SearchForSingleAccessPointRequest(
     open val timeoutInMillis: Int,
@@ -33,14 +33,14 @@ sealed class SearchForSingleAccessPointRequest(
      * A data representation of a request to search for a single access point by SSID.
      *
      * @property regex The regex to use when matching the SSID
-     * @property timeoutInMillis The timeout in milliseconds to wait for an access point to appear
+     * @property timeoutInMillis The timeout in milliseconds to wait for a matching access point to appear
      * @property filterDuplicates Whether nearby access points with the same SSID but lower RSSI levels
      *  should be excluded
      *
      * @see SearchForSingleAccessPointRequest
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 08/2022, version 5.0.0
      */
     data class SSID(
         val regex: String,
@@ -52,14 +52,14 @@ sealed class SearchForSingleAccessPointRequest(
      * A data representation of a request to search for a single access point by BSSID.
      *
      * @property regex The regex to use when matching the BSSID
-     * @property timeoutInMillis The timeout in milliseconds to wait for an access point to appear
+     * @property timeoutInMillis The timeout in milliseconds to wait for a matching access point to appear
      * @property filterDuplicates Whether nearby access points with the same SSID but lower RSSI levels
      *  should be excluded
      *
      * @see SearchForSingleAccessPointRequest
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 08/2022, version 5.0.0
      */
     data class BSSID(
         val regex: String,

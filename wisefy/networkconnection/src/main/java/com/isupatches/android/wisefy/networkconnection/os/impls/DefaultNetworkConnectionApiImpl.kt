@@ -63,9 +63,9 @@ internal class DefaultNetworkConnectionApiImpl(
                 SearchForSavedNetworkRequest.SSID(regex = ssid)
             )
         ) {
-            is SearchForSavedNetworkResult.Empty -> null
-            is SearchForSavedNetworkResult.SavedNetwork -> {
-                when (val saveNetwork = savedNetworkSearchResult.data) {
+            is SearchForSavedNetworkResult.Success.Empty -> null
+            is SearchForSavedNetworkResult.Success.SavedNetworks -> {
+                when (val saveNetwork = savedNetworkSearchResult.data.first()) {
                     is SavedNetworkData.Configuration -> {
                         saveNetwork.value.let {
                             wifiManager.disconnect()
@@ -74,8 +74,12 @@ internal class DefaultNetworkConnectionApiImpl(
                             waitToConnectToSSID(ssid, timeoutInMillis)
                         }
                     }
-                    else -> false
+                    is SavedNetworkData.Suggestion -> false
                 }
+            }
+            is SearchForSavedNetworkResult.Failure.Assertion -> {
+                // todo@patches Figure out what to do here
+                null
             }
         }
     }
@@ -87,9 +91,9 @@ internal class DefaultNetworkConnectionApiImpl(
                 SearchForSavedNetworkRequest.BSSID(regex = bssid)
             )
         ) {
-            is SearchForSavedNetworkResult.Empty -> null
-            is SearchForSavedNetworkResult.SavedNetwork -> {
-                when (val saveNetwork = savedNetworkSearchResult.data) {
+            is SearchForSavedNetworkResult.Success.Empty -> null
+            is SearchForSavedNetworkResult.Success.SavedNetworks -> {
+                when (val saveNetwork = savedNetworkSearchResult.data.first()) {
                     is SavedNetworkData.Configuration -> {
                         saveNetwork.value.let {
                             wifiManager.disconnect()
@@ -98,8 +102,12 @@ internal class DefaultNetworkConnectionApiImpl(
                             waitToConnectToBSSID(bssid, timeoutInMillis)
                         }
                     }
-                    else -> false
+                    is SavedNetworkData.Suggestion -> false
                 }
+            }
+            is SearchForSavedNetworkResult.Failure.Assertion -> {
+                // todo@patches Figure out what to do here
+                null
             }
         }
     }

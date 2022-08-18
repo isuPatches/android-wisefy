@@ -16,33 +16,68 @@
 package com.isupatches.android.wisefy.savednetworks.entities
 
 /**
- * A set of classes and objects that are used to represent a result when searching for a saved network.
+ * A set of classes and objects that are used to represent a result when searching for saved networks.
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 07/2022, version 5.0.0
  */
 sealed class SearchForSavedNetworkResult {
 
     /**
-     * A data representation for when there is no matching saved network.
-     *
-     * @see SearchForSavedNetworkResult
+     * A set of classes and objects that are used to represent a success while searching for saved networks on the
+     * device.
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 07/2022, version 5.0.0
      */
-    object Empty : SearchForSavedNetworkResult()
+    sealed class Success : SearchForSavedNetworkResult() {
+
+        /**
+         * A data representation for when there are no matching saved networks.
+         *
+         * @see Success
+         *
+         * @author Patches Klinefelter
+         * @since 07/2022, version 5.0.0
+         */
+        object Empty : Success()
+
+        /**
+         * A data representation for when there are matching saved networks.
+         *
+         * @property data The list of matching saved networks
+         *
+         * @see SavedNetworkData
+         * @see Success
+         *
+         * @author Patches Klinefelter
+         * @since 07/2022, version 5.0.0
+         */
+        data class SavedNetworks(val data: List<SavedNetworkData>) : Success()
+    }
 
     /**
-     * A data representation for when there is a matching saved network.
-     *
-     * @property data The matching saved network
-     *
-     * @see SavedNetworkData
-     * @see SearchForSavedNetworkResult
+     * A set of classes and objects that are used to represent a failure while searching for saved networks on the
+     * device.
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 07/2022, version 5.0.0
      */
-    data class SavedNetwork(val data: SavedNetworkData) : SearchForSavedNetworkResult()
+    sealed class Failure : SearchForSavedNetworkResult() {
+
+        /**
+         * A data representation of a failure searching for saved networks due to hitting an unexpected path causing an
+         * assertion.
+         *
+         * *NOTE* This is for developer specific feedback and should NEVER actually be hit unless there is a bug.
+         *
+         * @property message A text description describing the assertion error hit
+         *
+         * @see Failure
+         *
+         * @author Patches Klinefelter
+         * @since 07/2022, version 5.0.0
+         */
+        data class Assertion(val message: String) : Failure()
+    }
 }

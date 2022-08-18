@@ -31,7 +31,7 @@ import com.isupatches.android.wisefy.savednetworks.os.apis.DefaultSavedNetworkAp
  * @see DefaultSavedNetworkApi
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 07/2022, version 5.0.0
  */
 internal class DefaultSavedNetworkApiImpl(
     private val wifiManager: WifiManager
@@ -40,26 +40,6 @@ internal class DefaultSavedNetworkApiImpl(
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun getSavedNetworks(): List<WifiConfiguration> {
         return wifiManager.configuredNetworks ?: emptyList()
-    }
-
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun isNetworkSavedWithSSID(regexForSSID: String): Boolean {
-        return searchForSavedNetworkBySSID(regexForSSID) != null
-    }
-
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun isNetworkSavedWithBSSID(regexForBSSID: String): Boolean {
-        return searchForSavedNetworkByBSSID(regexForBSSID) != null
-    }
-
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun searchForSavedNetworkBySSID(regexForSSID: String): WifiConfiguration? {
-        return searchForSavedNetworksBySSID(regexForSSID).firstOrNull()
-    }
-
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun searchForSavedNetworkByBSSID(regexForBSSID: String): WifiConfiguration? {
-        return searchForSavedNetworksByBSSID(regexForBSSID).firstOrNull()
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])

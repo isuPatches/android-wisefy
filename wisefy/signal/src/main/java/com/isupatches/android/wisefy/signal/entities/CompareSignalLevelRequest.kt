@@ -22,6 +22,6 @@ package com.isupatches.android.wisefy.signal.entities
  * @property rssi2 The RSSI level of the second network
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 07/2022, version 5.0.0
  */
 data class CompareSignalLevelRequest(val rssi1: Int, val rssi2: Int)

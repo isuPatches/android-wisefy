@@ -24,27 +24,27 @@ import com.isupatches.android.wisefy.core.base.BaseWisefyCallbacks
  * @see BaseWisefyCallbacks
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 08/2022, version 5.0.0
  */
 interface SearchForAccessPointCallbacks : BaseWisefyCallbacks {
 
     /**
-     * A callback triggered when there is a matching access point.
+     * A callback triggered when there is a matching nearby access point.
      *
-     * @param accessPoint The matching access point
+     * @param accessPoint The data representing the matching nearby access point
      *
      * @see AccessPointData
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 08/2022, version 5.0.0
      */
     fun onAccessPointFound(accessPoint: AccessPointData)
 
     /**
-     * A callback triggered when there is no matching access point.
+     * A callback triggered when there is no matching nearby access point.
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 08/2022, version 5.0.0
      */
     fun onNoAccessPointFound()
 }

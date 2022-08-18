@@ -39,7 +39,7 @@ import com.isupatches.android.wisefy.core.wifimanager.createWPA3NetworkSuggestio
  * @see Android30AddNetworkApi
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 08/2022, version 5.0.0
  */
 @RequiresApi(Build.VERSION_CODES.R)
 internal class Android30AddNetworkApiImpl(
@@ -75,7 +75,7 @@ internal class Android30AddNetworkApiImpl(
         bssid: String?
     ) {
         val suggestion = createWPA3NetworkSuggestion(ssid, passphrase, bssid)
-        return launchIntent(suggestion, activityResultLauncher)
+        launchIntent(suggestion, activityResultLauncher)
     }
 
     @RequiresPermission(CHANGE_WIFI_STATE)

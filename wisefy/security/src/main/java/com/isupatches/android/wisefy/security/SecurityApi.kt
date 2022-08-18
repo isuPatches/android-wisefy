@@ -24,7 +24,7 @@ import com.isupatches.android.wisefy.security.entities.IsNetworkSecureResult
  * A set of synchronous APIs for checking a network's security capabilities.
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 07/2022, version 5.0.0
  */
 interface SecurityApi {
 
@@ -39,7 +39,7 @@ interface SecurityApi {
      * @return ContainsSecurityCapabilityResult - The result indicating if the network has the given security capability
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 07/2022, version 5.0.0
      */
     fun doesNetworkContainSecurityCapability(
         request: ContainsSecurityCapabilityRequest
@@ -56,7 +56,7 @@ interface SecurityApi {
      * @return IsNetworkSecureResult - The result indicating if the given network is secure
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 07/2022, version 5.0.0
      */
     fun isNetworkSecure(request: IsNetworkSecureRequest): IsNetworkSecureResult
 }

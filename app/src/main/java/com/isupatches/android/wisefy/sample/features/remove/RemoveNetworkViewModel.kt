@@ -22,7 +22,9 @@ import androidx.annotation.RequiresPermission
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
+import com.isupatches.android.ktx.removeNetworkAsync
 import com.isupatches.android.wisefy.WisefyApi
+import com.isupatches.android.wisefy.core.exceptions.WisefyException
 import com.isupatches.android.wisefy.removenetwork.callbacks.RemoveNetworkCallbacks
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkRequest
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkResult
@@ -40,7 +42,7 @@ internal abstract class RemoveNetworkViewModel : BaseViewModel() {
     abstract val uiState: State<RemoveNetworkUIState>
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-    abstract fun removeNetwork()
+    abstract suspend fun removeNetwork()
 
     abstract fun onInputChanged(input: String)
     abstract fun onSSIDTypeChanged(ssidType: SSIDType)
@@ -88,7 +90,7 @@ internal class DefaultRemoveNetworkViewModel(
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-    override fun removeNetwork() {
+    override suspend fun removeNetwork() {
         val currentInputState = uiState.value.inputState
         if (!isInputValid()) {
             _uiState.value = uiState.value.copy(
@@ -101,53 +103,50 @@ internal class DefaultRemoveNetworkViewModel(
             loadingState = RemoveNetworkLoadingState(isLoading = true),
             dialogState = RemoveNetworkDialogState.None
         )
-        wisefy.removeNetwork(
-            request = when (uiState.value.ssidType) {
-                SSIDType.SSID -> {
-                    if (currentInputState.networkInputValidityState is RemoveNetworkInputValidityState.SSID.Valid) {
-                        RemoveNetworkRequest.SSID(regex = currentInputState.networkInput)
-                    } else {
-                        error("")
+        val result = try {
+            wisefy.removeNetworkAsync(
+                request = when (uiState.value.ssidType) {
+                    SSIDType.SSID -> {
+                        if (currentInputState.networkInputValidityState is RemoveNetworkInputValidityState.SSID.Valid) {
+                            RemoveNetworkRequest.SSID(regex = currentInputState.networkInput)
+                        } else {
+                            error("")
+                        }
+                    }
+                    SSIDType.BSSID -> {
+                        if (currentInputState.networkInputValidityState is RemoveNetworkInputValidityState.BSSID.Valid) {
+                            RemoveNetworkRequest.BSSID(regex = currentInputState.networkInput)
+                        } else {
+                            error("")
+                        }
                     }
                 }
-                SSIDType.BSSID -> {
-                    if (currentInputState.networkInputValidityState is RemoveNetworkInputValidityState.BSSID.Valid) {
-                        RemoveNetworkRequest.BSSID(regex = currentInputState.networkInput)
-                    } else {
-                        error("")
-                    }
-                }
-            },
-            callbacks = object : RemoveNetworkCallbacks {
-                override fun onNetworkRemoved(result: RemoveNetworkResult.Success) {
-                    _uiState.value = uiState.value.copy(
-                        loadingState = RemoveNetworkLoadingState(isLoading = false),
-                        dialogState = RemoveNetworkDialogState.RemoveNetwork.Success(result)
-                    )
-                }
+            )
+        } catch (ex: WisefyException) {
+            _uiState.value = uiState.value.copy(
+                loadingState = RemoveNetworkLoadingState(isLoading = false),
+                dialogState = RemoveNetworkDialogState.Failure.WisefyAsync(exception = ex)
+            )
+            null
+        }
 
-                override fun onNetworkNotFoundToRemove() {
-                    _uiState.value = uiState.value.copy(
-                        loadingState = RemoveNetworkLoadingState(isLoading = false),
-                        dialogState = RemoveNetworkDialogState.RemoveNetwork.Failure.NotFoundToRemove
-                    )
-                }
-
-                override fun onFailureRemovingNetwork(result: RemoveNetworkResult.Failure) {
-                    _uiState.value = uiState.value.copy(
-                        loadingState = RemoveNetworkLoadingState(isLoading = false),
-                        dialogState = RemoveNetworkDialogState.RemoveNetwork.Failure.UnableToRemove(result)
-                    )
-                }
-
-                override fun onWisefyAsyncFailure(throwable: Throwable) {
-                    _uiState.value = uiState.value.copy(
-                        loadingState = RemoveNetworkLoadingState(isLoading = false),
-                        dialogState = RemoveNetworkDialogState.Failure.WisefyAsync(throwable)
-                    )
-                }
+        when (result) {
+            is RemoveNetworkResult.Success -> {
+                _uiState.value = uiState.value.copy(
+                    loadingState = RemoveNetworkLoadingState(isLoading = false),
+                    dialogState = RemoveNetworkDialogState.RemoveNetwork.Success(result)
+                )
             }
-        )
+            is RemoveNetworkResult.Failure -> {
+                _uiState.value = uiState.value.copy(
+                    loadingState = RemoveNetworkLoadingState(isLoading = false),
+                    dialogState = RemoveNetworkDialogState.RemoveNetwork.Failure.UnableToRemove(result)
+                )
+            }
+            null -> {
+                // Case handled above in the catch clause
+            }
+        }
     }
 
     override fun onInputChanged(input: String) {

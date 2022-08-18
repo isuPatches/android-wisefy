@@ -73,7 +73,7 @@ object DeprecationMessages {
          * @author Patches Klinefelter
          * @since 03/2022
          */
-        const val ENABLE: String = "Starting with Build.VERSION_CODES#Q, applications are not allowed to enable Wi-Fi."
+        const val ENABLE: String = "Starting with Build.VERSION_CODES#Q, applications are not allowed to enable Wifi."
 
         /**
          * A string value for the deprecation message for disableWifi().
@@ -81,7 +81,6 @@ object DeprecationMessages {
          * @author Patches Klinefelter
          * @since 03/2022
          */
-        const val DISABLE: String = "Starting with Build.VERSION_CODES#Q, applications are not allowed to disable " +
-            "Wi-Fi."
+        const val DISABLE: String = "Starting with Build.VERSION_CODES#Q, applications are not allowed to disable Wifi."
     }
 }

@@ -56,5 +56,7 @@ interface NetworkConnectionApi {
      * @since 03/2022
      */
     @Deprecated(DeprecationMessages.NetworkConnection.DisconnectFromCurrentNetwork)
-    fun disconnectFromCurrentNetwork(request: DisconnectFromCurrentNetworkRequest): DisconnectFromCurrentNetworkResult
+    fun disconnectFromCurrentNetwork(
+        request: DisconnectFromCurrentNetworkRequest = DisconnectFromCurrentNetworkRequest()
+    ): DisconnectFromCurrentNetworkResult
 }

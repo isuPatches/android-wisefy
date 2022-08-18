@@ -24,7 +24,7 @@ import com.isupatches.android.wisefy.core.base.BaseWisefyCallbacks
  * @see BaseWisefyCallbacks
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 08/2022, version 5.0.0
  */
 interface GetRSSICallbacks : BaseWisefyCallbacks {
 
@@ -36,15 +36,15 @@ interface GetRSSICallbacks : BaseWisefyCallbacks {
      * @see RSSIData
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 08/2022, version 5.0.0
      */
     fun onRSSIRetrieved(rssi: RSSIData)
 
     /**
-     * A callback triggered when there is no matching nearby access point to retrieve RSSI.
+     * A callback triggered when there is no matching nearby access point to retrieve RSSI data.
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 08/2022, version 5.0.0
      */
     fun onNoNetworkToRetrieveRSSI()
 }

@@ -18,9 +18,9 @@ package com.isupatches.android.wisefy.accesspoints.entities
 /**
  * A data representation of a network's RSSI level.
  *
- * @property value The current RSSI value for the network
+ * @property value The current RSSI value for the network.
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 08/2022, version 5.0.0
  */
-data class RSSIData(val value: Int?)
+data class RSSIData(val value: Int)

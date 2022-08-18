@@ -16,9 +16,9 @@
 package com.isupatches.android.wisefy.savednetworks.entities
 
 /**
- * A data representation of a request to get saved networks on the device.
+ * A data representation of a request to get all of the saved networks on the device.
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 07/2022, version 5.0.0
  */
 class GetSavedNetworksRequest

@@ -31,13 +31,13 @@ import java.util.Locale
  * A default internal implementation for getting and searching for nearby access points through the Android OS.
  *
  * @param wifiManager The WifiManager instance to use
- * @param logger The logger instance to use
+ * @param logger The [WisefyLogger] instance to use
  *
  * @see DefaultAccessPointsApi
  * @see WisefyLogger
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 08/2022, version 5.0.0
  */
 internal class DefaultAccessPointsApiImpl(
     private val wifiManager: WifiManager,

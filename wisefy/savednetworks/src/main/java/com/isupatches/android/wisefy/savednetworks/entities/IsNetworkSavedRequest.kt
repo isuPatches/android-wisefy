@@ -19,7 +19,7 @@ package com.isupatches.android.wisefy.savednetworks.entities
  * A set of classes and objects that are used to represent requests to see if a network is saved.
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 07/2022, version 5.0.0
  */
 sealed class IsNetworkSavedRequest {
 
@@ -31,7 +31,7 @@ sealed class IsNetworkSavedRequest {
      * @see IsNetworkSavedRequest
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 07/2022, version 5.0.0
      */
     data class SSID(val regex: String) : IsNetworkSavedRequest()
 
@@ -43,7 +43,7 @@ sealed class IsNetworkSavedRequest {
      * @see IsNetworkSavedRequest
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 07/2022, version 5.0.0
      */
     data class BSSID(val regex: String) : IsNetworkSavedRequest()
 }

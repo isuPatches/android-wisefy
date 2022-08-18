@@ -25,7 +25,7 @@ import com.isupatches.android.wisefy.security.os.apis.DefaultSecurityApi
  * @see DefaultSecurityApi
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 07/2022, version 5.0.0
  */
 internal class DefaultSecurityApiImpl : DefaultSecurityApi {
 

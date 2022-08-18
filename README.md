@@ -12,7 +12,8 @@ A Wifi configuration and util library built in Kotlin for Android.
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-WiseFy-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/6011) [![Android Weekly](https://img.shields.io/badge/Android%20Weekly-%23230-blue.svg)](http://androidweekly.net/issues/issue-230)
 
 - [Installation](#installation)
-- [5.0 Rewrite](#5.0-rewrite)
+- [KTX Artifact](#ktx-artifact)
+- [5.0 Rewrite](#50-rewrite)
   - [Highlights](#highlights)
   - [New Structure](#new-structure)
   - [Packaging & Naming Conventions](#packaging-and-naming-conventions)
@@ -43,12 +44,12 @@ There are also new more modular artifacts published so that individual pieces of
 - `com.isupatches.android.wisefy:accesspoints:<LATEST VERSION>`
 - `com.isupatches.android.wisefy:addnetwork:<LATEST VERSION>`
 - `com.isupatches.android.wisefy:frequency:<LATEST VERSION>`
-- `com.isupatches.android.wisefy:networkconnection:<LATEST VERSION>`
+- `com.isupatches.android.wisefy:networkconnection:<LATEST VERSION>` *Note* - Depends on :networkconnectionstatus and :savednetworks
 - `com.isupatches.android.wisefy:networkconnectionstatus:<LATEST VERSION>`
 - `com.isupatches.android.wisefy:networkinfo:<LATEST VERSION>`
-- `com.isupatches.android.wisefy:removenetwork:<LATEST VERSION>`
+- `com.isupatches.android.wisefy:removenetwork:<LATEST VERSION>` *Note* - Depends on :savednetworks
 - `com.isupatches.android.wisefy:savednetworks:<LATEST VERSION>`
-- `com.isupatches.android.wisefy:security:<LATEST VERSION>`
+- `com.isupatches.android.wisefy:security:<LATEST VERSION>` *Note* - Depends on :accesspoints
 - `com.isupatches.android.wisefy:signal:<LATEST VERSION>`
 - `com.isupatches.android.wisefy:wifi:<LATEST VERSION>`
 
@@ -67,6 +68,14 @@ Here are the descriptions of what functionality each artifact provides:
 - `:signal` For calculating signal strength bars and comparing signal strength
 - `:wifi` For enabling and disabling Wifi
 
+## KTX Artifact
+
+There is a new artifact for 5.0 that provides Kotlin extension functions.  Please use:
+
+```kotlin
+implementation("com.isupatches.android:wisefy-ktx:<LATEST VERSION>")
+```
+
 ## 5.0 Rewrite
 
 The 5.0 version of WiseFy works to rectify the problems that caused it to be overly challenging as a single developer 
@@ -77,7 +86,7 @@ I hope you enjoy the rewrite and please create an issue if you see anything odd 
 
 ### Highlights
 
-- Android P, Android Q, Android R, and Android S are now supported
+- Android Q, Android R, and Android S are now supported
 - Compiled with Java 11
 - Rewritten with extensibility and future Android OS's in-mind
     * Future versions of the Android OS will be easier to support with the new delegate/adapter system
@@ -97,8 +106,10 @@ I hope you enjoy the rewrite and please create an issue if you see anything odd 
   - [Locking dependency versions](https://docs.gradle.org/current/userguide/dependency_locking.html)
   - [Declaring Versions and Ranges](https://docs.gradle.org/current/userguide/single_versions.html)
 - Sample app re-written
-  - Down with SharedPreferences, migrated to DataStore
+  - Down with SharedPreferences, onward to DataStore
   - Written in Compose
+  - Niceties like progress bars added
+  - Better input validation
 
 ### New Structure
 
@@ -114,8 +125,8 @@ Suffixes:
 - ApiAsync (top-level of a feature package) -> Contains the definitions of asynchronous APIs available for the feature
 - Delegate -> Determines which adapter to use based on the Android device's SDK level
 - Adapter -> Middleware that converts requests and responses between the API and Delegate layers 
-- Api (within os package context) -> House the definitions of Android OS level APIs that Adapter classes may use
-- ApiImpl (within os package context) -> House the implementation for executing Android OS level APIs
+- Api (within os package context) -> Houses the definitions of Android OS level APIs that Adapter classes may use
+- ApiImpl (within os package context) -> Houses the implementation for executing Android OS level APIs
 
 Package structure for each section is as follows:
 
@@ -142,7 +153,7 @@ Package structure for each section is as follows:
 ### Known Android Q Problems
 
 - Saving a network doesn't seem possible.  A notification is presented if not connected to the suggestion, but even the 
-appearance of the notification seems flakey
+appearance of the notification seems flakey.
 
 ## Documentation
 

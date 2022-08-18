@@ -16,8 +16,15 @@
 package com.isupatches.android.wisefy.signal.entities
 
 /**
+ * A data class that is used to represent a result when comparing the RSSI level of two networks.
+ *
+ * *Notes*
+ * See https://developer.android.com/reference/android/net/wifi/WifiManager#compareSignalLevel(int,%20int)
+ *
+ * @param value The result of the comparison. This will be less than 0 if first signal is weaker, 0 if the two have
+ * the same strength, and greater than zero if the second signal is stronger
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 07/2022, version 5.0.0
  */
 data class CompareSignalLevelResult(val value: Int)

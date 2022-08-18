@@ -3,27 +3,15 @@
 
     <!-- Actions -->
     <string name="remove_network">Remove Network</string>
-    <string name="disconnect_from_current_network">Disconnect From Current Network</string>
 
     <!-- Results -->
     <string name="remove_network_result">Remove Network Result</string>
-    <string name="disconnect_result">Disconnect Result</string>
 
     <string name="network_not_found_to_remove">Network not found to remove</string>
     <string name="succeeded_removing_network_args">Succeeded removing network. Result: %s</string>
     <string name="failed_removing_network_args">Failed removing network. Result: %s</string>
 
-    <string name="succeeded_disconnecting_from_current_network">Succeeded disconnecting from current network.</string>
-    <string name="succeeded_placing_request_to_disconnect_from_current_network">
-        Succeeded placing request to disconnect from current network.
-    </string>
-    <string name="network_not_found_to_disconnect">Network not found to disconnect</string>
-    <string name="failed_disconnecting_from_current_network">Failed </string>
-
     <!-- Permissions -->
     <string name="permission_error_remove_network">Permissions for removing network are denied</string>
-    <string name="permission_error_disconnecting_from_current_network">
-        Permissions for disconnecting from the current network are denied
-    </string>
 
 </resources>

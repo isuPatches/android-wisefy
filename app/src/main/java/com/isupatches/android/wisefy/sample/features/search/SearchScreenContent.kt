@@ -30,6 +30,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.isupatches.android.wisefy.sample.R
@@ -46,6 +47,7 @@ import com.isupatches.android.wisefy.sample.ui.components.WisefySampleSlider
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleSubHeaderLabel
 import com.isupatches.android.wisefy.sample.ui.primitives.WisefySampleSizes
 import com.isupatches.android.wisefy.sample.ui.theme.WisefySampleTheme
+import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 private const val LOG_TAG = "SearchScreenContent"
@@ -55,6 +57,8 @@ private const val MAX_SEARCH_TIMEOUT = 60f
 
 @Composable
 internal fun SearchScreenContent(viewModel: SearchViewModel) {
+
+    val scope = rememberCoroutineScope()
 
     val searchForAccessPointPermissionsLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
@@ -82,7 +86,9 @@ internal fun SearchScreenContent(viewModel: SearchViewModel) {
         rememberLauncherForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result ->
             if (result.all { it.value }) {
                 @Suppress("MissingPermission")
-                viewModel.searchForSavedNetwork()
+                scope.launch {
+                    viewModel.searchForSavedNetwork()
+                }
             } else {
                 WisefySampleLogger.w(LOG_TAG, "Permissions required to search for a saved network are denied")
                 viewModel.onSearchForSavedNetworkPermissionError()
@@ -93,7 +99,9 @@ internal fun SearchScreenContent(viewModel: SearchViewModel) {
         rememberLauncherForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result ->
             if (result.all { it.value }) {
                 @Suppress("MissingPermission")
-                viewModel.searchForSavedNetworks()
+                scope.launch {
+                    viewModel.searchForSavedNetworks()
+                }
             } else {
                 WisefySampleLogger.w(LOG_TAG, "Permissions required to search for saved networks are denied")
                 viewModel.onSearchForSavedNetworksPermissionError()

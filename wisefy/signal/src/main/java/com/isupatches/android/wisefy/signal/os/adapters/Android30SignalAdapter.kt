@@ -18,7 +18,8 @@ package com.isupatches.android.wisefy.signal.os.adapters
 import android.net.wifi.WifiManager
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.isupatches.android.wisefy.core.entities.ErrorMessages
+import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
+import com.isupatches.android.wisefy.core.entities.AssertionMessages
 import com.isupatches.android.wisefy.signal.SignalApi
 import com.isupatches.android.wisefy.signal.entities.CalculateBarsRequest
 import com.isupatches.android.wisefy.signal.entities.CalculateBarsResult
@@ -30,19 +31,23 @@ import com.isupatches.android.wisefy.signal.os.impls.Android30SignalApiImpl
 /**
  * An Android 30 specific adapter for functions related to the signal strength of networks.
  *
+ * @param wifiManager The WifiManager instance to use
+ * @param assertions The [WisefyAssertions] instance to use
  * @param api The OS level API instance to use
  *
  * @see Android30SignalApi
  * @see Android30SignalApiImpl
  * @see SignalApi
+ * @see WisefyAssertions
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 07/2022, version 5.0.0
  */
 @RequiresApi(Build.VERSION_CODES.R)
 internal class Android30SignalAdapter(
     wifiManager: WifiManager,
-    private val api: Android30SignalApi = Android30SignalApiImpl(wifiManager)
+    private val assertions: WisefyAssertions,
+    private val api: Android30SignalApi = Android30SignalApiImpl(assertions, wifiManager)
 ) : SignalApi {
 
     override fun calculateBars(request: CalculateBarsRequest): CalculateBarsResult {
@@ -52,7 +57,9 @@ internal class Android30SignalAdapter(
                 CalculateBarsResult.Success(value = result)
             }
             is CalculateBarsRequest.BelowAndroid30 -> {
-                CalculateBarsResult.WrongSDKLevel(message = ErrorMessages.Signal.CALCULATE_BARS_ANDROID_30)
+                val message = AssertionMessages.Signal.CALCULATE_BARS_ANDROID_30
+                assertions.fail(message = message)
+                CalculateBarsResult.Failure.Assertion(message = message)
             }
         }
     }

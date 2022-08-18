@@ -16,33 +16,68 @@
 package com.isupatches.android.wisefy.savednetworks.entities
 
 /**
- * A set of classes and objects that are used to represent a result while getting saved networks on the device.
+ * A set of classes and objects that are used to represent a result while getting all of the saved networks on the
+ * device.
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 07/2022, version 5.0.0
  */
 sealed class GetSavedNetworksResult {
 
     /**
-     * A data representation of no networks being saved on the device.
-     *
-     * @see GetSavedNetworksResult
+     * A set of classes and objects that are used to represent a success while getting all of the saved networks on the
+     * device.
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 07/2022, version 5.0.0
      */
-    object Empty : GetSavedNetworksResult()
+    sealed class Success : GetSavedNetworksResult() {
+
+        /**
+         * A data representation of no networks being saved on the device.
+         *
+         * @see Success
+         *
+         * @author Patches Klinefelter
+         * @since 07/2022, version 5.0.0
+         */
+        object Empty : Success()
+
+        /**
+         * A data representation of a success retrieving saved networks on the device.
+         *
+         * @property data The saved networks retrieved
+         *
+         * @see SavedNetworkData
+         * @see Success
+         *
+         * @author Patches Klinefelter
+         * @since 07/2022, version 5.0.0
+         */
+        data class SavedNetworks(val data: List<SavedNetworkData>) : Success()
+    }
 
     /**
-     * A data representation of a success retrieving saved networks on the device based on Android OS level returns.
-     *
-     * @property data The raw value of the saved network retrieved on the device from the Android OS
-     *
-     * @see GetSavedNetworksResult
-     * @see SavedNetworkData
+     * A set of classes and objects that are used to represent a failure while getting saved networks on the device.
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 07/2022, version 5.0.0
      */
-    data class SavedNetworks(val data: List<SavedNetworkData>) : GetSavedNetworksResult()
+    sealed class Failure : GetSavedNetworksResult() {
+
+        /**
+         * A data representation of a failure getting saved networks due to hitting an unexpected path causing an
+         * assertion.
+         *
+         * *NOTE* This is for developer specific feedback and should NEVER actually be hit unless there is a bug.
+         *
+         * @property message A text description describing the assertion error hit
+         *
+         * @see GetSavedNetworksResult
+         *
+         * @author Patches Klinefelter
+         * @since 07/2022, version 5.0.0
+         */
+        data class Assertion(val message: String) : Failure()
+    }
 }

@@ -16,11 +16,7 @@
 package com.isupatches.android.wisefy.signal.os.impls
 
 import android.net.wifi.WifiManager
-import android.os.Build
-import androidx.annotation.RequiresApi
-import com.isupatches.android.wisefy.core.assertions.fail
 import com.isupatches.android.wisefy.core.entities.DeprecationMessages
-import com.isupatches.android.wisefy.core.entities.ErrorMessages
 import com.isupatches.android.wisefy.signal.os.apis.DefaultSignalApi
 
 /**
@@ -29,15 +25,9 @@ import com.isupatches.android.wisefy.signal.os.apis.DefaultSignalApi
  * @see DefaultSignalApi
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 07/2022, version 5.0.0
  */
 internal class DefaultSignalApiImpl : DefaultSignalApi {
-
-    @RequiresApi(Build.VERSION_CODES.R)
-    override fun calculateBars(rssiLevel: Int): Int {
-        fail(ErrorMessages.Signal.CALCULATE_BARS_LEGACY)
-        return -1
-    }
 
     @Deprecated(
         message = DeprecationMessages.Signal.CALCULATE_BARS,

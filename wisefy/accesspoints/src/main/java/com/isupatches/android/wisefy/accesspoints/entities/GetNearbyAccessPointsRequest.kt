@@ -21,6 +21,6 @@ package com.isupatches.android.wisefy.accesspoints.entities
  * @property filterDuplicates Whether nearby access points with the same SSID but lower RSSI levels should be excluded
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 08/2022, version 5.0.0
  */
 data class GetNearbyAccessPointsRequest(val filterDuplicates: Boolean = true)

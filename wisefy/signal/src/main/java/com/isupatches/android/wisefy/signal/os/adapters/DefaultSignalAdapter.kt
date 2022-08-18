@@ -15,7 +15,8 @@
  */
 package com.isupatches.android.wisefy.signal.os.adapters
 
-import com.isupatches.android.wisefy.core.entities.ErrorMessages
+import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
+import com.isupatches.android.wisefy.core.entities.AssertionMessages
 import com.isupatches.android.wisefy.signal.SignalApi
 import com.isupatches.android.wisefy.signal.entities.CalculateBarsRequest
 import com.isupatches.android.wisefy.signal.entities.CalculateBarsResult
@@ -27,16 +28,19 @@ import com.isupatches.android.wisefy.signal.os.impls.DefaultSignalApiImpl
 /**
  * A default adapter for functions related to the signal strength of networks.
  *
+ * @param assertions The [WisefyAssertions] instance to use
  * @param api The OS level API instance to use
  *
  * @see DefaultSignalApi
  * @see DefaultSignalApiImpl
  * @see SignalApi
+ * @see WisefyAssertions
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 07/2022, version 5.0.0
  */
 internal class DefaultSignalAdapter(
+    private val assertions: WisefyAssertions,
     private val api: DefaultSignalApi = DefaultSignalApiImpl()
 ) : SignalApi {
 
@@ -47,7 +51,9 @@ internal class DefaultSignalAdapter(
                 CalculateBarsResult.Success(value = result)
             }
             is CalculateBarsRequest.Android30AndAbove -> {
-                CalculateBarsResult.WrongSDKLevel(message = ErrorMessages.Signal.CALCULATE_BARS_LEGACY)
+                val message = AssertionMessages.Signal.CALCULATE_BARS_LEGACY
+                assertions.fail(message = message)
+                CalculateBarsResult.Failure.Assertion(message = message)
             }
         }
     }

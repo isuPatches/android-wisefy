@@ -19,7 +19,7 @@ package com.isupatches.android.wisefy.addnetwork.entities
  * A set of classes and objects that are used to represent a result while attempting to add a network.
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 08/2022, version 5.0.0
  */
 sealed class AddNetworkResult {
 
@@ -29,7 +29,7 @@ sealed class AddNetworkResult {
      * @see AddNetworkResult
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 08/2022, version 5.0.0
      */
     sealed class Success : AddNetworkResult() {
 
@@ -44,26 +44,24 @@ sealed class AddNetworkResult {
          *
          * @property value The raw value of the result code from the Android OS
          *
-         * @see AddNetworkResult.Success
+         * @see Success
          *
          * @author Patches Klinefelter
-         * @since 03/2022
+         * @since 08/2022, version 5.0.0
          */
-        data class ResultCode(
-            val value: Int
-        ) : AddNetworkResult.Success()
+        data class ResultCode(val value: Int) : Success()
 
         /**
          * A data representation of a success while launching a network suggestion intent in Android 30.
          *
          * *NOTE* Only applicable to Android 30 and higher
          *
-         * @see AddNetworkResult.Success
+         * @see Success
          *
          * @author Patches Klinefelter
-         * @since 03/2022
+         * @since 08/2022, version 5.0.0
          */
-        object IntentLaunched : AddNetworkResult.Success()
+        object IntentLaunched : Success()
     }
 
     /**
@@ -72,7 +70,7 @@ sealed class AddNetworkResult {
      * @see AddNetworkResult
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 08/2022, version 5.0.0
      */
     sealed class Failure : AddNetworkResult() {
 
@@ -87,30 +85,25 @@ sealed class AddNetworkResult {
          *
          * @property value The raw value of the result code from the Android OS
          *
-         * @see AddNetworkResult.Failure
+         * @see Failure
          *
          * @author Patches Klinefelter
-         * @since 03/2022
+         * @since 08/2022, version 5.0.0
          */
-        data class ResultCode(
-            val value: Int
-        ) : AddNetworkResult.Failure()
+        data class ResultCode(val value: Int) : Failure()
 
         /**
-         * A data representation of a failure to add a network due to a function being called for the wrong SDK level.
+         * A data representation of a failure to add a network due to hitting an unexpected path causing an assertion.
          *
-         * *NOTE* This is a developer specific use case to catch instances within Wisefy that proxy to the wrong
-         *  SDK level.  This should NEVER actually be hit and if it is, it is a bug.
+         * *NOTE* This is for developer specific feedback and should NEVER actually be hit unless there is a bug.
          *
-         * @property message A text description describing the SDK level and error hit
+         * @property message A text description describing the assertion error hit
          *
-         * @see AddNetworkResult.Failure
+         * @see Failure
          *
          * @author Patches Klinefelter
-         * @since 03/2022
+         * @since 08/2022, version 5.0.0
          */
-        data class WrongSDKLevel(
-            val message: String
-        ) : AddNetworkResult.Failure()
+        data class Assertion(val message: String) : Failure()
     }
 }

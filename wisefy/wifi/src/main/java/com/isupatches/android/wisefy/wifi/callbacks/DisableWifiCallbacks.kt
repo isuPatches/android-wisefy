@@ -23,7 +23,7 @@ import com.isupatches.android.wisefy.core.base.BaseWisefyCallbacks
  * @see BaseWisefyCallbacks
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 07/2022, version 5.0.0
  */
 interface DisableWifiCallbacks : BaseWisefyCallbacks {
 
@@ -31,7 +31,7 @@ interface DisableWifiCallbacks : BaseWisefyCallbacks {
      * A callback triggered when Wifi is successfully disabled.
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 07/2022, version 5.0.0
      */
     fun onWifiDisabled()
 
@@ -39,7 +39,7 @@ interface DisableWifiCallbacks : BaseWisefyCallbacks {
      * A callback triggered when there is a failure disabling Wifi.
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 07/2022, version 5.0.0
      */
     fun onFailureDisablingWifi()
 }

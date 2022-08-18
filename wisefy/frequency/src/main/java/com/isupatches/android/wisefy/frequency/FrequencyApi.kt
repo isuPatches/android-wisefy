@@ -76,6 +76,6 @@ interface FrequencyApi {
      * @author Patches Klinefelter
      * @since 03/2022
      */
-    @RequiresPermission(ACCESS_FINE_LOCATION)
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_NETWORK_STATE])
     fun isNetwork5gHz(request: IsNetwork5gHzRequest = IsNetwork5gHzRequest.CurrentNetwork): IsNetwork5gHzResult
 }

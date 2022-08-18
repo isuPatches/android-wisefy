@@ -19,7 +19,7 @@ package com.isupatches.android.wisefy.accesspoints.entities
  * A set of classes and objects that are used to represent requests to search for multiple SSIDs.
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 08/2022, version 5.0.0
  */
 sealed class SearchForMultipleSSIDsRequest {
 
@@ -31,7 +31,7 @@ sealed class SearchForMultipleSSIDsRequest {
      * @see SearchForMultipleSSIDsRequest
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 08/2022, version 5.0.0
      */
     data class SSID(val regex: String) : SearchForMultipleSSIDsRequest()
 
@@ -43,7 +43,7 @@ sealed class SearchForMultipleSSIDsRequest {
      * @see SearchForMultipleSSIDsRequest
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 08/2022, version 5.0.0
      */
     data class BSSID(val regex: String) : SearchForMultipleSSIDsRequest()
 }

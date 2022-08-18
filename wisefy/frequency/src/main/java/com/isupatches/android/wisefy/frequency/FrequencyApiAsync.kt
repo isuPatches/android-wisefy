@@ -19,7 +19,9 @@ import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.ACCESS_NETWORK_STATE
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.frequency.callbacks.GetFrequencyCallbacks
+import com.isupatches.android.wisefy.frequency.callbacks.IsNetwork5gHzCallbacks
 import com.isupatches.android.wisefy.frequency.entities.GetFrequencyRequest
+import com.isupatches.android.wisefy.frequency.entities.IsNetwork5gHzRequest
 
 /**
  * A set of asynchronous APIs for getting the frequency of a network.
@@ -45,5 +47,11 @@ interface FrequencyApiAsync {
     fun getFrequency(
         request: GetFrequencyRequest = GetFrequencyRequest.CurrentNetwork,
         callbacks: GetFrequencyCallbacks?
+    )
+
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_NETWORK_STATE])
+    fun isNetwork5gHz(
+        request: IsNetwork5gHzRequest = IsNetwork5gHzRequest.CurrentNetwork,
+        callbacks: IsNetwork5gHzCallbacks?
     )
 }

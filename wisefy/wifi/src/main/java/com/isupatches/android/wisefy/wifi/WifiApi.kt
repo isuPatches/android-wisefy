@@ -27,7 +27,7 @@ import com.isupatches.android.wisefy.wifi.entities.IsWifiEnabledResult
  * A set of synchronous APIs for enabling, disabling, and checking the state of Wifi.
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 07/2022, version 5.0.0
  */
 interface WifiApi {
 
@@ -42,7 +42,7 @@ interface WifiApi {
      * @return DisableWifiResult - The result of disabling Wifi
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 07/2022, version 5.0.0
      */
     @Deprecated(DeprecationMessages.Wifi.DISABLE)
     fun disableWifi(request: DisableWifiRequest = DisableWifiRequest()): DisableWifiResult
@@ -58,7 +58,7 @@ interface WifiApi {
      * @return EnableWifiResult - The result of enabling Wifi
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 07/2022, version 5.0.0
      */
     @Deprecated(DeprecationMessages.Wifi.ENABLE)
     fun enableWifi(request: EnableWifiRequest = EnableWifiRequest()): EnableWifiResult
@@ -74,7 +74,7 @@ interface WifiApi {
      * @return IsWifiEnabledResult - The result of checking if Wifi is enabled
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 07/2022, version 5.0.0
      */
     fun isWifiEnabled(request: IsWifiEnabledRequest = IsWifiEnabledRequest()): IsWifiEnabledResult
 }

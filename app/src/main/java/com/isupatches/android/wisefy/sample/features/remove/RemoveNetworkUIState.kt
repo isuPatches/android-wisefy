@@ -15,6 +15,7 @@
  */
 package com.isupatches.android.wisefy.sample.features.remove
 
+import com.isupatches.android.wisefy.core.exceptions.WisefyException
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkResult
 import com.isupatches.android.wisefy.sample.entities.SSIDType
 
@@ -32,7 +33,7 @@ internal sealed class RemoveNetworkDialogState {
     object None : RemoveNetworkDialogState()
 
     sealed class Failure : RemoveNetworkDialogState() {
-        data class WisefyAsync(val throwable: Throwable) : Failure()
+        data class WisefyAsync(val exception: WisefyException) : Failure()
         object InputError : Failure()
     }
 

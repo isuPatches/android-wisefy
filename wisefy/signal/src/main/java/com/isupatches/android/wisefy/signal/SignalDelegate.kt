@@ -18,9 +18,12 @@ package com.isupatches.android.wisefy.signal
 /**
  * A delegate for synchronous signal strength APIs.
  *
+ * *Notes*
+ *  - No async APIs because [SignalApi] operates directly on input from the client (f.e. raw RSSI values)
+ *
  * @see SignalApi
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 07/2022, version 5.0.0
  */
 interface SignalDelegate : SignalApi

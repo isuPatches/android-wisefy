@@ -20,7 +20,7 @@ package com.isupatches.android.wisefy.signal.entities
  * based on an RSSI level.
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 07/2022, version 5.0.0
  */
 sealed class CalculateBarsResult {
 
@@ -32,19 +32,34 @@ sealed class CalculateBarsResult {
      * @see CalculateBarsResult
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 07/2022, version 5.0.0
      */
     data class Success(val value: Int) : CalculateBarsResult()
 
     /**
-     * A data representation of calling the wrong version of calculate bars on a given SDK level.
-     *
-     * @property message A message about what SDK level the function was unexpectedly called on
+     * A set of classes and objects that are used a representation of a failure while calculating the number of bars to
+     * represent the RSSI level of a network.
      *
      * @see CalculateBarsResult
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 07/2022, version 5.0.0
      */
-    data class WrongSDKLevel(val message: String) : CalculateBarsResult()
+    sealed class Failure : CalculateBarsResult() {
+
+        /**
+         * A data representation of a failure while calculating the number of bars to represent the RSSI level of
+         * a network due to hitting an unexpected path causing an assertion.
+         *
+         * *NOTE* This is for developer specific feedback and should NEVER actually be hit unless there is a bug.
+         *
+         * @property message A text description describing the assertion error hit
+         *
+         * @see Failure
+         *
+         * @author Patches Klinefelter
+         * @since 07/2022, version 5.0.0
+         */
+        data class Assertion(val message: String) : Failure()
+    }
 }

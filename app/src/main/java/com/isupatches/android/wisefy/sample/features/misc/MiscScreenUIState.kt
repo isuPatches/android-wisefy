@@ -16,6 +16,8 @@
 package com.isupatches.android.wisefy.sample.features.misc
 
 import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
+import com.isupatches.android.wisefy.accesspoints.entities.RSSIData
+import com.isupatches.android.wisefy.core.exceptions.WisefyException
 import com.isupatches.android.wisefy.frequency.entities.FrequencyData
 import com.isupatches.android.wisefy.networkinfo.entities.IPData
 import com.isupatches.android.wisefy.networkinfo.entities.NetworkData
@@ -36,11 +38,7 @@ internal sealed class MiscScreenDialogState {
     object None : MiscScreenDialogState()
 
     sealed class Failure : MiscScreenDialogState() {
-        data class WisefyAsync(val throwable: Throwable) : Failure()
-    }
-
-    sealed class PermissionsError : MiscScreenDialogState() {
-        object GetSavedNetworks : PermissionsError()
+        data class WisefyAsync(val exception: WisefyException) : Failure()
     }
 
     sealed class DisableWifi : MiscScreenDialogState() {
@@ -61,8 +59,6 @@ internal sealed class MiscScreenDialogState {
         }
 
         object DisplayAndroidQMessage : DisconnectFromCurrentNetwork()
-
-        object PermissionsError : DisconnectFromCurrentNetwork()
     }
 
     sealed class EnableWifi : MiscScreenDialogState() {
@@ -79,6 +75,7 @@ internal sealed class MiscScreenDialogState {
     sealed class GetCurrentNetworkInfo : MiscScreenDialogState() {
         data class Success(val networkInfo: NetworkInfoData) : GetCurrentNetworkInfo()
         object Failure : GetCurrentNetworkInfo()
+        object PermissionsError : GetCurrentNetworkInfo()
     }
 
     sealed class GetFrequency : MiscScreenDialogState() {
@@ -99,8 +96,26 @@ internal sealed class MiscScreenDialogState {
         object PermissionsError : GetNearbyAccessPoints()
     }
 
+    sealed class GetRSSI : MiscScreenDialogState() {
+        data class Success(val rssi: RSSIData) : GetRSSI()
+        object Failure : GetRSSI()
+        object PermissionsError : GetRSSI()
+    }
+
     sealed class GetSavedNetworks : MiscScreenDialogState() {
         data class Success(val savedNetworks: List<SavedNetworkData>) : GetSavedNetworks()
         object Failure : GetSavedNetworks()
+        object PermissionsError : GetSavedNetworks()
+    }
+
+    sealed class IsNetwork5gHz : MiscScreenDialogState() {
+        object True : IsNetwork5gHz()
+        object False : IsNetwork5gHz()
+        object PermissionsError : IsNetwork5gHz()
+    }
+
+    sealed class IsWifiEnabled : MiscScreenDialogState() {
+        object True : IsWifiEnabled()
+        object False : IsWifiEnabled()
     }
 }

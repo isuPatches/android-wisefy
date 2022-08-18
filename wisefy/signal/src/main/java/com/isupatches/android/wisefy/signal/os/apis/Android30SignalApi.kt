@@ -17,13 +17,12 @@ package com.isupatches.android.wisefy.signal.os.apis
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.isupatches.android.wisefy.core.entities.DeprecationMessages
 
 /**
  * An Android 30 specific API for functions related to the signal strength of networks.
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 07/2022, version 5.0.0
  */
 @RequiresApi(Build.VERSION_CODES.R)
 internal interface Android30SignalApi {
@@ -36,23 +35,9 @@ internal interface Android30SignalApi {
      * @return Int - The number of signal strength bars for the network given RSSI level.
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 07/2022, version 5.0.0
      */
     fun calculateBars(rssiLevel: Int): Int
-
-    /**
-     * An Android 30 specific API to calculate the bars of signal strength given the network's RSSI.
-     *
-     * @param rssiLevel The RSSI level of the network
-     * @param targetNumberOfBars The desired number of signal strength bars
-     *
-     * @return Int - The number of signal strength bars for the network given RSSI level and a desired number of bars.
-     *
-     * @author Patches Klinefelter
-     * @since 03/2022
-     */
-    @Deprecated(DeprecationMessages.Signal.CALCULATE_BARS)
-    fun calculateBars(rssiLevel: Int, targetNumberOfBars: Int): Int
 
     /**
      * An Android 30 specific API to compare the RSSI levels of two networks.
@@ -63,11 +48,11 @@ internal interface Android30SignalApi {
      * *Notes*
      * See https://developer.android.com/reference/android/net/wifi/WifiManager#compareSignalLevel(int,%20int)
      *
-     * @return Int - The result of the comparison - less than 0 if first signal is weaker, 0 if the same, and greater
-     * zero if the second signal is stronger
+     * @return Int - The result of the comparison.  This will be less than 0 if first signal is weaker, 0 if the two
+     * have the same strength, and greater than zero if the second signal is stronger
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 07/2022, version 5.0.0
      */
     fun compareSignalLevel(rssi1: Int, rssi2: Int): Int
 }

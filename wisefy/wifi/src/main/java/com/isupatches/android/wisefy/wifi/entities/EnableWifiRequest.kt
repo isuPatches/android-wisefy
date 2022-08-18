@@ -16,9 +16,9 @@
 package com.isupatches.android.wisefy.wifi.entities
 
 /**
- * A class that is used to represent requests to enable Wifi.
+ * A class that is used to represent a request to enable Wifi.
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 07/2022, version 5.0.0
  */
 class EnableWifiRequest

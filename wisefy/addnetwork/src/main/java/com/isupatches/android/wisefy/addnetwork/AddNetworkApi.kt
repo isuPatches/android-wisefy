@@ -17,68 +17,31 @@ package com.isupatches.android.wisefy.addnetwork
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.CHANGE_WIFI_STATE
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
+import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkRequest
 import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
-import com.isupatches.android.wisefy.addnetwork.entities.AddOpenNetworkRequest
-import com.isupatches.android.wisefy.addnetwork.entities.AddWPA2NetworkRequest
-import com.isupatches.android.wisefy.addnetwork.entities.AddWPA3NetworkRequest
 
 /**
  * A set of synchronous APIs for adding a network.
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 08/2022, version 5.0.0
  */
 interface AddNetworkApi {
 
     /**
-     * A synchronous API to add an open network.
+     * A synchronous API for adding a network.
      *
-     * @param request The details of the request to add an open network
+     * @param request The details of the request to add a network
      *
-     * @see AddOpenNetworkRequest
+     * @see AddNetworkRequest
      * @see AddNetworkResult
      *
-     * @return AddNetworkResult - The result when adding the open network
+     * @return AddNetworkResult - The result when adding a network
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 08/2022, version 5.0.0
      */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-    fun addOpenNetwork(request: AddOpenNetworkRequest): AddNetworkResult
-
-    /**
-     * A synchronous API to add a WPA2 network.
-     *
-     * @param request The details of the request to add a WPA2 network
-     *
-     * @see AddWPA2NetworkRequest
-     * @see AddNetworkResult
-     *
-     * @return AddNetworkResult - The result when adding the WPA2 network
-     *
-     * @author Patches Klinefelter
-     * @since 03/2022
-     */
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-    fun addWPA2Network(request: AddWPA2NetworkRequest): AddNetworkResult
-
-    /**
-     * A synchronous API to add a WPA3 network.
-     *
-     * @param request The details of the request to add a WPA3 network
-     *
-     * @see AddWPA3NetworkRequest
-     * @see AddNetworkResult
-     *
-     * @return AddNetworkResult - The result when adding the WPA3 network
-     *
-     * @author Patches Klinefelter
-     * @since 03/2022
-     */
-    @RequiresApi(Build.VERSION_CODES.Q)
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-    fun addWPA3Network(request: AddWPA3NetworkRequest): AddNetworkResult
+    fun addNetwork(request: AddNetworkRequest): AddNetworkResult
 }

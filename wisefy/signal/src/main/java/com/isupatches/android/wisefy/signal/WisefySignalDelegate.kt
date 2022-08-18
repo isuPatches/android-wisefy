@@ -16,6 +16,7 @@
 package com.isupatches.android.wisefy.signal
 
 import android.net.wifi.WifiManager
+import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.core.util.SdkUtil
 import com.isupatches.android.wisefy.signal.entities.CalculateBarsRequest
@@ -28,18 +29,21 @@ import com.isupatches.android.wisefy.signal.os.adapters.DefaultSignalAdapter
 /**
  * An internal Wisefy delegate for signal strength functionality.
  *
- * @param logger The logger instance to use
- * @param sdkUtil The SdkUtil instance to use
+ * @param assertions The [WisefyAssertions] instance to use
+ * @param logger The [WisefyLogger] instance to use
+ * @param sdkUtil The [SdkUtil] instance to use
  * @param wifiManager The WifiManager instance to use
  *
  * @see SignalDelegate
  * @see SdkUtil
+ * @see WisefyAssertions
  * @see WisefyLogger
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 07/2022, version 5.0.0
  */
 class WisefySignalDelegate(
+    assertions: WisefyAssertions,
     logger: WisefyLogger,
     sdkUtil: SdkUtil,
     wifiManager: WifiManager
@@ -50,8 +54,8 @@ class WisefySignalDelegate(
     }
 
     private val adapter = when {
-        sdkUtil.isAtLeastR() -> Android30SignalAdapter(wifiManager)
-        else -> DefaultSignalAdapter()
+        sdkUtil.isAtLeastR() -> Android30SignalAdapter(wifiManager, assertions)
+        else -> DefaultSignalAdapter(assertions)
     }
 
     init {

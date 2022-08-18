@@ -21,7 +21,7 @@ package com.isupatches.android.wisefy.accesspoints.entities
  * @property filterDuplicates Whether nearby access points with the same SSID but lower RSSI levels should be excluded
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 08/2022, version 5.0.0
  */
 sealed class SearchForMultipleAccessPointsRequest(open val filterDuplicates: Boolean) {
 
@@ -35,7 +35,7 @@ sealed class SearchForMultipleAccessPointsRequest(open val filterDuplicates: Boo
      * @see SearchForMultipleAccessPointsRequest
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 08/2022, version 5.0.0
      */
     data class SSID(
         val regex: String,
@@ -52,7 +52,7 @@ sealed class SearchForMultipleAccessPointsRequest(open val filterDuplicates: Boo
      * @see SearchForMultipleAccessPointsRequest
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 08/2022, version 5.0.0
      */
     data class BSSID(
         val regex: String,

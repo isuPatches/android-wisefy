@@ -17,13 +17,10 @@ package com.isupatches.android.wisefy.accesspoints
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import androidx.annotation.RequiresPermission
-import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
 import com.isupatches.android.wisefy.accesspoints.entities.GetNearbyAccessPointsRequest
 import com.isupatches.android.wisefy.accesspoints.entities.GetNearbyAccessPointsResult
 import com.isupatches.android.wisefy.accesspoints.entities.GetRSSIRequest
 import com.isupatches.android.wisefy.accesspoints.entities.GetRSSIResult
-import com.isupatches.android.wisefy.accesspoints.entities.RSSIData
-import com.isupatches.android.wisefy.accesspoints.entities.SSIDData
 import com.isupatches.android.wisefy.accesspoints.entities.SearchForAccessPointResult
 import com.isupatches.android.wisefy.accesspoints.entities.SearchForAccessPointsResult
 import com.isupatches.android.wisefy.accesspoints.entities.SearchForMultipleAccessPointsRequest
@@ -37,7 +34,7 @@ import com.isupatches.android.wisefy.accesspoints.entities.SearchForSingleSSIDRe
  * A set of synchronous APIs for getting and searching for nearby access points.
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 08/2022, version 5.0.0
  */
 interface AccessPointsApi {
 
@@ -47,12 +44,12 @@ interface AccessPointsApi {
      * @param request The details of the request to get nearby access points
      *
      * @see GetNearbyAccessPointsRequest
-     * @see AccessPointData
+     * @see GetNearbyAccessPointsResult
      *
-     * @return List<AccessPointData> - List of access points or empty list
+     * @return GetNearbyAccessPointsResult - The result of getting nearby access points
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 08/2022, version 5.0.0
      */
     @RequiresPermission(ACCESS_FINE_LOCATION)
     fun getNearbyAccessPoints(request: GetNearbyAccessPointsRequest): GetNearbyAccessPointsResult
@@ -63,12 +60,12 @@ interface AccessPointsApi {
      * @param request The details of the request to get a networks RSSI level
      *
      * @see GetRSSIRequest
-     * @see RSSIData
+     * @see GetRSSIResult
      *
-     * @return RSSIData - RSSI data if network found, otherwise null
+     * @return GetRSSIResult - The result of retrieving the RSSI for a network
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 08/2022, version 5.0.0
      */
     @RequiresPermission(ACCESS_FINE_LOCATION)
     fun getRSSI(request: GetRSSIRequest): GetRSSIResult
@@ -79,12 +76,12 @@ interface AccessPointsApi {
      * @param request The details of the request to search for a nearby access point.
      *
      * @see SearchForSingleAccessPointRequest
-     * @see AccessPointData
+     * @see SearchForAccessPointResult
      *
-     * @return AccessPointData - Access point data if network found, otherwise null
+     * @return SearchForAccessPointResult - The result of searching for a nearby access point
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 08/2022, version 5.0.0
      */
     @RequiresPermission(ACCESS_FINE_LOCATION)
     fun searchForAccessPoint(request: SearchForSingleAccessPointRequest): SearchForAccessPointResult
@@ -95,12 +92,12 @@ interface AccessPointsApi {
      * @param request The details of the request to search for a list of nearby access points.
      *
      * @see SearchForMultipleAccessPointsRequest
-     * @see AccessPointData
+     * @see SearchForAccessPointsResult
      *
-     * @return List<AccessPointData> - List of access points or empty list
+     * @return SearchForAccessPointsResult - The result of searching for nearby access points
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 08/2022, version 5.0.0
      */
     @RequiresPermission(ACCESS_FINE_LOCATION)
     fun searchForAccessPoints(request: SearchForMultipleAccessPointsRequest): SearchForAccessPointsResult
@@ -111,12 +108,12 @@ interface AccessPointsApi {
      * @param request The details of the request to search for a list of a nearby SSID.
      *
      * @see SearchForSingleSSIDRequest
-     * @see SSIDData
+     * @see SearchForSSIDResult
      *
-     * @return SSIDData - SSID data if network found, otherwise null
+     * @return SearchForSSIDResult - The result of searching for a nearby SSID
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 08/2022, version 5.0.0
      */
     @RequiresPermission(ACCESS_FINE_LOCATION)
     fun searchForSSID(request: SearchForSingleSSIDRequest): SearchForSSIDResult
@@ -127,12 +124,12 @@ interface AccessPointsApi {
      * @param request The details of the request to search for a list of nearby SSIDs.
      *
      * @see SearchForMultipleSSIDsRequest
-     * @see SSIDData
+     * @see SearchForSSIDsResult
      *
-     * @return List<SSIDData> - List of SSID data or empty list
+     * @return SearchForSSIDsResult - The result of searching for nearby SSIDs
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 08/2022, version 5.0.0
      */
     @RequiresPermission(ACCESS_FINE_LOCATION)
     fun searchForSSIDs(request: SearchForMultipleSSIDsRequest): SearchForSSIDsResult

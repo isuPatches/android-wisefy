@@ -4,7 +4,7 @@ about: Suggest an idea for this project
 
 ---
 
-Thank you for creating an issue to improve this library! Please check Please check [the current issues](https://github.com/isuPatches/WiseFy/issues) to make sure that the improvement isn't already being worked on.
+Thank you for creating an issue to improve this library! Please check Please check [the current issues](https://github.com/isuPatches/android-wisefy/issues) to make sure that the improvement isn't already being worked on.
 
 **Description**
 A clear and concise high-level description of the request. (f.e. As a developer I want ___ so that  ___)

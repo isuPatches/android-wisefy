@@ -22,7 +22,7 @@ import android.net.wifi.WifiManager
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
-import com.isupatches.android.wisefy.core.assertions.fail
+import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
 import com.isupatches.android.wisefy.removenetwork.RemoveNetworkApi
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkRequest
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkResult
@@ -50,6 +50,7 @@ import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetwor
 internal class Android29RemoveNetworkAdapter(
     private val wifiManager: WifiManager,
     private val savedNetworkDelegate: SavedNetworkDelegate,
+    private val assertions: WisefyAssertions,
     private val api: Android29RemoveNetworkApi = Android29RemoveNetworkApiImpl(wifiManager)
 ) : RemoveNetworkApi {
 
@@ -60,9 +61,9 @@ internal class Android29RemoveNetworkAdapter(
                 request = request.toSearchForNetworkRequest()
             )
         ) {
-            is SearchForSavedNetworkResult.Empty -> RemoveNetworkResult.Failure.NetworkNotFound
-            is SearchForSavedNetworkResult.SavedNetwork -> {
-                when (val savedNetwork = savedNetworkSearchResult.data) {
+            is SearchForSavedNetworkResult.Success.Empty -> RemoveNetworkResult.Failure.NetworkNotFound
+            is SearchForSavedNetworkResult.Success.SavedNetworks -> {
+                when (val savedNetwork = savedNetworkSearchResult.data.first()) {
                     is SavedNetworkData.Suggestion -> {
                         val result = api.removeNetwork(savedNetwork.value)
                         if (result == WifiManager.STATUS_NETWORK_SUGGESTIONS_SUCCESS) {
@@ -72,10 +73,14 @@ internal class Android29RemoveNetworkAdapter(
                         }
                     }
                     is SavedNetworkData.Configuration -> {
-                        fail("Starting at Android Q, suggestions should be used. Configuration was used instead.")
+                        assertions.fail("Starting at Android Q, suggestions should be used. Configuration was used instead.")
                         RemoveNetworkResult.Failure.WrongSDKLevel
                     }
                 }
+            }
+            is SearchForSavedNetworkResult.Failure.Assertion -> {
+                // todo@patches Figure out what to do here
+                RemoveNetworkResult.Failure.NetworkNotFound
             }
         }
     }

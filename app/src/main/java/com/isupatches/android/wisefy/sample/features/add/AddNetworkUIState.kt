@@ -16,6 +16,7 @@
 package com.isupatches.android.wisefy.sample.features.add
 
 import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
+import com.isupatches.android.wisefy.core.exceptions.WisefyException
 import com.isupatches.android.wisefy.networkconnection.entities.ConnectToNetworkResult
 import com.isupatches.android.wisefy.sample.entities.NetworkType
 
@@ -33,7 +34,7 @@ internal sealed class AddNetworkDialogState {
     object None : AddNetworkDialogState()
 
     sealed class Failure : AddNetworkDialogState() {
-        data class WisefyAsync(val throwable: Throwable) : Failure()
+        data class WisefyAsync(val exception: WisefyException) : Failure()
     }
 
     sealed class AddNetwork : AddNetworkDialogState() {

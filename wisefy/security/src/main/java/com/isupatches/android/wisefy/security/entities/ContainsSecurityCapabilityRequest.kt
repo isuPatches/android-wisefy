@@ -18,7 +18,7 @@ package com.isupatches.android.wisefy.security.entities
 import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
 
 /**
- * A data class that is used to represent requests to check if a network contains a given security capability.
+ * A data class that is used to represent a request to check if a network contains a given security capability.
  *
  * @property network The network to check the capabilities of
  * @property securityCapability The security capability to check for
@@ -27,7 +27,7 @@ import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
  * @see SecurityCapability
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 07/2022, version 5.0.0
  */
 data class ContainsSecurityCapabilityRequest(
     val network: AccessPointData,

@@ -47,9 +47,9 @@ import kotlinx.coroutines.withContext
 /**
  * An internal Wisefy delegate for getting and searching for nearby access points.
  *
- * @param coroutineDispatcherProvider The instance of the coroutine dispatcher provider to use
+ * @param coroutineDispatcherProvider The [CoroutineDispatcherProvider] instance to use
  * @param scope The coroutine scope to use
- * @param logger The logger instance to use
+ * @param logger The [WisefyLogger] instance to use
  * @param wifiManager The WifiManager instance to use
  *
  * @see AccessPointsDelegate
@@ -57,7 +57,7 @@ import kotlinx.coroutines.withContext
  * @see WisefyLogger
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 08/2022, version 5.0.0
  */
 class WisefyAccessPointsDelegate(
     private val coroutineDispatcherProvider: CoroutineDispatcherProvider,

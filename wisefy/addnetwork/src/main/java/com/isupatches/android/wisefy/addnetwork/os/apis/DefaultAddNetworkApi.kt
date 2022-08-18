@@ -19,7 +19,7 @@ package com.isupatches.android.wisefy.addnetwork.os.apis
  * A default internal API for adding networks through the Android OS.
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 08/2022, version 5.0.0
  */
 internal interface DefaultAddNetworkApi {
 
@@ -27,11 +27,12 @@ internal interface DefaultAddNetworkApi {
      * A default API to add an open network.
      *
      * @param ssid The SSID of the open network to add
+     * @param bssid The optional BSSID for the open network being added
      *
      * @return Int - The result code of adding the open network
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 08/2022, version 5.0.0
      */
     fun addOpenNetwork(ssid: String, bssid: String?): Int
 
@@ -40,11 +41,12 @@ internal interface DefaultAddNetworkApi {
      *
      * @param ssid The SSID of the WPA2 network to add
      * @param passphrase The passphrase to authenticate with the WPA2 network
+     * @param bssid The optional BSSID for the WPA2 network being added
      *
      * @return Int - The result code of adding the WPA2 network
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 08/2022, version 5.0.0
      */
     fun addWPA2Network(ssid: String, passphrase: String, bssid: String?): Int
 }

@@ -13,20 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.android.wisefy.core.assertions
+package com.isupatches.android.wisefy.core.exceptions
 
-import com.isupatches.android.wisefy.core.BuildConfig
-
-/**
- * An assertion function that will only throw in debug builds.
- *
- * @param message The message for the exception to throw
- *
- * @author Patches Klinefelter
- * @since 03/2022
- */
-fun fail(message: String) {
-    if (BuildConfig.DEBUG) {
-        error(message)
-    }
-}
+class WisefyException(message: String?, throwable: Throwable?) : Throwable(message, throwable)

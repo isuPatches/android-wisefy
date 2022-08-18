@@ -25,13 +25,13 @@ import com.isupatches.android.wisefy.security.os.adapters.DefaultSecurityAdapter
 /**
  * An internal Wisefy delegate for checking a network's security capabilities.
  *
- * @param logger The logger instance to use
+ * @param logger The [WisefyLogger] instance to use
  *
  * @see SecurityDelegate
  * @see WisefyLogger
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 07/2022, version 5.0.0
  */
 class WisefySecurityDelegate(
     logger: WisefyLogger

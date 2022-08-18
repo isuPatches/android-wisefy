@@ -19,6 +19,7 @@ import android.content.Context
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
+import com.isupatches.android.ktx.searchForSavedNetworkAsync
 import com.isupatches.android.wisefy.WisefyApi
 import com.isupatches.android.wisefy.accesspoints.callbacks.SearchForAccessPointCallbacks
 import com.isupatches.android.wisefy.accesspoints.callbacks.SearchForAccessPointsCallbacks
@@ -30,6 +31,7 @@ import com.isupatches.android.wisefy.accesspoints.entities.SearchForMultipleAcce
 import com.isupatches.android.wisefy.accesspoints.entities.SearchForMultipleSSIDsRequest
 import com.isupatches.android.wisefy.accesspoints.entities.SearchForSingleAccessPointRequest
 import com.isupatches.android.wisefy.accesspoints.entities.SearchForSingleSSIDRequest
+import com.isupatches.android.wisefy.core.exceptions.WisefyException
 import com.isupatches.android.wisefy.sample.entities.SSIDType
 import com.isupatches.android.wisefy.sample.entities.SearchType
 import com.isupatches.android.wisefy.sample.scaffolding.BaseViewModel
@@ -38,11 +40,8 @@ import com.isupatches.android.wisefy.sample.util.BSSIDInputError
 import com.isupatches.android.wisefy.sample.util.SSIDInputError
 import com.isupatches.android.wisefy.sample.util.validateBSSID
 import com.isupatches.android.wisefy.sample.util.validateSSID
-import com.isupatches.android.wisefy.savednetworks.callbacks.SearchForSavedNetworkCallbacks
-import com.isupatches.android.wisefy.savednetworks.callbacks.SearchForSavedNetworksCallbacks
-import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
 import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkRequest
-import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworksRequest
+import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkResult
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -58,8 +57,8 @@ internal abstract class SearchViewModel : BaseViewModel() {
 
     abstract fun searchForAccessPoint()
     abstract fun searchForAccessPoints()
-    abstract fun searchForSavedNetwork()
-    abstract fun searchForSavedNetworks()
+    abstract suspend fun searchForSavedNetwork()
+    abstract suspend fun searchForSavedNetworks()
     abstract fun searchForSSID()
     abstract fun searchForSSIDs()
 
@@ -188,10 +187,10 @@ internal class DefaultSearchViewModel(
                     )
                 }
 
-                override fun onWisefyAsyncFailure(throwable: Throwable) {
+                override fun onWisefyAsyncFailure(exception: WisefyException) {
                     _uiState.value = uiState.value.copy(
                         loadingState = SearchLoadingState(isLoading = false),
-                        dialogState = SearchDialogState.Failure.WisefyAsync(throwable)
+                        dialogState = SearchDialogState.Failure.WisefyAsync(throwable = exception)
                     )
                 }
             }
@@ -243,17 +242,17 @@ internal class DefaultSearchViewModel(
                     )
                 }
 
-                override fun onWisefyAsyncFailure(throwable: Throwable) {
+                override fun onWisefyAsyncFailure(exception: WisefyException) {
                     _uiState.value = uiState.value.copy(
                         loadingState = SearchLoadingState(isLoading = false),
-                        dialogState = SearchDialogState.Failure.WisefyAsync(throwable)
+                        dialogState = SearchDialogState.Failure.WisefyAsync(throwable = exception)
                     )
                 }
             }
         )
     }
 
-    override fun searchForSavedNetwork() {
+    override suspend fun searchForSavedNetwork() {
         if (!isInputValid()) {
             _uiState.value = uiState.value.copy(
                 loadingState = SearchLoadingState(isLoading = false),
@@ -266,49 +265,52 @@ internal class DefaultSearchViewModel(
             dialogState = SearchDialogState.None
         )
         val networkInput = uiState.value.inputState
-        wisefy.searchForSavedNetwork(
-            request = when (uiState.value.ssidType) {
-                SSIDType.SSID -> {
-                    if (networkInput.inputValidityState is SearchInputValidityState.SSID.Valid) {
-                        SearchForSavedNetworkRequest.SSID(regex = networkInput.input)
-                    } else {
-                        error("")
+        val result = try {
+            wisefy.searchForSavedNetworkAsync(
+                request = when (uiState.value.ssidType) {
+                    SSIDType.SSID -> {
+                        if (networkInput.inputValidityState is SearchInputValidityState.SSID.Valid) {
+                            SearchForSavedNetworkRequest.SSID(regex = networkInput.input)
+                        } else {
+                            error("")
+                        }
+                    }
+                    SSIDType.BSSID -> {
+                        if (networkInput.inputValidityState is SearchInputValidityState.SSID.Valid) {
+                            SearchForSavedNetworkRequest.BSSID(regex = networkInput.input)
+                        } else {
+                            error("")
+                        }
                     }
                 }
-                SSIDType.BSSID -> {
-                    if (networkInput.inputValidityState is SearchInputValidityState.SSID.Valid) {
-                        SearchForSavedNetworkRequest.BSSID(regex = networkInput.input)
-                    } else {
-                        error("")
-                    }
-                }
-            },
-            callbacks = object : SearchForSavedNetworkCallbacks {
-                override fun onSavedNetworkRetrieved(savedNetwork: SavedNetworkData) {
-                    _uiState.value = uiState.value.copy(
-                        loadingState = SearchLoadingState(isLoading = false),
-                        dialogState = SearchDialogState.SearchForSavedNetwork.Success(savedNetwork)
-                    )
-                }
+            )
+        } catch (ex: WisefyException) {
+            _uiState.value = uiState.value.copy(
+                loadingState = SearchLoadingState(isLoading = false),
+                dialogState = SearchDialogState.Failure.WisefyAsync(throwable = ex)
+            )
+            null
+        }
 
-                override fun onSavedNetworkNotFound() {
-                    _uiState.value = uiState.value.copy(
-                        loadingState = SearchLoadingState(isLoading = false),
-                        dialogState = SearchDialogState.SearchForSavedNetwork.NoSavedNetworkFound
-                    )
-                }
-
-                override fun onWisefyAsyncFailure(throwable: Throwable) {
-                    _uiState.value = uiState.value.copy(
-                        loadingState = SearchLoadingState(isLoading = false),
-                        dialogState = SearchDialogState.Failure.WisefyAsync(throwable)
-                    )
-                }
+        when (result) {
+            is SearchForSavedNetworkResult.Success.Empty -> {
+                _uiState.value = uiState.value.copy(
+                    loadingState = SearchLoadingState(isLoading = false),
+                    dialogState = SearchDialogState.SearchForSavedNetwork.NoSavedNetworkFound
+                )
             }
-        )
+            is SearchForSavedNetworkResult.Success.SavedNetworks -> {
+                _uiState.value = uiState.value.copy(
+                    loadingState = SearchLoadingState(isLoading = false),
+                    dialogState = SearchDialogState.SearchForSavedNetwork.Success(result.data.first())
+                )
+            }
+            is SearchForSavedNetworkResult.Failure.Assertion -> TODO()
+            null -> TODO()
+        }
     }
 
-    override fun searchForSavedNetworks() {
+    override suspend fun searchForSavedNetworks() {
         if (!isInputValid()) {
             _uiState.value = uiState.value.copy(
                 loadingState = SearchLoadingState(isLoading = false),
@@ -321,46 +323,49 @@ internal class DefaultSearchViewModel(
             dialogState = SearchDialogState.None
         )
         val networkInput = uiState.value.inputState
-        wisefy.searchForSavedNetworks(
-            request = when (uiState.value.ssidType) {
-                SSIDType.SSID -> {
-                    if (networkInput.inputValidityState is SearchInputValidityState.SSID.Valid) {
-                        SearchForSavedNetworksRequest.SSID(regex = networkInput.input)
-                    } else {
-                        error("")
+        val result = try {
+            wisefy.searchForSavedNetworkAsync(
+                request = when (uiState.value.ssidType) {
+                    SSIDType.SSID -> {
+                        if (networkInput.inputValidityState is SearchInputValidityState.SSID.Valid) {
+                            SearchForSavedNetworkRequest.SSID(regex = networkInput.input)
+                        } else {
+                            error("")
+                        }
+                    }
+                    SSIDType.BSSID -> {
+                        if (networkInput.inputValidityState is SearchInputValidityState.SSID.Valid) {
+                            SearchForSavedNetworkRequest.BSSID(regex = networkInput.input)
+                        } else {
+                            error("")
+                        }
                     }
                 }
-                SSIDType.BSSID -> {
-                    if (networkInput.inputValidityState is SearchInputValidityState.SSID.Valid) {
-                        SearchForSavedNetworksRequest.BSSID(regex = networkInput.input)
-                    } else {
-                        error("")
-                    }
-                }
-            },
-            callbacks = object : SearchForSavedNetworksCallbacks {
-                override fun onSavedNetworksRetrieved(savedNetworks: List<SavedNetworkData>) {
-                    _uiState.value = uiState.value.copy(
-                        loadingState = SearchLoadingState(isLoading = false),
-                        dialogState = SearchDialogState.SearchForSavedNetworks.Success(savedNetworks)
-                    )
-                }
+            )
+        } catch (ex: WisefyException) {
+            _uiState.value = uiState.value.copy(
+                loadingState = SearchLoadingState(isLoading = false),
+                dialogState = SearchDialogState.Failure.WisefyAsync(throwable = ex)
+            )
+            null
+        }
 
-                override fun onNoSavedNetworksFound() {
-                    _uiState.value = uiState.value.copy(
-                        loadingState = SearchLoadingState(isLoading = false),
-                        dialogState = SearchDialogState.SearchForSavedNetworks.NoSavedNetworksFound
-                    )
-                }
-
-                override fun onWisefyAsyncFailure(throwable: Throwable) {
-                    _uiState.value = uiState.value.copy(
-                        loadingState = SearchLoadingState(isLoading = false),
-                        dialogState = SearchDialogState.Failure.WisefyAsync(throwable)
-                    )
-                }
+        when (result) {
+            is SearchForSavedNetworkResult.Success.Empty -> {
+                _uiState.value = uiState.value.copy(
+                    loadingState = SearchLoadingState(isLoading = false),
+                    dialogState = SearchDialogState.SearchForSavedNetworks.NoSavedNetworksFound
+                )
             }
-        )
+            is SearchForSavedNetworkResult.Success.SavedNetworks -> {
+                _uiState.value = uiState.value.copy(
+                    loadingState = SearchLoadingState(isLoading = false),
+                    dialogState = SearchDialogState.SearchForSavedNetworks.Success(result.data)
+                )
+            }
+            is SearchForSavedNetworkResult.Failure.Assertion -> TODO()
+            null -> TODO()
+        }
     }
 
     override fun searchForSSID() {
@@ -414,10 +419,10 @@ internal class DefaultSearchViewModel(
                     )
                 }
 
-                override fun onWisefyAsyncFailure(throwable: Throwable) {
+                override fun onWisefyAsyncFailure(exception: WisefyException) {
                     _uiState.value = uiState.value.copy(
                         loadingState = SearchLoadingState(isLoading = false),
-                        dialogState = SearchDialogState.Failure.WisefyAsync(throwable)
+                        dialogState = SearchDialogState.Failure.WisefyAsync(throwable = exception)
                     )
                 }
             }
@@ -469,10 +474,10 @@ internal class DefaultSearchViewModel(
                     )
                 }
 
-                override fun onWisefyAsyncFailure(throwable: Throwable) {
+                override fun onWisefyAsyncFailure(exception: WisefyException) {
                     _uiState.value = uiState.value.copy(
                         loadingState = SearchLoadingState(isLoading = false),
-                        dialogState = SearchDialogState.Failure.WisefyAsync(throwable)
+                        dialogState = SearchDialogState.Failure.WisefyAsync(throwable = exception)
                     )
                 }
             }

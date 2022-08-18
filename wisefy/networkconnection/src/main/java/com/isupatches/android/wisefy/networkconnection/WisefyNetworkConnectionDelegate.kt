@@ -17,6 +17,7 @@ package com.isupatches.android.wisefy.networkconnection
 
 import android.net.ConnectivityManager
 import android.net.wifi.WifiManager
+import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
 import com.isupatches.android.wisefy.core.coroutines.CoroutineDispatcherProvider
 import com.isupatches.android.wisefy.core.coroutines.createBaseCoroutineExceptionHandler
 import com.isupatches.android.wisefy.core.entities.DeprecationMessages
@@ -61,6 +62,7 @@ import kotlinx.coroutines.withContext
 class WisefyNetworkConnectionDelegate(
     private val coroutineDispatcherProvider: CoroutineDispatcherProvider,
     private val scope: CoroutineScope,
+    assertions: WisefyAssertions,
     connectivityManager: ConnectivityManager,
     logger: WisefyLogger,
     networkConnectionStatusDelegate: NetworkConnectionStatusDelegate,
@@ -74,7 +76,7 @@ class WisefyNetworkConnectionDelegate(
     }
 
     private val adapter = when {
-        sdkUtil.isAtLeastQ() -> Android29NetworkConnectionAdapter(connectivityManager, logger)
+        sdkUtil.isAtLeastQ() -> Android29NetworkConnectionAdapter(connectivityManager, logger, assertions)
         else -> {
             DefaultNetworkConnectionAdapter(
                 wifiManager,

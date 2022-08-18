@@ -42,7 +42,7 @@ sealed class RemoveNetworkResult {
          *
          * @property value The raw value of the result code from the Android OS
          *
-         * @see RemoveNetworkResult.Failure
+         * @see Success
          *
          * @author Patches Klinefelter
          * @since 03/2022
@@ -56,7 +56,7 @@ sealed class RemoveNetworkResult {
          * - Returns for this are defined the same as `removeNetwork`:
          *  https://developer.android.com/reference/android/net/wifi/WifiManager#removeNetwork(int)
          *
-         * @see RemoveNetworkResult.Failure
+         * @see Success
          *
          * @author Patches Klinefelter
          * @since 03/2022
@@ -81,7 +81,7 @@ sealed class RemoveNetworkResult {
          * - Returns for this are defined the same as `removeNetwork`:
          *  https://developer.android.com/reference/android/net/wifi/WifiManager#removeNetwork(int)
          *
-         * @see RemoveNetworkResult.Failure
+         * @see Failure
          *
          * @author Patches Klinefelter
          * @since 03/2022
@@ -91,7 +91,7 @@ sealed class RemoveNetworkResult {
         /**
          * A data representation of a failure finding the network to remove.
          *
-         * @see RemoveNetworkResult.Failure
+         * @see Failure
          *
          * @author Patches Klinefelter
          * @since 03/2022
@@ -107,7 +107,7 @@ sealed class RemoveNetworkResult {
          *
          * @property value The raw value of the result code from the Android OS
          *
-         * @see RemoveNetworkResult.Failure
+         * @see Failure
          *
          * @author Patches Klinefelter
          * @since 03/2022
@@ -115,5 +115,19 @@ sealed class RemoveNetworkResult {
         data class ResultCode(val value: Int) : Failure()
 
         object WrongSDKLevel : Failure()
+
+        /**
+         * A data representation of a an async failure while trying to remove a network.
+         *
+         * *NOTE* This is only used for wisefy:ktx
+         *
+         * @property throwable The exception that occurred while trying to remove the network
+         *
+         * @see Failure
+         *
+         * @author Patches Klinefelter
+         * @since 03/2022
+         */
+        data class WisefyAsync(val throwable: Throwable) : Failure()
     }
 }

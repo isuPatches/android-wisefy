@@ -18,10 +18,10 @@ package com.isupatches.android.wisefy.accesspoints.entities
 /**
  * A set of classes and objects that are used to represent requests to search for a single SSID.
  *
- * @property timeoutInMillis The timeout in milliseconds to wait for an SSID to appear
+ * @property timeoutInMillis The timeout in milliseconds to wait for a matching SSID to appear
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 08/2022, version 5.0.0
  */
 sealed class SearchForSingleSSIDRequest(open val timeoutInMillis: Int) {
 
@@ -33,7 +33,7 @@ sealed class SearchForSingleSSIDRequest(open val timeoutInMillis: Int) {
      * @see SearchForSingleSSIDRequest
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 08/2022, version 5.0.0
      */
     data class SSID(
         val regex: String,
@@ -48,7 +48,7 @@ sealed class SearchForSingleSSIDRequest(open val timeoutInMillis: Int) {
      * @see SearchForSingleSSIDRequest
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 08/2022, version 5.0.0
      */
     data class BSSID(
         val regex: String,

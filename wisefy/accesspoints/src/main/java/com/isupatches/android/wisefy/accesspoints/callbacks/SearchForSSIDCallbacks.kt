@@ -24,7 +24,7 @@ import com.isupatches.android.wisefy.core.base.BaseWisefyCallbacks
  * @see BaseWisefyCallbacks
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 08/2022, version 5.0.0
  */
 interface SearchForSSIDCallbacks : BaseWisefyCallbacks {
 
@@ -36,7 +36,7 @@ interface SearchForSSIDCallbacks : BaseWisefyCallbacks {
      * @see SSIDData
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 08/2022, version 5.0.0
      */
     fun onSSIDFound(ssid: SSIDData)
 
@@ -44,7 +44,7 @@ interface SearchForSSIDCallbacks : BaseWisefyCallbacks {
      * A callback triggered when there is no matching SSID.
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 08/2022, version 5.0.0
      */
     fun onSSIDNotFound()
 }

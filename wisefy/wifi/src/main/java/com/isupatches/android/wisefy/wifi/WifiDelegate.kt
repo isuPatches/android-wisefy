@@ -22,6 +22,6 @@ package com.isupatches.android.wisefy.wifi
  * @see WifiApiAsync
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 07/2022, version 5.0.0
  */
 interface WifiDelegate : WifiApi, WifiApiAsync

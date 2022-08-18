@@ -15,12 +15,17 @@
  */
 package com.isupatches.android.wisefy.security
 
+import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
+
 /**
  * A delegate for synchronous APIs to check a network's security capabilities.
+ *
+ * *Notes*
+ *  - No async APIs because [SecurityApi] operates directly on input from the client (f.e. raw [AccessPointData] values)
  *
  * @see SecurityApi
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 07/2022, version 5.0.0
  */
 interface SecurityDelegate : SecurityApi

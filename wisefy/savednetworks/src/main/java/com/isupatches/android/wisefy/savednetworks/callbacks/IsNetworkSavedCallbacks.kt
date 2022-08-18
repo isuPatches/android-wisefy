@@ -13,36 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.android.wisefy.savednetworks.entities
+package com.isupatches.android.wisefy.savednetworks.callbacks
+
+import com.isupatches.android.wisefy.core.base.BaseWisefyCallbacks
 
 /**
- * A set of classes and objects that are used to represent a result when searching for saved networks.
+ * A set of callbacks triggered while checking if a network is saved on the device.
+ *
+ * @see BaseWisefyCallbacks
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 07/2022, version 5.0.0
  */
-sealed class SearchForSavedNetworksResult {
+interface IsNetworkSavedCallbacks : BaseWisefyCallbacks {
 
     /**
-     * A data representation for when there are no matching saved networks.
-     *
-     * @see SearchForSavedNetworksResult
+     * A callback triggered when there are matching saved networks.
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 07/2022, version 5.0.0
      */
-    object Empty : SearchForSavedNetworksResult()
+    fun onNetworkIsSaved()
 
     /**
-     * A data representation for when there are matching saved networks.
-     *
-     * @property data The list of matching saved networks
-     *
-     * @see SavedNetworkData
-     * @see SearchForSavedNetworksResult
+     * A callback triggered when there is no matching saved network.
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 07/2022, version 5.0.0
      */
-    data class SavedNetworks(val data: List<SavedNetworkData>) : SearchForSavedNetworksResult()
+    fun onNetworkIsNotSaved()
 }

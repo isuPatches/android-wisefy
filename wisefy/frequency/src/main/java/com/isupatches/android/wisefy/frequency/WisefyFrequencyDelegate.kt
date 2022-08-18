@@ -24,6 +24,7 @@ import com.isupatches.android.wisefy.core.coroutines.CoroutineDispatcherProvider
 import com.isupatches.android.wisefy.core.coroutines.createBaseCoroutineExceptionHandler
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.frequency.callbacks.GetFrequencyCallbacks
+import com.isupatches.android.wisefy.frequency.callbacks.IsNetwork5gHzCallbacks
 import com.isupatches.android.wisefy.frequency.entities.GetFrequencyRequest
 import com.isupatches.android.wisefy.frequency.entities.GetFrequencyResult
 import com.isupatches.android.wisefy.frequency.entities.IsNetwork5gHzRequest
@@ -90,5 +91,18 @@ class WisefyFrequencyDelegate(
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_NETWORK_STATE])
     override fun isNetwork5gHz(request: IsNetwork5gHzRequest): IsNetwork5gHzResult {
         return adapter.isNetwork5gHz(request)
+    }
+
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_NETWORK_STATE])
+    override fun isNetwork5gHz(request: IsNetwork5gHzRequest, callbacks: IsNetwork5gHzCallbacks?) {
+        scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
+            val result = adapter.isNetwork5gHz(request)
+            withContext(coroutineDispatcherProvider.main) {
+                when (result) {
+                    is IsNetwork5gHzResult.True -> callbacks?.onNetworkIs5gHz()
+                    is IsNetwork5gHzResult.False -> callbacks?.onNetworkIsNot5gHz()
+                }
+            }
+        }
     }
 }

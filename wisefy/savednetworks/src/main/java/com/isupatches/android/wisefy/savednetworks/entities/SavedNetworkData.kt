@@ -17,36 +17,39 @@ package com.isupatches.android.wisefy.savednetworks.entities
 
 import android.net.wifi.WifiConfiguration
 import android.net.wifi.WifiNetworkSuggestion
+import android.os.Build
+import androidx.annotation.RequiresApi
 
 /**
  * A set of classes and objects that are used to represent a saved network on the device.
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 07/2022, version 5.0.0
  */
 sealed class SavedNetworkData {
 
     /**
-     * A data representation of a network configuration from Android OS level returns.
+     * A data representation of a saved network configuration prior to Android Q.
      *
-     * @property value The raw value of the saved network as a configuration from the Android OS
+     * @property value The raw value of the saved network as a configuration
      *
      * @see SavedNetworkData
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 07/2022, version 5.0.0
      */
     data class Configuration(val value: WifiConfiguration) : SavedNetworkData()
 
     /**
-     * A data representation of a network suggestion from Android OS level returns.
+     * A data representation of a saved network suggestion starting at Android Q.
      *
-     * @property value The raw value of the saved network as a suggestion from the Android OS
+     * @property value The raw value of the saved network as a suggestion
      *
      * @see SavedNetworkData
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 07/2022, version 5.0.0
      */
+    @RequiresApi(Build.VERSION_CODES.Q)
     data class Suggestion(val value: WifiNetworkSuggestion) : SavedNetworkData()
 }

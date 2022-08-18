@@ -16,15 +16,15 @@
 package com.isupatches.android.wisefy.core.entities
 
 /**
- * A singleton that houses all of the error messages present throughout the app.
+ * A singleton that houses all of the assertion messages present throughout the app.
  *
  * @author Patches Klinefelter
  * @since 03/2022
  */
-object ErrorMessages {
+object AssertionMessages {
 
     /**
-     * A singleton that houses the error messages present for the add network features.
+     * A singleton that houses the assertion messages present for the add network features.
      *
      * @author Patches Klinefelter
      * @since 03/2022
@@ -32,7 +32,7 @@ object ErrorMessages {
     object AddNetwork {
 
         /**
-         * A singleton that houses the error messages present for functions using ActivityResultLauncher.
+         * A singleton that houses the assertion messages present for functions using ActivityResultLauncher.
          *
          * @author Patches Klinefelter
          * @since 03/2022
@@ -40,7 +40,7 @@ object ErrorMessages {
         object ActivityResultLauncher {
 
             /**
-             * A string value for the error message for using ActivityResultLauncher prior to Android 30.
+             * A string value for the assertion message for using ActivityResultLauncher prior to Android 30.
              *
              * @author Patches Klinefelter
              * @since 03/2022
@@ -49,7 +49,7 @@ object ErrorMessages {
                 "Adding a network using ActivityResultLauncher is not available until Android R"
 
             /**
-             * A string value for the error message for not using ActivityResultLauncher on Android 30+.
+             * A string value for the assertion message for not using ActivityResultLauncher on Android 30+.
              *
              * @author Patches Klinefelter
              * @since 03/2022
@@ -59,7 +59,7 @@ object ErrorMessages {
         }
 
         /**
-         * A singleton that houses the error messages present for functions adding a WPA3 network.
+         * A singleton that houses the assertion messages present for functions adding a WPA3 network.
          *
          * @author Patches Klinefelter
          * @since 03/2022
@@ -67,7 +67,7 @@ object ErrorMessages {
         object WPA3Network {
 
             /**
-             * A string value for the error message for trying to add a WPA3 network before Android 29.
+             * A string value for the assertion message for trying to add a WPA3 network before Android 29.
              *
              * @author Patches Klinefelter
              * @since 03/2022
@@ -77,7 +77,7 @@ object ErrorMessages {
     }
 
     /**
-     * A singleton that houses the error messages present for the saved network features.
+     * A singleton that houses the assertion messages present for the saved network features.
      *
      * @author Patches Klinefelter
      * @since 03/2022
@@ -85,7 +85,7 @@ object ErrorMessages {
     object SavedNetworks {
 
         /**
-         * A string value for the error message for retrieving saved networks on Android Q.
+         * A string value for the assertion message for retrieving saved networks on Android Q.
          *
          * @author Patches Klinefelter
          * @since 03/2022
@@ -95,7 +95,7 @@ object ErrorMessages {
     }
 
     /**
-     * A singleton that houses the error messages present for the signal features.
+     * A singleton that houses the assertion messages present for the signal features.
      *
      * @author Patches Klinefelter
      * @since 03/2022
@@ -103,7 +103,7 @@ object ErrorMessages {
     object Signal {
 
         /**
-         * A string value for the error message for using calculateBars(rssiLevel: Int) before Android 30.
+         * A string value for the assertion message for using calculateBars(rssiLevel: Int) before Android 30.
          *
          * @author Patches Klinefelter
          * @since 03/2022
@@ -111,12 +111,37 @@ object ErrorMessages {
         const val CALCULATE_BARS_ANDROID_30: String = "calculateBars(rssiLevel: Int): Int should be used for Android R"
 
         /**
-         * A string value for the error message for using calculateBars(rssiLevel: Int, targetNumberOfBars: Int)
+         * A string value for the assertion message for using calculateBars(rssiLevel: Int, targetNumberOfBars: Int)
          * on Android 30+.
          *
          * @author Patches Klinefelter
          * @since 03/2022
          */
         const val CALCULATE_BARS_LEGACY: String = "calculateBars(rssiLevel: Int): Int is not available until Android R"
+    }
+
+    /**
+     * A singleton that houses the assertion messages present for the Wifi features.
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
+    object Wifi {
+
+        /**
+         * A string value for the assertion message for using disableWifi on Android Q+
+         *
+         * @author Patches Klinefelter
+         * @since 03/2022
+         */
+        const val DISABLE_DEPRECATED_WITH_ANDROID_Q = DeprecationMessages.Wifi.DISABLE
+
+        /**
+         * A string value for the assertion message for using enableWifi on Android Q+
+         *
+         * @author Patches Klinefelter
+         * @since 03/2022
+         */
+        const val ENABLE_DEPRECATED_WITH_ANDROID_Q = DeprecationMessages.Wifi.ENABLE
     }
 }

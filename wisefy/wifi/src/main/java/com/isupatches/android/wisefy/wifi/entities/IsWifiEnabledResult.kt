@@ -16,10 +16,10 @@
 package com.isupatches.android.wisefy.wifi.entities
 
 /**
- * A set of classes that are data representations of a result when checking if Wifi is enabled.
+ * A set of classes and objects that are data representations of a result when checking if Wifi is enabled.
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 07/2022, version 5.0.0
  */
 sealed class IsWifiEnabledResult {
 
@@ -29,17 +29,17 @@ sealed class IsWifiEnabledResult {
      * @see EnableWifiResult
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 07/2022, version 5.0.0
      */
     object True : IsWifiEnabledResult()
 
     /**
-     * A data representation for when Wifi is not enabled.
+     * A data representation for when Wifi is disabled.
      *
      * @see EnableWifiResult
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 07/2022, version 5.0.0
      */
     object False : IsWifiEnabledResult()
 }

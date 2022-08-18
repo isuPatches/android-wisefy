@@ -18,37 +18,28 @@ package com.isupatches.android.wisefy.signal.os.impls
 import android.net.wifi.WifiManager
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.isupatches.android.wisefy.core.assertions.fail
-import com.isupatches.android.wisefy.core.entities.DeprecationMessages
-import com.isupatches.android.wisefy.core.entities.ErrorMessages
+import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
 import com.isupatches.android.wisefy.signal.os.apis.Android30SignalApi
 
 /**
  * An Android 30+ internal implementation for signal strength functionality through the Android OS.
  *
+ * @param assertions The [WisefyAssertions] instance to use
  * @param wifiManager The WifiManager instance to use
  *
  * @see Android30SignalApi
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 07/2022, version 5.0.0
  */
 @RequiresApi(Build.VERSION_CODES.R)
 internal class Android30SignalApiImpl(
+    private val assertions: WisefyAssertions,
     private val wifiManager: WifiManager
 ) : Android30SignalApi {
 
     override fun calculateBars(rssiLevel: Int): Int {
         return wifiManager.calculateSignalLevel(rssiLevel)
-    }
-
-    @Deprecated(
-        message = DeprecationMessages.Signal.CALCULATE_BARS,
-        replaceWith = ReplaceWith("this.calculateBars(rssiLevel)")
-    )
-    override fun calculateBars(rssiLevel: Int, targetNumberOfBars: Int): Int {
-        fail(ErrorMessages.Signal.CALCULATE_BARS_ANDROID_30)
-        return -1
     }
 
     override fun compareSignalLevel(rssi1: Int, rssi2: Int): Int {

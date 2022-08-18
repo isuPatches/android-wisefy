@@ -19,17 +19,17 @@ import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.ACCESS_WIFI_STATE
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.savednetworks.callbacks.GetSavedNetworksCallbacks
+import com.isupatches.android.wisefy.savednetworks.callbacks.IsNetworkSavedCallbacks
 import com.isupatches.android.wisefy.savednetworks.callbacks.SearchForSavedNetworkCallbacks
-import com.isupatches.android.wisefy.savednetworks.callbacks.SearchForSavedNetworksCallbacks
 import com.isupatches.android.wisefy.savednetworks.entities.GetSavedNetworksRequest
+import com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedRequest
 import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkRequest
-import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworksRequest
 
 /**
  * A set of asynchronous APIs for getting and searching for saved networks.
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 07/2022, version 5.0.0
  */
 interface SavedNetworkApiAsync {
 
@@ -43,7 +43,7 @@ interface SavedNetworkApiAsync {
      * @see GetSavedNetworksCallbacks
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 07/2022, version 5.0.0
      */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     fun getSavedNetworks(
@@ -52,32 +52,32 @@ interface SavedNetworkApiAsync {
     )
 
     /**
-     * An asynchronous API to search for a single saved network.
+     * An asynchronous API to check if a network is saved on the device.
      *
-     * @param request The details of the request to search for a single saved network
-     * @param callbacks The callbacks for when the result of searching for a single saved network is returned
+     * @param request The details of the request to check if a network is saved on the device
+     * @param callbacks The callbacks for the result of whether the network is saved on the device
+     *
+     * @see IsNetworkSavedRequest
+     * @see IsNetworkSavedCallbacks
+     *
+     * @author Patches Klinefelter
+     * @since 07/2022, version 5.0.0
+     */
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
+    fun isNetworkSaved(request: IsNetworkSavedRequest, callbacks: IsNetworkSavedCallbacks?)
+
+    /**
+     * An asynchronous API to search for saved networks.
+     *
+     * @param request The details of the request to search for saved networks
+     * @param callbacks The callbacks for when the result of searching for saved networks is returned
      *
      * @see SearchForSavedNetworkRequest
      * @see SearchForSavedNetworkCallbacks
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 07/2022, version 5.0.0
      */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     fun searchForSavedNetwork(request: SearchForSavedNetworkRequest, callbacks: SearchForSavedNetworkCallbacks?)
-
-    /**
-     * An asynchronous API to search for a set of saved networks.
-     *
-     * @param request The details of the request to search for a set of saved networks
-     * @param callbacks The callbacks for when the result of searching for a set of saved networks is returned
-     *
-     * @see SearchForSavedNetworksRequest
-     * @see SearchForSavedNetworksCallbacks
-     *
-     * @author Patches Klinefelter
-     * @since 03/2022
-     */
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    fun searchForSavedNetworks(request: SearchForSavedNetworksRequest, callbacks: SearchForSavedNetworksCallbacks?)
 }

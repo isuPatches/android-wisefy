@@ -16,11 +16,11 @@
 package com.isupatches.android.wisefy.security.entities
 
 /**
- * A set of classes and objects that are used to represent a result while checking
- * if a network contains a given security capability.
+ * A set of classes and objects that are used to represent a result while checking if a network contains a given
+ * security capability.
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 07/2022, version 5.0.0
  */
 sealed class ContainsSecurityCapabilityResult {
 
@@ -30,7 +30,7 @@ sealed class ContainsSecurityCapabilityResult {
      * @see ContainsSecurityCapabilityResult
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 07/2022, version 5.0.0
      */
     object True : ContainsSecurityCapabilityResult()
 
@@ -40,7 +40,7 @@ sealed class ContainsSecurityCapabilityResult {
      * @see ContainsSecurityCapabilityResult
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 07/2022, version 5.0.0
      */
     object False : ContainsSecurityCapabilityResult()
 }

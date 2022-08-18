@@ -3,21 +3,33 @@
 
     <!-- Actions -->
     <string name="disable_wifi">Disable Wifi</string>
+    <string name="disconnect_from_current_network">Disconnect From Current Network</string>
     <string name="enabled_wifi">Enabled Wifi</string>
     <string name="get_current_network">Get Current Network</string>
     <string name="get_current_network_info">Get Current Network Info</string>
     <string name="get_frequency">Get Frequency</string>
     <string name="get_ip">Get IP</string>
     <string name="get_nearby_access_points">Get Nearby Access Points</string>
+    <string name="get_rssi">Get RSSI</string>
     <string name="get_saved_networks">Get Saved Networks</string>
+    <string name="is_network_5ghz">Is Network 5gHz</string>
+    <string name="is_wifi_enabled">Is Wifi Enabled</string>
 
     <!-- Results -->
     <string name="add_wpa3_android_q_notice">WPA3 networks are not supported until Android Q</string>
 
-    <string name="wisefy_action_result">Wisefy Action Result</string>
-
     <string name="wifi_disabled">Wifi disabled!</string>
     <string name="failure_disabling_wifi">Failure disabling wifi</string>
+
+    <string name="disconnect_result">Disconnect Result</string>
+    <string name="succeeded_disconnecting_from_current_network">Succeeded disconnecting from current network.</string>
+    <string name="succeeded_placing_request_to_disconnect_from_current_network">
+        Succeeded placing request to disconnect from current network.
+    </string>
+    <string name="network_not_found_to_disconnect">Network not found to disconnect</string>
+    <string name="failed_disconnecting_from_current_network">
+        Failed disconnecting from the device\'s current network
+    </string>
 
     <string name="wifi_enabled">Wifi enabled!</string>
     <string name="failure_enabling_wifi">Failure enabling wifi</string>
@@ -34,7 +46,16 @@
     <string name="ip_args">IP: %s</string>
     <string name="failure_retrieving_ip">Failure retrieving IP</string>
 
+    <string name="wifi_is_enabled">Wifi is enabled</string>
+    <string name="wifi_is_disabled">Wifi is disabled</string>
+
+    <string name="current_network_is_5ghz">Current network is 5gHz</string>
+    <string name="current_network_is_not_5ghz">Current network is not 5gHz</string>
+
     <!-- Permissions -->
+    <string name="permission_error_get_current_network_info">
+        Permissions for getting the current network info for the device are denied
+    </string>
     <string name="permission_error_get_frequency">
         Permissions for getting the frequency of the device\'s current network are denied
     </string>
@@ -43,6 +64,9 @@
         Permissions for getting nearby access points are denied
     </string>
     <string name="permission_error_get_saved_networks">Permissions for getting saved networks are denied</string>
+    <string name="permission_error_is_network_5ghz">
+        Permissions for checking if the current network is 5gHz are denied
+    </string>
 
     <string name="android_q_enable_wifi_message">
         Starting with Android Q, applications are not allowed to enable Wi-Fi

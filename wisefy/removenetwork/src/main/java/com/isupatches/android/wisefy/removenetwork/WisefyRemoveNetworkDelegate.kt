@@ -19,6 +19,7 @@ import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.CHANGE_WIFI_STATE
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
+import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
 import com.isupatches.android.wisefy.core.coroutines.CoroutineDispatcherProvider
 import com.isupatches.android.wisefy.core.coroutines.createBaseCoroutineExceptionHandler
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
@@ -54,6 +55,7 @@ import kotlinx.coroutines.withContext
 class WisefyRemoveNetworkDelegate(
     private val coroutineDispatcherProvider: CoroutineDispatcherProvider,
     private val scope: CoroutineScope,
+    assertions: WisefyAssertions,
     logger: WisefyLogger,
     savedNetworkDelegate: SavedNetworkDelegate,
     sdkUtil: SdkUtil,
@@ -65,8 +67,8 @@ class WisefyRemoveNetworkDelegate(
     }
 
     private val adapter: RemoveNetworkApi = when {
-        sdkUtil.isAtLeastQ() -> Android29RemoveNetworkAdapter(wifiManager, savedNetworkDelegate)
-        else -> DefaultRemoveNetworkAdapter(wifiManager, savedNetworkDelegate)
+        sdkUtil.isAtLeastQ() -> Android29RemoveNetworkAdapter(wifiManager, savedNetworkDelegate, assertions)
+        else -> DefaultRemoveNetworkAdapter(wifiManager, savedNetworkDelegate, assertions)
     }
 
     init {
@@ -84,12 +86,8 @@ class WisefyRemoveNetworkDelegate(
             val result = adapter.removeNetwork(request)
             withContext(coroutineDispatcherProvider.main) {
                 when (result) {
-                    is RemoveNetworkResult.Success.True -> callbacks?.onNetworkRemoved(result)
-                    is RemoveNetworkResult.Failure.False -> callbacks?.onFailureRemovingNetwork(result)
-                    is RemoveNetworkResult.Success.ResultCode -> callbacks?.onNetworkRemoved(result)
-                    is RemoveNetworkResult.Failure.ResultCode -> callbacks?.onFailureRemovingNetwork(result)
-                    is RemoveNetworkResult.Failure.NetworkNotFound -> callbacks?.onNetworkNotFoundToRemove()
-                    is RemoveNetworkResult.Failure.WrongSDKLevel -> callbacks?.onFailureRemovingNetwork(result)
+                    is RemoveNetworkResult.Success -> callbacks?.onNetworkRemoved(result)
+                    is RemoveNetworkResult.Failure -> callbacks?.onFailureRemovingNetwork(result)
                 }
             }
         }

@@ -16,10 +16,10 @@
 package com.isupatches.android.wisefy.accesspoints.entities
 
 /**
- * A set of data representations for a networks SSID value.
+ * A set of data representations for a network's SSID value.
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 08/2022, version 5.0.0
  */
 sealed class SSIDData {
 
@@ -31,7 +31,7 @@ sealed class SSIDData {
      * @see SSIDData
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 08/2022, version 5.0.0
      */
     data class SSID(val value: String) : SSIDData()
 
@@ -43,7 +43,7 @@ sealed class SSIDData {
      * @see SSIDData
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 08/2022, version 5.0.0
      */
     data class BSSID(val value: String) : SSIDData()
 }

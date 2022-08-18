@@ -19,7 +19,7 @@ package com.isupatches.android.wisefy.accesspoints.entities
  * A set of classes and objects that are used to represent a result when searching for a nearby access point.
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 08/2022, version 5.0.0
  */
 sealed class SearchForAccessPointResult {
 
@@ -29,7 +29,7 @@ sealed class SearchForAccessPointResult {
      * @see SearchForAccessPointResult
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 08/2022, version 5.0.0
      */
     object Empty : SearchForAccessPointResult()
 
@@ -42,7 +42,7 @@ sealed class SearchForAccessPointResult {
      * @see SearchForAccessPointResult
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 08/2022, version 5.0.0
      */
     data class AccessPoint(val data: AccessPointData) : SearchForAccessPointResult()
 }

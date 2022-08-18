@@ -18,20 +18,20 @@ package com.isupatches.android.wisefy.wifi.os.apis
 import com.isupatches.android.wisefy.core.entities.DeprecationMessages
 
 /**
- * A default internal API for enabling, disabling, and checking the state of Wifi through the Android OS.
+ * A default set of APIs for enabling, disabling, and checking the state of Wifi through the Android OS.
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 07/2022, version 5.0.0
  */
 internal interface DefaultWifiApi {
 
     /**
      * A default API to disable Wifi through the Android OS.
      *
-     * @return Boolean - The result of disabling Wifi.  True is successful, otherwise false.
+     * @return Boolean - The result of disabling Wifi.  True if successful, otherwise false.
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 07/2022, version 5.0.0
      */
     @Deprecated(DeprecationMessages.Wifi.DISABLE)
     fun disableWifi(): Boolean
@@ -39,10 +39,10 @@ internal interface DefaultWifiApi {
     /**
      * A default API to enable Wifi through the Android OS.
      *
-     * @return Boolean - The result of disabling Wifi.  True is successful, otherwise false.
+     * @return Boolean - The result of enabling Wifi.  True if successful, otherwise false.
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 07/2022, version 5.0.0
      */
     @Deprecated(DeprecationMessages.Wifi.ENABLE)
     fun enableWifi(): Boolean
@@ -50,10 +50,10 @@ internal interface DefaultWifiApi {
     /**
      * A default API to check if Wifi is enabled through the Android OS.
      *
-     * @return Boolean - Whether Wifi is enabled on the device.  True is enabled, otherwise false.
+     * @return Boolean - Whether Wifi is enabled on the device.  True if enabled, otherwise false.
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 07/2022, version 5.0.0
      */
     fun isWifiEnabled(): Boolean
 }

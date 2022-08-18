@@ -26,7 +26,7 @@ import androidx.annotation.RequiresPermission
  * An Android 30 specific internal API for getting and searching for saved networks through the Android OS.
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 07/2022, version 5.0.0
  */
 @RequiresApi(Build.VERSION_CODES.R)
 internal interface Android30SavedNetworkApi {
@@ -37,64 +37,10 @@ internal interface Android30SavedNetworkApi {
      * @return List<WifiNetworkSuggestion> - The list of saved networks
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 07/2022, version 5.0.0
      */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     fun getSavedNetworks(): List<WifiNetworkSuggestion>
-
-    /**
-     * An Android 30 specific internal API that is used to check if there is a saved network by SSID through the
-     * Android OS.
-     *
-     * @param regexForSSID The regex to match for the saved network's SSID
-     *
-     * @return Boolean - True if there is a matching saved network, otherwise false
-     *
-     * @author Patches Klinefelter
-     * @since 03/2022
-     */
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    fun isNetworkSavedWithSSID(regexForSSID: String): Boolean
-
-    /**
-     * An Android 30 specific internal API that is used to check if there is a saved network by BSSID through the
-     * Android OS.
-     *
-     * @param regexForBSSID The regex to match for the saved network's BSSID
-     *
-     * @return Boolean - True if there is a matching saved network, otherwise false
-     *
-     * @author Patches Klinefelter
-     * @since 03/2022
-     */
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    fun isNetworkSavedWithBSSID(regexForBSSID: String): Boolean
-
-    /**
-     * An Android 30 specific internal API that is used to search for a saved network by SSID through the Android OS.
-     *
-     * @param regexForSSID The regex to match for the saved network's SSID
-     *
-     * @return WifiNetworkSuggestion or null - The matching saved network or null if there isn't one
-     *
-     * @author Patches Klinefelter
-     * @since 03/2022
-     */
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    fun searchForSavedNetworkBySSID(regexForSSID: String): WifiNetworkSuggestion?
-
-    /**
-     * An Android 30 specific internal API that is used to search for a saved network by BSSID through the Android OS.
-     *
-     * @param regexForBSSID The regex to match for the saved network's BSSID
-     *
-     * @return WifiNetworkSuggestion or null - The matching saved network or null if there isn't one
-     *
-     * @author Patches Klinefelter
-     * @since 03/2022
-     */
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    fun searchForSavedNetworkByBSSID(regexForBSSID: String): WifiNetworkSuggestion?
 
     /**
      * An Android 30 specific internal API that is used to search for saved networks by SSID through the Android OS.
@@ -104,7 +50,7 @@ internal interface Android30SavedNetworkApi {
      * @return List<WifiNetworkSuggestion> - The list of matching saved networks
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 07/2022, version 5.0.0
      */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     fun searchForSavedNetworksBySSID(regexForSSID: String): List<WifiNetworkSuggestion>
@@ -117,7 +63,7 @@ internal interface Android30SavedNetworkApi {
      * @return List<WifiNetworkSuggestion> - The list of matching saved networks
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 07/2022, version 5.0.0
      */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     fun searchForSavedNetworksByBSSID(regexForBSSID: String): List<WifiNetworkSuggestion>

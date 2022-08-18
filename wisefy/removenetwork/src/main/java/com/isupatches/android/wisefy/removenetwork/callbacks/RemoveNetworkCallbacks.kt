@@ -51,14 +51,4 @@ interface RemoveNetworkCallbacks : BaseWisefyCallbacks {
      * @since 03/2022
      */
     fun onFailureRemovingNetwork(result: RemoveNetworkResult.Failure)
-
-    /**
-     * A callback triggered when the network is not found to remove.
-     *
-     * @see RemoveNetworkResult
-     *
-     * @author Patches Klinefelter
-     * @since 03/2022
-     */
-    fun onNetworkNotFoundToRemove()
 }

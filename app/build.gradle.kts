@@ -124,14 +124,14 @@ android {
 
 dependencies {
     /*
-     * Set of source code platform imports
+     * This should be uncommented to run sample app directly against source code
      */
-    implementation(project(":wisefy"))
+    implementation(project(":wisefy:ktx"))
 
     /*
-     * Set of release artifact platform imports
+     * This should be uncommented to run sample app directly against release versions of wisefy / wisefy-ktx
      */
-//    implementation(platform("com.isupatches.android.wisefy:platform:5.0.0-RC3"))
+//    implementation(platform("com.isupatches.android.wisefy-ktx:5.0.0-RC3"))
 
     // AndroidX
     compose()

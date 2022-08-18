@@ -13,38 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.android.wisefy.savednetworks.callbacks
+package com.isupatches.android.wisefy.wifi.callbacks
 
 import com.isupatches.android.wisefy.core.base.BaseWisefyCallbacks
-import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
 
 /**
- * A set of callbacks used while searching for saved networks on a device.
+ * A set of callbacks for checking the current state of Wifi.
  *
  * @see BaseWisefyCallbacks
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 07/2022, version 5.0.0
  */
-interface SearchForSavedNetworksCallbacks : BaseWisefyCallbacks {
+interface IsWifiEnabledCallbacks : BaseWisefyCallbacks {
 
     /**
-     * A callback triggered when there are saved networks found.
+     * A callback triggered when Wifi is enabled.
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 07/2022, version 5.0.0
      */
-    fun onNoSavedNetworksFound()
+    fun onWifiIsEnabled()
 
     /**
-     * A callback triggered when there are matching saved networks on the device.
-     *
-     * @param savedNetworks The matching saved networks
-     *
-     * @see SavedNetworkData
+     * A callback triggered when Wifi is disabled.
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 07/2022, version 5.0.0
      */
-    fun onSavedNetworksRetrieved(savedNetworks: List<SavedNetworkData>)
+    fun onWifiIsDisabled()
 }

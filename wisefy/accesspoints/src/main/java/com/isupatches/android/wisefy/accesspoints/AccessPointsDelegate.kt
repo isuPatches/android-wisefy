@@ -22,6 +22,6 @@ package com.isupatches.android.wisefy.accesspoints
  * @see AccessPointsApiAsync
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 08/2022, version 5.0.0
  */
 interface AccessPointsDelegate : AccessPointsApi, AccessPointsApiAsync

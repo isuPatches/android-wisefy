@@ -17,65 +17,30 @@ package com.isupatches.android.wisefy.addnetwork
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.CHANGE_WIFI_STATE
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.addnetwork.callbacks.AddNetworkCallbacks
-import com.isupatches.android.wisefy.addnetwork.entities.AddOpenNetworkRequest
-import com.isupatches.android.wisefy.addnetwork.entities.AddWPA2NetworkRequest
-import com.isupatches.android.wisefy.addnetwork.entities.AddWPA3NetworkRequest
+import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkRequest
 
 /**
- * A set of asynchronous APIs for getting and searching for nearby access points.
+ * A set of asynchronous APIs for adding networks.
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 08/2022, version 5.0.0
  */
 interface AddNetworkApiAsync {
 
     /**
-     * An asynchronous API to add an open network.
+     * An asynchronous API for adding a network.
      *
-     * @param request The details of the request to add an open network
-     * @param callbacks The callbacks for when the result for adding a network is returned
+     * @param request The details of the request to add a network
+     * @param callbacks The optional callbacks for when the result for adding a network is returned
      *
-     * @see AddOpenNetworkRequest
+     * @see AddNetworkRequest
      * @see AddNetworkCallbacks
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 08/2022, version 5.0.0
      */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-    fun addOpenNetwork(request: AddOpenNetworkRequest, callbacks: AddNetworkCallbacks?)
-
-    /**
-     * An asynchronous API to add a WPA2 network.
-     *
-     * @param request The details of the request to add a WPA2 network
-     * @param callbacks The callbacks for when the result for adding a network is returned
-     *
-     * @see AddWPA2NetworkRequest
-     * @see AddNetworkCallbacks
-     *
-     * @author Patches Klinefelter
-     * @since 03/2022
-     */
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-    fun addWPA2Network(request: AddWPA2NetworkRequest, callbacks: AddNetworkCallbacks?)
-
-    /**
-     * An asynchronous API to add a WPA3 network.
-     *
-     * @param request The details of the request to add a WPA3 network
-     * @param callbacks The callbacks for when the result for adding a network is returned
-     *
-     * @see AddWPA3NetworkRequest
-     * @see AddNetworkCallbacks
-     *
-     * @author Patches Klinefelter
-     * @since 03/2022
-     */
-    @RequiresApi(Build.VERSION_CODES.Q)
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-    fun addWPA3Network(request: AddWPA3NetworkRequest, callbacks: AddNetworkCallbacks?)
+    fun addNetwork(request: AddNetworkRequest, callbacks: AddNetworkCallbacks?)
 }

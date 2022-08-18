@@ -16,33 +16,35 @@
 package com.isupatches.android.wisefy.addnetwork.os.adapters
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
+import android.Manifest.permission.CHANGE_WIFI_STATE
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.addnetwork.AddNetworkApi
+import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkRequest
 import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
-import com.isupatches.android.wisefy.addnetwork.entities.AddOpenNetworkRequest
-import com.isupatches.android.wisefy.addnetwork.entities.AddWPA2NetworkRequest
-import com.isupatches.android.wisefy.addnetwork.entities.AddWPA3NetworkRequest
 import com.isupatches.android.wisefy.addnetwork.os.apis.DefaultAddNetworkApi
 import com.isupatches.android.wisefy.addnetwork.os.impls.DefaultAddNetworkApiImpl
-import com.isupatches.android.wisefy.core.assertions.fail
-import com.isupatches.android.wisefy.core.entities.ErrorMessages
+import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
+import com.isupatches.android.wisefy.core.entities.AssertionMessages
 
 /**
  * A default adapter for adding networks.
  *
  * @param wifiManager The WifiManager instance to use
+ * @param assertions The [WisefyAssertions] instance to use
  * @param api The OS level API instance to use
  *
  * @see AddNetworkApi
  * @see DefaultAddNetworkApi
  * @see DefaultAddNetworkApiImpl
+ * @see WisefyAssertions
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 08/2022, version 5.0.0
  */
 internal class DefaultAddNetworkAdapter(
     wifiManager: WifiManager,
+    private val assertions: WisefyAssertions,
     private val api: DefaultAddNetworkApi = DefaultAddNetworkApiImpl(wifiManager)
 ) : AddNetworkApi {
 
@@ -50,10 +52,10 @@ internal class DefaultAddNetworkAdapter(
         private const val WIFI_MANAGER_ADD_NETWORK_FAILURE = -1
     }
 
-    @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun addOpenNetwork(request: AddOpenNetworkRequest): AddNetworkResult {
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
+    override fun addNetwork(request: AddNetworkRequest): AddNetworkResult {
         return when (request) {
-            is AddOpenNetworkRequest.Default -> {
+            is AddNetworkRequest.Open.Default -> {
                 val resultCode = api.addOpenNetwork(request.ssid, request.bssid)
                 if (resultCode > WIFI_MANAGER_ADD_NETWORK_FAILURE) {
                     AddNetworkResult.Success.ResultCode(resultCode)
@@ -61,18 +63,7 @@ internal class DefaultAddNetworkAdapter(
                     AddNetworkResult.Failure.ResultCode(resultCode)
                 }
             }
-            is AddOpenNetworkRequest.Android30OrAbove -> {
-                val message = ErrorMessages.AddNetwork.ActivityResultLauncher.USED_PRE_ANDROID_30
-                fail(message)
-                AddNetworkResult.Failure.WrongSDKLevel(message)
-            }
-        }
-    }
-
-    @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun addWPA2Network(request: AddWPA2NetworkRequest): AddNetworkResult {
-        return when (request) {
-            is AddWPA2NetworkRequest.Default -> {
+            is AddNetworkRequest.WPA2.Default -> {
                 val resultCode = api.addWPA2Network(request.ssid, request.passphrase, request.bssid)
                 if (resultCode > WIFI_MANAGER_ADD_NETWORK_FAILURE) {
                     AddNetworkResult.Success.ResultCode(resultCode)
@@ -80,18 +71,16 @@ internal class DefaultAddNetworkAdapter(
                     AddNetworkResult.Failure.ResultCode(resultCode)
                 }
             }
-            is AddWPA2NetworkRequest.Android30OrAbove -> {
-                val message = ErrorMessages.AddNetwork.ActivityResultLauncher.USED_PRE_ANDROID_30
-                fail(message)
-                AddNetworkResult.Failure.WrongSDKLevel(message)
+            is AddNetworkRequest.Open.Android30OrAbove, is AddNetworkRequest.WPA2.Android30OrAbove -> {
+                val message = AssertionMessages.AddNetwork.ActivityResultLauncher.USED_PRE_ANDROID_30
+                assertions.fail(message = message)
+                AddNetworkResult.Failure.Assertion(message = message)
+            }
+            is AddNetworkRequest.WPA3.Default, is AddNetworkRequest.WPA3.Android30OrAbove -> {
+                val message = AssertionMessages.AddNetwork.WPA3Network.PRE_ANDROID_29
+                assertions.fail(message = message)
+                return AddNetworkResult.Failure.Assertion(message = message)
             }
         }
-    }
-
-    @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun addWPA3Network(request: AddWPA3NetworkRequest): AddNetworkResult {
-        val message = ErrorMessages.AddNetwork.WPA3Network.PRE_ANDROID_29
-        fail(message)
-        return AddNetworkResult.Failure.WrongSDKLevel(message)
     }
 }
