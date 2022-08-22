@@ -75,13 +75,9 @@ import com.isupatches.android.wisefy.networkconnection.entities.DisconnectFromCu
 import com.isupatches.android.wisefy.networkconnection.entities.DisconnectFromCurrentNetworkResult
 import com.isupatches.android.wisefy.networkconnectionstatus.NetworkConnectionStatusDelegate
 import com.isupatches.android.wisefy.networkconnectionstatus.WisefyNetworkConnectionStatusDelegate
-import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceConnectedResult
-import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceConnectedToMobileNetworkRequest
-import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceConnectedToMobileOrWifiNetworkRequest
-import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceConnectedToSSIDRequest
-import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceConnectedToWifiNetworkRequest
-import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceRoamingRequest
-import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceRoamingResult
+import com.isupatches.android.wisefy.networkconnectionstatus.callbacks.GetNetworkConnectionStatusCallbacks
+import com.isupatches.android.wisefy.networkconnectionstatus.entities.GetNetworkConnectionStatusRequest
+import com.isupatches.android.wisefy.networkconnectionstatus.entities.GetNetworkConnectionStatusResult
 import com.isupatches.android.wisefy.networkinfo.NetworkInfoDelegate
 import com.isupatches.android.wisefy.networkinfo.WisefyNetworkInfoDelegate
 import com.isupatches.android.wisefy.networkinfo.callbacks.GetCurrentNetworkCallbacks
@@ -227,6 +223,8 @@ class Wisefy private constructor(
                 assertions = assertions
             )
             networkConnectionStatusDelegate = WisefyNetworkConnectionStatusDelegate(
+                coroutineDispatcherProvider = coroutineDispatcherProvider,
+                scope = wisefyScope,
                 connectivityManager = connectivityManager,
                 logger = logger,
                 sdkUtil = sdkUtil,
@@ -697,6 +695,19 @@ class Wisefy private constructor(
         accessPointsDelegate.getNearbyAccessPoints(request, callbacks)
     }
 
+    @RequiresPermission(ACCESS_NETWORK_STATE)
+    override fun getNetworkConnectionStatus(request: GetNetworkConnectionStatusRequest): GetNetworkConnectionStatusResult {
+        return networkConnectionStatusDelegate.getNetworkConnectionStatus(request)
+    }
+
+    @RequiresPermission(ACCESS_NETWORK_STATE)
+    override fun getNetworkConnectionStatus(
+        request: GetNetworkConnectionStatusRequest,
+        callbacks: GetNetworkConnectionStatusCallbacks?
+    ) {
+        networkConnectionStatusDelegate.getNetworkConnectionStatus(request, callbacks)
+    }
+
     @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun getRSSI(request: GetRSSIRequest): GetRSSIResult {
         return accessPointsDelegate.getRSSI(request)
@@ -715,32 +726,6 @@ class Wisefy private constructor(
     @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun getSavedNetworks(request: GetSavedNetworksRequest, callbacks: GetSavedNetworksCallbacks?) {
         savedNetworkDelegate.getSavedNetworks(request, callbacks)
-    }
-
-    override fun isDeviceConnectedToMobileNetwork(
-        request: IsDeviceConnectedToMobileNetworkRequest
-    ): IsDeviceConnectedResult {
-        return networkConnectionStatusDelegate.isDeviceConnectedToMobileNetwork()
-    }
-
-    override fun isDeviceConnectedToMobileOrWifiNetwork(
-        request: IsDeviceConnectedToMobileOrWifiNetworkRequest
-    ): IsDeviceConnectedResult {
-        return networkConnectionStatusDelegate.isDeviceConnectedToMobileOrWifiNetwork()
-    }
-
-    override fun isDeviceConnectedToSSID(request: IsDeviceConnectedToSSIDRequest): IsDeviceConnectedResult {
-        return networkConnectionStatusDelegate.isDeviceConnectedToSSID(request)
-    }
-
-    override fun isDeviceConnectedToWifiNetwork(
-        request: IsDeviceConnectedToWifiNetworkRequest
-    ): IsDeviceConnectedResult {
-        return networkConnectionStatusDelegate.isDeviceConnectedToWifiNetwork()
-    }
-
-    override fun isDeviceRoaming(request: IsDeviceRoamingRequest): IsDeviceRoamingResult {
-        return networkConnectionStatusDelegate.isDeviceRoaming()
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_NETWORK_STATE])

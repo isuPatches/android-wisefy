@@ -24,4 +24,4 @@ package com.isupatches.android.wisefy.networkconnectionstatus
  * @author Patches Klinefelter
  * @since 03/2022
  */
-interface NetworkConnectionStatusDelegate : NetworkConnectionStatusApiInternal
+interface NetworkConnectionStatusDelegate : NetworkConnectionStatusApiInternal, NetworkConnectionStatusApiAsync

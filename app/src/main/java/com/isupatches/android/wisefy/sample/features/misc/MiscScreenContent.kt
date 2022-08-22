@@ -99,6 +99,19 @@ internal fun MiscScreenContent(viewModel: MiscViewModel) {
                 }
             }
 
+        val getNetworkConnectionStatusPermissionsLauncher =
+            rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+                if (isGranted) {
+                    scope.launch {
+                        @Suppress("MissingPermission")
+                        viewModel.getNetworkConnectionStatus()
+                    }
+                } else {
+                    WisefySampleLogger.w(LOG_TAG, "Permissions for getting network connection status are denied")
+                    viewModel.onGetNetworkConnectionStatusPermissionError()
+                }
+            }
+
         val getSavedNetworksPermissionsLauncher =
             rememberLauncherForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result ->
                 if (result.all { it.value }) {
@@ -153,6 +166,9 @@ internal fun MiscScreenContent(viewModel: MiscViewModel) {
                 MiscScreenOption.GET_NEARBY_ACCESS_POINTS -> {
                     getNearbyAccessPointsPermissionsLauncher.launch(ACCESS_FINE_LOCATION)
                 }
+                MiscScreenOption.GET_NETWORK_CONNECTION_STATUS -> {
+                    getNetworkConnectionStatusPermissionsLauncher.launch(ACCESS_NETWORK_STATE)
+                }
                 MiscScreenOption.GET_RSSI -> {  }
                 MiscScreenOption.GET_SAVED_NETWORKS -> {
                     getSavedNetworksPermissionsLauncher.launch(arrayOf(ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE))
@@ -200,6 +216,7 @@ internal enum class MiscScreenOption(val id: Long, @StringRes val stringResId: I
     GET_FREQUENCY(R.id.get_frequency.toLong(), R.string.get_frequency),
     GET_IP(R.id.get_ip.toLong(), R.string.get_ip),
     GET_NEARBY_ACCESS_POINTS(R.id.get_nearby_access_points.toLong(), R.string.get_nearby_access_points),
+    GET_NETWORK_CONNECTION_STATUS(R.id.get_network_connection_status.toLong(), R.string.get_network_connection_status),
     GET_RSSI(R.id.get_rssi.toLong(), R.string.get_rssi),
     GET_SAVED_NETWORKS(R.id.get_saved_networks.toLong(), R.string.get_saved_networks),
     IS_NETWORK_5GHZ(R.id.is_network_5ghz.toLong(), R.string.is_network_5ghz),

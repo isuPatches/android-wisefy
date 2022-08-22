@@ -23,13 +23,8 @@ import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.core.util.SdkUtil
 import com.isupatches.android.wisefy.networkconnectionstatus.NetworkConnectionStatusApiInternal
 import com.isupatches.android.wisefy.networkconnectionstatus.NetworkConnectionStatusDelegate
-import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceConnectedResult
-import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceConnectedToMobileNetworkRequest
-import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceConnectedToMobileOrWifiNetworkRequest
-import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceConnectedToSSIDRequest
-import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceConnectedToWifiNetworkRequest
-import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceRoamingRequest
-import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceRoamingResult
+import com.isupatches.android.wisefy.networkconnectionstatus.entities.GetNetworkConnectionStatusRequest
+import com.isupatches.android.wisefy.networkconnectionstatus.entities.GetNetworkConnectionStatusResult
 import com.isupatches.android.wisefy.networkconnectionstatus.os.apis.DefaultNetworkConnectionStatusApi
 import com.isupatches.android.wisefy.networkconnectionstatus.os.impls.DefaultNetworkConnectionStatusApiImpl
 
@@ -75,60 +70,14 @@ internal class DefaultNetworkConnectionStatusAdapter(
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun isDeviceConnectedToMobileNetwork(
-        request: IsDeviceConnectedToMobileNetworkRequest
-    ): IsDeviceConnectedResult {
-        val isConnected = api.isDeviceConnectedToMobileNetwork()
-        return if (isConnected) {
-            IsDeviceConnectedResult.True
-        } else {
-            IsDeviceConnectedResult.False
-        }
-    }
-
-    override fun isDeviceConnectedToMobileOrWifiNetwork(
-        request: IsDeviceConnectedToMobileOrWifiNetworkRequest
-    ): IsDeviceConnectedResult {
-        val isConnected = api.isDeviceConnectedToMobileOrWifiNetwork()
-        return if (isConnected) {
-            IsDeviceConnectedResult.True
-        } else {
-            IsDeviceConnectedResult.False
-        }
-    }
-
-    @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun isDeviceConnectedToSSID(request: IsDeviceConnectedToSSIDRequest): IsDeviceConnectedResult {
-        val isConnected = when (request) {
-            is IsDeviceConnectedToSSIDRequest.SSID -> api.isDeviceConnectedToSSID(request.regex)
-            is IsDeviceConnectedToSSIDRequest.BSSID -> api.isDeviceConnectedToBSSID(request.regex)
-        }
-        return if (isConnected) {
-            IsDeviceConnectedResult.True
-        } else {
-            IsDeviceConnectedResult.False
-        }
-    }
-
-    @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun isDeviceConnectedToWifiNetwork(
-        request: IsDeviceConnectedToWifiNetworkRequest
-    ): IsDeviceConnectedResult {
-        val isConnected = api.isDeviceConnectedToWifiNetwork()
-        return if (isConnected) {
-            IsDeviceConnectedResult.True
-        } else {
-            IsDeviceConnectedResult.False
-        }
-    }
-
-    @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun isDeviceRoaming(request: IsDeviceRoamingRequest): IsDeviceRoamingResult {
-        val isRoaming = api.isDeviceRoaming()
-        return if (isRoaming) {
-            IsDeviceRoamingResult.True
-        } else {
-            IsDeviceRoamingResult.False
-        }
+    override fun getNetworkConnectionStatus(request: GetNetworkConnectionStatusRequest): GetNetworkConnectionStatusResult {
+        return GetNetworkConnectionStatusResult(
+            isConnected = api.isDeviceConnected(),
+            isConnectedToMobileNetwork = api.isDeviceConnectedToMobileNetwork(),
+            isConnectedToWifiNetwork = api.isDeviceConnectedToWifiNetwork(),
+            isRoaming = api.isDeviceRoaming(),
+            ssidOfNetworkConnectedTo = api.getSSIDOfTheNetworkTheDeviceIsConnectedTo(),
+            bssidOfNetworkConnectedTo = api.getBSSIDOfTheNetworkTheDeviceIsConnectedTo()
+        )
     }
 }

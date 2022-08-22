@@ -10,6 +10,7 @@
     <string name="get_frequency">Get Frequency</string>
     <string name="get_ip">Get IP</string>
     <string name="get_nearby_access_points">Get Nearby Access Points</string>
+    <string name="get_network_connection_status">Get Network Connection Status</string>
     <string name="get_rssi">Get RSSI</string>
     <string name="get_saved_networks">Get Saved Networks</string>
     <string name="is_network_5ghz">Is Network 5gHz</string>
@@ -62,6 +63,9 @@
     <string name="permission_error_get_ip">Permissions for getting the device\'s IP are denied</string>
     <string name="permission_error_get_nearby_access_points">
         Permissions for getting nearby access points are denied
+    </string>
+    <string name="permission_error_get_network_connection_status">
+        Permissions for getting network connection status are denied
     </string>
     <string name="permission_error_get_saved_networks">Permissions for getting saved networks are denied</string>
     <string name="permission_error_is_network_5ghz">

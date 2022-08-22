@@ -268,6 +268,25 @@ internal fun MiscScreenDialogContent(
                 }
             )
         }
+        is MiscScreenDialogState.GetNetworkConnectionStatus.Success -> {
+            WisefySampleNoticeDialog(
+                title = R.string.get_network_connection_status,
+                body = R.string.network_connection_status_args,
+                currentDialogState.data,
+                onClose = {
+                    viewModel.onDialogClosed()
+                }
+            )
+        }
+        is MiscScreenDialogState.GetNetworkConnectionStatus.PermissionsError -> {
+            WisefySampleNoticeDialog(
+                title = R.string.permission_error,
+                body = R.string.permission_error_get_network_connection_status,
+                onClose = {
+                    viewModel.onDialogClosed()
+                }
+            )
+        }
         is MiscScreenDialogState.GetRSSI.Failure -> TODO()
         is MiscScreenDialogState.GetRSSI.PermissionsError -> TODO()
         is MiscScreenDialogState.GetRSSI.Success -> TODO()

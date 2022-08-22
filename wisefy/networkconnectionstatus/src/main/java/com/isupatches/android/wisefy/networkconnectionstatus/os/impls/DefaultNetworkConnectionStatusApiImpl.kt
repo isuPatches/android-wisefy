@@ -58,56 +58,36 @@ internal class DefaultNetworkConnectionStatusApiImpl(
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun isDeviceConnectedToMobileNetwork(): Boolean {
-        return doesNetworkHaveTransportTypeAndInternetCapability(
-            transportType = NetworkCapabilities.TRANSPORT_CELLULAR
-        ) && isNetworkConnected()
+    override fun getSSIDOfTheNetworkTheDeviceIsConnectedTo(): String? {
+        val connectionInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            connectivityManager.getNetwork()
+        } else {
+            @Suppress("Deprecation")
+            wifiManager.connectionInfo
+        }
+        return connectionInfo?.ssid?.replace(QUOTE, "")
     }
 
-    override fun isDeviceConnectedToMobileOrWifiNetwork(): Boolean {
+    @RequiresPermission(ACCESS_NETWORK_STATE)
+    override fun getBSSIDOfTheNetworkTheDeviceIsConnectedTo(): String? {
+        val connectionInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            connectivityManager.getNetwork()
+        } else {
+            @Suppress("Deprecation")
+            wifiManager.connectionInfo
+        }
+        return connectionInfo?.bssid?.replace(QUOTE, "")
+    }
+
+    override fun isDeviceConnected(): Boolean {
         return isNetworkConnected()
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun isDeviceConnectedToSSID(regexForSSID: String): Boolean {
-        val connectionInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            connectivityManager.getNetwork()
-        } else {
-            @Suppress("Deprecation")
-            wifiManager.connectionInfo
-        }
-        connectionInfo?.let {
-            if (!it.ssid.isNullOrEmpty()) {
-                val currentValue = it.ssid.replace(QUOTE, "")
-                logger.d(LOG_TAG, "Current value: %s, Desired value: %s", currentValue, regexForSSID)
-                if (currentValue.equals(regexForSSID, ignoreCase = true) && isNetworkConnected()) {
-                    logger.d(LOG_TAG, "Network is connected")
-                    return true
-                }
-            }
-        }
-        return false
-    }
-
-    @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun isDeviceConnectedToBSSID(regexForBSSID: String): Boolean {
-        val connectionInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            connectivityManager.getNetwork()
-        } else {
-            @Suppress("Deprecation")
-            wifiManager.connectionInfo
-        }
-        connectionInfo?.let {
-            if (!it.ssid.isNullOrEmpty()) {
-                val currentValue = it.bssid.replace(QUOTE, "")
-                logger.d(LOG_TAG, "Current value: %s, Desired value: %s", currentValue, regexForBSSID)
-                if (currentValue.equals(regexForBSSID, ignoreCase = true) && isNetworkConnected()) {
-                    logger.d(LOG_TAG, "Network is connected")
-                    return true
-                }
-            }
-        }
-        return false
+    override fun isDeviceConnectedToMobileNetwork(): Boolean {
+        return doesNetworkHaveTransportTypeAndInternetCapability(
+            transportType = NetworkCapabilities.TRANSPORT_CELLULAR
+        ) && isNetworkConnected()
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)

@@ -17,19 +17,14 @@ package com.isupatches.android.wisefy.networkconnectionstatus
 
 import android.Manifest.permission.ACCESS_NETWORK_STATE
 import androidx.annotation.RequiresPermission
+import com.isupatches.android.wisefy.networkconnectionstatus.callbacks.GetNetworkConnectionStatusCallbacks
 import com.isupatches.android.wisefy.networkconnectionstatus.entities.GetNetworkConnectionStatusRequest
-import com.isupatches.android.wisefy.networkconnectionstatus.entities.GetNetworkConnectionStatusResult
 
-/**
- * A set of synchronous APIs for checking the device's connection status.
- *
- * @author Patches Klinefelter
- * @since 03/2022
- */
-interface NetworkConnectionStatusApi {
+interface NetworkConnectionStatusApiAsync {
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
     fun getNetworkConnectionStatus(
-        request: GetNetworkConnectionStatusRequest = GetNetworkConnectionStatusRequest()
-    ): GetNetworkConnectionStatusResult
+        request: GetNetworkConnectionStatusRequest = GetNetworkConnectionStatusRequest(),
+        callbacks: GetNetworkConnectionStatusCallbacks?
+    )
 }

@@ -29,6 +29,7 @@ import com.isupatches.android.ktx.getCurrentNetworkInfoAsync
 import com.isupatches.android.ktx.getFrequencyAsync
 import com.isupatches.android.ktx.getIPAsync
 import com.isupatches.android.ktx.getNearbyAccessPointsAsync
+import com.isupatches.android.ktx.getNetworkConnectionStatusAsync
 import com.isupatches.android.ktx.getRSSIAsync
 import com.isupatches.android.ktx.getSavedNetworksAsync
 import com.isupatches.android.ktx.isNetwork5gHzAsync
@@ -42,6 +43,7 @@ import com.isupatches.android.wisefy.frequency.entities.GetFrequencyResult
 import com.isupatches.android.wisefy.frequency.entities.IsNetwork5gHzResult
 import com.isupatches.android.wisefy.networkconnection.callbacks.DisconnectFromCurrentNetworkCallbacks
 import com.isupatches.android.wisefy.networkconnection.entities.DisconnectFromCurrentNetworkRequest
+import com.isupatches.android.wisefy.networkconnectionstatus.entities.GetNetworkConnectionStatusResult
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkInfoResult
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkResult
 import com.isupatches.android.wisefy.networkinfo.entities.GetIPResult
@@ -62,6 +64,7 @@ internal abstract class MiscViewModel : BaseViewModel() {
     abstract fun onGetFrequencyPermissionsError()
     abstract fun onGetIPPermissionsError()
     abstract fun onGetNearbyAccessPointsPermissionError()
+    abstract fun onGetNetworkConnectionStatusPermissionError()
     abstract fun onGetRSSIPermissionsError()
     abstract fun onGetSavedNetworksPermissionsError()
     abstract fun isNetwork5gHzPermissionsError()
@@ -85,6 +88,9 @@ internal abstract class MiscViewModel : BaseViewModel() {
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     abstract suspend fun getNearbyAccessPoints()
+
+    @RequiresPermission(ACCESS_NETWORK_STATE)
+    abstract suspend fun getNetworkConnectionStatus()
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     abstract suspend fun getRSSI()
@@ -422,6 +428,35 @@ internal class DefaultMiscViewModel(
         }
     }
 
+    override suspend fun getNetworkConnectionStatus() {
+        _uiState.value = MiscScreenUIState(
+            loadingState = MiscScreenLoadingState(isLoading = true),
+            dialogState = MiscScreenDialogState.None
+        )
+
+        val result = try {
+            wisefy.getNetworkConnectionStatusAsync()
+        } catch (ex: WisefyException) {
+            _uiState.value = MiscScreenUIState(
+                loadingState = MiscScreenLoadingState(isLoading = false),
+                dialogState = MiscScreenDialogState.Failure.WisefyAsync(exception = ex)
+            )
+            null
+        }
+
+        when (result) {
+            is GetNetworkConnectionStatusResult -> {
+                _uiState.value = MiscScreenUIState(
+                    loadingState = MiscScreenLoadingState(isLoading = false),
+                    dialogState = MiscScreenDialogState.GetNetworkConnectionStatus.Success(data = result)
+                )
+            }
+            null -> {
+                // Case handled above in the catch clause
+            }
+        }
+    }
+
     override suspend fun getRSSI() {
         _uiState.value = MiscScreenUIState(
             loadingState = MiscScreenLoadingState(isLoading = true),
@@ -603,6 +638,13 @@ internal class DefaultMiscViewModel(
         _uiState.value = MiscScreenUIState(
             loadingState = MiscScreenLoadingState(isLoading = false),
             dialogState = MiscScreenDialogState.GetNearbyAccessPoints.PermissionsError
+        )
+    }
+
+    override fun onGetNetworkConnectionStatusPermissionError() {
+        _uiState.value = MiscScreenUIState(
+            loadingState = MiscScreenLoadingState(isLoading = false),
+            dialogState = MiscScreenDialogState.GetNetworkConnectionStatus.PermissionsError
         )
     }
 

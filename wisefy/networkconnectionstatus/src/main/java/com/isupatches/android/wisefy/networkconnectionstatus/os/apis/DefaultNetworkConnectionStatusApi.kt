@@ -43,19 +43,22 @@ internal interface DefaultNetworkConnectionStatusApi {
      */
     fun detachNetworkWatcher()
 
+    @RequiresPermission(ACCESS_NETWORK_STATE)
+    fun getSSIDOfTheNetworkTheDeviceIsConnectedTo(): String?
+
+    @RequiresPermission(ACCESS_NETWORK_STATE)
+    fun getBSSIDOfTheNetworkTheDeviceIsConnectedTo(): String?
+
     /**
-     * An internal API that is used to check if the device is currently connected to a given BSSID network.
+     * An internal API that is used to check if the device is currently connected to a Wifi or mobile network.
      *
-     * @param regexForBSSID The regex to match for the access point's BSSID
-     *
-     * @return Boolean - Whether the device is connected to a given BSSID. True if connected to the given BSSID,
-     * otherwise false
+     * @return Boolean - Whether the device is connected to a Wifi or mobile network. True if connected to a Wifi or
+     * mobile network, otherwise false
      *
      * @author Patches Klinefelter
      * @since 03/2022
      */
-    @RequiresPermission(ACCESS_NETWORK_STATE)
-    fun isDeviceConnectedToBSSID(regexForBSSID: String): Boolean
+    fun isDeviceConnected(): Boolean
 
     /**
      * An internal API that is used to check if the device is currently connected to a mobile network.
@@ -68,31 +71,6 @@ internal interface DefaultNetworkConnectionStatusApi {
      */
     @RequiresPermission(ACCESS_NETWORK_STATE)
     fun isDeviceConnectedToMobileNetwork(): Boolean
-
-    /**
-     * An internal API that is used to check if the device is currently connected to a Wifi or mobile network.
-     *
-     * @return Boolean - Whether the device is connected to a Wifi or mobile network. True if connected to a Wifi or
-     * mobile network, otherwise false
-     *
-     * @author Patches Klinefelter
-     * @since 03/2022
-     */
-    fun isDeviceConnectedToMobileOrWifiNetwork(): Boolean
-
-    /**
-     * An internal API that is used to check if the device is currently connected to a given SSID network.
-     *
-     * @param regexForSSID The regex to match for the access point's SSID
-     *
-     * @return Boolean - Whether the device is connected to a given SSID. True if connected to the given SSID,
-     * otherwise false
-     *
-     * @author Patches Klinefelter
-     * @since 03/2022
-     */
-    @RequiresPermission(ACCESS_NETWORK_STATE)
-    fun isDeviceConnectedToSSID(regexForSSID: String): Boolean
 
     /**
      * An internal API that is used to check if the device is currently connected to a Wifi network.

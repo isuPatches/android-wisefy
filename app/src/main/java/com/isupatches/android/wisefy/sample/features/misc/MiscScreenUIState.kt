@@ -19,6 +19,7 @@ import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
 import com.isupatches.android.wisefy.accesspoints.entities.RSSIData
 import com.isupatches.android.wisefy.core.exceptions.WisefyException
 import com.isupatches.android.wisefy.frequency.entities.FrequencyData
+import com.isupatches.android.wisefy.networkconnectionstatus.entities.GetNetworkConnectionStatusResult
 import com.isupatches.android.wisefy.networkinfo.entities.IPData
 import com.isupatches.android.wisefy.networkinfo.entities.NetworkData
 import com.isupatches.android.wisefy.networkinfo.entities.NetworkInfoData
@@ -94,6 +95,11 @@ internal sealed class MiscScreenDialogState {
         data class Success(val accessPoints: List<AccessPointData>) : GetNearbyAccessPoints()
         object Failure : GetNearbyAccessPoints()
         object PermissionsError : GetNearbyAccessPoints()
+    }
+
+    sealed class GetNetworkConnectionStatus : MiscScreenDialogState() {
+        data class Success(val data: GetNetworkConnectionStatusResult) : GetNetworkConnectionStatus()
+        object PermissionsError : GetNetworkConnectionStatus()
     }
 
     sealed class GetRSSI : MiscScreenDialogState() {

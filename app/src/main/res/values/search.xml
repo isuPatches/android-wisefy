@@ -33,6 +33,8 @@
     <string name="saved_network_args">Saved network: %s</string>
     <string name="saved_network_not_found">Saved network not found</string>
 
+    <string name="network_connection_status_args">Network connection status: %s</string>
+
     <!-- Permissions -->
     <string name="permission_error_search_for_saved_network">
         Permissions for searching for a saved network are denied

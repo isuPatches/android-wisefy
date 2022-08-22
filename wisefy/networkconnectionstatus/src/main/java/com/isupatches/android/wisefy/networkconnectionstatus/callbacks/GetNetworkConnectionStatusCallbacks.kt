@@ -13,6 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.android.wisefy.networkconnectionstatus.entities
+package com.isupatches.android.wisefy.networkconnectionstatus.callbacks
 
-class IsDeviceConnectedToMobileOrWifiNetworkRequest
+import com.isupatches.android.wisefy.core.base.BaseWisefyCallbacks
+import com.isupatches.android.wisefy.networkconnectionstatus.entities.GetNetworkConnectionStatusResult
+
+interface GetNetworkConnectionStatusCallbacks : BaseWisefyCallbacks {
+    fun onDeviceNetworkConnectionStatusRetrieved(result: GetNetworkConnectionStatusResult)
+}

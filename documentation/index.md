@@ -2,10 +2,16 @@
 
 #### `:accesspoints`
 
-  - [Getting nearby access points](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#getNearbyAccessPoints)
-    - Synchronous option: `fun getNearbyAccessPoints(request: GetNearbyAccessPointsRequest): GetNearbyAccessPointsResult`
-    - Async option: `fun getNearbyAccessPoints(request: GetNearbyAccessPointsRequest, callbacks: GetNearbyAccessPointCallbacks?)`
-    - Coroutine option: `suspend fun WisefyApi.getNearbyAccessPointsAsync(request: GetNearbyAccessPointsRequest): GetNearbyAccessPointsResult`
+  - *Getting nearby access points*
+    - Usage example: [Getting nearby access points](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#getNearbyAccessPoints)
+    
+    - Request class: [GetNearbyAccessPointsRequest](/wisefy/accesspoints/src/main/java/com/isupatches/android/wisefy/accesspoints/entities/GetNearbyAccessPointsRequest.kt))
+    - Result class: [GetNearbyAccessPointsResult](/wisefy/accesspoints/src/main/java/com/isupatches/android/wisefy/accesspoints/entities/GetNearbyAccessPointsResult.kt)
+    
+    - API options:
+      - Synchronous: `fun getNearbyAccessPoints(request: GetNearbyAccessPointsRequest): GetNearbyAccessPointsResult`
+      - Async: `fun getNearbyAccessPoints(request: GetNearbyAccessPointsRequest, callbacks: GetNearbyAccessPointCallbacks?)`
+      - Coroutine: `suspend fun WisefyApi.getNearbyAccessPointsAsync(request: GetNearbyAccessPointsRequest): GetNearbyAccessPointsResult`
     
   - [Getting the RSSI level of an access point](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#getRSSI)
     - Synchronous option: `fun getRSSI(request: GetRSSIRequest): GetRSSIResult`
@@ -44,11 +50,10 @@
 
 #### `:networkconnectionstatus`
 
-    - Checking if the device is connected to a mobile network
-    - Checking if the device is connected to a mobile or wifi network
-    - Checking if the device is connected to a given SSID/BSSID
-    - Checking if the device is connected to a wifi network
-    - Checking if the device is roaming
+  - [Getting the device's network connection status](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#getNetworkConnectionStatus)
+    - Synchronous option: `fun getNetworkConnectionStatus(request: GetNetworkConnectionStatusRequest): GetNetworkConnectionStatusResult`
+    - Async option: `fun getNetworkConnectionStatus(request: GetNetworkConnectionStatusRequest = GetNetworkConnectionStatusRequest(), callbacks: GetNetworkConnectionStatusCallbacks?)`
+    - Coroutine option: `suspend fun WisefyApi.getNetworkConnectionStatusAsync(request: GetNetworkConnectionStatusRequest): GetNetworkConnectionStatusResult`
 
 #### `:networkinfo`
 
@@ -69,8 +74,11 @@
     
 #### `:removenetwork`
 
-    - Removing a network
-
+  - [Removing a network](/app/src/main/java/com/isupatches/android/wisefy/sample/features/remove/RemoveNetworkViewModel.kt#removeNetwork)
+      - Synchronous option: `fun removeNetwork(request: RemoveNetworkRequest): RemoveNetworkResult`
+      - Async option: `fun removeNetwork(request: RemoveNetworkRequest, callbacks: RemoveNetworkCallbacks?)`
+      - Coroutine option: `suspend fun WisefyApi.removeNetworkAsync(request: RemoveNetworkRequest): RemoveNetworkResult`
+      
 #### `:savednetworks`
 
     - Getting the saved networks on a device
@@ -88,7 +96,7 @@
     - Calculating signal strength bars
     - Comparing signal strength
 
-####`:wifi`
+#### `:wifi`
 
   - [Enabling Wifi](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#enableWifi) **DEPRECATED**
     - Synchronous option: `fun enableWifi(request: EnableWifiRequest): EnableWifiResult`

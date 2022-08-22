@@ -19,16 +19,17 @@ import android.Manifest.permission.ACCESS_NETWORK_STATE
 import android.net.ConnectivityManager
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
+import com.isupatches.android.wisefy.core.coroutines.CoroutineDispatcherProvider
+import com.isupatches.android.wisefy.core.coroutines.createBaseCoroutineExceptionHandler
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.core.util.SdkUtil
-import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceConnectedResult
-import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceConnectedToMobileNetworkRequest
-import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceConnectedToMobileOrWifiNetworkRequest
-import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceConnectedToSSIDRequest
-import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceConnectedToWifiNetworkRequest
-import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceRoamingRequest
-import com.isupatches.android.wisefy.networkconnectionstatus.entities.IsDeviceRoamingResult
+import com.isupatches.android.wisefy.networkconnectionstatus.callbacks.GetNetworkConnectionStatusCallbacks
+import com.isupatches.android.wisefy.networkconnectionstatus.entities.GetNetworkConnectionStatusRequest
+import com.isupatches.android.wisefy.networkconnectionstatus.entities.GetNetworkConnectionStatusResult
 import com.isupatches.android.wisefy.networkconnectionstatus.os.adapters.DefaultNetworkConnectionStatusAdapter
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * An internal Wisefy delegate for checking the device's connection status and if it meets certain criteria.
@@ -46,6 +47,8 @@ import com.isupatches.android.wisefy.networkconnectionstatus.os.adapters.Default
  * @since 03/2022
  */
 class WisefyNetworkConnectionStatusDelegate(
+    private val coroutineDispatcherProvider: CoroutineDispatcherProvider,
+    private val scope: CoroutineScope,
     connectivityManager: ConnectivityManager,
     logger: WisefyLogger,
     sdkUtil: SdkUtil,
@@ -77,32 +80,20 @@ class WisefyNetworkConnectionStatusDelegate(
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun isDeviceConnectedToMobileNetwork(
-        request: IsDeviceConnectedToMobileNetworkRequest
-    ): IsDeviceConnectedResult {
-        return adapter.isDeviceConnectedToMobileNetwork()
-    }
-
-    override fun isDeviceConnectedToMobileOrWifiNetwork(
-        request: IsDeviceConnectedToMobileOrWifiNetworkRequest
-    ): IsDeviceConnectedResult {
-        return adapter.isDeviceConnectedToMobileOrWifiNetwork()
+    override fun getNetworkConnectionStatus(request: GetNetworkConnectionStatusRequest): GetNetworkConnectionStatusResult {
+        return adapter.getNetworkConnectionStatus(request)
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun isDeviceConnectedToSSID(request: IsDeviceConnectedToSSIDRequest): IsDeviceConnectedResult {
-        return adapter.isDeviceConnectedToSSID(request)
-    }
-
-    @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun isDeviceConnectedToWifiNetwork(
-        request: IsDeviceConnectedToWifiNetworkRequest
-    ): IsDeviceConnectedResult {
-        return adapter.isDeviceConnectedToWifiNetwork()
-    }
-
-    @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun isDeviceRoaming(request: IsDeviceRoamingRequest): IsDeviceRoamingResult {
-        return adapter.isDeviceRoaming()
+    override fun getNetworkConnectionStatus(
+        request: GetNetworkConnectionStatusRequest,
+        callbacks: GetNetworkConnectionStatusCallbacks?
+    ) {
+        scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
+            val currentNetworkConnectionStatus = adapter.getNetworkConnectionStatus(request)
+            withContext(coroutineDispatcherProvider.main) {
+                callbacks?.onDeviceNetworkConnectionStatusRetrieved(currentNetworkConnectionStatus)
+            }
+        }
     }
 }

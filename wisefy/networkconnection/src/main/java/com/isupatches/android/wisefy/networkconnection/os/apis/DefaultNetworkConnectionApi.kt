@@ -15,6 +15,11 @@
  */
 package com.isupatches.android.wisefy.networkconnection.os.apis
 
+import android.Manifest
+import android.Manifest.permission.ACCESS_FINE_LOCATION
+import android.Manifest.permission.ACCESS_NETWORK_STATE
+import android.Manifest.permission.ACCESS_WIFI_STATE
+import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.core.entities.DeprecationMessages
 
 /**
@@ -36,6 +41,7 @@ internal interface DefaultNetworkConnectionApi {
      * @author Patches Klinefelter
      * @since 03/2022
      */
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE, ACCESS_NETWORK_STATE])
     fun connectToNetworkBySSID(ssid: String, timeoutInMillis: Int): Boolean?
 
     /**
@@ -49,6 +55,7 @@ internal interface DefaultNetworkConnectionApi {
      * @author Patches Klinefelter
      * @since 03/2022
      */
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE, ACCESS_NETWORK_STATE])
     fun connectToNetworkByBSSID(bssid: String, timeoutInMillis: Int): Boolean?
 
     /**

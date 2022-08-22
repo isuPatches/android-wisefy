@@ -8,6 +8,7 @@
     <item name="get_frequency" type="id" />
     <item name="get_ip" type="id" />
     <item name="get_nearby_access_points" type="id" />
+    <item name="get_network_connection_status" type="id" />
     <item name="get_rssi" type="id" />
     <item name="get_saved_networks" type="id" />
     <item name="is_network_5ghz" type="id" />
