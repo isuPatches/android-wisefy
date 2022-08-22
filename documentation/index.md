@@ -9,14 +9,20 @@
     - Result class: [GetNearbyAccessPointsResult](/wisefy/accesspoints/src/main/java/com/isupatches/android/wisefy/accesspoints/entities/GetNearbyAccessPointsResult.kt)
     
     - API options:
-      - Synchronous: `fun getNearbyAccessPoints(request: GetNearbyAccessPointsRequest): GetNearbyAccessPointsResult`
-      - Async: `fun getNearbyAccessPoints(request: GetNearbyAccessPointsRequest, callbacks: GetNearbyAccessPointCallbacks?)`
-      - Coroutine: `suspend fun WisefyApi.getNearbyAccessPointsAsync(request: GetNearbyAccessPointsRequest): GetNearbyAccessPointsResult`
+      - *Synchronous*: `fun getNearbyAccessPoints(request: GetNearbyAccessPointsRequest): GetNearbyAccessPointsResult`
+      - *Async*: `fun getNearbyAccessPoints(request: GetNearbyAccessPointsRequest, callbacks: GetNearbyAccessPointCallbacks?)`
+      - *Coroutine*: `suspend fun WisefyApi.getNearbyAccessPointsAsync(request: GetNearbyAccessPointsRequest): GetNearbyAccessPointsResult`
     
-  - [Getting the RSSI level of an access point](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#getRSSI)
-    - Synchronous option: `fun getRSSI(request: GetRSSIRequest): GetRSSIResult`
-    - Async option: `fun getRSSI(request: GetRSSIRequest, callbacks: GetRSSICallbacks?)`
-    - Coroutine option: `suspend fun WisefyApi.getRSSIAsync(request: GetRSSIRequest): GetRSSIResult`
+  - **Getting the RSSI level of an access point**
+    - Usage example: [MiscViewModel::getRSSI](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#L460)
+
+    - Request class: [GetRSSIRequest](/wisefy/accesspoints/src/main/java/com/isupatches/android/wisefy/accesspoints/entities/GetRSSIRequest.kt)
+    - Result class: [GetRSSIResult](/wisefy/accesspoints/src/main/java/com/isupatches/android/wisefy/accesspoints/entities/GetRSSIResult.kt)
+    
+    - API options:
+      - *Synchronous*: `fun getRSSI(request: GetRSSIRequest): GetRSSIResult`
+      - *Async*: `fun getRSSI(request: GetRSSIRequest, callbacks: GetRSSICallbacks?)`
+      - *Coroutine*: `suspend fun WisefyApi.getRSSIAsync(request: GetRSSIRequest): GetRSSIResult`
 
   - [Searching for a single access point](/documentation/accesspoints/searching-for-a-single-access-point.md)
   - [Searching for multiple access points](/documentation/accesspoints/searching-for-multiple-access-points.md)
@@ -25,10 +31,17 @@
 
 #### `:addnetwork`
 
-  - [Adding a network](/app/src/main/java/com/isupatches/android/wisefy/sample/features/add/AddNetworkViewModel.kt#addNetwork)
-    - Synchronous option: `fun addNetwork(request: AddNetworkRequest): AddNetworkRestult`
-    - Async option: `fun addNetwork(request: AddNetworkRequest, callbacks: AddNetworkCallbacks?)`
-    - Coroutine option: `suspend fun WisefyApi.addNetworkAsync(request: AddNetworkRequest): AddNetworkResult`
+  - **Adding a network**
+    - Usage example: [AddNetworkViewModel::addNetwork](/app/src/main/java/com/isupatches/android/wisefy/sample/features/add/AddNetworkViewModel.kt#L186)
+
+    - Request class: [AddNetworkRequest](/wisefy/addnetwork/src/main/java/com/isupatches/android/wisefy/addnetwork/entities/AddNetworkRequest.kt)
+    - Result class: [AddNetworkResult](/wisefy/addnetwork/src/main/java/com/isupatches/android/wisefy/addnetwork/entities/AddNetworkResult.kt)
+
+    - API options:
+      - *Synchronous*: `fun addNetwork(request: AddNetworkRequest): AddNetworkRestult`
+      - *Async*: `fun addNetwork(request: AddNetworkRequest, callbacks: AddNetworkCallbacks?)`
+      - *Coroutine*: `suspend fun WisefyApi.addNetworkAsync(request: AddNetworkRequest): AddNetworkResult`
+
     - Notes: Currently supports Open and WPA2 network types along with WPA3 starting with Android Q
     
 #### `:frequency`
@@ -50,10 +63,16 @@
 
 #### `:networkconnectionstatus`
 
-  - [Getting the device's network connection status](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#getNetworkConnectionStatus)
-    - Synchronous option: `fun getNetworkConnectionStatus(request: GetNetworkConnectionStatusRequest): GetNetworkConnectionStatusResult`
-    - Async option: `fun getNetworkConnectionStatus(request: GetNetworkConnectionStatusRequest = GetNetworkConnectionStatusRequest(), callbacks: GetNetworkConnectionStatusCallbacks?)`
-    - Coroutine option: `suspend fun WisefyApi.getNetworkConnectionStatusAsync(request: GetNetworkConnectionStatusRequest): GetNetworkConnectionStatusResult`
+  - **Getting the device's network connection status**
+    - Usage example: [MiscViewModel::getNetworkConnectionStatus](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#L431)
+
+    - Request class: [GetNetworkConnectionStatusRequest](/wisefy/networkconnectionstatus/src/main/java/com/isupatches/android/wisefy/networkconnectionstatus/entities/GetNetworkConnectionStatusRequest.kt)
+    - Result class: [GetNetworkConnectionStatusResult](/wisefy/networkconnectionstatus/src/main/java/com/isupatches/android/wisefy/networkconnectionstatus/entities/GetNetworkConnectionStatusResult.kt)
+    
+    - API options:
+      - *Synchronous*: `fun getNetworkConnectionStatus(request: GetNetworkConnectionStatusRequest): GetNetworkConnectionStatusResult`
+      - *Async*: `fun getNetworkConnectionStatus(request: GetNetworkConnectionStatusRequest = GetNetworkConnectionStatusRequest(), callbacks: GetNetworkConnectionStatusCallbacks?)`
+      - *Coroutine*: `suspend fun WisefyApi.getNetworkConnectionStatusAsync(request: GetNetworkConnectionStatusRequest): GetNetworkConnectionStatusResult`
 
 #### `:networkinfo`
 
