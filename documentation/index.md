@@ -2,10 +2,10 @@
 
 #### `:accesspoints`
 
-  - *Getting nearby access points*
-    - Usage example: [Getting nearby access points](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#getNearbyAccessPoints)
+  - **Getting nearby access points**
+    - Usage example: [MiscViewModel::getNearbyAccessPoints](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#L397)
     
-    - Request class: [GetNearbyAccessPointsRequest](/wisefy/accesspoints/src/main/java/com/isupatches/android/wisefy/accesspoints/entities/GetNearbyAccessPointsRequest.kt))
+    - Request class: [GetNearbyAccessPointsRequest](/wisefy/accesspoints/src/main/java/com/isupatches/android/wisefy/accesspoints/entities/GetNearbyAccessPointsRequest.kt)
     - Result class: [GetNearbyAccessPointsResult](/wisefy/accesspoints/src/main/java/com/isupatches/android/wisefy/accesspoints/entities/GetNearbyAccessPointsResult.kt)
     
     - API options:
