@@ -1,3 +1,5 @@
+## Wisefy Documentation
+
 - [accesspoints](#accesspoints)
     - [getNearbyAccessPoints](#getnearbyaccesspoints)
     - [getRSSI](#getrssi)
@@ -6,26 +8,25 @@
     - [addNetwork](#addnetwork)
 - [addnetwork](#addnetwork)
 
-## Wisefy Documentation
-
 ### `:accesspoints`
 
 #### getNearbyAccessPoints()
 
-  - **Getting nearby access points**
-    - Usage example: [MiscViewModel::getNearbyAccessPoints](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#L397)
-    
-    - Request class: [GetNearbyAccessPointsRequest](/wisefy/accesspoints/src/main/java/com/isupatches/android/wisefy/accesspoints/entities/GetNearbyAccessPointsRequest.kt)
-    - Result class: [GetNearbyAccessPointsResult](/wisefy/accesspoints/src/main/java/com/isupatches/android/wisefy/accesspoints/entities/GetNearbyAccessPointsResult.kt)
-    
-    - API options:
-      - *Synchronous*: `fun getNearbyAccessPoints(request: GetNearbyAccessPointsRequest): GetNearbyAccessPointsResult`
-      - *Async*: `fun getNearbyAccessPoints(request: GetNearbyAccessPointsRequest, callbacks: GetNearbyAccessPointCallbacks?)`
-      - *Coroutine*: `suspend fun WisefyApi.getNearbyAccessPointsAsync(request: GetNearbyAccessPointsRequest): GetNearbyAccessPointsResult`
+**Gets nearby access points**
+
+- Usage example: [MiscViewModel::getNearbyAccessPoints](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#L397)
+
+- Request class: [GetNearbyAccessPointsRequest](/wisefy/accesspoints/src/main/java/com/isupatches/android/wisefy/accesspoints/entities/GetNearbyAccessPointsRequest.kt)
+- Result class: [GetNearbyAccessPointsResult](/wisefy/accesspoints/src/main/java/com/isupatches/android/wisefy/accesspoints/entities/GetNearbyAccessPointsResult.kt)
+
+- API options:
+  - *Synchronous*: `fun getNearbyAccessPoints(request: GetNearbyAccessPointsRequest): GetNearbyAccessPointsResult`
+  - *Async*: `fun getNearbyAccessPoints(request: GetNearbyAccessPointsRequest, callbacks: GetNearbyAccessPointCallbacks?)`
+  - *Coroutine*: `suspend fun WisefyApi.getNearbyAccessPointsAsync(request: GetNearbyAccessPointsRequest): GetNearbyAccessPointsResult`
 
 #### getRSSI()
 
-> Gets the RSSI level of an access point
+**Gets the RSSI level of an access point**
 
 - Usage example: [MiscViewModel::getRSSI](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#L460)
 
@@ -39,7 +40,7 @@
 
 #### searchForAccessPoints()
 
-> Searches for access points that are nearby
+**Searches for access points that are nearby**
 
 - Usage example: [SearchViewModel::searchForAccessPoints](/app/src/main/java/com/isupatches/android/wisefy/sample/features/search/SearchViewModel.kt#L193)
 
@@ -60,7 +61,7 @@
 
 #### addNetwork()
 
-> Adds a network to the saved list of configurations / suggestions
+**Adds a network to the saved list of configurations / suggestions**
 
 - Usage example: [AddNetworkViewModel::addNetwork](/app/src/main/java/com/isupatches/android/wisefy/sample/features/add/AddNetworkViewModel.kt#L186)
 
