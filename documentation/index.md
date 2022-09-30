@@ -194,4 +194,9 @@
 
 ### Mutex Locks
 
+    - networkConnectionMutex: `connectToNetwork`, disconnectFromCurrentNetwork`, `getCurrentNetwork`,
+        `getCurrentNetworkInfo`, `getNetworkConnectionStatus`, `getFrequency`, and `isNetwork5gHz`
+    - savedNetworkMutex: `addNetwork`, `getSavedNetworks`, `isNetworkSaved`, `removeNetwork`, and 
+        `searchForSavedNetworks`
+    - wifiMutex: Locks `enableWifi`, `disableWifi`, and `isWifiEnabled`
  
