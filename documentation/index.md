@@ -1,10 +1,10 @@
 ## Wisefy Documentation
 
-- [accesspoints](#accesspoints-package)
+- [accesspoints package](#accesspoints-package)
     - [getNearbyAccessPoints](#getnearbyaccesspoints)
     - [getRSSI](#getrssi)
     - [searchForAccessPoints](#searchforaccesspoints)
-- [addnetwork](#addnetwork-package)
+- [addnetwork package](#addnetwork-package)
     - [addNetwork](#addnetwork)
 - [addnetwork](#addnetwork)
 
@@ -24,7 +24,7 @@ Gets nearby access points
 
 #### getRSSI()
 
-**Gets the RSSI level of an access point**
+Gets the RSSI level of an access point
 
 - Usage example: [MiscViewModel::getRSSI](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#L460)
 - Request class: [GetRSSIRequest](/wisefy/accesspoints/src/main/java/com/isupatches/android/wisefy/accesspoints/entities/GetRSSIRequest.kt)
@@ -45,7 +45,6 @@ Searches for access points that are nearby
   - *Synchronous*: `fun searchForAccessPoints(request: SearchForAccessPointsRequest): SearchForAccessPointsResult`
   - *Async*: `fun searchForAccessPoints(request: SearchForAccessPointsRequest, callbacks: SearchForAccessPointsCallbacks?)`
   - *Coroutine*: `suspend fun WisefyApi.searchForAccessPointsAsync(request: SearchForAccessPointsRequest): SearchForAccessPointsResult`
-
 - Notes: 
   - This can be leveraged to search for a single access point with `.first()`/`.firstOrNull()` 
   - This can be leveraged for SSIDs with `.map { it.value.SSID }` or `.value.SSID`
@@ -64,7 +63,6 @@ Adds a network to the saved list of configurations / suggestions
   - *Synchronous*: `fun addNetwork(request: AddNetworkRequest): AddNetworkRestult`
   - *Async*: `fun addNetwork(request: AddNetworkRequest, callbacks: AddNetworkCallbacks?)`
   - *Coroutine*: `suspend fun WisefyApi.addNetworkAsync(request: AddNetworkRequest): AddNetworkResult`
-
 - Notes: Currently supports Open and WPA2 network types along with WPA3 starting with Android Q
     
 ### `:frequency`
