@@ -21,7 +21,7 @@ package com.isupatches.android.wisefy.savednetworks.entities
  * @author Patches Klinefelter
  * @since 07/2022, version 5.0.0
  */
-sealed class SearchForSavedNetworkResult {
+sealed class SearchForSavedNetworksResult {
 
     /**
      * A set of classes and objects that are used to represent a success while searching for saved networks on the
@@ -30,7 +30,7 @@ sealed class SearchForSavedNetworkResult {
      * @author Patches Klinefelter
      * @since 07/2022, version 5.0.0
      */
-    sealed class Success : SearchForSavedNetworkResult() {
+    sealed class Success : SearchForSavedNetworksResult() {
 
         /**
          * A data representation for when there are no matching saved networks.
@@ -63,7 +63,7 @@ sealed class SearchForSavedNetworkResult {
      * @author Patches Klinefelter
      * @since 07/2022, version 5.0.0
      */
-    sealed class Failure : SearchForSavedNetworkResult() {
+    sealed class Failure : SearchForSavedNetworksResult() {
 
         /**
          * A data representation of a failure searching for saved networks due to hitting an unexpected path causing an

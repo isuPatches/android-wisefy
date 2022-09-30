@@ -21,7 +21,6 @@ import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
 import com.isupatches.android.wisefy.accesspoints.entities.RSSIData
-import com.isupatches.android.wisefy.accesspoints.entities.SSIDData
 import com.isupatches.android.wisefy.accesspoints.os.apis.DefaultAccessPointsApi
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.core.util.rest
@@ -70,11 +69,11 @@ internal class DefaultAccessPointsApiImpl(
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun getRSSIBySSID(regexForSSID: String, takeHighest: Boolean, timeoutInMillis: Int): RSSIData? {
-        val scanData = searchForAccessPointBySSID(
+        val scanData = searchForAccessPointsBySSID(
             regexForSSID = regexForSSID,
             timeoutInMillis = timeoutInMillis,
             filterDuplicates = takeHighest
-        )
+        ).firstOrNull()
         return scanData?.value?.level?.let {
             RSSIData(value = it)
         }
@@ -82,51 +81,25 @@ internal class DefaultAccessPointsApiImpl(
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun getRSSIByBSSID(regexForBSSID: String, takeHighest: Boolean, timeoutInMillis: Int): RSSIData? {
-        val scanData = searchForAccessPointByBSSID(
+        val scanData = searchForAccessPointsByBSSID(
             regexForBSSID = regexForBSSID,
             timeoutInMillis = timeoutInMillis,
             filterDuplicates = takeHighest
-        )
+        ).firstOrNull()
         return scanData?.value?.level?.let {
             RSSIData(value = it)
         }
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun searchForAccessPointBySSID(
-        regexForSSID: String,
-        timeoutInMillis: Int,
-        filterDuplicates: Boolean
-    ): AccessPointData? {
-        return searchForSingleAccessPoint(
-            timeoutInMillis = timeoutInMillis,
-            filterDuplicates = filterDuplicates
-        ) { scanResult ->
-            accessPointSSIDMatchesRegex(accessPoint = scanResult, regexForSSID = regexForSSID)
-        }
-    }
-
-    @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun searchForAccessPointByBSSID(
-        regexForBSSID: String,
-        timeoutInMillis: Int,
-        filterDuplicates: Boolean
-    ): AccessPointData? {
-        return searchForSingleAccessPoint(
-            timeoutInMillis = timeoutInMillis,
-            filterDuplicates = filterDuplicates
-        ) { scanResult ->
-            accessPointBSSIDMatchesRegex(accessPoint = scanResult, regexForBSSID = regexForBSSID)
-        }
-    }
-
-    @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun searchForAccessPointsBySSID(
         regexForSSID: String,
+        timeoutInMillis: Int?,
         filterDuplicates: Boolean
     ): List<AccessPointData> {
         return searchForMultipleAccessPoints(
-            filterDuplicates = filterDuplicates
+            filterDuplicates = filterDuplicates,
+            timeoutInMillis = timeoutInMillis
         ) { scanResult ->
             accessPointSSIDMatchesRegex(accessPoint = scanResult, regexForSSID = regexForSSID)
         }
@@ -135,61 +108,15 @@ internal class DefaultAccessPointsApiImpl(
     @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun searchForAccessPointsByBSSID(
         regexForBSSID: String,
+        timeoutInMillis: Int?,
         filterDuplicates: Boolean
     ): List<AccessPointData> {
         return searchForMultipleAccessPoints(
-            filterDuplicates = filterDuplicates
+            filterDuplicates = filterDuplicates,
+            timeoutInMillis = timeoutInMillis
         ) { scanResult ->
             accessPointBSSIDMatchesRegex(accessPoint = scanResult, regexForBSSID = regexForBSSID)
         }
-    }
-
-    @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun searchForSSIDByRegex(regexForSSID: String, timeoutInMillis: Int): SSIDData? {
-        val scanData = searchForAccessPointBySSID(
-            regexForSSID = regexForSSID,
-            timeoutInMillis = timeoutInMillis,
-            filterDuplicates = true
-        )
-        return scanData?.let {
-            SSIDData.SSID(value = scanData.value.SSID)
-        }
-    }
-
-    @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun searchForBSSIDByRegex(regexForBSSID: String, timeoutInMillis: Int): SSIDData? {
-        val scanData = searchForAccessPointByBSSID(
-            regexForBSSID = regexForBSSID,
-            timeoutInMillis = timeoutInMillis,
-            filterDuplicates = true
-        )
-        return scanData?.let {
-            SSIDData.BSSID(value = scanData.value.BSSID)
-        }
-    }
-
-    @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun searchForSSIDsByRegex(regexForSSID: String): List<SSIDData> {
-        return searchForSSIDs(
-            potentialMatchConverter = { accessPoint ->
-                SSIDData.SSID(accessPoint.SSID)
-            },
-            matcher = { accessPoint ->
-                accessPointSSIDMatchesRegex(accessPoint = accessPoint, regexForSSID = regexForSSID)
-            }
-        )
-    }
-
-    @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun searchForBSSIDsByRegex(regexForBSSID: String): List<SSIDData> {
-        return searchForSSIDs(
-            potentialMatchConverter = { accessPoint ->
-                SSIDData.BSSID(accessPoint.BSSID)
-            },
-            matcher = { accessPoint ->
-                accessPointBSSIDMatchesRegex(accessPoint = accessPoint, regexForBSSID = regexForBSSID)
-            }
-        )
     }
 
     private fun accessPointSSIDMatchesRegex(accessPoint: ScanResult?, regexForSSID: String): Boolean {
@@ -264,61 +191,11 @@ internal class DefaultAccessPointsApiImpl(
         return accessPointsToReturn
     }
 
-    private fun searchForSingleAccessPoint(
-        timeoutInMillis: Int,
-        filterDuplicates: Boolean,
-        matcher: (ScanResult) -> Boolean
-    ): AccessPointData? {
-        var scanPass = 1
-        var currentTime: Long
-        val endTime = System.currentTimeMillis() + timeoutInMillis
-        var accessPointToReturn: ScanResult? = null
-        do {
-            currentTime = System.currentTimeMillis()
-
-            val accessPointsTemp = scanResultsProvider()
-
-            logger.d(LOG_TAG, "Scanning SSIDs, pass %d", scanPass)
-            if (accessPointsTemp != null && accessPointsTemp.isNotEmpty()) {
-                var found = false
-                for (accessPoint in accessPointsTemp) {
-                    if (filterDuplicates) {
-                        if (matcher(accessPoint) &&
-                            hasHighestSignalStrength(accessPointsTemp, accessPoint)
-                        ) {
-                            accessPointToReturn = accessPoint
-                            // Need to continue through rest of the list since
-                            // we don't know which one will have the highest
-                            break
-                        }
-                    } else {
-                        if (matcher(accessPoint)) {
-                            accessPointToReturn = accessPoint
-                            found = true
-                            break
-                        }
-                    }
-                }
-
-                if (found) {
-                    break
-                }
-            } else {
-                logger.w(LOG_TAG, "Empty access point list")
-            }
-            logger.d(LOG_TAG, "Current time: %d, end time: %d (findAccessPointByRegex)", currentTime, endTime)
-            scanPass++
-            rest()
-        } while (currentTime < endTime)
-        return accessPointToReturn?.let { AccessPointData(value = it) }
-    }
-
-    private fun searchForMultipleAccessPoints(
+    private fun scanForAccessPoints(
         filterDuplicates: Boolean,
         matcher: (ScanResult) -> Boolean
     ): List<AccessPointData> {
         val matchingAccessPoints = ArrayList<AccessPointData>()
-
         val accessPointsTemp = scanResultsProvider()
 
         if (accessPointsTemp == null || accessPointsTemp.isEmpty()) {
@@ -340,18 +217,25 @@ internal class DefaultAccessPointsApiImpl(
         return matchingAccessPoints.ifEmpty { emptyList() }
     }
 
-    private fun searchForSSIDs(
-        potentialMatchConverter: (ScanResult) -> SSIDData,
+    private fun searchForMultipleAccessPoints(
+        filterDuplicates: Boolean,
+        timeoutInMillis: Int?,
         matcher: (ScanResult) -> Boolean
-    ): List<SSIDData> {
-        val matchingAccessPoints = ArrayList<SSIDData>()
-        val accessPointsTemp = scanResultsProvider() ?: emptyList<ScanResult>()
-        for (accessPoint in accessPointsTemp) {
-            val potentialMatch = potentialMatchConverter(accessPoint)
-            if (matcher(accessPoint) && !matchingAccessPoints.contains(potentialMatch)) {
-                matchingAccessPoints.add(potentialMatch)
-            }
+    ): List<AccessPointData> {
+        var accessPointsTemp: List<AccessPointData>
+        if (timeoutInMillis != null) {
+            val currentTime = System.currentTimeMillis()
+            val endTime = currentTime + timeoutInMillis
+            do {
+                accessPointsTemp = scanForAccessPoints(filterDuplicates, matcher)
+                if (accessPointsTemp.isNotEmpty()) {
+                    break
+                }
+                rest()
+            } while (currentTime < endTime)
+        } else {
+            accessPointsTemp = scanForAccessPoints(filterDuplicates, matcher)
         }
-        return matchingAccessPoints.ifEmpty { emptyList() }
+        return accessPointsTemp
     }
 }

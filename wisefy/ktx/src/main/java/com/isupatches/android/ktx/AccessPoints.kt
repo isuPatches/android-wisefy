@@ -21,12 +21,15 @@ import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.WisefyApi
 import com.isupatches.android.wisefy.accesspoints.callbacks.GetNearbyAccessPointCallbacks
 import com.isupatches.android.wisefy.accesspoints.callbacks.GetRSSICallbacks
+import com.isupatches.android.wisefy.accesspoints.callbacks.SearchForAccessPointsCallbacks
 import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
 import com.isupatches.android.wisefy.accesspoints.entities.GetNearbyAccessPointsRequest
 import com.isupatches.android.wisefy.accesspoints.entities.GetNearbyAccessPointsResult
 import com.isupatches.android.wisefy.accesspoints.entities.GetRSSIRequest
 import com.isupatches.android.wisefy.accesspoints.entities.GetRSSIResult
 import com.isupatches.android.wisefy.accesspoints.entities.RSSIData
+import com.isupatches.android.wisefy.accesspoints.entities.SearchForAccessPointsRequest
+import com.isupatches.android.wisefy.accesspoints.entities.SearchForAccessPointsResult
 import com.isupatches.android.wisefy.core.exceptions.WisefyException
 import kotlin.coroutines.suspendCoroutine
 import kotlin.jvm.Throws
@@ -50,7 +53,7 @@ import kotlin.jvm.Throws
  * @since 08/2022, version 5.0.0
  */
 @Throws(WisefyException::class)
-@RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
+@RequiresPermission(ACCESS_FINE_LOCATION)
 suspend fun WisefyApi.getNearbyAccessPointsAsync(
     request: GetNearbyAccessPointsRequest = GetNearbyAccessPointsRequest()
 ): GetNearbyAccessPointsResult =
@@ -87,3 +90,22 @@ suspend fun WisefyApi.getRSSIAsync(request: GetRSSIRequest): GetRSSIResult = sus
         }
     })
 }
+
+@Throws(WisefyException::class)
+@RequiresPermission(ACCESS_FINE_LOCATION)
+suspend fun WisefyApi.searchForAccessPointsAsync(request: SearchForAccessPointsRequest): SearchForAccessPointsResult =
+    suspendCoroutine { continuation ->
+        searchForAccessPoints(request, object : SearchForAccessPointsCallbacks {
+            override fun onAccessPointsFound(accessPoints: List<AccessPointData>) {
+                continuation.resumeWith(Result.success(SearchForAccessPointsResult.AccessPoints(accessPoints)))
+            }
+
+            override fun onNoAccessPointsFound() {
+                continuation.resumeWith(Result.success(SearchForAccessPointsResult.Empty))
+            }
+
+            override fun onWisefyAsyncFailure(exception: WisefyException) {
+                continuation.resumeWith(Result.failure(exception))
+            }
+        })
+    }

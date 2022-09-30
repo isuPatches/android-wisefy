@@ -31,7 +31,7 @@ import com.isupatches.android.wisefy.removenetwork.os.converters.toSearchForNetw
 import com.isupatches.android.wisefy.removenetwork.os.impls.Android29RemoveNetworkApiImpl
 import com.isupatches.android.wisefy.savednetworks.SavedNetworkDelegate
 import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
-import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkResult
+import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworksResult
 
 /**
  * An Android 29 specific adapter for removing a network.
@@ -61,8 +61,8 @@ internal class Android29RemoveNetworkAdapter(
                 request = request.toSearchForNetworkRequest()
             )
         ) {
-            is SearchForSavedNetworkResult.Success.Empty -> RemoveNetworkResult.Failure.NetworkNotFound
-            is SearchForSavedNetworkResult.Success.SavedNetworks -> {
+            is SearchForSavedNetworksResult.Success.Empty -> RemoveNetworkResult.Failure.NetworkNotFound
+            is SearchForSavedNetworksResult.Success.SavedNetworks -> {
                 when (val savedNetwork = savedNetworkSearchResult.data.first()) {
                     is SavedNetworkData.Suggestion -> {
                         val result = api.removeNetwork(savedNetwork.value)
@@ -78,7 +78,7 @@ internal class Android29RemoveNetworkAdapter(
                     }
                 }
             }
-            is SearchForSavedNetworkResult.Failure.Assertion -> {
+            is SearchForSavedNetworksResult.Failure.Assertion -> {
                 // todo@patches Figure out what to do here
                 RemoveNetworkResult.Failure.NetworkNotFound
             }

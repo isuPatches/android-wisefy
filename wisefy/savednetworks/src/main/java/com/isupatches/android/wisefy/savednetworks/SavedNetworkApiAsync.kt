@@ -20,10 +20,10 @@ import android.Manifest.permission.ACCESS_WIFI_STATE
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.savednetworks.callbacks.GetSavedNetworksCallbacks
 import com.isupatches.android.wisefy.savednetworks.callbacks.IsNetworkSavedCallbacks
-import com.isupatches.android.wisefy.savednetworks.callbacks.SearchForSavedNetworkCallbacks
+import com.isupatches.android.wisefy.savednetworks.callbacks.SearchForSavedNetworksCallbacks
 import com.isupatches.android.wisefy.savednetworks.entities.GetSavedNetworksRequest
 import com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedRequest
-import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkRequest
+import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworksRequest
 
 /**
  * A set of asynchronous APIs for getting and searching for saved networks.
@@ -72,12 +72,12 @@ interface SavedNetworkApiAsync {
      * @param request The details of the request to search for saved networks
      * @param callbacks The callbacks for when the result of searching for saved networks is returned
      *
-     * @see SearchForSavedNetworkRequest
-     * @see SearchForSavedNetworkCallbacks
+     * @see SearchForSavedNetworksRequest
+     * @see SearchForSavedNetworksCallbacks
      *
      * @author Patches Klinefelter
      * @since 07/2022, version 5.0.0
      */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    fun searchForSavedNetwork(request: SearchForSavedNetworkRequest, callbacks: SearchForSavedNetworkCallbacks?)
+    fun searchForSavedNetworks(request: SearchForSavedNetworksRequest, callbacks: SearchForSavedNetworksCallbacks?)
 }

@@ -30,22 +30,13 @@ import com.isupatches.android.wisefy.accesspoints.AccessPointsDelegate
 import com.isupatches.android.wisefy.accesspoints.WisefyAccessPointsDelegate
 import com.isupatches.android.wisefy.accesspoints.callbacks.GetNearbyAccessPointCallbacks
 import com.isupatches.android.wisefy.accesspoints.callbacks.GetRSSICallbacks
-import com.isupatches.android.wisefy.accesspoints.callbacks.SearchForAccessPointCallbacks
 import com.isupatches.android.wisefy.accesspoints.callbacks.SearchForAccessPointsCallbacks
-import com.isupatches.android.wisefy.accesspoints.callbacks.SearchForSSIDCallbacks
-import com.isupatches.android.wisefy.accesspoints.callbacks.SearchForSSIDsCallbacks
 import com.isupatches.android.wisefy.accesspoints.entities.GetNearbyAccessPointsRequest
 import com.isupatches.android.wisefy.accesspoints.entities.GetNearbyAccessPointsResult
 import com.isupatches.android.wisefy.accesspoints.entities.GetRSSIRequest
 import com.isupatches.android.wisefy.accesspoints.entities.GetRSSIResult
-import com.isupatches.android.wisefy.accesspoints.entities.SearchForAccessPointResult
 import com.isupatches.android.wisefy.accesspoints.entities.SearchForAccessPointsResult
-import com.isupatches.android.wisefy.accesspoints.entities.SearchForMultipleAccessPointsRequest
-import com.isupatches.android.wisefy.accesspoints.entities.SearchForMultipleSSIDsRequest
-import com.isupatches.android.wisefy.accesspoints.entities.SearchForSSIDResult
-import com.isupatches.android.wisefy.accesspoints.entities.SearchForSSIDsResult
-import com.isupatches.android.wisefy.accesspoints.entities.SearchForSingleAccessPointRequest
-import com.isupatches.android.wisefy.accesspoints.entities.SearchForSingleSSIDRequest
+import com.isupatches.android.wisefy.accesspoints.entities.SearchForAccessPointsRequest
 import com.isupatches.android.wisefy.addnetwork.AddNetworkDelegate
 import com.isupatches.android.wisefy.addnetwork.WisefyAddNetworkDelegate
 import com.isupatches.android.wisefy.addnetwork.callbacks.AddNetworkCallbacks
@@ -98,13 +89,13 @@ import com.isupatches.android.wisefy.savednetworks.SavedNetworkDelegate
 import com.isupatches.android.wisefy.savednetworks.WisefySavedNetworkDelegate
 import com.isupatches.android.wisefy.savednetworks.callbacks.GetSavedNetworksCallbacks
 import com.isupatches.android.wisefy.savednetworks.callbacks.IsNetworkSavedCallbacks
-import com.isupatches.android.wisefy.savednetworks.callbacks.SearchForSavedNetworkCallbacks
+import com.isupatches.android.wisefy.savednetworks.callbacks.SearchForSavedNetworksCallbacks
 import com.isupatches.android.wisefy.savednetworks.entities.GetSavedNetworksRequest
 import com.isupatches.android.wisefy.savednetworks.entities.GetSavedNetworksResult
 import com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedRequest
 import com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedResult
-import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkRequest
-import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkResult
+import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworksRequest
+import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworksResult
 import com.isupatches.android.wisefy.security.SecurityDelegate
 import com.isupatches.android.wisefy.security.WisefySecurityDelegate
 import com.isupatches.android.wisefy.security.entities.ContainsSecurityCapabilityRequest
@@ -771,61 +762,28 @@ class Wisefy private constructor(
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun searchForAccessPoint(request: SearchForSingleAccessPointRequest): SearchForAccessPointResult {
-        return accessPointsDelegate.searchForAccessPoint(request)
-    }
-
-    @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun searchForAccessPoint(
-        request: SearchForSingleAccessPointRequest,
-        callbacks: SearchForAccessPointCallbacks?
-    ) {
-        accessPointsDelegate.searchForAccessPoint(request, callbacks)
-    }
-
-    @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun searchForAccessPoints(request: SearchForMultipleAccessPointsRequest): SearchForAccessPointsResult {
+    override fun searchForAccessPoints(request: SearchForAccessPointsRequest): SearchForAccessPointsResult {
         return accessPointsDelegate.searchForAccessPoints(request)
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun searchForAccessPoints(
-        request: SearchForMultipleAccessPointsRequest,
+        request: SearchForAccessPointsRequest,
         callbacks: SearchForAccessPointsCallbacks?
     ) {
         accessPointsDelegate.searchForAccessPoints(request, callbacks)
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun searchForSavedNetwork(request: SearchForSavedNetworkRequest): SearchForSavedNetworkResult {
+    override fun searchForSavedNetwork(request: SearchForSavedNetworksRequest): SearchForSavedNetworksResult {
         return savedNetworkDelegate.searchForSavedNetwork(request)
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun searchForSavedNetwork(
-        request: SearchForSavedNetworkRequest,
-        callbacks: SearchForSavedNetworkCallbacks?
+    override fun searchForSavedNetworks(
+        request: SearchForSavedNetworksRequest,
+        callbacks: SearchForSavedNetworksCallbacks?
     ) {
-        savedNetworkDelegate.searchForSavedNetwork(request, callbacks)
-    }
-
-    @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun searchForSSID(request: SearchForSingleSSIDRequest): SearchForSSIDResult {
-        return accessPointsDelegate.searchForSSID(request)
-    }
-
-    @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun searchForSSID(request: SearchForSingleSSIDRequest, callbacks: SearchForSSIDCallbacks?) {
-        accessPointsDelegate.searchForSSID(request, callbacks)
-    }
-
-    @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun searchForSSIDs(request: SearchForMultipleSSIDsRequest): SearchForSSIDsResult {
-        return accessPointsDelegate.searchForSSIDs(request)
-    }
-
-    @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun searchForSSIDs(request: SearchForMultipleSSIDsRequest, callbacks: SearchForSSIDsCallbacks?) {
-        accessPointsDelegate.searchForSSIDs(request, callbacks)
+        savedNetworkDelegate.searchForSavedNetworks(request, callbacks)
     }
 }

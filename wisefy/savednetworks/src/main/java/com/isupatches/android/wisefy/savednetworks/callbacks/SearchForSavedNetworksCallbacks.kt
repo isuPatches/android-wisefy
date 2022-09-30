@@ -13,38 +13,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.android.wisefy.accesspoints.callbacks
+package com.isupatches.android.wisefy.savednetworks.callbacks
 
-import com.isupatches.android.wisefy.accesspoints.entities.SSIDData
 import com.isupatches.android.wisefy.core.base.BaseWisefyCallbacks
+import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
 
 /**
- * A set of callbacks for retrieving multiple SSIDs.
+ * A set of callbacks triggered while searching for saved networks on a device.
  *
  * @see BaseWisefyCallbacks
  *
  * @author Patches Klinefelter
- * @since 08/2022, version 5.0.0
+ * @since 07/2022, version 5.0.0
  */
-interface SearchForSSIDsCallbacks : BaseWisefyCallbacks {
+interface SearchForSavedNetworksCallbacks : BaseWisefyCallbacks {
 
     /**
-     * A callback triggered when there are matching SSIDs.
-     *
-     * @param ssids The list of matching SSIDs
-     *
-     * @see SSIDData
+     * A callback triggered when there are saved networks found.
      *
      * @author Patches Klinefelter
-     * @since 08/2022, version 5.0.0
+     * @since 07/2022, version 5.0.0
      */
-    fun onSSIDsFound(ssids: List<SSIDData>)
+    fun onNoSavedNetworksFound()
 
     /**
-     * A callback triggered when there are no matching matching SSIDs.
+     * A callback triggered when there are matching saved networks on the device.
+     *
+     * @param savedNetworks The matching saved networks
+     *
+     * @see SavedNetworkData
      *
      * @author Patches Klinefelter
-     * @since 08/2022, version 5.0.0
+     * @since 07/2022, version 5.0.0
      */
-    fun onNoSSIDsFound()
+    fun onSavedNetworksRetrieved(savedNetworks: List<SavedNetworkData>)
 }

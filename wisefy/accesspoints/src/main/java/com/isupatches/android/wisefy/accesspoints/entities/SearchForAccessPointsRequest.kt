@@ -16,46 +16,54 @@
 package com.isupatches.android.wisefy.accesspoints.entities
 
 /**
- * A set of classes and objects that are used to represent requests to search for multiple access points.
+ * A set of classes and objects that are used to represent requests to search for a single access point.
  *
+ * @property timeoutInMillis The timeout in milliseconds to wait for a matching access point to appear
  * @property filterDuplicates Whether nearby access points with the same SSID but lower RSSI levels should be excluded
  *
  * @author Patches Klinefelter
  * @since 08/2022, version 5.0.0
  */
-sealed class SearchForMultipleAccessPointsRequest(open val filterDuplicates: Boolean) {
+sealed class SearchForAccessPointsRequest(
+    open val timeoutInMillis: Int?,
+    open val filterDuplicates: Boolean
+) {
 
     /**
-     * A data representation of a request to search for multiple access points by SSID.
+     * A data representation of a request to search for a single access point by SSID.
      *
      * @property regex The regex to use when matching the SSID
-     * @property filterDuplicates Whether nearby access points with the same SSID but lower RSSI levels should be
-     *  excluded
+     * @property timeoutInMillis The optional timeout in milliseconds to wait for matching access points
+     * @property filterDuplicates Whether nearby access points with the same SSID but lower RSSI levels
+     *  should be excluded
      *
-     * @see SearchForMultipleAccessPointsRequest
+     * @see SearchForAccessPointsRequest
      *
      * @author Patches Klinefelter
      * @since 08/2022, version 5.0.0
      */
     data class SSID(
         val regex: String,
+        override val timeoutInMillis: Int? = null,
         override val filterDuplicates: Boolean = true
-    ) : SearchForMultipleAccessPointsRequest(filterDuplicates)
+    ) : SearchForAccessPointsRequest(timeoutInMillis, filterDuplicates)
 
     /**
-     * A data representation of a request to search for multiple access points by BSSID.
+     * A data representation of a request to search for a single access point by BSSID.
      *
      * @property regex The regex to use when matching the BSSID
-     * @property filterDuplicates Whether nearby access points with the same SSID but lower RSSI levels should be
-     *  excluded
+     * @property timeoutInMillis The optional timeout in milliseconds to wait for matching access points
+     * @property filterDuplicates Whether nearby access points with the same SSID but lower RSSI levels
+     *  should be excluded
      *
-     * @see SearchForMultipleAccessPointsRequest
+     * @see SearchForAccessPointsRequest
      *
      * @author Patches Klinefelter
      * @since 08/2022, version 5.0.0
      */
     data class BSSID(
         val regex: String,
+        override val timeoutInMillis: Int? = null,
         override val filterDuplicates: Boolean = true
-    ) : SearchForMultipleAccessPointsRequest(filterDuplicates)
+    ) : SearchForAccessPointsRequest(timeoutInMillis, filterDuplicates)
 }

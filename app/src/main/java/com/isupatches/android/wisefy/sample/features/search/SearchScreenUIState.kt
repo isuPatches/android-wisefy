@@ -16,7 +16,6 @@
 package com.isupatches.android.wisefy.sample.features.search
 
 import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
-import com.isupatches.android.wisefy.accesspoints.entities.SSIDData
 import com.isupatches.android.wisefy.sample.entities.SSIDType
 import com.isupatches.android.wisefy.sample.entities.SearchType
 import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
@@ -55,13 +54,13 @@ internal sealed class SearchDialogState {
     }
 
     sealed class SearchForSSID : SearchDialogState() {
-        data class Success(val data: SSIDData) : SearchForSSID()
+        data class Success(val data: String) : SearchForSSID()
         object NoSSIDFound : SearchForSSID()
         object PermissionError : SearchForSSID()
     }
 
     sealed class SearchForSSIDs : SearchDialogState() {
-        data class Success(val data: List<SSIDData>) : SearchForSSIDs()
+        data class Success(val data: List<String>) : SearchForSSIDs()
         object NoSSIDsFound : SearchForSSIDs()
         object PermissionError : SearchForSSIDs()
     }

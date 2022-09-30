@@ -19,5 +19,4 @@ dependencies {
 
     // Kotlin
     implementation(Dependencies.Kotlin.COROUTINES)
-    implementation(project(mapOf("path" to ":wisefy:accesspoints")))
 }

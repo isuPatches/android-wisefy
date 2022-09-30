@@ -39,7 +39,7 @@ sealed class SearchForAccessPointsResult {
      * @property data This list of matching nearby access points
      *
      * @see AccessPointData
-     * @see SearchForAccessPointResult
+     * @see SearchForAccessPointsResult
      *
      * @author Patches Klinefelter
      * @since 08/2022

@@ -27,8 +27,8 @@ import com.isupatches.android.wisefy.savednetworks.entities.GetSavedNetworksRequ
 import com.isupatches.android.wisefy.savednetworks.entities.GetSavedNetworksResult
 import com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedRequest
 import com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedResult
-import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkRequest
-import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkResult
+import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworksRequest
+import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworksResult
 
 /**
  * An Android 29 specific adapter for adding networks.
@@ -61,9 +61,9 @@ internal class Android29SavedNetworkAdapter(
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun searchForSavedNetwork(request: SearchForSavedNetworkRequest): SearchForSavedNetworkResult {
+    override fun searchForSavedNetwork(request: SearchForSavedNetworksRequest): SearchForSavedNetworksResult {
         val message = AssertionMessages.SavedNetworks.USED_ANDROID_29
         assertions.fail(message = message)
-        return SearchForSavedNetworkResult.Failure.Assertion(message = message)
+        return SearchForSavedNetworksResult.Failure.Assertion(message = message)
     }
 }

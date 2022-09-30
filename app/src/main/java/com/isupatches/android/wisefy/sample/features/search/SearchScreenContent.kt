@@ -63,8 +63,9 @@ internal fun SearchScreenContent(viewModel: SearchViewModel) {
     val searchForAccessPointPermissionsLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
-                @Suppress("MissingPermission")
-                viewModel.searchForAccessPoint()
+                scope.launch {
+                    viewModel.searchForAccessPoint()
+                }
             } else {
                 WisefySampleLogger.w(LOG_TAG, "Permissions required to search for an access point are denied")
                 viewModel.onSearchForAccessPointPermissionError()
@@ -74,8 +75,9 @@ internal fun SearchScreenContent(viewModel: SearchViewModel) {
     val searchForAccessPointsPermissionsLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
-                @Suppress("MissingPermission")
-                viewModel.searchForAccessPoints()
+                scope.launch {
+                    viewModel.searchForAccessPoints()
+                }
             } else {
                 WisefySampleLogger.w(LOG_TAG, "Permissions required to search for access points are denied")
                 viewModel.onSearchForAccessPointsPermissionError()
@@ -85,7 +87,6 @@ internal fun SearchScreenContent(viewModel: SearchViewModel) {
     val searchForSavedNetworkPermissionsLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result ->
             if (result.all { it.value }) {
-                @Suppress("MissingPermission")
                 scope.launch {
                     viewModel.searchForSavedNetwork()
                 }
@@ -98,7 +99,6 @@ internal fun SearchScreenContent(viewModel: SearchViewModel) {
     val searchForSavedNetworksPermissionsLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result ->
             if (result.all { it.value }) {
-                @Suppress("MissingPermission")
                 scope.launch {
                     viewModel.searchForSavedNetworks()
                 }
@@ -111,8 +111,9 @@ internal fun SearchScreenContent(viewModel: SearchViewModel) {
     val searchForSSIDPermissionsLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
-                @Suppress("MissingPermission")
-                viewModel.searchForSSID()
+                scope.launch {
+                    viewModel.searchForSSID()
+                }
             } else {
                 WisefySampleLogger.w(LOG_TAG, "Permissions required to search for an SSID are denied")
                 viewModel.onSearchForSSIDPermissionError()
@@ -122,8 +123,9 @@ internal fun SearchScreenContent(viewModel: SearchViewModel) {
     val searchForSSIDsPermissionsLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
-                @Suppress("MissingPermission")
-                viewModel.searchForSSIDs()
+                scope.launch {
+                    viewModel.searchForSSIDs()
+                }
             } else {
                 WisefySampleLogger.w(LOG_TAG, "Permissions required to search for SSIDs are denied")
                 viewModel.onSearchForSSIDsPermissionError()
@@ -394,9 +396,7 @@ internal fun SearchScreenTimeoutInputRows(
 }
 
 @Composable
-internal fun SearchScreenTimeoutLabelRow(
-    timeout: () -> Int
-) {
+internal fun SearchScreenTimeoutLabelRow(timeout: () -> Int) {
     WisefySampleCaptionLabel(
         stringResId = R.string.timeout_after_x_seconds_args_html,
         modifier = Modifier,

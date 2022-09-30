@@ -25,8 +25,8 @@ import com.isupatches.android.wisefy.savednetworks.entities.GetSavedNetworksResu
 import com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedRequest
 import com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedResult
 import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
-import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkRequest
-import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkResult
+import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworksRequest
+import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworksResult
 import com.isupatches.android.wisefy.savednetworks.os.apis.DefaultSavedNetworkApi
 import com.isupatches.android.wisefy.savednetworks.os.impls.DefaultSavedNetworkApiImpl
 
@@ -74,17 +74,17 @@ internal class DefaultSavedNetworkAdapter(
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun searchForSavedNetwork(request: SearchForSavedNetworkRequest): SearchForSavedNetworkResult {
+    override fun searchForSavedNetwork(request: SearchForSavedNetworksRequest): SearchForSavedNetworksResult {
         val savedNetworkConfigurations = when (request) {
-            is SearchForSavedNetworkRequest.SSID -> api.searchForSavedNetworksBySSID(request.regex)
-            is SearchForSavedNetworkRequest.BSSID -> api.searchForSavedNetworksByBSSID(request.regex)
+            is SearchForSavedNetworksRequest.SSID -> api.searchForSavedNetworksBySSID(request.regex)
+            is SearchForSavedNetworksRequest.BSSID -> api.searchForSavedNetworksByBSSID(request.regex)
         }
         return if (savedNetworkConfigurations.isNotEmpty()) {
-            SearchForSavedNetworkResult.Success.SavedNetworks(
+            SearchForSavedNetworksResult.Success.SavedNetworks(
                 data = savedNetworkConfigurations.map { SavedNetworkData.Configuration(it) }
             )
         } else {
-            SearchForSavedNetworkResult.Success.Empty
+            SearchForSavedNetworksResult.Success.Empty
         }
     }
 }

@@ -22,14 +22,14 @@ import com.isupatches.android.wisefy.WisefyApi
 import com.isupatches.android.wisefy.core.exceptions.WisefyException
 import com.isupatches.android.wisefy.savednetworks.callbacks.GetSavedNetworksCallbacks
 import com.isupatches.android.wisefy.savednetworks.callbacks.IsNetworkSavedCallbacks
-import com.isupatches.android.wisefy.savednetworks.callbacks.SearchForSavedNetworkCallbacks
+import com.isupatches.android.wisefy.savednetworks.callbacks.SearchForSavedNetworksCallbacks
 import com.isupatches.android.wisefy.savednetworks.entities.GetSavedNetworksRequest
 import com.isupatches.android.wisefy.savednetworks.entities.GetSavedNetworksResult
 import com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedRequest
 import com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedResult
 import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
-import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkRequest
-import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkResult
+import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworksRequest
+import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworksResult
 import kotlin.coroutines.suspendCoroutine
 import kotlin.jvm.Throws
 
@@ -117,8 +117,8 @@ suspend fun WisefyApi.isNetworkSavedAsync(request: IsNetworkSavedRequest): IsNet
  *
  * @param request The details of the request to search for saved networks
  *
- * @see SearchForSavedNetworkRequest
- * @see SearchForSavedNetworkResult
+ * @see SearchForSavedNetworksRequest
+ * @see SearchForSavedNetworksResult
  *
  * @return SearchForSavedNetworkResult - The result of searching for saved networks
  *
@@ -129,16 +129,16 @@ suspend fun WisefyApi.isNetworkSavedAsync(request: IsNetworkSavedRequest): IsNet
  */
 @Throws(WisefyException::class)
 @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-suspend fun WisefyApi.searchForSavedNetworkAsync(request: SearchForSavedNetworkRequest): SearchForSavedNetworkResult =
+suspend fun WisefyApi.searchForSavedNetworkAsync(request: SearchForSavedNetworksRequest): SearchForSavedNetworksResult =
     suspendCoroutine { continuation ->
-        searchForSavedNetwork(request, object : SearchForSavedNetworkCallbacks {
+        searchForSavedNetworks(request, object : SearchForSavedNetworksCallbacks {
             override fun onNoSavedNetworksFound() {
-                continuation.resumeWith(Result.success(SearchForSavedNetworkResult.Success.Empty))
+                continuation.resumeWith(Result.success(SearchForSavedNetworksResult.Success.Empty))
             }
 
             override fun onSavedNetworksRetrieved(savedNetworks: List<SavedNetworkData>) {
                 continuation.resumeWith(
-                    Result.success(SearchForSavedNetworkResult.Success.SavedNetworks(savedNetworks))
+                    Result.success(SearchForSavedNetworksResult.Success.SavedNetworks(savedNetworks))
                 )
             }
 

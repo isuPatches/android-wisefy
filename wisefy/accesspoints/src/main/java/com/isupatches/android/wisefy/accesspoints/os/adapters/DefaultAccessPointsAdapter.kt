@@ -23,14 +23,8 @@ import com.isupatches.android.wisefy.accesspoints.entities.GetNearbyAccessPoints
 import com.isupatches.android.wisefy.accesspoints.entities.GetNearbyAccessPointsResult
 import com.isupatches.android.wisefy.accesspoints.entities.GetRSSIRequest
 import com.isupatches.android.wisefy.accesspoints.entities.GetRSSIResult
-import com.isupatches.android.wisefy.accesspoints.entities.SearchForAccessPointResult
 import com.isupatches.android.wisefy.accesspoints.entities.SearchForAccessPointsResult
-import com.isupatches.android.wisefy.accesspoints.entities.SearchForMultipleAccessPointsRequest
-import com.isupatches.android.wisefy.accesspoints.entities.SearchForMultipleSSIDsRequest
-import com.isupatches.android.wisefy.accesspoints.entities.SearchForSSIDResult
-import com.isupatches.android.wisefy.accesspoints.entities.SearchForSSIDsResult
-import com.isupatches.android.wisefy.accesspoints.entities.SearchForSingleAccessPointRequest
-import com.isupatches.android.wisefy.accesspoints.entities.SearchForSingleSSIDRequest
+import com.isupatches.android.wisefy.accesspoints.entities.SearchForAccessPointsRequest
 import com.isupatches.android.wisefy.accesspoints.os.apis.DefaultAccessPointsApi
 import com.isupatches.android.wisefy.accesspoints.os.impls.DefaultAccessPointsApiImpl
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
@@ -88,35 +82,16 @@ internal class DefaultAccessPointsAdapter(
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun searchForAccessPoint(request: SearchForSingleAccessPointRequest): SearchForAccessPointResult {
-        val accessPoint = when (request) {
-            is SearchForSingleAccessPointRequest.SSID -> api.searchForAccessPointBySSID(
-                regexForSSID = request.regex,
-                timeoutInMillis = request.timeoutInMillis,
-                filterDuplicates = request.filterDuplicates
-            )
-            is SearchForSingleAccessPointRequest.BSSID -> api.searchForAccessPointByBSSID(
-                regexForBSSID = request.regex,
-                timeoutInMillis = request.timeoutInMillis,
-                filterDuplicates = request.filterDuplicates
-            )
-        }
-        return if (accessPoint != null) {
-            SearchForAccessPointResult.AccessPoint(data = accessPoint)
-        } else {
-            SearchForAccessPointResult.Empty
-        }
-    }
-
-    @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun searchForAccessPoints(request: SearchForMultipleAccessPointsRequest): SearchForAccessPointsResult {
+    override fun searchForAccessPoints(request: SearchForAccessPointsRequest): SearchForAccessPointsResult {
         val accessPoints = when (request) {
-            is SearchForMultipleAccessPointsRequest.SSID -> api.searchForAccessPointsBySSID(
+            is SearchForAccessPointsRequest.SSID -> api.searchForAccessPointsBySSID(
                 regexForSSID = request.regex,
+                timeoutInMillis = request.timeoutInMillis,
                 filterDuplicates = request.filterDuplicates
             )
-            is SearchForMultipleAccessPointsRequest.BSSID -> api.searchForAccessPointsByBSSID(
+            is SearchForAccessPointsRequest.BSSID -> api.searchForAccessPointsByBSSID(
                 regexForBSSID = request.regex,
+                timeoutInMillis = request.timeoutInMillis,
                 filterDuplicates = request.filterDuplicates
             )
         }
@@ -124,38 +99,6 @@ internal class DefaultAccessPointsAdapter(
             SearchForAccessPointsResult.AccessPoints(data = accessPoints)
         } else {
             SearchForAccessPointsResult.Empty
-        }
-    }
-
-    @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun searchForSSID(request: SearchForSingleSSIDRequest): SearchForSSIDResult {
-        val ssid = when (request) {
-            is SearchForSingleSSIDRequest.SSID -> api.searchForSSIDByRegex(
-                regexForSSID = request.regex,
-                timeoutInMillis = request.timeoutInMillis
-            )
-            is SearchForSingleSSIDRequest.BSSID -> api.searchForBSSIDByRegex(
-                regexForBSSID = request.regex,
-                timeoutInMillis = request.timeoutInMillis
-            )
-        }
-        return if (ssid != null) {
-            SearchForSSIDResult.SSID(data = ssid)
-        } else {
-            SearchForSSIDResult.Empty
-        }
-    }
-
-    @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun searchForSSIDs(request: SearchForMultipleSSIDsRequest): SearchForSSIDsResult {
-        val ssids = when (request) {
-            is SearchForMultipleSSIDsRequest.SSID -> api.searchForSSIDsByRegex(regexForSSID = request.regex)
-            is SearchForMultipleSSIDsRequest.BSSID -> api.searchForBSSIDsByRegex(regexForBSSID = request.regex)
-        }
-        return if (ssids.isNotEmpty()) {
-            SearchForSSIDsResult.SSIDs(data = ssids)
-        } else {
-            SearchForSSIDsResult.Empty
         }
     }
 }

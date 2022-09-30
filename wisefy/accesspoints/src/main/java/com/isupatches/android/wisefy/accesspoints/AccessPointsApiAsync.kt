@@ -19,16 +19,10 @@ import android.Manifest.permission.ACCESS_FINE_LOCATION
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.accesspoints.callbacks.GetNearbyAccessPointCallbacks
 import com.isupatches.android.wisefy.accesspoints.callbacks.GetRSSICallbacks
-import com.isupatches.android.wisefy.accesspoints.callbacks.SearchForAccessPointCallbacks
 import com.isupatches.android.wisefy.accesspoints.callbacks.SearchForAccessPointsCallbacks
-import com.isupatches.android.wisefy.accesspoints.callbacks.SearchForSSIDCallbacks
-import com.isupatches.android.wisefy.accesspoints.callbacks.SearchForSSIDsCallbacks
 import com.isupatches.android.wisefy.accesspoints.entities.GetNearbyAccessPointsRequest
 import com.isupatches.android.wisefy.accesspoints.entities.GetRSSIRequest
-import com.isupatches.android.wisefy.accesspoints.entities.SearchForMultipleAccessPointsRequest
-import com.isupatches.android.wisefy.accesspoints.entities.SearchForMultipleSSIDsRequest
-import com.isupatches.android.wisefy.accesspoints.entities.SearchForSingleAccessPointRequest
-import com.isupatches.android.wisefy.accesspoints.entities.SearchForSingleSSIDRequest
+import com.isupatches.android.wisefy.accesspoints.entities.SearchForAccessPointsRequest
 
 /**
  * A set of asynchronous APIs for getting and searching for nearby access points.
@@ -69,66 +63,17 @@ interface AccessPointsApiAsync {
     fun getRSSI(request: GetRSSIRequest, callbacks: GetRSSICallbacks?)
 
     /**
-     * An asynchronous API to search for a nearby access point.
-     *
-     * @param request The details of the request to search for a nearby access point
-     * @param callbacks The optional callbacks for when the list of access points is returned
-     *
-     * @see SearchForSingleAccessPointRequest
-     * @see SearchForAccessPointCallbacks
-     *
-     * @author Patches Klinefelter
-     * @since 08/2022, version 5.0.0
-     */
-    @RequiresPermission(ACCESS_FINE_LOCATION)
-    fun searchForAccessPoint(request: SearchForSingleAccessPointRequest, callbacks: SearchForAccessPointCallbacks?)
-
-    /**
      * An asynchronous API to search for a list of nearby access points.
      *
      * @param request The details of the request to search for a list of nearby access points
      * @param callbacks The optional callbacks for when the list of access points is returned
      *
-     * @see SearchForMultipleAccessPointsRequest
+     * @see SearchForAccessPointsRequest
      * @see SearchForAccessPointsCallbacks
      *
      * @author Patches Klinefelter
      * @since 08/2022, version 5.0.0
      */
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    fun searchForAccessPoints(request: SearchForMultipleAccessPointsRequest, callbacks: SearchForAccessPointsCallbacks?)
-
-    /**
-     * An asynchronous API to search for a nearby SSID.
-     *
-     * @param request The details of the request to search for a list of nearby SSIDs
-     * @param callbacks The optional callbacks for when the SSID is returned
-     *
-     * @see SearchForSingleSSIDRequest
-     * @see SearchForSSIDCallbacks
-     *
-     * @return List<SSIDData> - List of SSID data or empty list
-     *
-     * @author Patches Klinefelter
-     * @since 08/2022, version 5.0.0
-     */
-    @RequiresPermission(ACCESS_FINE_LOCATION)
-    fun searchForSSID(request: SearchForSingleSSIDRequest, callbacks: SearchForSSIDCallbacks?)
-
-    /**
-     * An asynchronous API to search for a list of nearby SSIDs.
-     *
-     * @param request The details of the request to search for a list of nearby SSIDs
-     * @param callbacks The optional callbacks for when the list of SSIDs is returned
-     *
-     * @see SearchForMultipleSSIDsRequest
-     * @see SearchForSSIDsCallbacks
-     *
-     * @return List<SSIDData> - List of SSID data or empty list
-     *
-     * @author Patches Klinefelter
-     * @since 08/2022, version 5.0.0
-     */
-    @RequiresPermission(ACCESS_FINE_LOCATION)
-    fun searchForSSIDs(request: SearchForMultipleSSIDsRequest, callbacks: SearchForSSIDsCallbacks?)
+    fun searchForAccessPoints(request: SearchForAccessPointsRequest, callbacks: SearchForAccessPointsCallbacks?)
 }

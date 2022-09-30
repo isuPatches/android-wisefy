@@ -21,14 +21,8 @@ import com.isupatches.android.wisefy.accesspoints.entities.GetNearbyAccessPoints
 import com.isupatches.android.wisefy.accesspoints.entities.GetNearbyAccessPointsResult
 import com.isupatches.android.wisefy.accesspoints.entities.GetRSSIRequest
 import com.isupatches.android.wisefy.accesspoints.entities.GetRSSIResult
-import com.isupatches.android.wisefy.accesspoints.entities.SearchForAccessPointResult
 import com.isupatches.android.wisefy.accesspoints.entities.SearchForAccessPointsResult
-import com.isupatches.android.wisefy.accesspoints.entities.SearchForMultipleAccessPointsRequest
-import com.isupatches.android.wisefy.accesspoints.entities.SearchForMultipleSSIDsRequest
-import com.isupatches.android.wisefy.accesspoints.entities.SearchForSSIDResult
-import com.isupatches.android.wisefy.accesspoints.entities.SearchForSSIDsResult
-import com.isupatches.android.wisefy.accesspoints.entities.SearchForSingleAccessPointRequest
-import com.isupatches.android.wisefy.accesspoints.entities.SearchForSingleSSIDRequest
+import com.isupatches.android.wisefy.accesspoints.entities.SearchForAccessPointsRequest
 
 /**
  * A set of synchronous APIs for getting and searching for nearby access points.
@@ -71,27 +65,11 @@ interface AccessPointsApi {
     fun getRSSI(request: GetRSSIRequest): GetRSSIResult
 
     /**
-     * A synchronous API to search for a nearby access point.
+     * A synchronous API to search for a nearby access points.
      *
-     * @param request The details of the request to search for a nearby access point.
+     * @param request The details of the request to search for nearby access points.
      *
-     * @see SearchForSingleAccessPointRequest
-     * @see SearchForAccessPointResult
-     *
-     * @return SearchForAccessPointResult - The result of searching for a nearby access point
-     *
-     * @author Patches Klinefelter
-     * @since 08/2022, version 5.0.0
-     */
-    @RequiresPermission(ACCESS_FINE_LOCATION)
-    fun searchForAccessPoint(request: SearchForSingleAccessPointRequest): SearchForAccessPointResult
-
-    /**
-     * A synchronous API to search for a list of nearby access points.
-     *
-     * @param request The details of the request to search for a list of nearby access points.
-     *
-     * @see SearchForMultipleAccessPointsRequest
+     * @see SearchForAccessPointsRequest
      * @see SearchForAccessPointsResult
      *
      * @return SearchForAccessPointsResult - The result of searching for nearby access points
@@ -100,37 +78,5 @@ interface AccessPointsApi {
      * @since 08/2022, version 5.0.0
      */
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    fun searchForAccessPoints(request: SearchForMultipleAccessPointsRequest): SearchForAccessPointsResult
-
-    /**
-     * A synchronous API to search for a nearby SSID.
-     *
-     * @param request The details of the request to search for a list of a nearby SSID.
-     *
-     * @see SearchForSingleSSIDRequest
-     * @see SearchForSSIDResult
-     *
-     * @return SearchForSSIDResult - The result of searching for a nearby SSID
-     *
-     * @author Patches Klinefelter
-     * @since 08/2022, version 5.0.0
-     */
-    @RequiresPermission(ACCESS_FINE_LOCATION)
-    fun searchForSSID(request: SearchForSingleSSIDRequest): SearchForSSIDResult
-
-    /**
-     * A synchronous API to search for a list of nearby SSIDs.
-     *
-     * @param request The details of the request to search for a list of nearby SSIDs.
-     *
-     * @see SearchForMultipleSSIDsRequest
-     * @see SearchForSSIDsResult
-     *
-     * @return SearchForSSIDsResult - The result of searching for nearby SSIDs
-     *
-     * @author Patches Klinefelter
-     * @since 08/2022, version 5.0.0
-     */
-    @RequiresPermission(ACCESS_FINE_LOCATION)
-    fun searchForSSIDs(request: SearchForMultipleSSIDsRequest): SearchForSSIDsResult
+    fun searchForAccessPoints(request: SearchForAccessPointsRequest): SearchForAccessPointsResult
 }

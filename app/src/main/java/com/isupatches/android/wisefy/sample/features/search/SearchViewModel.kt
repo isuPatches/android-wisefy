@@ -15,22 +15,18 @@
  */
 package com.isupatches.android.wisefy.sample.features.search
 
+import android.Manifest.permission.ACCESS_FINE_LOCATION
+import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.content.Context
+import androidx.annotation.RequiresPermission
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
+import com.isupatches.android.ktx.searchForAccessPointsAsync
 import com.isupatches.android.ktx.searchForSavedNetworkAsync
 import com.isupatches.android.wisefy.WisefyApi
-import com.isupatches.android.wisefy.accesspoints.callbacks.SearchForAccessPointCallbacks
-import com.isupatches.android.wisefy.accesspoints.callbacks.SearchForAccessPointsCallbacks
-import com.isupatches.android.wisefy.accesspoints.callbacks.SearchForSSIDCallbacks
-import com.isupatches.android.wisefy.accesspoints.callbacks.SearchForSSIDsCallbacks
-import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
-import com.isupatches.android.wisefy.accesspoints.entities.SSIDData
-import com.isupatches.android.wisefy.accesspoints.entities.SearchForMultipleAccessPointsRequest
-import com.isupatches.android.wisefy.accesspoints.entities.SearchForMultipleSSIDsRequest
-import com.isupatches.android.wisefy.accesspoints.entities.SearchForSingleAccessPointRequest
-import com.isupatches.android.wisefy.accesspoints.entities.SearchForSingleSSIDRequest
+import com.isupatches.android.wisefy.accesspoints.entities.SearchForAccessPointsRequest
+import com.isupatches.android.wisefy.accesspoints.entities.SearchForAccessPointsResult
 import com.isupatches.android.wisefy.core.exceptions.WisefyException
 import com.isupatches.android.wisefy.sample.entities.SSIDType
 import com.isupatches.android.wisefy.sample.entities.SearchType
@@ -40,8 +36,8 @@ import com.isupatches.android.wisefy.sample.util.BSSIDInputError
 import com.isupatches.android.wisefy.sample.util.SSIDInputError
 import com.isupatches.android.wisefy.sample.util.validateBSSID
 import com.isupatches.android.wisefy.sample.util.validateSSID
-import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkRequest
-import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkResult
+import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworksRequest
+import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworksResult
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -55,12 +51,23 @@ internal abstract class SearchViewModel : BaseViewModel() {
     abstract fun onSearchForSSIDPermissionError()
     abstract fun onSearchForSSIDsPermissionError()
 
-    abstract fun searchForAccessPoint()
-    abstract fun searchForAccessPoints()
+    @RequiresPermission(ACCESS_FINE_LOCATION)
+    abstract suspend fun searchForAccessPoint()
+
+    @RequiresPermission(ACCESS_FINE_LOCATION)
+    abstract suspend fun searchForAccessPoints()
+
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     abstract suspend fun searchForSavedNetwork()
+
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     abstract suspend fun searchForSavedNetworks()
-    abstract fun searchForSSID()
-    abstract fun searchForSSIDs()
+
+    @RequiresPermission(ACCESS_FINE_LOCATION)
+    abstract suspend fun searchForSSID()
+
+    @RequiresPermission(ACCESS_FINE_LOCATION)
+    abstract suspend fun searchForSSIDs()
 
     abstract fun onSearchNetworkInputChanged(input: String)
 
@@ -137,7 +144,8 @@ internal class DefaultSearchViewModel(
         }
     }
 
-    override fun searchForAccessPoint() {
+    @RequiresPermission(ACCESS_FINE_LOCATION)
+    override suspend fun searchForAccessPoint() {
         if (!isInputValid()) {
             _uiState.value = uiState.value.copy(
                 loadingState = SearchLoadingState(isLoading = false),
@@ -150,54 +158,57 @@ internal class DefaultSearchViewModel(
             dialogState = SearchDialogState.None
         )
         val networkInput = uiState.value.inputState
-        wisefy.searchForAccessPoint(
-            request = if (uiState.value.ssidType == SSIDType.SSID) {
-                if (networkInput.inputValidityState is SearchInputValidityState.SSID.Valid) {
-                    SearchForSingleAccessPointRequest.SSID(
-                        regex = networkInput.input,
-                        timeoutInMillis = uiState.value.timeout,
-                        filterDuplicates = uiState.value.filterDuplicates
-                    )
-                } else {
-                    error("")
-                }
+        val request = if (uiState.value.ssidType == SSIDType.SSID) {
+            if (networkInput.inputValidityState is SearchInputValidityState.SSID.Valid) {
+                SearchForAccessPointsRequest.SSID(
+                    regex = networkInput.input,
+                    timeoutInMillis = uiState.value.timeout,
+                    filterDuplicates = uiState.value.filterDuplicates
+                )
             } else {
-                if (networkInput.inputValidityState is SearchInputValidityState.BSSID.Valid) {
-                    SearchForSingleAccessPointRequest.BSSID(
-                        regex = networkInput.input,
-                        timeoutInMillis = uiState.value.timeout,
-                        filterDuplicates = uiState.value.filterDuplicates
-                    )
-                } else {
-                    error("")
-                }
-            },
-            callbacks = object : SearchForAccessPointCallbacks {
-                override fun onAccessPointFound(accessPoint: AccessPointData) {
-                    _uiState.value = uiState.value.copy(
-                        loadingState = SearchLoadingState(isLoading = false),
-                        dialogState = SearchDialogState.SearchForAccessPoint.Success(accessPoint)
-                    )
-                }
-
-                override fun onNoAccessPointFound() {
-                    _uiState.value = uiState.value.copy(
-                        loadingState = SearchLoadingState(isLoading = false),
-                        dialogState = SearchDialogState.SearchForAccessPoint.NoAccessPointFound
-                    )
-                }
-
-                override fun onWisefyAsyncFailure(exception: WisefyException) {
-                    _uiState.value = uiState.value.copy(
-                        loadingState = SearchLoadingState(isLoading = false),
-                        dialogState = SearchDialogState.Failure.WisefyAsync(throwable = exception)
-                    )
-                }
+                error("")
             }
-        )
+        } else {
+            if (networkInput.inputValidityState is SearchInputValidityState.BSSID.Valid) {
+                SearchForAccessPointsRequest.BSSID(
+                    regex = networkInput.input,
+                    timeoutInMillis = uiState.value.timeout,
+                    filterDuplicates = uiState.value.filterDuplicates
+                )
+            } else {
+                error("")
+            }
+        }
+        val result = try {
+            wisefy.searchForAccessPointsAsync(request = request)
+        } catch (ex: WisefyException) {
+            _uiState.value = uiState.value.copy(
+                loadingState = SearchLoadingState(isLoading = false),
+                dialogState = SearchDialogState.Failure.WisefyAsync(throwable = ex)
+            )
+            null
+        }
+        when (result) {
+            is SearchForAccessPointsResult.AccessPoints -> {
+                _uiState.value = uiState.value.copy(
+                    loadingState = SearchLoadingState(isLoading = false),
+                    dialogState = SearchDialogState.SearchForAccessPoint.Success(result.data.first())
+                )
+            }
+            is SearchForAccessPointsResult.Empty -> {
+                _uiState.value = uiState.value.copy(
+                    loadingState = SearchLoadingState(isLoading = false),
+                    dialogState = SearchDialogState.SearchForAccessPoint.NoAccessPointFound
+                )
+            }
+            null -> {
+                // Case handled above in the catch clause
+            }
+        }
     }
 
-    override fun searchForAccessPoints() {
+    @RequiresPermission(ACCESS_FINE_LOCATION)
+    override suspend fun searchForAccessPoints() {
         if (!isInputValid()) {
             _uiState.value = uiState.value.copy(
                 loadingState = SearchLoadingState(isLoading = false),
@@ -210,48 +221,51 @@ internal class DefaultSearchViewModel(
             dialogState = SearchDialogState.None
         )
         val networkInput = uiState.value.inputState
-        wisefy.searchForAccessPoints(
-            request = when (uiState.value.ssidType) {
-                SSIDType.SSID -> {
-                    if (networkInput.inputValidityState is SearchInputValidityState.SSID.Valid) {
-                        SearchForMultipleAccessPointsRequest.SSID(regex = networkInput.input)
-                    } else {
-                        error("")
-                    }
-                }
-                SSIDType.BSSID -> {
-                    if (networkInput.inputValidityState is SearchInputValidityState.SSID.Valid) {
-                        SearchForMultipleAccessPointsRequest.BSSID(regex = networkInput.input)
-                    } else {
-                        error("")
-                    }
-                }
-            },
-            callbacks = object : SearchForAccessPointsCallbacks {
-                override fun onAccessPointsFound(accessPoints: List<AccessPointData>) {
-                    _uiState.value = uiState.value.copy(
-                        loadingState = SearchLoadingState(isLoading = false),
-                        dialogState = SearchDialogState.SearchForAccessPoints.Success(accessPoints)
-                    )
-                }
-
-                override fun onNoAccessPointsFound() {
-                    _uiState.value = uiState.value.copy(
-                        loadingState = SearchLoadingState(isLoading = false),
-                        dialogState = SearchDialogState.SearchForAccessPoints.NoAccessPointsFound
-                    )
-                }
-
-                override fun onWisefyAsyncFailure(exception: WisefyException) {
-                    _uiState.value = uiState.value.copy(
-                        loadingState = SearchLoadingState(isLoading = false),
-                        dialogState = SearchDialogState.Failure.WisefyAsync(throwable = exception)
-                    )
+        val request = when (uiState.value.ssidType) {
+            SSIDType.SSID -> {
+                if (networkInput.inputValidityState is SearchInputValidityState.SSID.Valid) {
+                    SearchForAccessPointsRequest.SSID(regex = networkInput.input)
+                } else {
+                    error("")
                 }
             }
-        )
+            SSIDType.BSSID -> {
+                if (networkInput.inputValidityState is SearchInputValidityState.SSID.Valid) {
+                    SearchForAccessPointsRequest.BSSID(regex = networkInput.input)
+                } else {
+                    error("")
+                }
+            }
+        }
+        val result = try {
+            wisefy.searchForAccessPointsAsync(request = request)
+        } catch (ex: WisefyException) {
+            _uiState.value = uiState.value.copy(
+                loadingState = SearchLoadingState(isLoading = false),
+                dialogState = SearchDialogState.Failure.WisefyAsync(throwable = ex)
+            )
+            null
+        }
+        when (result) {
+            is SearchForAccessPointsResult.Empty -> {
+                _uiState.value = uiState.value.copy(
+                    loadingState = SearchLoadingState(isLoading = false),
+                    dialogState = SearchDialogState.SearchForAccessPoints.NoAccessPointsFound
+                )
+            }
+            is SearchForAccessPointsResult.AccessPoints -> {
+                _uiState.value = uiState.value.copy(
+                    loadingState = SearchLoadingState(isLoading = false),
+                    dialogState = SearchDialogState.SearchForAccessPoints.Success(result.data)
+                )
+            }
+            null -> {
+                // Case handled above in the catch clause
+            }
+        }
     }
 
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override suspend fun searchForSavedNetwork() {
         if (!isInputValid()) {
             _uiState.value = uiState.value.copy(
@@ -265,25 +279,24 @@ internal class DefaultSearchViewModel(
             dialogState = SearchDialogState.None
         )
         val networkInput = uiState.value.inputState
-        val result = try {
-            wisefy.searchForSavedNetworkAsync(
-                request = when (uiState.value.ssidType) {
-                    SSIDType.SSID -> {
-                        if (networkInput.inputValidityState is SearchInputValidityState.SSID.Valid) {
-                            SearchForSavedNetworkRequest.SSID(regex = networkInput.input)
-                        } else {
-                            error("")
-                        }
-                    }
-                    SSIDType.BSSID -> {
-                        if (networkInput.inputValidityState is SearchInputValidityState.SSID.Valid) {
-                            SearchForSavedNetworkRequest.BSSID(regex = networkInput.input)
-                        } else {
-                            error("")
-                        }
-                    }
+        val request = when (uiState.value.ssidType) {
+            SSIDType.SSID -> {
+                if (networkInput.inputValidityState is SearchInputValidityState.SSID.Valid) {
+                    SearchForSavedNetworksRequest.SSID(regex = networkInput.input)
+                } else {
+                    error("")
                 }
-            )
+            }
+            SSIDType.BSSID -> {
+                if (networkInput.inputValidityState is SearchInputValidityState.SSID.Valid) {
+                    SearchForSavedNetworksRequest.BSSID(regex = networkInput.input)
+                } else {
+                    error("")
+                }
+            }
+        }
+        val result = try {
+            wisefy.searchForSavedNetworkAsync(request = request)
         } catch (ex: WisefyException) {
             _uiState.value = uiState.value.copy(
                 loadingState = SearchLoadingState(isLoading = false),
@@ -293,23 +306,25 @@ internal class DefaultSearchViewModel(
         }
 
         when (result) {
-            is SearchForSavedNetworkResult.Success.Empty -> {
+            is SearchForSavedNetworksResult.Success.Empty -> {
                 _uiState.value = uiState.value.copy(
                     loadingState = SearchLoadingState(isLoading = false),
                     dialogState = SearchDialogState.SearchForSavedNetwork.NoSavedNetworkFound
                 )
             }
-            is SearchForSavedNetworkResult.Success.SavedNetworks -> {
+            is SearchForSavedNetworksResult.Success.SavedNetworks -> {
                 _uiState.value = uiState.value.copy(
                     loadingState = SearchLoadingState(isLoading = false),
                     dialogState = SearchDialogState.SearchForSavedNetwork.Success(result.data.first())
                 )
             }
-            is SearchForSavedNetworkResult.Failure.Assertion -> TODO()
-            null -> TODO()
+            null -> {
+                // Case handled above in the catch clause
+            }
         }
     }
 
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override suspend fun searchForSavedNetworks() {
         if (!isInputValid()) {
             _uiState.value = uiState.value.copy(
@@ -323,25 +338,24 @@ internal class DefaultSearchViewModel(
             dialogState = SearchDialogState.None
         )
         val networkInput = uiState.value.inputState
-        val result = try {
-            wisefy.searchForSavedNetworkAsync(
-                request = when (uiState.value.ssidType) {
-                    SSIDType.SSID -> {
-                        if (networkInput.inputValidityState is SearchInputValidityState.SSID.Valid) {
-                            SearchForSavedNetworkRequest.SSID(regex = networkInput.input)
-                        } else {
-                            error("")
-                        }
-                    }
-                    SSIDType.BSSID -> {
-                        if (networkInput.inputValidityState is SearchInputValidityState.SSID.Valid) {
-                            SearchForSavedNetworkRequest.BSSID(regex = networkInput.input)
-                        } else {
-                            error("")
-                        }
-                    }
+        val request = when (uiState.value.ssidType) {
+            SSIDType.SSID -> {
+                if (networkInput.inputValidityState is SearchInputValidityState.SSID.Valid) {
+                    SearchForSavedNetworksRequest.SSID(regex = networkInput.input)
+                } else {
+                    error("")
                 }
-            )
+            }
+            SSIDType.BSSID -> {
+                if (networkInput.inputValidityState is SearchInputValidityState.SSID.Valid) {
+                    SearchForSavedNetworksRequest.BSSID(regex = networkInput.input)
+                } else {
+                    error("")
+                }
+            }
+        }
+        val result = try {
+            wisefy.searchForSavedNetworkAsync(request = request)
         } catch (ex: WisefyException) {
             _uiState.value = uiState.value.copy(
                 loadingState = SearchLoadingState(isLoading = false),
@@ -351,24 +365,26 @@ internal class DefaultSearchViewModel(
         }
 
         when (result) {
-            is SearchForSavedNetworkResult.Success.Empty -> {
+            is SearchForSavedNetworksResult.Success.Empty -> {
                 _uiState.value = uiState.value.copy(
                     loadingState = SearchLoadingState(isLoading = false),
                     dialogState = SearchDialogState.SearchForSavedNetworks.NoSavedNetworksFound
                 )
             }
-            is SearchForSavedNetworkResult.Success.SavedNetworks -> {
+            is SearchForSavedNetworksResult.Success.SavedNetworks -> {
                 _uiState.value = uiState.value.copy(
                     loadingState = SearchLoadingState(isLoading = false),
                     dialogState = SearchDialogState.SearchForSavedNetworks.Success(result.data)
                 )
             }
-            is SearchForSavedNetworkResult.Failure.Assertion -> TODO()
-            null -> TODO()
+            null -> {
+                // Case handled above in the catch clause
+            }
         }
     }
 
-    override fun searchForSSID() {
+    @RequiresPermission(ACCESS_FINE_LOCATION)
+    override suspend fun searchForSSID() {
         if (!isInputValid()) {
             _uiState.value = uiState.value.copy(
                 loadingState = SearchLoadingState(isLoading = false),
@@ -381,55 +397,63 @@ internal class DefaultSearchViewModel(
             dialogState = SearchDialogState.None
         )
         val networkInput = uiState.value.inputState
-        wisefy.searchForSSID(
-            request = when (uiState.value.ssidType) {
-                SSIDType.SSID -> {
-                    if (networkInput.inputValidityState is SearchInputValidityState.SSID.Valid) {
-                        SearchForSingleSSIDRequest.SSID(
-                            regex = networkInput.input,
-                            timeoutInMillis = uiState.value.timeout
-                        )
-                    } else {
-                        error("")
-                    }
-                }
-                SSIDType.BSSID -> {
-                    if (networkInput.inputValidityState is SearchInputValidityState.BSSID.Valid) {
-                        SearchForSingleSSIDRequest.BSSID(
-                            regex = networkInput.input,
-                            timeoutInMillis = uiState.value.timeout
-                        )
-                    } else {
-                        error("")
-                    }
-                }
-            },
-            callbacks = object : SearchForSSIDCallbacks {
-                override fun onSSIDFound(ssid: SSIDData) {
-                    _uiState.value = uiState.value.copy(
-                        loadingState = SearchLoadingState(isLoading = false),
-                        dialogState = SearchDialogState.SearchForSSID.Success(ssid)
+        val request = when (uiState.value.ssidType) {
+            SSIDType.SSID -> {
+                if (networkInput.inputValidityState is SearchInputValidityState.SSID.Valid) {
+                    SearchForAccessPointsRequest.SSID(
+                        regex = networkInput.input,
+                        timeoutInMillis = uiState.value.timeout
                     )
-                }
-
-                override fun onSSIDNotFound() {
-                    _uiState.value = uiState.value.copy(
-                        loadingState = SearchLoadingState(isLoading = false),
-                        dialogState = SearchDialogState.SearchForSSID.NoSSIDFound
-                    )
-                }
-
-                override fun onWisefyAsyncFailure(exception: WisefyException) {
-                    _uiState.value = uiState.value.copy(
-                        loadingState = SearchLoadingState(isLoading = false),
-                        dialogState = SearchDialogState.Failure.WisefyAsync(throwable = exception)
-                    )
+                } else {
+                    error("")
                 }
             }
-        )
+            SSIDType.BSSID -> {
+                if (networkInput.inputValidityState is SearchInputValidityState.BSSID.Valid) {
+                    SearchForAccessPointsRequest.BSSID(
+                        regex = networkInput.input,
+                        timeoutInMillis = uiState.value.timeout
+                    )
+                } else {
+                    error("")
+                }
+            }
+        }
+        val result = try {
+            wisefy.searchForAccessPointsAsync(request = request)
+        } catch (ex: WisefyException) {
+            _uiState.value = uiState.value.copy(
+                loadingState = SearchLoadingState(isLoading = false),
+                dialogState = SearchDialogState.Failure.WisefyAsync(throwable = ex)
+            )
+            null
+        }
+
+        when (result) {
+            is SearchForAccessPointsResult.AccessPoints -> {
+                val ssid = when (uiState.value.ssidType) {
+                    SSIDType.SSID -> result.data.first().value.SSID
+                    SSIDType.BSSID -> result.data.first().value.BSSID
+                }
+                _uiState.value = uiState.value.copy(
+                    loadingState = SearchLoadingState(isLoading = false),
+                    dialogState = SearchDialogState.SearchForSSID.Success(ssid)
+                )
+            }
+            is SearchForAccessPointsResult.Empty -> {
+                _uiState.value = uiState.value.copy(
+                    loadingState = SearchLoadingState(isLoading = false),
+                    dialogState = SearchDialogState.SearchForSSID.NoSSIDFound
+                )
+            }
+            null -> {
+                // Case handled above in the catch clause
+            }
+        }
     }
 
-    override fun searchForSSIDs() {
+    @RequiresPermission(ACCESS_FINE_LOCATION)
+    override suspend fun searchForSSIDs() {
         if (!isInputValid()) {
             _uiState.value = uiState.value.copy(
                 loadingState = SearchLoadingState(isLoading = false),
@@ -442,46 +466,53 @@ internal class DefaultSearchViewModel(
             dialogState = SearchDialogState.None
         )
         val networkInput = uiState.value.inputState
-        wisefy.searchForSSIDs(
-            request = when (uiState.value.ssidType) {
-                SSIDType.SSID -> {
-                    if (networkInput.inputValidityState is SearchInputValidityState.SSID.Valid) {
-                        SearchForMultipleSSIDsRequest.SSID(regex = networkInput.input)
-                    } else {
-                        error("")
-                    }
-                }
-                SSIDType.BSSID -> {
-                    if (networkInput.inputValidityState is SearchInputValidityState.BSSID.Valid) {
-                        SearchForMultipleSSIDsRequest.BSSID(regex = networkInput.input)
-                    } else {
-                        error("")
-                    }
-                }
-            },
-            callbacks = object : SearchForSSIDsCallbacks {
-                override fun onSSIDsFound(ssids: List<SSIDData>) {
-                    _uiState.value = uiState.value.copy(
-                        loadingState = SearchLoadingState(isLoading = false),
-                        dialogState = SearchDialogState.SearchForSSIDs.Success(ssids)
-                    )
-                }
-
-                override fun onNoSSIDsFound() {
-                    _uiState.value = uiState.value.copy(
-                        loadingState = SearchLoadingState(isLoading = false),
-                        dialogState = SearchDialogState.SearchForSSIDs.NoSSIDsFound
-                    )
-                }
-
-                override fun onWisefyAsyncFailure(exception: WisefyException) {
-                    _uiState.value = uiState.value.copy(
-                        loadingState = SearchLoadingState(isLoading = false),
-                        dialogState = SearchDialogState.Failure.WisefyAsync(throwable = exception)
-                    )
+        val request = when (uiState.value.ssidType) {
+            SSIDType.SSID -> {
+                if (networkInput.inputValidityState is SearchInputValidityState.SSID.Valid) {
+                    SearchForAccessPointsRequest.SSID(regex = networkInput.input)
+                } else {
+                    error("")
                 }
             }
-        )
+            SSIDType.BSSID -> {
+                if (networkInput.inputValidityState is SearchInputValidityState.BSSID.Valid) {
+                    SearchForAccessPointsRequest.BSSID(regex = networkInput.input)
+                } else {
+                    error("")
+                }
+            }
+        }
+        val result = try {
+            wisefy.searchForAccessPointsAsync(request = request)
+        } catch (ex: WisefyException) {
+            _uiState.value = uiState.value.copy(
+                loadingState = SearchLoadingState(isLoading = false),
+                dialogState = SearchDialogState.Failure.WisefyAsync(throwable = ex)
+            )
+            null
+        }
+
+        when (result) {
+            is SearchForAccessPointsResult.AccessPoints -> {
+                val ssids = when (uiState.value.ssidType) {
+                    SSIDType.SSID -> result.data.map { it.value.SSID }
+                    SSIDType.BSSID -> result.data.map { it.value.BSSID }
+                }
+                _uiState.value = uiState.value.copy(
+                    loadingState = SearchLoadingState(isLoading = false),
+                    dialogState = SearchDialogState.SearchForSSIDs.Success(ssids)
+                )
+            }
+            is SearchForAccessPointsResult.Empty -> {
+                _uiState.value = uiState.value.copy(
+                    loadingState = SearchLoadingState(isLoading = false),
+                    dialogState = SearchDialogState.SearchForSSIDs.NoSSIDsFound
+                )
+            }
+            null -> {
+                // Case handled above in the catch clause
+            }
+        }
     }
 
     override fun onSearchNetworkInputChanged(input: String) {

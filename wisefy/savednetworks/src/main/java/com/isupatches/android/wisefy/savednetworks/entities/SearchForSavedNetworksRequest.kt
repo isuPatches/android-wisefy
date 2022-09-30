@@ -13,37 +13,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.android.wisefy.accesspoints.entities
+package com.isupatches.android.wisefy.savednetworks.entities
 
 /**
- * A set of classes and objects that are used to represent requests to search for multiple SSIDs.
+ * A set of classes and objects that are used to represent requests to search for a single saved network.
  *
  * @author Patches Klinefelter
- * @since 08/2022, version 5.0.0
+ * @since 07/2022, version 5.0.0
  */
-sealed class SearchForMultipleSSIDsRequest {
+sealed class SearchForSavedNetworksRequest {
 
     /**
-     * A data representation of a request to search for multiple SSIDs by regex.
+     * A data representation of a request to search for saved networks by SSID.
      *
      * @property regex The regex to use when matching the SSID
      *
-     * @see SearchForMultipleSSIDsRequest
+     * @see SearchForSavedNetworksRequest
      *
      * @author Patches Klinefelter
-     * @since 08/2022, version 5.0.0
+     * @since 07/2022, version 5.0.0
      */
-    data class SSID(val regex: String) : SearchForMultipleSSIDsRequest()
+    data class SSID(val regex: String) : SearchForSavedNetworksRequest()
 
     /**
-     * A data representation of a request to search for multiple BSSIDs by regex.
+     * A data representation of a request to search for saved networks by BSSID.
      *
      * @property regex The regex to use when matching the BSSID
      *
-     * @see SearchForMultipleSSIDsRequest
+     * @see SearchForSavedNetworksRequest
      *
      * @author Patches Klinefelter
-     * @since 08/2022, version 5.0.0
+     * @since 07/2022, version 5.0.0
      */
-    data class BSSID(val regex: String) : SearchForMultipleSSIDsRequest()
+    data class BSSID(val regex: String) : SearchForSavedNetworksRequest()
 }

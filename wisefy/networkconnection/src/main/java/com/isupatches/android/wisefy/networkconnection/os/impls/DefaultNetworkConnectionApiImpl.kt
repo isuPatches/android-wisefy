@@ -28,8 +28,8 @@ import com.isupatches.android.wisefy.networkconnection.os.apis.DefaultNetworkCon
 import com.isupatches.android.wisefy.networkconnectionstatus.NetworkConnectionStatusDelegate
 import com.isupatches.android.wisefy.savednetworks.SavedNetworkDelegate
 import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
-import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkRequest
-import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkResult
+import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworksRequest
+import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworksResult
 
 /**
  * A default implementation for connecting to or disconnecting from a network through the Android OS.
@@ -59,11 +59,11 @@ internal class DefaultNetworkConnectionApiImpl(
     override fun connectToNetworkBySSID(ssid: String, timeoutInMillis: Int): Boolean? {
         return when (
             val savedNetworkSearchResult = savedNetworkUtil.searchForSavedNetwork(
-                SearchForSavedNetworkRequest.SSID(regex = ssid)
+                SearchForSavedNetworksRequest.SSID(regex = ssid)
             )
         ) {
-            is SearchForSavedNetworkResult.Success.Empty -> null
-            is SearchForSavedNetworkResult.Success.SavedNetworks -> {
+            is SearchForSavedNetworksResult.Success.Empty -> null
+            is SearchForSavedNetworksResult.Success.SavedNetworks -> {
                 when (val saveNetwork = savedNetworkSearchResult.data.first()) {
                     is SavedNetworkData.Configuration -> {
                         saveNetwork.value.let {
@@ -76,7 +76,7 @@ internal class DefaultNetworkConnectionApiImpl(
                     is SavedNetworkData.Suggestion -> false
                 }
             }
-            is SearchForSavedNetworkResult.Failure.Assertion -> {
+            is SearchForSavedNetworksResult.Failure.Assertion -> {
                 // todo@patches Figure out what to do here
                 null
             }
@@ -87,11 +87,11 @@ internal class DefaultNetworkConnectionApiImpl(
     override fun connectToNetworkByBSSID(bssid: String, timeoutInMillis: Int): Boolean? {
         return when (
             val savedNetworkSearchResult = savedNetworkUtil.searchForSavedNetwork(
-                SearchForSavedNetworkRequest.BSSID(regex = bssid)
+                SearchForSavedNetworksRequest.BSSID(regex = bssid)
             )
         ) {
-            is SearchForSavedNetworkResult.Success.Empty -> null
-            is SearchForSavedNetworkResult.Success.SavedNetworks -> {
+            is SearchForSavedNetworksResult.Success.Empty -> null
+            is SearchForSavedNetworksResult.Success.SavedNetworks -> {
                 when (val saveNetwork = savedNetworkSearchResult.data.first()) {
                     is SavedNetworkData.Configuration -> {
                         saveNetwork.value.let {
@@ -104,7 +104,7 @@ internal class DefaultNetworkConnectionApiImpl(
                     is SavedNetworkData.Suggestion -> false
                 }
             }
-            is SearchForSavedNetworkResult.Failure.Assertion -> {
+            is SearchForSavedNetworksResult.Failure.Assertion -> {
                 // todo@patches Figure out what to do here
                 null
             }

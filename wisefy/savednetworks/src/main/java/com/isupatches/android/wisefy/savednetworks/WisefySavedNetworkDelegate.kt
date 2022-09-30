@@ -27,13 +27,13 @@ import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.core.util.SdkUtil
 import com.isupatches.android.wisefy.savednetworks.callbacks.GetSavedNetworksCallbacks
 import com.isupatches.android.wisefy.savednetworks.callbacks.IsNetworkSavedCallbacks
-import com.isupatches.android.wisefy.savednetworks.callbacks.SearchForSavedNetworkCallbacks
+import com.isupatches.android.wisefy.savednetworks.callbacks.SearchForSavedNetworksCallbacks
 import com.isupatches.android.wisefy.savednetworks.entities.GetSavedNetworksRequest
 import com.isupatches.android.wisefy.savednetworks.entities.GetSavedNetworksResult
 import com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedRequest
 import com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedResult
-import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkRequest
-import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworkResult
+import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworksRequest
+import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworksResult
 import com.isupatches.android.wisefy.savednetworks.os.adapters.Android29SavedNetworkAdapter
 import com.isupatches.android.wisefy.savednetworks.os.adapters.Android30SavedNetworkAdapter
 import com.isupatches.android.wisefy.savednetworks.os.adapters.DefaultSavedNetworkAdapter
@@ -139,25 +139,25 @@ class WisefySavedNetworkDelegate(
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun searchForSavedNetwork(request: SearchForSavedNetworkRequest): SearchForSavedNetworkResult {
+    override fun searchForSavedNetwork(request: SearchForSavedNetworksRequest): SearchForSavedNetworksResult {
         return adapter.searchForSavedNetwork(request)
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun searchForSavedNetwork(
-        request: SearchForSavedNetworkRequest,
-        callbacks: SearchForSavedNetworkCallbacks?
+    override fun searchForSavedNetworks(
+        request: SearchForSavedNetworksRequest,
+        callbacks: SearchForSavedNetworksCallbacks?
     ) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
             savedNetworkMutex.withLock {
                 val result = adapter.searchForSavedNetwork(request)
                 withContext(coroutineDispatcherProvider.main) {
                     when (result) {
-                        is SearchForSavedNetworkResult.Success.Empty -> callbacks?.onNoSavedNetworksFound()
-                        is SearchForSavedNetworkResult.Success.SavedNetworks -> {
+                        is SearchForSavedNetworksResult.Success.Empty -> callbacks?.onNoSavedNetworksFound()
+                        is SearchForSavedNetworksResult.Success.SavedNetworks -> {
                             callbacks?.onSavedNetworksRetrieved(result.data)
                         }
-                        is SearchForSavedNetworkResult.Failure.Assertion -> {
+                        is SearchForSavedNetworksResult.Failure.Assertion -> {
                             callbacks?.onWisefyAsyncFailure(WisefyException(message = result.message, throwable = null))
                         }
                     }
