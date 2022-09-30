@@ -1,12 +1,29 @@
 ## Wisefy Documentation
 
 - [accesspoints package](#accesspoints-package)
-    - [getNearbyAccessPoints](#getnearbyaccesspoints)
-    - [getRSSI](#getrssi)
-    - [searchForAccessPoints](#searchforaccesspoints)
+  - [getNearbyAccessPoints](#getnearbyaccesspoints)
+  - [getRSSI](#getrssi)
+  - [searchForAccessPoints](#searchforaccesspoints)
 - [addnetwork package](#addnetwork-package)
-    - [addNetwork](#addnetwork)
-- [addnetwork](#addnetwork)
+  - [addNetwork](#addnetwork)
+- [frequency package](#frequency-package)
+  - [getFrequency](#getfrequency)
+  - [isNetwork5gHz](#isnetwork5ghz)
+- [networkconnection package](#networkconnection-package)
+- [networkconnectionstatus package](#networkconnectionstatus-package)
+  - [getNetworkConnectionStatus](#getnetworkconnectionstatus)
+- [networkinfo package](#networkinfo-package)
+  - [getCurrentNetwork](#getcurrentnetwork)
+  - [getCurrentNetworkInfo](#getcurrentnetworkinfo)
+- [removenetwork package](#removenetwork-package)
+  - [getCurrentNetwork](#removenetwork)
+- [savednetworks package](#savednetworks-package)
+  - [getSavedNetworks](#getsavednetworks) 
+  - [searchForSavedNetworks](#searchforsavednetworks) 
+- [wifi package](#wifi-package)
+  - [disableWifi](#disablewifi) **DEPRECATED**
+  - [enabledWifi](#enablewifi) **DEPRECATED**
+- [Mutex Locks](#mutex-locks)
 
 ### `:accesspoints` package
 
@@ -65,148 +82,158 @@ Adds a network to the saved list of configurations / suggestions
   - *Coroutine*: `suspend fun WisefyApi.addNetworkAsync(request: AddNetworkRequest): AddNetworkResult`
 - Notes: Currently supports Open and WPA2 network types along with WPA3 starting with Android Q
     
-### `:frequency`
+### `:frequency` package
 
-  - **Getting the frequency of a network**
-    - Usage example: [MiscViewModel::getFrequency](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#L326)
+#### getFrequency()
 
-    - Request class: [GetFrequencyRequest](/wisefy/frequency/src/main/java/com/isupatches/android/wisefy/frequency/entities/GetFrequencyRequest.kt)
-    - Result class: [GetFrequencyResult](/wisefy/frequency/src/main/java/com/isupatches/android/wisefy/frequency/entities/GetFrequencyResult.kt)
+Getting the frequency of a network
 
-    - API options:
-      - *Synchronous*: `fun getFrequency(request: GetFrequencyRequest): GetFrequencyResult`
-      - *Async*: `fun getFrequency(request: GetFrequencyRequest, callbacks: GetFrequencyCallbacks?)`
-      - *Coroutine*: `suspend fun WisefyApi.getFrequencyAsync(request: GetFrequencyRequest): GetFrequencyResult`
+- Usage example: [MiscViewModel::getFrequency](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#L326)
+- Request class: [GetFrequencyRequest](/wisefy/frequency/src/main/java/com/isupatches/android/wisefy/frequency/entities/GetFrequencyRequest.kt)
+- Result class: [GetFrequencyResult](/wisefy/frequency/src/main/java/com/isupatches/android/wisefy/frequency/entities/GetFrequencyResult.kt)
+- API options:
+  - *Synchronous*: `fun getFrequency(request: GetFrequencyRequest): GetFrequencyResult`
+  - *Async*: `fun getFrequency(request: GetFrequencyRequest, callbacks: GetFrequencyCallbacks?)`
+  - *Coroutine*: `suspend fun WisefyApi.getFrequencyAsync(request: GetFrequencyRequest): GetFrequencyResult`
     
-  - **Checking if a network is 5gHz**
-    - Usage example: [MiscViewModel::isNetwork5gHz](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#L541)
+#### isNetwork5gHz()    
 
-    - Request class: [IsNetwork5gHzRequest](/wisefy/frequency/src/main/java/com/isupatches/android/wisefy/frequency/entities/IsNetwork5gHzRequest.kt)
-    - Result class: [IsNetwork5gHzResult](/wisefy/frequency/src/main/java/com/isupatches/android/wisefy/frequency/entities/IsNetwork5gHzResult.kt)
+Checks if a network is 5gHz
 
-    - API options:
-      - *Synchronous*: `fun isNetwork5gHz(request: IsNetwork5gHzRequest): IsNetwork5gHzResult`
-      - *Async*: `fun isNetwork5gHz(request: IsNetwork5gHzRequest, callbacks: IsNetwork5gHzCallbacks?)`
-      - *Coroutine*: `suspend fun WisefyApi.isNetwork5gHzAsync(request: IsNetwork5gHzRequest): IsNetwork5gHzResult`
+- Usage example: [MiscViewModel::isNetwork5gHz](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#L541)
+- Request class: [IsNetwork5gHzRequest](/wisefy/frequency/src/main/java/com/isupatches/android/wisefy/frequency/entities/IsNetwork5gHzRequest.kt)
+- Result class: [IsNetwork5gHzResult](/wisefy/frequency/src/main/java/com/isupatches/android/wisefy/frequency/entities/IsNetwork5gHzResult.kt)
+- API options:
+  - *Synchronous*: `fun isNetwork5gHz(request: IsNetwork5gHzRequest): IsNetwork5gHzResult`
+  - *Async*: `fun isNetwork5gHz(request: IsNetwork5gHzRequest, callbacks: IsNetwork5gHzCallbacks?)`
+  - *Coroutine*: `suspend fun WisefyApi.isNetwork5gHzAsync(request: IsNetwork5gHzRequest): IsNetwork5gHzResult`
 
-#### `:networkconnection`
+#### `:networkconnection` package
 
     - Connecting to a network
     - Disconnecting from the current network
 
-#### `:networkconnectionstatus`
+### `:networkconnectionstatus` package
 
-  - **Getting the device's network connection status**
-    - Usage example: [MiscViewModel::getNetworkConnectionStatus](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#L431)
+#### getNetworkConnectionStatus()
 
-    - Request class: [GetNetworkConnectionStatusRequest](/wisefy/networkconnectionstatus/src/main/java/com/isupatches/android/wisefy/networkconnectionstatus/entities/GetNetworkConnectionStatusRequest.kt)
-    - Result class: [GetNetworkConnectionStatusResult](/wisefy/networkconnectionstatus/src/main/java/com/isupatches/android/wisefy/networkconnectionstatus/entities/GetNetworkConnectionStatusResult.kt)
+Gets the device's network connection status
+ 
+- Usage example: [MiscViewModel::getNetworkConnectionStatus](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#L431)
+- Request class: [GetNetworkConnectionStatusRequest](/wisefy/networkconnectionstatus/src/main/java/com/isupatches/android/wisefy/networkconnectionstatus/entities/GetNetworkConnectionStatusRequest.kt)
+- Result class: [GetNetworkConnectionStatusResult](/wisefy/networkconnectionstatus/src/main/java/com/isupatches/android/wisefy/networkconnectionstatus/entities/GetNetworkConnectionStatusResult.kt)
+- API options:
+  - *Synchronous*: `fun getNetworkConnectionStatus(request: GetNetworkConnectionStatusRequest): GetNetworkConnectionStatusResult`
+  - *Async*: `fun getNetworkConnectionStatus(request: GetNetworkConnectionStatusRequest = GetNetworkConnectionStatusRequest(), callbacks: GetNetworkConnectionStatusCallbacks?)`
+  - *Coroutine*: `suspend fun WisefyApi.getNetworkConnectionStatusAsync(request: GetNetworkConnectionStatusRequest): GetNetworkConnectionStatusResult`
+
+### `:networkinfo` package
+
+#### getCurrentNetwork()
+
+Gets the device's current network
+
+- Usage example: [MiscViewModel::getCurrentNetwork](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#L256)
+- Request class: [GetCurrentNetworkRequest](/wisefy/networkinfo/src/main/java/com/isupatches/android/wisefy/networkinfo/entities/GetCurrentNetworkRequest.kt)
+- Result class: [GetCurrentNetworkRequest](/wisefy/networkinfo/src/main/java/com/isupatches/android/wisefy/networkinfo/entities/GetCurrentNetworkResult.kt)
+- API options:
+  - *Synchronous*: `fun getCurrentNetwork(request: GetCurrentNetworkRequest): GetCurrentNetworkResult`
+  - *Async*: `fun getCurrentNetwork(request: GetCurrentNetworkRequest, callbacks: GetCurrentNetworkCallbacks?)`
+  - *Coroutine*: `suspend fun WisefyApi.getCurrentNetworkAsync(request: GetCurrentNetworkRequest): GetCurrentNetworkResult`
+
+#### getCurrentNetworkInfo()
+
+Gets the device's current network info
+
+- Usage example: [MiscViewModel::getCurrentNetworkInfo](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#L285)
+- Request class: [GetCurrentNetworkInfoRequest](/wisefy/networkinfo/src/main/java/com/isupatches/android/wisefy/networkinfo/entities/GetCurrentNetworkInfoRequest.kt)
+- Result class: [GetCurrentNetworkInfoResult](/wisefy/networkinfo/src/main/java/com/isupatches/android/wisefy/networkinfo/entities/GetCurrentNetworkInfoResult.kt)
+- API options:
+  - Synchronous option: `fun getCurrentNetworkInfo(request: GetCurrentNetworkInfoRequest): GetCurrentNetworkInfoResult`
+  - Async option: `fun getCurrentNetworkInfo(request: GetCurrentNetworkInfoRequest, callbacks: GetCurrentNetworkInfoCallbacks?)`
+  - Coroutine option: `suspend fun WisefyApi.getCurrentNetworkInfoAsync(request: GetCurrentNetworkInfoRequest): GetCurrentNetworkInfoResult`
     
-    - API options:
-      - *Synchronous*: `fun getNetworkConnectionStatus(request: GetNetworkConnectionStatusRequest): GetNetworkConnectionStatusResult`
-      - *Async*: `fun getNetworkConnectionStatus(request: GetNetworkConnectionStatusRequest = GetNetworkConnectionStatusRequest(), callbacks: GetNetworkConnectionStatusCallbacks?)`
-      - *Coroutine*: `suspend fun WisefyApi.getNetworkConnectionStatusAsync(request: GetNetworkConnectionStatusRequest): GetNetworkConnectionStatusResult`
+#### `:removenetwork` package
 
-#### `:networkinfo`
+#### removeNetwork()
 
-  - **Getting the device's current network**
-    - Usage example: [MiscViewModel::getCurrentNetwork](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#L256)
+Removes a network from the saved suggestions / configurations
 
-    - Request class: [GetCurrentNetworkRequest](/wisefy/networkinfo/src/main/java/com/isupatches/android/wisefy/networkinfo/entities/GetCurrentNetworkRequest.kt)
-    - Result class: [GetCurrentNetworkRequest](/wisefy/networkinfo/src/main/java/com/isupatches/android/wisefy/networkinfo/entities/GetCurrentNetworkResult.kt)
+- Usage example: [RemoveNetworkViewModel::removeNetwork](/app/src/main/java/com/isupatches/android/wisefy/sample/features/remove/RemoveNetworkViewModel.kt#L92)
+- Request class: [RemoveNetworkRequest](/wisefy/removenetwork/src/main/java/com/isupatches/android/wisefy/removenetwork/entities/RemoveNetworkRequest.kt)
+- Result class: [RemoveNetworkResult](/wisefy/removenetwork/src/main/java/com/isupatches/android/wisefy/removenetwork/entities/RemoveNetworkResult.kt)
+- API options:
+  - *Synchronous*: `fun removeNetwork(request: RemoveNetworkRequest): RemoveNetworkResult`
+  - *Async*: `fun removeNetwork(request: RemoveNetworkRequest, callbacks: RemoveNetworkCallbacks?)`
+  - *Coroutine*: `suspend fun WisefyApi.removeNetworkAsync(request: RemoveNetworkRequest): RemoveNetworkResult`
 
-    - API options:
-      - *Synchronous*: `fun getCurrentNetwork(request: GetCurrentNetworkRequest): GetCurrentNetworkResult`
-      - *Async*: `fun getCurrentNetwork(request: GetCurrentNetworkRequest, callbacks: GetCurrentNetworkCallbacks?)`
-      - *Coroutine*: `suspend fun WisefyApi.getCurrentNetworkAsync(request: GetCurrentNetworkRequest): GetCurrentNetworkResult`
+### `:savednetworks` package
 
-  - **Getting the device's current network info**
-    - Usage example: [MiscViewModel::getCurrentNetwork](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#L291)
+#### getSavedNetworks()
 
-    - Request class: [GetCurrentNetworkInfoRequest](/wisefy/networkinfo/src/main/java/com/isupatches/android/wisefy/networkinfo/entities/GetCurrentNetworkInfoRequest.kt)
-    - Result class: [GetCurrentNetworkInfoResult](/wisefy/networkinfo/src/main/java/com/isupatches/android/wisefy/networkinfo/entities/GetCurrentNetworkInfoResult.kt)
+Gets the saved networks on a device
 
-    - API options:
-      - Synchronous option: `fun getCurrentNetworkInfo(request: GetCurrentNetworkInfoRequest): GetCurrentNetworkInfoResult`
-      - Async option: `fun getCurrentNetworkInfo(request: GetCurrentNetworkInfoRequest, callbacks: GetCurrentNetworkInfoCallbacks?)`
-      - Coroutine option: `suspend fun WisefyApi.getCurrentNetworkInfoAsync(request: GetCurrentNetworkInfoRequest): GetCurrentNetworkInfoResult`
-    
-#### `:removenetwork`
+- Usage example: [MiscViewModel::getSavedNetworks](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#L496)
+- Request class: [GetSavedNetworksRequest](/wisefy/savednetworks/src/main/java/com/isupatches/android/wisefy/savednetworks/entities/GetSavedNetworksRequest.kt)
+- Result class: [GetSavedNetworksResult](/wisefy/savednetworks/src/main/java/com/isupatches/android/wisefy/savednetworks/entities/GetSavedNetworksResult.kt)
+- API options:
+  - *Synchronous*: `fun getSavedNetworks(request: GetSavedNetworksRequest): GetSavedNetworksResult`
+  - *Async*: `fun getSavedNetworks(request: GetSavedNetworksRequest, callbacks: GetSavedNetworksCallbacks?)`
+  - *Coroutine*: `suspend fun WisefyApi.getSavedNetworksAsync(request: GetSavedNetworksRequest): GetSavedNetworksResult`
 
-  - **Removing a network**
-      - Usage example: [RemoveNetworkViewModel::removeNetwork](/app/src/main/java/com/isupatches/android/wisefy/sample/features/remove/RemoveNetworkViewModel.kt#L92)
+####
 
-      - Request class: [RemoveNetworkRequest](/wisefy/removenetwork/src/main/java/com/isupatches/android/wisefy/removenetwork/entities/RemoveNetworkRequest.kt)
-      - Result class: [RemoveNetworkResult](/wisefy/removenetwork/src/main/java/com/isupatches/android/wisefy/removenetwork/entities/RemoveNetworkResult.kt)
+Checking if a specific network is saved
 
-      - API options:
-        - *Synchronous*: `fun removeNetwork(request: RemoveNetworkRequest): RemoveNetworkResult`
-        - *Async*: `fun removeNetwork(request: RemoveNetworkRequest, callbacks: RemoveNetworkCallbacks?)`
-        - *Coroutine*: `suspend fun WisefyApi.removeNetworkAsync(request: RemoveNetworkRequest): RemoveNetworkResult`
+#### searchForSavedNetworks()
 
-#### `:savednetworks`
+Searches for saved networks on the device
 
-  - **Getting the saved networks on a device**
-    - Usage example: [MiscViewModel::getSavedNetworks](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#L496)
+- Usage example: [SearchViewModel::searchForSavedNetworks](/app/src/main/java/com/isupatches/android/wisefy/sample/features/search/SearchViewModel.kt#L328)
+- Request class: [SearchForSavedNetworksRequest](/wisefy/savednetworks/src/main/java/com/isupatches/android/wisefy/savednetworks/entities/SearchForSavedNetworksRequest.kt)
+- Result class: [SearchForSavedNetworksResult](/wisefy/savednetworks/src/main/java/com/isupatches/android/wisefy/savednetworks/entities/SearchForSavedNetworksResult.kt)
+- API options:
+    - *Synchronous*: `fun searchForSavedNetworks(request: SearchForSavedNetworksRequest): SearchForSavedNetworksResult`
+    - *Async*: `fun searchForSavedNetworks(request: SearchForSavedNetworksRequest, callbacks: SearchForSavedNetworksCallbacks?)`
+    - *Coroutine*: `suspend fun WisefyApi.searchForSavedNetworkAsync(request: SearchForSavedNetworksRequest): SearchForSavedNetworksResult`
+  - Notes:
+    - This can be leveraged to search for a single access point with `.first()`/`.firstOrNull()`
 
-    - Request class: [GetSavedNetworksRequest](/wisefy/savednetworks/src/main/java/com/isupatches/android/wisefy/savednetworks/entities/GetSavedNetworksRequest.kt)
-    - Result class: [GetSavedNetworksResult](/wisefy/savednetworks/src/main/java/com/isupatches/android/wisefy/savednetworks/entities/GetSavedNetworksResult.kt)
-
-    - API options:
-      - *Synchronous*: `fun getSavedNetworks(request: GetSavedNetworksRequest): GetSavedNetworksResult`
-      - *Async*: `fun getSavedNetworks(request: GetSavedNetworksRequest, callbacks: GetSavedNetworksCallbacks?)`
-      - *Coroutine*: `suspend fun WisefyApi.getSavedNetworksAsync(request: GetSavedNetworksRequest): GetSavedNetworksResult`
-  
-  - **Checking if a specific network is saved**
-
-  - **Searching for saved networks**
-    - Usage example: [SearchViewModel::searchForSavedNetworks](/app/src/main/java/com/isupatches/android/wisefy/sample/features/search/SearchViewModel.kt#L328)
-
-    - Request class: [SearchForSavedNetworksRequest](/wisefy/savednetworks/src/main/java/com/isupatches/android/wisefy/savednetworks/entities/SearchForSavedNetworksRequest.kt)
-    - Result class: [SearchForSavedNetworksResult](/wisefy/savednetworks/src/main/java/com/isupatches/android/wisefy/savednetworks/entities/SearchForSavedNetworksResult.kt)
-
-    - API options:
-      - *Synchronous*: `fun searchForSavedNetworks(request: SearchForSavedNetworksRequest): SearchForSavedNetworksResult`
-      - *Async*: `fun searchForSavedNetworks(request: SearchForSavedNetworksRequest, callbacks: SearchForSavedNetworksCallbacks?)`
-      - *Coroutine*: `suspend fun WisefyApi.searchForSavedNetworkAsync(request: SearchForSavedNetworksRequest): SearchForSavedNetworksResult`
-
-    - Notes:
-      - This can be leveraged to search for a single access point with `.first()`/`.firstOrNull()`
-
-#### `:sginal`
+### `:sginal` package
   
   - Calculating signal strength bars
   - Comparing signal strength
 
-#### `:wifi`
+### `:wifi` package
 
-  - **Enabling Wifi [DEPRECATED]**
-    - Usage example: [MiscViewModel::enableWifi](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#L215)
+#### enableWifi()
 
-    - Request class: [EnableWifiRequest](/wisefy/wifi/src/main/java/com/isupatches/android/wisefy/wifi/entities/EnableWifiRequest.kt)
-    - Result class: [EnableWifiResult](/wisefy/wifi/src/main/java/com/isupatches/android/wisefy/wifi/entities/EnableWifiResult.kt)
+Enables Wifi **[DEPRECATED]**
 
-    - API options:
-      - *Synchronous*: `fun enableWifi(request: EnableWifiRequest): EnableWifiResult`
-      - *Async*: `fun enableWifi(request: EnableWifiRequest, callbacks: EnableWifiCallbacks?)`
-      - *Coroutine*: `suspend fun WisefyApi.enableWifiAsync(request: EnableWifiRequest): EnableWifiResult`
+- Usage example: [MiscViewModel::enableWifi](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#L215)
+- Request class: [EnableWifiRequest](/wisefy/wifi/src/main/java/com/isupatches/android/wisefy/wifi/entities/EnableWifiRequest.kt)
+- Result class: [EnableWifiResult](/wisefy/wifi/src/main/java/com/isupatches/android/wisefy/wifi/entities/EnableWifiResult.kt)
+- API options:
+  - *Synchronous*: `fun enableWifi(request: EnableWifiRequest): EnableWifiResult`
+  - *Async*: `fun enableWifi(request: EnableWifiRequest, callbacks: EnableWifiCallbacks?)`
+  - *Coroutine*: `suspend fun WisefyApi.enableWifiAsync(request: EnableWifiRequest): EnableWifiResult`
 
-  - **Disabling Wifi [DEPRECATED]**
-    - Usage example: [MiscViewModel::disableWifi](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#L120)
+#### disableWifi()
 
-    - Request class: [DisableWifiRequest](/wisefy/wifi/src/main/java/com/isupatches/android/wisefy/wifi/entities/DisableWifiRequest.kt)
-    - Result class: [DisableWifiResult](/wisefy/wifi/src/main/java/com/isupatches/android/wisefy/wifi/entities/DisableWifiResult.kt)
+Disables Wifi **[DEPRECATED]**
 
-    - API options:
-      - *Synchronous*: `fun disableWifi(request: DisableWifiRequest): DisableWifiResult`
-      - *Async*: `fun disableWifi(request: DisableWifiRequest, callbacks: DisableWifiCallbacks?)`
-      - *Coroutine*: `suspend fun WisefyApi.disableWifiAsync(request: DisableWifiRequest): DisableWifiResult`
+- Usage example: [MiscViewModel::disableWifi](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#L120)
+- Request class: [DisableWifiRequest](/wisefy/wifi/src/main/java/com/isupatches/android/wisefy/wifi/entities/DisableWifiRequest.kt)
+- Result class: [DisableWifiResult](/wisefy/wifi/src/main/java/com/isupatches/android/wisefy/wifi/entities/DisableWifiResult.kt)
+- API options:
+  - *Synchronous*: `fun disableWifi(request: DisableWifiRequest): DisableWifiResult`
+  - *Async*: `fun disableWifi(request: DisableWifiRequest, callbacks: DisableWifiCallbacks?)`
+  - *Coroutine*: `suspend fun WisefyApi.disableWifiAsync(request: DisableWifiRequest): DisableWifiResult`
 
 ### Mutex Locks
 
-    - networkConnectionMutex: `connectToNetwork`, disconnectFromCurrentNetwork`, `getCurrentNetwork`,
-        `getCurrentNetworkInfo`, `getNetworkConnectionStatus`, `getFrequency`, and `isNetwork5gHz`
-    - savedNetworkMutex: `addNetwork`, `getSavedNetworks`, `isNetworkSaved`, `removeNetwork`, and 
-        `searchForSavedNetworks`
-    - wifiMutex: Locks `enableWifi`, `disableWifi`, and `isWifiEnabled`
+- networkConnectionMutex: `connectToNetwork`, `disconnectFromCurrentNetwork`, `getCurrentNetwork`,
+    `getCurrentNetworkInfo`, `getNetworkConnectionStatus`, `getFrequency`, and `isNetwork5gHz`
+- savedNetworkMutex: `addNetwork`, `getSavedNetworks`, `isNetworkSaved`, `removeNetwork`, and `searchForSavedNetworks`
+- wifiMutex: Locks `enableWifi`, `disableWifi`, and `isWifiEnabled`
  
