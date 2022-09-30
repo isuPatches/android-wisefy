@@ -1,14 +1,14 @@
 ## Wisefy Documentation
 
-- [accesspoints](#accesspoints)
+- [accesspoints](#accesspoints-package)
     - [getNearbyAccessPoints](#getnearbyaccesspoints)
     - [getRSSI](#getrssi)
     - [searchForAccessPoints](#searchforaccesspoints)
-- [addnetwork](#addnetwork)
+- [addnetwork](#addnetwork-package)
     - [addNetwork](#addnetwork)
 - [addnetwork](#addnetwork)
 
-### `:accesspoints`
+### `:accesspoints` package
 
 #### getNearbyAccessPoints()
 
@@ -27,10 +27,8 @@ Gets nearby access points
 **Gets the RSSI level of an access point**
 
 - Usage example: [MiscViewModel::getRSSI](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#L460)
-
 - Request class: [GetRSSIRequest](/wisefy/accesspoints/src/main/java/com/isupatches/android/wisefy/accesspoints/entities/GetRSSIRequest.kt)
 - Result class: [GetRSSIResult](/wisefy/accesspoints/src/main/java/com/isupatches/android/wisefy/accesspoints/entities/GetRSSIResult.kt)
-
 - API options:
   - *Synchronous*: `fun getRSSI(request: GetRSSIRequest): GetRSSIResult`
   - *Async*: `fun getRSSI(request: GetRSSIRequest, callbacks: GetRSSICallbacks?)`
@@ -53,7 +51,7 @@ Searches for access points that are nearby
   - This can be leveraged for SSIDs with `.map { it.value.SSID }` or `.value.SSID`
   - This can be leveraged for BSSIs with `.map { it.value.BSSID }` or `.value.BSSID`
 
-### `:addnetwork`
+### `:addnetwork` package
 
 #### addNetwork()
 
