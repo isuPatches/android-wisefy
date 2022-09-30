@@ -32,6 +32,8 @@ import com.isupatches.android.wisefy.frequency.entities.IsNetwork5gHzResult
 import com.isupatches.android.wisefy.frequency.os.adapters.DefaultFrequencyAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 
 /**
@@ -53,6 +55,7 @@ import kotlinx.coroutines.withContext
 class WisefyFrequencyDelegate(
     private val coroutineDispatcherProvider: CoroutineDispatcherProvider,
     private val scope: CoroutineScope,
+    private val networkConnectionMutex: Mutex,
     logger: WisefyLogger,
     connectivityManager: ConnectivityManager,
     wifiManager: WifiManager
@@ -76,12 +79,15 @@ class WisefyFrequencyDelegate(
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_NETWORK_STATE])
     override fun getFrequency(request: GetFrequencyRequest, callbacks: GetFrequencyCallbacks?) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
-            val result = adapter.getFrequency(request)
-            withContext(coroutineDispatcherProvider.main) {
-                when (result) {
-                    is GetFrequencyResult.Empty -> callbacks?.onFailureRetrievingFrequency()
-                    is GetFrequencyResult.WithFrequency -> {
-                        callbacks?.onFrequencyRetrieved(result.data)
+            // Locked by mutex for the case that the request is for the current network
+            networkConnectionMutex.withLock {
+                val result = adapter.getFrequency(request)
+                withContext(coroutineDispatcherProvider.main) {
+                    when (result) {
+                        is GetFrequencyResult.Empty -> callbacks?.onFailureRetrievingFrequency()
+                        is GetFrequencyResult.WithFrequency -> {
+                            callbacks?.onFrequencyRetrieved(result.data)
+                        }
                     }
                 }
             }
@@ -96,11 +102,14 @@ class WisefyFrequencyDelegate(
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_NETWORK_STATE])
     override fun isNetwork5gHz(request: IsNetwork5gHzRequest, callbacks: IsNetwork5gHzCallbacks?) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
-            val result = adapter.isNetwork5gHz(request)
-            withContext(coroutineDispatcherProvider.main) {
-                when (result) {
-                    is IsNetwork5gHzResult.True -> callbacks?.onNetworkIs5gHz()
-                    is IsNetwork5gHzResult.False -> callbacks?.onNetworkIsNot5gHz()
+            // Locked by mutex for the case that the request is for the current network
+            networkConnectionMutex.withLock {
+                val result = adapter.isNetwork5gHz(request)
+                withContext(coroutineDispatcherProvider.main) {
+                    when (result) {
+                        is IsNetwork5gHzResult.True -> callbacks?.onNetworkIs5gHz()
+                        is IsNetwork5gHzResult.False -> callbacks?.onNetworkIsNot5gHz()
+                    }
                 }
             }
         }

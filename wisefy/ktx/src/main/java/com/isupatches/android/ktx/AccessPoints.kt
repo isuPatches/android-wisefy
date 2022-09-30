@@ -16,7 +16,6 @@
 package com.isupatches.android.ktx
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
-import android.Manifest.permission.ACCESS_WIFI_STATE
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.WisefyApi
 import com.isupatches.android.wisefy.accesspoints.callbacks.GetNearbyAccessPointCallbacks
@@ -58,54 +57,63 @@ suspend fun WisefyApi.getNearbyAccessPointsAsync(
     request: GetNearbyAccessPointsRequest = GetNearbyAccessPointsRequest()
 ): GetNearbyAccessPointsResult =
     suspendCoroutine { continuation ->
-        getNearbyAccessPoints(request, object : GetNearbyAccessPointCallbacks {
-            override fun onNoNearbyAccessPoints() {
-                continuation.resumeWith(Result.success(GetNearbyAccessPointsResult.Empty))
-            }
+        getNearbyAccessPoints(
+            request = request,
+            callbacks = object : GetNearbyAccessPointCallbacks {
+                override fun onNoNearbyAccessPoints() {
+                    continuation.resumeWith(Result.success(GetNearbyAccessPointsResult.Empty))
+                }
 
-            override fun onNearbyAccessPointsRetrieved(accessPoints: List<AccessPointData>) {
-                continuation.resumeWith(Result.success(GetNearbyAccessPointsResult.AccessPoints(accessPoints)))
-            }
+                override fun onNearbyAccessPointsRetrieved(accessPoints: List<AccessPointData>) {
+                    continuation.resumeWith(Result.success(GetNearbyAccessPointsResult.AccessPoints(accessPoints)))
+                }
 
-            override fun onWisefyAsyncFailure(exception: WisefyException) {
-                continuation.resumeWith(Result.failure(exception))
+                override fun onWisefyAsyncFailure(exception: WisefyException) {
+                    continuation.resumeWith(Result.failure(exception))
+                }
             }
-        })
+        )
     }
 
 @Throws(WisefyException::class)
 @RequiresPermission(ACCESS_FINE_LOCATION)
 suspend fun WisefyApi.getRSSIAsync(request: GetRSSIRequest): GetRSSIResult = suspendCoroutine { continuation ->
-    getRSSI(request, object : GetRSSICallbacks {
-        override fun onRSSIRetrieved(rssi: RSSIData) {
-            continuation.resumeWith(Result.success(GetRSSIResult.RSSI(rssi)))
-        }
+    getRSSI(
+        request = request,
+        callbacks = object : GetRSSICallbacks {
+            override fun onRSSIRetrieved(rssi: RSSIData) {
+                continuation.resumeWith(Result.success(GetRSSIResult.RSSI(rssi)))
+            }
 
-        override fun onNoNetworkToRetrieveRSSI() {
-            continuation.resumeWith(Result.success(GetRSSIResult.Empty))
-        }
+            override fun onNoNetworkToRetrieveRSSI() {
+                continuation.resumeWith(Result.success(GetRSSIResult.Empty))
+            }
 
-        override fun onWisefyAsyncFailure(exception: WisefyException) {
-            continuation.resumeWith(Result.failure(exception))
+            override fun onWisefyAsyncFailure(exception: WisefyException) {
+                continuation.resumeWith(Result.failure(exception))
+            }
         }
-    })
+    )
 }
 
 @Throws(WisefyException::class)
 @RequiresPermission(ACCESS_FINE_LOCATION)
 suspend fun WisefyApi.searchForAccessPointsAsync(request: SearchForAccessPointsRequest): SearchForAccessPointsResult =
     suspendCoroutine { continuation ->
-        searchForAccessPoints(request, object : SearchForAccessPointsCallbacks {
-            override fun onAccessPointsFound(accessPoints: List<AccessPointData>) {
-                continuation.resumeWith(Result.success(SearchForAccessPointsResult.AccessPoints(accessPoints)))
-            }
+        searchForAccessPoints(
+            request = request,
+            callbacks = object : SearchForAccessPointsCallbacks {
+                override fun onAccessPointsFound(accessPoints: List<AccessPointData>) {
+                    continuation.resumeWith(Result.success(SearchForAccessPointsResult.AccessPoints(accessPoints)))
+                }
 
-            override fun onNoAccessPointsFound() {
-                continuation.resumeWith(Result.success(SearchForAccessPointsResult.Empty))
-            }
+                override fun onNoAccessPointsFound() {
+                    continuation.resumeWith(Result.success(SearchForAccessPointsResult.Empty))
+                }
 
-            override fun onWisefyAsyncFailure(exception: WisefyException) {
-                continuation.resumeWith(Result.failure(exception))
+                override fun onWisefyAsyncFailure(exception: WisefyException) {
+                    continuation.resumeWith(Result.failure(exception))
+                }
             }
-        })
+        )
     }

@@ -113,7 +113,9 @@ internal class DefaultRemoveNetworkViewModel(
                         }
                     }
                     SSIDType.BSSID -> {
-                        if (currentInputState.networkInputValidityState is RemoveNetworkInputValidityState.BSSID.Valid) {
+                        if (currentInputState.networkInputValidityState is
+                            RemoveNetworkInputValidityState.BSSID.Valid
+                        ) {
                             RemoveNetworkRequest.BSSID(regex = currentInputState.networkInput)
                         } else {
                             error("")

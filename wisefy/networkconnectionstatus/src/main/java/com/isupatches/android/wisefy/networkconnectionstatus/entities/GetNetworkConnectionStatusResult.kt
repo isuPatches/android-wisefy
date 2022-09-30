@@ -21,5 +21,6 @@ data class GetNetworkConnectionStatusResult(
     val isConnectedToWifiNetwork: Boolean,
     val isRoaming: Boolean,
     val ssidOfNetworkConnectedTo: String?,
-    val bssidOfNetworkConnectedTo: String?
+    val bssidOfNetworkConnectedTo: String?,
+    val ip: String?
 )

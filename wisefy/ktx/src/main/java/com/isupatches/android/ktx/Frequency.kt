@@ -35,19 +35,22 @@ import kotlin.jvm.Throws
 suspend fun WisefyApi.getFrequencyAsync(
     request: GetFrequencyRequest = GetFrequencyRequest.CurrentNetwork
 ): GetFrequencyResult = suspendCoroutine { continuation ->
-    getFrequency(request, object : GetFrequencyCallbacks {
-        override fun onFrequencyRetrieved(frequency: FrequencyData) {
-            continuation.resumeWith(Result.success(GetFrequencyResult.WithFrequency(frequency)))
-        }
+    getFrequency(
+        request = request,
+        callbacks = object : GetFrequencyCallbacks {
+            override fun onFrequencyRetrieved(frequency: FrequencyData) {
+                continuation.resumeWith(Result.success(GetFrequencyResult.WithFrequency(frequency)))
+            }
 
-        override fun onFailureRetrievingFrequency() {
-            continuation.resumeWith(Result.success(GetFrequencyResult.Empty))
-        }
+            override fun onFailureRetrievingFrequency() {
+                continuation.resumeWith(Result.success(GetFrequencyResult.Empty))
+            }
 
-        override fun onWisefyAsyncFailure(exception: WisefyException) {
-            continuation.resumeWith(Result.failure(exception))
+            override fun onWisefyAsyncFailure(exception: WisefyException) {
+                continuation.resumeWith(Result.failure(exception))
+            }
         }
-    })
+    )
 }
 
 @Throws(WisefyException::class)
@@ -55,17 +58,20 @@ suspend fun WisefyApi.getFrequencyAsync(
 suspend fun WisefyApi.isNetwork5gHzAsync(
     request: IsNetwork5gHzRequest = IsNetwork5gHzRequest.CurrentNetwork
 ): IsNetwork5gHzResult = suspendCoroutine { continuation ->
-    isNetwork5gHz(request, object : IsNetwork5gHzCallbacks {
-        override fun onNetworkIs5gHz() {
-            continuation.resumeWith(Result.success(IsNetwork5gHzResult.True))
-        }
+    isNetwork5gHz(
+        request = request,
+        callbacks = object : IsNetwork5gHzCallbacks {
+            override fun onNetworkIs5gHz() {
+                continuation.resumeWith(Result.success(IsNetwork5gHzResult.True))
+            }
 
-        override fun onNetworkIsNot5gHz() {
-            continuation.resumeWith(Result.success(IsNetwork5gHzResult.False))
-        }
+            override fun onNetworkIsNot5gHz() {
+                continuation.resumeWith(Result.success(IsNetwork5gHzResult.False))
+            }
 
-        override fun onWisefyAsyncFailure(exception: WisefyException) {
-            continuation.resumeWith(Result.failure(exception))
+            override fun onWisefyAsyncFailure(exception: WisefyException) {
+                continuation.resumeWith(Result.failure(exception))
+            }
         }
-    })
+    )
 }

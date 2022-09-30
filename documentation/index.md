@@ -120,17 +120,6 @@
       - Synchronous option: `fun getCurrentNetworkInfo(request: GetCurrentNetworkInfoRequest): GetCurrentNetworkInfoResult`
       - Async option: `fun getCurrentNetworkInfo(request: GetCurrentNetworkInfoRequest, callbacks: GetCurrentNetworkInfoCallbacks?)`
       - Coroutine option: `suspend fun WisefyApi.getCurrentNetworkInfoAsync(request: GetCurrentNetworkInfoRequest): GetCurrentNetworkInfoResult`
-
-  - **Getting the device's IP**
-    - Usage example: [MiscViewModel::getIP](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#362)
-
-    - Request class: [GetIPRequest](/wisefy/networkinfo/src/main/java/com/isupatches/android/wisefy/networkinfo/entities/GetIPRequest.kt)
-    - Result class: [GetIPResult](/wisefy/networkinfo/src/main/java/com/isupatches/android/wisefy/networkinfo/entities/GetIPResult.kt)
-
-    - API options:
-      - *Synchronous*: `fun getIP(request: GetIPRequest): GetIPResult`
-      - *Async*: `fun getIP(request: GetIPRequest, callbacks: GetIPCallbacks?)`
-      - *Coroutine*: `suspend fun WisefyApi.getIPAsync(request: GetIPRequest): GetIPResult`
     
 #### `:removenetwork`
 
@@ -158,26 +147,21 @@
       - *Async*: `fun getSavedNetworks(request: GetSavedNetworksRequest, callbacks: GetSavedNetworksCallbacks?)`
       - *Coroutine*: `suspend fun WisefyApi.getSavedNetworksAsync(request: GetSavedNetworksRequest): GetSavedNetworksResult`
   
-    - **Checking if a specific network is saved**
+  - **Checking if a specific network is saved**
 
-    - **Searching for saved networks**
-      - Usage example: [SearchViewModel::searchForSavedNetworks](/app/src/main/java/com/isupatches/android/wisefy/sample/features/search/SearchViewModel.kt#L328)
+  - **Searching for saved networks**
+    - Usage example: [SearchViewModel::searchForSavedNetworks](/app/src/main/java/com/isupatches/android/wisefy/sample/features/search/SearchViewModel.kt#L328)
 
-      - Request class: [SearchForSavedNetworksRequest](/wisefy/savednetworks/src/main/java/com/isupatches/android/wisefy/savednetworks/entities/SearchForSavedNetworksRequest.kt)
-      - Result class: [SearchForSavedNetworksResult](/wisefy/savednetworks/src/main/java/com/isupatches/android/wisefy/savednetworks/entities/SearchForSavedNetworksResult.kt)
+    - Request class: [SearchForSavedNetworksRequest](/wisefy/savednetworks/src/main/java/com/isupatches/android/wisefy/savednetworks/entities/SearchForSavedNetworksRequest.kt)
+    - Result class: [SearchForSavedNetworksResult](/wisefy/savednetworks/src/main/java/com/isupatches/android/wisefy/savednetworks/entities/SearchForSavedNetworksResult.kt)
 
-      - API options:
-        - *Synchronous*: `fun searchForSavedNetworks(request: SearchForSavedNetworksRequest): SearchForSavedNetworksResult`
-        - *Async*: `fun searchForSavedNetworks(request: SearchForSavedNetworksRequest, callbacks: SearchForSavedNetworksCallbacks?)`
-        - *Coroutine*: `suspend fun WisefyApi.searchForSavedNetworkAsync(request: SearchForSavedNetworksRequest): SearchForSavedNetworksResult`
+    - API options:
+      - *Synchronous*: `fun searchForSavedNetworks(request: SearchForSavedNetworksRequest): SearchForSavedNetworksResult`
+      - *Async*: `fun searchForSavedNetworks(request: SearchForSavedNetworksRequest, callbacks: SearchForSavedNetworksCallbacks?)`
+      - *Coroutine*: `suspend fun WisefyApi.searchForSavedNetworkAsync(request: SearchForSavedNetworksRequest): SearchForSavedNetworksResult`
 
-      - Notes:
-        - This can be leveraged to search for a single access point with `.first()`/`.firstOrNull()`
-        
-#### `:security`
-
-  - Checking if the network contains a specific security capability
-  - Checking if the network is secure
+    - Notes:
+      - This can be leveraged to search for a single access point with `.first()`/`.firstOrNull()`
 
 #### `:sginal`
   
@@ -207,3 +191,7 @@
       - *Synchronous*: `fun disableWifi(request: DisableWifiRequest): DisableWifiResult`
       - *Async*: `fun disableWifi(request: DisableWifiRequest, callbacks: DisableWifiCallbacks?)`
       - *Coroutine*: `suspend fun WisefyApi.disableWifiAsync(request: DisableWifiRequest): DisableWifiResult`
+
+### Mutex Locks
+
+ 

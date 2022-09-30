@@ -21,14 +21,10 @@ import com.isupatches.android.wisefy.WisefyApi
 import com.isupatches.android.wisefy.core.exceptions.WisefyException
 import com.isupatches.android.wisefy.networkinfo.callbacks.GetCurrentNetworkCallbacks
 import com.isupatches.android.wisefy.networkinfo.callbacks.GetCurrentNetworkInfoCallbacks
-import com.isupatches.android.wisefy.networkinfo.callbacks.GetIPCallbacks
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkInfoRequest
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkInfoResult
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkRequest
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkResult
-import com.isupatches.android.wisefy.networkinfo.entities.GetIPRequest
-import com.isupatches.android.wisefy.networkinfo.entities.GetIPResult
-import com.isupatches.android.wisefy.networkinfo.entities.IPData
 import com.isupatches.android.wisefy.networkinfo.entities.NetworkData
 import com.isupatches.android.wisefy.networkinfo.entities.NetworkInfoData
 import kotlin.coroutines.suspendCoroutine
@@ -38,19 +34,22 @@ import kotlin.jvm.Throws
 suspend fun WisefyApi.getCurrentNetworkAsync(
     request: GetCurrentNetworkRequest = GetCurrentNetworkRequest()
 ): GetCurrentNetworkResult = suspendCoroutine { continuation ->
-    getCurrentNetwork(request, object : GetCurrentNetworkCallbacks {
-        override fun onCurrentNetworkRetrieved(network: NetworkData) {
-            continuation.resumeWith(Result.success(GetCurrentNetworkResult.Network(network)))
-        }
+    getCurrentNetwork(
+        request = request,
+        callbacks = object : GetCurrentNetworkCallbacks {
+            override fun onCurrentNetworkRetrieved(network: NetworkData) {
+                continuation.resumeWith(Result.success(GetCurrentNetworkResult.Network(network)))
+            }
 
-        override fun onNoCurrentNetwork() {
-            continuation.resumeWith(Result.success(GetCurrentNetworkResult.Empty))
-        }
+            override fun onNoCurrentNetwork() {
+                continuation.resumeWith(Result.success(GetCurrentNetworkResult.Empty))
+            }
 
-        override fun onWisefyAsyncFailure(exception: WisefyException) {
-            continuation.resumeWith(Result.failure(exception))
+            override fun onWisefyAsyncFailure(exception: WisefyException) {
+                continuation.resumeWith(Result.failure(exception))
+            }
         }
-    })
+    )
 }
 
 @Throws(WisefyException::class)
@@ -58,37 +57,20 @@ suspend fun WisefyApi.getCurrentNetworkAsync(
 suspend fun WisefyApi.getCurrentNetworkInfoAsync(
     request: GetCurrentNetworkInfoRequest = GetCurrentNetworkInfoRequest()
 ): GetCurrentNetworkInfoResult = suspendCoroutine { continuation ->
-    getCurrentNetworkInfo(request, object : GetCurrentNetworkInfoCallbacks {
-        override fun onCurrentNetworkInfoRetrieved(networkInfo: NetworkInfoData) {
-            continuation.resumeWith(Result.success(GetCurrentNetworkInfoResult.NetworkInfo(networkInfo)))
-        }
+    getCurrentNetworkInfo(
+        request = request,
+        callbacks = object : GetCurrentNetworkInfoCallbacks {
+            override fun onCurrentNetworkInfoRetrieved(networkInfo: NetworkInfoData) {
+                continuation.resumeWith(Result.success(GetCurrentNetworkInfoResult.NetworkInfo(networkInfo)))
+            }
 
-        override fun onNoCurrentNetworkToRetrieveInfo() {
-            continuation.resumeWith(Result.success(GetCurrentNetworkInfoResult.Empty))
-        }
+            override fun onNoCurrentNetworkToRetrieveInfo() {
+                continuation.resumeWith(Result.success(GetCurrentNetworkInfoResult.Empty))
+            }
 
-        override fun onWisefyAsyncFailure(exception: WisefyException) {
-            continuation.resumeWith(Result.failure(exception))
+            override fun onWisefyAsyncFailure(exception: WisefyException) {
+                continuation.resumeWith(Result.failure(exception))
+            }
         }
-    })
-}
-
-@Throws(WisefyException::class)
-@RequiresPermission(ACCESS_NETWORK_STATE)
-suspend fun WisefyApi.getIPAsync(
-    request: GetIPRequest = GetIPRequest()
-): GetIPResult = suspendCoroutine { continuation ->
-    getIP(request, object : GetIPCallbacks {
-        override fun onIPRetrieved(ip: IPData) {
-            continuation.resumeWith(Result.success(GetIPResult.IPAddress(ip)))
-        }
-
-        override fun onFailureRetrievingIP() {
-            continuation.resumeWith(Result.success(GetIPResult.Empty))
-        }
-
-        override fun onWisefyAsyncFailure(exception: WisefyException) {
-            continuation.resumeWith(Result.failure(exception))
-        }
-    })
+    )
 }

@@ -27,9 +27,6 @@ import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.core.util.getNetwork
 import com.isupatches.android.wisefy.networkinfo.os.apis.DefaultNetworkInfoApi
-import java.math.BigInteger
-import java.net.InetAddress
-import java.net.UnknownHostException
 
 /**
  * A default implementation for getting information about a network, the device's current network, and the device's IP.
@@ -46,13 +43,8 @@ import java.net.UnknownHostException
  */
 internal class DefaultNetworkInfoApiImpl(
     private val wifiManager: WifiManager,
-    private val connectivityManager: ConnectivityManager,
-    private val logger: WisefyLogger
+    private val connectivityManager: ConnectivityManager
 ) : DefaultNetworkInfoApi {
-
-    companion object {
-        private const val LOG_TAG = "LegacyNetworkInfoApiImpl"
-    }
 
     override fun getCurrentNetwork(): WifiInfo? {
         val currentNetwork = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
@@ -72,22 +64,5 @@ internal class DefaultNetworkInfoApiImpl(
     @RequiresPermission(ACCESS_NETWORK_STATE)
     override fun getLinkProperties(network: Network): LinkProperties? {
         return connectivityManager.getLinkProperties(network)
-    }
-
-    override fun getIP(): String? {
-        val inetAddress = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            connectivityManager.getLinkProperties(connectivityManager.activeNetwork)?.dhcpServerAddress
-        } else {
-            @Suppress("Deprecation")
-            InetAddress.getByAddress(
-                BigInteger.valueOf(wifiManager.connectionInfo.ipAddress.toLong()).toByteArray()
-            )
-        }
-        return try {
-            inetAddress?.hostAddress
-        } catch (uhe: UnknownHostException) {
-            logger.e(LOG_TAG, uhe, "UnknownHostException while gathering IP (sync)")
-            null
-        }
     }
 }

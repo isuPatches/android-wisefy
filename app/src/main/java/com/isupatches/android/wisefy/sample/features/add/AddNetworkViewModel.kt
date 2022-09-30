@@ -363,6 +363,7 @@ internal class DefaultAddNetworkViewModel(
     @RequiresApi(Build.VERSION_CODES.R)
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     override fun connectToNetwork(launcher: ActivityResultLauncher<Intent>) {
+        // todo@patches
     }
 
     private fun isInputValid(): Boolean {

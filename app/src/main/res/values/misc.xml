@@ -8,7 +8,6 @@
     <string name="get_current_network">Get Current Network</string>
     <string name="get_current_network_info">Get Current Network Info</string>
     <string name="get_frequency">Get Frequency</string>
-    <string name="get_ip">Get IP</string>
     <string name="get_nearby_access_points">Get Nearby Access Points</string>
     <string name="get_network_connection_status">Get Network Connection Status</string>
     <string name="get_rssi">Get RSSI</string>
@@ -73,10 +72,10 @@
     </string>
 
     <string name="android_q_enable_wifi_message">
-        Starting with Android Q, applications are not allowed to enable Wi-Fi
+        Starting with Android Q, applications are not allowed to enable Wifi
     </string>
     <string name="android_q_disable_wifi_message">
-        Starting with Android Q, applications are not allowed to disable Wi-Fi
+        Starting with Android Q, applications are not allowed to disable Wifi
     </string>
     <string name="android_q_disconnect_message">
         Starting with Android Q, applications are not allowed to alter connections, only offer suggestions

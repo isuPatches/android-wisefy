@@ -49,7 +49,6 @@ There are also new more modular artifacts published so that individual pieces of
 - `com.isupatches.android.wisefy:networkinfo:<LATEST VERSION>`
 - `com.isupatches.android.wisefy:removenetwork:<LATEST VERSION>` *Note* - Depends on :savednetworks
 - `com.isupatches.android.wisefy:savednetworks:<LATEST VERSION>`
-- `com.isupatches.android.wisefy:security:<LATEST VERSION>` *Note* - Depends on :accesspoints
 - `com.isupatches.android.wisefy:signal:<LATEST VERSION>`
 - `com.isupatches.android.wisefy:wifi:<LATEST VERSION>`
 

@@ -23,8 +23,8 @@ import com.isupatches.android.wisefy.accesspoints.entities.GetNearbyAccessPoints
 import com.isupatches.android.wisefy.accesspoints.entities.GetNearbyAccessPointsResult
 import com.isupatches.android.wisefy.accesspoints.entities.GetRSSIRequest
 import com.isupatches.android.wisefy.accesspoints.entities.GetRSSIResult
-import com.isupatches.android.wisefy.accesspoints.entities.SearchForAccessPointsResult
 import com.isupatches.android.wisefy.accesspoints.entities.SearchForAccessPointsRequest
+import com.isupatches.android.wisefy.accesspoints.entities.SearchForAccessPointsResult
 import com.isupatches.android.wisefy.accesspoints.os.apis.DefaultAccessPointsApi
 import com.isupatches.android.wisefy.accesspoints.os.impls.DefaultAccessPointsApiImpl
 import com.isupatches.android.wisefy.core.logging.WisefyLogger

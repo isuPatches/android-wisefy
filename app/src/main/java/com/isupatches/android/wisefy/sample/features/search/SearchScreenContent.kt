@@ -47,8 +47,8 @@ import com.isupatches.android.wisefy.sample.ui.components.WisefySampleSlider
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleSubHeaderLabel
 import com.isupatches.android.wisefy.sample.ui.primitives.WisefySampleSizes
 import com.isupatches.android.wisefy.sample.ui.theme.WisefySampleTheme
-import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
+import kotlinx.coroutines.launch
 
 private const val LOG_TAG = "SearchScreenContent"
 

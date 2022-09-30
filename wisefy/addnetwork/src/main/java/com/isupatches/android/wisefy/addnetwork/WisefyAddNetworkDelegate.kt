@@ -32,6 +32,8 @@ import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.core.util.SdkUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 
 /**
@@ -55,6 +57,7 @@ import kotlinx.coroutines.withContext
 class WisefyAddNetworkDelegate(
     private val coroutineDispatcherProvider: CoroutineDispatcherProvider,
     private val scope: CoroutineScope,
+    private val savedNetworkMutex: Mutex,
     assertions: WisefyAssertions,
     logger: WisefyLogger,
     sdkUtil: SdkUtil,
@@ -83,11 +86,13 @@ class WisefyAddNetworkDelegate(
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     override fun addNetwork(request: AddNetworkRequest, callbacks: AddNetworkCallbacks?) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
-            val result = addNetwork(request)
-            withContext(coroutineDispatcherProvider.main) {
-                when (result) {
-                    is AddNetworkResult.Success -> callbacks?.onNetworkAdded(result)
-                    is AddNetworkResult.Failure -> callbacks?.onFailureAddingNetwork(result)
+            savedNetworkMutex.withLock {
+                val result = addNetwork(request)
+                withContext(coroutineDispatcherProvider.main) {
+                    when (result) {
+                        is AddNetworkResult.Success -> callbacks?.onNetworkAdded(result)
+                        is AddNetworkResult.Failure -> callbacks?.onFailureAddingNetwork(result)
+                    }
                 }
             }
         }

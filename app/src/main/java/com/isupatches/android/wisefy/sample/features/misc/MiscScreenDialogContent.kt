@@ -212,34 +212,6 @@ internal fun MiscScreenDialogContent(
                 }
             )
         }
-        is MiscScreenDialogState.GetIP.Failure -> {
-            WisefySampleNoticeDialog(
-                title = R.string.get_ip,
-                body = R.string.failure_retrieving_ip,
-                onClose = {
-                    viewModel.onDialogClosed()
-                }
-            )
-        }
-        is MiscScreenDialogState.GetIP.PermissionsError -> {
-            WisefySampleNoticeDialog(
-                title = R.string.permission_error,
-                body = R.string.permission_error_get_ip,
-                onClose = {
-                    viewModel.onDialogClosed()
-                }
-            )
-        }
-        is MiscScreenDialogState.GetIP.Success -> {
-            WisefySampleNoticeDialog(
-                title = R.string.get_ip,
-                body = R.string.ip_args,
-                currentDialogState.ip.value,
-                onClose = {
-                    viewModel.onDialogClosed()
-                }
-            )
-        }
         is MiscScreenDialogState.GetNearbyAccessPoints.Failure -> {
             WisefySampleNoticeDialog(
                 title = R.string.get_nearby_access_points,

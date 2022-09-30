@@ -57,19 +57,22 @@ suspend fun WisefyApi.getSavedNetworksAsync(
     request: GetSavedNetworksRequest = GetSavedNetworksRequest()
 ): GetSavedNetworksResult =
     suspendCoroutine { continuation ->
-        getSavedNetworks(request, object : GetSavedNetworksCallbacks {
-            override fun onNoSavedNetworksFound() {
-                continuation.resumeWith(Result.success(GetSavedNetworksResult.Success.Empty))
-            }
+        getSavedNetworks(
+            request = request,
+            callbacks = object : GetSavedNetworksCallbacks {
+                override fun onNoSavedNetworksFound() {
+                    continuation.resumeWith(Result.success(GetSavedNetworksResult.Success.Empty))
+                }
 
-            override fun onSavedNetworksRetrieved(savedNetworks: List<SavedNetworkData>) {
-                continuation.resumeWith(Result.success(GetSavedNetworksResult.Success.SavedNetworks(savedNetworks)))
-            }
+                override fun onSavedNetworksRetrieved(savedNetworks: List<SavedNetworkData>) {
+                    continuation.resumeWith(Result.success(GetSavedNetworksResult.Success.SavedNetworks(savedNetworks)))
+                }
 
-            override fun onWisefyAsyncFailure(exception: WisefyException) {
-                continuation.resumeWith(Result.failure(exception))
+                override fun onWisefyAsyncFailure(exception: WisefyException) {
+                    continuation.resumeWith(Result.failure(exception))
+                }
             }
-        })
+        )
     }
 
 /**
@@ -94,19 +97,22 @@ suspend fun WisefyApi.getSavedNetworksAsync(
 @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
 suspend fun WisefyApi.isNetworkSavedAsync(request: IsNetworkSavedRequest): IsNetworkSavedResult =
     suspendCoroutine { continuation ->
-        isNetworkSaved(request, object : IsNetworkSavedCallbacks {
-            override fun onNetworkIsSaved() {
-                continuation.resumeWith(Result.success(IsNetworkSavedResult.True))
-            }
+        isNetworkSaved(
+            request = request,
+            callbacks = object : IsNetworkSavedCallbacks {
+                override fun onNetworkIsSaved() {
+                    continuation.resumeWith(Result.success(IsNetworkSavedResult.True))
+                }
 
-            override fun onNetworkIsNotSaved() {
-                continuation.resumeWith(Result.success(IsNetworkSavedResult.False))
-            }
+                override fun onNetworkIsNotSaved() {
+                    continuation.resumeWith(Result.success(IsNetworkSavedResult.False))
+                }
 
-            override fun onWisefyAsyncFailure(exception: WisefyException) {
-                continuation.resumeWith(Result.failure(exception))
+                override fun onWisefyAsyncFailure(exception: WisefyException) {
+                    continuation.resumeWith(Result.failure(exception))
+                }
             }
-        })
+        )
     }
 
 /**
@@ -131,19 +137,22 @@ suspend fun WisefyApi.isNetworkSavedAsync(request: IsNetworkSavedRequest): IsNet
 @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
 suspend fun WisefyApi.searchForSavedNetworkAsync(request: SearchForSavedNetworksRequest): SearchForSavedNetworksResult =
     suspendCoroutine { continuation ->
-        searchForSavedNetworks(request, object : SearchForSavedNetworksCallbacks {
-            override fun onNoSavedNetworksFound() {
-                continuation.resumeWith(Result.success(SearchForSavedNetworksResult.Success.Empty))
-            }
+        searchForSavedNetworks(
+            request = request,
+            callbacks = object : SearchForSavedNetworksCallbacks {
+                override fun onNoSavedNetworksFound() {
+                    continuation.resumeWith(Result.success(SearchForSavedNetworksResult.Success.Empty))
+                }
 
-            override fun onSavedNetworksRetrieved(savedNetworks: List<SavedNetworkData>) {
-                continuation.resumeWith(
-                    Result.success(SearchForSavedNetworksResult.Success.SavedNetworks(savedNetworks))
-                )
-            }
+                override fun onSavedNetworksRetrieved(savedNetworks: List<SavedNetworkData>) {
+                    continuation.resumeWith(
+                        Result.success(SearchForSavedNetworksResult.Success.SavedNetworks(savedNetworks))
+                    )
+                }
 
-            override fun onWisefyAsyncFailure(exception: WisefyException) {
-                continuation.resumeWith(Result.failure(exception))
+                override fun onWisefyAsyncFailure(exception: WisefyException) {
+                    continuation.resumeWith(Result.failure(exception))
+                }
             }
-        })
+        )
     }

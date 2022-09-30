@@ -45,17 +45,20 @@ import kotlin.jvm.Throws
 @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
 suspend fun WisefyApi.addNetworkAsync(request: AddNetworkRequest): AddNetworkResult =
     suspendCoroutine { continuation ->
-        addNetwork(request, object : AddNetworkCallbacks {
-            override fun onNetworkAdded(result: AddNetworkResult.Success) {
-                continuation.resumeWith(Result.success(result))
-            }
+        addNetwork(
+            request = request,
+            callbacks = object : AddNetworkCallbacks {
+                override fun onNetworkAdded(result: AddNetworkResult.Success) {
+                    continuation.resumeWith(Result.success(result))
+                }
 
-            override fun onFailureAddingNetwork(result: AddNetworkResult.Failure) {
-                continuation.resumeWith(Result.success(result))
-            }
+                override fun onFailureAddingNetwork(result: AddNetworkResult.Failure) {
+                    continuation.resumeWith(Result.success(result))
+                }
 
-            override fun onWisefyAsyncFailure(exception: WisefyException) {
-                continuation.resumeWith(Result.failure(exception))
+                override fun onWisefyAsyncFailure(exception: WisefyException) {
+                    continuation.resumeWith(Result.failure(exception))
+                }
             }
-        })
+        )
     }

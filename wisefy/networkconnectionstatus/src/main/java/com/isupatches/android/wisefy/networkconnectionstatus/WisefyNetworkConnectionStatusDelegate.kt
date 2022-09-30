@@ -29,6 +29,8 @@ import com.isupatches.android.wisefy.networkconnectionstatus.entities.GetNetwork
 import com.isupatches.android.wisefy.networkconnectionstatus.os.adapters.DefaultNetworkConnectionStatusAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 
 /**
@@ -49,6 +51,7 @@ import kotlinx.coroutines.withContext
 class WisefyNetworkConnectionStatusDelegate(
     private val coroutineDispatcherProvider: CoroutineDispatcherProvider,
     private val scope: CoroutineScope,
+    private val networkConnectionMutex: Mutex,
     connectivityManager: ConnectivityManager,
     logger: WisefyLogger,
     sdkUtil: SdkUtil,
@@ -63,7 +66,9 @@ class WisefyNetworkConnectionStatusDelegate(
         connectivityManager = connectivityManager,
         wifiManager = wifiManager,
         sdkUtil = sdkUtil,
-        logger = logger
+        logger = logger,
+        scope = scope,
+        networkConnectionMutex = networkConnectionMutex
     )
 
     init {
@@ -80,7 +85,9 @@ class WisefyNetworkConnectionStatusDelegate(
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun getNetworkConnectionStatus(request: GetNetworkConnectionStatusRequest): GetNetworkConnectionStatusResult {
+    override fun getNetworkConnectionStatus(
+        request: GetNetworkConnectionStatusRequest
+    ): GetNetworkConnectionStatusResult {
         return adapter.getNetworkConnectionStatus(request)
     }
 
@@ -90,9 +97,11 @@ class WisefyNetworkConnectionStatusDelegate(
         callbacks: GetNetworkConnectionStatusCallbacks?
     ) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
-            val currentNetworkConnectionStatus = adapter.getNetworkConnectionStatus(request)
-            withContext(coroutineDispatcherProvider.main) {
-                callbacks?.onDeviceNetworkConnectionStatusRetrieved(currentNetworkConnectionStatus)
+            networkConnectionMutex.withLock {
+                val currentNetworkConnectionStatus = adapter.getNetworkConnectionStatus(request)
+                withContext(coroutineDispatcherProvider.main) {
+                    callbacks?.onDeviceNetworkConnectionStatusRetrieved(currentNetworkConnectionStatus)
+                }
             }
         }
     }

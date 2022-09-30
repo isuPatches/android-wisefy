@@ -93,7 +93,7 @@ complexity:
     includePrivateDeclarations: false
   ComplexMethod:
     active: true
-    threshold: 35 # Bumped for Jetpack Compose functions
+    threshold: 40 # Bumped for Jetpack Compose functions
     ignoreSingleWhenExpression: false
     ignoreSimpleWhenEntries: false
     ignoreNestingFunctions: false
@@ -115,10 +115,10 @@ complexity:
     threshold: 600
   LongMethod:
     active: true
-    threshold: 250 # Bumped for Jetpack Compose functions
+    threshold: 350 # Bumped for Jetpack Compose functions
   LongParameterList:
     active: true
-    functionThreshold: 6
+    functionThreshold: 10 # Bumped for Jetpack Compose functions
     constructorThreshold: 15 # Non-default
     ignoreDefaultParameters: false
     ignoreDataClasses: true

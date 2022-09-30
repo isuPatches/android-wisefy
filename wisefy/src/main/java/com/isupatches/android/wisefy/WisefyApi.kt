@@ -31,7 +31,6 @@ import com.isupatches.android.wisefy.removenetwork.RemoveNetworkApi
 import com.isupatches.android.wisefy.removenetwork.RemoveNetworkApiAsync
 import com.isupatches.android.wisefy.savednetworks.SavedNetworkApi
 import com.isupatches.android.wisefy.savednetworks.SavedNetworkApiAsync
-import com.isupatches.android.wisefy.security.SecurityApi
 import com.isupatches.android.wisefy.signal.SignalApi
 import com.isupatches.android.wisefy.wifi.WifiApi
 import com.isupatches.android.wisefy.wifi.WifiApiAsync
@@ -54,7 +53,6 @@ import com.isupatches.android.wisefy.wifi.WifiApiAsync
  * @see RemoveNetworkApiAsync
  * @see SavedNetworkApi
  * @see SavedNetworkApiAsync
- * @see SecurityApi
  * @see SignalApi
  * @see WifiApi
  * @see WifiApiAsync
@@ -79,7 +77,6 @@ interface WisefyApi :
     RemoveNetworkApiAsync,
     SavedNetworkApi,
     SavedNetworkApiAsync,
-    SecurityApi,
     SignalApi,
     WifiApi,
     WifiApiAsync {

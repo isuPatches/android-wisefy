@@ -21,8 +21,6 @@ import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkInfoR
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkInfoResult
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkRequest
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkResult
-import com.isupatches.android.wisefy.networkinfo.entities.GetIPRequest
-import com.isupatches.android.wisefy.networkinfo.entities.GetIPResult
 
 /**
  * A set of synchronous APIs for getting information about a network, the device's current network, and the device's IP.
@@ -48,22 +46,6 @@ interface NetworkInfoApi {
     fun getCurrentNetwork(
         request: GetCurrentNetworkRequest = GetCurrentNetworkRequest()
     ): GetCurrentNetworkResult
-
-    /**
-     * A synchronous API to get the device's IP.
-     *
-     * @param request The details of the request to get the device's IP
-     *
-     * @see GetIPRequest
-     * @see GetIPResult
-     *
-     * @return GetIPResult - The result of getting the device's IP
-     *
-     * @author Patches Klinefelter
-     * @since 03/2022
-     */
-    @RequiresPermission(ACCESS_NETWORK_STATE)
-    fun getIP(request: GetIPRequest = GetIPRequest()): GetIPResult
 
     /**
      * A synchronous API to get the information for a network.

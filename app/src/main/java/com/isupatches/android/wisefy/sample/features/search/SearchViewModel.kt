@@ -318,6 +318,14 @@ internal class DefaultSearchViewModel(
                     dialogState = SearchDialogState.SearchForSavedNetwork.Success(result.data.first())
                 )
             }
+            is SearchForSavedNetworksResult.Failure.Assertion -> {
+                _uiState.value = uiState.value.copy(
+                    loadingState = SearchLoadingState(isLoading = false),
+                    dialogState = SearchDialogState.Failure.WisefyAsync(
+                        WisefyException(message = result.message, throwable = null)
+                    )
+                )
+            }
             null -> {
                 // Case handled above in the catch clause
             }
@@ -375,6 +383,14 @@ internal class DefaultSearchViewModel(
                 _uiState.value = uiState.value.copy(
                     loadingState = SearchLoadingState(isLoading = false),
                     dialogState = SearchDialogState.SearchForSavedNetworks.Success(result.data)
+                )
+            }
+            is SearchForSavedNetworksResult.Failure.Assertion -> {
+                _uiState.value = uiState.value.copy(
+                    loadingState = SearchLoadingState(isLoading = false),
+                    dialogState = SearchDialogState.Failure.WisefyAsync(
+                        WisefyException(message = result.message, throwable = null)
+                    )
                 )
             }
             null -> {

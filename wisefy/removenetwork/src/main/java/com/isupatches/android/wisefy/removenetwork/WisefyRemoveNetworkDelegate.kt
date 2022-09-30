@@ -32,6 +32,8 @@ import com.isupatches.android.wisefy.removenetwork.os.adapters.DefaultRemoveNetw
 import com.isupatches.android.wisefy.savednetworks.SavedNetworkDelegate
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 
 /**
@@ -55,6 +57,7 @@ import kotlinx.coroutines.withContext
 class WisefyRemoveNetworkDelegate(
     private val coroutineDispatcherProvider: CoroutineDispatcherProvider,
     private val scope: CoroutineScope,
+    private val savedNetworkMutex: Mutex,
     assertions: WisefyAssertions,
     logger: WisefyLogger,
     savedNetworkDelegate: SavedNetworkDelegate,
@@ -83,11 +86,13 @@ class WisefyRemoveNetworkDelegate(
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     override fun removeNetwork(request: RemoveNetworkRequest, callbacks: RemoveNetworkCallbacks?) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
-            val result = adapter.removeNetwork(request)
-            withContext(coroutineDispatcherProvider.main) {
-                when (result) {
-                    is RemoveNetworkResult.Success -> callbacks?.onNetworkRemoved(result)
-                    is RemoveNetworkResult.Failure -> callbacks?.onFailureRemovingNetwork(result)
+            savedNetworkMutex.withLock {
+                val result = adapter.removeNetwork(request)
+                withContext(coroutineDispatcherProvider.main) {
+                    when (result) {
+                        is RemoveNetworkResult.Success -> callbacks?.onNetworkRemoved(result)
+                        is RemoveNetworkResult.Failure -> callbacks?.onFailureRemovingNetwork(result)
+                    }
                 }
             }
         }

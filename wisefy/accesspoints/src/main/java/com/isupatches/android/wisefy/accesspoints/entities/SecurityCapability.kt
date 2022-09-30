@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.android.wisefy.security.entities
+package com.isupatches.android.wisefy.accesspoints.entities
 
 /**
  * A set of supported security capabilities.

@@ -27,6 +27,8 @@ import com.isupatches.android.wisefy.networkconnectionstatus.entities.GetNetwork
 import com.isupatches.android.wisefy.networkconnectionstatus.entities.GetNetworkConnectionStatusResult
 import com.isupatches.android.wisefy.networkconnectionstatus.os.apis.DefaultNetworkConnectionStatusApi
 import com.isupatches.android.wisefy.networkconnectionstatus.os.impls.DefaultNetworkConnectionStatusApiImpl
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.sync.Mutex
 
 /**
  * A default adapter for checking the device's connection status and if it meets certain criteria.
@@ -52,11 +54,15 @@ internal class DefaultNetworkConnectionStatusAdapter(
     wifiManager: WifiManager,
     sdkUtil: SdkUtil,
     logger: WisefyLogger,
+    scope: CoroutineScope,
+    networkConnectionMutex: Mutex,
     private val api: DefaultNetworkConnectionStatusApi = DefaultNetworkConnectionStatusApiImpl(
         wifiManager = wifiManager,
         connectivityManager = connectivityManager,
         sdkUtil = sdkUtil,
-        logger = logger
+        logger = logger,
+        scope = scope,
+        networkConnectionMutex = networkConnectionMutex
     )
 ) : NetworkConnectionStatusApiInternal {
 
@@ -70,14 +76,17 @@ internal class DefaultNetworkConnectionStatusAdapter(
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun getNetworkConnectionStatus(request: GetNetworkConnectionStatusRequest): GetNetworkConnectionStatusResult {
+    override fun getNetworkConnectionStatus(
+        request: GetNetworkConnectionStatusRequest
+    ): GetNetworkConnectionStatusResult {
         return GetNetworkConnectionStatusResult(
             isConnected = api.isDeviceConnected(),
             isConnectedToMobileNetwork = api.isDeviceConnectedToMobileNetwork(),
             isConnectedToWifiNetwork = api.isDeviceConnectedToWifiNetwork(),
             isRoaming = api.isDeviceRoaming(),
             ssidOfNetworkConnectedTo = api.getSSIDOfTheNetworkTheDeviceIsConnectedTo(),
-            bssidOfNetworkConnectedTo = api.getBSSIDOfTheNetworkTheDeviceIsConnectedTo()
+            bssidOfNetworkConnectedTo = api.getBSSIDOfTheNetworkTheDeviceIsConnectedTo(),
+            ip = api.getIP()
         )
     }
 }

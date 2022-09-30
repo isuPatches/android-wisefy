@@ -30,13 +30,16 @@ import kotlin.jvm.Throws
 suspend fun WisefyApi.getNetworkConnectionStatusAsync(
     request: GetNetworkConnectionStatusRequest = GetNetworkConnectionStatusRequest()
 ): GetNetworkConnectionStatusResult = suspendCoroutine { continuation ->
-    getNetworkConnectionStatus(request, object : GetNetworkConnectionStatusCallbacks {
-        override fun onDeviceNetworkConnectionStatusRetrieved(result: GetNetworkConnectionStatusResult) {
-            continuation.resumeWith(Result.success(result))
-        }
+    getNetworkConnectionStatus(
+        request = request,
+        callbacks = object : GetNetworkConnectionStatusCallbacks {
+            override fun onDeviceNetworkConnectionStatusRetrieved(result: GetNetworkConnectionStatusResult) {
+                continuation.resumeWith(Result.success(result))
+            }
 
-        override fun onWisefyAsyncFailure(exception: WisefyException) {
-            continuation.resumeWith(Result.failure(exception))
+            override fun onWisefyAsyncFailure(exception: WisefyException) {
+                continuation.resumeWith(Result.failure(exception))
+            }
         }
-    })
+    )
 }

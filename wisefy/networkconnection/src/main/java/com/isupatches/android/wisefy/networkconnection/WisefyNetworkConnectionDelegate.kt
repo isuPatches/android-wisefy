@@ -36,6 +36,8 @@ import com.isupatches.android.wisefy.networkconnectionstatus.NetworkConnectionSt
 import com.isupatches.android.wisefy.savednetworks.SavedNetworkDelegate
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 
 /**
@@ -63,6 +65,7 @@ import kotlinx.coroutines.withContext
 class WisefyNetworkConnectionDelegate(
     private val coroutineDispatcherProvider: CoroutineDispatcherProvider,
     private val scope: CoroutineScope,
+    private val networkConnectionMutex: Mutex,
     assertions: WisefyAssertions,
     connectivityManager: ConnectivityManager,
     logger: WisefyLogger,
@@ -98,13 +101,17 @@ class WisefyNetworkConnectionDelegate(
 
     override fun connectToNetwork(request: ConnectToNetworkRequest, callbacks: ConnectToNetworkCallbacks?) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
-            val result = adapter.connectToNetwork(request)
-            withContext(coroutineDispatcherProvider.main) {
-                when (result) {
-                    is ConnectToNetworkResult.Success.True -> callbacks?.onConnectedToNetwork()
-                    is ConnectToNetworkResult.Success.ConnectionRequestSent -> callbacks?.onConnectionRequestPlaced()
-                    is ConnectToNetworkResult.Failure.False -> callbacks?.onFailureConnectingToNetwork()
-                    is ConnectToNetworkResult.Failure.NetworkNotFound -> callbacks?.onNetworkNotFoundToConnectTo()
+            networkConnectionMutex.withLock {
+                val result = adapter.connectToNetwork(request)
+                withContext(coroutineDispatcherProvider.main) {
+                    when (result) {
+                        is ConnectToNetworkResult.Success.True -> callbacks?.onConnectedToNetwork()
+                        is ConnectToNetworkResult.Success.ConnectionRequestSent -> {
+                            callbacks?.onConnectionRequestPlaced()
+                        }
+                        is ConnectToNetworkResult.Failure.False -> callbacks?.onFailureConnectingToNetwork()
+                        is ConnectToNetworkResult.Failure.NetworkNotFound -> callbacks?.onNetworkNotFoundToConnectTo()
+                    }
                 }
             }
         }
@@ -123,21 +130,25 @@ class WisefyNetworkConnectionDelegate(
         callbacks: DisconnectFromCurrentNetworkCallbacks?
     ) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
-            val result = adapter.disconnectFromCurrentNetwork(request)
-            withContext(coroutineDispatcherProvider.main) {
-                when (result) {
-                    is DisconnectFromCurrentNetworkResult.Success.True -> callbacks?.onDisconnectedFromCurrentNetwork()
-                    is DisconnectFromCurrentNetworkResult.Success.DisconnectRequestSent -> {
-                        callbacks?.onDisconnectRequestPlaced()
-                    }
-                    is DisconnectFromCurrentNetworkResult.Failure.False -> {
-                        callbacks?.onFailureDisconnectingFromCurrentNetwork()
-                    }
-                    is DisconnectFromCurrentNetworkResult.Failure.NetworkNotFound -> {
-                        callbacks?.onNetworkNotFoundToDisconnectFrom()
-                    }
-                    is DisconnectFromCurrentNetworkResult.Failure.Assertion -> {
-                        callbacks?.onWisefyAsyncFailure(WisefyException(message = result.message, throwable = null))
+            networkConnectionMutex.withLock {
+                val result = adapter.disconnectFromCurrentNetwork(request)
+                withContext(coroutineDispatcherProvider.main) {
+                    when (result) {
+                        is DisconnectFromCurrentNetworkResult.Success.True -> {
+                            callbacks?.onDisconnectedFromCurrentNetwork()
+                        }
+                        is DisconnectFromCurrentNetworkResult.Success.DisconnectRequestSent -> {
+                            callbacks?.onDisconnectRequestPlaced()
+                        }
+                        is DisconnectFromCurrentNetworkResult.Failure.False -> {
+                            callbacks?.onFailureDisconnectingFromCurrentNetwork()
+                        }
+                        is DisconnectFromCurrentNetworkResult.Failure.NetworkNotFound -> {
+                            callbacks?.onNetworkNotFoundToDisconnectFrom()
+                        }
+                        is DisconnectFromCurrentNetworkResult.Failure.Assertion -> {
+                            callbacks?.onWisefyAsyncFailure(WisefyException(message = result.message, throwable = null))
+                        }
                     }
                 }
             }

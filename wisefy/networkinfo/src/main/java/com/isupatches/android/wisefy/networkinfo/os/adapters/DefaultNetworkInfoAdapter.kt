@@ -25,9 +25,6 @@ import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkInfoR
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkInfoResult
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkRequest
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkResult
-import com.isupatches.android.wisefy.networkinfo.entities.GetIPRequest
-import com.isupatches.android.wisefy.networkinfo.entities.GetIPResult
-import com.isupatches.android.wisefy.networkinfo.entities.IPData
 import com.isupatches.android.wisefy.networkinfo.entities.NetworkData
 import com.isupatches.android.wisefy.networkinfo.entities.NetworkInfoData
 import com.isupatches.android.wisefy.networkinfo.os.apis.DefaultNetworkInfoApi
@@ -52,11 +49,9 @@ import com.isupatches.android.wisefy.networkinfo.os.impls.DefaultNetworkInfoApiI
 internal class DefaultNetworkInfoAdapter(
     wifiManager: WifiManager,
     private val connectivityManager: ConnectivityManager,
-    logger: WisefyLogger,
     private val api: DefaultNetworkInfoApi = DefaultNetworkInfoApiImpl(
         wifiManager = wifiManager,
-        connectivityManager = connectivityManager,
-        logger = logger
+        connectivityManager = connectivityManager
     )
 ) : NetworkInfoApi {
 
@@ -78,12 +73,5 @@ internal class DefaultNetworkInfoAdapter(
                 )
             )
         } ?: GetCurrentNetworkInfoResult.Empty
-    }
-
-    override fun getIP(request: GetIPRequest): GetIPResult {
-        val ip = api.getIP()
-        return ip?.let {
-            GetIPResult.IPAddress(data = IPData(it))
-        } ?: GetIPResult.Empty
     }
 }

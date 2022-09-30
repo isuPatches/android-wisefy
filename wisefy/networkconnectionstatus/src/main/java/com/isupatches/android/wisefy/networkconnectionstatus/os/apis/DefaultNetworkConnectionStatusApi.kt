@@ -49,6 +49,9 @@ internal interface DefaultNetworkConnectionStatusApi {
     @RequiresPermission(ACCESS_NETWORK_STATE)
     fun getBSSIDOfTheNetworkTheDeviceIsConnectedTo(): String?
 
+    @RequiresPermission(ACCESS_NETWORK_STATE)
+    fun getIP(): String?
+
     /**
      * An internal API that is used to check if the device is currently connected to a Wifi or mobile network.
      *

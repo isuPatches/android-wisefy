@@ -61,6 +61,7 @@ import kotlinx.coroutines.withContext
 class WisefyWifiDelegate(
     private val coroutineDispatcherProvider: CoroutineDispatcherProvider,
     private val scope: CoroutineScope,
+    private val wifiMutex: Mutex,
     assertions: WisefyAssertions,
     logger: WisefyLogger,
     sdkUtil: SdkUtil,
@@ -75,9 +76,6 @@ class WisefyWifiDelegate(
         sdkUtil.isAtLeastQ() -> Android29WifiAdapter(wifiManager, assertions)
         else -> DefaultWifiAdapter(wifiManager)
     }
-
-    // This will lock the async APIs so that
-    private val wifiMutex = Mutex()
 
     init {
         logger.d(LOG_TAG, "WisefyWifiDelegate adapter is: ${adapter::class.java.simpleName}")

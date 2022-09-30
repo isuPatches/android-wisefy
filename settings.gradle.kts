@@ -13,7 +13,6 @@ include(
     ":wisefy:networkinfo",
     ":wisefy:savednetworks",
     ":wisefy:removenetwork",
-    ":wisefy:security",
     ":wisefy:signal",
     ":wisefy:wifi"
 )

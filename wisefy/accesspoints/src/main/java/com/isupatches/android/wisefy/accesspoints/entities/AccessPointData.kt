@@ -27,4 +27,25 @@ import android.net.wifi.ScanResult
  * @author Patches Klinefelter
  * @since 08/2022, version 5.0.0
  */
-data class AccessPointData(val value: ScanResult)
+data class AccessPointData(val value: ScanResult) {
+
+    fun containSecurityCapability(securityCapability: SecurityCapability): Boolean {
+        return containsCapability(value, securityCapability)
+    }
+
+    fun isSecure(): Boolean {
+        value.capabilities?.let { capabilities ->
+            val securityCapabilities = SecurityCapability.ALL
+            for (securityCapability in securityCapabilities) {
+                if (capabilities.contains(securityCapability.stringValue)) {
+                    return true
+                }
+            }
+        }
+        return false
+    }
+
+    private fun containsCapability(network: ScanResult, capability: SecurityCapability): Boolean {
+        return network.capabilities != null && network.capabilities.contains(capability.stringValue)
+    }
+}

@@ -32,7 +32,6 @@ dependencies {
 //    api("com.isupatches.android.wisefy:networkinfo:[5.0,6.0)")
 //    api("com.isupatches.android.wisefy:removenetwork:[5.0,6.0)")
 //    api("com.isupatches.android.wisefy:savednetworks:[5.0,6.0)")
-//    api("com.isupatches.android.wisefy:security:[5.0,6.0)")
 //    api("com.isupatches.android.wisefy:signal:[5.0,6.0)")
 //    api("com.isupatches.android.wisefy:wifi:[5.0,6.0)")
 
@@ -48,7 +47,6 @@ dependencies {
     api(project(":wisefy:networkinfo"))
     api(project(":wisefy:removenetwork"))
     api(project(":wisefy:savednetworks"))
-    api(project(":wisefy:security"))
     api(project(":wisefy:signal"))
     api(project(":wisefy:wifi"))
 

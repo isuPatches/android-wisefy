@@ -21,7 +21,6 @@ import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.net.ConnectivityManager
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
-import com.isupatches.android.wisefy.core.entities.DeprecationMessages
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.core.util.rest
 import com.isupatches.android.wisefy.networkconnection.os.apis.DefaultNetworkConnectionApi

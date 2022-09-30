@@ -66,14 +66,4 @@ internal interface DefaultNetworkInfoApi {
      */
     @RequiresPermission(ACCESS_NETWORK_STATE)
     fun getLinkProperties(network: Network): LinkProperties?
-
-    /**
-     * An internal API that is used to get the device's current IP from the Android OS.
-     *
-     * @return String or null - The current IP of the device or null if unable to retrieve (f.e. no network connection)
-     *
-     * @author Patches Klinefelter
-     * @since 03/2022
-     */
-    fun getIP(): String?
 }
