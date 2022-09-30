@@ -114,7 +114,7 @@ sealed class RemoveNetworkResult {
          */
         data class ResultCode(val value: Int) : Failure()
 
-        object WrongSDKLevel : Failure()
+        data class Assertion(val message: String) : Failure()
 
         /**
          * A data representation of a an async failure while trying to remove a network.

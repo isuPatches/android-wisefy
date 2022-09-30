@@ -15,7 +15,11 @@
  */
 package com.isupatches.android.wisefy.networkconnection.os.adapters
 
+import android.Manifest.permission.ACCESS_FINE_LOCATION
+import android.Manifest.permission.ACCESS_NETWORK_STATE
+import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.net.wifi.WifiManager
+import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.core.entities.DeprecationMessages
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.networkconnection.NetworkConnectionApi
@@ -60,6 +64,7 @@ internal class DefaultNetworkConnectionAdapter(
     )
 ) : NetworkConnectionApi {
 
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE, ACCESS_NETWORK_STATE])
     override fun connectToNetwork(request: ConnectToNetworkRequest): ConnectToNetworkResult {
         return when (request) {
             is ConnectToNetworkRequest.SSID -> {
@@ -79,7 +84,7 @@ internal class DefaultNetworkConnectionAdapter(
         }
     }
 
-    @Deprecated(DeprecationMessages.NetworkConnection.DisconnectFromCurrentNetwork)
+    @Deprecated(DeprecationMessages.NetworkConnection.DISCONNECT_FROM_CURRENT_NETWORK)
     override fun disconnectFromCurrentNetwork(
         request: DisconnectFromCurrentNetworkRequest
     ): DisconnectFromCurrentNetworkResult {

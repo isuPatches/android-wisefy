@@ -607,14 +607,14 @@ class Wisefy private constructor(
         return securityDelegate.doesNetworkContainSecurityCapability(request)
     }
 
-    @Deprecated(DeprecationMessages.NetworkConnection.DisconnectFromCurrentNetwork)
+    @Deprecated(DeprecationMessages.NetworkConnection.DISCONNECT_FROM_CURRENT_NETWORK)
     override fun disconnectFromCurrentNetwork(
         request: DisconnectFromCurrentNetworkRequest
     ): DisconnectFromCurrentNetworkResult {
         return networkConnectionDelegate.disconnectFromCurrentNetwork(request)
     }
 
-    @Deprecated(DeprecationMessages.NetworkConnection.DisconnectFromCurrentNetwork)
+    @Deprecated(DeprecationMessages.NetworkConnection.DISCONNECT_FROM_CURRENT_NETWORK)
     override fun disconnectFromCurrentNetwork(
         request: DisconnectFromCurrentNetworkRequest,
         callbacks: DisconnectFromCurrentNetworkCallbacks?

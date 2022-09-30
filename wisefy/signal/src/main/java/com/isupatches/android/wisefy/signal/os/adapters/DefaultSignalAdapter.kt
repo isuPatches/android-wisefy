@@ -51,7 +51,7 @@ internal class DefaultSignalAdapter(
                 CalculateBarsResult.Success(value = result)
             }
             is CalculateBarsRequest.Android30AndAbove -> {
-                val message = AssertionMessages.Signal.CALCULATE_BARS_LEGACY
+                val message = AssertionMessages.Signal.INCORRECT_CALCULATE_BARS_USED_PRE_ANDROID_30
                 assertions.fail(message = message)
                 CalculateBarsResult.Failure.Assertion(message = message)
             }

@@ -15,7 +15,6 @@
  */
 package com.isupatches.android.wisefy.networkconnection.os.apis
 
-import android.Manifest
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.ACCESS_NETWORK_STATE
 import android.Manifest.permission.ACCESS_WIFI_STATE
@@ -66,6 +65,6 @@ internal interface DefaultNetworkConnectionApi {
      * @author Patches Klinefelter
      * @since 03/2022
      */
-    @Deprecated(DeprecationMessages.NetworkConnection.DisconnectFromCurrentNetwork)
+    @Deprecated(DeprecationMessages.NetworkConnection.DISCONNECT_FROM_CURRENT_NETWORK)
     fun disconnectFromCurrentNetwork(): Boolean
 }

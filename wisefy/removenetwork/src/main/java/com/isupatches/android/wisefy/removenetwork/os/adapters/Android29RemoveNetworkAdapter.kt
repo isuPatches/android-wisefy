@@ -23,6 +23,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
+import com.isupatches.android.wisefy.core.entities.AssertionMessages
 import com.isupatches.android.wisefy.removenetwork.RemoveNetworkApi
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkRequest
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkResult
@@ -73,14 +74,14 @@ internal class Android29RemoveNetworkAdapter(
                         }
                     }
                     is SavedNetworkData.Configuration -> {
-                        assertions.fail("Starting at Android Q, suggestions should be used. Configuration was used instead.")
-                        RemoveNetworkResult.Failure.WrongSDKLevel
+                        val message = AssertionMessages.RemoveNetwork.CONFIGURATION_USED_ANDROID_Q
+                        assertions.fail(message = message)
+                        RemoveNetworkResult.Failure.Assertion(message = message)
                     }
                 }
             }
             is SearchForSavedNetworksResult.Failure.Assertion -> {
-                // todo@patches Figure out what to do here
-                RemoveNetworkResult.Failure.NetworkNotFound
+                RemoveNetworkResult.Failure.Assertion(message = savedNetworkSearchResult.message)
             }
         }
     }

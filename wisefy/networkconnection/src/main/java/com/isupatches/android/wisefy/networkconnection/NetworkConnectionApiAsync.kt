@@ -15,6 +15,7 @@
  */
 package com.isupatches.android.wisefy.networkconnection
 
+import com.isupatches.android.wisefy.core.entities.DeprecationMessages
 import com.isupatches.android.wisefy.networkconnection.callbacks.ConnectToNetworkCallbacks
 import com.isupatches.android.wisefy.networkconnection.callbacks.DisconnectFromCurrentNetworkCallbacks
 import com.isupatches.android.wisefy.networkconnection.entities.ConnectToNetworkRequest
@@ -54,6 +55,7 @@ interface NetworkConnectionApiAsync {
      * @author Patches Klinefelter
      * @since 03/2022
      */
+    @Deprecated(DeprecationMessages.NetworkConnection.DISCONNECT_FROM_CURRENT_NETWORK)
     fun disconnectFromCurrentNetwork(
         request: DisconnectFromCurrentNetworkRequest = DisconnectFromCurrentNetworkRequest(),
         callbacks: DisconnectFromCurrentNetworkCallbacks?

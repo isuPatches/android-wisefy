@@ -20,6 +20,7 @@ import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
+import com.isupatches.android.wisefy.core.entities.AssertionMessages
 import com.isupatches.android.wisefy.removenetwork.RemoveNetworkApi
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkRequest
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkResult
@@ -71,14 +72,14 @@ internal class DefaultRemoveNetworkAdapter(
                         }
                     }
                     is SavedNetworkData.Suggestion -> {
-                        assertions.fail("Before Android Q, configurations should be used. Suggestion was used instead.")
-                        RemoveNetworkResult.Failure.WrongSDKLevel
+                        val message = AssertionMessages.RemoveNetwork.SUGGESTION_USED_PRE_ANDROID_Q
+                        assertions.fail(message = message)
+                        RemoveNetworkResult.Failure.Assertion(message = message)
                     }
                 }
             }
             is SearchForSavedNetworksResult.Failure.Assertion -> {
-                // todo@patches Figure out what to do here
-                RemoveNetworkResult.Failure.NetworkNotFound
+                RemoveNetworkResult.Failure.Assertion(message = savedNetworkSearchResult.message)
             }
         }
     }

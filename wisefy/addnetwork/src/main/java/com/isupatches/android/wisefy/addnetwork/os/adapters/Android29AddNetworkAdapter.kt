@@ -82,8 +82,8 @@ internal class Android29AddNetworkAdapter(
             is AddNetworkRequest.WPA2.Android30OrAbove,
             is AddNetworkRequest.WPA3.Android30OrAbove -> {
                 val message = AssertionMessages.AddNetwork.ActivityResultLauncher.USED_PRE_ANDROID_30
-                assertions.fail(message)
-                AddNetworkResult.Failure.Assertion(message)
+                assertions.fail(message = message)
+                AddNetworkResult.Failure.Assertion(message = message)
             }
         }
     }

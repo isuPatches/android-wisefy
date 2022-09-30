@@ -77,9 +77,9 @@ internal class DefaultAddNetworkAdapter(
                 AddNetworkResult.Failure.Assertion(message = message)
             }
             is AddNetworkRequest.WPA3.Default, is AddNetworkRequest.WPA3.Android30OrAbove -> {
-                val message = AssertionMessages.AddNetwork.WPA3Network.PRE_ANDROID_29
+                val message = AssertionMessages.AddNetwork.WPA3Network.USED_PRE_ANDROID_29
                 assertions.fail(message = message)
-                return AddNetworkResult.Failure.Assertion(message = message)
+                AddNetworkResult.Failure.Assertion(message = message)
             }
         }
     }

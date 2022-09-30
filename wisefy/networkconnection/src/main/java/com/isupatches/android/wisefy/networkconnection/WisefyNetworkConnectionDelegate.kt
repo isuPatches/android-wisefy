@@ -21,6 +21,7 @@ import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
 import com.isupatches.android.wisefy.core.coroutines.CoroutineDispatcherProvider
 import com.isupatches.android.wisefy.core.coroutines.createBaseCoroutineExceptionHandler
 import com.isupatches.android.wisefy.core.entities.DeprecationMessages
+import com.isupatches.android.wisefy.core.exceptions.WisefyException
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.core.util.SdkUtil
 import com.isupatches.android.wisefy.networkconnection.callbacks.ConnectToNetworkCallbacks
@@ -109,14 +110,14 @@ class WisefyNetworkConnectionDelegate(
         }
     }
 
-    @Deprecated(DeprecationMessages.NetworkConnection.DisconnectFromCurrentNetwork)
+    @Deprecated(DeprecationMessages.NetworkConnection.DISCONNECT_FROM_CURRENT_NETWORK)
     override fun disconnectFromCurrentNetwork(
         request: DisconnectFromCurrentNetworkRequest
     ): DisconnectFromCurrentNetworkResult {
         return adapter.disconnectFromCurrentNetwork(request)
     }
 
-    @Deprecated(DeprecationMessages.NetworkConnection.DisconnectFromCurrentNetwork)
+    @Deprecated(DeprecationMessages.NetworkConnection.DISCONNECT_FROM_CURRENT_NETWORK)
     override fun disconnectFromCurrentNetwork(
         request: DisconnectFromCurrentNetworkRequest,
         callbacks: DisconnectFromCurrentNetworkCallbacks?
@@ -134,6 +135,9 @@ class WisefyNetworkConnectionDelegate(
                     }
                     is DisconnectFromCurrentNetworkResult.Failure.NetworkNotFound -> {
                         callbacks?.onNetworkNotFoundToDisconnectFrom()
+                    }
+                    is DisconnectFromCurrentNetworkResult.Failure.Assertion -> {
+                        callbacks?.onWisefyAsyncFailure(WisefyException(message = result.message, throwable = null))
                     }
                 }
             }

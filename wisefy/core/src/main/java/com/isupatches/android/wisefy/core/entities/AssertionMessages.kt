@@ -72,8 +72,22 @@ object AssertionMessages {
              * @author Patches Klinefelter
              * @since 03/2022
              */
-            const val PRE_ANDROID_29: String = "WPA3 networks are not supported until Android Q"
+            const val USED_PRE_ANDROID_29: String = "WPA3 networks are not supported until Android Q"
         }
+    }
+
+    object NetworkConnection {
+
+        const val DISCONNECT_DEPRECATED_WITH_ANDROID_Q: String =
+            DeprecationMessages.NetworkConnection.DISCONNECT_FROM_CURRENT_NETWORK
+    }
+
+    object RemoveNetwork {
+        const val CONFIGURATION_USED_ANDROID_Q: String =
+            "Starting at Android Q, suggestions should be used. Configuration was used instead."
+
+        const val SUGGESTION_USED_PRE_ANDROID_Q: String =
+            "Before Android Q, configurations should be used. Suggestion was used instead."
     }
 
     /**
@@ -108,7 +122,8 @@ object AssertionMessages {
          * @author Patches Klinefelter
          * @since 03/2022
          */
-        const val CALCULATE_BARS_ANDROID_30: String = "calculateBars(rssiLevel: Int): Int should be used for Android R"
+        const val INCORRECT_CALCULATE_BARS_USED_ANDROID_30: String =
+            "calculateBars(rssiLevel: Int): Int should be used for Android R"
 
         /**
          * A string value for the assertion message for using calculateBars(rssiLevel: Int, targetNumberOfBars: Int)
@@ -117,7 +132,8 @@ object AssertionMessages {
          * @author Patches Klinefelter
          * @since 03/2022
          */
-        const val CALCULATE_BARS_LEGACY: String = "calculateBars(rssiLevel: Int): Int is not available until Android R"
+        const val INCORRECT_CALCULATE_BARS_USED_PRE_ANDROID_30: String =
+            "calculateBars(rssiLevel: Int): Int is not available until Android R"
     }
 
     /**
@@ -134,7 +150,7 @@ object AssertionMessages {
          * @author Patches Klinefelter
          * @since 03/2022
          */
-        const val DISABLE_DEPRECATED_WITH_ANDROID_Q = DeprecationMessages.Wifi.DISABLE
+        const val DISABLE_DEPRECATED_WITH_ANDROID_Q: String = DeprecationMessages.Wifi.DISABLE
 
         /**
          * A string value for the assertion message for using enableWifi on Android Q+
@@ -142,6 +158,6 @@ object AssertionMessages {
          * @author Patches Klinefelter
          * @since 03/2022
          */
-        const val ENABLE_DEPRECATED_WITH_ANDROID_Q = DeprecationMessages.Wifi.ENABLE
+        const val ENABLE_DEPRECATED_WITH_ANDROID_Q: String = DeprecationMessages.Wifi.ENABLE
     }
 }

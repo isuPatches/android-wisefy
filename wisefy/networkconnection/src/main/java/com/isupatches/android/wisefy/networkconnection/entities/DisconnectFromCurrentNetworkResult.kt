@@ -83,5 +83,7 @@ sealed class DisconnectFromCurrentNetworkResult {
          * @since 03/2022
          */
         object NetworkNotFound : Failure()
+
+        data class Assertion(val message: String) : Failure()
     }
 }

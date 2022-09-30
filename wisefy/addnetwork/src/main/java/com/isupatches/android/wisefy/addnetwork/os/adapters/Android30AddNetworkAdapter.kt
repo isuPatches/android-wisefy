@@ -68,8 +68,8 @@ internal class Android30AddNetworkAdapter(
             }
             is AddNetworkRequest.Open.Default, is AddNetworkRequest.WPA2.Default, is AddNetworkRequest.WPA3.Default -> {
                 val message = AssertionMessages.AddNetwork.ActivityResultLauncher.NOT_USED_ANDROID_30
-                assertions.fail(message)
-                AddNetworkResult.Failure.Assertion(message)
+                assertions.fail(message = message)
+                AddNetworkResult.Failure.Assertion(message = message)
             }
         }
     }

@@ -24,24 +24,6 @@ package com.isupatches.android.wisefy.core.entities
 object DeprecationMessages {
 
     /**
-     * A singleton that houses the deprecation messages present for the network connection features.
-     *
-     * @author Patches Klinefelter
-     * @since 03/2022
-     */
-    object NetworkConnection {
-
-        /**
-         * A string value for the deprecation message for disconnectFromCurrentNetwork().
-         *
-         * @author Patches Klinefelter
-         * @since 03/2022
-         */
-        const val DisconnectFromCurrentNetwork: String = "Starting with Build.VERSION_CODES#Q, applications are not " +
-            "allowed to connect or disconnect from networks, they can only add/remove network suggestions."
-    }
-
-    /**
      * A singleton that houses the deprecation messages present for the signal features.
      *
      * @author Patches Klinefelter
@@ -57,6 +39,13 @@ object DeprecationMessages {
          */
         const val CALCULATE_BARS: String = "Please replace calculateBars(rssiLevel: Int, targetNumberOfBars: Int) " +
             "with calculateBars(rssiLevel: Int)"
+    }
+
+    object NetworkConnection {
+
+        const val DISCONNECT_FROM_CURRENT_NETWORK: String =
+            "Starting with Build.VERSION_CODES#Q, applications are not allowed to disconnect from a network. They can" +
+                " only request a network suggestion."
     }
 
     /**

@@ -76,10 +76,7 @@ internal class DefaultNetworkConnectionApiImpl(
                     is SavedNetworkData.Suggestion -> false
                 }
             }
-            is SearchForSavedNetworksResult.Failure.Assertion -> {
-                // todo@patches Figure out what to do here
-                null
-            }
+            is SearchForSavedNetworksResult.Failure.Assertion -> null
         }
     }
 
@@ -111,7 +108,6 @@ internal class DefaultNetworkConnectionApiImpl(
         }
     }
 
-    @Deprecated(DeprecationMessages.NetworkConnection.DisconnectFromCurrentNetwork)
     override fun disconnectFromCurrentNetwork(): Boolean {
         return wifiManager.disconnect()
     }

@@ -23,6 +23,7 @@ import android.net.wifi.WifiNetworkSpecifier
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
+import com.isupatches.android.wisefy.core.entities.AssertionMessages
 import com.isupatches.android.wisefy.core.entities.DeprecationMessages
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.networkconnection.NetworkConnectionApi
@@ -85,11 +86,12 @@ internal class Android29NetworkConnectionAdapter(
         return ConnectToNetworkResult.Success.ConnectionRequestSent
     }
 
-    @Deprecated(DeprecationMessages.NetworkConnection.DisconnectFromCurrentNetwork)
+    @Deprecated(DeprecationMessages.NetworkConnection.DISCONNECT_FROM_CURRENT_NETWORK)
     override fun disconnectFromCurrentNetwork(
         request: DisconnectFromCurrentNetworkRequest
     ): DisconnectFromCurrentNetworkResult {
-        assertions.fail(DeprecationMessages.NetworkConnection.DisconnectFromCurrentNetwork)
-        return DisconnectFromCurrentNetworkResult.Success.DisconnectRequestSent
+        val message = AssertionMessages.NetworkConnection.DISCONNECT_DEPRECATED_WITH_ANDROID_Q
+        assertions.fail(message = message)
+        return DisconnectFromCurrentNetworkResult.Failure.Assertion(message = message)
     }
 }
