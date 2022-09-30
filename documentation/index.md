@@ -1,6 +1,16 @@
+- [accesspoints](#accesspoints)
+    - [getNearbyAccessPoints](#getnearbyaccesspoints)
+    - [getRSSI](#getrssi)
+    - [searchForAccessPoints](#searchforaccesspoints)
+- [addnetwork](#addnetwork)
+    - [addNetwork](#addnetwork)
+- [addnetwork](#addnetwork)
+
 ## Wisefy Documentation
 
-#### `:accesspoints`
+### `:accesspoints`
+
+#### getNearbyAccessPoints()
 
   - **Getting nearby access points**
     - Usage example: [MiscViewModel::getNearbyAccessPoints](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#L397)
@@ -12,50 +22,59 @@
       - *Synchronous*: `fun getNearbyAccessPoints(request: GetNearbyAccessPointsRequest): GetNearbyAccessPointsResult`
       - *Async*: `fun getNearbyAccessPoints(request: GetNearbyAccessPointsRequest, callbacks: GetNearbyAccessPointCallbacks?)`
       - *Coroutine*: `suspend fun WisefyApi.getNearbyAccessPointsAsync(request: GetNearbyAccessPointsRequest): GetNearbyAccessPointsResult`
+
+#### getRSSI()
+
+> Gets the RSSI level of an access point
+
+- Usage example: [MiscViewModel::getRSSI](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#L460)
+
+- Request class: [GetRSSIRequest](/wisefy/accesspoints/src/main/java/com/isupatches/android/wisefy/accesspoints/entities/GetRSSIRequest.kt)
+- Result class: [GetRSSIResult](/wisefy/accesspoints/src/main/java/com/isupatches/android/wisefy/accesspoints/entities/GetRSSIResult.kt)
+
+- API options:
+  - *Synchronous*: `fun getRSSI(request: GetRSSIRequest): GetRSSIResult`
+  - *Async*: `fun getRSSI(request: GetRSSIRequest, callbacks: GetRSSICallbacks?)`
+  - *Coroutine*: `suspend fun WisefyApi.getRSSIAsync(request: GetRSSIRequest): GetRSSIResult`
+
+#### searchForAccessPoints()
+
+> Searches for access points that are nearby
+
+- Usage example: [SearchViewModel::searchForAccessPoints](/app/src/main/java/com/isupatches/android/wisefy/sample/features/search/SearchViewModel.kt#L193)
+
+- Request class: [SearchForAccessPointsRequest](/wisefy/accesspoints/src/main/java/com/isupatches/android/wisefy/accesspoints/entities/SearchForAccessPointsRequest.kt)
+- Result class: [SearchForAccessPointsResult](/wisefy/accesspoints/src/main/java/com/isupatches/android/wisefy/accesspoints/entities/SearchForAccessPointsResult.kt)
+
+- API options:
+  - *Synchronous*: `fun searchForAccessPoints(request: SearchForAccessPointsRequest): SearchForAccessPointsResult`
+  - *Async*: `fun searchForAccessPoints(request: SearchForAccessPointsRequest, callbacks: SearchForAccessPointsCallbacks?)`
+  - *Coroutine*: `suspend fun WisefyApi.searchForAccessPointsAsync(request: SearchForAccessPointsRequest): SearchForAccessPointsResult`
+
+- Notes: 
+  - This can be leveraged to search for a single access point with `.first()`/`.firstOrNull()` 
+  - This can be leveraged for SSIDs with `.map { it.value.SSID }` or `.value.SSID`
+  - This can be leveraged for BSSIs with `.map { it.value.BSSID }` or `.value.BSSID`
+
+### `:addnetwork`
+
+#### addNetwork()
+
+> Adds a network to the saved list of configurations / suggestions
+
+- Usage example: [AddNetworkViewModel::addNetwork](/app/src/main/java/com/isupatches/android/wisefy/sample/features/add/AddNetworkViewModel.kt#L186)
+
+- Request class: [AddNetworkRequest](/wisefy/addnetwork/src/main/java/com/isupatches/android/wisefy/addnetwork/entities/AddNetworkRequest.kt)
+- Result class: [AddNetworkResult](/wisefy/addnetwork/src/main/java/com/isupatches/android/wisefy/addnetwork/entities/AddNetworkResult.kt)
+
+- API options:
+  - *Synchronous*: `fun addNetwork(request: AddNetworkRequest): AddNetworkRestult`
+  - *Async*: `fun addNetwork(request: AddNetworkRequest, callbacks: AddNetworkCallbacks?)`
+  - *Coroutine*: `suspend fun WisefyApi.addNetworkAsync(request: AddNetworkRequest): AddNetworkResult`
+
+- Notes: Currently supports Open and WPA2 network types along with WPA3 starting with Android Q
     
-  - **Getting the RSSI level of an access point**
-    - Usage example: [MiscViewModel::getRSSI](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#L460)
-
-    - Request class: [GetRSSIRequest](/wisefy/accesspoints/src/main/java/com/isupatches/android/wisefy/accesspoints/entities/GetRSSIRequest.kt)
-    - Result class: [GetRSSIResult](/wisefy/accesspoints/src/main/java/com/isupatches/android/wisefy/accesspoints/entities/GetRSSIResult.kt)
-    
-    - API options:
-      - *Synchronous*: `fun getRSSI(request: GetRSSIRequest): GetRSSIResult`
-      - *Async*: `fun getRSSI(request: GetRSSIRequest, callbacks: GetRSSICallbacks?)`
-      - *Coroutine*: `suspend fun WisefyApi.getRSSIAsync(request: GetRSSIRequest): GetRSSIResult`
-
-  - **Searching for Access Points**
-    - Usage example: [SearchViewModel::searchForAccessPoints](/app/src/main/java/com/isupatches/android/wisefy/sample/features/search/SearchViewModel.kt#L193)
-
-    - Request class: [SearchForAccessPointsRequest](/wisefy/accesspoints/src/main/java/com/isupatches/android/wisefy/accesspoints/entities/SearchForAccessPointsRequest.kt)
-    - Result class: [SearchForAccessPointsResult](/wisefy/accesspoints/src/main/java/com/isupatches/android/wisefy/accesspoints/entities/SearchForAccessPointsResult.kt)
-
-    - API options:
-      - *Synchronous*: `fun searchForAccessPoints(request: SearchForAccessPointsRequest): SearchForAccessPointsResult`
-      - *Async*: `fun searchForAccessPoints(request: SearchForAccessPointsRequest, callbacks: SearchForAccessPointsCallbacks?)`
-      - *Coroutine*: `suspend fun WisefyApi.searchForAccessPointsAsync(request: SearchForAccessPointsRequest): SearchForAccessPointsResult`
-
-    - Notes: 
-      - This can be leveraged to search for a single access point with `.first()`/`.firstOrNull()` 
-      - This can be leveraged for SSIDs with `.map { it.value.SSID }` or `.value.SSID`
-      - This can be leveraged for BSSIs with `.map { it.value.BSSID }` or `.value.BSSID`
-
-#### `:addnetwork`
-
-  - **Adding a network**
-    - Usage example: [AddNetworkViewModel::addNetwork](/app/src/main/java/com/isupatches/android/wisefy/sample/features/add/AddNetworkViewModel.kt#L186)
-
-    - Request class: [AddNetworkRequest](/wisefy/addnetwork/src/main/java/com/isupatches/android/wisefy/addnetwork/entities/AddNetworkRequest.kt)
-    - Result class: [AddNetworkResult](/wisefy/addnetwork/src/main/java/com/isupatches/android/wisefy/addnetwork/entities/AddNetworkResult.kt)
-
-    - API options:
-      - *Synchronous*: `fun addNetwork(request: AddNetworkRequest): AddNetworkRestult`
-      - *Async*: `fun addNetwork(request: AddNetworkRequest, callbacks: AddNetworkCallbacks?)`
-      - *Coroutine*: `suspend fun WisefyApi.addNetworkAsync(request: AddNetworkRequest): AddNetworkResult`
-
-    - Notes: Currently supports Open and WPA2 network types along with WPA3 starting with Android Q
-    
-#### `:frequency`
+### `:frequency`
 
   - **Getting the frequency of a network**
     - Usage example: [MiscViewModel::getFrequency](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#L326)
