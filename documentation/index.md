@@ -16,13 +16,13 @@
   - [getCurrentNetwork](#getcurrentnetwork)
   - [getCurrentNetworkInfo](#getcurrentnetworkinfo)
 - [removenetwork package](#removenetwork-package)
-  - [getCurrentNetwork](#removenetwork)
+  - [removeNetwork](#removenetwork)
 - [savednetworks package](#savednetworks-package)
   - [getSavedNetworks](#getsavednetworks) 
   - [searchForSavedNetworks](#searchforsavednetworks) 
 - [wifi package](#wifi-package)
-  - [disableWifi](#disablewifi) **DEPRECATED**
-  - [enabledWifi](#enablewifi) **DEPRECATED**
+  - [disableWifi](#disablewifi) **[DEPRECATED]**
+  - [enabledWifi](#enablewifi) **[DEPRECATED]**
 - [Mutex Locks](#mutex-locks)
 
 ### `:accesspoints` package
@@ -206,6 +206,18 @@ Searches for saved networks on the device
 
 ### `:wifi` package
 
+#### disableWifi()
+
+Disables Wifi **[DEPRECATED]**
+
+- Usage example: [MiscViewModel::disableWifi](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#L120)
+- Request class: [DisableWifiRequest](/wisefy/wifi/src/main/java/com/isupatches/android/wisefy/wifi/entities/DisableWifiRequest.kt)
+- Result class: [DisableWifiResult](/wisefy/wifi/src/main/java/com/isupatches/android/wisefy/wifi/entities/DisableWifiResult.kt)
+- API options:
+    - *Synchronous*: `fun disableWifi(request: DisableWifiRequest): DisableWifiResult`
+    - *Async*: `fun disableWifi(request: DisableWifiRequest, callbacks: DisableWifiCallbacks?)`
+    - *Coroutine*: `suspend fun WisefyApi.disableWifiAsync(request: DisableWifiRequest): DisableWifiResult`
+    
 #### enableWifi()
 
 Enables Wifi **[DEPRECATED]**
@@ -217,18 +229,6 @@ Enables Wifi **[DEPRECATED]**
   - *Synchronous*: `fun enableWifi(request: EnableWifiRequest): EnableWifiResult`
   - *Async*: `fun enableWifi(request: EnableWifiRequest, callbacks: EnableWifiCallbacks?)`
   - *Coroutine*: `suspend fun WisefyApi.enableWifiAsync(request: EnableWifiRequest): EnableWifiResult`
-
-#### disableWifi()
-
-Disables Wifi **[DEPRECATED]**
-
-- Usage example: [MiscViewModel::disableWifi](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#L120)
-- Request class: [DisableWifiRequest](/wisefy/wifi/src/main/java/com/isupatches/android/wisefy/wifi/entities/DisableWifiRequest.kt)
-- Result class: [DisableWifiResult](/wisefy/wifi/src/main/java/com/isupatches/android/wisefy/wifi/entities/DisableWifiResult.kt)
-- API options:
-  - *Synchronous*: `fun disableWifi(request: DisableWifiRequest): DisableWifiResult`
-  - *Async*: `fun disableWifi(request: DisableWifiRequest, callbacks: DisableWifiCallbacks?)`
-  - *Coroutine*: `suspend fun WisefyApi.disableWifiAsync(request: DisableWifiRequest): DisableWifiResult`
 
 ### Mutex Locks
 
