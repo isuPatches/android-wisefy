@@ -47,29 +47,16 @@ internal fun MiscScreenContent(viewModel: MiscViewModel) {
 
         val scope = rememberCoroutineScope()
 
-        val getCurrentNetworkInfoPermissionsLauncher =
+        val getCurrentNetworkPermissionsLauncher =
             rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
                 if (isGranted) {
                     scope.launch {
                         @Suppress("MissingPermission")
-                        viewModel.getCurrentNetworkInfo()
+                        viewModel.getCurrentNetwork()
                     }
                 } else {
                     WisefySampleLogger.w(LOG_TAG, "Permissions for getting current network info are denied")
-                    viewModel.onGetCurrentNetworkInfoPermissionsError()
-                }
-            }
-
-        val getFrequencyPermissionsLauncher =
-            rememberLauncherForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result ->
-                if (result.all { it.value }) {
-                    scope.launch {
-                        @Suppress("MissingPermission")
-                        viewModel.getFrequency()
-                    }
-                } else {
-                    WisefySampleLogger.w(LOG_TAG, "Permissions for getting frequency are denied")
-                    viewModel.onGetFrequencyPermissionsError()
+                    viewModel.onGetCurrentNetworkPermissionsError()
                 }
             }
 
@@ -112,19 +99,6 @@ internal fun MiscScreenContent(viewModel: MiscViewModel) {
                 }
             }
 
-        val isNetwork5gHzPermissionsLauncher =
-            rememberLauncherForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result ->
-                if (result.all { it.value }) {
-                    scope.launch {
-                        @Suppress("MissingPermission")
-                        viewModel.isNetwork5gHz()
-                    }
-                } else {
-                    WisefySampleLogger.w(LOG_TAG, "Permissions for checking if the current network is 5gHz are denied")
-                    viewModel.isNetwork5gHzPermissionsError()
-                }
-            }
-
         val onMiscOptionClicked: (MiscScreenOption) -> Unit = { option ->
             when (option) {
                 MiscScreenOption.DISABLE_WIFI -> {
@@ -139,15 +113,7 @@ internal fun MiscScreenContent(viewModel: MiscViewModel) {
                     }
                 }
                 MiscScreenOption.GET_CURRENT_NETWORK -> {
-                    scope.launch {
-                        viewModel.getCurrentNetwork()
-                    }
-                }
-                MiscScreenOption.GET_CURRENT_NETWORK_INFO -> {
-                    getCurrentNetworkInfoPermissionsLauncher.launch(ACCESS_NETWORK_STATE)
-                }
-                MiscScreenOption.GET_FREQUENCY -> {
-                    getFrequencyPermissionsLauncher.launch(arrayOf(ACCESS_FINE_LOCATION, ACCESS_NETWORK_STATE))
+                    getCurrentNetworkPermissionsLauncher.launch(ACCESS_NETWORK_STATE)
                 }
                 MiscScreenOption.GET_NEARBY_ACCESS_POINTS -> {
                     getNearbyAccessPointsPermissionsLauncher.launch(ACCESS_FINE_LOCATION)
@@ -155,14 +121,8 @@ internal fun MiscScreenContent(viewModel: MiscViewModel) {
                 MiscScreenOption.GET_NETWORK_CONNECTION_STATUS -> {
                     getNetworkConnectionStatusPermissionsLauncher.launch(ACCESS_NETWORK_STATE)
                 }
-                MiscScreenOption.GET_RSSI -> {
-                    // todo@patches - RSSI example
-                }
                 MiscScreenOption.GET_SAVED_NETWORKS -> {
                     getSavedNetworksPermissionsLauncher.launch(arrayOf(ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE))
-                }
-                MiscScreenOption.IS_NETWORK_5GHZ -> {
-                    isNetwork5gHzPermissionsLauncher.launch(arrayOf(ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE))
                 }
                 MiscScreenOption.IS_WIFI_ENABLED -> {
                     scope.launch {
@@ -200,13 +160,9 @@ internal enum class MiscScreenOption(val id: Long, @StringRes val stringResId: I
     ),
     ENABLE_WIFI(R.id.enable_wifi.toLong(), R.string.enabled_wifi),
     GET_CURRENT_NETWORK(R.id.get_current_network.toLong(), R.string.get_current_network),
-    GET_CURRENT_NETWORK_INFO(R.id.get_current_network_info.toLong(), R.string.get_current_network_info),
-    GET_FREQUENCY(R.id.get_frequency.toLong(), R.string.get_frequency),
     GET_NEARBY_ACCESS_POINTS(R.id.get_nearby_access_points.toLong(), R.string.get_nearby_access_points),
     GET_NETWORK_CONNECTION_STATUS(R.id.get_network_connection_status.toLong(), R.string.get_network_connection_status),
-    GET_RSSI(R.id.get_rssi.toLong(), R.string.get_rssi),
     GET_SAVED_NETWORKS(R.id.get_saved_networks.toLong(), R.string.get_saved_networks),
-    IS_NETWORK_5GHZ(R.id.is_network_5ghz.toLong(), R.string.is_network_5ghz),
     IS_WIFI_ENABLED(R.id.is_wifi_enabled.toLong(), R.string.is_wifi_enabled)
 }
 

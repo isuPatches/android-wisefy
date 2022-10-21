@@ -20,7 +20,7 @@ import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
-import com.isupatches.android.wisefy.core.entities.AssertionMessages
+import com.isupatches.android.wisefy.core.constants.AssertionMessages
 import com.isupatches.android.wisefy.removenetwork.RemoveNetworkApi
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkRequest
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkResult
@@ -28,8 +28,8 @@ import com.isupatches.android.wisefy.removenetwork.os.apis.DefaultRemoveNetworkA
 import com.isupatches.android.wisefy.removenetwork.os.converters.toSearchForNetworkRequest
 import com.isupatches.android.wisefy.removenetwork.os.impls.DefaultRemoveNetworkApiImpl
 import com.isupatches.android.wisefy.savednetworks.SavedNetworkDelegate
+import com.isupatches.android.wisefy.savednetworks.entities.GetSavedNetworksResult
 import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
-import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworksResult
 
 /**
  * A default adapter for removing a network.
@@ -56,12 +56,12 @@ internal class DefaultRemoveNetworkAdapter(
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun removeNetwork(request: RemoveNetworkRequest): RemoveNetworkResult {
         return when (
-            val savedNetworkSearchResult = savedNetworkDelegate.searchForSavedNetwork(
-                request = request.toSearchForNetworkRequest()
+            val savedNetworkSearchResult = savedNetworkDelegate.getSavedNetworks(
+                query = request.toSearchForNetworkRequest()
             )
         ) {
-            is SearchForSavedNetworksResult.Success.Empty -> RemoveNetworkResult.Failure.NetworkNotFound
-            is SearchForSavedNetworksResult.Success.SavedNetworks -> {
+            is GetSavedNetworksResult.Success.Empty -> RemoveNetworkResult.Failure.NetworkNotFound
+            is GetSavedNetworksResult.Success.SavedNetworks -> {
                 when (val savedNetwork = savedNetworkSearchResult.data.first()) {
                     is SavedNetworkData.Configuration -> {
                         val result = api.removeNetwork(savedNetwork.value.networkId)
@@ -78,7 +78,7 @@ internal class DefaultRemoveNetworkAdapter(
                     }
                 }
             }
-            is SearchForSavedNetworksResult.Failure.Assertion -> {
+            is GetSavedNetworksResult.Failure.Assertion -> {
                 RemoveNetworkResult.Failure.Assertion(message = savedNetworkSearchResult.message)
             }
         }

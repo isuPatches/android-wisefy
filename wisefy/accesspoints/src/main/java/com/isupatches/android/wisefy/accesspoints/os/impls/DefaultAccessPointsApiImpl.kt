@@ -20,7 +20,6 @@ import android.net.wifi.ScanResult
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
-import com.isupatches.android.wisefy.accesspoints.entities.RSSIData
 import com.isupatches.android.wisefy.accesspoints.os.apis.DefaultAccessPointsApi
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.core.util.rest
@@ -63,37 +62,13 @@ internal class DefaultAccessPointsApiImpl(
         return if (filterDuplicates) {
             removeEntriesWithLowerSignalStrength(accessPoints = accessPointsTemp)
         } else {
-            accessPointsTemp.map { scanResult -> AccessPointData(value = scanResult) }
-        }
-    }
-
-    @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun getRSSIBySSID(regexForSSID: String, takeHighest: Boolean, timeoutInMillis: Int): RSSIData? {
-        val scanData = searchForAccessPointsBySSID(
-            regexForSSID = regexForSSID,
-            timeoutInMillis = timeoutInMillis,
-            filterDuplicates = takeHighest
-        ).firstOrNull()
-        return scanData?.value?.level?.let {
-            RSSIData(value = it)
-        }
-    }
-
-    @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun getRSSIByBSSID(regexForBSSID: String, takeHighest: Boolean, timeoutInMillis: Int): RSSIData? {
-        val scanData = searchForAccessPointsByBSSID(
-            regexForBSSID = regexForBSSID,
-            timeoutInMillis = timeoutInMillis,
-            filterDuplicates = takeHighest
-        ).firstOrNull()
-        return scanData?.value?.level?.let {
-            RSSIData(value = it)
+            accessPointsTemp.map { scanResult -> AccessPointData(rawValue = scanResult) }
         }
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun searchForAccessPointsBySSID(
-        regexForSSID: String,
+        regex: String,
         timeoutInMillis: Int?,
         filterDuplicates: Boolean
     ): List<AccessPointData> {
@@ -101,13 +76,13 @@ internal class DefaultAccessPointsApiImpl(
             filterDuplicates = filterDuplicates,
             timeoutInMillis = timeoutInMillis
         ) { scanResult ->
-            accessPointSSIDMatchesRegex(accessPoint = scanResult, regexForSSID = regexForSSID)
+            accessPointSSIDMatchesRegex(accessPoint = scanResult, regex = regex)
         }
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun searchForAccessPointsByBSSID(
-        regexForBSSID: String,
+        regex: String,
         timeoutInMillis: Int?,
         filterDuplicates: Boolean
     ): List<AccessPointData> {
@@ -115,24 +90,24 @@ internal class DefaultAccessPointsApiImpl(
             filterDuplicates = filterDuplicates,
             timeoutInMillis = timeoutInMillis
         ) { scanResult ->
-            accessPointBSSIDMatchesRegex(accessPoint = scanResult, regexForBSSID = regexForBSSID)
+            accessPointBSSIDMatchesRegex(accessPoint = scanResult, regex = regex)
         }
     }
 
-    private fun accessPointSSIDMatchesRegex(accessPoint: ScanResult?, regexForSSID: String): Boolean {
+    private fun accessPointSSIDMatchesRegex(accessPoint: ScanResult?, regex: String): Boolean {
         logger.d(
             LOG_TAG,
-            "accessPoint. SSID: %s, regexForSSID: %s".format(Locale.US, accessPoint?.SSID, regexForSSID)
+            "accessPoint. SSID: %s, regexForSSID: %s".format(Locale.US, accessPoint?.SSID, regex)
         )
-        return accessPoint?.SSID?.matches(regexForSSID.toRegex()) ?: false
+        return accessPoint?.SSID?.matches(regex.toRegex()) ?: false
     }
 
-    private fun accessPointBSSIDMatchesRegex(accessPoint: ScanResult?, regexForBSSID: String): Boolean {
+    private fun accessPointBSSIDMatchesRegex(accessPoint: ScanResult?, regex: String): Boolean {
         logger.d(
             LOG_TAG,
-            "accessPoint. SSID: %s, regexForBSSID: %s".format(Locale.US, accessPoint?.BSSID, regexForBSSID)
+            "accessPoint. SSID: %s, regexForBSSID: %s".format(Locale.US, accessPoint?.BSSID, regex)
         )
-        return accessPoint?.BSSID?.matches(regexForBSSID.toRegex()) ?: false
+        return accessPoint?.BSSID?.matches(regex.toRegex()) ?: false
     }
 
     private fun hasHighestSignalStrength(
@@ -164,17 +139,17 @@ internal class DefaultAccessPointsApiImpl(
             for (i in accessPointsToReturn.indices) {
                 val accessPointData = accessPointsToReturn[i]
 
-                logger.d(LOG_TAG, "SSID 1: %s, SSID 2: %s", accessPoint.SSID, accessPointData.value.SSID)
-                if (accessPoint.SSID.equals(accessPointData.value.SSID, ignoreCase = true)) {
+                logger.d(LOG_TAG, "SSID 1: %s, SSID 2: %s", accessPoint.SSID, accessPointData.rawValue.SSID)
+                if (accessPoint.SSID.equals(accessPointData.rawValue.SSID, ignoreCase = true)) {
                     found = true
                     val comparisonResult = WifiManager.compareSignalLevel(
                         accessPoint.level,
-                        accessPointData.value.level
+                        accessPointData.rssi
                     )
                     logger.d(
                         LOG_TAG,
                         "Access point 1 RSSI: %d\nAccess point 2 RSSI: %d\nComparison result: %d",
-                        accessPointData.value.level, accessPoint.level, comparisonResult
+                        accessPointData.rssi, accessPoint.level, comparisonResult
                     )
                     if (comparisonResult > 0) {
                         logger.d(LOG_TAG, "New result has a higher or same signal strength, swapping")
@@ -206,10 +181,10 @@ internal class DefaultAccessPointsApiImpl(
             if (matcher(accessPoint)) {
                 if (filterDuplicates) {
                     if (hasHighestSignalStrength(accessPointsTemp, accessPoint)) {
-                        matchingAccessPoints.add(AccessPointData(value = accessPoint))
+                        matchingAccessPoints.add(AccessPointData(rawValue = accessPoint))
                     }
                 } else {
-                    matchingAccessPoints.add(AccessPointData(value = accessPoint))
+                    matchingAccessPoints.add(AccessPointData(rawValue = accessPoint))
                 }
             }
         }

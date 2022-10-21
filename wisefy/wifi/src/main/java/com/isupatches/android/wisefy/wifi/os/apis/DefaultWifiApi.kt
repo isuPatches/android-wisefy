@@ -15,7 +15,7 @@
  */
 package com.isupatches.android.wisefy.wifi.os.apis
 
-import com.isupatches.android.wisefy.core.entities.DeprecationMessages
+import com.isupatches.android.wisefy.core.constants.DeprecationMessages
 
 /**
  * A default set of APIs for enabling, disabling, and checking the state of Wifi through the Android OS.

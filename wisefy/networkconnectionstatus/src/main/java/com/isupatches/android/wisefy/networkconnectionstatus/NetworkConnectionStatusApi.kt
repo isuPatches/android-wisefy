@@ -17,7 +17,7 @@ package com.isupatches.android.wisefy.networkconnectionstatus
 
 import android.Manifest.permission.ACCESS_NETWORK_STATE
 import androidx.annotation.RequiresPermission
-import com.isupatches.android.wisefy.networkconnectionstatus.entities.GetNetworkConnectionStatusRequest
+import com.isupatches.android.wisefy.networkconnectionstatus.entities.GetNetworkConnectionStatusQuery
 import com.isupatches.android.wisefy.networkconnectionstatus.entities.GetNetworkConnectionStatusResult
 
 /**
@@ -30,6 +30,6 @@ interface NetworkConnectionStatusApi {
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
     fun getNetworkConnectionStatus(
-        request: GetNetworkConnectionStatusRequest = GetNetworkConnectionStatusRequest()
+        query: GetNetworkConnectionStatusQuery = GetNetworkConnectionStatusQuery()
     ): GetNetworkConnectionStatusResult
 }

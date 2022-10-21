@@ -15,7 +15,9 @@
  */
 package com.isupatches.android.wisefy.networkinfo.entities
 
-import android.net.wifi.WifiInfo
+import android.net.LinkProperties
+import android.net.Network
+import android.net.NetworkCapabilities
 
 /**
  * A data representation of the current network from Android OS level returns.
@@ -25,4 +27,8 @@ import android.net.wifi.WifiInfo
  * @author Patches Klinefelter
  * @since 03/2022
  */
-data class NetworkData(val value: WifiInfo)
+data class NetworkData(
+    val network: Network,
+    val capabilities: NetworkCapabilities?,
+    val linkProperties: LinkProperties?
+)

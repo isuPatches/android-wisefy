@@ -19,14 +19,14 @@ import android.net.wifi.WifiManager
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
-import com.isupatches.android.wisefy.core.entities.AssertionMessages
-import com.isupatches.android.wisefy.core.entities.DeprecationMessages
+import com.isupatches.android.wisefy.core.constants.AssertionMessages
+import com.isupatches.android.wisefy.core.constants.DeprecationMessages
 import com.isupatches.android.wisefy.wifi.WifiApi
 import com.isupatches.android.wisefy.wifi.entities.DisableWifiRequest
 import com.isupatches.android.wisefy.wifi.entities.DisableWifiResult
 import com.isupatches.android.wisefy.wifi.entities.EnableWifiRequest
 import com.isupatches.android.wisefy.wifi.entities.EnableWifiResult
-import com.isupatches.android.wisefy.wifi.entities.IsWifiEnabledRequest
+import com.isupatches.android.wisefy.wifi.entities.IsWifiEnabledQuery
 import com.isupatches.android.wisefy.wifi.entities.IsWifiEnabledResult
 import com.isupatches.android.wisefy.wifi.os.apis.DefaultWifiApi
 import com.isupatches.android.wisefy.wifi.os.impls.DefaultWifiApiImpl
@@ -67,7 +67,7 @@ internal class Android29WifiAdapter(
         return EnableWifiResult.Failure.Assertion(message = message)
     }
 
-    override fun isWifiEnabled(request: IsWifiEnabledRequest): IsWifiEnabledResult {
+    override fun isWifiEnabled(query: IsWifiEnabledQuery): IsWifiEnabledResult {
         val result = api.isWifiEnabled()
         return if (result) {
             IsWifiEnabledResult.True

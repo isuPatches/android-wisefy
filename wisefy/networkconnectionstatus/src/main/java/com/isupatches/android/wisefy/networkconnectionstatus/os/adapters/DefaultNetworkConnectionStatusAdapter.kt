@@ -23,8 +23,9 @@ import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.core.util.SdkUtil
 import com.isupatches.android.wisefy.networkconnectionstatus.NetworkConnectionStatusApiInternal
 import com.isupatches.android.wisefy.networkconnectionstatus.NetworkConnectionStatusDelegate
-import com.isupatches.android.wisefy.networkconnectionstatus.entities.GetNetworkConnectionStatusRequest
+import com.isupatches.android.wisefy.networkconnectionstatus.entities.GetNetworkConnectionStatusQuery
 import com.isupatches.android.wisefy.networkconnectionstatus.entities.GetNetworkConnectionStatusResult
+import com.isupatches.android.wisefy.networkconnectionstatus.entities.NetworkConnectionStatusData
 import com.isupatches.android.wisefy.networkconnectionstatus.os.apis.DefaultNetworkConnectionStatusApi
 import com.isupatches.android.wisefy.networkconnectionstatus.os.impls.DefaultNetworkConnectionStatusApiImpl
 import kotlinx.coroutines.CoroutineScope
@@ -76,17 +77,17 @@ internal class DefaultNetworkConnectionStatusAdapter(
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun getNetworkConnectionStatus(
-        request: GetNetworkConnectionStatusRequest
-    ): GetNetworkConnectionStatusResult {
+    override fun getNetworkConnectionStatus(query: GetNetworkConnectionStatusQuery): GetNetworkConnectionStatusResult {
         return GetNetworkConnectionStatusResult(
-            isConnected = api.isDeviceConnected(),
-            isConnectedToMobileNetwork = api.isDeviceConnectedToMobileNetwork(),
-            isConnectedToWifiNetwork = api.isDeviceConnectedToWifiNetwork(),
-            isRoaming = api.isDeviceRoaming(),
-            ssidOfNetworkConnectedTo = api.getSSIDOfTheNetworkTheDeviceIsConnectedTo(),
-            bssidOfNetworkConnectedTo = api.getBSSIDOfTheNetworkTheDeviceIsConnectedTo(),
-            ip = api.getIP()
+            data = NetworkConnectionStatusData(
+                isConnected = api.isDeviceConnected(),
+                isConnectedToMobileNetwork = api.isDeviceConnectedToMobileNetwork(),
+                isConnectedToWifiNetwork = api.isDeviceConnectedToWifiNetwork(),
+                isRoaming = api.isDeviceRoaming(),
+                ssidOfNetworkConnectedTo = api.getSSIDOfTheNetworkTheDeviceIsConnectedTo(),
+                bssidOfNetworkConnectedTo = api.getBSSIDOfTheNetworkTheDeviceIsConnectedTo(),
+                ip = api.getIP()
+            )
         )
     }
 }

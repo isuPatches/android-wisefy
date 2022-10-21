@@ -6,13 +6,9 @@
     <string name="disconnect_from_current_network">Disconnect From Current Network</string>
     <string name="enabled_wifi">Enabled Wifi</string>
     <string name="get_current_network">Get Current Network</string>
-    <string name="get_current_network_info">Get Current Network Info</string>
-    <string name="get_frequency">Get Frequency</string>
     <string name="get_nearby_access_points">Get Nearby Access Points</string>
     <string name="get_network_connection_status">Get Network Connection Status</string>
-    <string name="get_rssi">Get RSSI</string>
     <string name="get_saved_networks">Get Saved Networks</string>
-    <string name="is_network_5ghz">Is Network 5gHz</string>
     <string name="is_wifi_enabled">Is Wifi Enabled</string>
 
     <!-- Results -->

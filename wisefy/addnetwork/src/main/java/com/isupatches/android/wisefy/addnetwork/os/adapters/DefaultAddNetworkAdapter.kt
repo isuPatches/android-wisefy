@@ -25,7 +25,7 @@ import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
 import com.isupatches.android.wisefy.addnetwork.os.apis.DefaultAddNetworkApi
 import com.isupatches.android.wisefy.addnetwork.os.impls.DefaultAddNetworkApiImpl
 import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
-import com.isupatches.android.wisefy.core.entities.AssertionMessages
+import com.isupatches.android.wisefy.core.constants.AssertionMessages
 
 /**
  * A default adapter for adding networks.

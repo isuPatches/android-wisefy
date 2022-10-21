@@ -15,13 +15,13 @@
  */
 package com.isupatches.android.wisefy.wifi
 
-import com.isupatches.android.wisefy.core.entities.DeprecationMessages
+import com.isupatches.android.wisefy.core.constants.DeprecationMessages
 import com.isupatches.android.wisefy.wifi.callbacks.DisableWifiCallbacks
 import com.isupatches.android.wisefy.wifi.callbacks.EnableWifiCallbacks
 import com.isupatches.android.wisefy.wifi.callbacks.IsWifiEnabledCallbacks
 import com.isupatches.android.wisefy.wifi.entities.DisableWifiRequest
 import com.isupatches.android.wisefy.wifi.entities.EnableWifiRequest
-import com.isupatches.android.wisefy.wifi.entities.IsWifiEnabledRequest
+import com.isupatches.android.wisefy.wifi.entities.IsWifiEnabledQuery
 
 /**
  * A set of asynchronous APIs for enabling and disabling Wifi.
@@ -75,14 +75,14 @@ interface WifiApiAsync {
      * *NOTES*
      *  - Internally locked by a mutex along with the async APIs to enable and disable Wifi
      *
-     * @param request The details of the request to check the current state of Wifi
+     * @param query The details of the query to check the current state of Wifi
      * @param callbacks The callbacks for results when checking the current state of Wifi
      *
-     * @see IsWifiEnabledRequest
+     * @see IsWifiEnabledQuery
      * @see IsWifiEnabledCallbacks
      *
      * @author Patches Klinefelter
      * @since 07/2022, version 5.0.0
      */
-    fun isWifiEnabled(request: IsWifiEnabledRequest = IsWifiEnabledRequest(), callbacks: IsWifiEnabledCallbacks?)
+    fun isWifiEnabled(query: IsWifiEnabledQuery = IsWifiEnabledQuery(), callbacks: IsWifiEnabledCallbacks?)
 }

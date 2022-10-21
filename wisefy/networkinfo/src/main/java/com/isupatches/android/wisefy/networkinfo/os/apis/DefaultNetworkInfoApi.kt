@@ -19,7 +19,6 @@ import android.Manifest.permission.ACCESS_NETWORK_STATE
 import android.net.LinkProperties
 import android.net.Network
 import android.net.NetworkCapabilities
-import android.net.wifi.WifiInfo
 import androidx.annotation.RequiresPermission
 
 /**
@@ -39,7 +38,7 @@ internal interface DefaultNetworkInfoApi {
      * @author Patches Klinefelter
      * @since 03/2022
      */
-    fun getCurrentNetwork(): WifiInfo?
+    fun getCurrentNetwork(): Network?
 
     /**
      * An internal API that is used to get the network capabilities of a network from the Android OS.

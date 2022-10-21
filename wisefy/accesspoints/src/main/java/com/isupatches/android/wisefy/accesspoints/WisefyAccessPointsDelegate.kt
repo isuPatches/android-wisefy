@@ -18,15 +18,9 @@ package com.isupatches.android.wisefy.accesspoints
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
-import com.isupatches.android.wisefy.accesspoints.callbacks.GetNearbyAccessPointCallbacks
-import com.isupatches.android.wisefy.accesspoints.callbacks.GetRSSICallbacks
-import com.isupatches.android.wisefy.accesspoints.callbacks.SearchForAccessPointsCallbacks
-import com.isupatches.android.wisefy.accesspoints.entities.GetNearbyAccessPointsRequest
-import com.isupatches.android.wisefy.accesspoints.entities.GetNearbyAccessPointsResult
-import com.isupatches.android.wisefy.accesspoints.entities.GetRSSIRequest
-import com.isupatches.android.wisefy.accesspoints.entities.GetRSSIResult
-import com.isupatches.android.wisefy.accesspoints.entities.SearchForAccessPointsRequest
-import com.isupatches.android.wisefy.accesspoints.entities.SearchForAccessPointsResult
+import com.isupatches.android.wisefy.accesspoints.callbacks.GetAccessPointsCallbacks
+import com.isupatches.android.wisefy.accesspoints.entities.GetAccessPointsQuery
+import com.isupatches.android.wisefy.accesspoints.entities.GetAccessPointsResult
 import com.isupatches.android.wisefy.accesspoints.os.adapters.DefaultAccessPointsAdapter
 import com.isupatches.android.wisefy.core.coroutines.CoroutineDispatcherProvider
 import com.isupatches.android.wisefy.core.coroutines.createBaseCoroutineExceptionHandler
@@ -68,62 +62,23 @@ class WisefyAccessPointsDelegate(
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun getNearbyAccessPoints(request: GetNearbyAccessPointsRequest): GetNearbyAccessPointsResult {
-        return adapter.getNearbyAccessPoints(request)
+    override fun getAccessPoints(query: GetAccessPointsQuery): GetAccessPointsResult {
+        return adapter.getAccessPoints(query)
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun getNearbyAccessPoints(
-        request: GetNearbyAccessPointsRequest,
-        callbacks: GetNearbyAccessPointCallbacks?
+    override fun getAccessPoints(
+        query: GetAccessPointsQuery,
+        callbacks: GetAccessPointsCallbacks?
     ) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
-            val result = adapter.getNearbyAccessPoints(request)
+            val result = adapter.getAccessPoints(query)
             withContext(coroutineDispatcherProvider.main) {
                 when (result) {
-                    is GetNearbyAccessPointsResult.Empty -> callbacks?.onNoNearbyAccessPoints()
-                    is GetNearbyAccessPointsResult.AccessPoints -> {
+                    is GetAccessPointsResult.Empty -> callbacks?.onNoNearbyAccessPoints()
+                    is GetAccessPointsResult.AccessPoints -> {
                         callbacks?.onNearbyAccessPointsRetrieved(result.data)
                     }
-                }
-            }
-        }
-    }
-
-    @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun getRSSI(request: GetRSSIRequest): GetRSSIResult {
-        return adapter.getRSSI(request)
-    }
-
-    @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun getRSSI(request: GetRSSIRequest, callbacks: GetRSSICallbacks?) {
-        scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
-            val result = adapter.getRSSI(request)
-            withContext(coroutineDispatcherProvider.main) {
-                when (result) {
-                    is GetRSSIResult.RSSI -> callbacks?.onRSSIRetrieved(result.data)
-                    is GetRSSIResult.Empty -> callbacks?.onNoNetworkToRetrieveRSSI()
-                }
-            }
-        }
-    }
-
-    @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun searchForAccessPoints(request: SearchForAccessPointsRequest): SearchForAccessPointsResult {
-        return adapter.searchForAccessPoints(request)
-    }
-
-    @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun searchForAccessPoints(
-        request: SearchForAccessPointsRequest,
-        callbacks: SearchForAccessPointsCallbacks?
-    ) {
-        scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
-            val result = adapter.searchForAccessPoints(request)
-            withContext(coroutineDispatcherProvider.main) {
-                when (result) {
-                    is SearchForAccessPointsResult.AccessPoints -> callbacks?.onAccessPointsFound(result.data)
-                    is SearchForAccessPointsResult.Empty -> callbacks?.onNoAccessPointsFound()
                 }
             }
         }

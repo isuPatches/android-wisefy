@@ -156,62 +156,6 @@ internal fun MiscScreenDialogContent(
                 }
             )
         }
-        is MiscScreenDialogState.GetCurrentNetworkInfo.Failure -> {
-            WisefySampleNoticeDialog(
-                title = R.string.get_current_network,
-                body = R.string.no_current_network_info,
-                onClose = {
-                    viewModel.onDialogClosed()
-                }
-            )
-        }
-        is MiscScreenDialogState.GetCurrentNetworkInfo.PermissionsError -> {
-            WisefySampleNoticeDialog(
-                title = R.string.permission_error,
-                body = R.string.permission_error_get_current_network_info,
-                onClose = {
-                    viewModel.onDialogClosed()
-                }
-            )
-        }
-        is MiscScreenDialogState.GetCurrentNetworkInfo.Success -> {
-            WisefySampleNoticeDialog(
-                title = R.string.get_current_network_info,
-                body = R.string.current_network_info_args,
-                currentDialogState.networkInfo,
-                onClose = {
-                    viewModel.onDialogClosed()
-                }
-            )
-        }
-        is MiscScreenDialogState.GetFrequency.Failure -> {
-            WisefySampleNoticeDialog(
-                title = R.string.get_frequency,
-                body = R.string.failure_retrieving_frequency,
-                onClose = {
-                    viewModel.onDialogClosed()
-                }
-            )
-        }
-        is MiscScreenDialogState.GetFrequency.PermissionsError -> {
-            WisefySampleNoticeDialog(
-                title = R.string.permission_error,
-                body = R.string.permission_error_get_frequency,
-                onClose = {
-                    viewModel.onDialogClosed()
-                }
-            )
-        }
-        is MiscScreenDialogState.GetFrequency.Success -> {
-            WisefySampleNoticeDialog(
-                title = R.string.get_frequency,
-                body = R.string.frequency_args,
-                currentDialogState.frequency.value,
-                onClose = {
-                    viewModel.onDialogClosed()
-                }
-            )
-        }
         is MiscScreenDialogState.GetNearbyAccessPoints.Failure -> {
             WisefySampleNoticeDialog(
                 title = R.string.get_nearby_access_points,
@@ -259,9 +203,6 @@ internal fun MiscScreenDialogContent(
                 }
             )
         }
-        is MiscScreenDialogState.GetRSSI.Failure -> TODO()
-        is MiscScreenDialogState.GetRSSI.PermissionsError -> TODO()
-        is MiscScreenDialogState.GetRSSI.Success -> TODO()
         is MiscScreenDialogState.GetSavedNetworks.Failure -> {
             WisefySampleNoticeDialog(
                 title = R.string.get_saved_networks,
@@ -290,37 +231,10 @@ internal fun MiscScreenDialogContent(
                 }
             )
         }
-        is MiscScreenDialogState.IsNetwork5gHz.False -> {
-            WisefySampleNoticeDialog(
-                title = R.string.is_network_5ghz,
-                body = R.string.current_network_is_not_5ghz,
-                onClose = {
-                    viewModel.onDialogClosed()
-                }
-            )
-        }
-        is MiscScreenDialogState.IsNetwork5gHz.True -> {
-            WisefySampleNoticeDialog(
-                title = R.string.is_network_5ghz,
-                body = R.string.current_network_is_5ghz,
-                onClose = {
-                    viewModel.onDialogClosed()
-                }
-            )
-        }
         is MiscScreenDialogState.IsWifiEnabled.False -> {
             WisefySampleNoticeDialog(
                 title = R.string.is_wifi_enabled,
                 body = R.string.wifi_is_disabled,
-                onClose = {
-                    viewModel.onDialogClosed()
-                }
-            )
-        }
-        is MiscScreenDialogState.IsNetwork5gHz.PermissionsError -> {
-            WisefySampleNoticeDialog(
-                title = R.string.permission_error,
-                body = R.string.permission_error_is_network_5ghz,
                 onClose = {
                     viewModel.onDialogClosed()
                 }

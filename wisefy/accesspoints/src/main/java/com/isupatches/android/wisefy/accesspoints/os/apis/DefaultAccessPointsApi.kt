@@ -18,7 +18,6 @@ package com.isupatches.android.wisefy.accesspoints.os.apis
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
-import com.isupatches.android.wisefy.accesspoints.entities.RSSIData
 
 /**
  * A default internal API for getting and searching for nearby access points through the Android OS.
@@ -44,45 +43,9 @@ internal interface DefaultAccessPointsApi {
     fun getNearbyAccessPoints(filterDuplicates: Boolean): List<AccessPointData>
 
     /**
-     * An internal API to get a network's RSSI level by SSID.
-     *
-     * @param regexForSSID The regex to use when matching the access point's SSID
-     * @param takeHighest Whether the request returns the first RSSI value or the highest RSSI value for the network
-     *  in the case of one that has duplicate access points
-     * @param timeoutInMillis How long the request should wait to find a network with a matching SSID
-     *
-     * @see RSSIData
-     *
-     * @return RSSIData - RSSI data if a matching network is found, otherwise null
-     *
-     * @author Patches Klinefelter
-     * @since 08/2022, version 5.0.0
-     */
-    @RequiresPermission(ACCESS_FINE_LOCATION)
-    fun getRSSIBySSID(regexForSSID: String, takeHighest: Boolean, timeoutInMillis: Int): RSSIData?
-
-    /**
-     * An internal API to get a network's RSSI level by BSSID.
-     *
-     * @param regexForBSSID The regex to use when matching the access point's BSSID
-     * @param takeHighest Whether the request returns the first RSSI value or the highest RSSI value for the network
-     *  in the case of one that has duplicate access points
-     * @param timeoutInMillis How long the request should wait to find the network with a matching BSSID
-     *
-     * @see RSSIData
-     *
-     * @return RSSIData - RSSI data if a matching network is found, otherwise null
-     *
-     * @author Patches Klinefelter
-     * @since 08/2022, version 5.0.0
-     */
-    @RequiresPermission(ACCESS_FINE_LOCATION)
-    fun getRSSIByBSSID(regexForBSSID: String, takeHighest: Boolean, timeoutInMillis: Int): RSSIData?
-
-    /**
      * An internal API to search for nearby access points by SSID.
      *
-     * @param regexForSSID The regex to use when matching the access point's SSID
+     * @param regex The regex to use when matching the access point's SSID
      * @param filterDuplicates Whether the request returns the first RSSI value or the highest RSSI value for the
      * network in the case of one that has duplicate access points
      *
@@ -95,7 +58,7 @@ internal interface DefaultAccessPointsApi {
      */
     @RequiresPermission(ACCESS_FINE_LOCATION)
     fun searchForAccessPointsBySSID(
-        regexForSSID: String,
+        regex: String,
         timeoutInMillis: Int?,
         filterDuplicates: Boolean = true
     ): List<AccessPointData>
@@ -103,7 +66,7 @@ internal interface DefaultAccessPointsApi {
     /**
      * An internal API to search for nearby access points by BSSID.
      *
-     * @param regexForBSSID The regex to use when matching the access point's BSSID
+     * @param regex The regex to use when matching the access point's BSSID
      * @param filterDuplicates Whether the request returns the first RSSI value or the highest RSSI value for the
      * network in the case of one that has duplicate access points
      *
@@ -116,7 +79,7 @@ internal interface DefaultAccessPointsApi {
      */
     @RequiresPermission(ACCESS_FINE_LOCATION)
     fun searchForAccessPointsByBSSID(
-        regexForBSSID: String,
+        regex: String,
         timeoutInMillis: Int?,
         filterDuplicates: Boolean = true
     ): List<AccessPointData>

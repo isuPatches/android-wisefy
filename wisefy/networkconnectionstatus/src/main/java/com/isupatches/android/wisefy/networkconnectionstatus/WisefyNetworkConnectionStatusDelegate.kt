@@ -24,7 +24,7 @@ import com.isupatches.android.wisefy.core.coroutines.createBaseCoroutineExceptio
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.core.util.SdkUtil
 import com.isupatches.android.wisefy.networkconnectionstatus.callbacks.GetNetworkConnectionStatusCallbacks
-import com.isupatches.android.wisefy.networkconnectionstatus.entities.GetNetworkConnectionStatusRequest
+import com.isupatches.android.wisefy.networkconnectionstatus.entities.GetNetworkConnectionStatusQuery
 import com.isupatches.android.wisefy.networkconnectionstatus.entities.GetNetworkConnectionStatusResult
 import com.isupatches.android.wisefy.networkconnectionstatus.os.adapters.DefaultNetworkConnectionStatusAdapter
 import kotlinx.coroutines.CoroutineScope
@@ -86,19 +86,19 @@ class WisefyNetworkConnectionStatusDelegate(
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
     override fun getNetworkConnectionStatus(
-        request: GetNetworkConnectionStatusRequest
+        query: GetNetworkConnectionStatusQuery
     ): GetNetworkConnectionStatusResult {
-        return adapter.getNetworkConnectionStatus(request)
+        return adapter.getNetworkConnectionStatus(query)
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
     override fun getNetworkConnectionStatus(
-        request: GetNetworkConnectionStatusRequest,
+        query: GetNetworkConnectionStatusQuery,
         callbacks: GetNetworkConnectionStatusCallbacks?
     ) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
             networkConnectionMutex.withLock {
-                val currentNetworkConnectionStatus = adapter.getNetworkConnectionStatus(request)
+                val currentNetworkConnectionStatus = adapter.getNetworkConnectionStatus(query)
                 withContext(coroutineDispatcherProvider.main) {
                     callbacks?.onDeviceNetworkConnectionStatusRetrieved(currentNetworkConnectionStatus)
                 }

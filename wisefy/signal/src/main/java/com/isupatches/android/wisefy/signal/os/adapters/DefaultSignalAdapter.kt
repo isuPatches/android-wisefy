@@ -16,7 +16,7 @@
 package com.isupatches.android.wisefy.signal.os.adapters
 
 import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
-import com.isupatches.android.wisefy.core.entities.AssertionMessages
+import com.isupatches.android.wisefy.core.constants.AssertionMessages
 import com.isupatches.android.wisefy.signal.SignalApi
 import com.isupatches.android.wisefy.signal.entities.CalculateBarsRequest
 import com.isupatches.android.wisefy.signal.entities.CalculateBarsResult

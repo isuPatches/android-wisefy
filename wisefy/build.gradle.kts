@@ -41,7 +41,6 @@ dependencies {
     api(project(":wisefy:core"))
     api(project(":wisefy:accesspoints"))
     api(project(":wisefy:addnetwork"))
-    api(project(":wisefy:frequency"))
     api(project(":wisefy:networkconnection"))
     api(project(":wisefy:networkconnectionstatus"))
     api(project(":wisefy:networkinfo"))

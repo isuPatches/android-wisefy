@@ -15,7 +15,7 @@
  */
 package com.isupatches.android.wisefy.signal.os.apis
 
-import com.isupatches.android.wisefy.core.entities.DeprecationMessages
+import com.isupatches.android.wisefy.core.constants.DeprecationMessages
 
 /**
  * A default API for functions related to the signal strength of networks.

@@ -17,12 +17,8 @@ package com.isupatches.android.wisefy.accesspoints
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import androidx.annotation.RequiresPermission
-import com.isupatches.android.wisefy.accesspoints.entities.GetNearbyAccessPointsRequest
-import com.isupatches.android.wisefy.accesspoints.entities.GetNearbyAccessPointsResult
-import com.isupatches.android.wisefy.accesspoints.entities.GetRSSIRequest
-import com.isupatches.android.wisefy.accesspoints.entities.GetRSSIResult
-import com.isupatches.android.wisefy.accesspoints.entities.SearchForAccessPointsRequest
-import com.isupatches.android.wisefy.accesspoints.entities.SearchForAccessPointsResult
+import com.isupatches.android.wisefy.accesspoints.entities.GetAccessPointsQuery
+import com.isupatches.android.wisefy.accesspoints.entities.GetAccessPointsResult
 
 /**
  * A set of synchronous APIs for getting and searching for nearby access points.
@@ -35,10 +31,10 @@ interface AccessPointsApi {
     /**
      * A synchronous API to get a list of all nearby access points.
      *
-     * @param request The details of the request to get nearby access points
+     * @param query The details of the query to get nearby access points
      *
-     * @see GetNearbyAccessPointsRequest
-     * @see GetNearbyAccessPointsResult
+     * @see GetAccessPointsQuery
+     * @see GetAccessPointsResult
      *
      * @return GetNearbyAccessPointsResult - The result of getting nearby access points
      *
@@ -46,37 +42,5 @@ interface AccessPointsApi {
      * @since 08/2022, version 5.0.0
      */
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    fun getNearbyAccessPoints(request: GetNearbyAccessPointsRequest): GetNearbyAccessPointsResult
-
-    /**
-     * A synchronous API to get a network's RSSI level.
-     *
-     * @param request The details of the request to get a networks RSSI level
-     *
-     * @see GetRSSIRequest
-     * @see GetRSSIResult
-     *
-     * @return GetRSSIResult - The result of retrieving the RSSI for a network
-     *
-     * @author Patches Klinefelter
-     * @since 08/2022, version 5.0.0
-     */
-    @RequiresPermission(ACCESS_FINE_LOCATION)
-    fun getRSSI(request: GetRSSIRequest): GetRSSIResult
-
-    /**
-     * A synchronous API to search for a nearby access points.
-     *
-     * @param request The details of the request to search for nearby access points.
-     *
-     * @see SearchForAccessPointsRequest
-     * @see SearchForAccessPointsResult
-     *
-     * @return SearchForAccessPointsResult - The result of searching for nearby access points
-     *
-     * @author Patches Klinefelter
-     * @since 08/2022, version 5.0.0
-     */
-    @RequiresPermission(ACCESS_FINE_LOCATION)
-    fun searchForAccessPoints(request: SearchForAccessPointsRequest): SearchForAccessPointsResult
+    fun getAccessPoints(query: GetAccessPointsQuery): GetAccessPointsResult
 }

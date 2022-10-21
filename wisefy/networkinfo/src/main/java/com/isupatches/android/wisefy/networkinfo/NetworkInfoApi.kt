@@ -17,9 +17,7 @@ package com.isupatches.android.wisefy.networkinfo
 
 import android.Manifest.permission.ACCESS_NETWORK_STATE
 import androidx.annotation.RequiresPermission
-import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkInfoRequest
-import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkInfoResult
-import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkRequest
+import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkQuery
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkResult
 
 /**
@@ -33,9 +31,9 @@ interface NetworkInfoApi {
     /**
      * A synchronous API to get the device's current network.
      *
-     * @param request The details of the request to get the device's current network
+     * @param query The details of the query to get the device's current network
      *
-     * @see GetCurrentNetworkRequest
+     * @see GetCurrentNetworkQuery
      * @see GetCurrentNetworkResult
      *
      * @return GetCurrentNetworkResult - The result of getting the device's current network
@@ -43,25 +41,8 @@ interface NetworkInfoApi {
      * @author Patches Klinefelter
      * @since 03/2022
      */
-    fun getCurrentNetwork(
-        request: GetCurrentNetworkRequest = GetCurrentNetworkRequest()
-    ): GetCurrentNetworkResult
-
-    /**
-     * A synchronous API to get the information for a network.
-     *
-     * @param request The details of the request to get the information for a network
-     *
-     * @see GetCurrentNetworkInfoRequest
-     * @see GetCurrentNetworkInfoResult
-     *
-     * @return GetNetworkInfoResult - The result of getting the information for a network
-     *
-     * @author Patches Klinefelter
-     * @since 03/2022
-     */
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    fun getCurrentNetworkInfo(
-        request: GetCurrentNetworkInfoRequest = GetCurrentNetworkInfoRequest()
-    ): GetCurrentNetworkInfoResult
+    fun getCurrentNetwork(
+        query: GetCurrentNetworkQuery = GetCurrentNetworkQuery()
+    ): GetCurrentNetworkResult
 }

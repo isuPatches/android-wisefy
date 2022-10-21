@@ -27,13 +27,10 @@ import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.core.util.SdkUtil
 import com.isupatches.android.wisefy.savednetworks.callbacks.GetSavedNetworksCallbacks
 import com.isupatches.android.wisefy.savednetworks.callbacks.IsNetworkSavedCallbacks
-import com.isupatches.android.wisefy.savednetworks.callbacks.SearchForSavedNetworksCallbacks
-import com.isupatches.android.wisefy.savednetworks.entities.GetSavedNetworksRequest
+import com.isupatches.android.wisefy.savednetworks.entities.GetSavedNetworksQuery
 import com.isupatches.android.wisefy.savednetworks.entities.GetSavedNetworksResult
-import com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedRequest
+import com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedQuery
 import com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedResult
-import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworksRequest
-import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworksResult
 import com.isupatches.android.wisefy.savednetworks.os.adapters.Android29SavedNetworkAdapter
 import com.isupatches.android.wisefy.savednetworks.os.adapters.Android30SavedNetworkAdapter
 import com.isupatches.android.wisefy.savednetworks.os.adapters.DefaultSavedNetworkAdapter
@@ -91,15 +88,15 @@ class WisefySavedNetworkDelegate(
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun getSavedNetworks(request: GetSavedNetworksRequest): GetSavedNetworksResult {
-        return adapter.getSavedNetworks(request)
+    override fun getSavedNetworks(query: GetSavedNetworksQuery): GetSavedNetworksResult {
+        return adapter.getSavedNetworks(query)
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun getSavedNetworks(request: GetSavedNetworksRequest, callbacks: GetSavedNetworksCallbacks?) {
+    override fun getSavedNetworks(query: GetSavedNetworksQuery, callbacks: GetSavedNetworksCallbacks?) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
             savedNetworkMutex.withLock {
-                val result = adapter.getSavedNetworks(request)
+                val result = adapter.getSavedNetworks(query)
                 withContext(coroutineDispatcherProvider.main) {
                     when (result) {
                         is GetSavedNetworksResult.Success.Empty -> callbacks?.onNoSavedNetworksFound()
@@ -116,48 +113,20 @@ class WisefySavedNetworkDelegate(
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun isNetworkSaved(request: IsNetworkSavedRequest): IsNetworkSavedResult {
-        return adapter.isNetworkSaved(request)
+    override fun isNetworkSaved(query: IsNetworkSavedQuery): IsNetworkSavedResult {
+        return adapter.isNetworkSaved(query)
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun isNetworkSaved(request: IsNetworkSavedRequest, callbacks: IsNetworkSavedCallbacks?) {
+    override fun isNetworkSaved(query: IsNetworkSavedQuery, callbacks: IsNetworkSavedCallbacks?) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
             savedNetworkMutex.withLock {
-                val result = adapter.isNetworkSaved(request)
+                val result = adapter.isNetworkSaved(query)
                 withContext(coroutineDispatcherProvider.main) {
                     when (result) {
                         is IsNetworkSavedResult.True -> callbacks?.onNetworkIsSaved()
                         is IsNetworkSavedResult.False -> callbacks?.onNetworkIsNotSaved()
                         is IsNetworkSavedResult.Assertion -> {
-                            callbacks?.onWisefyAsyncFailure(WisefyException(message = result.message, throwable = null))
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun searchForSavedNetwork(request: SearchForSavedNetworksRequest): SearchForSavedNetworksResult {
-        return adapter.searchForSavedNetwork(request)
-    }
-
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun searchForSavedNetworks(
-        request: SearchForSavedNetworksRequest,
-        callbacks: SearchForSavedNetworksCallbacks?
-    ) {
-        scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
-            savedNetworkMutex.withLock {
-                val result = adapter.searchForSavedNetwork(request)
-                withContext(coroutineDispatcherProvider.main) {
-                    when (result) {
-                        is SearchForSavedNetworksResult.Success.Empty -> callbacks?.onNoSavedNetworksFound()
-                        is SearchForSavedNetworksResult.Success.SavedNetworks -> {
-                            callbacks?.onSavedNetworksRetrieved(result.data)
-                        }
-                        is SearchForSavedNetworksResult.Failure.Assertion -> {
                             callbacks?.onWisefyAsyncFailure(WisefyException(message = result.message, throwable = null))
                         }
                     }

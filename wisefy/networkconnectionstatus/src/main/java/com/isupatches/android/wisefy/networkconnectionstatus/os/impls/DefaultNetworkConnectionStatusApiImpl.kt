@@ -21,13 +21,13 @@ import android.net.LinkProperties
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
+import android.net.wifi.WifiInfo
 import android.net.wifi.WifiManager
 import android.os.Build
 import androidx.annotation.RequiresPermission
-import com.isupatches.android.wisefy.core.entities.QUOTE
+import com.isupatches.android.wisefy.core.constants.QUOTE
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.core.util.SdkUtil
-import com.isupatches.android.wisefy.core.util.getNetwork
 import com.isupatches.android.wisefy.networkconnectionstatus.entities.NetworkConnectionStatus
 import com.isupatches.android.wisefy.networkconnectionstatus.os.apis.DefaultNetworkConnectionStatusApi
 import java.math.BigInteger
@@ -70,23 +70,13 @@ internal class DefaultNetworkConnectionStatusApiImpl(
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
     override fun getSSIDOfTheNetworkTheDeviceIsConnectedTo(): String? {
-        val connectionInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            connectivityManager.getNetwork()
-        } else {
-            @Suppress("Deprecation")
-            wifiManager.connectionInfo
-        }
+        val connectionInfo = getNetworkTransportInfo()
         return connectionInfo?.ssid?.replace(QUOTE, "")
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
     override fun getBSSIDOfTheNetworkTheDeviceIsConnectedTo(): String? {
-        val connectionInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            connectivityManager.getNetwork()
-        } else {
-            @Suppress("Deprecation")
-            wifiManager.connectionInfo
-        }
+        val connectionInfo = getNetworkTransportInfo()
         return connectionInfo?.bssid?.replace(QUOTE, "")
     }
 
@@ -130,7 +120,7 @@ internal class DefaultNetworkConnectionStatusApiImpl(
     override fun isDeviceRoaming(): Boolean {
         return if (sdkUtil.isAtLeastP()) {
             // NET_CAPABILITY_NOT_ROAMING only available for P and above devices :'(
-            !doesNetworkHaveCapability(capability = NetworkCapabilities.NET_CAPABILITY_NOT_ROAMING)
+            !(getActiveNetworkCapabilities()?.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_ROAMING) ?: false)
         } else {
             @Suppress("Deprecation")
             val networkInfo = connectivityManager.activeNetworkInfo
@@ -139,9 +129,22 @@ internal class DefaultNetworkConnectionStatusApiImpl(
         }
     }
 
+    /**
+     * A function that will retrieve the network transport info for the device's current network .
+     *
+     * @return WifiInfo or null - The network from ConnectivityManager or null if cannot be retrieved
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    private fun doesNetworkHaveCapability(capability: Int): Boolean {
-        return getActiveNetworkCapabilities()?.hasCapability(capability) ?: false
+    private fun getNetworkTransportInfo(): WifiInfo? {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)?.transportInfo as? WifiInfo
+        } else {
+            @Suppress("Deprecation")
+            wifiManager.connectionInfo
+        }
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)

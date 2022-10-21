@@ -20,13 +20,11 @@ import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.savednetworks.SavedNetworkApi
-import com.isupatches.android.wisefy.savednetworks.entities.GetSavedNetworksRequest
+import com.isupatches.android.wisefy.savednetworks.entities.GetSavedNetworksQuery
 import com.isupatches.android.wisefy.savednetworks.entities.GetSavedNetworksResult
-import com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedRequest
+import com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedQuery
 import com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedResult
 import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
-import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworksRequest
-import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworksResult
 import com.isupatches.android.wisefy.savednetworks.os.apis.DefaultSavedNetworkApi
 import com.isupatches.android.wisefy.savednetworks.os.impls.DefaultSavedNetworkApiImpl
 
@@ -49,42 +47,33 @@ internal class DefaultSavedNetworkAdapter(
 ) : SavedNetworkApi {
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun getSavedNetworks(request: GetSavedNetworksRequest): GetSavedNetworksResult {
-        val savedNetworkConfiguration = api.getSavedNetworks().map { networkSuggestion ->
-            SavedNetworkData.Configuration(networkSuggestion)
+    override fun getSavedNetworks(query: GetSavedNetworksQuery): GetSavedNetworksResult {
+        val savedNetworkConfigurations = when (query) {
+            is GetSavedNetworksQuery.All -> api.getSavedNetworks()
+            is GetSavedNetworksQuery.BySSID -> api.searchForSavedNetworksBySSID(query.regex)
+            is GetSavedNetworksQuery.ByBSSID -> api.searchForSavedNetworksByBSSID(query.regex)
         }
-        return if (savedNetworkConfiguration.isNotEmpty()) {
-            GetSavedNetworksResult.Success.SavedNetworks(data = savedNetworkConfiguration)
+        return if (savedNetworkConfigurations.isNotEmpty()) {
+            GetSavedNetworksResult.Success.SavedNetworks(
+                data = savedNetworkConfigurations.map { networkSuggestion ->
+                    SavedNetworkData.Configuration(networkSuggestion)
+                }
+            )
         } else {
             GetSavedNetworksResult.Success.Empty
         }
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun isNetworkSaved(request: IsNetworkSavedRequest): IsNetworkSavedResult {
-        val isNetworkSavedAsConfiguration = when (request) {
-            is IsNetworkSavedRequest.SSID -> api.searchForSavedNetworksBySSID(request.regex).isNotEmpty()
-            is IsNetworkSavedRequest.BSSID -> api.searchForSavedNetworksByBSSID(request.regex).isNotEmpty()
+    override fun isNetworkSaved(query: IsNetworkSavedQuery): IsNetworkSavedResult {
+        val isNetworkSavedAsConfiguration = when (query) {
+            is IsNetworkSavedQuery.SSID -> api.searchForSavedNetworksBySSID(query.regex).isNotEmpty()
+            is IsNetworkSavedQuery.BSSID -> api.searchForSavedNetworksByBSSID(query.regex).isNotEmpty()
         }
         return if (isNetworkSavedAsConfiguration) {
             IsNetworkSavedResult.True
         } else {
             IsNetworkSavedResult.False
-        }
-    }
-
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun searchForSavedNetwork(request: SearchForSavedNetworksRequest): SearchForSavedNetworksResult {
-        val savedNetworkConfigurations = when (request) {
-            is SearchForSavedNetworksRequest.SSID -> api.searchForSavedNetworksBySSID(request.regex)
-            is SearchForSavedNetworksRequest.BSSID -> api.searchForSavedNetworksByBSSID(request.regex)
-        }
-        return if (savedNetworkConfigurations.isNotEmpty()) {
-            SearchForSavedNetworksResult.Success.SavedNetworks(
-                data = savedNetworkConfigurations.map { SavedNetworkData.Configuration(it) }
-            )
-        } else {
-            SearchForSavedNetworksResult.Success.Empty
         }
     }
 }

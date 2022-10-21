@@ -27,7 +27,7 @@ import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
 import com.isupatches.android.wisefy.addnetwork.os.apis.Android30AddNetworkApi
 import com.isupatches.android.wisefy.addnetwork.os.impls.Android30AddNetworkApiImpl
 import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
-import com.isupatches.android.wisefy.core.entities.AssertionMessages
+import com.isupatches.android.wisefy.core.constants.AssertionMessages
 
 /**
  * An Android 30 specific adapter for adding networks.

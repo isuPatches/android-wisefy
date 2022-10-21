@@ -16,6 +16,8 @@
 package com.isupatches.android.wisefy.accesspoints.entities
 
 import android.net.wifi.ScanResult
+import com.isupatches.android.wisefy.core.constants.MAX_FREQUENCY_5GHZ
+import com.isupatches.android.wisefy.core.constants.MIN_FREQUENCY_5GHZ
 
 /**
  * A data representation of an Access Point from the Android OS.
@@ -27,25 +29,15 @@ import android.net.wifi.ScanResult
  * @author Patches Klinefelter
  * @since 08/2022, version 5.0.0
  */
-data class AccessPointData(val value: ScanResult) {
+data class AccessPointData(
+    val rawValue: ScanResult,
+    val frequency: Int = rawValue.frequency,
+    val rssi: Int = rawValue.level,
+    val isNetwork5gHz: Boolean = frequency in (MIN_FREQUENCY_5GHZ + 1) until MAX_FREQUENCY_5GHZ,
+    val isSecure: Boolean = SecurityCapability.ALL.any { rawValue.capabilities.contains(it.stringValue) }
+) {
 
     fun containSecurityCapability(securityCapability: SecurityCapability): Boolean {
-        return containsCapability(value, securityCapability)
-    }
-
-    fun isSecure(): Boolean {
-        value.capabilities?.let { capabilities ->
-            val securityCapabilities = SecurityCapability.ALL
-            for (securityCapability in securityCapabilities) {
-                if (capabilities.contains(securityCapability.stringValue)) {
-                    return true
-                }
-            }
-        }
-        return false
-    }
-
-    private fun containsCapability(network: ScanResult, capability: SecurityCapability): Boolean {
-        return network.capabilities != null && network.capabilities.contains(capability.stringValue)
+        return rawValue.capabilities.contains(securityCapability.stringValue)
     }
 }

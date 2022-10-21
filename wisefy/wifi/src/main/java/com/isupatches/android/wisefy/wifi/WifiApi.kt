@@ -15,12 +15,12 @@
  */
 package com.isupatches.android.wisefy.wifi
 
-import com.isupatches.android.wisefy.core.entities.DeprecationMessages
+import com.isupatches.android.wisefy.core.constants.DeprecationMessages
 import com.isupatches.android.wisefy.wifi.entities.DisableWifiRequest
 import com.isupatches.android.wisefy.wifi.entities.DisableWifiResult
 import com.isupatches.android.wisefy.wifi.entities.EnableWifiRequest
 import com.isupatches.android.wisefy.wifi.entities.EnableWifiResult
-import com.isupatches.android.wisefy.wifi.entities.IsWifiEnabledRequest
+import com.isupatches.android.wisefy.wifi.entities.IsWifiEnabledQuery
 import com.isupatches.android.wisefy.wifi.entities.IsWifiEnabledResult
 
 /**
@@ -66,9 +66,9 @@ interface WifiApi {
     /**
      * A synchronous API to check if Wifi is enabled.
      *
-     * @param request The details of the request to check if Wifi is enabled
+     * @param query The details of the query to check if Wifi is enabled
      *
-     * @see IsWifiEnabledRequest
+     * @see IsWifiEnabledQuery
      * @see IsWifiEnabledResult
      *
      * @return IsWifiEnabledResult - The result of checking if Wifi is enabled
@@ -76,5 +76,5 @@ interface WifiApi {
      * @author Patches Klinefelter
      * @since 07/2022, version 5.0.0
      */
-    fun isWifiEnabled(request: IsWifiEnabledRequest = IsWifiEnabledRequest()): IsWifiEnabledResult
+    fun isWifiEnabled(query: IsWifiEnabledQuery = IsWifiEnabledQuery()): IsWifiEnabledResult
 }

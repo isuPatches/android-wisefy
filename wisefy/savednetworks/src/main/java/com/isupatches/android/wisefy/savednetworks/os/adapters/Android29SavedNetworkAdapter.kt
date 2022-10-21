@@ -21,14 +21,12 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
-import com.isupatches.android.wisefy.core.entities.AssertionMessages
+import com.isupatches.android.wisefy.core.constants.AssertionMessages
 import com.isupatches.android.wisefy.savednetworks.SavedNetworkApi
-import com.isupatches.android.wisefy.savednetworks.entities.GetSavedNetworksRequest
+import com.isupatches.android.wisefy.savednetworks.entities.GetSavedNetworksQuery
 import com.isupatches.android.wisefy.savednetworks.entities.GetSavedNetworksResult
-import com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedRequest
+import com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedQuery
 import com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedResult
-import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworksRequest
-import com.isupatches.android.wisefy.savednetworks.entities.SearchForSavedNetworksResult
 
 /**
  * An Android 29 specific adapter for adding networks.
@@ -47,23 +45,16 @@ internal class Android29SavedNetworkAdapter(
 ) : SavedNetworkApi {
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun getSavedNetworks(request: GetSavedNetworksRequest): GetSavedNetworksResult {
+    override fun getSavedNetworks(query: GetSavedNetworksQuery): GetSavedNetworksResult {
         val message = AssertionMessages.SavedNetworks.USED_ANDROID_29
         assertions.fail(message = message)
         return GetSavedNetworksResult.Failure.Assertion(message = message)
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun isNetworkSaved(request: IsNetworkSavedRequest): IsNetworkSavedResult {
+    override fun isNetworkSaved(query: IsNetworkSavedQuery): IsNetworkSavedResult {
         val message = AssertionMessages.SavedNetworks.USED_ANDROID_29
         assertions.fail(message = message)
         return IsNetworkSavedResult.Assertion(message = message)
-    }
-
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun searchForSavedNetwork(request: SearchForSavedNetworksRequest): SearchForSavedNetworksResult {
-        val message = AssertionMessages.SavedNetworks.USED_ANDROID_29
-        assertions.fail(message = message)
-        return SearchForSavedNetworksResult.Failure.Assertion(message = message)
     }
 }

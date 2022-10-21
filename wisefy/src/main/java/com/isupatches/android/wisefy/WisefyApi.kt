@@ -19,8 +19,6 @@ import com.isupatches.android.wisefy.accesspoints.AccessPointsApi
 import com.isupatches.android.wisefy.accesspoints.AccessPointsApiAsync
 import com.isupatches.android.wisefy.addnetwork.AddNetworkApi
 import com.isupatches.android.wisefy.addnetwork.AddNetworkApiAsync
-import com.isupatches.android.wisefy.frequency.FrequencyApi
-import com.isupatches.android.wisefy.frequency.FrequencyApiAsync
 import com.isupatches.android.wisefy.networkconnection.NetworkConnectionApi
 import com.isupatches.android.wisefy.networkconnection.NetworkConnectionApiAsync
 import com.isupatches.android.wisefy.networkconnectionstatus.NetworkConnectionStatusApi
@@ -42,8 +40,6 @@ import com.isupatches.android.wisefy.wifi.WifiApiAsync
  * @see AccessPointsApiAsync
  * @see AddNetworkApi
  * @see AddNetworkApiAsync
- * @see FrequencyApi
- * @see FrequencyApiAsync
  * @see NetworkConnectionApi
  * @see NetworkConnectionApiAsync
  * @see NetworkConnectionStatusApi
@@ -65,8 +61,6 @@ interface WisefyApi :
     AccessPointsApiAsync,
     AddNetworkApi,
     AddNetworkApiAsync,
-    FrequencyApi,
-    FrequencyApiAsync,
     NetworkConnectionApi,
     NetworkConnectionApiAsync,
     NetworkConnectionStatusApi,

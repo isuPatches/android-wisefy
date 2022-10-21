@@ -22,32 +22,22 @@ import android.os.Build
 import androidx.annotation.RequiresPermission
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import com.isupatches.android.ktx.disableWifiAsync
-import com.isupatches.android.ktx.enableWifiAsync
-import com.isupatches.android.ktx.getCurrentNetworkAsync
-import com.isupatches.android.ktx.getCurrentNetworkInfoAsync
-import com.isupatches.android.ktx.getFrequencyAsync
-import com.isupatches.android.ktx.getNearbyAccessPointsAsync
-import com.isupatches.android.ktx.getNetworkConnectionStatusAsync
-import com.isupatches.android.ktx.getRSSIAsync
-import com.isupatches.android.ktx.getSavedNetworksAsync
-import com.isupatches.android.ktx.isNetwork5gHzAsync
-import com.isupatches.android.ktx.isWifiEnabledAsync
+import com.isupatches.android.wisefy.ktx.disableWifiAsync
+import com.isupatches.android.wisefy.ktx.enableWifiAsync
+import com.isupatches.android.wisefy.ktx.getCurrentNetworkAsync
+import com.isupatches.android.wisefy.ktx.getAccessPointsAsync
+import com.isupatches.android.wisefy.ktx.getNetworkConnectionStatusAsync
+import com.isupatches.android.wisefy.ktx.getSavedNetworksAsync
+import com.isupatches.android.wisefy.ktx.isWifiEnabledAsync
 import com.isupatches.android.wisefy.WisefyApi
-import com.isupatches.android.wisefy.accesspoints.entities.GetNearbyAccessPointsResult
-import com.isupatches.android.wisefy.accesspoints.entities.GetRSSIRequest
-import com.isupatches.android.wisefy.accesspoints.entities.GetRSSIResult
+import com.isupatches.android.wisefy.accesspoints.entities.GetAccessPointsResult
 import com.isupatches.android.wisefy.core.exceptions.WisefyException
-import com.isupatches.android.wisefy.frequency.entities.GetFrequencyResult
-import com.isupatches.android.wisefy.frequency.entities.IsNetwork5gHzResult
 import com.isupatches.android.wisefy.networkconnection.callbacks.DisconnectFromCurrentNetworkCallbacks
 import com.isupatches.android.wisefy.networkconnection.entities.DisconnectFromCurrentNetworkRequest
 import com.isupatches.android.wisefy.networkconnectionstatus.entities.GetNetworkConnectionStatusResult
-import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkInfoResult
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkResult
 import com.isupatches.android.wisefy.sample.scaffolding.BaseViewModel
 import com.isupatches.android.wisefy.sample.scaffolding.BaseViewModelFactory
-import com.isupatches.android.wisefy.savednetworks.entities.GetSavedNetworksRequest
 import com.isupatches.android.wisefy.savednetworks.entities.GetSavedNetworksResult
 import com.isupatches.android.wisefy.wifi.entities.DisableWifiResult
 import com.isupatches.android.wisefy.wifi.entities.EnableWifiResult
@@ -58,13 +48,10 @@ internal abstract class MiscViewModel : BaseViewModel() {
 
     abstract fun onDialogClosed()
 
-    abstract fun onGetCurrentNetworkInfoPermissionsError()
-    abstract fun onGetFrequencyPermissionsError()
+    abstract fun onGetCurrentNetworkPermissionsError()
     abstract fun onGetNearbyAccessPointsPermissionError()
     abstract fun onGetNetworkConnectionStatusPermissionError()
-    abstract fun onGetRSSIPermissionsError()
     abstract fun onGetSavedNetworksPermissionsError()
-    abstract fun isNetwork5gHzPermissionsError()
 
     abstract suspend fun disableWifi()
 
@@ -72,13 +59,8 @@ internal abstract class MiscViewModel : BaseViewModel() {
 
     abstract suspend fun enableWifi()
 
-    abstract suspend fun getCurrentNetwork()
-
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    abstract suspend fun getCurrentNetworkInfo()
-
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_NETWORK_STATE])
-    abstract suspend fun getFrequency()
+    abstract suspend fun getCurrentNetwork()
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     abstract suspend fun getNearbyAccessPoints()
@@ -86,14 +68,8 @@ internal abstract class MiscViewModel : BaseViewModel() {
     @RequiresPermission(ACCESS_NETWORK_STATE)
     abstract suspend fun getNetworkConnectionStatus()
 
-    @RequiresPermission(ACCESS_FINE_LOCATION)
-    abstract suspend fun getRSSI()
-
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     abstract suspend fun getSavedNetworks()
-
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_NETWORK_STATE])
-    abstract suspend fun isNetwork5gHz()
 
     abstract suspend fun isWifiEnabled()
 }
@@ -247,6 +223,7 @@ internal class DefaultMiscViewModel(
         }
     }
 
+    @RequiresPermission(ACCESS_NETWORK_STATE)
     override suspend fun getCurrentNetwork() {
         _uiState.value = MiscScreenUIState(
             loadingState = MiscScreenLoadingState(isLoading = true),
@@ -281,77 +258,6 @@ internal class DefaultMiscViewModel(
         }
     }
 
-    @RequiresPermission(ACCESS_NETWORK_STATE)
-    override suspend fun getCurrentNetworkInfo() {
-        _uiState.value = MiscScreenUIState(
-            loadingState = MiscScreenLoadingState(isLoading = true),
-            dialogState = MiscScreenDialogState.None
-        )
-        val result = try {
-            wisefy.getCurrentNetworkInfoAsync()
-        } catch (ex: WisefyException) {
-            _uiState.value = MiscScreenUIState(
-                loadingState = MiscScreenLoadingState(isLoading = false),
-                dialogState = MiscScreenDialogState.Failure.WisefyAsync(exception = ex)
-            )
-            null
-        }
-
-        when (result) {
-            is GetCurrentNetworkInfoResult.Empty -> {
-                _uiState.value = MiscScreenUIState(
-                    loadingState = MiscScreenLoadingState(isLoading = false),
-                    dialogState = MiscScreenDialogState.GetCurrentNetworkInfo.Failure
-                )
-            }
-            is GetCurrentNetworkInfoResult.NetworkInfo -> {
-                _uiState.value = MiscScreenUIState(
-                    loadingState = MiscScreenLoadingState(isLoading = false),
-                    dialogState = MiscScreenDialogState.GetCurrentNetworkInfo.Success(networkInfo = result.data)
-                )
-            }
-            null -> {
-                // Case handled above in the catch clause
-            }
-        }
-    }
-
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_NETWORK_STATE])
-    override suspend fun getFrequency() {
-        _uiState.value = MiscScreenUIState(
-            loadingState = MiscScreenLoadingState(isLoading = true),
-            dialogState = MiscScreenDialogState.None
-        )
-
-        val result = try {
-            wisefy.getFrequencyAsync()
-        } catch (ex: WisefyException) {
-            _uiState.value = MiscScreenUIState(
-                loadingState = MiscScreenLoadingState(isLoading = false),
-                dialogState = MiscScreenDialogState.Failure.WisefyAsync(exception = ex)
-            )
-            null
-        }
-
-        when (result) {
-            is GetFrequencyResult.Empty -> {
-                _uiState.value = MiscScreenUIState(
-                    loadingState = MiscScreenLoadingState(isLoading = false),
-                    dialogState = MiscScreenDialogState.GetFrequency.Failure
-                )
-            }
-            is GetFrequencyResult.WithFrequency -> {
-                _uiState.value = MiscScreenUIState(
-                    loadingState = MiscScreenLoadingState(isLoading = false),
-                    dialogState = MiscScreenDialogState.GetFrequency.Success(frequency = result.data)
-                )
-            }
-            null -> {
-                // Case handled above in the catch clause
-            }
-        }
-    }
-
     @RequiresPermission(ACCESS_FINE_LOCATION)
     override suspend fun getNearbyAccessPoints() {
         _uiState.value = MiscScreenUIState(
@@ -359,7 +265,7 @@ internal class DefaultMiscViewModel(
             dialogState = MiscScreenDialogState.None
         )
         val result = try {
-            wisefy.getNearbyAccessPointsAsync()
+            wisefy.getAccessPointsAsync()
         } catch (ex: WisefyException) {
             _uiState.value = MiscScreenUIState(
                 loadingState = MiscScreenLoadingState(isLoading = false),
@@ -369,13 +275,13 @@ internal class DefaultMiscViewModel(
         }
 
         when (result) {
-            is GetNearbyAccessPointsResult.Empty -> {
+            is GetAccessPointsResult.Empty -> {
                 _uiState.value = MiscScreenUIState(
                     loadingState = MiscScreenLoadingState(isLoading = false),
                     dialogState = MiscScreenDialogState.GetNearbyAccessPoints.Failure
                 )
             }
-            is GetNearbyAccessPointsResult.AccessPoints -> {
+            is GetAccessPointsResult.AccessPoints -> {
                 _uiState.value = MiscScreenUIState(
                     loadingState = MiscScreenLoadingState(isLoading = false),
                     dialogState = MiscScreenDialogState.GetNearbyAccessPoints.Success(accessPoints = result.data)
@@ -416,41 +322,6 @@ internal class DefaultMiscViewModel(
         }
     }
 
-    override suspend fun getRSSI() {
-        _uiState.value = MiscScreenUIState(
-            loadingState = MiscScreenLoadingState(isLoading = true),
-            dialogState = MiscScreenDialogState.None
-        )
-
-        val result = try {
-            wisefy.getRSSIAsync(request = GetRSSIRequest.SSID("", 1))
-        } catch (ex: WisefyException) {
-            _uiState.value = MiscScreenUIState(
-                loadingState = MiscScreenLoadingState(isLoading = false),
-                dialogState = MiscScreenDialogState.Failure.WisefyAsync(exception = ex)
-            )
-            null
-        }
-
-        when (result) {
-            is GetRSSIResult.Empty -> {
-                _uiState.value = MiscScreenUIState(
-                    loadingState = MiscScreenLoadingState(isLoading = false),
-                    dialogState = MiscScreenDialogState.GetRSSI.Failure
-                )
-            }
-            is GetRSSIResult.RSSI -> {
-                _uiState.value = MiscScreenUIState(
-                    loadingState = MiscScreenLoadingState(isLoading = false),
-                    dialogState = MiscScreenDialogState.GetRSSI.Success(rssi = result.data)
-                )
-            }
-            null -> {
-                // Case handled above in the catch clause
-            }
-        }
-    }
-
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override suspend fun getSavedNetworks() {
         _uiState.value = MiscScreenUIState(
@@ -458,7 +329,7 @@ internal class DefaultMiscViewModel(
             dialogState = MiscScreenDialogState.None
         )
         val result = try {
-            wisefy.getSavedNetworksAsync(request = GetSavedNetworksRequest())
+            wisefy.getSavedNetworksAsync()
         } catch (ex: WisefyException) {
             _uiState.value = MiscScreenUIState(
                 loadingState = MiscScreenLoadingState(isLoading = false),
@@ -486,41 +357,6 @@ internal class DefaultMiscViewModel(
                     dialogState = MiscScreenDialogState.Failure.WisefyAsync(
                         exception = WisefyException(message = result.message, throwable = null)
                     )
-                )
-            }
-            null -> {
-                // Case handled above in the catch clause
-            }
-        }
-    }
-
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_NETWORK_STATE])
-    override suspend fun isNetwork5gHz() {
-        _uiState.value = MiscScreenUIState(
-            loadingState = MiscScreenLoadingState(isLoading = true),
-            dialogState = MiscScreenDialogState.None
-        )
-        val result = try {
-            wisefy.isNetwork5gHzAsync()
-        } catch (ex: WisefyException) {
-            _uiState.value = MiscScreenUIState(
-                loadingState = MiscScreenLoadingState(isLoading = false),
-                dialogState = MiscScreenDialogState.Failure.WisefyAsync(exception = ex)
-            )
-            null
-        }
-
-        when (result) {
-            is IsNetwork5gHzResult.True -> {
-                _uiState.value = MiscScreenUIState(
-                    loadingState = MiscScreenLoadingState(isLoading = false),
-                    dialogState = MiscScreenDialogState.IsNetwork5gHz.True
-                )
-            }
-            is IsNetwork5gHzResult.False -> {
-                _uiState.value = MiscScreenUIState(
-                    loadingState = MiscScreenLoadingState(isLoading = false),
-                    dialogState = MiscScreenDialogState.IsNetwork5gHz.False
                 )
             }
             null -> {
@@ -570,17 +406,10 @@ internal class DefaultMiscViewModel(
         )
     }
 
-    override fun onGetCurrentNetworkInfoPermissionsError() {
+    override fun onGetCurrentNetworkPermissionsError() {
         _uiState.value = MiscScreenUIState(
             loadingState = MiscScreenLoadingState(isLoading = false),
-            dialogState = MiscScreenDialogState.GetCurrentNetworkInfo.PermissionsError
-        )
-    }
-
-    override fun onGetFrequencyPermissionsError() {
-        _uiState.value = MiscScreenUIState(
-            loadingState = MiscScreenLoadingState(isLoading = false),
-            dialogState = MiscScreenDialogState.GetFrequency.PermissionsError
+            dialogState = MiscScreenDialogState.GetCurrentNetwork.PermissionsError
         )
     }
 
@@ -598,24 +427,10 @@ internal class DefaultMiscViewModel(
         )
     }
 
-    override fun onGetRSSIPermissionsError() {
-        _uiState.value = MiscScreenUIState(
-            loadingState = MiscScreenLoadingState(isLoading = false),
-            dialogState = MiscScreenDialogState.GetRSSI.PermissionsError
-        )
-    }
-
     override fun onGetSavedNetworksPermissionsError() {
         _uiState.value = MiscScreenUIState(
             loadingState = MiscScreenLoadingState(isLoading = false),
             dialogState = MiscScreenDialogState.GetSavedNetworks.PermissionsError
-        )
-    }
-
-    override fun isNetwork5gHzPermissionsError() {
-        _uiState.value = MiscScreenUIState(
-            loadingState = MiscScreenLoadingState(isLoading = false),
-            dialogState = MiscScreenDialogState.IsNetwork5gHz.PermissionsError
         )
     }
 }

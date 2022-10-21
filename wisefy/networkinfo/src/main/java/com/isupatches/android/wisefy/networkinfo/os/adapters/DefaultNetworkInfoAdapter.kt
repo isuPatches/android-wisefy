@@ -15,18 +15,13 @@
  */
 package com.isupatches.android.wisefy.networkinfo.os.adapters
 
-import android.Manifest.permission.ACCESS_NETWORK_STATE
 import android.net.ConnectivityManager
 import android.net.wifi.WifiManager
-import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.networkinfo.NetworkInfoApi
-import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkInfoRequest
-import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkInfoResult
-import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkRequest
+import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkQuery
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkResult
 import com.isupatches.android.wisefy.networkinfo.entities.NetworkData
-import com.isupatches.android.wisefy.networkinfo.entities.NetworkInfoData
 import com.isupatches.android.wisefy.networkinfo.os.apis.DefaultNetworkInfoApi
 import com.isupatches.android.wisefy.networkinfo.os.impls.DefaultNetworkInfoApiImpl
 
@@ -35,7 +30,6 @@ import com.isupatches.android.wisefy.networkinfo.os.impls.DefaultNetworkInfoApiI
  *
  * @param wifiManager The WifiManager instance to use
  * @param connectivityManager The ConnectivityManager instance to use
- * @param logger The logger instance to use
  * @param api The OS level API instance to use
  *
  * @see DefaultNetworkInfoApi
@@ -55,23 +49,16 @@ internal class DefaultNetworkInfoAdapter(
     )
 ) : NetworkInfoApi {
 
-    override fun getCurrentNetwork(request: GetCurrentNetworkRequest): GetCurrentNetworkResult {
-        val result = api.getCurrentNetwork()
-        return result?.let {
-            GetCurrentNetworkResult.Network(data = NetworkData(it))
-        } ?: GetCurrentNetworkResult.Empty
-    }
-
-    @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun getCurrentNetworkInfo(request: GetCurrentNetworkInfoRequest): GetCurrentNetworkInfoResult {
-        val network = request.network ?: connectivityManager.activeNetwork
+    override fun getCurrentNetwork(query: GetCurrentNetworkQuery): GetCurrentNetworkResult {
+        val network = api.getCurrentNetwork()
         return network?.let {
-            GetCurrentNetworkInfoResult.NetworkInfo(
-                data = NetworkInfoData(
-                    capabilities = api.getNetworkCapabilities(network),
-                    linkProperties = api.getLinkProperties(network)
+            GetCurrentNetworkResult.Network(
+                data = NetworkData(
+                    network = it,
+                    capabilities = api.getNetworkCapabilities(it),
+                    linkProperties = api.getLinkProperties(it)
                 )
             )
-        } ?: GetCurrentNetworkInfoResult.Empty
+        } ?: GetCurrentNetworkResult.Empty
     }
 }

@@ -20,12 +20,9 @@ import android.net.ConnectivityManager
 import android.net.LinkProperties
 import android.net.Network
 import android.net.NetworkCapabilities
-import android.net.wifi.WifiInfo
 import android.net.wifi.WifiManager
-import android.os.Build
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
-import com.isupatches.android.wisefy.core.util.getNetwork
 import com.isupatches.android.wisefy.networkinfo.os.apis.DefaultNetworkInfoApi
 
 /**
@@ -33,7 +30,6 @@ import com.isupatches.android.wisefy.networkinfo.os.apis.DefaultNetworkInfoApi
  *
  * @param wifiManager The WifiManager instance to use
  * @param connectivityManager The ConnectivityManager instance to use
- * @param logger The WisefyLogger instance to use
  *
  * @see DefaultNetworkInfoApi
  * @see WisefyLogger
@@ -46,14 +42,8 @@ internal class DefaultNetworkInfoApiImpl(
     private val connectivityManager: ConnectivityManager
 ) : DefaultNetworkInfoApi {
 
-    override fun getCurrentNetwork(): WifiInfo? {
-        val currentNetwork = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            connectivityManager.getNetwork()
-        } else {
-            @Suppress("Deprecation")
-            wifiManager.connectionInfo
-        }
-        return currentNetwork
+    override fun getCurrentNetwork(): Network? {
+        return connectivityManager.activeNetwork
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)

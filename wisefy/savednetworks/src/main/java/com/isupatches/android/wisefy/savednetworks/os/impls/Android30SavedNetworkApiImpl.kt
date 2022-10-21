@@ -22,7 +22,7 @@ import android.net.wifi.WifiNetworkSuggestion
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
-import com.isupatches.android.wisefy.core.entities.QUOTE
+import com.isupatches.android.wisefy.core.constants.QUOTE
 import com.isupatches.android.wisefy.savednetworks.os.apis.Android30SavedNetworkApi
 
 /**

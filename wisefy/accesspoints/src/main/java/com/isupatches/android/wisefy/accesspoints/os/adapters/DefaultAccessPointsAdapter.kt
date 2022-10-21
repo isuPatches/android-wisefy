@@ -19,12 +19,8 @@ import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.accesspoints.AccessPointsApi
-import com.isupatches.android.wisefy.accesspoints.entities.GetNearbyAccessPointsRequest
-import com.isupatches.android.wisefy.accesspoints.entities.GetNearbyAccessPointsResult
-import com.isupatches.android.wisefy.accesspoints.entities.GetRSSIRequest
-import com.isupatches.android.wisefy.accesspoints.entities.GetRSSIResult
-import com.isupatches.android.wisefy.accesspoints.entities.SearchForAccessPointsRequest
-import com.isupatches.android.wisefy.accesspoints.entities.SearchForAccessPointsResult
+import com.isupatches.android.wisefy.accesspoints.entities.GetAccessPointsQuery
+import com.isupatches.android.wisefy.accesspoints.entities.GetAccessPointsResult
 import com.isupatches.android.wisefy.accesspoints.os.apis.DefaultAccessPointsApi
 import com.isupatches.android.wisefy.accesspoints.os.impls.DefaultAccessPointsApiImpl
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
@@ -51,54 +47,24 @@ internal class DefaultAccessPointsAdapter(
 ) : AccessPointsApi {
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun getNearbyAccessPoints(request: GetNearbyAccessPointsRequest): GetNearbyAccessPointsResult {
-        val accessPoints = api.getNearbyAccessPoints(filterDuplicates = request.filterDuplicates)
-        return if (accessPoints.isNotEmpty()) {
-            GetNearbyAccessPointsResult.AccessPoints(data = accessPoints)
-        } else {
-            GetNearbyAccessPointsResult.Empty
-        }
-    }
-
-    @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun getRSSI(request: GetRSSIRequest): GetRSSIResult {
-        val rssi = when (request) {
-            is GetRSSIRequest.SSID -> api.getRSSIBySSID(
-                regexForSSID = request.regexForSSID,
-                takeHighest = request.takeHighest,
-                timeoutInMillis = request.timeoutInMillis
+    override fun getAccessPoints(query: GetAccessPointsQuery): GetAccessPointsResult {
+        val accessPoints = when (query) {
+            is GetAccessPointsQuery.All -> api.getNearbyAccessPoints(filterDuplicates = query.filterDuplicates)
+            is GetAccessPointsQuery.BySSID -> api.searchForAccessPointsBySSID(
+                regex = query.regex,
+                timeoutInMillis = query.timeoutInMillis,
+                filterDuplicates = query.filterDuplicates
             )
-            is GetRSSIRequest.BSSID -> api.getRSSIByBSSID(
-                regexForBSSID = request.regexForBSSID,
-                takeHighest = request.takeHighest,
-                timeoutInMillis = request.timeoutInMillis
-            )
-        }
-        return if (rssi != null) {
-            GetRSSIResult.RSSI(data = rssi)
-        } else {
-            GetRSSIResult.Empty
-        }
-    }
-
-    @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun searchForAccessPoints(request: SearchForAccessPointsRequest): SearchForAccessPointsResult {
-        val accessPoints = when (request) {
-            is SearchForAccessPointsRequest.SSID -> api.searchForAccessPointsBySSID(
-                regexForSSID = request.regex,
-                timeoutInMillis = request.timeoutInMillis,
-                filterDuplicates = request.filterDuplicates
-            )
-            is SearchForAccessPointsRequest.BSSID -> api.searchForAccessPointsByBSSID(
-                regexForBSSID = request.regex,
-                timeoutInMillis = request.timeoutInMillis,
-                filterDuplicates = request.filterDuplicates
+            is GetAccessPointsQuery.ByBSSID -> api.searchForAccessPointsByBSSID(
+                regex = query.regex,
+                timeoutInMillis = query.timeoutInMillis,
+                filterDuplicates = query.filterDuplicates
             )
         }
         return if (accessPoints.isNotEmpty()) {
-            SearchForAccessPointsResult.AccessPoints(data = accessPoints)
+            GetAccessPointsResult.AccessPoints(data = accessPoints)
         } else {
-            SearchForAccessPointsResult.Empty
+            GetAccessPointsResult.Empty
         }
     }
 }

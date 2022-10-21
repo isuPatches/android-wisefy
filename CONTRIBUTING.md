@@ -24,15 +24,16 @@ For merging:
 
 Some architecture/code guidelines:
  - Follow the patterns and naming conventions present to ensure consistency
+   - The query class is prefixed with function name (f.e. the function `getCurrentNetwork` uses the query class `GetCurrentNetworkQuery`)
    - The request class is prefixed with function name (f.e. the function `addNetwork` uses the request class `AddNetworkRequest`)
-   - The result class is prefixed with function name (f.e. the function `addNetwork` uses the result class `AddNetworkResult`)
-   - The `ktx` extension functions have the suffix `Asyc` (f.e. the extension for `addNetwork` is `addNetworkAsync`)
+   - The result class is prefixed with function name (f.e. the function `reemoveNetwork` uses the result class `RemoveNetworkResult`)
+   - The `ktx` extension functions have the suffix `Async` (f.e. the extension for `getNetworkConnectionStatus` is `getNetworkConnectionStatusAsync`)
    - Keep in-mind the folder and organization structure defined in the [README.md](/README.md)
  - Synchronous, async, and ktx options are supported for each feature (unless there is an exceptional case)
  - Adapters are the only expected location for assertions
  - For `ktx` extension functions, the library deliberately catches any exception and throws a [WisefyException](/wisefy/core/src/main/java/com/isupatches/android/wisefy/core/exceptions/WisefyException.kt)
  - Async operations use coroutines internally and:
-   - Execute on the background thread (if possible)
+   - Execute on the background thread
    - Return results to the main thread
    - Are locked with a mutex if there are potential conflicts with out async functions (f.e. enableWifi, disableWifi, and isWifiEnabled)
  
@@ -40,3 +41,4 @@ For releasing:
 
   - The CHANGELOG.md will be generated once per release
   - The release task will be run to regenerate all of the KDocs 
+  - The version codes and version names will be bumped in a release PR

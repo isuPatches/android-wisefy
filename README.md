@@ -40,10 +40,9 @@ There are also new more modular artifacts published so that individual pieces of
 
 > `com.isupatches.android.wisefy:core:<LATEST VERSION>` will be a requirement for the other Wisefy artifacts.
 
-- `com.isupatches.android.wisefy:core:<LATEST VERSION>`
 - `com.isupatches.android.wisefy:accesspoints:<LATEST VERSION>`
 - `com.isupatches.android.wisefy:addnetwork:<LATEST VERSION>`
-- `com.isupatches.android.wisefy:frequency:<LATEST VERSION>`
+- `com.isupatches.android.wisefy:core:<LATEST VERSION>`
 - `com.isupatches.android.wisefy:networkconnection:<LATEST VERSION>` *Note* - Depends on :networkconnectionstatus and :savednetworks
 - `com.isupatches.android.wisefy:networkconnectionstatus:<LATEST VERSION>`
 - `com.isupatches.android.wisefy:networkinfo:<LATEST VERSION>`
@@ -54,16 +53,14 @@ There are also new more modular artifacts published so that individual pieces of
 
 Here are the descriptions of what functionality each artifact provides:
 
-- `:core` For base Wisefy functionality
 - `:accesspoints` For getting and searching for nearby networks
-- `:addnetwork` For getting and searching for nearby networks
-- `:frequency` For getting the frequency of a network
+- `:addnetwork` For adding a Wifi network
+- `:core` For base Wisefy functionality
 - `:networkconnection` For connecting and disconnecting from networks
 - `:networkconnectionstatus` For current network status (wifi, mobile, connected, etc.)
 - `:networkinfo` For information about the device's current network
 - `:removenetwork` For removing a Wifi network
 - `:savednetworks` For getting and searching for saved networks
-- `:security` For determining the security capabilities of a network
 - `:signal` For calculating signal strength bars and comparing signal strength
 - `:wifi` For enabling and disabling Wifi
 
@@ -75,17 +72,20 @@ There is a new artifact for 5.0 that provides Kotlin extension functions.  Pleas
 implementation("com.isupatches.android:wisefy-ktx:<LATEST VERSION>")
 ```
 
+if you want to try it out. All functions in this package have the suffix `Async` and are `suspend` functions.
+
 ## 5.0 Rewrite
 
 The 5.0 version of WiseFy works to rectify the problems that caused it to be overly challenging as a single developer 
 to keep up with the ever-changing Wifi APIs for new Android operating systems, especially with a lot of functionality 
-becoming privatized.
+becoming privatized.  It also strives to simplify the API and removes redundancy within the APIs that caused additional
+overhead for maintenance.
 
 I hope you enjoy the rewrite and please create an issue if you see anything odd or have questions!
 
 ### Highlights
 
-- Android Q, Android R, and Android S are now supported
+- Android Q, Android R, Android S, and Android T are now supported
 - Compiled with Java 11
 - Rewritten with extensibility and future Android OS's in-mind
     * Future versions of the Android OS will be easier to support with the new delegate/adapter system
@@ -95,7 +95,7 @@ I hope you enjoy the rewrite and please create an issue if you see anything odd 
   through sealed classes
 - Updated names for callbacks
 - Kotlin first mentality (but willing to support Java as first class too!)
-- WPA3 networks now supported
+- WPA3 networks are now supported
 - `wisefysample` renamed to `app`
 - BSSID support is now added
 - More modular artifacts are available now 
@@ -118,6 +118,12 @@ I hope you enjoy the rewrite and please create an issue if you see anything odd 
 
 ### Packaging and Naming Conventions
 
+Types of classes:
+
+- `Query` - Indicates a read only operation where nothing is modified or written
+- `Request` - Indicates an action where some state is modified or a value is written
+- `Result` - Indicates the return from an action or query
+
 Suffixes:
 
 - Api (top-level of a feature package) -> Contains the definitions of synchronous APIs available for the feature
@@ -133,8 +139,8 @@ Package structure for each section is as follows:
   
 *Supporting sub-directories can include*
 
-- callbacks (public) -> Location of callback interfaces for async responses/requests
-- entities (public) -> Location of data classes for requests, responses, and data
+- callbacks (public) -> Location of callback interfaces for returns from async calls
+- entities (public) -> Location of data classes for queries, requests, responses, and data
 - os (internal) - Purely on organizational directory
   - adapters (internal) -> Location of the classes that convert requests and responses between the Delegate and Android 
     OS level APIs

@@ -15,12 +15,4 @@
  */
 package com.isupatches.android.wisefy.networkconnectionstatus.entities
 
-data class GetNetworkConnectionStatusResult(
-    val isConnected: Boolean,
-    val isConnectedToMobileNetwork: Boolean,
-    val isConnectedToWifiNetwork: Boolean,
-    val isRoaming: Boolean,
-    val ssidOfNetworkConnectedTo: String?,
-    val bssidOfNetworkConnectedTo: String?,
-    val ip: String?
-)
+data class GetNetworkConnectionStatusResult(val data: NetworkConnectionStatusData)

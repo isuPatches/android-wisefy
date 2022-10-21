@@ -6,7 +6,6 @@ include(
     ":wisefy:core",
     ":wisefy:accesspoints",
     ":wisefy:addnetwork",
-    ":wisefy:frequency",
     ":wisefy:ktx",
     ":wisefy:networkconnection",
     ":wisefy:networkconnectionstatus",

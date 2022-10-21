@@ -16,7 +16,7 @@
 package com.isupatches.android.wisefy.core.wifimanager.legacy
 
 import android.net.wifi.WifiConfiguration
-import com.isupatches.android.wisefy.core.entities.QUOTE
+import com.isupatches.android.wisefy.core.constants.QUOTE
 import java.util.Locale
 
 /**

@@ -17,9 +17,9 @@ package com.isupatches.android.wisefy.wifi
 
 import android.net.wifi.WifiManager
 import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
+import com.isupatches.android.wisefy.core.constants.DeprecationMessages
 import com.isupatches.android.wisefy.core.coroutines.CoroutineDispatcherProvider
 import com.isupatches.android.wisefy.core.coroutines.createBaseCoroutineExceptionHandler
-import com.isupatches.android.wisefy.core.entities.DeprecationMessages
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.core.util.SdkUtil
 import com.isupatches.android.wisefy.wifi.callbacks.DisableWifiCallbacks
@@ -29,7 +29,7 @@ import com.isupatches.android.wisefy.wifi.entities.DisableWifiRequest
 import com.isupatches.android.wisefy.wifi.entities.DisableWifiResult
 import com.isupatches.android.wisefy.wifi.entities.EnableWifiRequest
 import com.isupatches.android.wisefy.wifi.entities.EnableWifiResult
-import com.isupatches.android.wisefy.wifi.entities.IsWifiEnabledRequest
+import com.isupatches.android.wisefy.wifi.entities.IsWifiEnabledQuery
 import com.isupatches.android.wisefy.wifi.entities.IsWifiEnabledResult
 import com.isupatches.android.wisefy.wifi.os.adapters.Android29WifiAdapter
 import com.isupatches.android.wisefy.wifi.os.adapters.DefaultWifiAdapter
@@ -121,14 +121,14 @@ class WisefyWifiDelegate(
         }
     }
 
-    override fun isWifiEnabled(request: IsWifiEnabledRequest): IsWifiEnabledResult {
-        return adapter.isWifiEnabled(request)
+    override fun isWifiEnabled(query: IsWifiEnabledQuery): IsWifiEnabledResult {
+        return adapter.isWifiEnabled(query)
     }
 
-    override fun isWifiEnabled(request: IsWifiEnabledRequest, callbacks: IsWifiEnabledCallbacks?) {
+    override fun isWifiEnabled(query: IsWifiEnabledQuery, callbacks: IsWifiEnabledCallbacks?) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
             wifiMutex.withLock {
-                val result = adapter.isWifiEnabled(request)
+                val result = adapter.isWifiEnabled(query)
                 withContext(coroutineDispatcherProvider.main) {
                     when (result) {
                         is IsWifiEnabledResult.True -> callbacks?.onWifiIsEnabled()
