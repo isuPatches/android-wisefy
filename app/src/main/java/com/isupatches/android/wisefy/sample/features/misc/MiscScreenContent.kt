@@ -44,7 +44,6 @@ private const val LOG_TAG = "MiscScreenContent"
 @Composable
 internal fun MiscScreenContent(viewModel: MiscViewModel) {
     WisefySampleTheme {
-
         val scope = rememberCoroutineScope()
 
         val getCurrentNetworkPermissionsLauncher =

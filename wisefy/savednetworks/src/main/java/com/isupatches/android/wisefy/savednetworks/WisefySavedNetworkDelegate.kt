@@ -22,7 +22,6 @@ import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
 import com.isupatches.android.wisefy.core.coroutines.CoroutineDispatcherProvider
 import com.isupatches.android.wisefy.core.coroutines.createBaseCoroutineExceptionHandler
-import com.isupatches.android.wisefy.core.exceptions.WisefyException
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.core.util.SdkUtil
 import com.isupatches.android.wisefy.savednetworks.callbacks.GetSavedNetworksCallbacks
@@ -99,12 +98,9 @@ class WisefySavedNetworkDelegate(
                 val result = adapter.getSavedNetworks(query)
                 withContext(coroutineDispatcherProvider.main) {
                     when (result) {
-                        is GetSavedNetworksResult.Success.Empty -> callbacks?.onNoSavedNetworksFound()
-                        is GetSavedNetworksResult.Success.SavedNetworks -> {
-                            callbacks?.onSavedNetworksRetrieved(result.data)
-                        }
-                        is GetSavedNetworksResult.Failure.Assertion -> {
-                            callbacks?.onWisefyAsyncFailure(WisefyException(message = result.message, throwable = null))
+                        is GetSavedNetworksResult.Empty -> callbacks?.onNoSavedNetworksFound()
+                        is GetSavedNetworksResult.SavedNetworks -> {
+                            callbacks?.onSavedNetworksRetrieved(result.value)
                         }
                     }
                 }
@@ -126,9 +122,6 @@ class WisefySavedNetworkDelegate(
                     when (result) {
                         is IsNetworkSavedResult.True -> callbacks?.onNetworkIsSaved()
                         is IsNetworkSavedResult.False -> callbacks?.onNetworkIsNotSaved()
-                        is IsNetworkSavedResult.Assertion -> {
-                            callbacks?.onWisefyAsyncFailure(WisefyException(message = result.message, throwable = null))
-                        }
                     }
                 }
             }

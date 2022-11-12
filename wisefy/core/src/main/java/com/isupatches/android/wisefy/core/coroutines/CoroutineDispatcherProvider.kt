@@ -23,7 +23,7 @@ import kotlinx.coroutines.Dispatchers
  * needed).
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 11/2022, version 5.0.0
  */
 class CoroutineDispatcherProvider {
 
@@ -31,7 +31,7 @@ class CoroutineDispatcherProvider {
      * A reference to the I/O dispatcher for background operations.
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 11/2022, version 5.0.0
      */
     val io: CoroutineDispatcher = Dispatchers.IO
 
@@ -39,7 +39,7 @@ class CoroutineDispatcherProvider {
      * A reference to the main dispatcher for UI operations.
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 11/2022, version 5.0.0
      */
     val main: CoroutineDispatcher = Dispatchers.Main
 }

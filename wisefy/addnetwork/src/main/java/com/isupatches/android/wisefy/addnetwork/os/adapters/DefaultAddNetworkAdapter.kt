@@ -40,7 +40,7 @@ import com.isupatches.android.wisefy.core.constants.AssertionMessages
  * @see WisefyAssertions
  *
  * @author Patches Klinefelter
- * @since 08/2022, version 5.0.0
+ * @since 11/2022, version 5.0.0
  */
 internal class DefaultAddNetworkAdapter(
     wifiManager: WifiManager,

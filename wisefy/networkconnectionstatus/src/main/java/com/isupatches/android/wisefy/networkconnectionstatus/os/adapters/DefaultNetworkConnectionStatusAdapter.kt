@@ -79,7 +79,7 @@ internal class DefaultNetworkConnectionStatusAdapter(
     @RequiresPermission(ACCESS_NETWORK_STATE)
     override fun getNetworkConnectionStatus(query: GetNetworkConnectionStatusQuery): GetNetworkConnectionStatusResult {
         return GetNetworkConnectionStatusResult(
-            data = NetworkConnectionStatusData(
+            value = NetworkConnectionStatusData(
                 isConnected = api.isDeviceConnected(),
                 isConnectedToMobileNetwork = api.isDeviceConnectedToMobileNetwork(),
                 isConnectedToWifiNetwork = api.isDeviceConnectedToWifiNetwork(),

@@ -21,7 +21,7 @@ package com.isupatches.android.wisefy.core.logging
  * @see WisefyLogger
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 11/2022, version 5.0.0
  */
 class DefaultWisefyLogger : WisefyLogger {
 
@@ -35,7 +35,7 @@ class DefaultWisefyLogger : WisefyLogger {
      * @return Int - 0 bytes logged
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 11/2022, version 5.0.0
      */
     override fun i(tag: String, message: String, vararg args: Any): Int = 0
 
@@ -49,7 +49,7 @@ class DefaultWisefyLogger : WisefyLogger {
      * @return Int - 0 bytes logged
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 11/2022, version 5.0.0
      */
     override fun v(tag: String, message: String, vararg args: Any): Int = 0
 
@@ -63,7 +63,7 @@ class DefaultWisefyLogger : WisefyLogger {
      * @return Int - 0 bytes logged
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 11/2022, version 5.0.0
      */
     override fun d(tag: String, message: String, vararg args: Any): Int = 0
 
@@ -77,7 +77,7 @@ class DefaultWisefyLogger : WisefyLogger {
      * @return Int - 0 bytes logged
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 11/2022, version 5.0.0
      */
     override fun w(tag: String, message: String, vararg args: Any): Int = 0
 
@@ -91,7 +91,7 @@ class DefaultWisefyLogger : WisefyLogger {
      * @return Int - 0 bytes logged
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 11/2022, version 5.0.0
      */
     override fun e(tag: String, message: String, vararg args: Any): Int = 0
 
@@ -106,7 +106,7 @@ class DefaultWisefyLogger : WisefyLogger {
      * @return Int - 0 bytes logged
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 11/2022, version 5.0.0
      */
     override fun e(tag: String, throwable: Throwable, message: String, vararg args: Any): Int = 0
 
@@ -120,7 +120,7 @@ class DefaultWisefyLogger : WisefyLogger {
      * @return Int - 0 bytes logged
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 11/2022, version 5.0.0
      */
     override fun wtf(tag: String, message: String, vararg args: Any): Int = 0
 
@@ -135,7 +135,7 @@ class DefaultWisefyLogger : WisefyLogger {
      * @return Int - 0 bytes logged
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 11/2022, version 5.0.0
      */
     override fun wtf(tag: String, throwable: Throwable, message: String, vararg args: Any): Int = 0
 }

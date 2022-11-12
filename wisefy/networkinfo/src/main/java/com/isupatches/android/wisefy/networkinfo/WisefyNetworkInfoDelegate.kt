@@ -77,7 +77,7 @@ class WisefyNetworkInfoDelegate(
                 withContext(coroutineDispatcherProvider.main) {
                     when (currentNetwork) {
                         is GetCurrentNetworkResult.Empty -> callbacks?.onNoCurrentNetwork()
-                        is GetCurrentNetworkResult.Network -> callbacks?.onCurrentNetworkRetrieved(currentNetwork.data)
+                        is GetCurrentNetworkResult.Network -> callbacks?.onCurrentNetworkRetrieved(currentNetwork.value)
                     }
                 }
             }

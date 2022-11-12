@@ -48,12 +48,12 @@ internal class DefaultSignalAdapter(
         return when (request) {
             is CalculateBarsRequest.BelowAndroid30 -> {
                 val result = api.calculateBars(request.rssiLevel, request.targetNumberOfBars)
-                CalculateBarsResult.Success(value = result)
+                CalculateBarsResult.SignalLevel(value = result)
             }
             is CalculateBarsRequest.Android30AndAbove -> {
                 val message = AssertionMessages.Signal.INCORRECT_CALCULATE_BARS_USED_PRE_ANDROID_30
                 assertions.fail(message = message)
-                CalculateBarsResult.Failure.Assertion(message = message)
+                CalculateBarsResult.Empty
             }
         }
     }

@@ -58,11 +58,11 @@ suspend fun WisefyApi.getSavedNetworksAsync(
             query = query,
             callbacks = object : GetSavedNetworksCallbacks {
                 override fun onNoSavedNetworksFound() {
-                    continuation.resumeWith(Result.success(GetSavedNetworksResult.Success.Empty))
+                    continuation.resumeWith(Result.success(GetSavedNetworksResult.Empty))
                 }
 
                 override fun onSavedNetworksRetrieved(savedNetworks: List<SavedNetworkData>) {
-                    continuation.resumeWith(Result.success(GetSavedNetworksResult.Success.SavedNetworks(savedNetworks)))
+                    continuation.resumeWith(Result.success(GetSavedNetworksResult.SavedNetworks(savedNetworks)))
                 }
 
                 override fun onWisefyAsyncFailure(exception: WisefyException) {

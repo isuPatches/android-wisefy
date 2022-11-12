@@ -16,6 +16,7 @@
 package com.isupatches.android.wisefy.accesspoints.callbacks
 
 import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
+import com.isupatches.android.wisefy.accesspoints.entities.GetAccessPointsQuery
 import com.isupatches.android.wisefy.core.base.BaseWisefyCallbacks
 
 /**
@@ -24,27 +25,27 @@ import com.isupatches.android.wisefy.core.base.BaseWisefyCallbacks
  * @see BaseWisefyCallbacks
  *
  * @author Patches Klinefelter
- * @since 08/2022, version 5.0.0
+ * @since 11/2022, version 5.0.0
  */
 interface GetAccessPointsCallbacks : BaseWisefyCallbacks {
 
     /**
-     * A callback triggered when there are nearby access points.
+     * A callback triggered when there are nearby access points for the [GetAccessPointsQuery].
      *
      * @param accessPoints The list of nearby access points
      *
      * @see AccessPointData
      *
      * @author Patches Klinefelter
-     * @since 08/2022, version 5.0.0
+     * @since 11/2022, version 5.0.0
      */
     fun onNearbyAccessPointsRetrieved(accessPoints: List<AccessPointData>)
 
     /**
-     * A callback triggered when there are no nearby access points.
+     * A callback triggered when there are no nearby access points for the [GetAccessPointsQuery].
      *
      * @author Patches Klinefelter
-     * @since 08/2022, version 5.0.0
+     * @since 11/2022, version 5.0.0
      */
     fun onNoNearbyAccessPoints()
 }

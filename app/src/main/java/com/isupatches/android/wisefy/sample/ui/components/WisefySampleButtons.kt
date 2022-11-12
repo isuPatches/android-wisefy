@@ -37,7 +37,6 @@ internal fun WisefyPrimaryButton(
     onClick: () -> Unit
 ) {
     WisefySampleTheme {
-
         Button(
             modifier = Modifier.fillMaxWidth(),
             content = {
@@ -48,7 +47,7 @@ internal fun WisefyPrimaryButton(
                         top = WisefySampleSizes.Medium,
                         bottom = WisefySampleSizes.Medium,
                         start = WisefySampleSizes.Large,
-                        end = WisefySampleSizes.Large,
+                        end = WisefySampleSizes.Large
                     ),
                     color = MaterialTheme.colors.onPrimary
                 )

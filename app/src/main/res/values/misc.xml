@@ -33,29 +33,10 @@
     <string name="current_network_args">Current network: %s</string>
     <string name="no_current_network">No current network</string>
 
-    <string name="current_network_info_args">Current network info: %s</string>
-    <string name="no_current_network_info">No current network info</string>
-
-    <string name="frequency_args">Frequency: %d</string>
-    <string name="failure_retrieving_frequency">Failure retrieving frequency</string>
-
-    <string name="ip_args">IP: %s</string>
-    <string name="failure_retrieving_ip">Failure retrieving IP</string>
-
     <string name="wifi_is_enabled">Wifi is enabled</string>
     <string name="wifi_is_disabled">Wifi is disabled</string>
 
-    <string name="current_network_is_5ghz">Current network is 5gHz</string>
-    <string name="current_network_is_not_5ghz">Current network is not 5gHz</string>
-
     <!-- Permissions -->
-    <string name="permission_error_get_current_network_info">
-        Permissions for getting the current network info for the device are denied
-    </string>
-    <string name="permission_error_get_frequency">
-        Permissions for getting the frequency of the device\'s current network are denied
-    </string>
-    <string name="permission_error_get_ip">Permissions for getting the device\'s IP are denied</string>
     <string name="permission_error_get_nearby_access_points">
         Permissions for getting nearby access points are denied
     </string>
@@ -63,9 +44,6 @@
         Permissions for getting network connection status are denied
     </string>
     <string name="permission_error_get_saved_networks">Permissions for getting saved networks are denied</string>
-    <string name="permission_error_is_network_5ghz">
-        Permissions for checking if the current network is 5gHz are denied
-    </string>
 
     <string name="android_q_enable_wifi_message">
         Starting with Android Q, applications are not allowed to enable Wifi

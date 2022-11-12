@@ -16,12 +16,14 @@
 package com.isupatches.android.wisefy.accesspoints.os.impls
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
+import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.net.wifi.ScanResult
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
 import com.isupatches.android.wisefy.accesspoints.os.apis.DefaultAccessPointsApi
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
+import com.isupatches.android.wisefy.core.util.SdkUtil
 import com.isupatches.android.wisefy.core.util.rest
 import java.util.Locale
 
@@ -30,31 +32,31 @@ import java.util.Locale
  *
  * @param wifiManager The WifiManager instance to use
  * @param logger The [WisefyLogger] instance to use
+ * @param sdkUtil The [SdkUtil] instance to use
  *
  * @see DefaultAccessPointsApi
  * @see WisefyLogger
  *
  * @author Patches Klinefelter
- * @since 08/2022, version 5.0.0
+ * @since 11/2022, version 5.0.0
  */
 internal class DefaultAccessPointsApiImpl(
     private val wifiManager: WifiManager,
-    private val logger: WisefyLogger
+    private val logger: WisefyLogger,
+    private val sdkUtil: SdkUtil
 ) : DefaultAccessPointsApi {
 
     companion object {
         private const val LOG_TAG = "DefaultAccessPointsApiImpl"
     }
 
-    // For SDK 23 and above, devices will be limited on ability to trigger scans and it's been
-    // indicated by Android Google docs that eventually apps will no longer be able to trigger a
-    // scan to prevent abusive apps, therefore for WiseFy we're going to just use the last
-    // set of scan results...the downside is this may take some time to be updated.
-    private val scanResultsProvider by lazy { { wifiManager.scanResults } }
-
-    @RequiresPermission(ACCESS_FINE_LOCATION)
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun getNearbyAccessPoints(filterDuplicates: Boolean): List<AccessPointData> {
-        val accessPointsTemp = scanResultsProvider()
+        // For SDK 23 and above, devices will be limited on ability to trigger scans and it's been
+        // indicated by Android Google docs that eventually apps will no longer be able to trigger a
+        // scan to prevent abusive apps, therefore for WiseFy we're going to just use the last
+        // set of scan results...the downside is this may take some time to be updated.
+        val accessPointsTemp = wifiManager.scanResults
         if (accessPointsTemp == null || accessPointsTemp.isEmpty()) {
             return emptyList()
         }
@@ -66,7 +68,7 @@ internal class DefaultAccessPointsApiImpl(
         }
     }
 
-    @RequiresPermission(ACCESS_FINE_LOCATION)
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun searchForAccessPointsBySSID(
         regex: String,
         timeoutInMillis: Int?,
@@ -80,7 +82,7 @@ internal class DefaultAccessPointsApiImpl(
         }
     }
 
-    @RequiresPermission(ACCESS_FINE_LOCATION)
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun searchForAccessPointsByBSSID(
         regex: String,
         timeoutInMillis: Int?,
@@ -95,11 +97,14 @@ internal class DefaultAccessPointsApiImpl(
     }
 
     private fun accessPointSSIDMatchesRegex(accessPoint: ScanResult?, regex: String): Boolean {
+        val ssid = accessPoint?.getSSID() ?: ""
         logger.d(
             LOG_TAG,
-            "accessPoint. SSID: %s, regexForSSID: %s".format(Locale.US, accessPoint?.SSID, regex)
+            "accessPoint. SSID: %s, regexForSSID: %s",
+            ssid,
+            regex
         )
-        return accessPoint?.SSID?.matches(regex.toRegex()) ?: false
+        return ssid.isNotBlank() && ssid.matches(regex.toRegex())
     }
 
     private fun accessPointBSSIDMatchesRegex(accessPoint: ScanResult?, regex: String): Boolean {
@@ -115,12 +120,16 @@ internal class DefaultAccessPointsApiImpl(
         currentAccessPoint: ScanResult
     ): Boolean {
         for (accessPoint in accessPoints) {
-            if (accessPoint.SSID.equals(currentAccessPoint.SSID, ignoreCase = true)) {
+            if (accessPoint.getSSID().isNotBlank() &&
+                accessPoint.getSSID().equals(currentAccessPoint.getSSID(), ignoreCase = true)
+            ) {
                 val comparisonResult = WifiManager.compareSignalLevel(accessPoint.level, currentAccessPoint.level)
                 logger.d(
                     LOG_TAG,
                     "Current RSSI: %d\nAccess point RSSI: %d\nComparison result: %d",
-                    currentAccessPoint.level, accessPoint.level, comparisonResult
+                    currentAccessPoint.level,
+                    accessPoint.level,
+                    comparisonResult
                 )
                 if (comparisonResult > 0) {
                     logger.d(LOG_TAG, "Stronger signal strength found")
@@ -138,9 +147,10 @@ internal class DefaultAccessPointsApiImpl(
             var found = false
             for (i in accessPointsToReturn.indices) {
                 val accessPointData = accessPointsToReturn[i]
-
-                logger.d(LOG_TAG, "SSID 1: %s, SSID 2: %s", accessPoint.SSID, accessPointData.rawValue.SSID)
-                if (accessPoint.SSID.equals(accessPointData.rawValue.SSID, ignoreCase = true)) {
+                val ssid1 = accessPoint.getSSID()
+                val ssid2 = accessPointData.rawValue.getSSID()
+                logger.d(LOG_TAG, "SSID 1: %s, SSID 2: %s", ssid1, ssid2)
+                if (ssid1.isNotBlank() && ssid1.equals(ssid2, ignoreCase = true)) {
                     found = true
                     val comparisonResult = WifiManager.compareSignalLevel(
                         accessPoint.level,
@@ -149,7 +159,9 @@ internal class DefaultAccessPointsApiImpl(
                     logger.d(
                         LOG_TAG,
                         "Access point 1 RSSI: %d\nAccess point 2 RSSI: %d\nComparison result: %d",
-                        accessPointData.rssi, accessPoint.level, comparisonResult
+                        accessPointData.rssi,
+                        accessPoint.level,
+                        comparisonResult
                     )
                     if (comparisonResult > 0) {
                         logger.d(LOG_TAG, "New result has a higher or same signal strength, swapping")
@@ -166,12 +178,13 @@ internal class DefaultAccessPointsApiImpl(
         return accessPointsToReturn
     }
 
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     private fun scanForAccessPoints(
         filterDuplicates: Boolean,
         matcher: (ScanResult) -> Boolean
     ): List<AccessPointData> {
         val matchingAccessPoints = ArrayList<AccessPointData>()
-        val accessPointsTemp = scanResultsProvider()
+        val accessPointsTemp = wifiManager.scanResults
 
         if (accessPointsTemp == null || accessPointsTemp.isEmpty()) {
             return emptyList()
@@ -192,6 +205,7 @@ internal class DefaultAccessPointsApiImpl(
         return matchingAccessPoints.ifEmpty { emptyList() }
     }
 
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     private fun searchForMultipleAccessPoints(
         filterDuplicates: Boolean,
         timeoutInMillis: Int?,
@@ -212,5 +226,14 @@ internal class DefaultAccessPointsApiImpl(
             accessPointsTemp = scanForAccessPoints(filterDuplicates, matcher)
         }
         return accessPointsTemp
+    }
+
+    private fun ScanResult.getSSID(): String {
+        return if (sdkUtil.isAtLeastT()) {
+            wifiSsid?.toString()
+        } else {
+            @Suppress("Deprecation")
+            SSID
+        } ?: ""
     }
 }

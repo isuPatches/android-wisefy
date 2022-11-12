@@ -16,33 +16,33 @@
 package com.isupatches.android.wisefy.accesspoints.entities
 
 /**
- * A set of classes and objects that are used to represent a result when getting nearby access points.
+ * A set of classes and objects that represent a result when getting nearby access points.
  *
  * @author Patches Klinefelter
- * @since 08/2022, version 5.0.0
+ * @since 11/2022, version 5.0.0
  */
 sealed class GetAccessPointsResult {
 
     /**
-     * A data representation for when there are no nearby access points.
+     * A representation for when there are no nearby access points.
      *
      * @see GetAccessPointsResult
      *
      * @author Patches Klinefelter
-     * @since 08/2022, version 5.0.0
+     * @since 11/2022, version 5.0.0
      */
     object Empty : GetAccessPointsResult()
 
     /**
-     * A data representation for when there is one or more nearby access points.
+     * A representation for when there is one or more nearby access points.
      *
-     * @property data This list of nearby access points
+     * @property value This list of nearby access points
      *
      * @see AccessPointData
      * @see GetAccessPointsResult
      *
      * @author Patches Klinefelter
-     * @since 08/2022, version 5.0.0
+     * @since 11/2022, version 5.0.0
      */
-    data class AccessPoints(val data: List<AccessPointData>) : GetAccessPointsResult()
+    data class AccessPoints(val value: List<AccessPointData>) : GetAccessPointsResult()
 }

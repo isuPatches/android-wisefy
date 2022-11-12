@@ -249,5 +249,6 @@ internal fun MiscScreenDialogContent(
                 }
             )
         }
+        MiscScreenDialogState.GetCurrentNetwork.PermissionsError -> TODO()
     }
 }

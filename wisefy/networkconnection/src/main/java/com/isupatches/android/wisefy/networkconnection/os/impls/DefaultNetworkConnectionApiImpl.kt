@@ -61,11 +61,11 @@ internal class DefaultNetworkConnectionApiImpl(
                 GetSavedNetworksQuery.BySSID(regex = ssid)
             )
         ) {
-            is GetSavedNetworksResult.Success.Empty -> null
-            is GetSavedNetworksResult.Success.SavedNetworks -> {
-                when (val saveNetwork = savedNetworkSearchResult.data.first()) {
+            is GetSavedNetworksResult.Empty -> null
+            is GetSavedNetworksResult.SavedNetworks -> {
+                when (val saveNetwork = savedNetworkSearchResult.value.first()) {
                     is SavedNetworkData.Configuration -> {
-                        saveNetwork.value.let {
+                        saveNetwork.rawValue.let {
                             wifiManager.disconnect()
                             wifiManager.enableNetwork(it.networkId, true)
                             wifiManager.reconnect()
@@ -75,7 +75,6 @@ internal class DefaultNetworkConnectionApiImpl(
                     is SavedNetworkData.Suggestion -> false
                 }
             }
-            is GetSavedNetworksResult.Failure.Assertion -> null
         }
     }
 
@@ -86,11 +85,11 @@ internal class DefaultNetworkConnectionApiImpl(
                 GetSavedNetworksQuery.ByBSSID(regex = bssid)
             )
         ) {
-            is GetSavedNetworksResult.Success.Empty -> null
-            is GetSavedNetworksResult.Success.SavedNetworks -> {
-                when (val saveNetwork = savedNetworkSearchResult.data.first()) {
+            is GetSavedNetworksResult.Empty -> null
+            is GetSavedNetworksResult.SavedNetworks -> {
+                when (val saveNetwork = savedNetworkSearchResult.value.first()) {
                     is SavedNetworkData.Configuration -> {
-                        saveNetwork.value.let {
+                        saveNetwork.rawValue.let {
                             wifiManager.disconnect()
                             wifiManager.enableNetwork(it.networkId, true)
                             wifiManager.reconnect()
@@ -99,10 +98,6 @@ internal class DefaultNetworkConnectionApiImpl(
                     }
                     is SavedNetworkData.Suggestion -> false
                 }
-            }
-            is GetSavedNetworksResult.Failure.Assertion -> {
-                // todo@patches Figure out what to do here
-                null
             }
         }
     }
@@ -114,13 +109,15 @@ internal class DefaultNetworkConnectionApiImpl(
     @RequiresPermission(ACCESS_NETWORK_STATE)
     private fun isCurrentNetworkConnectedBySSID(ssid: String): Boolean {
         val connectionStatus = networkConnectionStatusDelegate.getNetworkConnectionStatus()
-        if (!connectionStatus.data.ssidOfNetworkConnectedTo.isNullOrEmpty()) {
+        if (!connectionStatus.value.ssidOfNetworkConnectedTo.isNullOrEmpty()) {
             logger.d(
                 LOG_TAG,
-                "Current value: %s, Desired value: %s", connectionStatus.data.ssidOfNetworkConnectedTo ?: "", ssid
+                "Current value: %s, Desired value: %s",
+                connectionStatus.value.ssidOfNetworkConnectedTo ?: "",
+                ssid
             )
-            if (connectionStatus.data.ssidOfNetworkConnectedTo.equals(ssid, ignoreCase = true) &&
-                networkConnectionStatusDelegate.getNetworkConnectionStatus().data.isConnected
+            if (connectionStatus.value.ssidOfNetworkConnectedTo.equals(ssid, ignoreCase = true) &&
+                networkConnectionStatusDelegate.getNetworkConnectionStatus().value.isConnected
             ) {
                 logger.d(LOG_TAG, "Network is connected")
                 return true
@@ -132,13 +129,15 @@ internal class DefaultNetworkConnectionApiImpl(
     @RequiresPermission(ACCESS_NETWORK_STATE)
     private fun isCurrentNetworkConnectedByBSSID(bssid: String): Boolean {
         val connectionStatus = networkConnectionStatusDelegate.getNetworkConnectionStatus()
-        if (!connectionStatus.data.bssidOfNetworkConnectedTo.isNullOrEmpty()) {
+        if (!connectionStatus.value.bssidOfNetworkConnectedTo.isNullOrEmpty()) {
             logger.d(
                 LOG_TAG,
-                "Current value: %s, Desired value: %s", connectionStatus.data.bssidOfNetworkConnectedTo ?: "", bssid
+                "Current value: %s, Desired value: %s",
+                connectionStatus.value.bssidOfNetworkConnectedTo ?: "",
+                bssid
             )
-            if (connectionStatus.data.bssidOfNetworkConnectedTo.equals(bssid, ignoreCase = true) &&
-                networkConnectionStatusDelegate.getNetworkConnectionStatus().data.isConnected
+            if (connectionStatus.value.bssidOfNetworkConnectedTo.equals(bssid, ignoreCase = true) &&
+                networkConnectionStatusDelegate.getNetworkConnectionStatus().value.isConnected
             ) {
                 logger.d(LOG_TAG, "Network is connected")
                 return true

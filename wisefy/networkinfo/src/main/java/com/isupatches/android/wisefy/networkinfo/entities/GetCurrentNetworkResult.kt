@@ -36,7 +36,7 @@ sealed class GetCurrentNetworkResult {
     /**
      * A data representation for when there is a success retrieving the device's current network.
      *
-     * @property data The value of the device's current network
+     * @property value The value of the device's current network
      *
      * @see GetCurrentNetworkResult
      * @see NetworkData
@@ -44,5 +44,5 @@ sealed class GetCurrentNetworkResult {
      * @author Patches Klinefelter
      * @since 03/2022
      */
-    data class Network(val data: NetworkData) : GetCurrentNetworkResult()
+    data class Network(val value: NetworkData) : GetCurrentNetworkResult()
 }

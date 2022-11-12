@@ -41,6 +41,7 @@ import kotlinx.coroutines.withContext
  *
  * @param coroutineDispatcherProvider The [CoroutineDispatcherProvider] instance to use
  * @param scope The coroutine scope to use
+ * @param savedNetworkMutex The mutex for all read/write operations involving saved networks
  * @param assertions The [WisefyAssertions] instance to use
  * @param logger The [WisefyLogger] instance to use
  * @param sdkUtil The [SdkUtil] instance to use
@@ -52,7 +53,7 @@ import kotlinx.coroutines.withContext
  * @see WisefyLogger
  *
  * @author Patches Klinefelter
- * @since 08/2022, version 5.0.0
+ * @since 11/2022, version 5.0.0
  */
 class WisefyAddNetworkDelegate(
     private val coroutineDispatcherProvider: CoroutineDispatcherProvider,

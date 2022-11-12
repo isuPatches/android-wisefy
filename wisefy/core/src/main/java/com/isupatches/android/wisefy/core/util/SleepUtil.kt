@@ -21,7 +21,7 @@ private const val BASE_DELAY_IN_MS = 1000L
  * An function that will sleep the calling thread for 1 second at a time.
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 11/2022, version 5.0.0
  */
 fun rest() {
     sleep()

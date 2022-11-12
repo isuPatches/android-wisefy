@@ -23,11 +23,12 @@ import java.util.Locale
  * A function that will create the network configuration for an open network.
  *
  * @param ssid The SSID of the open network
+ * @param bssid The optional BSSID for the open network being added
  *
  * @return WifiConfiguration - The network configuration for the open network
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 11/2022, version 5.0.0
  */
 fun createOpenNetworkConfiguration(ssid: String, bssid: String?): WifiConfiguration {
     return WifiConfiguration().apply {
@@ -57,11 +58,12 @@ fun createOpenNetworkConfiguration(ssid: String, bssid: String?): WifiConfigurat
  *
  * @param ssid The SSID of the WPA2 network
  * @param passphrase The passphrase of the WPA2 network
+ * @param bssid The optional BSSID for the WPA2 network being added
  *
  * @return WifiConfiguration - The network configuration for the WPA2 network
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 11/2022, version 5.0.0
  */
 fun createWPA2NetworkConfiguration(ssid: String, passphrase: String, bssid: String?): WifiConfiguration {
     return WifiConfiguration().apply {

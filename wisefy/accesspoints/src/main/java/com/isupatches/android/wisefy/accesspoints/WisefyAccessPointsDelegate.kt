@@ -25,6 +25,7 @@ import com.isupatches.android.wisefy.accesspoints.os.adapters.DefaultAccessPoint
 import com.isupatches.android.wisefy.core.coroutines.CoroutineDispatcherProvider
 import com.isupatches.android.wisefy.core.coroutines.createBaseCoroutineExceptionHandler
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
+import com.isupatches.android.wisefy.core.util.SdkUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -42,12 +43,13 @@ import kotlinx.coroutines.withContext
  * @see WisefyLogger
  *
  * @author Patches Klinefelter
- * @since 08/2022, version 5.0.0
+ * @since 11/2022, version 5.0.0
  */
 class WisefyAccessPointsDelegate(
     private val coroutineDispatcherProvider: CoroutineDispatcherProvider,
     private val scope: CoroutineScope,
     logger: WisefyLogger,
+    sdkUtil: SdkUtil,
     wifiManager: WifiManager
 ) : AccessPointsDelegate {
 
@@ -55,7 +57,7 @@ class WisefyAccessPointsDelegate(
         private const val LOG_TAG = "WisefyAccessPointsDelegate"
     }
 
-    private val adapter = DefaultAccessPointsAdapter(wifiManager, logger)
+    private val adapter = DefaultAccessPointsAdapter(wifiManager, logger, sdkUtil)
 
     init {
         logger.d(LOG_TAG, "WisefyAccessPointsDelegate adapter is: ${adapter::class.java.simpleName}")
@@ -77,7 +79,7 @@ class WisefyAccessPointsDelegate(
                 when (result) {
                     is GetAccessPointsResult.Empty -> callbacks?.onNoNearbyAccessPoints()
                     is GetAccessPointsResult.AccessPoints -> {
-                        callbacks?.onNearbyAccessPointsRetrieved(result.data)
+                        callbacks?.onNearbyAccessPointsRetrieved(result.value)
                     }
                 }
             }

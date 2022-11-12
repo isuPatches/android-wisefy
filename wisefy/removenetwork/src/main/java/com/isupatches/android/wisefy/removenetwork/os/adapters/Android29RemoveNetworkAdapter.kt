@@ -62,11 +62,11 @@ internal class Android29RemoveNetworkAdapter(
                 query = request.toSearchForNetworkRequest()
             )
         ) {
-            is GetSavedNetworksResult.Success.Empty -> RemoveNetworkResult.Failure.NetworkNotFound
-            is GetSavedNetworksResult.Success.SavedNetworks -> {
-                when (val savedNetwork = savedNetworkSearchResult.data.first()) {
+            is GetSavedNetworksResult.Empty -> RemoveNetworkResult.Failure.NetworkNotFound
+            is GetSavedNetworksResult.SavedNetworks -> {
+                when (val savedNetwork = savedNetworkSearchResult.value.first()) {
                     is SavedNetworkData.Suggestion -> {
-                        val result = api.removeNetwork(savedNetwork.value)
+                        val result = api.removeNetwork(savedNetwork.rawValue)
                         if (result == WifiManager.STATUS_NETWORK_SUGGESTIONS_SUCCESS) {
                             RemoveNetworkResult.Success.ResultCode(result)
                         } else {
@@ -79,9 +79,6 @@ internal class Android29RemoveNetworkAdapter(
                         RemoveNetworkResult.Failure.Assertion(message = message)
                     }
                 }
-            }
-            is GetSavedNetworksResult.Failure.Assertion -> {
-                RemoveNetworkResult.Failure.Assertion(message = savedNetworkSearchResult.message)
             }
         }
     }

@@ -20,6 +20,9 @@ if (keystoreFile.exists()) {
 }
 
 android {
+    namespace = "com.isupatches.android.wisefy.sample"
+    testNamespace = "com.isupatches.android.wisefy.sample.test"
+
     compileSdk = BuildVersions.COMPILE_SDK
     buildToolsVersion = BuildVersions.BUILD_TOOLS
 

@@ -19,7 +19,7 @@ package com.isupatches.android.wisefy.core.logging
  * A logging interface that can be provided to Wisefy to log messages.
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 11/2022, version 5.0.0
  */
 interface WisefyLogger {
 
@@ -33,7 +33,7 @@ interface WisefyLogger {
      * @return Int - The amount of bytes logged
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 11/2022, version 5.0.0
      */
     fun i(tag: String, message: String, vararg args: Any): Int
 
@@ -47,7 +47,7 @@ interface WisefyLogger {
      * @return Int - The amount of bytes logged
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 11/2022, version 5.0.0
      */
     fun v(tag: String, message: String, vararg args: Any): Int
 
@@ -61,7 +61,7 @@ interface WisefyLogger {
      * @return Int - The amount of bytes logged
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 11/2022, version 5.0.0
      */
     fun d(tag: String, message: String, vararg args: Any): Int
 
@@ -75,7 +75,7 @@ interface WisefyLogger {
      * @return Int - The amount of bytes logged
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 11/2022, version 5.0.0
      */
     fun w(tag: String, message: String, vararg args: Any): Int
 
@@ -89,7 +89,7 @@ interface WisefyLogger {
      * @return Int - The amount of bytes logged
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 11/2022, version 5.0.0
      */
     fun e(tag: String, message: String, vararg args: Any): Int
 
@@ -104,7 +104,7 @@ interface WisefyLogger {
      * @return Int - The amount of bytes logged
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 11/2022, version 5.0.0
      */
     fun e(tag: String, throwable: Throwable, message: String, vararg args: Any): Int
 
@@ -118,7 +118,7 @@ interface WisefyLogger {
      * @return Int - The amount of bytes logged
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 11/2022, version 5.0.0
      */
     fun wtf(tag: String, message: String, vararg args: Any): Int
 
@@ -133,7 +133,7 @@ interface WisefyLogger {
      * @return Int - The amount of bytes logged
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 11/2022, version 5.0.0
      */
     fun wtf(tag: String, throwable: Throwable, message: String, vararg args: Any): Int
 }

@@ -23,20 +23,19 @@ import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import android.net.wifi.WifiInfo
 import android.net.wifi.WifiManager
-import android.os.Build
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.core.constants.QUOTE
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.core.util.SdkUtil
 import com.isupatches.android.wisefy.networkconnectionstatus.entities.NetworkConnectionStatus
 import com.isupatches.android.wisefy.networkconnectionstatus.os.apis.DefaultNetworkConnectionStatusApi
-import java.math.BigInteger
-import java.net.InetAddress
-import java.net.UnknownHostException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import java.math.BigInteger
+import java.net.InetAddress
+import java.net.UnknownHostException
 
 /**
  * A default implementation for checking the device's connection status and if it meets certain criteria.
@@ -82,7 +81,7 @@ internal class DefaultNetworkConnectionStatusApiImpl(
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
     override fun getIP(): String? {
-        val inetAddress = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        val inetAddress = if (sdkUtil.isAtLeastS()) {
             connectivityManager.getLinkProperties(connectivityManager.activeNetwork)?.dhcpServerAddress
         } else {
             @Suppress("Deprecation")
@@ -139,7 +138,7 @@ internal class DefaultNetworkConnectionStatusApiImpl(
      */
     @RequiresPermission(ACCESS_NETWORK_STATE)
     private fun getNetworkTransportInfo(): WifiInfo? {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        return if (sdkUtil.isAtLeastS()) {
             connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)?.transportInfo as? WifiInfo
         } else {
             @Suppress("Deprecation")

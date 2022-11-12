@@ -30,7 +30,7 @@ import com.isupatches.android.wisefy.core.wifimanager.legacy.createWPA2NetworkCo
  * @see DefaultAddNetworkApi
  *
  * @author Patches Klinefelter
- * @since 08/2022, version 5.0.0
+ * @since 11/2022, version 5.0.0
  */
 internal class DefaultAddNetworkApiImpl(
     private val wifiManager: WifiManager

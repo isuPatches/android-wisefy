@@ -22,10 +22,10 @@ import com.isupatches.android.wisefy.addnetwork.callbacks.AddNetworkCallbacks
 import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkRequest
 
 /**
- * A set of asynchronous APIs for adding networks.
+ * A set of asynchronous APIs related to adding networks.
  *
  * @author Patches Klinefelter
- * @since 08/2022, version 5.0.0
+ * @since 11/2022, version 5.0.0
  */
 interface AddNetworkApiAsync {
 
@@ -39,7 +39,7 @@ interface AddNetworkApiAsync {
      * @see AddNetworkCallbacks
      *
      * @author Patches Klinefelter
-     * @since 08/2022, version 5.0.0
+     * @since 11/2022, version 5.0.0
      */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     fun addNetwork(request: AddNetworkRequest, callbacks: AddNetworkCallbacks?)

@@ -103,16 +103,7 @@ internal fun WisefySampleSubHeaderLabelDarkPreview() {
 }
 
 @Composable
-internal fun WisefySampleCaptionLabel(
-    @StringRes stringResId: Int,
-    modifier: Modifier = Modifier,
-    vararg formatArgs: Any
-) {
-    val text = if (formatArgs.any()) {
-        stringResource(stringResId, *formatArgs)
-    } else {
-        stringResource(stringResId)
-    }
+internal fun WisefySampleCaptionLabel(text: String, modifier: Modifier) {
     Text(
         text = text,
         style = WisefySampleTypography.caption,

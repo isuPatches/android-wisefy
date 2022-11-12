@@ -115,19 +115,5 @@ sealed class RemoveNetworkResult {
         data class ResultCode(val value: Int) : Failure()
 
         data class Assertion(val message: String) : Failure()
-
-        /**
-         * A data representation of a an async failure while trying to remove a network.
-         *
-         * *NOTE* This is only used for wisefy:ktx
-         *
-         * @property throwable The exception that occurred while trying to remove the network
-         *
-         * @see Failure
-         *
-         * @author Patches Klinefelter
-         * @since 03/2022
-         */
-        data class WisefyAsync(val throwable: Throwable) : Failure()
     }
 }

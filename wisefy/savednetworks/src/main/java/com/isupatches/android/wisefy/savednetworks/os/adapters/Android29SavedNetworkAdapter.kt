@@ -46,15 +46,13 @@ internal class Android29SavedNetworkAdapter(
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun getSavedNetworks(query: GetSavedNetworksQuery): GetSavedNetworksResult {
-        val message = AssertionMessages.SavedNetworks.USED_ANDROID_29
-        assertions.fail(message = message)
-        return GetSavedNetworksResult.Failure.Assertion(message = message)
+        assertions.fail(message = AssertionMessages.SavedNetworks.USED_ANDROID_29)
+        return GetSavedNetworksResult.Empty
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun isNetworkSaved(query: IsNetworkSavedQuery): IsNetworkSavedResult {
-        val message = AssertionMessages.SavedNetworks.USED_ANDROID_29
-        assertions.fail(message = message)
-        return IsNetworkSavedResult.Assertion(message = message)
+        assertions.fail(message = AssertionMessages.SavedNetworks.USED_ANDROID_29)
+        return IsNetworkSavedResult.False
     }
 }

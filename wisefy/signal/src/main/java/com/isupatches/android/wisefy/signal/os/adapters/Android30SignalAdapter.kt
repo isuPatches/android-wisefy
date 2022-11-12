@@ -54,12 +54,12 @@ internal class Android30SignalAdapter(
         return when (request) {
             is CalculateBarsRequest.Android30AndAbove -> {
                 val result = api.calculateBars(request.rssiLevel)
-                CalculateBarsResult.Success(value = result)
+                CalculateBarsResult.SignalLevel(value = result)
             }
             is CalculateBarsRequest.BelowAndroid30 -> {
                 val message = AssertionMessages.Signal.INCORRECT_CALCULATE_BARS_USED_ANDROID_30
                 assertions.fail(message = message)
-                CalculateBarsResult.Failure.Assertion(message = message)
+                CalculateBarsResult.Empty
             }
         }
     }

@@ -24,12 +24,12 @@ import com.isupatches.android.wisefy.accesspoints.entities.GetAccessPointsResult
  * A set of synchronous APIs for getting and searching for nearby access points.
  *
  * @author Patches Klinefelter
- * @since 08/2022, version 5.0.0
+ * @since 11/2022, version 5.0.0
  */
 interface AccessPointsApi {
 
     /**
-     * A synchronous API to get a list of all nearby access points.
+     * A synchronous API to query for a list of nearby access points.
      *
      * @param query The details of the query to get nearby access points
      *
@@ -39,7 +39,7 @@ interface AccessPointsApi {
      * @return GetNearbyAccessPointsResult - The result of getting nearby access points
      *
      * @author Patches Klinefelter
-     * @since 08/2022, version 5.0.0
+     * @since 11/2022, version 5.0.0
      */
     @RequiresPermission(ACCESS_FINE_LOCATION)
     fun getAccessPoints(query: GetAccessPointsQuery): GetAccessPointsResult

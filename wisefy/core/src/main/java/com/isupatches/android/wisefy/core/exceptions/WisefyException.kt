@@ -15,4 +15,14 @@
  */
 package com.isupatches.android.wisefy.core.exceptions
 
+/**
+ * A Wisefy specific throwable to help clients narrow their catch clauses down to a specific type if needed.
+ * This also standardizes how Wisefy returns errors from the async operations.
+ *
+ * @param message The optional message for the exception
+ * @param throwable The optional cause of the exception
+ *
+ * @author Patches Klinefelter
+ * @since 11/2022, version 5.0.0
+ */
 class WisefyException(message: String?, throwable: Throwable?) : Throwable(message, throwable)

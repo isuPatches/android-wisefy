@@ -21,7 +21,7 @@ import com.isupatches.android.wisefy.core.exceptions.WisefyException
  * A base interface for all callbacks to enforce any common APIs.
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 11/2022, version 5.0.0
  */
 interface BaseWisefyCallbacks {
 
@@ -31,7 +31,7 @@ interface BaseWisefyCallbacks {
      * @param exception The exception that was thrown within the library
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 11/2022, version 5.0.0
      */
     fun onWisefyAsyncFailure(exception: WisefyException)
 }

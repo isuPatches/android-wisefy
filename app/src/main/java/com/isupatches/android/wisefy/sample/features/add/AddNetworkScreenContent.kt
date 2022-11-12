@@ -18,7 +18,6 @@ package com.isupatches.android.wisefy.sample.features.add
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.CHANGE_WIFI_STATE
 import android.app.Activity
-import android.os.Build
 import android.provider.Settings.ADD_WIFI_RESULT_SUCCESS
 import android.provider.Settings.EXTRA_WIFI_NETWORK_RESULT_LIST
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -44,12 +43,16 @@ import com.isupatches.android.wisefy.sample.ui.components.WisefySampleEditTextEr
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleRadioButton
 import com.isupatches.android.wisefy.sample.ui.primitives.WisefySampleSizes
 import com.isupatches.android.wisefy.sample.ui.theme.WisefySampleTheme
+import com.isupatches.android.wisefy.sample.util.SdkUtil
 import kotlinx.coroutines.launch
 
 private const val LOG_TAG = "AddNetworkScreenContent"
 
 @Composable
-internal fun AddNetworkScreenContent(viewModel: AddNetworkViewModel, isAtLeastAndroidQ: Boolean) {
+internal fun AddNetworkScreenContent(
+    viewModel: AddNetworkViewModel,
+    sdkUtil: SdkUtil
+) {
     WisefySampleTheme {
         val scope = rememberCoroutineScope()
 
@@ -59,7 +62,7 @@ internal fun AddNetworkScreenContent(viewModel: AddNetworkViewModel, isAtLeastAn
             when (result.resultCode) {
                 Activity.RESULT_OK -> {
                     val data = result.data ?: return@rememberLauncherForActivityResult
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    if (sdkUtil.isAtLeastR()) {
                         val networkResultList = data.getIntegerArrayListExtra(EXTRA_WIFI_NETWORK_RESULT_LIST)
                             ?: emptyList()
                         for (resultCode in networkResultList) {
@@ -79,7 +82,7 @@ internal fun AddNetworkScreenContent(viewModel: AddNetworkViewModel, isAtLeastAn
                 if (result.all { it.value }) {
                     scope.launch {
                         @Suppress("MissingPermission")
-                        if (isAtLeastAndroidQ) {
+                        if (sdkUtil.isAtLeastR()) {
                             viewModel.addNetwork(launcher = addNetworkRequestLauncher)
                         } else {
                             viewModel.addNetwork()
@@ -105,7 +108,7 @@ internal fun AddNetworkScreenContent(viewModel: AddNetworkViewModel, isAtLeastAn
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
                 WisefySampleBodyLabel(stringResId = R.string.open)
                 WisefySampleBodyLabel(stringResId = R.string.wpa2)
-                if (isAtLeastAndroidQ) {
+                if (sdkUtil.isAtLeastQ()) {
                     WisefySampleBodyLabel(stringResId = R.string.wpa3)
                 }
             }
@@ -113,7 +116,7 @@ internal fun AddNetworkScreenContent(viewModel: AddNetworkViewModel, isAtLeastAn
                 AddNetworkRadioButtonGroup(
                     networkType = { viewModel.uiState.value.networkType },
                     viewModel = viewModel,
-                    isAtLeastAndroidQ = isAtLeastAndroidQ
+                    isAtLeastAndroidQ = sdkUtil.isAtLeastQ()
                 )
             }
             AddNetworkInputRows(

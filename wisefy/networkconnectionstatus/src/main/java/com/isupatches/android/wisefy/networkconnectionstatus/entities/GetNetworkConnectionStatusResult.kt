@@ -15,4 +15,4 @@
  */
 package com.isupatches.android.wisefy.networkconnectionstatus.entities
 
-data class GetNetworkConnectionStatusResult(val data: NetworkConnectionStatusData)
+data class GetNetworkConnectionStatusResult(val value: NetworkConnectionStatusData)

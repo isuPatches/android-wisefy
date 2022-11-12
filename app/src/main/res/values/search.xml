@@ -16,7 +16,10 @@
     <string name="filter_duplicates">Filter Duplicates</string>
     <string name="ssid_type">SSID Type</string>
 
-    <string name="timeout_after_x_seconds_args_html">Timeout after %d seconds</string>
+    <plurals name="timeout_after_x_seconds_args_html">
+        <item quantity="one">Timeout after %d second</item>
+        <item quantity="other">Timeout after %d seconds</item>
+    </plurals>
 
     <!-- Results -->
     <string name="search_result">Search Result</string>

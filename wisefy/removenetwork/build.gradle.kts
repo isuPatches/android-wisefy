@@ -13,6 +13,11 @@ plugins {
 group = PublishingConstants.GROUP_ID
 version = BuildVersions.MODULE_VERSION_NAME
 
+android {
+    namespace = "com.isupatches.android.wisefy.removenetwork"
+    testNamespace = "com.isupatches.android.wisefy.removenetwork.test"
+}
+
 dependencies {
     implementation(project(":wisefy:savednetworks"))
     implementation(project(":wisefy:core"))

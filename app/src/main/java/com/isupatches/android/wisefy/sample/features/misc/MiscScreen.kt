@@ -23,11 +23,14 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.isupatches.android.wisefy.Wisefy
 import com.isupatches.android.wisefy.WisefyApi
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleLoadingIndicator
+import com.isupatches.android.wisefy.sample.util.SdkUtil
+import com.isupatches.android.wisefy.sample.util.SdkUtilImpl
 
 @Composable
 internal fun MiscScreen(
     wisefy: WisefyApi,
-    viewModel: MiscViewModel = viewModel(factory = MiscViewModelFactory(wisefy))
+    sdkUtil: SdkUtil,
+    viewModel: MiscViewModel = viewModel(factory = MiscViewModelFactory(wisefy, sdkUtil))
 ) {
     WisefySampleLoadingIndicator(isLoading = { viewModel.uiState.value.loadingState.isLoading })
     MiscScreenDialogContent(dialogState = { viewModel.uiState.value.dialogState }, viewModel = viewModel)
@@ -37,11 +40,11 @@ internal fun MiscScreen(
 @Preview(showBackground = true)
 @Composable
 internal fun MiscScreenLightPreview() {
-    MiscScreen(Wisefy.Brains(LocalContext.current.applicationContext).getSmarts())
+    MiscScreen(Wisefy.Brains(LocalContext.current.applicationContext).getSmarts(), SdkUtilImpl())
 }
 
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 internal fun MiscScreenDarkPreview() {
-    MiscScreen(Wisefy.Brains(LocalContext.current.applicationContext).getSmarts())
+    MiscScreen(Wisefy.Brains(LocalContext.current.applicationContext).getSmarts(), SdkUtilImpl())
 }

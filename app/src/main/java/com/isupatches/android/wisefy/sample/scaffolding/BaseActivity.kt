@@ -17,4 +17,5 @@ package com.isupatches.android.wisefy.sample.scaffolding
 
 import androidx.activity.ComponentActivity
 
+@Suppress("Registered")
 internal open class BaseActivity : ComponentActivity()

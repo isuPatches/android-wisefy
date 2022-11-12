@@ -18,8 +18,8 @@ package com.isupatches.android.wisefy.build
 object BuildVersions {
     const val BUILD_TOOLS: String = "33.0.0-rc4"
 
-    const val COMPILE_SDK: Int = 31
-    const val TARGET_SDK: Int = 31
+    const val COMPILE_SDK: Int = 33
+    const val TARGET_SDK: Int = 33
     const val MIN_SDK: Int = 23
 
     const val MODULE_VERSION_CODE: Int = 18

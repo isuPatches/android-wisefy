@@ -13,6 +13,11 @@ plugins {
 group = GROUP_ID
 version = BuildVersions.MODULE_VERSION_NAME
 
+android {
+    namespace = "com.isupatches.android.wisefy"
+    testNamespace = "com.isupatches.android.wisefy.test"
+}
+
 dependencies {
 
     /*

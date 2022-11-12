@@ -13,6 +13,11 @@ plugins {
 group = PublishingConstants.GROUP_ID
 version = BuildVersions.MODULE_VERSION_NAME
 
+android {
+    namespace = "com.isupatches.android.wisefy.networkconnection"
+    testNamespace = "com.isupatches.android.wisefy.networkconnection.test"
+}
+
 dependencies {
     implementation(project(":wisefy:networkconnectionstatus"))
     implementation(project(":wisefy:savednetworks"))

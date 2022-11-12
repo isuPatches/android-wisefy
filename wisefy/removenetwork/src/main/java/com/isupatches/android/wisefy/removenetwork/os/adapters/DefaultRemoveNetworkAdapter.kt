@@ -60,11 +60,11 @@ internal class DefaultRemoveNetworkAdapter(
                 query = request.toSearchForNetworkRequest()
             )
         ) {
-            is GetSavedNetworksResult.Success.Empty -> RemoveNetworkResult.Failure.NetworkNotFound
-            is GetSavedNetworksResult.Success.SavedNetworks -> {
-                when (val savedNetwork = savedNetworkSearchResult.data.first()) {
+            is GetSavedNetworksResult.Empty -> RemoveNetworkResult.Failure.NetworkNotFound
+            is GetSavedNetworksResult.SavedNetworks -> {
+                when (val savedNetwork = savedNetworkSearchResult.value.first()) {
                     is SavedNetworkData.Configuration -> {
-                        val result = api.removeNetwork(savedNetwork.value.networkId)
+                        val result = api.removeNetwork(savedNetwork.rawValue.networkId)
                         if (result) {
                             RemoveNetworkResult.Success.True
                         } else {
@@ -77,9 +77,6 @@ internal class DefaultRemoveNetworkAdapter(
                         RemoveNetworkResult.Failure.Assertion(message = message)
                     }
                 }
-            }
-            is GetSavedNetworksResult.Failure.Assertion -> {
-                RemoveNetworkResult.Failure.Assertion(message = savedNetworkSearchResult.message)
             }
         }
     }

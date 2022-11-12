@@ -31,19 +31,19 @@ sealed class SavedNetworkData {
     /**
      * A data representation of a saved network configuration prior to Android Q.
      *
-     * @property value The raw value of the saved network as a configuration
+     * @property rawValue The raw value of the saved network as a configuration
      *
      * @see SavedNetworkData
      *
      * @author Patches Klinefelter
      * @since 07/2022, version 5.0.0
      */
-    data class Configuration(val value: WifiConfiguration) : SavedNetworkData()
+    data class Configuration(val rawValue: WifiConfiguration) : SavedNetworkData()
 
     /**
      * A data representation of a saved network suggestion starting at Android Q.
      *
-     * @property value The raw value of the saved network as a suggestion
+     * @property rawValue The raw value of the saved network as a suggestion
      *
      * @see SavedNetworkData
      *
@@ -51,5 +51,5 @@ sealed class SavedNetworkData {
      * @since 07/2022, version 5.0.0
      */
     @RequiresApi(Build.VERSION_CODES.Q)
-    data class Suggestion(val value: WifiNetworkSuggestion) : SavedNetworkData()
+    data class Suggestion(val rawValue: WifiNetworkSuggestion) : SavedNetworkData()
 }

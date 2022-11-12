@@ -13,6 +13,11 @@ plugins {
 group = PublishingConstants.GROUP_ID
 version = BuildVersions.MODULE_VERSION_NAME
 
+android {
+    namespace = "com.isupatches.android.wisefy.ktx"
+    testNamespace = "com.isupatches.android.wisefy.ktx.test"
+}
+
 dependencies {
     api(project(":wisefy"))
 

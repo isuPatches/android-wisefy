@@ -19,7 +19,7 @@ package com.isupatches.android.wisefy.core.constants
  * A constant for the minimum frequency for a 5G network.
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 11/2022, version 5.0.0
  */
 const val MIN_FREQUENCY_5GHZ: Int = 4900
 
@@ -27,6 +27,6 @@ const val MIN_FREQUENCY_5GHZ: Int = 4900
  * A constant for the maximum frequency for a 5G network.
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 11/2022, version 5.0.0
  */
 const val MAX_FREQUENCY_5GHZ: Int = 5900

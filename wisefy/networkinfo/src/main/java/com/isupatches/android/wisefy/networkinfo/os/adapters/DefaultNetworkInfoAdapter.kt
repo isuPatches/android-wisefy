@@ -41,20 +41,18 @@ import com.isupatches.android.wisefy.networkinfo.os.impls.DefaultNetworkInfoApiI
  * @since 03/2022
  */
 internal class DefaultNetworkInfoAdapter(
-    wifiManager: WifiManager,
+    private val wifiManager: WifiManager,
     private val connectivityManager: ConnectivityManager,
-    private val api: DefaultNetworkInfoApi = DefaultNetworkInfoApiImpl(
-        wifiManager = wifiManager,
-        connectivityManager = connectivityManager
-    )
+    private val api: DefaultNetworkInfoApi = DefaultNetworkInfoApiImpl(connectivityManager = connectivityManager)
 ) : NetworkInfoApi {
 
     override fun getCurrentNetwork(query: GetCurrentNetworkQuery): GetCurrentNetworkResult {
         val network = api.getCurrentNetwork()
         return network?.let {
             GetCurrentNetworkResult.Network(
-                data = NetworkData(
+                value = NetworkData(
                     network = it,
+                    connectionInfo = wifiManager.connectionInfo,
                     capabilities = api.getNetworkCapabilities(it),
                     linkProperties = api.getLinkProperties(it)
                 )

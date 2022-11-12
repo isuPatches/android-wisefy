@@ -16,14 +16,23 @@
 package com.isupatches.android.wisefy.sample.util
 
 import android.os.Build
+import androidx.annotation.ChecksSdkIntAtLeast
 import javax.inject.Inject
 
 internal interface SdkUtil {
 
+    @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.Q)
     fun isAtLeastQ(): Boolean
+
+    @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.R)
+    fun isAtLeastR(): Boolean
 }
 
 internal class SdkUtilImpl @Inject constructor() : SdkUtil {
 
+    @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.Q)
     override fun isAtLeastQ() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
+
+    @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.R)
+    override fun isAtLeastR() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
 }

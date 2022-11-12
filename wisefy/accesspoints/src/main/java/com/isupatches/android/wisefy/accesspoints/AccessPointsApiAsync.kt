@@ -24,21 +24,21 @@ import com.isupatches.android.wisefy.accesspoints.entities.GetAccessPointsQuery
  * A set of asynchronous APIs for getting and searching for nearby access points.
  *
  * @author Patches Klinefelter
- * @since 08/2022, version 5.0.0
+ * @since 11/2022, version 5.0.0
  */
 interface AccessPointsApiAsync {
 
     /**
-     * An asynchronous API to get a list of all nearby access points.
+     * An asynchronous API to query for a list of nearby access points.
      *
-     * @param query The details of the request to get nearby access points
+     * @param query The details of the query to get nearby access points
      * @param callbacks The optional callbacks for when nearby access points are returned
      *
      * @see GetAccessPointsQuery
      * @see GetAccessPointsCallbacks
      *
      * @author Patches Klinefelter
-     * @since 08/2022, version 5.0.0
+     * @since 11/2022, version 5.0.0
      */
     @RequiresPermission(ACCESS_FINE_LOCATION)
     fun getAccessPoints(query: GetAccessPointsQuery, callbacks: GetAccessPointsCallbacks?)

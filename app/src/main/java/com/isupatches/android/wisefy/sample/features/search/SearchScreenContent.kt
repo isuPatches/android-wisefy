@@ -32,7 +32,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.pluralStringResource
 import com.isupatches.android.wisefy.sample.R
 import com.isupatches.android.wisefy.sample.entities.SearchType
 import com.isupatches.android.wisefy.sample.logging.WisefySampleLogger
@@ -47,8 +49,8 @@ import com.isupatches.android.wisefy.sample.ui.components.WisefySampleSlider
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleSubHeaderLabel
 import com.isupatches.android.wisefy.sample.ui.primitives.WisefySampleSizes
 import com.isupatches.android.wisefy.sample.ui.theme.WisefySampleTheme
-import kotlin.math.roundToInt
 import kotlinx.coroutines.launch
+import kotlin.math.roundToInt
 
 private const val LOG_TAG = "SearchScreenContent"
 
@@ -57,7 +59,6 @@ private const val MAX_SEARCH_TIMEOUT = 60f
 
 @Composable
 internal fun SearchScreenContent(viewModel: SearchViewModel) {
-
     val scope = rememberCoroutineScope()
 
     val searchForAccessPointPermissionsLauncher =
@@ -395,11 +396,11 @@ internal fun SearchScreenTimeoutInputRows(
     }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 internal fun SearchScreenTimeoutLabelRow(timeout: () -> Int) {
     WisefySampleCaptionLabel(
-        stringResId = R.string.timeout_after_x_seconds_args_html,
-        modifier = Modifier,
-        timeout()
+        text = pluralStringResource(R.plurals.timeout_after_x_seconds_args_html, timeout(), timeout()),
+        modifier = Modifier
     )
 }

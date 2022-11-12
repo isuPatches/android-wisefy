@@ -25,59 +25,25 @@ package com.isupatches.android.wisefy.savednetworks.entities
 sealed class GetSavedNetworksResult {
 
     /**
-     * A set of classes and objects that are used to represent a success while getting all of the saved networks on the
-     * device.
+     * A data representation of no networks being saved on the device.
+     *
+     * @see GetSavedNetworksResult
      *
      * @author Patches Klinefelter
      * @since 07/2022, version 5.0.0
      */
-    sealed class Success : GetSavedNetworksResult() {
-
-        /**
-         * A data representation of no networks being saved on the device.
-         *
-         * @see Success
-         *
-         * @author Patches Klinefelter
-         * @since 07/2022, version 5.0.0
-         */
-        object Empty : Success()
-
-        /**
-         * A data representation of a success retrieving saved networks on the device.
-         *
-         * @property data The saved networks retrieved
-         *
-         * @see SavedNetworkData
-         * @see Success
-         *
-         * @author Patches Klinefelter
-         * @since 07/2022, version 5.0.0
-         */
-        data class SavedNetworks(val data: List<SavedNetworkData>) : Success()
-    }
+    object Empty : GetSavedNetworksResult()
 
     /**
-     * A set of classes and objects that are used to represent a failure while getting saved networks on the device.
+     * A data representation of a success retrieving saved networks on the device.
+     *
+     * @property value The saved networks retrieved
+     *
+     * @see GetSavedNetworksResult
+     * @see SavedNetworkData
      *
      * @author Patches Klinefelter
      * @since 07/2022, version 5.0.0
      */
-    sealed class Failure : GetSavedNetworksResult() {
-
-        /**
-         * A data representation of a failure getting saved networks due to hitting an unexpected path causing an
-         * assertion.
-         *
-         * *NOTE* This is for developer specific feedback and should NEVER actually be hit unless there is a bug.
-         *
-         * @property message A text description describing the assertion error hit
-         *
-         * @see GetSavedNetworksResult
-         *
-         * @author Patches Klinefelter
-         * @since 07/2022, version 5.0.0
-         */
-        data class Assertion(val message: String) : Failure()
-    }
+    data class SavedNetworks(val value: List<SavedNetworkData>) : GetSavedNetworksResult()
 }

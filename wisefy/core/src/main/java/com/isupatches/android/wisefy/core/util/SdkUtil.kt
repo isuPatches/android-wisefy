@@ -22,7 +22,7 @@ import androidx.annotation.ChecksSdkIntAtLeast
  * An interface that helps the library determine the SDK level of the device.
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 11/2022, version 5.0.0
  */
 interface SdkUtil {
 
@@ -32,8 +32,9 @@ interface SdkUtil {
      * @return Boolean - True if the device's SDK is at least Android P, other false
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 11/2022, version 5.0.0
      */
+    @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.P)
     fun isAtLeastP(): Boolean
 
     /**
@@ -42,8 +43,9 @@ interface SdkUtil {
      * @return Boolean - True if the device's SDK is at least Android Q, other false
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 11/2022, version 5.0.0
      */
+    @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.Q)
     fun isAtLeastQ(): Boolean
 
     /**
@@ -52,8 +54,9 @@ interface SdkUtil {
      * @return Boolean - True if the device's SDK is at least Android R, other false
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 11/2022, version 5.0.0
      */
+    @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.R)
     fun isAtLeastR(): Boolean
 
     /**
@@ -62,9 +65,13 @@ interface SdkUtil {
      * @return Boolean - True if the device's SDK is at least Android S, other false
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 11/2022, version 5.0.0
      */
+    @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.S)
     fun isAtLeastS(): Boolean
+
+    @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.TIRAMISU)
+    fun isAtLeastT(): Boolean
 }
 
 /**
@@ -73,7 +80,7 @@ interface SdkUtil {
  * @see SdkUtil
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 11/2022, version 5.0.0
  */
 class SdkUtilImpl : SdkUtil {
     @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.P)
@@ -87,4 +94,7 @@ class SdkUtilImpl : SdkUtil {
 
     @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.S)
     override fun isAtLeastS(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+
+    @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.TIRAMISU)
+    override fun isAtLeastT(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
 }

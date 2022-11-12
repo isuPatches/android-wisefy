@@ -27,7 +27,7 @@ import androidx.annotation.RequiresPermission
  * An internal Android 30 specific API for adding networks through the Android OS.
  *
  * @author Patches Klinefelter
- * @since 08/2022, version 5.0.0
+ * @since 11/2022, version 5.0.0
  */
 @RequiresApi(Build.VERSION_CODES.R)
 internal interface Android30AddNetworkApi {
@@ -40,7 +40,7 @@ internal interface Android30AddNetworkApi {
      * @param bssid The optional BSSID for the open network being added
      *
      * @author Patches Klinefelter
-     * @since 08/2022, version 5.0.0
+     * @since 11/2022, version 5.0.0
      */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     fun addOpenNetwork(
@@ -58,7 +58,7 @@ internal interface Android30AddNetworkApi {
      * @param bssid The optional BSSID for the WPA2 network being added
      *
      * @author Patches Klinefelter
-     * @since 08/2022, version 5.0.0
+     * @since 11/2022, version 5.0.0
      */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     fun addWPA2Network(
@@ -77,7 +77,7 @@ internal interface Android30AddNetworkApi {
      * @param bssid The optional BSSID for the WPA3 network being added
      *
      * @author Patches Klinefelter
-     * @since 08/2022, version 5.0.0
+     * @since 11/2022, version 5.0.0
      */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     fun addWPA3Network(

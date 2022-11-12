@@ -23,12 +23,15 @@ import kotlinx.coroutines.CoroutineExceptionHandler
  * A function to create a standardized coroutines exception handler for async operations within the library.
  * This helps return exceptions in a standardized way for all async callbacks.
  *
+ * *Notes* Converts a throwable to a [WisefyException] with the cause being the caught throwable
+ *
  * @param callbacks The callback interface that implements BaseWisefyCallbacks to return exceptions to
  *
  * @see BaseWisefyCallbacks
+ * @see WisefyException
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 11/2022, version 5.0.0
  */
 fun createBaseCoroutineExceptionHandler(callbacks: BaseWisefyCallbacks?): CoroutineExceptionHandler {
     return CoroutineExceptionHandler { _, throwable ->

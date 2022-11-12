@@ -57,13 +57,13 @@ internal class Android30SavedNetworkAdapter(
             is GetSavedNetworksQuery.ByBSSID -> api.searchForSavedNetworksByBSSID(query.regex)
         }
         return if (savedNetworkSuggestions.isNotEmpty()) {
-            GetSavedNetworksResult.Success.SavedNetworks(
-                data = savedNetworkSuggestions.map { networkSuggestion ->
+            GetSavedNetworksResult.SavedNetworks(
+                value = savedNetworkSuggestions.map { networkSuggestion ->
                     SavedNetworkData.Suggestion(networkSuggestion)
                 }
             )
         } else {
-            GetSavedNetworksResult.Success.Empty
+            GetSavedNetworksResult.Empty
         }
     }
 

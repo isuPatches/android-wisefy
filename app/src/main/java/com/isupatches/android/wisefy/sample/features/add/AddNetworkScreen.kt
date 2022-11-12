@@ -36,5 +36,5 @@ internal fun AddNetworkScreen(
 ) {
     WisefySampleLoadingIndicator(isLoading = { viewModel.uiState.value.loadingState.isLoading })
     AddNetworkScreenDialogContent(dialogState = { viewModel.uiState.value.dialogState }, viewModel = viewModel)
-    AddNetworkScreenContent(viewModel = viewModel, isAtLeastAndroidQ = viewModel.isAtLeastAndroidQ)
+    AddNetworkScreenContent(viewModel = viewModel, sdkUtil = sdkUtil)
 }

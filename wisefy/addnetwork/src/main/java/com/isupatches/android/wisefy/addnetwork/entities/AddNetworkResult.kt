@@ -16,25 +16,25 @@
 package com.isupatches.android.wisefy.addnetwork.entities
 
 /**
- * A set of classes and objects that are used to represent a result while attempting to add a network.
+ * A set of classes and objects that represent a result while attempting to add a network.
  *
  * @author Patches Klinefelter
- * @since 08/2022, version 5.0.0
+ * @since 11/2022, version 5.0.0
  */
 sealed class AddNetworkResult {
 
     /**
-     * A set of classes that are used to denote a success while attempting to add a network.
+     * A set of classes and objects that denote a success while attempting to add a network.
      *
      * @see AddNetworkResult
      *
      * @author Patches Klinefelter
-     * @since 08/2022, version 5.0.0
+     * @since 11/2022, version 5.0.0
      */
     sealed class Success : AddNetworkResult() {
 
         /**
-         * A data representation of a success while attempting to add a network based on Android OS level returns.
+         * A representation of a success while attempting to add a network based on Android OS level returns.
          *
          * *NOTE* This could be instances such as:
          *  - Returning the id of the new network for the case of legacy wifiManager.addNetwork()
@@ -42,40 +42,40 @@ sealed class AddNetworkResult {
          *  - STATUS_NETWORK_SUGGESTIONS_SUCCESS for SDK 30
          *  https://developer.android.com/reference/android/net/wifi/WifiManager#STATUS_NETWORK_SUGGESTIONS_SUCCESS
          *
-         * @property value The raw value of the result code from the Android OS
+         * @property value The value of the result code from the Android OS
          *
          * @see Success
          *
          * @author Patches Klinefelter
-         * @since 08/2022, version 5.0.0
+         * @since 11/2022, version 5.0.0
          */
         data class ResultCode(val value: Int) : Success()
 
         /**
-         * A data representation of a success while launching a network suggestion intent in Android 30.
+         * A representation of a success while launching a network suggestion intent in Android 30.
          *
          * *NOTE* Only applicable to Android 30 and higher
          *
          * @see Success
          *
          * @author Patches Klinefelter
-         * @since 08/2022, version 5.0.0
+         * @since 11/2022, version 5.0.0
          */
         object IntentLaunched : Success()
     }
 
     /**
-     * A set of classes that are used to denote a failure while attempting to add a network.
+     * A set of classes that denote a failure while attempting to add a network.
      *
      * @see AddNetworkResult
      *
      * @author Patches Klinefelter
-     * @since 08/2022, version 5.0.0
+     * @since 11/2022, version 5.0.0
      */
     sealed class Failure : AddNetworkResult() {
 
         /**
-         * A data representation of a failure to add a network based on Android OS level returns.
+         * A representation of a failure to add a network based on Android OS level returns.
          *
          * *NOTE* This could be instances such as:
          *  - Returning -1 for the case of legacy wifiManager.addNetwork()
@@ -88,12 +88,12 @@ sealed class AddNetworkResult {
          * @see Failure
          *
          * @author Patches Klinefelter
-         * @since 08/2022, version 5.0.0
+         * @since 11/2022, version 5.0.0
          */
         data class ResultCode(val value: Int) : Failure()
 
         /**
-         * A data representation of a failure to add a network due to hitting an unexpected path causing an assertion.
+         * A representation of a failure to add a network due to hitting an unexpected path causing an assertion.
          *
          * *NOTE* This is for developer specific feedback and should NEVER actually be hit unless there is a bug.
          *
@@ -102,7 +102,7 @@ sealed class AddNetworkResult {
          * @see Failure
          *
          * @author Patches Klinefelter
-         * @since 08/2022, version 5.0.0
+         * @since 11/2022, version 5.0.0
          */
         data class Assertion(val message: String) : Failure()
     }

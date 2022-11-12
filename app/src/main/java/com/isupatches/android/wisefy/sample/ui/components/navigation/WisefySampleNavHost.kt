@@ -15,7 +15,10 @@
  */
 package com.isupatches.android.wisefy.sample.ui.components.navigation
 
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -31,9 +34,14 @@ import com.isupatches.android.wisefy.sample.util.SdkUtil
 internal fun WisefySampleNavHost(
     navController: NavHostController,
     wisefy: WisefyApi,
-    sdkUtil: SdkUtil
+    sdkUtil: SdkUtil,
+    padding: PaddingValues
 ) {
-    NavHost(navController = navController, startDestination = WisefySampleNavigationItem.Home.route) {
+    NavHost(
+        navController = navController,
+        startDestination = WisefySampleNavigationItem.Home.route,
+        modifier = Modifier.padding(padding)
+    ) {
         composable(WisefySampleNavigationItem.Add.route) {
             AddNetworkScreen(wisefy, sdkUtil)
         }
@@ -44,7 +52,7 @@ internal fun WisefySampleNavHost(
             HomeScreen()
         }
         composable(WisefySampleNavigationItem.Misc.route) {
-            MiscScreen(wisefy)
+            MiscScreen(wisefy, sdkUtil)
         }
         composable(WisefySampleNavigationItem.Search.route) {
             SearchScreen(wisefy)

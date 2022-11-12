@@ -25,7 +25,7 @@ import androidx.annotation.RequiresPermission
  * An internal Android 29 specific API for adding networks through the Android OS.
  *
  * @author Patches Klinefelter
- * @since 08/2022, version 5.0.0
+ * @since 11/2022, version 5.0.0
  */
 @RequiresApi(Build.VERSION_CODES.Q)
 internal interface Android29AddNetworkApi {
@@ -39,7 +39,7 @@ internal interface Android29AddNetworkApi {
      * @return Int - The result code of adding the open network
      *
      * @author Patches Klinefelter
-     * @since 08/2022, version 5.0.0
+     * @since 11/2022, version 5.0.0
      */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     fun addOpenNetwork(ssid: String, bssid: String?): Int
@@ -54,7 +54,7 @@ internal interface Android29AddNetworkApi {
      * @return Int - The result code of adding the WPA2 network
      *
      * @author Patches Klinefelter
-     * @since 08/2022, version 5.0.0
+     * @since 11/2022, version 5.0.0
      */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     fun addWPA2Network(ssid: String, passphrase: String, bssid: String?): Int
@@ -66,10 +66,10 @@ internal interface Android29AddNetworkApi {
      * @param passphrase The passphrase to authenticate with the WPA3 network
      * @param bssid The optional BSSID for the WPA3 network being added
      *
-     * @return Int - The result coe of adding the WPA3 network
+     * @return Int - The result code of adding the WPA3 network
      *
      * @author Patches Klinefelter
-     * @since 08/2022, version 5.0.0
+     * @since 11/2022, version 5.0.0
      */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     fun addWPA3Network(ssid: String, passphrase: String, bssid: String?): Int

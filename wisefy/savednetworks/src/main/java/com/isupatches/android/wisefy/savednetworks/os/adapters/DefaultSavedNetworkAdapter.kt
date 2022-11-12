@@ -54,13 +54,13 @@ internal class DefaultSavedNetworkAdapter(
             is GetSavedNetworksQuery.ByBSSID -> api.searchForSavedNetworksByBSSID(query.regex)
         }
         return if (savedNetworkConfigurations.isNotEmpty()) {
-            GetSavedNetworksResult.Success.SavedNetworks(
-                data = savedNetworkConfigurations.map { networkSuggestion ->
+            GetSavedNetworksResult.SavedNetworks(
+                value = savedNetworkConfigurations.map { networkSuggestion ->
                     SavedNetworkData.Configuration(networkSuggestion)
                 }
             )
         } else {
-            GetSavedNetworksResult.Success.Empty
+            GetSavedNetworksResult.Empty
         }
     }
 

@@ -81,7 +81,8 @@ class BaseGradleModulePlugin : Plugin<Project> {
             buildTypes {
                 debug {
                     // Test coverage needs to be disabled to release -SNAPSHOT builds
-                    isTestCoverageEnabled = true
+                    enableUnitTestCoverage = true
+                    enableAndroidTestCoverage = true
                     isMinifyEnabled = false
                     proguardFiles(
                         getDefaultProguardFile("proguard-android-optimize.txt"),

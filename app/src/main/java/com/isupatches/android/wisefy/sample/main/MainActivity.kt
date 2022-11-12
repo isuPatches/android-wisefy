@@ -63,7 +63,9 @@ internal fun MainScreenLayout(wisefy: WisefyApi, sdkUtil: SdkUtil) {
     val navController = rememberNavController()
     Scaffold(
         topBar = { WisefySampleToolbar() },
-        content = { WisefySampleNavHost(navController, wisefy, sdkUtil) },
+        content = { padding ->
+            WisefySampleNavHost(navController, wisefy, sdkUtil, padding)
+        },
         bottomBar = { WisefySampleBottomNavigation(navController) }
     )
 }

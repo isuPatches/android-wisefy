@@ -39,7 +39,7 @@ import com.isupatches.android.wisefy.core.wifimanager.createWPA3NetworkSuggestio
  * @see Android30AddNetworkApi
  *
  * @author Patches Klinefelter
- * @since 08/2022, version 5.0.0
+ * @since 11/2022, version 5.0.0
  */
 @RequiresApi(Build.VERSION_CODES.R)
 internal class Android30AddNetworkApiImpl(

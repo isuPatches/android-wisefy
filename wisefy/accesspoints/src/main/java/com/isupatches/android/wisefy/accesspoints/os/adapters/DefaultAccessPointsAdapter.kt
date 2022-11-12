@@ -24,6 +24,7 @@ import com.isupatches.android.wisefy.accesspoints.entities.GetAccessPointsResult
 import com.isupatches.android.wisefy.accesspoints.os.apis.DefaultAccessPointsApi
 import com.isupatches.android.wisefy.accesspoints.os.impls.DefaultAccessPointsApiImpl
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
+import com.isupatches.android.wisefy.core.util.SdkUtil
 
 /**
  * A default adapter for getting and searching for nearby access points.
@@ -38,12 +39,13 @@ import com.isupatches.android.wisefy.core.logging.WisefyLogger
  * @see WisefyLogger
  *
  * @author Patches Klinefelter
- * @since 08/2022, version 5.0.0
+ * @since 11/2022, version 5.0.0
  */
 internal class DefaultAccessPointsAdapter(
     wifiManager: WifiManager,
     logger: WisefyLogger,
-    private val api: DefaultAccessPointsApi = DefaultAccessPointsApiImpl(wifiManager, logger)
+    sdkUtil: SdkUtil,
+    private val api: DefaultAccessPointsApi = DefaultAccessPointsApiImpl(wifiManager, logger, sdkUtil)
 ) : AccessPointsApi {
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
@@ -62,7 +64,7 @@ internal class DefaultAccessPointsAdapter(
             )
         }
         return if (accessPoints.isNotEmpty()) {
-            GetAccessPointsResult.AccessPoints(data = accessPoints)
+            GetAccessPointsResult.AccessPoints(value = accessPoints)
         } else {
             GetAccessPointsResult.Empty
         }

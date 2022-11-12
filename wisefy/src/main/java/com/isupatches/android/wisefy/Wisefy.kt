@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 @file:JvmName("WiseFy")
+
 package com.isupatches.android.wisefy
 
 import android.Manifest.permission.ACCESS_COARSE_LOCATION
@@ -219,6 +220,7 @@ class Wisefy private constructor(
                 coroutineDispatcherProvider = coroutineDispatcherProvider,
                 scope = wisefyScope,
                 logger = logger,
+                sdkUtil = sdkUtil,
                 wifiManager = wifiManager
             )
             addNetworkDelegate = WisefyAddNetworkDelegate(
@@ -578,69 +580,69 @@ class Wisefy private constructor(
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun getCurrentNetwork(request: GetCurrentNetworkQuery): GetCurrentNetworkResult {
-        return networkInfoDelegate.getCurrentNetwork()
+    override fun getCurrentNetwork(query: GetCurrentNetworkQuery): GetCurrentNetworkResult {
+        return networkInfoDelegate.getCurrentNetwork(query)
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun getCurrentNetwork(request: GetCurrentNetworkQuery, callbacks: GetCurrentNetworkCallbacks?) {
-        networkInfoDelegate.getCurrentNetwork(request, callbacks)
+    override fun getCurrentNetwork(query: GetCurrentNetworkQuery, callbacks: GetCurrentNetworkCallbacks?) {
+        networkInfoDelegate.getCurrentNetwork(query, callbacks)
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun getAccessPoints(request: GetAccessPointsQuery): GetAccessPointsResult {
-        return accessPointsDelegate.getAccessPoints(request)
+    override fun getAccessPoints(query: GetAccessPointsQuery): GetAccessPointsResult {
+        return accessPointsDelegate.getAccessPoints(query)
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun getAccessPoints(
-        request: GetAccessPointsQuery,
+        query: GetAccessPointsQuery,
         callbacks: GetAccessPointsCallbacks?
     ) {
-        accessPointsDelegate.getAccessPoints(request, callbacks)
+        accessPointsDelegate.getAccessPoints(query, callbacks)
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
     override fun getNetworkConnectionStatus(
-        request: GetNetworkConnectionStatusQuery
+        query: GetNetworkConnectionStatusQuery
     ): GetNetworkConnectionStatusResult {
-        return networkConnectionStatusDelegate.getNetworkConnectionStatus(request)
+        return networkConnectionStatusDelegate.getNetworkConnectionStatus(query)
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
     override fun getNetworkConnectionStatus(
-        request: GetNetworkConnectionStatusQuery,
+        query: GetNetworkConnectionStatusQuery,
         callbacks: GetNetworkConnectionStatusCallbacks?
     ) {
-        networkConnectionStatusDelegate.getNetworkConnectionStatus(request, callbacks)
+        networkConnectionStatusDelegate.getNetworkConnectionStatus(query, callbacks)
     }
 
     @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun getSavedNetworks(request: GetSavedNetworksQuery): GetSavedNetworksResult {
-        return savedNetworkDelegate.getSavedNetworks(request)
+    override fun getSavedNetworks(query: GetSavedNetworksQuery): GetSavedNetworksResult {
+        return savedNetworkDelegate.getSavedNetworks(query)
     }
 
     @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun getSavedNetworks(request: GetSavedNetworksQuery, callbacks: GetSavedNetworksCallbacks?) {
-        savedNetworkDelegate.getSavedNetworks(request, callbacks)
+    override fun getSavedNetworks(query: GetSavedNetworksQuery, callbacks: GetSavedNetworksCallbacks?) {
+        savedNetworkDelegate.getSavedNetworks(query, callbacks)
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun isNetworkSaved(request: IsNetworkSavedQuery): IsNetworkSavedResult {
-        return savedNetworkDelegate.isNetworkSaved(request)
+    override fun isNetworkSaved(query: IsNetworkSavedQuery): IsNetworkSavedResult {
+        return savedNetworkDelegate.isNetworkSaved(query)
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun isNetworkSaved(request: IsNetworkSavedQuery, callbacks: IsNetworkSavedCallbacks?) {
-        return savedNetworkDelegate.isNetworkSaved(request, callbacks)
+    override fun isNetworkSaved(query: IsNetworkSavedQuery, callbacks: IsNetworkSavedCallbacks?) {
+        return savedNetworkDelegate.isNetworkSaved(query, callbacks)
     }
 
-    override fun isWifiEnabled(request: IsWifiEnabledQuery): IsWifiEnabledResult {
-        return wifiDelegate.isWifiEnabled()
+    override fun isWifiEnabled(query: IsWifiEnabledQuery): IsWifiEnabledResult {
+        return wifiDelegate.isWifiEnabled(query)
     }
 
-    override fun isWifiEnabled(request: IsWifiEnabledQuery, callbacks: IsWifiEnabledCallbacks?) {
-        wifiDelegate.isWifiEnabled(request, callbacks)
+    override fun isWifiEnabled(query: IsWifiEnabledQuery, callbacks: IsWifiEnabledCallbacks?) {
+        wifiDelegate.isWifiEnabled(query, callbacks)
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])

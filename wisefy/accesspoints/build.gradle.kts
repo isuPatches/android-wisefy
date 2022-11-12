@@ -13,6 +13,11 @@ plugins {
 group = PublishingConstants.GROUP_ID
 version = BuildVersions.MODULE_VERSION_NAME
 
+android {
+    namespace = "com.isupatches.android.wisefy.accesspoints"
+    testNamespace = "com.isupatches.android.wisefy.accesspoints.test"
+}
+
 dependencies {
     implementation(project(":wisefy:core"))
 
