@@ -123,6 +123,12 @@ Types of classes:
 - `Query` - Indicates a read only operation where nothing is modified or written
 - `Request` - Indicates an action where some state is modified or a value is written
 - `Result` - Indicates the return from an action or query
+- `Data` - Indicates a complex return for a result that includes several different properties, fields, and functions
+
+Types of property values:
+
+- `value` - A field within a `Result` object for a `Data` class (a Wisefy based class)
+- `rawValue` - A field for a OS level class or object (not a Wisefy based class) within a `Data` object
 
 Suffixes:
 

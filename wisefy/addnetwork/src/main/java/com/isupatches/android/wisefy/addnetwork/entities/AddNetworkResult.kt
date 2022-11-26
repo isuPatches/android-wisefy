@@ -39,7 +39,7 @@ sealed class AddNetworkResult {
          * *NOTE* This could be instances such as:
          *  - Returning the id of the new network for the case of legacy wifiManager.addNetwork()
          *  https://developer.android.com/reference/android/net/wifi/WifiManager#addNetwork(android.net.wifi.WifiConfiguration))
-         *  - STATUS_NETWORK_SUGGESTIONS_SUCCESS for SDK 30
+         *  - STATUS_NETWORK_SUGGESTIONS_SUCCESS for SDK 29
          *  https://developer.android.com/reference/android/net/wifi/WifiManager#STATUS_NETWORK_SUGGESTIONS_SUCCESS
          *
          * @property value The value of the result code from the Android OS

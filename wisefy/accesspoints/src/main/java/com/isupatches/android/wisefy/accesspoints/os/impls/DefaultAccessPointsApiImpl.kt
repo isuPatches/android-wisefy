@@ -35,6 +35,7 @@ import java.util.Locale
  * @param sdkUtil The [SdkUtil] instance to use
  *
  * @see DefaultAccessPointsApi
+ * @see SdkUtil
  * @see WisefyLogger
  *
  * @author Patches Klinefelter
@@ -213,15 +214,14 @@ internal class DefaultAccessPointsApiImpl(
     ): List<AccessPointData> {
         var accessPointsTemp: List<AccessPointData>
         if (timeoutInMillis != null) {
-            val currentTime = System.currentTimeMillis()
-            val endTime = currentTime + timeoutInMillis
+            val endTime = System.currentTimeMillis() + timeoutInMillis
             do {
                 accessPointsTemp = scanForAccessPoints(filterDuplicates, matcher)
                 if (accessPointsTemp.isNotEmpty()) {
                     break
                 }
                 rest()
-            } while (currentTime < endTime)
+            } while (System.currentTimeMillis() < endTime)
         } else {
             accessPointsTemp = scanForAccessPoints(filterDuplicates, matcher)
         }

@@ -65,6 +65,7 @@ internal fun SearchScreenContent(viewModel: SearchViewModel) {
         rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
                 scope.launch {
+                    @Suppress("MissingPermission")
                     viewModel.searchForAccessPoint()
                 }
             } else {
@@ -77,6 +78,7 @@ internal fun SearchScreenContent(viewModel: SearchViewModel) {
         rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
                 scope.launch {
+                    @Suppress("MissingPermission")
                     viewModel.searchForAccessPoints()
                 }
             } else {
@@ -89,6 +91,7 @@ internal fun SearchScreenContent(viewModel: SearchViewModel) {
         rememberLauncherForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result ->
             if (result.all { it.value }) {
                 scope.launch {
+                    @Suppress("MissingPermission")
                     viewModel.searchForSavedNetwork()
                 }
             } else {
@@ -101,6 +104,7 @@ internal fun SearchScreenContent(viewModel: SearchViewModel) {
         rememberLauncherForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result ->
             if (result.all { it.value }) {
                 scope.launch {
+                    @Suppress("MissingPermission")
                     viewModel.searchForSavedNetworks()
                 }
             } else {
@@ -113,6 +117,7 @@ internal fun SearchScreenContent(viewModel: SearchViewModel) {
         rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
                 scope.launch {
+                    @Suppress("MissingPermission")
                     viewModel.searchForSSID()
                 }
             } else {
@@ -125,6 +130,7 @@ internal fun SearchScreenContent(viewModel: SearchViewModel) {
         rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
                 scope.launch {
+                    @Suppress("MissingPermission")
                     viewModel.searchForSSIDs()
                 }
             } else {

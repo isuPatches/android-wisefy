@@ -47,7 +47,7 @@ import com.isupatches.android.wisefy.signal.os.impls.Android30SignalApiImpl
 internal class Android30SignalAdapter(
     wifiManager: WifiManager,
     private val assertions: WisefyAssertions,
-    private val api: Android30SignalApi = Android30SignalApiImpl(assertions, wifiManager)
+    private val api: Android30SignalApi = Android30SignalApiImpl(wifiManager)
 ) : SignalApi {
 
     override fun calculateBars(request: CalculateBarsRequest): CalculateBarsResult {

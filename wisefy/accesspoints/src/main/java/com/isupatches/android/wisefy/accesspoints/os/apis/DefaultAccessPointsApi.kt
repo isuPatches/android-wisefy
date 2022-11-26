@@ -34,7 +34,7 @@ internal interface DefaultAccessPointsApi {
      *
      * @see AccessPointData
      *
-     * @return List<AccessPointData> - List of access points or empty list
+     * @return List<AccessPointData> - List of access points or empty list if there are none
      *
      * @author Patches Klinefelter
      * @since 11/2022, version 5.0.0
@@ -51,7 +51,7 @@ internal interface DefaultAccessPointsApi {
      *
      * @see AccessPointData
      *
-     * @return List<AccessPointData> - The list of matching access points or empty list if there are none
+     * @return List<AccessPointData> - The list of matching access points or empty list if there are no matches
      * *
      * @author Patches Klinefelter
      * @since 11/2022, version 5.0.0
@@ -72,7 +72,7 @@ internal interface DefaultAccessPointsApi {
      *
      * @see AccessPointData
      *
-     * @return List<AccessPointData> - The list of matching access points or empty list if there are none
+     * @return List<AccessPointData> - The list of matching access points or empty list if there are no matches
      * *
      * @author Patches Klinefelter
      * @since 11/2022, version 5.0.0

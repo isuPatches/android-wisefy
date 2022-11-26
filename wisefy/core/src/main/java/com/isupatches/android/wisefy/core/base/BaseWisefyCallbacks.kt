@@ -30,6 +30,8 @@ interface BaseWisefyCallbacks {
      *
      * @param exception The exception that was thrown within the library
      *
+     * @see WisefyException
+     *
      * @author Patches Klinefelter
      * @since 11/2022, version 5.0.0
      */

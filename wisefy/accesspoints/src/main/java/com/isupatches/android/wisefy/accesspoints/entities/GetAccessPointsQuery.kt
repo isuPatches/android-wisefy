@@ -28,8 +28,6 @@ sealed class GetAccessPointsQuery(open val filterDuplicates: Boolean) {
     /**
      * A representation of a query to get all nearby access points.
      *
-     * @property filterDuplicates Whether access points with the same SSID but lower RSSI levels should be excluded
-     *
      * @see GetAccessPointsQuery
      *
      * @author Patches Klinefelter
@@ -42,7 +40,6 @@ sealed class GetAccessPointsQuery(open val filterDuplicates: Boolean) {
      *
      * @property regex The regex to use when matching the SSID
      * @property timeoutInMillis The optional timeout in milliseconds to wait for matching access points
-     * @property filterDuplicates Whether access points with the same SSID but lower RSSI levels should be excluded
      *
      * @see GetAccessPointsQuery
      *
@@ -60,7 +57,6 @@ sealed class GetAccessPointsQuery(open val filterDuplicates: Boolean) {
      *
      * @property regex The regex to use when matching the BSSID
      * @property timeoutInMillis The optional timeout in milliseconds to wait for matching access points
-     * @property filterDuplicates Whether access points with the same SSID but lower RSSI levels should be excluded
      *
      * @see GetAccessPointsQuery
      *

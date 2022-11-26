@@ -36,7 +36,7 @@ import kotlin.jvm.Throws
  * *NOTES*
  *  - Internally locked by a mutex for all saved network related functionality (f.e. add, remove, get, search, etc.)
  *
- * @param request The details of the request to get all saved networks on the device
+ * @param query The details of the query to get all saved networks on the device
  *
  * @see GetSavedNetworksQuery
  * @see GetSavedNetworksResult

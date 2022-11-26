@@ -70,6 +70,14 @@ interface SdkUtil {
     @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.S)
     fun isAtLeastS(): Boolean
 
+    /**
+     * A function that will check whether the device is on at least Android T.
+     *
+     * @return Boolean - True if the device's SDK is at least Android T, other false
+     *
+     * @author Patches Klinefelter
+     * @since 11/2022, version 5.0.0
+     */
     @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.TIRAMISU)
     fun isAtLeastT(): Boolean
 }

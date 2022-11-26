@@ -391,6 +391,7 @@ internal class DefaultSearchViewModel(
         )
     }
 
+    @RequiresPermission(ACCESS_FINE_LOCATION)
     private suspend fun getAccessPoints(): GetAccessPointsResult? {
         return try {
             wisefy.getAccessPointsAsync(query = getAccessPointsQuery())
@@ -405,17 +406,22 @@ internal class DefaultSearchViewModel(
 
     private fun getAccessPointsQuery(): GetAccessPointsQuery {
         val networkInput = uiState.value.inputState
+        val timeout = if (uiState.value.searchType == SearchType.SAVED_NETWORK) {
+            null
+        } else {
+            uiState.value.timeout
+        }
         return when (uiState.value.ssidType) {
             SSIDType.SSID -> {
                 if (networkInput.inputValidityState is SearchInputValidityState.SSID.Valid) {
-                    GetAccessPointsQuery.BySSID(regex = networkInput.input)
+                    GetAccessPointsQuery.BySSID(regex = networkInput.input, timeoutInMillis = timeout)
                 } else {
                     error("")
                 }
             }
             SSIDType.BSSID -> {
                 if (networkInput.inputValidityState is SearchInputValidityState.BSSID.Valid) {
-                    GetAccessPointsQuery.ByBSSID(regex = networkInput.input)
+                    GetAccessPointsQuery.ByBSSID(regex = networkInput.input, timeoutInMillis = timeout)
                 } else {
                     error("")
                 }
@@ -423,6 +429,7 @@ internal class DefaultSearchViewModel(
         }
     }
 
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     private suspend fun getSavedNetworks(): GetSavedNetworksResult? {
         return try {
             wisefy.getSavedNetworksAsync(query = getSavedNetworksQuery())

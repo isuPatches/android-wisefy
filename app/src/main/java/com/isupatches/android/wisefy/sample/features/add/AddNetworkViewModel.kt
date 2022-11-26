@@ -30,6 +30,7 @@ import com.isupatches.android.wisefy.WisefyApi
 import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkRequest
 import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
 import com.isupatches.android.wisefy.core.exceptions.WisefyException
+import com.isupatches.android.wisefy.ktx.addNetworkAsync
 import com.isupatches.android.wisefy.networkconnection.callbacks.ConnectToNetworkCallbacks
 import com.isupatches.android.wisefy.networkconnection.entities.ConnectToNetworkRequest
 import com.isupatches.android.wisefy.sample.entities.NetworkType
@@ -331,7 +332,8 @@ internal class DefaultAddNetworkViewModel(
         TODO("Not yet implemented")
     }
 
-    private fun addNetworkInternal(request: AddNetworkRequest) {
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
+    private suspend fun addNetworkInternal(request: AddNetworkRequest) {
         if (!isInputValid()) {
             return
         }
@@ -355,9 +357,10 @@ internal class DefaultAddNetworkViewModel(
         }
     }
 
-    private fun getAddNetworkResult(request: AddNetworkRequest): AddNetworkResult? {
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
+    private suspend fun getAddNetworkResult(request: AddNetworkRequest): AddNetworkResult? {
         return try {
-            wisefy.addNetwork(request)
+            wisefy.addNetworkAsync(request)
         } catch (ex: WisefyException) {
             _uiState.value = uiState.value.copy(
                 loadingState = AddNetworkLoadingState(false),

@@ -33,10 +33,7 @@ import com.isupatches.android.wisefy.signal.os.apis.Android30SignalApi
  * @since 07/2022, version 5.0.0
  */
 @RequiresApi(Build.VERSION_CODES.R)
-internal class Android30SignalApiImpl(
-    private val assertions: WisefyAssertions,
-    private val wifiManager: WifiManager
-) : Android30SignalApi {
+internal class Android30SignalApiImpl(private val wifiManager: WifiManager) : Android30SignalApi {
 
     override fun calculateBars(rssiLevel: Int): Int {
         return wifiManager.calculateSignalLevel(rssiLevel)

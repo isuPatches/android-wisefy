@@ -17,6 +17,7 @@ package com.isupatches.android.wisefy.accesspoints.os.adapters
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.net.wifi.WifiManager
+import android.util.Log
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.accesspoints.AccessPointsApi
 import com.isupatches.android.wisefy.accesspoints.entities.GetAccessPointsQuery
@@ -31,11 +32,13 @@ import com.isupatches.android.wisefy.core.util.SdkUtil
  *
  * @param wifiManager The WifiManager instance to use
  * @param logger The [WisefyLogger] instance to use
+ * @param sdkUtil The [SdkUtil] instance to use
  * @param api The OS level API instance to use
  *
  * @see AccessPointsApi
  * @see DefaultAccessPointsApi
  * @see DefaultAccessPointsApiImpl
+ * @see SdkUtil
  * @see WisefyLogger
  *
  * @author Patches Klinefelter
@@ -50,6 +53,7 @@ internal class DefaultAccessPointsAdapter(
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun getAccessPoints(query: GetAccessPointsQuery): GetAccessPointsResult {
+        Log.d("TEST", "BOOM== query: $query")
         val accessPoints = when (query) {
             is GetAccessPointsQuery.All -> api.getNearbyAccessPoints(filterDuplicates = query.filterDuplicates)
             is GetAccessPointsQuery.BySSID -> api.searchForAccessPointsBySSID(

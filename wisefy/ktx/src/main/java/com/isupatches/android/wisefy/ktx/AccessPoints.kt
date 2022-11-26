@@ -32,7 +32,7 @@ import kotlin.jvm.Throws
  * *NOTES*
  *  - Internally locked by a mutex for all access point related functionality (f.e. get, search, etc.)
  *
- * @param request The details of the request to get all nearby access points
+ * @param query The details of the query to get all nearby access points
  *
  * @see GetAccessPointsQuery
  * @see GetAccessPointsResult

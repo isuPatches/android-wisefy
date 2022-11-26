@@ -115,7 +115,7 @@ suspend fun WisefyApi.enableWifiAsync(request: EnableWifiRequest = EnableWifiReq
  * *NOTES*
  *  - Locked by a mutex along with the async APIs to enable and disable Wifi
  *
- * @param request The details of the request to check the current state of wifi.
+ * @param query The details of the query to check the current state of wifi.
  *
  * @see IsWifiEnabledQuery
  * @see IsWifiEnabledResult

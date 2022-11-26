@@ -25,7 +25,7 @@ package com.isupatches.android.wisefy.accesspoints.entities
  */
 enum class SecurityCapability(val stringValue: String) {
     /**
-     * A representation of EAP security capability.
+     * A representation of the EAP security capability.
      *
      * @author Patches Klinefelter
      * @since 11/2022, version 5.0.0
@@ -33,7 +33,7 @@ enum class SecurityCapability(val stringValue: String) {
     EAP("EAP"),
 
     /**
-     * A representation of PSK security capability.
+     * A representation of the PSK security capability.
      *
      * @author Patches Klinefelter
      * @since 11/2022, version 5.0.0
@@ -41,7 +41,7 @@ enum class SecurityCapability(val stringValue: String) {
     PSK("PSK"),
 
     /**
-     * A representation of WEP security capability.
+     * A representation of the WEP security capability.
      *
      * @author Patches Klinefelter
      * @since 11/2022, version 5.0.0
@@ -49,7 +49,7 @@ enum class SecurityCapability(val stringValue: String) {
     WEP("WEP"),
 
     /**
-     * A representation of WPA security capability.
+     * A representation of the WPA security capability.
      *
      * @author Patches Klinefelter
      * @since 11/2022, version 5.0.0
@@ -57,7 +57,7 @@ enum class SecurityCapability(val stringValue: String) {
     WPA("WPA"),
 
     /**
-     * A representation of WPA2 security capability.
+     * A representation of the WPA2 security capability.
      *
      * @author Patches Klinefelter
      * @since 11/2022, version 5.0.0
@@ -65,7 +65,7 @@ enum class SecurityCapability(val stringValue: String) {
     WPA2("WPA2"),
 
     /**
-     * A representation of WPA3 security capability.
+     * A representation of the WPA3 security capability.
      *
      * @author Patches Klinefelter
      * @since 11/2022, version 5.0.0
@@ -74,7 +74,7 @@ enum class SecurityCapability(val stringValue: String) {
 
     companion object {
         /**
-         * A list of all representations of security capabilities.
+         * A list comprised of all of the representations of security capabilities.
          *
          * @see SecurityCapability
          *

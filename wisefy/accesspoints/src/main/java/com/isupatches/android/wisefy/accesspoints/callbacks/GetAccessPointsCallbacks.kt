@@ -32,6 +32,9 @@ interface GetAccessPointsCallbacks : BaseWisefyCallbacks {
     /**
      * A callback triggered when there are nearby access points for the [GetAccessPointsQuery].
      *
+     * *NOTES*
+     * - Will not return an empty list due to [onNoNearbyAccessPoints]
+     *
      * @param accessPoints The list of nearby access points
      *
      * @see AccessPointData

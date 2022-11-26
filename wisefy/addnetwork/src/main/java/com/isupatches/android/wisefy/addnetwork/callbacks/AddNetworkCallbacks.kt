@@ -43,7 +43,7 @@ interface AddNetworkCallbacks : BaseWisefyCallbacks {
     /**
      * A callback triggered when a success is returned for adding a network.
      *
-     * @param result The details from the success while attempting to add the network
+     * @param result The details from the successful attempt adding a network
      *
      * @see AddNetworkResult.Success
      *

@@ -50,6 +50,8 @@ data class AccessPointData(
      *
      * @see SecurityCapability
      *
+     * @return Boolean - True if the access point contains the [SecurityCapability], otherwise false
+     *
      * @author Patches Klinefelter
      * @since 11/2022, version 5.0.0
      */

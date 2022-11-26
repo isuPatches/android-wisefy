@@ -36,10 +36,12 @@ import kotlinx.coroutines.withContext
  * @param coroutineDispatcherProvider The [CoroutineDispatcherProvider] instance to use
  * @param scope The coroutine scope to use
  * @param logger The [WisefyLogger] instance to use
+ * @param sdkUtil The [SdkUtil] instance to use
  * @param wifiManager The WifiManager instance to use
  *
  * @see AccessPointsDelegate
  * @see CoroutineDispatcherProvider
+ * @see SdkUtil
  * @see WisefyLogger
  *
  * @author Patches Klinefelter

@@ -19,7 +19,7 @@ package com.isupatches.android.wisefy.core.constants
  * A singleton that houses all of the deprecation messages present throughout the app.
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 11/2022, version 5.0.0
  */
 object DeprecationMessages {
 
@@ -27,7 +27,7 @@ object DeprecationMessages {
      * A singleton that houses the deprecation messages present for the signal features.
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 11/2022, version 5.0.0
      */
     object Signal {
 
@@ -35,14 +35,26 @@ object DeprecationMessages {
          * A string value for the deprecation message for calculateBars(rssiLevel: Int, targetNumberOfBars: Int).
          *
          * @author Patches Klinefelter
-         * @since 03/2022
+         * @since 11/2022, version 5.0.0
          */
         const val CALCULATE_BARS: String = "Please replace calculateBars(rssiLevel: Int, targetNumberOfBars: Int) " +
             "with calculateBars(rssiLevel: Int)"
     }
 
+    /**
+     * A singleton that houses the deprecation messages present for the network connection features.
+     *
+     * @author Patches Klinefelter
+     * @since 11/2022, version 5.0.0
+     */
     object NetworkConnection {
 
+        /**
+         * A string value for the deprecation message for disconnectFromCurrentNetwork().
+         *
+         * @author Patches Klinefelter
+         * @since 11/2022, version 5.0.0
+         */
         const val DISCONNECT_FROM_CURRENT_NETWORK: String =
             "Starting with Build.VERSION_CODES#Q, applications are not allowed to disconnect from a network. They can" +
                 " only request a network suggestion."
@@ -52,7 +64,7 @@ object DeprecationMessages {
      * A singleton that houses the deprecation messages present for the wifi features.
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 11/2022, version 5.0.0
      */
     object Wifi {
 
@@ -60,7 +72,7 @@ object DeprecationMessages {
          * A string value for the deprecation message for enableWifi().
          *
          * @author Patches Klinefelter
-         * @since 03/2022
+         * @since 11/2022, version 5.0.0
          */
         const val ENABLE: String = "Starting with Build.VERSION_CODES#Q, applications are not allowed to enable Wifi."
 
@@ -68,7 +80,7 @@ object DeprecationMessages {
          * A string value for the deprecation message for disableWifi().
          *
          * @author Patches Klinefelter
-         * @since 03/2022
+         * @since 11/2022, version 5.0.0
          */
         const val DISABLE: String = "Starting with Build.VERSION_CODES#Q, applications are not allowed to disable Wifi."
     }

@@ -31,6 +31,8 @@ sealed class AddNetworkRequest {
     /**
      * A set of classes and objects that represent requests to add an open network.
      *
+     * @see AddNetworkRequest
+     *
      * @author Patches Klinefelter
      * @since 11/2022, version 5.0.0
      */
@@ -71,6 +73,8 @@ sealed class AddNetworkRequest {
 
     /**
      * A set of classes and objects that represent requests to add a WPA2 network.
+     *
+     * @see AddNetworkRequest
      *
      * @author Patches Klinefelter
      * @since 11/2022, version 5.0.0
@@ -115,6 +119,8 @@ sealed class AddNetworkRequest {
 
     /**
      * A set of classes and objects that represent requests to add a WPA3 network.
+     *
+     * @see AddNetworkRequest
      *
      * @author Patches Klinefelter
      * @since 11/2022, version 5.0.0

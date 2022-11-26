@@ -19,7 +19,7 @@ package com.isupatches.android.wisefy.core.constants
  * A singleton that houses all of the assertion messages present throughout the app.
  *
  * @author Patches Klinefelter
- * @since 03/2022
+ * @since 11/2022, version 5.0.0
  */
 object AssertionMessages {
 
@@ -27,7 +27,7 @@ object AssertionMessages {
      * A singleton that houses the assertion messages present for the add network features.
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 11/2022, version 5.0.0
      */
     object AddNetwork {
 
@@ -35,7 +35,7 @@ object AssertionMessages {
          * A singleton that houses the assertion messages present for functions using ActivityResultLauncher.
          *
          * @author Patches Klinefelter
-         * @since 03/2022
+         * @since 11/2022, version 5.0.0
          */
         object ActivityResultLauncher {
 
@@ -43,7 +43,7 @@ object AssertionMessages {
              * A string value for the assertion message for using ActivityResultLauncher prior to Android 30.
              *
              * @author Patches Klinefelter
-             * @since 03/2022
+             * @since 11/2022, version 5.0.0
              */
             const val USED_PRE_ANDROID_30: String =
                 "Adding a network using ActivityResultLauncher is not available until Android R"
@@ -52,7 +52,7 @@ object AssertionMessages {
              * A string value for the assertion message for not using ActivityResultLauncher on Android 30+.
              *
              * @author Patches Klinefelter
-             * @since 03/2022
+             * @since 11/2022, version 5.0.0
              */
             const val NOT_USED_ANDROID_30: String =
                 "Adding a network should be done with an ActivityResultLauncher on Android R+"
@@ -62,7 +62,7 @@ object AssertionMessages {
          * A singleton that houses the assertion messages present for functions adding a WPA3 network.
          *
          * @author Patches Klinefelter
-         * @since 03/2022
+         * @since 11/2022, version 5.0.0
          */
         object WPA3Network {
 
@@ -70,22 +70,56 @@ object AssertionMessages {
              * A string value for the assertion message for trying to add a WPA3 network before Android 29.
              *
              * @author Patches Klinefelter
-             * @since 03/2022
+             * @since 11/2022, version 5.0.0
              */
             const val USED_PRE_ANDROID_29: String = "WPA3 networks are not supported until Android Q"
         }
     }
 
+    /**
+     * A singleton that houses the assertion messages present for the network connection features.
+     *
+     * @author Patches Klinefelter
+     * @since 11/2022, version 5.0.0
+     */
     object NetworkConnection {
 
+        /**
+         * A string value for the assertion message for trying to disconnect from the current network on on Android 29
+         * or higher.
+         *
+         * @author Patches Klinefelter
+         * @since 11/2022, version 5.0.0
+         */
         const val DISCONNECT_DEPRECATED_WITH_ANDROID_Q: String =
             DeprecationMessages.NetworkConnection.DISCONNECT_FROM_CURRENT_NETWORK
     }
 
+    /**
+     * A singleton that houses the assertion messages present for the remove network features.
+     *
+     * @author Patches Klinefelter
+     * @since 11/2022, version 5.0.0
+     */
     object RemoveNetwork {
+
+        /**
+         * A string value for the assertion message for trying to remove a network with a configuration instead of a
+         * suggestion on Android 29 or higher.
+         *
+         * @author Patches Klinefelter
+         * @since 11/2022, version 5.0.0
+         */
         const val CONFIGURATION_USED_ANDROID_Q: String =
             "Starting at Android Q, suggestions should be used. Configuration was used instead."
 
+        /**
+         * A string value for the assertion message for trying to remove a network with a suggestion instead of a
+         * configuration before Android 29.
+         *
+         * @author Patches Klinefelter
+         * @since 11/2022, version 5.0.0
+         */
         const val SUGGESTION_USED_PRE_ANDROID_Q: String =
             "Before Android Q, configurations should be used. Suggestion was used instead."
     }
@@ -94,7 +128,7 @@ object AssertionMessages {
      * A singleton that houses the assertion messages present for the saved network features.
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 11/2022, version 5.0.0
      */
     object SavedNetworks {
 
@@ -102,7 +136,7 @@ object AssertionMessages {
          * A string value for the assertion message for retrieving saved networks on Android Q.
          *
          * @author Patches Klinefelter
-         * @since 03/2022
+         * @since 11/2022, version 5.0.0
          */
         const val USED_ANDROID_29: String = "There is no known way to see or save a network on Android Q similar to " +
             "pre-Q or R+ behavior"
@@ -112,7 +146,7 @@ object AssertionMessages {
      * A singleton that houses the assertion messages present for the signal features.
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 11/2022, version 5.0.0
      */
     object Signal {
 
@@ -120,7 +154,7 @@ object AssertionMessages {
          * A string value for the assertion message for using calculateBars(rssiLevel: Int) before Android 30.
          *
          * @author Patches Klinefelter
-         * @since 03/2022
+         * @since 11/2022, version 5.0.0
          */
         const val INCORRECT_CALCULATE_BARS_USED_ANDROID_30: String =
             "calculateBars(rssiLevel: Int): Int should be used for Android R"
@@ -130,7 +164,7 @@ object AssertionMessages {
          * on Android 30+.
          *
          * @author Patches Klinefelter
-         * @since 03/2022
+         * @since 11/2022, version 5.0.0
          */
         const val INCORRECT_CALCULATE_BARS_USED_PRE_ANDROID_30: String =
             "calculateBars(rssiLevel: Int): Int is not available until Android R"
@@ -140,7 +174,7 @@ object AssertionMessages {
      * A singleton that houses the assertion messages present for the Wifi features.
      *
      * @author Patches Klinefelter
-     * @since 03/2022
+     * @since 11/2022, version 5.0.0
      */
     object Wifi {
 
@@ -148,7 +182,7 @@ object AssertionMessages {
          * A string value for the assertion message for using disableWifi on Android Q+
          *
          * @author Patches Klinefelter
-         * @since 03/2022
+         * @since 11/2022, version 5.0.0
          */
         const val DISABLE_DEPRECATED_WITH_ANDROID_Q: String = DeprecationMessages.Wifi.DISABLE
 
@@ -156,7 +190,7 @@ object AssertionMessages {
          * A string value for the assertion message for using enableWifi on Android Q+
          *
          * @author Patches Klinefelter
-         * @since 03/2022
+         * @since 11/2022, version 5.0.0
          */
         const val ENABLE_DEPRECATED_WITH_ANDROID_Q: String = DeprecationMessages.Wifi.ENABLE
     }
