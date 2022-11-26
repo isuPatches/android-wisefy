@@ -15,8 +15,6 @@
  */
 package com.isupatches.android.wisefy.wifi.os.apis
 
-import com.isupatches.android.wisefy.core.constants.DeprecationMessages
-
 /**
  * A default set of APIs for enabling, disabling, and checking the state of Wifi through the Android OS.
  *
@@ -33,7 +31,6 @@ internal interface DefaultWifiApi {
      * @author Patches Klinefelter
      * @since 07/2022, version 5.0.0
      */
-    @Deprecated(DeprecationMessages.Wifi.DISABLE)
     fun disableWifi(): Boolean
 
     /**
@@ -44,7 +41,6 @@ internal interface DefaultWifiApi {
      * @author Patches Klinefelter
      * @since 07/2022, version 5.0.0
      */
-    @Deprecated(DeprecationMessages.Wifi.ENABLE)
     fun enableWifi(): Boolean
 
     /**

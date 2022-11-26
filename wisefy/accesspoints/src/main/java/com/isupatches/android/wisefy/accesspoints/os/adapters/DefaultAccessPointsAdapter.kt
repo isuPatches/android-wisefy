@@ -17,7 +17,6 @@ package com.isupatches.android.wisefy.accesspoints.os.adapters
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.net.wifi.WifiManager
-import android.util.Log
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.accesspoints.AccessPointsApi
 import com.isupatches.android.wisefy.accesspoints.entities.GetAccessPointsQuery
@@ -53,7 +52,6 @@ internal class DefaultAccessPointsAdapter(
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun getAccessPoints(query: GetAccessPointsQuery): GetAccessPointsResult {
-        Log.d("TEST", "BOOM== query: $query")
         val accessPoints = when (query) {
             is GetAccessPointsQuery.All -> api.getNearbyAccessPoints(filterDuplicates = query.filterDuplicates)
             is GetAccessPointsQuery.BySSID -> api.searchForAccessPointsBySSID(

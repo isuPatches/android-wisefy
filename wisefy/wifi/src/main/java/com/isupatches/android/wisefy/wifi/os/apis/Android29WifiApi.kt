@@ -13,17 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.android.wisefy.wifi.entities
+package com.isupatches.android.wisefy.wifi.os.apis
 
 import android.content.Context
 
-/**
- * A class that is used to represent a request to disable Wifi.
- *
- * @author Patches Klinefelter
- * @since 07/2022, version 5.0.0
- */
-sealed class DisableWifiRequest {
-    object Default : DisableWifiRequest()
-    data class Android29OrAbove(val context: Context) : DisableWifiRequest()
+internal interface Android29WifiApi {
+    fun openWifiSettings(context: Context)
+    fun isWifiEnabled(): Boolean
 }

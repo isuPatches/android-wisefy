@@ -15,7 +15,6 @@
  */
 package com.isupatches.android.wisefy.wifi
 
-import com.isupatches.android.wisefy.core.constants.DeprecationMessages
 import com.isupatches.android.wisefy.wifi.callbacks.DisableWifiCallbacks
 import com.isupatches.android.wisefy.wifi.callbacks.EnableWifiCallbacks
 import com.isupatches.android.wisefy.wifi.callbacks.IsWifiEnabledCallbacks
@@ -37,6 +36,7 @@ interface WifiApiAsync {
      * *NOTES*
      *  - Internally locked by a mutex along with the async APIs to enable Wifi and check the device's current Wifi
      *    state
+     *  - Will open the Wifi settings screen on Android Q or higher
      *
      * @param request The details of the request to disable Wifi
      * @param callbacks The callbacks for results when disabling Wifi
@@ -47,8 +47,7 @@ interface WifiApiAsync {
      * @author Patches Klinefelter
      * @since 07/2022, version 5.0.0
      */
-    @Deprecated(DeprecationMessages.Wifi.DISABLE)
-    fun disableWifi(request: DisableWifiRequest = DisableWifiRequest(), callbacks: DisableWifiCallbacks?)
+    fun disableWifi(request: DisableWifiRequest, callbacks: DisableWifiCallbacks?)
 
     /**
      * An asynchronous API to enable Wifi.
@@ -56,6 +55,7 @@ interface WifiApiAsync {
      * *NOTES*
      *  - Internally locked by a mutex along with the async APIs to disable Wifi and check the device's current Wifi
      *    state
+     *  - Will open the Wifi settings screen on Android Q or higher
      *
      * @param request The details of the request to enable Wifi
      * @param callbacks The callbacks for results when enabling Wifi
@@ -66,8 +66,7 @@ interface WifiApiAsync {
      * @author Patches Klinefelter
      * @since 07/2022, version 5.0.0
      */
-    @Deprecated(DeprecationMessages.Wifi.ENABLE)
-    fun enableWifi(request: EnableWifiRequest = EnableWifiRequest(), callbacks: EnableWifiCallbacks?)
+    fun enableWifi(request: EnableWifiRequest, callbacks: EnableWifiCallbacks?)
 
     /**
      * An asynchronous API to check the current state of Wifi (f.e. enabled or disabled).

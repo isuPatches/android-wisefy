@@ -170,28 +170,8 @@ object AssertionMessages {
             "calculateBars(rssiLevel: Int): Int is not available until Android R"
     }
 
-    /**
-     * A singleton that houses the assertion messages present for the Wifi features.
-     *
-     * @author Patches Klinefelter
-     * @since 11/2022, version 5.0.0
-     */
     object Wifi {
-
-        /**
-         * A string value for the assertion message for using disableWifi on Android Q+
-         *
-         * @author Patches Klinefelter
-         * @since 11/2022, version 5.0.0
-         */
-        const val DISABLE_DEPRECATED_WITH_ANDROID_Q: String = DeprecationMessages.Wifi.DISABLE
-
-        /**
-         * A string value for the assertion message for using enableWifi on Android Q+
-         *
-         * @author Patches Klinefelter
-         * @since 11/2022, version 5.0.0
-         */
-        const val ENABLE_DEPRECATED_WITH_ANDROID_Q: String = DeprecationMessages.Wifi.ENABLE
+        const val ANDROID_29_REQUEST_USED_ON_PRE_ANDROID_29 = ""
+        const val DEFAULT_REQUEST_USED_ANDROID_29_OR_HIGHER = ""
     }
 }

@@ -15,7 +15,6 @@
  */
 package com.isupatches.android.wisefy.wifi
 
-import com.isupatches.android.wisefy.core.constants.DeprecationMessages
 import com.isupatches.android.wisefy.wifi.entities.DisableWifiRequest
 import com.isupatches.android.wisefy.wifi.entities.DisableWifiResult
 import com.isupatches.android.wisefy.wifi.entities.EnableWifiRequest
@@ -44,8 +43,7 @@ interface WifiApi {
      * @author Patches Klinefelter
      * @since 07/2022, version 5.0.0
      */
-    @Deprecated(DeprecationMessages.Wifi.DISABLE)
-    fun disableWifi(request: DisableWifiRequest = DisableWifiRequest()): DisableWifiResult
+    fun disableWifi(request: DisableWifiRequest): DisableWifiResult
 
     /**
      * A synchronous API to enable Wifi.
@@ -60,8 +58,7 @@ interface WifiApi {
      * @author Patches Klinefelter
      * @since 07/2022, version 5.0.0
      */
-    @Deprecated(DeprecationMessages.Wifi.ENABLE)
-    fun enableWifi(request: EnableWifiRequest = EnableWifiRequest()): EnableWifiResult
+    fun enableWifi(request: EnableWifiRequest): EnableWifiResult
 
     /**
      * A synchronous API to check if Wifi is enabled.

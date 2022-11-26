@@ -20,7 +20,6 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
 import com.isupatches.android.wisefy.core.constants.AssertionMessages
-import com.isupatches.android.wisefy.core.constants.DeprecationMessages
 import com.isupatches.android.wisefy.wifi.WifiApi
 import com.isupatches.android.wisefy.wifi.entities.DisableWifiRequest
 import com.isupatches.android.wisefy.wifi.entities.DisableWifiResult
@@ -28,13 +27,14 @@ import com.isupatches.android.wisefy.wifi.entities.EnableWifiRequest
 import com.isupatches.android.wisefy.wifi.entities.EnableWifiResult
 import com.isupatches.android.wisefy.wifi.entities.IsWifiEnabledQuery
 import com.isupatches.android.wisefy.wifi.entities.IsWifiEnabledResult
+import com.isupatches.android.wisefy.wifi.os.apis.Android29WifiApi
 import com.isupatches.android.wisefy.wifi.os.apis.DefaultWifiApi
+import com.isupatches.android.wisefy.wifi.os.impls.Android29WifiApiImpl
 import com.isupatches.android.wisefy.wifi.os.impls.DefaultWifiApiImpl
 
 /**
  * An Android 29 specific adapter for enabling, disabling, and checking the state of Wifi.
  *
- * @param wifiManager The WifiManager instance to use
  * @param assertions The [WisefyAssertions] instance to use
  * @param api The OS level API instance to use
  *
@@ -50,21 +50,35 @@ import com.isupatches.android.wisefy.wifi.os.impls.DefaultWifiApiImpl
 internal class Android29WifiAdapter(
     wifiManager: WifiManager,
     private val assertions: WisefyAssertions,
-    private val api: DefaultWifiApi = DefaultWifiApiImpl(wifiManager)
+    private val api: Android29WifiApi = Android29WifiApiImpl(wifiManager)
 ) : WifiApi {
 
-    @Deprecated(DeprecationMessages.Wifi.DISABLE)
     override fun disableWifi(request: DisableWifiRequest): DisableWifiResult {
-        val message = AssertionMessages.Wifi.DISABLE_DEPRECATED_WITH_ANDROID_Q
-        assertions.fail(message = message)
-        return DisableWifiResult.Failure.Assertion(message = message)
+        return when (request) {
+            is DisableWifiRequest.Android29OrAbove -> {
+                api.openWifiSettings(request.context)
+                return DisableWifiResult.Success.WifiSettingScreenOpened
+            }
+            is DisableWifiRequest.Default -> {
+                val message = AssertionMessages.Wifi.DEFAULT_REQUEST_USED_ANDROID_29_OR_HIGHER
+                assertions.fail(message = message)
+                DisableWifiResult.Failure.Assertion(message = message)
+            }
+        }
     }
 
-    @Deprecated(DeprecationMessages.Wifi.ENABLE)
     override fun enableWifi(request: EnableWifiRequest): EnableWifiResult {
-        val message = AssertionMessages.Wifi.ENABLE_DEPRECATED_WITH_ANDROID_Q
-        assertions.fail(message = message)
-        return EnableWifiResult.Failure.Assertion(message = message)
+        return when (request) {
+            is EnableWifiRequest.Android29OrAbove -> {
+                api.openWifiSettings(request.context)
+                return EnableWifiResult.Success.WifiSettingScreenOpened
+            }
+            is EnableWifiRequest.Default -> {
+                val message = AssertionMessages.Wifi.DEFAULT_REQUEST_USED_ANDROID_29_OR_HIGHER
+                assertions.fail(message = message)
+                EnableWifiResult.Failure.Assertion(message = message)
+            }
+        }
     }
 
     override fun isWifiEnabled(query: IsWifiEnabledQuery): IsWifiEnabledResult {

@@ -15,10 +15,15 @@
  */
 package com.isupatches.android.wisefy.wifi.entities
 
+import android.content.Context
+
 /**
  * A class that is used to represent a request to enable Wifi.
  *
  * @author Patches Klinefelter
  * @since 07/2022, version 5.0.0
  */
-class EnableWifiRequest
+sealed class EnableWifiRequest {
+    object Default : EnableWifiRequest()
+    data class Android29OrAbove(val context: Context) : EnableWifiRequest()
+}

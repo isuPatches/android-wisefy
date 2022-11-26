@@ -38,19 +38,11 @@ internal fun MiscScreenDialogContent(
                 }
             )
         }
-        is MiscScreenDialogState.DisableWifi.DisplayAndroidQMessage -> {
-            WisefySampleNoticeDialog(
-                title = R.string.android_q_notice,
-                body = R.string.android_q_disable_wifi_message,
-                onClose = {
-                    viewModel.onDialogClosed()
-                }
-            )
-        }
         is MiscScreenDialogState.DisableWifi.Failure -> {
             WisefySampleNoticeDialog(
                 title = R.string.disable_wifi,
-                body = R.string.failure_disabling_wifi,
+                body = R.string.failure_disabling_wifi_args,
+                currentDialogState.result,
                 onClose = {
                     viewModel.onDialogClosed()
                 }
@@ -59,7 +51,8 @@ internal fun MiscScreenDialogContent(
         is MiscScreenDialogState.DisableWifi.Success -> {
             WisefySampleNoticeDialog(
                 title = R.string.disable_wifi,
-                body = R.string.wifi_disabled,
+                body = R.string.success_disabling_wifi_args,
+                currentDialogState.result,
                 onClose = {
                     viewModel.onDialogClosed()
                 }
@@ -110,19 +103,11 @@ internal fun MiscScreenDialogContent(
                 }
             )
         }
-        is MiscScreenDialogState.EnableWifi.DisplayAndroidQMessage -> {
-            WisefySampleNoticeDialog(
-                title = R.string.android_q_notice,
-                body = R.string.android_q_enable_wifi_message,
-                onClose = {
-                    viewModel.onDialogClosed()
-                }
-            )
-        }
         is MiscScreenDialogState.EnableWifi.Failure -> {
             WisefySampleNoticeDialog(
                 title = R.string.enabled_wifi,
-                body = R.string.failure_enabling_wifi,
+                body = R.string.failure_enabling_wifi_args,
+                currentDialogState.result,
                 onClose = {
                     viewModel.onDialogClosed()
                 }
@@ -131,7 +116,8 @@ internal fun MiscScreenDialogContent(
         is MiscScreenDialogState.EnableWifi.Success -> {
             WisefySampleNoticeDialog(
                 title = R.string.enabled_wifi,
-                body = R.string.wifi_enabled,
+                body = R.string.success_enabling_wifi_args,
+                currentDialogState.result,
                 onClose = {
                     viewModel.onDialogClosed()
                 }

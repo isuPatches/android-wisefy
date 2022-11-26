@@ -14,8 +14,8 @@
     <!-- Results -->
     <string name="add_wpa3_android_q_notice">WPA3 networks are not supported until Android Q</string>
 
-    <string name="wifi_disabled">Wifi disabled!</string>
-    <string name="failure_disabling_wifi">Failure disabling wifi</string>
+    <string name="success_disabling_wifi_args">Success disabling wifi. Result: %s</string>
+    <string name="failure_disabling_wifi_args">Failure disabling wifi. Result: %s</string>
 
     <string name="disconnect_result">Disconnect Result</string>
     <string name="succeeded_disconnecting_from_current_network">Succeeded disconnecting from current network.</string>
@@ -27,8 +27,8 @@
         Failed disconnecting from the device\'s current network
     </string>
 
-    <string name="wifi_enabled">Wifi enabled!</string>
-    <string name="failure_enabling_wifi">Failure enabling wifi</string>
+    <string name="success_enabling_wifi_args">Success enabling wifi. Result: %s</string>
+    <string name="failure_enabling_wifi_args">Failure enabling wifi. Result: %s</string>
 
     <string name="current_network_args">Current network: %s</string>
     <string name="no_current_network">No current network</string>
@@ -45,12 +45,6 @@
     </string>
     <string name="permission_error_get_saved_networks">Permissions for getting saved networks are denied</string>
 
-    <string name="android_q_enable_wifi_message">
-        Starting with Android Q, applications are not allowed to enable Wifi
-    </string>
-    <string name="android_q_disable_wifi_message">
-        Starting with Android Q, applications are not allowed to disable Wifi
-    </string>
     <string name="android_q_disconnect_message">
         Starting with Android Q, applications are not allowed to alter connections, only offer suggestions
     </string>

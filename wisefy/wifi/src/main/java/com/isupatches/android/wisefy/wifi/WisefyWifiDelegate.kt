@@ -17,7 +17,6 @@ package com.isupatches.android.wisefy.wifi
 
 import android.net.wifi.WifiManager
 import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
-import com.isupatches.android.wisefy.core.constants.DeprecationMessages
 import com.isupatches.android.wisefy.core.coroutines.CoroutineDispatcherProvider
 import com.isupatches.android.wisefy.core.coroutines.createBaseCoroutineExceptionHandler
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
@@ -44,7 +43,6 @@ import kotlinx.coroutines.withContext
  *
  * @param coroutineDispatcherProvider The [CoroutineDispatcherProvider] instance to use
  * @param scope The coroutine scope to use
- * @param assertions The [WisefyAssertions] instance to use
  * @param logger The [WisefyLogger] instance to use
  * @param sdkUtil The [SdkUtil] instance to use
  * @param wifiManager The WifiManager instance to use
@@ -52,7 +50,6 @@ import kotlinx.coroutines.withContext
  * @see CoroutineDispatcherProvider
  * @see SdkUtil
  * @see WifiDelegate
- * @see WisefyAssertions
  * @see WisefyLogger
  *
  * @author Patches Klinefelter
@@ -74,47 +71,43 @@ class WisefyWifiDelegate(
 
     private val adapter = when {
         sdkUtil.isAtLeastQ() -> Android29WifiAdapter(wifiManager, assertions)
-        else -> DefaultWifiAdapter(wifiManager)
+        else -> DefaultWifiAdapter(wifiManager, assertions)
     }
 
     init {
         logger.d(LOG_TAG, "WisefyWifiDelegate adapter is: ${adapter::class.java.simpleName}")
     }
 
-    @Deprecated(DeprecationMessages.Wifi.DISABLE)
     override fun disableWifi(request: DisableWifiRequest): DisableWifiResult {
         return adapter.disableWifi(request)
     }
 
-    @Deprecated(DeprecationMessages.Wifi.DISABLE)
     override fun disableWifi(request: DisableWifiRequest, callbacks: DisableWifiCallbacks?) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
             wifiMutex.withLock {
                 val result = adapter.disableWifi(request)
                 withContext(coroutineDispatcherProvider.main) {
                     when (result) {
-                        is DisableWifiResult.Success -> callbacks?.onWifiDisabled()
-                        is DisableWifiResult.Failure -> callbacks?.onFailureDisablingWifi()
+                        is DisableWifiResult.Success -> callbacks?.onWifiDisabled(result)
+                        is DisableWifiResult.Failure -> callbacks?.onFailureDisablingWifi(result)
                     }
                 }
             }
         }
     }
 
-    @Deprecated(DeprecationMessages.Wifi.ENABLE)
     override fun enableWifi(request: EnableWifiRequest): EnableWifiResult {
         return adapter.enableWifi(request)
     }
 
-    @Deprecated(DeprecationMessages.Wifi.ENABLE)
     override fun enableWifi(request: EnableWifiRequest, callbacks: EnableWifiCallbacks?) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
             wifiMutex.withLock {
                 val result = adapter.enableWifi(request)
                 withContext(coroutineDispatcherProvider.main) {
                     when (result) {
-                        is EnableWifiResult.Success -> callbacks?.onWifiEnabled()
-                        is EnableWifiResult.Failure -> callbacks?.onFailureEnablingWifi()
+                        is EnableWifiResult.Success -> callbacks?.onWifiEnabled(result)
+                        is EnableWifiResult.Failure -> callbacks?.onFailureEnablingWifi(result)
                     }
                 }
             }

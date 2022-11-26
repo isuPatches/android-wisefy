@@ -34,7 +34,7 @@ internal fun MiscScreen(
 ) {
     WisefySampleLoadingIndicator(isLoading = { viewModel.uiState.value.loadingState.isLoading })
     MiscScreenDialogContent(dialogState = { viewModel.uiState.value.dialogState }, viewModel = viewModel)
-    MiscScreenContent(viewModel = viewModel)
+    MiscScreenContent(viewModel = viewModel, sdkUtil = sdkUtil)
 }
 
 @Preview(showBackground = true)

@@ -31,7 +31,10 @@ sealed class DisableWifiResult {
      * @author Patches Klinefelter
      * @since 07/2022, version 5.0.0
      */
-    object Success : DisableWifiResult()
+    sealed class Success : DisableWifiResult() {
+        object Disabled : Success()
+        object WifiSettingScreenOpened : Success()
+    }
 
     /**
      * A set of classes and objects that are data representations of a failure when disabling Wifi.
@@ -42,29 +45,7 @@ sealed class DisableWifiResult {
      * @since 07/2022, version 5.0.0
      */
     sealed class Failure : DisableWifiResult() {
-
-        /**
-         * A data representation for when there is a failure disabling Wifi.
-         *
-         * @see Failure
-         *
-         * @author Patches Klinefelter
-         * @since 07/2022, version 5.0.0
-         */
         object UnableToDisable : Failure()
-
-        /**
-         * A data representation of a failure to disable Wifi due to hitting an unexpected path causing an assertion.
-         *
-         * *NOTE* This is for developer specific feedback and should NEVER actually be hit unless there is a bug.
-         *
-         * @property message A text description describing the assertion error hit
-         *
-         * @see Failure
-         *
-         * @author Patches Klinefelter
-         * @since 07/2022, version 5.0.0
-         */
         data class Assertion(val message: String) : Failure()
     }
 }

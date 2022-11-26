@@ -544,12 +544,10 @@ class Wisefy private constructor(
         networkConnectionDelegate.connectToNetwork(request, callbacks)
     }
 
-    @Deprecated(DeprecationMessages.Wifi.DISABLE)
     override fun disableWifi(request: DisableWifiRequest): DisableWifiResult {
         return wifiDelegate.disableWifi(request)
     }
 
-    @Deprecated(DeprecationMessages.Wifi.DISABLE)
     override fun disableWifi(request: DisableWifiRequest, callbacks: DisableWifiCallbacks?) {
         wifiDelegate.disableWifi(request, callbacks)
     }
@@ -569,12 +567,10 @@ class Wisefy private constructor(
         networkConnectionDelegate.disconnectFromCurrentNetwork(request, callbacks)
     }
 
-    @Deprecated(DeprecationMessages.Wifi.ENABLE)
     override fun enableWifi(request: EnableWifiRequest): EnableWifiResult {
         return wifiDelegate.enableWifi(request)
     }
 
-    @Deprecated(DeprecationMessages.Wifi.ENABLE)
     override fun enableWifi(request: EnableWifiRequest, callbacks: EnableWifiCallbacks?) {
         wifiDelegate.enableWifi(request, callbacks)
     }

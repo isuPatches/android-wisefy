@@ -15,29 +15,18 @@
  */
 package com.isupatches.android.wisefy.wifi.os.impls
 
+import android.content.Context
+import android.content.Intent
 import android.net.wifi.WifiManager
-import com.isupatches.android.wisefy.wifi.os.apis.DefaultWifiApi
+import android.provider.Settings
+import com.isupatches.android.wisefy.wifi.os.apis.Android29WifiApi
 
-/**
- * A default internal implementation for enabling, disabling, and checking the state of Wifi through the Android OS.
- *
- * @param wifiManager The WifiManager instance to use
- *
- * @see DefaultWifiApi
- *
- * @author Patches Klinefelter
- * @since 07/2022, version 5.0.0
- */
-internal class DefaultWifiApiImpl(
+internal class Android29WifiApiImpl(
     private val wifiManager: WifiManager
-) : DefaultWifiApi {
+) : Android29WifiApi {
 
-    override fun disableWifi(): Boolean {
-        return wifiManager.setWifiEnabled(false)
-    }
-
-    override fun enableWifi(): Boolean {
-        return wifiManager.setWifiEnabled(true)
+    override fun openWifiSettings(context: Context) {
+        context.startActivity(Intent(Settings.ACTION_WIFI_SETTINGS).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
     }
 
     override fun isWifiEnabled(): Boolean {

@@ -16,7 +16,6 @@
 package com.isupatches.android.wisefy.ktx
 
 import com.isupatches.android.wisefy.WisefyApi
-import com.isupatches.android.wisefy.core.constants.DeprecationMessages
 import com.isupatches.android.wisefy.core.exceptions.WisefyException
 import com.isupatches.android.wisefy.wifi.callbacks.DisableWifiCallbacks
 import com.isupatches.android.wisefy.wifi.callbacks.EnableWifiCallbacks
@@ -48,18 +47,17 @@ import kotlin.coroutines.suspendCoroutine
  * @since 07/2022, version 5.0.0
  */
 @Throws(WisefyException::class)
-@Deprecated(DeprecationMessages.Wifi.DISABLE)
-suspend fun WisefyApi.disableWifiAsync(request: DisableWifiRequest = DisableWifiRequest()): DisableWifiResult =
+suspend fun WisefyApi.disableWifiAsync(request: DisableWifiRequest): DisableWifiResult =
     suspendCoroutine { continuation ->
         disableWifi(
             request = request,
             callbacks = object : DisableWifiCallbacks {
-                override fun onWifiDisabled() {
-                    continuation.resumeWith(Result.success(DisableWifiResult.Success))
+                override fun onWifiDisabled(result: DisableWifiResult.Success) {
+                    continuation.resumeWith(Result.success(result))
                 }
 
-                override fun onFailureDisablingWifi() {
-                    continuation.resumeWith(Result.success(DisableWifiResult.Failure.UnableToDisable))
+                override fun onFailureDisablingWifi(result: DisableWifiResult.Failure) {
+                    continuation.resumeWith(Result.success(result))
                 }
 
                 override fun onWisefyAsyncFailure(exception: WisefyException) {
@@ -88,18 +86,17 @@ suspend fun WisefyApi.disableWifiAsync(request: DisableWifiRequest = DisableWifi
  * @since 07/2022, version 5.0.0
  */
 @Throws(WisefyException::class)
-@Deprecated(DeprecationMessages.Wifi.ENABLE)
-suspend fun WisefyApi.enableWifiAsync(request: EnableWifiRequest = EnableWifiRequest()): EnableWifiResult =
+suspend fun WisefyApi.enableWifiAsync(request: EnableWifiRequest): EnableWifiResult =
     suspendCoroutine { continuation ->
         enableWifi(
             request = request,
             callbacks = object : EnableWifiCallbacks {
-                override fun onWifiEnabled() {
-                    continuation.resumeWith(Result.success(EnableWifiResult.Success))
+                override fun onWifiEnabled(result: EnableWifiResult.Success) {
+                    continuation.resumeWith(Result.success(result))
                 }
 
-                override fun onFailureEnablingWifi() {
-                    continuation.resumeWith(Result.success(EnableWifiResult.Failure.UnableToEnable))
+                override fun onFailureEnablingWifi(result: EnableWifiResult.Failure) {
+                    continuation.resumeWith(Result.success(result))
                 }
 
                 override fun onWisefyAsyncFailure(exception: WisefyException) {

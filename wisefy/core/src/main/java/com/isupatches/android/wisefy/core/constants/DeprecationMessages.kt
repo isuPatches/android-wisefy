@@ -59,29 +59,4 @@ object DeprecationMessages {
             "Starting with Build.VERSION_CODES#Q, applications are not allowed to disconnect from a network. They can" +
                 " only request a network suggestion."
     }
-
-    /**
-     * A singleton that houses the deprecation messages present for the wifi features.
-     *
-     * @author Patches Klinefelter
-     * @since 11/2022, version 5.0.0
-     */
-    object Wifi {
-
-        /**
-         * A string value for the deprecation message for enableWifi().
-         *
-         * @author Patches Klinefelter
-         * @since 11/2022, version 5.0.0
-         */
-        const val ENABLE: String = "Starting with Build.VERSION_CODES#Q, applications are not allowed to enable Wifi."
-
-        /**
-         * A string value for the deprecation message for disableWifi().
-         *
-         * @author Patches Klinefelter
-         * @since 11/2022, version 5.0.0
-         */
-        const val DISABLE: String = "Starting with Build.VERSION_CODES#Q, applications are not allowed to disable Wifi."
-    }
 }

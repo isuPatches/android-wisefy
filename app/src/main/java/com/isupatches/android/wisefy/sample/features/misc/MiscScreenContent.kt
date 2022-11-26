@@ -31,21 +31,26 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import com.isupatches.android.wisefy.sample.R
 import com.isupatches.android.wisefy.sample.logging.WisefySampleLogger
 import com.isupatches.android.wisefy.sample.ui.components.WisefyPrimaryButton
 import com.isupatches.android.wisefy.sample.ui.primitives.WisefySampleSizes
 import com.isupatches.android.wisefy.sample.ui.theme.WisefySampleTheme
+import com.isupatches.android.wisefy.sample.util.SdkUtil
 import kotlinx.coroutines.launch
 
 private const val LOG_TAG = "MiscScreenContent"
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-internal fun MiscScreenContent(viewModel: MiscViewModel) {
+internal fun MiscScreenContent(
+    viewModel: MiscViewModel,
+    sdkUtil: SdkUtil
+) {
     WisefySampleTheme {
         val scope = rememberCoroutineScope()
-
+        val context = LocalContext.current
         val getCurrentNetworkPermissionsLauncher =
             rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
                 if (isGranted) {
@@ -102,13 +107,21 @@ internal fun MiscScreenContent(viewModel: MiscViewModel) {
             when (option) {
                 MiscScreenOption.DISABLE_WIFI -> {
                     scope.launch {
-                        viewModel.disableWifi()
+                        if (sdkUtil.isAtLeastQ()) {
+                            viewModel.disableWifi(context)
+                        } else {
+                            viewModel.disableWifi()
+                        }
                     }
                 }
                 MiscScreenOption.DISCONNECT_FROM_CURRENT_NETWORK -> viewModel.disconnectFromCurrentNetwork()
                 MiscScreenOption.ENABLE_WIFI -> {
                     scope.launch {
-                        viewModel.enableWifi()
+                        if (sdkUtil.isAtLeastQ()) {
+                            viewModel.enableWifi(context)
+                        } else {
+                            viewModel.enableWifi()
+                        }
                     }
                 }
                 MiscScreenOption.GET_CURRENT_NETWORK -> {

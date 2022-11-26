@@ -20,6 +20,8 @@ import com.isupatches.android.wisefy.core.exceptions.WisefyException
 import com.isupatches.android.wisefy.networkconnectionstatus.entities.GetNetworkConnectionStatusResult
 import com.isupatches.android.wisefy.networkinfo.entities.NetworkData
 import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
+import com.isupatches.android.wisefy.wifi.entities.DisableWifiResult
+import com.isupatches.android.wisefy.wifi.entities.EnableWifiResult
 
 internal data class MiscScreenUIState(
     val loadingState: MiscScreenLoadingState,
@@ -39,9 +41,8 @@ internal sealed class MiscScreenDialogState {
     }
 
     sealed class DisableWifi : MiscScreenDialogState() {
-        object Success : DisableWifi()
-        object Failure : DisableWifi()
-        object DisplayAndroidQMessage : DisableWifi()
+        data class Success(val result: DisableWifiResult.Success) : DisableWifi()
+        data class Failure(val result: DisableWifiResult.Failure) : DisableWifi()
     }
 
     sealed class DisconnectFromCurrentNetwork : MiscScreenDialogState() {
@@ -59,9 +60,8 @@ internal sealed class MiscScreenDialogState {
     }
 
     sealed class EnableWifi : MiscScreenDialogState() {
-        object Success : EnableWifi()
-        object Failure : EnableWifi()
-        object DisplayAndroidQMessage : EnableWifi()
+        data class Success(val result: EnableWifiResult.Success) : EnableWifi()
+        data class Failure(val result: EnableWifiResult.Failure) : EnableWifi()
     }
 
     sealed class GetCurrentNetwork : MiscScreenDialogState() {
