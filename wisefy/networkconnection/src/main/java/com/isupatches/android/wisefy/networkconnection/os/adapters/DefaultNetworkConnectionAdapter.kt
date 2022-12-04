@@ -29,14 +29,14 @@ import com.isupatches.android.wisefy.networkconnection.entities.DisconnectFromCu
 import com.isupatches.android.wisefy.networkconnection.entities.DisconnectFromCurrentNetworkResult
 import com.isupatches.android.wisefy.networkconnection.os.apis.DefaultNetworkConnectionApi
 import com.isupatches.android.wisefy.networkconnection.os.impls.DefaultNetworkConnectionApiImpl
-import com.isupatches.android.wisefy.networkconnectionstatus.NetworkConnectionStatusDelegate
+import com.isupatches.android.wisefy.networkinfo.NetworkInfoDelegate
 import com.isupatches.android.wisefy.savednetworks.SavedNetworkDelegate
 
 /**
  * A default adapter for connecting to or disconnecting from a network.
  *
  * @param wifiManager The WifiManager instance to use
- * @param networkConnectionStatusDelegate The NetworkConnectionStatusDelegate instance to use
+ * @param networkInfoDelegate The NetworkInfoDelegate instance to use
  * @param savedNetworkDelegate The SavedNetworkDelegate instance to use
  * @param logger The logger instance to use
  * @param api The OS level API instance to use
@@ -44,7 +44,7 @@ import com.isupatches.android.wisefy.savednetworks.SavedNetworkDelegate
  * @see DefaultNetworkConnectionApi
  * @see DefaultNetworkConnectionApiImpl
  * @see NetworkConnectionApi
- * @see NetworkConnectionStatusDelegate
+ * @see NetworkInfoDelegate
  * @see SavedNetworkDelegate
  * @see WisefyLogger
  *
@@ -53,12 +53,12 @@ import com.isupatches.android.wisefy.savednetworks.SavedNetworkDelegate
  */
 internal class DefaultNetworkConnectionAdapter(
     wifiManager: WifiManager,
-    networkConnectionStatusDelegate: NetworkConnectionStatusDelegate,
+    networkInfoDelegate: NetworkInfoDelegate,
     savedNetworkDelegate: SavedNetworkDelegate,
     logger: WisefyLogger,
     private val api: DefaultNetworkConnectionApi = DefaultNetworkConnectionApiImpl(
         wifiManager,
-        networkConnectionStatusDelegate,
+        networkInfoDelegate,
         savedNetworkDelegate,
         logger
     )

@@ -44,7 +44,6 @@ There are also new more modular artifacts published so that individual pieces of
 - `com.isupatches.android.wisefy:addnetwork:<LATEST VERSION>`
 - `com.isupatches.android.wisefy:core:<LATEST VERSION>`
 - `com.isupatches.android.wisefy:networkconnection:<LATEST VERSION>` *Note* - Depends on :networkconnectionstatus and :savednetworks
-- `com.isupatches.android.wisefy:networkconnectionstatus:<LATEST VERSION>`
 - `com.isupatches.android.wisefy:networkinfo:<LATEST VERSION>`
 - `com.isupatches.android.wisefy:removenetwork:<LATEST VERSION>` *Note* - Depends on :savednetworks
 - `com.isupatches.android.wisefy:savednetworks:<LATEST VERSION>`
@@ -57,11 +56,10 @@ Here are the descriptions of what functionality each artifact provides:
 - `:addnetwork` For adding a Wifi network
 - `:core` For base Wisefy functionality
 - `:networkconnection` For connecting and disconnecting from networks
-- `:networkconnectionstatus` For current network status (wifi, mobile, connected, etc.)
-- `:networkinfo` For information about the device's current network
+- `:networkinfo` For information about the device's current network and current connectivity status
 - `:removenetwork` For removing a Wifi network
 - `:savednetworks` For getting and searching for saved networks
-- `:signal` For calculating signal strength bars and comparing signal strength
+- `:signal` For calculating signal level and comparing signal level
 - `:wifi` For enabling and disabling Wifi
 
 ## KTX Artifact

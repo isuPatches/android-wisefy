@@ -19,6 +19,8 @@ import android.Manifest.permission.ACCESS_NETWORK_STATE
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkQuery
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkResult
+import com.isupatches.android.wisefy.networkinfo.entities.GetNetworkConnectionStatusQuery
+import com.isupatches.android.wisefy.networkinfo.entities.GetNetworkConnectionStatusResult
 
 /**
  * A set of synchronous APIs for getting information about a network, the device's current network, and the device's IP.
@@ -45,4 +47,9 @@ interface NetworkInfoApi {
     fun getCurrentNetwork(
         query: GetCurrentNetworkQuery = GetCurrentNetworkQuery()
     ): GetCurrentNetworkResult
+
+    @RequiresPermission(ACCESS_NETWORK_STATE)
+    fun getNetworkConnectionStatus(
+        query: GetNetworkConnectionStatusQuery = GetNetworkConnectionStatusQuery()
+    ): GetNetworkConnectionStatusResult
 }

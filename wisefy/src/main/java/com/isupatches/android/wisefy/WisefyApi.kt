@@ -21,8 +21,6 @@ import com.isupatches.android.wisefy.addnetwork.AddNetworkApi
 import com.isupatches.android.wisefy.addnetwork.AddNetworkApiAsync
 import com.isupatches.android.wisefy.networkconnection.NetworkConnectionApi
 import com.isupatches.android.wisefy.networkconnection.NetworkConnectionApiAsync
-import com.isupatches.android.wisefy.networkconnectionstatus.NetworkConnectionStatusApi
-import com.isupatches.android.wisefy.networkconnectionstatus.NetworkConnectionStatusApiAsync
 import com.isupatches.android.wisefy.networkinfo.NetworkInfoApi
 import com.isupatches.android.wisefy.networkinfo.NetworkInfoApiAsync
 import com.isupatches.android.wisefy.removenetwork.RemoveNetworkApi
@@ -63,8 +61,6 @@ interface WisefyApi :
     AddNetworkApiAsync,
     NetworkConnectionApi,
     NetworkConnectionApiAsync,
-    NetworkConnectionStatusApi,
-    NetworkConnectionStatusApiAsync,
     NetworkInfoApi,
     NetworkInfoApiAsync,
     RemoveNetworkApi,

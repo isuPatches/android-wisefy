@@ -36,8 +36,8 @@ import com.isupatches.android.wisefy.ktx.getSavedNetworksAsync
 import com.isupatches.android.wisefy.ktx.isWifiEnabledAsync
 import com.isupatches.android.wisefy.networkconnection.callbacks.DisconnectFromCurrentNetworkCallbacks
 import com.isupatches.android.wisefy.networkconnection.entities.DisconnectFromCurrentNetworkRequest
-import com.isupatches.android.wisefy.networkconnectionstatus.entities.GetNetworkConnectionStatusResult
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkResult
+import com.isupatches.android.wisefy.networkinfo.entities.GetNetworkConnectionStatusResult
 import com.isupatches.android.wisefy.sample.scaffolding.BaseViewModel
 import com.isupatches.android.wisefy.sample.scaffolding.BaseViewModelFactory
 import com.isupatches.android.wisefy.sample.util.SdkUtil

@@ -13,14 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.android.wisefy.networkconnectionstatus.entities
+package com.isupatches.android.wisefy.networkinfo.entities
 
-data class NetworkConnectionStatusData(
-    val isConnected: Boolean,
-    val isConnectedToMobileNetwork: Boolean,
-    val isConnectedToWifiNetwork: Boolean,
-    val isRoaming: Boolean,
-    val ssidOfNetworkConnectedTo: String?,
-    val bssidOfNetworkConnectedTo: String?,
-    val ip: String?
-)
+class GetNetworkConnectionStatusQuery

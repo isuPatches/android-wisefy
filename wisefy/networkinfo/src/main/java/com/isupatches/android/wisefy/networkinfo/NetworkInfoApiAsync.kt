@@ -18,7 +18,9 @@ package com.isupatches.android.wisefy.networkinfo
 import android.Manifest.permission.ACCESS_NETWORK_STATE
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.networkinfo.callbacks.GetCurrentNetworkCallbacks
+import com.isupatches.android.wisefy.networkinfo.callbacks.GetNetworkConnectionStatusCallbacks
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkQuery
+import com.isupatches.android.wisefy.networkinfo.entities.GetNetworkConnectionStatusQuery
 
 /**
  * A set of asynchronous APIs for getting information about a network, the device's current network,
@@ -45,5 +47,11 @@ interface NetworkInfoApiAsync {
     fun getCurrentNetwork(
         query: GetCurrentNetworkQuery = GetCurrentNetworkQuery(),
         callbacks: GetCurrentNetworkCallbacks?
+    )
+
+    @RequiresPermission(ACCESS_NETWORK_STATE)
+    fun getNetworkConnectionStatus(
+        query: GetNetworkConnectionStatusQuery = GetNetworkConnectionStatusQuery(),
+        callbacks: GetNetworkConnectionStatusCallbacks?
     )
 }

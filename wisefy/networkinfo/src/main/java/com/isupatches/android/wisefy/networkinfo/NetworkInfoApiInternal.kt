@@ -13,17 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.android.wisefy.networkconnectionstatus.entities
+package com.isupatches.android.wisefy.networkinfo
 
 /**
- * A set of states for a network connection.
+ * A set of synchronous internal APIs for attaching and detaching a network watcher.
+ *
+ * @see NetworkInfoApi
  *
  * @author Patches Klinefelter
  * @since 03/2022
  */
-internal enum class NetworkConnectionStatus {
-    AVAILABLE,
-    LOSING,
-    LOST,
-    UNAVAILABLE
+interface NetworkInfoApiInternal : NetworkInfoApi {
+
+    /**
+     * A synchronous internal API that is used to add a network watcher.
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
+    fun attachNetworkWatcher()
+
+    /**
+     * A synchronous internal API that is used to remove a network watcher.
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
+    fun detachNetworkWatcher()
 }

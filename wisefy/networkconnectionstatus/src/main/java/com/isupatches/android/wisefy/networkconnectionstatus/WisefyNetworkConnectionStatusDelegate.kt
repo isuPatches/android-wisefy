@@ -23,9 +23,9 @@ import com.isupatches.android.wisefy.core.coroutines.CoroutineDispatcherProvider
 import com.isupatches.android.wisefy.core.coroutines.createBaseCoroutineExceptionHandler
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.core.util.SdkUtil
-import com.isupatches.android.wisefy.networkconnectionstatus.callbacks.GetNetworkConnectionStatusCallbacks
-import com.isupatches.android.wisefy.networkconnectionstatus.entities.GetNetworkConnectionStatusQuery
-import com.isupatches.android.wisefy.networkconnectionstatus.entities.GetNetworkConnectionStatusResult
+import com.isupatches.android.wisefy.networkinfo.callbacks.GetNetworkConnectionStatusCallbacks
+import com.isupatches.android.wisefy.networkinfo.entities.GetNetworkConnectionStatusQuery
+import com.isupatches.android.wisefy.networkinfo.entities.GetNetworkConnectionStatusResult
 import com.isupatches.android.wisefy.networkconnectionstatus.os.adapters.DefaultNetworkConnectionStatusAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -75,26 +75,19 @@ class WisefyNetworkConnectionStatusDelegate(
         logger.d(LOG_TAG, "WisefyNetworkConnectionStatusDelegate adapter is: ${adapter::class.java.simpleName}")
     }
 
-    @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun attachNetworkWatcher() {
-        adapter.attachNetworkWatcher()
-    }
 
-    override fun detachNetworkWatcher() {
-        adapter.detachNetworkWatcher()
-    }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
     override fun getNetworkConnectionStatus(
-        query: GetNetworkConnectionStatusQuery
-    ): GetNetworkConnectionStatusResult {
+        query: com.isupatches.android.wisefy.networkinfo.entities.GetNetworkConnectionStatusQuery
+    ): com.isupatches.android.wisefy.networkinfo.entities.GetNetworkConnectionStatusResult {
         return adapter.getNetworkConnectionStatus(query)
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
     override fun getNetworkConnectionStatus(
-        query: GetNetworkConnectionStatusQuery,
-        callbacks: GetNetworkConnectionStatusCallbacks?
+        query: com.isupatches.android.wisefy.networkinfo.entities.GetNetworkConnectionStatusQuery,
+        callbacks: com.isupatches.android.wisefy.networkinfo.callbacks.GetNetworkConnectionStatusCallbacks?
     ) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
             networkConnectionMutex.withLock {

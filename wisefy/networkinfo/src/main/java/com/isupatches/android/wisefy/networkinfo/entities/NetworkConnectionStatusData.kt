@@ -13,11 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.android.wisefy.networkconnectionstatus.callbacks
+package com.isupatches.android.wisefy.networkinfo.entities
 
-import com.isupatches.android.wisefy.core.base.BaseWisefyCallbacks
-import com.isupatches.android.wisefy.networkconnectionstatus.entities.GetNetworkConnectionStatusResult
-
-interface GetNetworkConnectionStatusCallbacks : BaseWisefyCallbacks {
-    fun onDeviceNetworkConnectionStatusRetrieved(result: GetNetworkConnectionStatusResult)
-}
+data class NetworkConnectionStatusData(
+    val isConnected: Boolean,
+    val isConnectedToMobileNetwork: Boolean,
+    val isConnectedToWifiNetwork: Boolean,
+    val isRoaming: Boolean,
+    val ssidOfNetworkConnectedTo: String?,
+    val bssidOfNetworkConnectedTo: String?,
+    val ip: String?
+)

@@ -37,7 +37,7 @@ import com.isupatches.android.wisefy.networkconnection.entities.DisconnectFromCu
 import com.isupatches.android.wisefy.networkconnection.entities.DisconnectFromCurrentNetworkResult
 import com.isupatches.android.wisefy.networkconnection.os.adapters.Android29NetworkConnectionAdapter
 import com.isupatches.android.wisefy.networkconnection.os.adapters.DefaultNetworkConnectionAdapter
-import com.isupatches.android.wisefy.networkconnectionstatus.NetworkConnectionStatusDelegate
+import com.isupatches.android.wisefy.networkinfo.NetworkInfoDelegate
 import com.isupatches.android.wisefy.savednetworks.SavedNetworkDelegate
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -50,16 +50,17 @@ import kotlinx.coroutines.withContext
  *
  * @param coroutineDispatcherProvider The instance of the coroutine dispatcher provider to use
  * @param scope The coroutine scope to use
+ * @param networkConnectionMutex
  * @param connectivityManager The ConnectivityManager instance to use
  * @param logger The logger instance to use
- * @param networkConnectionStatusDelegate The NetworkConnectionStatusDelegate instance to use
+ * @param networkInfoDelegate The NetworkInfoDelegate instance to use
  * @param savedNetworkDelegate The SavedNetworkDelegate instance to use
  * @param sdkUtil The SdkUtil instance to use
  * @param wifiManager The WifiManager instance to use
  *
  * @see CoroutineDispatcherProvider
  * @see NetworkConnectionDelegate
- * @see NetworkConnectionStatusDelegate
+ * @see NetworkInfoDelegate
  * @see SavedNetworkDelegate
  * @see SdkUtil
  * @see WisefyLogger
@@ -74,7 +75,7 @@ class WisefyNetworkConnectionDelegate(
     assertions: WisefyAssertions,
     connectivityManager: ConnectivityManager,
     logger: WisefyLogger,
-    networkConnectionStatusDelegate: NetworkConnectionStatusDelegate,
+    networkInfoDelegate: NetworkInfoDelegate,
     savedNetworkDelegate: SavedNetworkDelegate,
     sdkUtil: SdkUtil,
     wifiManager: WifiManager
@@ -89,7 +90,7 @@ class WisefyNetworkConnectionDelegate(
         else -> {
             DefaultNetworkConnectionAdapter(
                 wifiManager,
-                networkConnectionStatusDelegate,
+                networkInfoDelegate,
                 savedNetworkDelegate,
                 logger
             )

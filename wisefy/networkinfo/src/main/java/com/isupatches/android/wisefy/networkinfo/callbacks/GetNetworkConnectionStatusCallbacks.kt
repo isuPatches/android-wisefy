@@ -13,16 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.android.wisefy.networkinfo
+package com.isupatches.android.wisefy.networkinfo.callbacks
 
-/**
- * A delegate for synchronous and asynchronous APIs for getting information about a network, the device's current
- * network, and the device's IP.
- *
- * @see NetworkInfoApi
- * @see NetworkInfoApiAsync
- *
- * @author Patches Klinefelter
- * @since 03/2022
- */
-interface NetworkInfoDelegate : NetworkInfoApiInternal, NetworkInfoApiAsync
+import com.isupatches.android.wisefy.core.base.BaseWisefyCallbacks
+import com.isupatches.android.wisefy.networkinfo.entities.GetNetworkConnectionStatusResult
+
+interface GetNetworkConnectionStatusCallbacks : BaseWisefyCallbacks {
+    fun onDeviceNetworkConnectionStatusRetrieved(result: GetNetworkConnectionStatusResult)
+}

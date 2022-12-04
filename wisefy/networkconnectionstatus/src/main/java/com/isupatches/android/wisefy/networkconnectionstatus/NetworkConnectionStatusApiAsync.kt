@@ -17,14 +17,14 @@ package com.isupatches.android.wisefy.networkconnectionstatus
 
 import android.Manifest.permission.ACCESS_NETWORK_STATE
 import androidx.annotation.RequiresPermission
-import com.isupatches.android.wisefy.networkconnectionstatus.callbacks.GetNetworkConnectionStatusCallbacks
-import com.isupatches.android.wisefy.networkconnectionstatus.entities.GetNetworkConnectionStatusQuery
+import com.isupatches.android.wisefy.networkinfo.callbacks.GetNetworkConnectionStatusCallbacks
+import com.isupatches.android.wisefy.networkinfo.entities.GetNetworkConnectionStatusQuery
 
 interface NetworkConnectionStatusApiAsync {
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
     fun getNetworkConnectionStatus(
-        query: GetNetworkConnectionStatusQuery = GetNetworkConnectionStatusQuery(),
-        callbacks: GetNetworkConnectionStatusCallbacks?
+        query: com.isupatches.android.wisefy.networkinfo.entities.GetNetworkConnectionStatusQuery = com.isupatches.android.wisefy.networkinfo.entities.GetNetworkConnectionStatusQuery(),
+        callbacks: com.isupatches.android.wisefy.networkinfo.callbacks.GetNetworkConnectionStatusCallbacks?
     )
 }

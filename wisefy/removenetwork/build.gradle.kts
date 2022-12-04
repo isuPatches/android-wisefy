@@ -19,8 +19,8 @@ android {
 }
 
 dependencies {
-    implementation(project(":wisefy:savednetworks"))
     implementation(project(":wisefy:core"))
+    implementation(project(":wisefy:savednetworks"))
 
     // Kotlin
     implementation(Dependencies.Kotlin.COROUTINES)
