@@ -33,11 +33,11 @@ private const val UNSELECTED_NAVIGATION_ITEM_ALPHA = 0.45f
 @Composable
 internal fun WisefySampleBottomNavigation(navController: NavController) {
     val items = listOf(
-        WisefySampleNavigationItem.Add,
-        WisefySampleNavigationItem.Remove,
-        WisefySampleNavigationItem.Home,
-        WisefySampleNavigationItem.Misc,
-        WisefySampleNavigationItem.Search
+        WisefySampleBottomNavigationItem.Add,
+        WisefySampleBottomNavigationItem.Remove,
+        WisefySampleBottomNavigationItem.Home,
+        WisefySampleBottomNavigationItem.Misc,
+        WisefySampleBottomNavigationItem.Search
     )
     BottomNavigation(
         backgroundColor = MaterialTheme.colors.primary,
@@ -50,12 +50,12 @@ internal fun WisefySampleBottomNavigation(navController: NavController) {
                 icon = {
                     Icon(
                         painter = painterResource(id = item.icon),
-                        contentDescription = stringResource(item.title)
+                        contentDescription = stringResource(item.stringResId)
                     )
                 },
                 label = {
                     Text(
-                        text = stringResource(item.title),
+                        text = stringResource(item.stringResId),
                         style = WisefySampleTypography.caption
                     )
                 },

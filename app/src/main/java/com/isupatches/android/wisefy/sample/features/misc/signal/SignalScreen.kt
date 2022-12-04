@@ -13,27 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.android.wisefy.sample.features.misc
+package com.isupatches.android.wisefy.sample.features.misc.signal
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavHostController
 import com.isupatches.android.wisefy.WisefyApi
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleLoadingIndicator
 import com.isupatches.android.wisefy.sample.util.SdkUtil
 
 @Composable
-internal fun MiscScreen(
+internal fun SignalScreen(
     wisefy: WisefyApi,
     sdkUtil: SdkUtil,
-    navController: NavHostController,
-    viewModel: MiscViewModel = viewModel(factory = MiscViewModelFactory(wisefy, sdkUtil))
+    viewModel: SignalViewModel = viewModel(
+        factory = SignalViewModelFactory(
+            context = LocalContext.current.applicationContext,
+            wisefy = wisefy,
+            sdkUtil = sdkUtil
+        )
+    )
 ) {
     WisefySampleLoadingIndicator(isLoading = { viewModel.uiState.value.loadingState.isLoading })
-    MiscScreenDialogContent(dialogState = { viewModel.uiState.value.dialogState }, viewModel = viewModel)
-    MiscScreenContent(
-        viewModel = viewModel,
-        sdkUtil = sdkUtil,
-        router = DefaultMiscScreenRouter(navController = navController)
-    )
+    SignalScreenDialogContent(dialogState = { viewModel.uiState.value.dialogState }, viewModel = viewModel)
+    SignalScreenContent(viewModel = viewModel)
 }

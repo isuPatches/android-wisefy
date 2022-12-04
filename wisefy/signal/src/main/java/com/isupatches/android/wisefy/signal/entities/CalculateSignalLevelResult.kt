@@ -22,19 +22,11 @@ package com.isupatches.android.wisefy.signal.entities
  * @author Patches Klinefelter
  * @since 07/2022, version 5.0.0
  */
-sealed class CalculateBarsResult {
+sealed class CalculateSignalLevelResult {
 
-    object Empty : CalculateBarsResult()
+    data class Success(val value: Int) : CalculateSignalLevelResult()
 
-    /**
-     * A data representation of the number of bars that represents the RSSI level of a network.
-     *
-     * @property value The return value for the number of bars representing the RSSI level of the network
-     *
-     * @see CalculateBarsResult
-     *
-     * @author Patches Klinefelter
-     * @since 07/2022, version 5.0.0
-     */
-    data class SignalLevel(val value: Int) : CalculateBarsResult()
+    sealed class Failure : CalculateSignalLevelResult() {
+        data class Assertion(val message: String) : Failure()
+    }
 }

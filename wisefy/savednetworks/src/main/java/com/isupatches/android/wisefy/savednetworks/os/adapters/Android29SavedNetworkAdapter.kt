@@ -46,13 +46,13 @@ internal class Android29SavedNetworkAdapter(
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun getSavedNetworks(query: GetSavedNetworksQuery): GetSavedNetworksResult {
-        assertions.fail(message = AssertionMessages.SavedNetworks.USED_ANDROID_29)
+        assertions.fail(message = AssertionMessages.AndroidQ.SAVED_NETWORK_FUNCTIONALITY_UNAVAILABLE_ANDROID_29)
         return GetSavedNetworksResult.Empty
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun isNetworkSaved(query: IsNetworkSavedQuery): IsNetworkSavedResult {
-        assertions.fail(message = AssertionMessages.SavedNetworks.USED_ANDROID_29)
+        assertions.fail(message = AssertionMessages.AndroidQ.SAVED_NETWORK_FUNCTIONALITY_UNAVAILABLE_ANDROID_29)
         return IsNetworkSavedResult.False
     }
 }

@@ -15,6 +15,8 @@
  */
 package com.isupatches.android.wisefy.networkconnection
 
+import android.Manifest.permission.CHANGE_NETWORK_STATE
+import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.core.constants.DeprecationMessages
 import com.isupatches.android.wisefy.networkconnection.entities.ConnectToNetworkRequest
 import com.isupatches.android.wisefy.networkconnection.entities.ConnectToNetworkResult
@@ -42,6 +44,7 @@ interface NetworkConnectionApi {
      * @author Patches Klinefelter
      * @since 03/2022
      */
+    @RequiresPermission(CHANGE_NETWORK_STATE)
     fun connectToNetwork(request: ConnectToNetworkRequest): ConnectToNetworkResult
 
     /**

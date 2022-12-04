@@ -15,8 +15,13 @@
  */
 package com.isupatches.android.wisefy.networkconnection
 
+import android.Manifest.permission.ACCESS_FINE_LOCATION
+import android.Manifest.permission.ACCESS_NETWORK_STATE
+import android.Manifest.permission.ACCESS_WIFI_STATE
+import android.Manifest.permission.CHANGE_NETWORK_STATE
 import android.net.ConnectivityManager
 import android.net.wifi.WifiManager
+import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
 import com.isupatches.android.wisefy.core.constants.DeprecationMessages
 import com.isupatches.android.wisefy.core.coroutines.CoroutineDispatcherProvider
@@ -95,10 +100,12 @@ class WisefyNetworkConnectionDelegate(
         logger.d(LOG_TAG, "WisefyNetworkConnectionDelegate adapter is: ${adapter::class.java.simpleName}")
     }
 
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE, ACCESS_NETWORK_STATE, CHANGE_NETWORK_STATE])
     override fun connectToNetwork(request: ConnectToNetworkRequest): ConnectToNetworkResult {
         return adapter.connectToNetwork(request)
     }
 
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE, ACCESS_NETWORK_STATE, CHANGE_NETWORK_STATE])
     override fun connectToNetwork(request: ConnectToNetworkRequest, callbacks: ConnectToNetworkCallbacks?) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
             networkConnectionMutex.withLock {

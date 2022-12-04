@@ -28,8 +28,8 @@ import androidx.annotation.RequiresPermission
  * @author Patches Klinefelter
  * @since 03/2022
  */
-@RequiresApi(Build.VERSION_CODES.Q)
-internal interface Android29RemoveNetworkApi {
+@RequiresApi(Build.VERSION_CODES.R)
+internal interface Android30RemoveNetworkApi {
 
     /**
      * An Android 29 specific internal API that is used to remove a network through the Android OS.

@@ -15,71 +15,22 @@
  */
 package com.isupatches.android.wisefy.removenetwork.os.adapters
 
-import android.Manifest.permission.ACCESS_FINE_LOCATION
-import android.Manifest.permission.ACCESS_WIFI_STATE
-import android.Manifest.permission.CHANGE_WIFI_STATE
-import android.net.wifi.WifiManager
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
 import com.isupatches.android.wisefy.core.constants.AssertionMessages
 import com.isupatches.android.wisefy.removenetwork.RemoveNetworkApi
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkRequest
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkResult
-import com.isupatches.android.wisefy.removenetwork.os.apis.Android29RemoveNetworkApi
-import com.isupatches.android.wisefy.removenetwork.os.converters.toSearchForNetworkRequest
-import com.isupatches.android.wisefy.removenetwork.os.impls.Android29RemoveNetworkApiImpl
-import com.isupatches.android.wisefy.savednetworks.SavedNetworkDelegate
-import com.isupatches.android.wisefy.savednetworks.entities.GetSavedNetworksResult
-import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
 
-/**
- * An Android 29 specific adapter for removing a network.
- *
- * @param wifiManager The WifiManager instance to use
- * @param api The OS level API instance to use
- *
- * @see Android29RemoveNetworkApi
- * @see Android29RemoveNetworkApiImpl
- * @see RemoveNetworkApi
- *
- * @author Patches Klinefelter
- * @since 03/2022
- */
 @RequiresApi(Build.VERSION_CODES.Q)
 internal class Android29RemoveNetworkAdapter(
-    private val wifiManager: WifiManager,
-    private val savedNetworkDelegate: SavedNetworkDelegate,
-    private val assertions: WisefyAssertions,
-    private val api: Android29RemoveNetworkApi = Android29RemoveNetworkApiImpl(wifiManager)
+    private val assertions: WisefyAssertions
 ) : RemoveNetworkApi {
 
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE, ACCESS_WIFI_STATE])
     override fun removeNetwork(request: RemoveNetworkRequest): RemoveNetworkResult {
-        return when (
-            val savedNetworkSearchResult = savedNetworkDelegate.getSavedNetworks(
-                query = request.toSearchForNetworkRequest()
-            )
-        ) {
-            is GetSavedNetworksResult.Empty -> RemoveNetworkResult.Failure.NetworkNotFound
-            is GetSavedNetworksResult.SavedNetworks -> {
-                when (val savedNetwork = savedNetworkSearchResult.value.first()) {
-                    is SavedNetworkData.Suggestion -> {
-                        val result = api.removeNetwork(savedNetwork.rawValue)
-                        if (result == WifiManager.STATUS_NETWORK_SUGGESTIONS_SUCCESS) {
-                            RemoveNetworkResult.Success.ResultCode(result)
-                        } else {
-                            RemoveNetworkResult.Failure.ResultCode(result)
-                        }
-                    }
-                    is SavedNetworkData.Configuration -> {
-                        val message = AssertionMessages.RemoveNetwork.CONFIGURATION_USED_ANDROID_Q
-                        assertions.fail(message = message)
-                        RemoveNetworkResult.Failure.Assertion(message = message)
-                    }
-                }
-            }
-        }
+        val message = AssertionMessages.AndroidQ.SAVED_NETWORK_FUNCTIONALITY_UNAVAILABLE_ANDROID_29
+        assertions.fail(message)
+        return RemoveNetworkResult.Failure.Assertion(message)
     }
 }

@@ -20,7 +20,9 @@
     <string name="bssid">BSSID</string>
 
     <string name="wisefy_async_error">Wisefy Async Error</string>
-    <string name="wisefy_async_error_descriptions_args">An async error occurred with Wisefy.  Exception message: %s</string>
+    <string name="wisefy_async_error_descriptions_args">
+        An async error occurred with Wisefy. Exception message: %s
+    </string>
 
     <string name="access_points_args">Access points: %s</string>
     <string name="no_access_points_found">No access points found</string>
@@ -53,4 +55,6 @@
 
     <string name="hide_password">Hide password</string>
     <string name="show_password">Show password</string>
+
+    <string name="rssi_input_invalid">Invalid RSSI input</string>
 </resources>

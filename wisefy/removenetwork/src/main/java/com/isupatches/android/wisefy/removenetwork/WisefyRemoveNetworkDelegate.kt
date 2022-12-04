@@ -28,6 +28,7 @@ import com.isupatches.android.wisefy.removenetwork.callbacks.RemoveNetworkCallba
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkRequest
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkResult
 import com.isupatches.android.wisefy.removenetwork.os.adapters.Android29RemoveNetworkAdapter
+import com.isupatches.android.wisefy.removenetwork.os.adapters.Android30RemoveNetworkAdapter
 import com.isupatches.android.wisefy.removenetwork.os.adapters.DefaultRemoveNetworkAdapter
 import com.isupatches.android.wisefy.savednetworks.SavedNetworkDelegate
 import kotlinx.coroutines.CoroutineScope
@@ -70,7 +71,8 @@ class WisefyRemoveNetworkDelegate(
     }
 
     private val adapter: RemoveNetworkApi = when {
-        sdkUtil.isAtLeastQ() -> Android29RemoveNetworkAdapter(wifiManager, savedNetworkDelegate, assertions)
+        sdkUtil.isAtLeastR() -> Android30RemoveNetworkAdapter(wifiManager, savedNetworkDelegate, assertions)
+        sdkUtil.isAtLeastQ() -> Android29RemoveNetworkAdapter(assertions)
         else -> DefaultRemoveNetworkAdapter(wifiManager, savedNetworkDelegate, assertions)
     }
 

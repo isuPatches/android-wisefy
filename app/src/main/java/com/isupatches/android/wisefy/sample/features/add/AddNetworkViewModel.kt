@@ -16,11 +16,12 @@
 package com.isupatches.android.wisefy.sample.features.add
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
+import android.Manifest.permission.ACCESS_NETWORK_STATE
+import android.Manifest.permission.ACCESS_WIFI_STATE
+import android.Manifest.permission.CHANGE_NETWORK_STATE
 import android.Manifest.permission.CHANGE_WIFI_STATE
 import android.content.Context
-import android.content.Intent
 import android.os.Build
-import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import androidx.compose.runtime.State
@@ -33,6 +34,7 @@ import com.isupatches.android.wisefy.core.exceptions.WisefyException
 import com.isupatches.android.wisefy.ktx.addNetworkAsync
 import com.isupatches.android.wisefy.networkconnection.callbacks.ConnectToNetworkCallbacks
 import com.isupatches.android.wisefy.networkconnection.entities.ConnectToNetworkRequest
+import com.isupatches.android.wisefy.networkconnection.entities.ConnectToNetworkResult
 import com.isupatches.android.wisefy.sample.entities.NetworkType
 import com.isupatches.android.wisefy.sample.scaffolding.BaseViewModel
 import com.isupatches.android.wisefy.sample.scaffolding.BaseViewModelFactory
@@ -43,7 +45,6 @@ import com.isupatches.android.wisefy.sample.util.SdkUtil
 import com.isupatches.android.wisefy.sample.util.validateBSSID
 import com.isupatches.android.wisefy.sample.util.validatePassphrase
 import com.isupatches.android.wisefy.sample.util.validateSSID
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -55,14 +56,10 @@ internal abstract class AddNetworkViewModel : BaseViewModel() {
 
     @RequiresApi(Build.VERSION_CODES.R)
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-    abstract suspend fun addNetwork(launcher: ActivityResultLauncher<Intent>)
+    abstract suspend fun addNetwork(context: Context)
 
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE, ACCESS_NETWORK_STATE, CHANGE_NETWORK_STATE])
     abstract fun connectToNetwork()
-
-    @RequiresApi(Build.VERSION_CODES.R)
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-    abstract fun connectToNetwork(launcher: ActivityResultLauncher<Intent>)
 
     abstract fun onDialogClosed()
 
@@ -80,7 +77,7 @@ internal abstract class AddNetworkViewModel : BaseViewModel() {
 }
 
 internal class DefaultAddNetworkViewModel(
-    @ApplicationContext context: Context,
+    context: Context,
     private val wisefy: WisefyApi,
     private val sdkUtil: SdkUtil,
     private val addNetworkStore: AddNetworkStore = DefaultAddNetworkStore(context = context)
@@ -180,13 +177,13 @@ internal class DefaultAddNetworkViewModel(
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     override suspend fun addNetwork() {
-        addNetworkInternal(getAddNetworkRequest())
+        addNetwork(getAddNetworkRequest())
     }
 
     @RequiresApi(Build.VERSION_CODES.R)
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-    override suspend fun addNetwork(launcher: ActivityResultLauncher<Intent>) {
-        addNetworkInternal(getAddNetworkRequestWithLauncher(launcher))
+    override suspend fun addNetwork(context: Context) {
+        addNetwork(getAddNetworkRequestForAndroid30OrHigher(context))
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
@@ -207,32 +204,49 @@ internal class DefaultAddNetworkViewModel(
             ),
             callbacks = object : ConnectToNetworkCallbacks {
                 override fun onConnectionRequestPlaced() {
-                    TODO("Not yet implemented")
+                    _uiState.value = uiState.value.copy(
+                        loadingState = AddNetworkLoadingState(false),
+                        dialogState = AddNetworkDialogState.ConnectToNetwork.Success(
+                            result = ConnectToNetworkResult.Success.ConnectionRequestSent
+                        )
+                    )
                 }
 
                 override fun onConnectedToNetwork() {
-                    TODO("Not yet implemented")
+                    _uiState.value = uiState.value.copy(
+                        loadingState = AddNetworkLoadingState(false),
+                        dialogState = AddNetworkDialogState.ConnectToNetwork.Success(
+                            result = ConnectToNetworkResult.Success.True
+                        )
+                    )
                 }
 
                 override fun onNetworkNotFoundToConnectTo() {
-                    TODO("Not yet implemented")
+                    _uiState.value = uiState.value.copy(
+                        loadingState = AddNetworkLoadingState(false),
+                        dialogState = AddNetworkDialogState.ConnectToNetwork.Failure(
+                            result = ConnectToNetworkResult.Failure.NetworkNotFound
+                        )
+                    )
                 }
 
                 override fun onFailureConnectingToNetwork() {
-                    TODO("Not yet implemented")
+                    _uiState.value = uiState.value.copy(
+                        loadingState = AddNetworkLoadingState(false),
+                        dialogState = AddNetworkDialogState.ConnectToNetwork.Failure(
+                            result = ConnectToNetworkResult.Failure.False
+                        )
+                    )
                 }
 
                 override fun onWisefyAsyncFailure(exception: WisefyException) {
-                    TODO("Not yet implemented")
+                    _uiState.value = uiState.value.copy(
+                        loadingState = AddNetworkLoadingState(false),
+                        dialogState = AddNetworkDialogState.Failure.WisefyAsync(exception = exception)
+                    )
                 }
             }
         )
-    }
-
-    @RequiresApi(Build.VERSION_CODES.R)
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-    override fun connectToNetwork(launcher: ActivityResultLauncher<Intent>) {
-        // todo@patches
     }
 
     private fun isInputValid(): Boolean {
@@ -324,16 +338,23 @@ internal class DefaultAddNetworkViewModel(
     override fun onAddNetworkPermissionsError() {
         _uiState.value = uiState.value.copy(
             loadingState = AddNetworkLoadingState(isLoading = false),
-            dialogState = AddNetworkDialogState.None
+            dialogState = when (uiState.value.networkType) {
+                NetworkType.OPEN -> AddNetworkDialogState.AddNetwork.PermissionsError.AddOpenNetwork
+                NetworkType.WPA2 -> AddNetworkDialogState.AddNetwork.PermissionsError.AddWPA2Network
+                NetworkType.WPA3 -> AddNetworkDialogState.AddNetwork.PermissionsError.AddWPA3Network
+            }
         )
     }
 
     override fun onConnectToNetworkPermissionError() {
-        TODO("Not yet implemented")
+        _uiState.value = uiState.value.copy(
+            loadingState = AddNetworkLoadingState(isLoading = false),
+            dialogState = AddNetworkDialogState.ConnectToNetwork.PermissionsError
+        )
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-    private suspend fun addNetworkInternal(request: AddNetworkRequest) {
+    private suspend fun addNetwork(request: AddNetworkRequest) {
         if (!isInputValid()) {
             return
         }
@@ -394,39 +415,35 @@ internal class DefaultAddNetworkViewModel(
                     )
                 } else {
                     error("")
-//                    _uiState.value = uiState.value.copy(
-//                        loadingState = AddNetworkLoadingState(isLoading = true),
-//                        dialogState = AddNetworkDialogState.
-//                    )
                 }
             }
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.R)
-    private fun getAddNetworkRequestWithLauncher(launcher: ActivityResultLauncher<Intent>): AddNetworkRequest {
+    private fun getAddNetworkRequestForAndroid30OrHigher(context: Context): AddNetworkRequest {
         return when (uiState.value.networkType) {
             NetworkType.OPEN -> {
                 AddNetworkRequest.Open.Android30OrAbove(
+                    context = context,
                     ssid = uiState.value.inputState.ssidInput,
-                    bssid = uiState.value.inputState.bssidInput,
-                    launcher = launcher
+                    bssid = uiState.value.inputState.bssidInput
                 )
             }
             NetworkType.WPA2 -> {
                 AddNetworkRequest.WPA2.Android30OrAbove(
+                    context = context,
                     ssid = uiState.value.inputState.ssidInput,
                     passphrase = uiState.value.inputState.passphraseInput,
-                    bssid = uiState.value.inputState.bssidInput,
-                    launcher = launcher
+                    bssid = uiState.value.inputState.bssidInput
                 )
             }
             NetworkType.WPA3 -> {
                 AddNetworkRequest.WPA3.Android30OrAbove(
+                    context = context,
                     ssid = uiState.value.inputState.ssidInput,
                     passphrase = uiState.value.inputState.passphraseInput,
-                    bssid = uiState.value.inputState.bssidInput,
-                    launcher = launcher
+                    bssid = uiState.value.inputState.bssidInput
                 )
             }
         }

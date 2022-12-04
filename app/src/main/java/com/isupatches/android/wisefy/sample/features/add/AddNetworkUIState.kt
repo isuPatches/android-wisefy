@@ -52,7 +52,7 @@ internal sealed class AddNetworkDialogState {
     sealed class ConnectToNetwork : AddNetworkDialogState() {
         data class Failure(val result: ConnectToNetworkResult.Failure) : ConnectToNetwork()
         data class Success(val result: ConnectToNetworkResult.Success) : ConnectToNetwork()
-        sealed class PermissionsError : ConnectToNetwork()
+        object PermissionsError : ConnectToNetwork()
     }
 
     sealed class InputError : AddNetworkDialogState() {

@@ -10,14 +10,12 @@
     <string name="get_network_connection_status">Get Network Connection Status</string>
     <string name="get_saved_networks">Get Saved Networks</string>
     <string name="is_wifi_enabled">Is Wifi Enabled</string>
+    <string name="signal_functions">Signal Functions</string>
 
     <!-- Results -->
-    <string name="add_wpa3_android_q_notice">WPA3 networks are not supported until Android Q</string>
-
     <string name="success_disabling_wifi_args">Success disabling wifi. Result: %s</string>
     <string name="failure_disabling_wifi_args">Failure disabling wifi. Result: %s</string>
 
-    <string name="disconnect_result">Disconnect Result</string>
     <string name="succeeded_disconnecting_from_current_network">Succeeded disconnecting from current network.</string>
     <string name="succeeded_placing_request_to_disconnect_from_current_network">
         Succeeded placing request to disconnect from current network.
@@ -49,4 +47,5 @@
         Starting with Android Q, applications are not allowed to alter connections, only offer suggestions
     </string>
     <string name="android_q_notice">Android Q Notice</string>
+    <string name="permission_error_get_current_network">Permissions for getting the current networks are denied</string>
 </resources>

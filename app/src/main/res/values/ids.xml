@@ -8,4 +8,5 @@
     <item name="get_network_connection_status" type="id" />
     <item name="get_saved_networks" type="id" />
     <item name="is_wifi_enabled" type="id" />
+    <item name="signal_functions" type="id" />
 </resources>

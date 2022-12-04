@@ -15,11 +15,13 @@
  */
 package com.isupatches.android.wisefy.sample.ui.components
 
+import android.content.res.Configuration
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -33,8 +35,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
 import com.isupatches.android.wisefy.sample.R
 import com.isupatches.android.wisefy.sample.ui.primitives.WisefySampleSizes
 import com.isupatches.android.wisefy.sample.ui.primitives.WisefySampleTextFieldColors
@@ -97,15 +101,54 @@ internal fun WisefySampleEditText(
                 }
             )
         }
-        error?.let {
-            Row(modifier = Modifier.padding(top = WisefySampleSizes.Medium, bottom = WisefySampleSizes.Medium)) {
-                Text(
-                    text = stringResource(it.errorMessageResId),
-                    color = MaterialTheme.colors.error,
-                    style = MaterialTheme.typography.caption,
-                    modifier = Modifier.padding(start = WisefySampleSizes.Large)
-                )
-            }
+        WisefySampleEditTextErrorMessage(error)
+    }
+}
+
+@Composable
+internal fun WisefySampleNumericalEditText(
+    text: String,
+    onTextChange: (String) -> Unit,
+    @StringRes labelResId: Int,
+    error: WisefySampleEditTextError? = null
+) {
+    val colors = WisefySampleTextFieldColors()
+    Column {
+        Row {
+            TextField(
+                value = text,
+                onValueChange = onTextChange,
+                label = {
+                    Text(
+                        text = stringResource(labelResId),
+                        style = MaterialTheme.typography.body1,
+                        color = colors.placeholderColor(enabled = true).value
+                    )
+                },
+                singleLine = true,
+                textStyle = MaterialTheme.typography.body1,
+                colors = colors,
+                modifier = Modifier.fillMaxWidth(),
+                visualTransformation = VisualTransformation.None,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+            )
+        }
+        WisefySampleEditTextErrorMessage(error)
+    }
+}
+
+@Composable
+internal fun WisefySampleEditTextErrorMessage(
+    error: WisefySampleEditTextError? = null
+) {
+    error?.let {
+        Row(modifier = Modifier.padding(top = WisefySampleSizes.Medium, bottom = WisefySampleSizes.Medium)) {
+            Text(
+                text = stringResource(it.errorMessageResId),
+                color = MaterialTheme.colors.error,
+                style = MaterialTheme.typography.caption,
+                modifier = Modifier.padding(start = WisefySampleSizes.Large)
+            )
         }
     }
 }
@@ -113,3 +156,95 @@ internal fun WisefySampleEditText(
 internal data class WisefySampleEditTextError(
     @StringRes val errorMessageResId: Int
 )
+
+@Preview(showBackground = true)
+@Composable
+internal fun WisefySampleEditTextLightPreview() {
+    WisefySampleEditText(
+        text = "",
+        onTextChange = { },
+        labelResId = R.string.wisefy,
+        singleLine = true
+    )
+}
+
+@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+internal fun WisefySampleEditTextDarkPreview() {
+    WisefySampleEditText(
+        text = "",
+        onTextChange = { },
+        labelResId = R.string.wisefy,
+        singleLine = true
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+internal fun WisefySampleEditTextWithErrorLightPreview() {
+    WisefySampleEditText(
+        text = "",
+        onTextChange = { },
+        labelResId = R.string.wisefy,
+        singleLine = true,
+        error = WisefySampleEditTextError(R.string.permission_error)
+    )
+}
+
+@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+internal fun WisefySampleEditTextWithErrorDarkPreview() {
+    WisefySampleEditText(
+        text = "",
+        onTextChange = { },
+        labelResId = R.string.wisefy,
+        singleLine = true,
+        error = WisefySampleEditTextError(R.string.permission_error)
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+internal fun WisefySampleEditTextPasswordFieldLightPreview() {
+    WisefySampleEditText(
+        text = "password",
+        onTextChange = { },
+        labelResId = R.string.wisefy,
+        isPasswordField = true
+    )
+}
+
+@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+internal fun WisefySampleEditTextPasswordFieldDarkPreview() {
+    WisefySampleEditText(
+        text = "password",
+        onTextChange = { },
+        labelResId = R.string.wisefy,
+        isPasswordField = true
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+internal fun WisefySampleEditTextPasswordFieldWithErrorLightPreview() {
+    WisefySampleEditText(
+        text = "password",
+        onTextChange = { },
+        labelResId = R.string.wisefy,
+        isPasswordField = true,
+        error = WisefySampleEditTextError(R.string.permission_error)
+    )
+}
+
+@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+internal fun WisefySampleEditTextPasswordFieldWithErrorDarkPreview() {
+    WisefySampleEditText(
+        text = "password",
+        onTextChange = { },
+        labelResId = R.string.wisefy,
+        isPasswordField = true,
+        error = WisefySampleEditTextError(R.string.permission_error)
+    )
+}

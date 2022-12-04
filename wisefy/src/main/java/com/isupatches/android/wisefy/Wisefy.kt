@@ -21,6 +21,7 @@ import android.Manifest.permission.ACCESS_COARSE_LOCATION
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.ACCESS_NETWORK_STATE
 import android.Manifest.permission.ACCESS_WIFI_STATE
+import android.Manifest.permission.CHANGE_NETWORK_STATE
 import android.Manifest.permission.CHANGE_WIFI_STATE
 import android.content.Context
 import android.net.ConnectivityManager
@@ -77,8 +78,8 @@ import com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedQuery
 import com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedResult
 import com.isupatches.android.wisefy.signal.SignalDelegate
 import com.isupatches.android.wisefy.signal.WisefySignalDelegate
-import com.isupatches.android.wisefy.signal.entities.CalculateBarsRequest
-import com.isupatches.android.wisefy.signal.entities.CalculateBarsResult
+import com.isupatches.android.wisefy.signal.entities.CalculateSignalLevelRequest
+import com.isupatches.android.wisefy.signal.entities.CalculateSignalLevelResult
 import com.isupatches.android.wisefy.signal.entities.CompareSignalLevelRequest
 import com.isupatches.android.wisefy.signal.entities.CompareSignalLevelResult
 import com.isupatches.android.wisefy.wifi.WifiDelegate
@@ -94,6 +95,7 @@ import com.isupatches.android.wisefy.wifi.entities.IsWifiEnabledQuery
 import com.isupatches.android.wisefy.wifi.entities.IsWifiEnabledResult
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.sync.Mutex
 
@@ -166,7 +168,7 @@ class Wisefy private constructor(
 
             val sdkUtil = SdkUtilImpl()
             val coroutineDispatcherProvider = CoroutineDispatcherProvider()
-            wisefyScope = CoroutineScope(Job() + coroutineDispatcherProvider.io)
+            wisefyScope = CoroutineScope(SupervisorJob() + coroutineDispatcherProvider.io)
             val assertions = WisefyAssertions(throwOnAssertions)
 
             /*
@@ -526,20 +528,20 @@ class Wisefy private constructor(
         addNetworkDelegate.addNetwork(request, callbacks)
     }
 
-    override fun calculateBars(request: CalculateBarsRequest): CalculateBarsResult {
-        return signalDelegate.calculateBars(request)
+    override fun calculateSignalLevel(request: CalculateSignalLevelRequest): CalculateSignalLevelResult {
+        return signalDelegate.calculateSignalLevel(request)
     }
 
     override fun compareSignalLevel(request: CompareSignalLevelRequest): CompareSignalLevelResult {
         return signalDelegate.compareSignalLevel(request)
     }
 
-    @RequiresPermission(ACCESS_FINE_LOCATION)
+    @RequiresPermission(allOf = [CHANGE_NETWORK_STATE, ACCESS_FINE_LOCATION])
     override fun connectToNetwork(request: ConnectToNetworkRequest): ConnectToNetworkResult {
         return networkConnectionDelegate.connectToNetwork(request)
     }
 
-    @RequiresPermission(ACCESS_FINE_LOCATION)
+    @RequiresPermission(allOf = [CHANGE_NETWORK_STATE, ACCESS_FINE_LOCATION])
     override fun connectToNetwork(request: ConnectToNetworkRequest, callbacks: ConnectToNetworkCallbacks?) {
         networkConnectionDelegate.connectToNetwork(request, callbacks)
     }

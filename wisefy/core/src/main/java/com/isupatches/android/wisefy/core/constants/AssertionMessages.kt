@@ -37,7 +37,7 @@ object AssertionMessages {
          * @author Patches Klinefelter
          * @since 11/2022, version 5.0.0
          */
-        object ActivityResultLauncher {
+        object RequestWithContext {
 
             /**
              * A string value for the assertion message for using ActivityResultLauncher prior to Android 30.
@@ -46,7 +46,7 @@ object AssertionMessages {
              * @since 11/2022, version 5.0.0
              */
             const val USED_PRE_ANDROID_30: String =
-                "Adding a network using ActivityResultLauncher is not available until Android R"
+                "Adding a network using the request that includes context is not available until Android R"
 
             /**
              * A string value for the assertion message for not using ActivityResultLauncher on Android 30+.
@@ -55,7 +55,7 @@ object AssertionMessages {
              * @since 11/2022, version 5.0.0
              */
             const val NOT_USED_ANDROID_30: String =
-                "Adding a network should be done with an ActivityResultLauncher on Android R+"
+                "Adding a network should be done with the request that includes context on Android R+"
         }
 
         /**
@@ -74,6 +74,12 @@ object AssertionMessages {
              */
             const val USED_PRE_ANDROID_29: String = "WPA3 networks are not supported until Android Q"
         }
+    }
+
+    object AndroidQ {
+
+        const val SAVED_NETWORK_FUNCTIONALITY_UNAVAILABLE_ANDROID_29: String =
+            "Saved network functionality is not supported on Android Q"
     }
 
     /**
@@ -122,24 +128,6 @@ object AssertionMessages {
          */
         const val SUGGESTION_USED_PRE_ANDROID_Q: String =
             "Before Android Q, configurations should be used. Suggestion was used instead."
-    }
-
-    /**
-     * A singleton that houses the assertion messages present for the saved network features.
-     *
-     * @author Patches Klinefelter
-     * @since 11/2022, version 5.0.0
-     */
-    object SavedNetworks {
-
-        /**
-         * A string value for the assertion message for retrieving saved networks on Android Q.
-         *
-         * @author Patches Klinefelter
-         * @since 11/2022, version 5.0.0
-         */
-        const val USED_ANDROID_29: String = "There is no known way to see or save a network on Android Q similar to " +
-            "pre-Q or R+ behavior"
     }
 
     /**

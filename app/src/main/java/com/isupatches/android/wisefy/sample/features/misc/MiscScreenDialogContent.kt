@@ -132,6 +132,15 @@ internal fun MiscScreenDialogContent(
                 }
             )
         }
+        is MiscScreenDialogState.GetCurrentNetwork.PermissionsError -> {
+            WisefySampleNoticeDialog(
+                title = R.string.permission_error,
+                body = R.string.permission_error_get_current_network,
+                onClose = {
+                    viewModel.onDialogClosed()
+                }
+            )
+        }
         is MiscScreenDialogState.GetCurrentNetwork.Success -> {
             WisefySampleNoticeDialog(
                 title = R.string.get_current_network,
@@ -235,6 +244,5 @@ internal fun MiscScreenDialogContent(
                 }
             )
         }
-        MiscScreenDialogState.GetCurrentNetwork.PermissionsError -> TODO()
     }
 }

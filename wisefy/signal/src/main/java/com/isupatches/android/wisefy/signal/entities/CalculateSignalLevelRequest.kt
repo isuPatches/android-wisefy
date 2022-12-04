@@ -25,21 +25,21 @@ import androidx.annotation.RequiresApi
  * @author Patches Klinefelter
  * @since 07/2022, version 5.0.0
  */
-sealed class CalculateBarsRequest {
+sealed class CalculateSignalLevelRequest {
 
     /**
      * A data representation of a request on devices below Android 30 to calculate the number of signal bars
      * based on the RSSI level of a network and the desired amount of bars.
      *
      * @property rssiLevel The RSSI level of the network
-     * @property targetNumberOfBars The desired number of signal strength bars
+     * @property numLevels The desired number of signal strength bars
      *
-     * @see CalculateBarsRequest
+     * @see CalculateSignalLevelRequest
      *
      * @author Patches Klinefelter
      * @since 07/2022, version 5.0.0
      */
-    data class BelowAndroid30(val rssiLevel: Int, val targetNumberOfBars: Int) : CalculateBarsRequest()
+    data class BelowAndroid30(val rssiLevel: Int, val numLevels: Int) : CalculateSignalLevelRequest()
 
     /**
      * A data representation of a request on devices above Android 30 to calculate the number of signal bars
@@ -47,11 +47,11 @@ sealed class CalculateBarsRequest {
      *
      * @property rssiLevel The RSSI level of the network
      *
-     * @see CalculateBarsRequest
+     * @see CalculateSignalLevelRequest
      *
      * @author Patches Klinefelter
      * @since 07/2022, version 5.0.0
      */
     @RequiresApi(Build.VERSION_CODES.R)
-    data class Android30AndAbove(val rssiLevel: Int) : CalculateBarsRequest()
+    data class Android30AndAbove(val rssiLevel: Int) : CalculateSignalLevelRequest()
 }

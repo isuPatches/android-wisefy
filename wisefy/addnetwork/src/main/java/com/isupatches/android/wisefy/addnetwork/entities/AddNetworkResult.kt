@@ -50,18 +50,6 @@ sealed class AddNetworkResult {
          * @since 11/2022, version 5.0.0
          */
         data class ResultCode(val value: Int) : Success()
-
-        /**
-         * A representation of a success while launching a network suggestion intent in Android 30.
-         *
-         * *NOTE* Only applicable to Android 30 and higher
-         *
-         * @see Success
-         *
-         * @author Patches Klinefelter
-         * @since 11/2022, version 5.0.0
-         */
-        object IntentLaunched : Success()
     }
 
     /**
@@ -73,6 +61,8 @@ sealed class AddNetworkResult {
      * @since 11/2022, version 5.0.0
      */
     sealed class Failure : AddNetworkResult() {
+
+        object AndroidQ : Failure()
 
         /**
          * A representation of a failure to add a network based on Android OS level returns.

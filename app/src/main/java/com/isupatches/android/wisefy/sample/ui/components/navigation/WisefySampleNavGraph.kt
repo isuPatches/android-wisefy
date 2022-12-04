@@ -15,12 +15,17 @@
  */
 package com.isupatches.android.wisefy.sample.ui.components.navigation
 
-import com.isupatches.android.wisefy.sample.R
+sealed class WisefySampleNavGraph(open val route: String) {
 
-internal sealed class WisefySampleNavigationItem(val route: String, val icon: Int, val title: Int) {
-    object Add : WisefySampleNavigationItem("add", R.drawable.ic_add_circle, R.string.add)
-    object Remove : WisefySampleNavigationItem("remove", R.drawable.ic_remove_circle, R.string.remove)
-    object Home : WisefySampleNavigationItem("home", R.drawable.ic_home, R.string.home)
-    object Misc : WisefySampleNavigationItem("misc", R.drawable.ic_apps, R.string.misc)
-    object Search : WisefySampleNavigationItem("search", R.drawable.ic_search, R.string.search)
+    sealed class Main(override val route: String) : WisefySampleNavGraph(route) {
+        object Add : Main(route = "add")
+        object Remove : Main(route = "remove")
+        object Home : Main(route = "home")
+        object Misc : Main(route = "misc")
+        object Search : Main(route = "search")
+    }
+
+    sealed class Misc(override val route: String) : WisefySampleNavGraph(route) {
+        object Signal : Misc(route = "signal")
+    }
 }

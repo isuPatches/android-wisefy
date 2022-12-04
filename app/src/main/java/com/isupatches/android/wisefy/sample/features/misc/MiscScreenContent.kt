@@ -42,11 +42,11 @@ import kotlinx.coroutines.launch
 
 private const val LOG_TAG = "MiscScreenContent"
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun MiscScreenContent(
     viewModel: MiscViewModel,
-    sdkUtil: SdkUtil
+    sdkUtil: SdkUtil,
+    router: MiscScreenRouter
 ) {
     WisefySampleTheme {
         val scope = rememberCoroutineScope()
@@ -141,6 +141,7 @@ internal fun MiscScreenContent(
                         viewModel.isWifiEnabled()
                     }
                 }
+                MiscScreenOption.SIGNAL_FUNCTIONS -> router.openSignalScreen()
             }
         }
 
@@ -156,6 +157,7 @@ internal fun MiscScreenContent(
             )
         ) {
             items(MiscScreenOption.values(), { it.id }) { option ->
+                @OptIn(ExperimentalFoundationApi::class)
                 Row(modifier = Modifier.animateItemPlacement()) {
                     MiscScreenOptionRow(option = option, onClick = onMiscOptionClicked)
                 }
@@ -175,7 +177,8 @@ internal enum class MiscScreenOption(val id: Long, @StringRes val stringResId: I
     GET_NEARBY_ACCESS_POINTS(R.id.get_nearby_access_points.toLong(), R.string.get_nearby_access_points),
     GET_NETWORK_CONNECTION_STATUS(R.id.get_network_connection_status.toLong(), R.string.get_network_connection_status),
     GET_SAVED_NETWORKS(R.id.get_saved_networks.toLong(), R.string.get_saved_networks),
-    IS_WIFI_ENABLED(R.id.is_wifi_enabled.toLong(), R.string.is_wifi_enabled)
+    IS_WIFI_ENABLED(R.id.is_wifi_enabled.toLong(), R.string.is_wifi_enabled),
+    SIGNAL_FUNCTIONS(R.id.signal_functions.toLong(), R.string.signal_functions)
 }
 
 @Composable

@@ -19,8 +19,8 @@ import android.net.wifi.WifiManager
 import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.core.util.SdkUtil
-import com.isupatches.android.wisefy.signal.entities.CalculateBarsRequest
-import com.isupatches.android.wisefy.signal.entities.CalculateBarsResult
+import com.isupatches.android.wisefy.signal.entities.CalculateSignalLevelRequest
+import com.isupatches.android.wisefy.signal.entities.CalculateSignalLevelResult
 import com.isupatches.android.wisefy.signal.entities.CompareSignalLevelRequest
 import com.isupatches.android.wisefy.signal.entities.CompareSignalLevelResult
 import com.isupatches.android.wisefy.signal.os.adapters.Android30SignalAdapter
@@ -62,8 +62,8 @@ class WisefySignalDelegate(
         logger.d(LOG_TAG, "WisefySignalDelegate adapter is: ${adapter::class.java.simpleName}")
     }
 
-    override fun calculateBars(request: CalculateBarsRequest): CalculateBarsResult {
-        return adapter.calculateBars(request)
+    override fun calculateSignalLevel(request: CalculateSignalLevelRequest): CalculateSignalLevelResult {
+        return adapter.calculateSignalLevel(request)
     }
 
     override fun compareSignalLevel(request: CompareSignalLevelRequest): CompareSignalLevelResult {

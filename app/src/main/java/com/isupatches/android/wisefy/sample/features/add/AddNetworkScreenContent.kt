@@ -16,12 +16,11 @@
 package com.isupatches.android.wisefy.sample.features.add
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
+import android.Manifest.permission.ACCESS_NETWORK_STATE
+import android.Manifest.permission.ACCESS_WIFI_STATE
+import android.Manifest.permission.CHANGE_NETWORK_STATE
 import android.Manifest.permission.CHANGE_WIFI_STATE
-import android.app.Activity
-import android.provider.Settings.ADD_WIFI_RESULT_SUCCESS
-import android.provider.Settings.EXTRA_WIFI_NETWORK_RESULT_LIST
 import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -33,6 +32,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import com.isupatches.android.wisefy.sample.R
 import com.isupatches.android.wisefy.sample.entities.NetworkType
 import com.isupatches.android.wisefy.sample.logging.WisefySampleLogger
@@ -55,27 +55,7 @@ internal fun AddNetworkScreenContent(
 ) {
     WisefySampleTheme {
         val scope = rememberCoroutineScope()
-
-        val addNetworkRequestLauncher = rememberLauncherForActivityResult(
-            ActivityResultContracts.StartActivityForResult()
-        ) { result: ActivityResult ->
-            when (result.resultCode) {
-                Activity.RESULT_OK -> {
-                    val data = result.data ?: return@rememberLauncherForActivityResult
-                    if (sdkUtil.isAtLeastR()) {
-                        val networkResultList = data.getIntegerArrayListExtra(EXTRA_WIFI_NETWORK_RESULT_LIST)
-                            ?: emptyList()
-                        for (resultCode in networkResultList) {
-                            if (resultCode == ADD_WIFI_RESULT_SUCCESS) {
-                                viewModel.onAddNetworkSuccess(resultCode)
-                            } else {
-                                viewModel.onAddNetworkFailure(resultCode)
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        val context = LocalContext.current
 
         val addNetworkPermissionLauncher =
             rememberLauncherForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result ->
@@ -83,13 +63,26 @@ internal fun AddNetworkScreenContent(
                     scope.launch {
                         @Suppress("MissingPermission")
                         if (sdkUtil.isAtLeastR()) {
-                            viewModel.addNetwork(launcher = addNetworkRequestLauncher)
+                            viewModel.addNetwork(context = context)
                         } else {
                             viewModel.addNetwork()
                         }
                     }
                 } else {
-                    WisefySampleLogger.w(LOG_TAG, "Permissions required to remove a network are denied")
+                    WisefySampleLogger.w(LOG_TAG, "Permissions required to add a network are denied")
+                    viewModel.onAddNetworkPermissionsError()
+                }
+            }
+
+        val connectToNetworkPermissionLauncher =
+            rememberLauncherForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result ->
+                if (result.all { it.value }) {
+                    scope.launch {
+                        @Suppress("MissingPermission")
+                        viewModel.connectToNetwork()
+                    }
+                } else {
+                    WisefySampleLogger.w(LOG_TAG, "Permissions required to connect to a network are denied")
                     viewModel.onAddNetworkPermissionsError()
                 }
             }
@@ -131,12 +124,9 @@ internal fun AddNetworkScreenContent(
             }
             Row(modifier = Modifier.padding(top = WisefySampleSizes.Large)) {
                 WisefyPrimaryButton(stringResId = R.string.connect_to_network) {
-                    // todo@patches
-//                    if (isAtLeastAndroidQ) {
-//                        viewModel.addNetwork(launcher = addNetworkRequestLauncher)
-//                    } else {
-//                        viewModel.addNetwork()
-//                    }
+                    connectToNetworkPermissionLauncher.launch(
+                        arrayOf(ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE, ACCESS_NETWORK_STATE, CHANGE_NETWORK_STATE)
+                    )
                 }
             }
         }

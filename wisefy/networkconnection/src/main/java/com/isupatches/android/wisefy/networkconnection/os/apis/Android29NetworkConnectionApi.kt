@@ -15,9 +15,11 @@
  */
 package com.isupatches.android.wisefy.networkconnection.os.apis
 
+import android.Manifest.permission.CHANGE_NETWORK_STATE
 import android.net.NetworkRequest
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.annotation.RequiresPermission
 
 /**
  * An Android 29 specific internal API for connecting to and disconnecting from a network through the Android OS.
@@ -37,5 +39,6 @@ internal interface Android29NetworkConnectionApi {
      * @author Patches Klinefelter
      * @since 03/2022
      */
+    @RequiresPermission(CHANGE_NETWORK_STATE)
     fun connectToNetwork(request: NetworkRequest, timeoutInMillis: Int)
 }

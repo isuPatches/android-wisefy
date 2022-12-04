@@ -13,60 +13,52 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.android.wisefy.sample.features.remove
+package com.isupatches.android.wisefy.sample.features.misc.signal
 
 import androidx.compose.runtime.Composable
 import com.isupatches.android.wisefy.sample.R
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleNoticeDialog
 
 @Composable
-internal fun RemoveNetworkScreenDialogContent(
-    dialogState: () -> RemoveNetworkDialogState,
-    viewModel: RemoveNetworkViewModel
+internal fun SignalScreenDialogContent(
+    dialogState: () -> SignalScreenDialogState,
+    viewModel: SignalViewModel
 ) {
     when (val currentDialogState = dialogState()) {
-        is RemoveNetworkDialogState.None -> {
+        is SignalScreenDialogState.None -> {
             // No-op, no dialog
         }
-        is RemoveNetworkDialogState.RemoveNetwork.Success -> {
+        is SignalScreenDialogState.CalculateSignalLevel.Failure -> {
             WisefySampleNoticeDialog(
-                title = R.string.remove_network,
-                body = R.string.succeeded_removing_network_args,
+                title = R.string.calculate_signal_level,
+                body = R.string.failure_calculating_signal_level_args,
                 currentDialogState.result,
                 onClose = {
                     viewModel.onDialogClosed()
                 }
             )
         }
-        is RemoveNetworkDialogState.RemoveNetwork.PermissionsError -> {
+        is SignalScreenDialogState.CalculateSignalLevel.Success -> {
             WisefySampleNoticeDialog(
-                title = R.string.permission_error,
-                body = R.string.permission_error_remove_network,
-                onClose = {
-                    viewModel.onDialogClosed()
-                }
-            )
-        }
-        is RemoveNetworkDialogState.RemoveNetwork.Failure.NotFoundToRemove -> {
-            WisefySampleNoticeDialog(
-                title = R.string.remove_network,
-                body = R.string.network_not_found_to_remove,
-                onClose = {
-                    viewModel.onDialogClosed()
-                }
-            )
-        }
-        is RemoveNetworkDialogState.RemoveNetwork.Failure.UnableToRemove -> {
-            WisefySampleNoticeDialog(
-                title = R.string.remove_network,
-                body = R.string.failed_removing_network_args,
+                title = R.string.calculate_signal_level,
+                body = R.string.succeeded_calculating_signal_level_args,
                 currentDialogState.result,
                 onClose = {
                     viewModel.onDialogClosed()
                 }
             )
         }
-        is RemoveNetworkDialogState.Failure.WisefyAsync -> {
+        is SignalScreenDialogState.CompareSignalLevel.Success -> {
+            WisefySampleNoticeDialog(
+                title = R.string.compare_signal_level,
+                body = R.string.succeeded_comparing_signal_level_args,
+                currentDialogState.result,
+                onClose = {
+                    viewModel.onDialogClosed()
+                }
+            )
+        }
+        is SignalScreenDialogState.Failure.WisefyAsync -> {
             WisefySampleNoticeDialog(
                 title = R.string.wisefy_async_error,
                 body = R.string.wisefy_async_error_descriptions_args,
@@ -76,10 +68,28 @@ internal fun RemoveNetworkScreenDialogContent(
                 }
             )
         }
-        is RemoveNetworkDialogState.Failure.InputError -> {
+        SignalScreenDialogState.InputError.CalculateSignalLevel -> {
             WisefySampleNoticeDialog(
                 title = R.string.input_error,
-                body = R.string.network_input_invalid,
+                body = R.string.rssi_input_invalid,
+                onClose = {
+                    viewModel.onDialogClosed()
+                }
+            )
+        }
+        SignalScreenDialogState.InputError.CompareSignalLevel.RSSI1 -> {
+            WisefySampleNoticeDialog(
+                title = R.string.input_error,
+                body = R.string.rssi_input_invalid,
+                onClose = {
+                    viewModel.onDialogClosed()
+                }
+            )
+        }
+        SignalScreenDialogState.InputError.CompareSignalLevel.RSSI2 -> {
+            WisefySampleNoticeDialog(
+                title = R.string.input_error,
+                body = R.string.rssi_input_invalid,
                 onClose = {
                     viewModel.onDialogClosed()
                 }

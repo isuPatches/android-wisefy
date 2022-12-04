@@ -21,11 +21,15 @@ import androidx.activity.compose.setContent
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.toArgb
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.isupatches.android.wisefy.WisefyApi
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleToolbar
 import com.isupatches.android.wisefy.sample.ui.components.navigation.WisefySampleBottomNavigation
+import com.isupatches.android.wisefy.sample.ui.components.navigation.WisefySampleNavGraph
 import com.isupatches.android.wisefy.sample.ui.components.navigation.WisefySampleNavHost
 import com.isupatches.android.wisefy.sample.ui.theme.WisefySampleTheme
 import com.isupatches.android.wisefy.sample.util.SdkUtil
@@ -66,6 +70,24 @@ internal fun MainScreenLayout(wisefy: WisefyApi, sdkUtil: SdkUtil) {
         content = { padding ->
             WisefySampleNavHost(navController, wisefy, sdkUtil, padding)
         },
-        bottomBar = { WisefySampleBottomNavigation(navController) }
+        bottomBar = {
+            val showBottomNav = when (currentRoute(navController = navController)) {
+                WisefySampleNavGraph.Main.Add.route -> true
+                WisefySampleNavGraph.Main.Remove.route -> true
+                WisefySampleNavGraph.Main.Home.route -> true
+                WisefySampleNavGraph.Main.Misc.route -> true
+                WisefySampleNavGraph.Main.Search.route -> true
+                else -> false
+            }
+            if (showBottomNav) {
+                WisefySampleBottomNavigation(navController = navController)
+            }
+        }
     )
+}
+
+@Composable
+private fun currentRoute(navController: NavHostController): String? {
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    return navBackStackEntry?.destination?.route
 }

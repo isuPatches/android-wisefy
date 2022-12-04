@@ -30,7 +30,7 @@ import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
 import com.isupatches.android.wisefy.core.constants.AssertionMessages
 
 /**
- * An Android 30 specific adapter for adding networks.
+ * An Android 29 specific adapter for adding networks.
  *
  * @param wifiManager The WifiManager instance to use
  * @param assertions The [WisefyAssertions] instance to use
@@ -55,19 +55,31 @@ internal class Android30AddNetworkAdapter(
     override fun addNetwork(request: AddNetworkRequest): AddNetworkResult {
         return when (request) {
             is AddNetworkRequest.Open.Android30OrAbove -> {
-                api.addOpenNetwork(request.ssid, request.launcher, request.bssid)
-                AddNetworkResult.Success.IntentLaunched
+                val result = api.addOpenNetwork(request.context, request.ssid, request.bssid)
+                if (result == WifiManager.STATUS_NETWORK_SUGGESTIONS_SUCCESS) {
+                    AddNetworkResult.Success.ResultCode(result)
+                } else {
+                    AddNetworkResult.Failure.ResultCode(result)
+                }
             }
             is AddNetworkRequest.WPA2.Android30OrAbove -> {
-                api.addWPA2Network(request.ssid, request.passphrase, request.launcher, request.bssid)
-                AddNetworkResult.Success.IntentLaunched
+                val result = api.addWPA2Network(request.context, request.ssid, request.passphrase, request.bssid)
+                if (result == WifiManager.STATUS_NETWORK_SUGGESTIONS_SUCCESS) {
+                    AddNetworkResult.Success.ResultCode(result)
+                } else {
+                    AddNetworkResult.Failure.ResultCode(result)
+                }
             }
             is AddNetworkRequest.WPA3.Android30OrAbove -> {
-                api.addWPA3Network(request.ssid, request.passphrase, request.launcher, request.bssid)
-                AddNetworkResult.Success.IntentLaunched
+                val result = api.addWPA3Network(request.context, request.ssid, request.passphrase, request.bssid)
+                if (result == WifiManager.STATUS_NETWORK_SUGGESTIONS_SUCCESS) {
+                    AddNetworkResult.Success.ResultCode(result)
+                } else {
+                    AddNetworkResult.Failure.ResultCode(result)
+                }
             }
             is AddNetworkRequest.Open.Default, is AddNetworkRequest.WPA2.Default, is AddNetworkRequest.WPA3.Default -> {
-                val message = AssertionMessages.AddNetwork.ActivityResultLauncher.NOT_USED_ANDROID_30
+                val message = AssertionMessages.AddNetwork.RequestWithContext.NOT_USED_ANDROID_30
                 assertions.fail(message = message)
                 AddNetworkResult.Failure.Assertion(message = message)
             }

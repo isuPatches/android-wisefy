@@ -17,13 +17,13 @@ package com.isupatches.android.wisefy.addnetwork.os.impls
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.CHANGE_WIFI_STATE
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.net.wifi.WifiManager
 import android.net.wifi.WifiNetworkSuggestion
 import android.os.Build
-import android.os.Bundle
-import android.provider.Settings
-import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.addnetwork.os.apis.Android30AddNetworkApi
@@ -48,51 +48,56 @@ internal class Android30AddNetworkApiImpl(
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     override fun addOpenNetwork(
+        context: Context,
         ssid: String,
-        activityResultLauncher: ActivityResultLauncher<Intent>,
         bssid: String?
-    ) {
-        val suggestion = createOpenNetworkSuggestion(ssid, bssid)
-        launchIntent(suggestion, activityResultLauncher)
+    ): Int {
+        return addNetworkSuggestion(
+            context = context,
+            suggestion = createOpenNetworkSuggestion(ssid, bssid)
+        )
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     override fun addWPA2Network(
+        context: Context,
         ssid: String,
         passphrase: String,
-        activityResultLauncher: ActivityResultLauncher<Intent>,
         bssid: String?
-    ) {
-        val suggestion = createWPA2NetworkSuggestion(ssid, passphrase, bssid)
-        launchIntent(suggestion, activityResultLauncher)
+    ): Int {
+        return addNetworkSuggestion(
+            context = context,
+            suggestion = createWPA2NetworkSuggestion(ssid, passphrase, bssid)
+        )
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     override fun addWPA3Network(
+        context: Context,
         ssid: String,
         passphrase: String,
-        activityResultLauncher: ActivityResultLauncher<Intent>,
         bssid: String?
-    ) {
-        val suggestion = createWPA3NetworkSuggestion(ssid, passphrase, bssid)
-        launchIntent(suggestion, activityResultLauncher)
+    ): Int {
+        return addNetworkSuggestion(
+            context = context,
+            suggestion = createWPA3NetworkSuggestion(ssid, passphrase, bssid)
+        )
     }
 
-    @RequiresPermission(CHANGE_WIFI_STATE)
-    private fun launchIntent(
-        suggestion: WifiNetworkSuggestion,
-        activityResultLauncher: ActivityResultLauncher<Intent>
-    ) {
-        wifiManager.addNetworkSuggestions(listOf(suggestion))
-        val bundle = Bundle().apply {
-            putParcelableArrayList(
-                Settings.EXTRA_WIFI_NETWORK_LIST,
-                arrayListOf(suggestion)
-            )
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
+    private fun addNetworkSuggestion(context: Context, suggestion: WifiNetworkSuggestion): Int {
+        val result = wifiManager.addNetworkSuggestions(listOf(suggestion))
+        val intentFilter = IntentFilter(WifiManager.ACTION_WIFI_NETWORK_SUGGESTION_POST_CONNECTION)
+        val broadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent) {
+                if (intent.action != WifiManager.ACTION_WIFI_NETWORK_SUGGESTION_POST_CONNECTION) {
+                    return
+                } else {
+                    // Do something with success
+                }
+            }
         }
-        val intent = Intent(Settings.ACTION_WIFI_ADD_NETWORKS).apply {
-            putExtras(bundle)
-        }
-        activityResultLauncher.launch(intent)
+        context.registerReceiver(broadcastReceiver, intentFilter)
+        return result
     }
 }

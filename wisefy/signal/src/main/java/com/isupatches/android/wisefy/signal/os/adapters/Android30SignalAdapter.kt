@@ -21,11 +21,12 @@ import androidx.annotation.RequiresApi
 import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
 import com.isupatches.android.wisefy.core.constants.AssertionMessages
 import com.isupatches.android.wisefy.signal.SignalApi
-import com.isupatches.android.wisefy.signal.entities.CalculateBarsRequest
-import com.isupatches.android.wisefy.signal.entities.CalculateBarsResult
+import com.isupatches.android.wisefy.signal.entities.CalculateSignalLevelRequest
+import com.isupatches.android.wisefy.signal.entities.CalculateSignalLevelResult
 import com.isupatches.android.wisefy.signal.entities.CompareSignalLevelRequest
 import com.isupatches.android.wisefy.signal.entities.CompareSignalLevelResult
 import com.isupatches.android.wisefy.signal.os.apis.Android30SignalApi
+import com.isupatches.android.wisefy.signal.os.converters.toCompareSignalLevelResult
 import com.isupatches.android.wisefy.signal.os.impls.Android30SignalApiImpl
 
 /**
@@ -50,22 +51,22 @@ internal class Android30SignalAdapter(
     private val api: Android30SignalApi = Android30SignalApiImpl(wifiManager)
 ) : SignalApi {
 
-    override fun calculateBars(request: CalculateBarsRequest): CalculateBarsResult {
+    override fun calculateSignalLevel(request: CalculateSignalLevelRequest): CalculateSignalLevelResult {
         return when (request) {
-            is CalculateBarsRequest.Android30AndAbove -> {
+            is CalculateSignalLevelRequest.Android30AndAbove -> {
                 val result = api.calculateBars(request.rssiLevel)
-                CalculateBarsResult.SignalLevel(value = result)
+                CalculateSignalLevelResult.Success(value = result)
             }
-            is CalculateBarsRequest.BelowAndroid30 -> {
+            is CalculateSignalLevelRequest.BelowAndroid30 -> {
                 val message = AssertionMessages.Signal.INCORRECT_CALCULATE_BARS_USED_ANDROID_30
                 assertions.fail(message = message)
-                CalculateBarsResult.Empty
+                CalculateSignalLevelResult.Failure.Assertion(message)
             }
         }
     }
 
     override fun compareSignalLevel(request: CompareSignalLevelRequest): CompareSignalLevelResult {
-        val result = api.compareSignalLevel(request.rssi1, request.rssi2)
-        return CompareSignalLevelResult(value = result)
+        val comparisonResult = api.compareSignalLevel(request.rssi1, request.rssi2)
+        return comparisonResult.toCompareSignalLevelResult()
     }
 }

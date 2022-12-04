@@ -22,22 +22,22 @@ import android.net.wifi.WifiNetworkSuggestion
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
-import com.isupatches.android.wisefy.removenetwork.os.apis.Android29RemoveNetworkApi
+import com.isupatches.android.wisefy.removenetwork.os.apis.Android30RemoveNetworkApi
 
 /**
  * An Android 29 specific implementation for removing a network.
  *
  * @param wifiManager The WifiManager instance to use
  *
- * @see Android29RemoveNetworkApi
+ * @see Android30RemoveNetworkApi
  *
  * @author Patches Klinefelter
  * @since 03/2022
  */
-@RequiresApi(Build.VERSION_CODES.Q)
-internal class Android29RemoveNetworkApiImpl(
+@RequiresApi(Build.VERSION_CODES.R)
+internal class Android30RemoveNetworkApiImpl(
     private val wifiManager: WifiManager
-) : Android29RemoveNetworkApi {
+) : Android30RemoveNetworkApi {
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     override fun removeNetwork(suggestion: WifiNetworkSuggestion): Int {

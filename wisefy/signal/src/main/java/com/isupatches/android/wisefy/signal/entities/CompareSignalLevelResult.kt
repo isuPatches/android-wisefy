@@ -21,10 +21,18 @@ package com.isupatches.android.wisefy.signal.entities
  * *Notes*
  * See https://developer.android.com/reference/android/net/wifi/WifiManager#compareSignalLevel(int,%20int)
  *
- * @param value The result of the comparison. This will be less than 0 if first signal is weaker, 0 if the two have
- * the same strength, and greater than zero if the second signal is stronger
+ * @param value The result of the comparison. This will be less than 0 if first RSSI value is weaker than the second
+ * RSSI, 0 if the two have the same strength, and greater than zero if the first RSSI is stronger than the second
+ * RSSI value.
  *
  * @author Patches Klinefelter
  * @since 07/2022, version 5.0.0
  */
-data class CompareSignalLevelResult(val value: Int)
+sealed class CompareSignalLevelResult {
+
+    sealed class Success(open val value: Int) : CompareSignalLevelResult() {
+        data class FirstRSSIValueIsWeaker(override val value: Int) : Success(value)
+        data class RSSIValuesAreEqual(override val value: Int) : Success(value)
+        data class FirstRSSIValueIsStronger(override val value: Int) : Success(value)
+    }
+}

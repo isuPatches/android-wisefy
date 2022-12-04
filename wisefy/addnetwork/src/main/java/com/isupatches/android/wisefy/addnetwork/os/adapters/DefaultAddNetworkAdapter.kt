@@ -26,6 +26,7 @@ import com.isupatches.android.wisefy.addnetwork.os.apis.DefaultAddNetworkApi
 import com.isupatches.android.wisefy.addnetwork.os.impls.DefaultAddNetworkApiImpl
 import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
 import com.isupatches.android.wisefy.core.constants.AssertionMessages
+import com.isupatches.android.wisefy.core.util.SdkUtil
 
 /**
  * A default adapter for adding networks.
@@ -45,6 +46,7 @@ import com.isupatches.android.wisefy.core.constants.AssertionMessages
 internal class DefaultAddNetworkAdapter(
     wifiManager: WifiManager,
     private val assertions: WisefyAssertions,
+    private val sdkUtil: SdkUtil,
     private val api: DefaultAddNetworkApi = DefaultAddNetworkApiImpl(wifiManager)
 ) : AddNetworkApi {
 
@@ -60,7 +62,11 @@ internal class DefaultAddNetworkAdapter(
                 if (resultCode > WIFI_MANAGER_ADD_NETWORK_FAILURE) {
                     AddNetworkResult.Success.ResultCode(resultCode)
                 } else {
-                    AddNetworkResult.Failure.ResultCode(resultCode)
+                    if (sdkUtil.isAtLeastQ()) {
+                        AddNetworkResult.Failure.AndroidQ
+                    } else {
+                        AddNetworkResult.Failure.ResultCode(resultCode)
+                    }
                 }
             }
             is AddNetworkRequest.WPA2.Default -> {
@@ -68,11 +74,15 @@ internal class DefaultAddNetworkAdapter(
                 if (resultCode > WIFI_MANAGER_ADD_NETWORK_FAILURE) {
                     AddNetworkResult.Success.ResultCode(resultCode)
                 } else {
-                    AddNetworkResult.Failure.ResultCode(resultCode)
+                    if (sdkUtil.isAtLeastQ()) {
+                        AddNetworkResult.Failure.AndroidQ
+                    } else {
+                        AddNetworkResult.Failure.ResultCode(resultCode)
+                    }
                 }
             }
             is AddNetworkRequest.Open.Android30OrAbove, is AddNetworkRequest.WPA2.Android30OrAbove -> {
-                val message = AssertionMessages.AddNetwork.ActivityResultLauncher.USED_PRE_ANDROID_30
+                val message = AssertionMessages.AddNetwork.RequestWithContext.USED_PRE_ANDROID_30
                 assertions.fail(message = message)
                 AddNetworkResult.Failure.Assertion(message = message)
             }

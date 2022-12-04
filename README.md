@@ -163,8 +163,8 @@ Package structure for each section is as follows:
 
 ### Known Android Q Problems
 
-- Saving a network doesn't seem possible.  A notification is presented if not connected to the suggestion, but even the 
-appearance of the notification seems flakey.
+- Adding, removing, and getting saved network functionality is not present. 
+  Android Q / SDK 29 was in a weird half-baked state between the old WifiManager APIs and the new WifiSuggestion APIs...Android 30 seems to have full support, but Android 29 really drops the ball for saved network functionality.
 
 ## Documentation
 

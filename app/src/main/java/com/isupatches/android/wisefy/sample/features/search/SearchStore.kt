@@ -25,7 +25,6 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.isupatches.android.wisefy.sample.entities.SSIDType
 import com.isupatches.android.wisefy.sample.entities.SearchType
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -57,7 +56,7 @@ internal interface SearchStore {
 private val Context.searchDataStore: DataStore<Preferences> by preferencesDataStore(name = "searchDataStore")
 
 internal class DefaultSearchStore(
-    @ApplicationContext private val context: Context
+    private val context: Context
 ) : SearchStore {
 
     private val lastUsedNetworkInputKey = stringPreferencesKey(PREF_LAST_USED_NETWORK_INPUT)

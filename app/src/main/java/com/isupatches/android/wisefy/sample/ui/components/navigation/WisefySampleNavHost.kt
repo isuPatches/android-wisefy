@@ -25,6 +25,7 @@ import androidx.navigation.compose.composable
 import com.isupatches.android.wisefy.WisefyApi
 import com.isupatches.android.wisefy.sample.features.add.AddNetworkScreen
 import com.isupatches.android.wisefy.sample.features.misc.MiscScreen
+import com.isupatches.android.wisefy.sample.features.misc.signal.SignalScreen
 import com.isupatches.android.wisefy.sample.features.remove.RemoveNetworkScreen
 import com.isupatches.android.wisefy.sample.features.search.SearchScreen
 import com.isupatches.android.wisefy.sample.main.HomeScreen
@@ -39,23 +40,26 @@ internal fun WisefySampleNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = WisefySampleNavigationItem.Home.route,
-        modifier = Modifier.padding(padding)
+        startDestination = WisefySampleNavGraph.Main.Home.route,
+        modifier = Modifier.padding(paddingValues = padding)
     ) {
-        composable(WisefySampleNavigationItem.Add.route) {
-            AddNetworkScreen(wisefy, sdkUtil)
+        composable(WisefySampleNavGraph.Main.Add.route) {
+            AddNetworkScreen(wisefy = wisefy, sdkUtil = sdkUtil)
         }
-        composable(WisefySampleNavigationItem.Remove.route) {
-            RemoveNetworkScreen(wisefy)
+        composable(WisefySampleNavGraph.Main.Remove.route) {
+            RemoveNetworkScreen(wisefy = wisefy)
         }
-        composable(WisefySampleNavigationItem.Home.route) {
+        composable(WisefySampleNavGraph.Main.Home.route) {
             HomeScreen()
         }
-        composable(WisefySampleNavigationItem.Misc.route) {
-            MiscScreen(wisefy, sdkUtil)
+        composable(WisefySampleNavGraph.Main.Misc.route) {
+            MiscScreen(wisefy = wisefy, sdkUtil = sdkUtil, navController = navController)
         }
-        composable(WisefySampleNavigationItem.Search.route) {
-            SearchScreen(wisefy)
+        composable(WisefySampleNavGraph.Main.Search.route) {
+            SearchScreen(wisefy = wisefy)
+        }
+        composable(WisefySampleNavGraph.Misc.Signal.route) {
+            SignalScreen(wisefy = wisefy, sdkUtil = sdkUtil)
         }
     }
 }

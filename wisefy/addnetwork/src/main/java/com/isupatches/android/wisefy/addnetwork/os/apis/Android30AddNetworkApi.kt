@@ -17,9 +17,8 @@ package com.isupatches.android.wisefy.addnetwork.os.apis
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.CHANGE_WIFI_STATE
-import android.content.Intent
+import android.content.Context
 import android.os.Build
-import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 
@@ -36,7 +35,6 @@ internal interface Android30AddNetworkApi {
      * An API to add an open network for Android 30.
      *
      * @param ssid The SSID of the open network to add
-     * @param activityResultLauncher The launcher to add a network and receive results
      * @param bssid The optional BSSID for the open network being added
      *
      * @author Patches Klinefelter
@@ -44,17 +42,16 @@ internal interface Android30AddNetworkApi {
      */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     fun addOpenNetwork(
+        context: Context,
         ssid: String,
-        activityResultLauncher: ActivityResultLauncher<Intent>,
         bssid: String?
-    )
+    ): Int
 
     /**
      * An API to add a WPA2 network for Android 30.
      *
      * @param ssid The SSID of the WPA2 network to add
      * @param passphrase The passphrase to authenticate with the WPA2 network
-     * @param activityResultLauncher The launcher to add a network and receive results
      * @param bssid The optional BSSID for the WPA2 network being added
      *
      * @author Patches Klinefelter
@@ -62,18 +59,17 @@ internal interface Android30AddNetworkApi {
      */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     fun addWPA2Network(
+        context: Context,
         ssid: String,
         passphrase: String,
-        activityResultLauncher: ActivityResultLauncher<Intent>,
         bssid: String?
-    )
+    ): Int
 
     /**
      * An API to add a WPA3 network for Android 30.
      *
      * @param ssid The SSID of the WPA3 network to add
      * @param passphrase The passphrase to authenticate with the WPA3 network
-     * @param activityResultLauncher The launcher to add a network and receive results
      * @param bssid The optional BSSID for the WPA3 network being added
      *
      * @author Patches Klinefelter
@@ -81,9 +77,9 @@ internal interface Android30AddNetworkApi {
      */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     fun addWPA3Network(
+        context: Context,
         ssid: String,
         passphrase: String,
-        activityResultLauncher: ActivityResultLauncher<Intent>,
         bssid: String?
-    )
+    ): Int
 }

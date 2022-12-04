@@ -15,11 +15,13 @@
  */
 package com.isupatches.android.wisefy.networkconnection.os.impls
 
+import android.Manifest.permission.CHANGE_NETWORK_STATE
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkRequest
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.networkconnection.os.apis.Android29NetworkConnectionApi
 
@@ -46,6 +48,7 @@ internal class Android29NetworkConnectionApiImpl(
 
     private var networkCallback: ConnectivityManager.NetworkCallback? = null
 
+    @RequiresPermission(CHANGE_NETWORK_STATE)
     override fun connectToNetwork(request: NetworkRequest, timeoutInMillis: Int) {
         val networkCallback = object : ConnectivityManager.NetworkCallback() {
             override fun onAvailable(network: Network) {

@@ -15,6 +15,7 @@
  */
 package com.isupatches.android.wisefy.networkconnection.os.adapters
 
+import android.Manifest.permission.CHANGE_NETWORK_STATE
 import android.net.ConnectivityManager
 import android.net.MacAddress
 import android.net.NetworkCapabilities
@@ -22,6 +23,7 @@ import android.net.NetworkRequest
 import android.net.wifi.WifiNetworkSpecifier
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
 import com.isupatches.android.wisefy.core.constants.AssertionMessages
 import com.isupatches.android.wisefy.core.constants.DeprecationMessages
@@ -57,12 +59,13 @@ internal class Android29NetworkConnectionAdapter(
     private val api: Android29NetworkConnectionApi = Android29NetworkConnectionApiImpl(connectivityManager, logger)
 ) : NetworkConnectionApi {
 
+    @RequiresPermission(CHANGE_NETWORK_STATE)
     override fun connectToNetwork(request: ConnectToNetworkRequest): ConnectToNetworkResult {
         val networkRequest = when (request) {
             is ConnectToNetworkRequest.SSID -> {
                 NetworkRequest.Builder()
                     .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
-                    .removeCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+                    .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
                     .setNetworkSpecifier(
                         WifiNetworkSpecifier.Builder()
                             .setSsid(request.ssid)
@@ -73,7 +76,7 @@ internal class Android29NetworkConnectionAdapter(
             is ConnectToNetworkRequest.BSSID -> {
                 NetworkRequest.Builder()
                     .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
-                    .removeCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+                    .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
                     .setNetworkSpecifier(
                         WifiNetworkSpecifier.Builder()
                             .setBssid(MacAddress.fromString(request.bssid))

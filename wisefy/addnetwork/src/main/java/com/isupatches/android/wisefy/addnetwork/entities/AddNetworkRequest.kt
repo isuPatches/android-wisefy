@@ -15,9 +15,8 @@
  */
 package com.isupatches.android.wisefy.addnetwork.entities
 
-import android.content.Intent
+import android.content.Context
 import android.os.Build
-import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.RequiresApi
 
 /**
@@ -55,7 +54,6 @@ sealed class AddNetworkRequest {
          * A representation of a request to add an open network on Android 30 and above devices.
          *
          * @property ssid The SSID of the open network to add
-         * @property launcher The activity result launcher for the request to add an open network
          * @property bssid The optional BSSID for the open network being added
          *
          * @see Open
@@ -63,10 +61,10 @@ sealed class AddNetworkRequest {
          * @author Patches Klinefelter
          * @since 11/2022, version 5.0.0
          */
-        @RequiresApi(Build.VERSION_CODES.R)
+        @RequiresApi(Build.VERSION_CODES.Q)
         data class Android30OrAbove(
+            val context: Context,
             val ssid: String,
-            val launcher: ActivityResultLauncher<Intent>,
             val bssid: String? = null
         ) : Open()
     }
@@ -100,7 +98,6 @@ sealed class AddNetworkRequest {
          *
          * @property ssid The SSID of the WPA2 network to add
          * @property passphrase The password for the WPA2 network to add
-         * @property launcher The activity result launcher for the request to add a WPA2 network
          * @property bssid The optional BSSID for the WPA2 network being added
          *
          * @see WPA2
@@ -108,11 +105,11 @@ sealed class AddNetworkRequest {
          * @author Patches Klinefelter
          * @since 11/2022, version 5.0.0
          */
-        @RequiresApi(Build.VERSION_CODES.R)
+        @RequiresApi(Build.VERSION_CODES.Q)
         data class Android30OrAbove(
+            val context: Context,
             val ssid: String,
             val passphrase: String,
-            val launcher: ActivityResultLauncher<Intent>,
             val bssid: String? = null
         ) : WPA2()
     }
@@ -147,7 +144,6 @@ sealed class AddNetworkRequest {
          *
          * @property ssid The SSID of the WPA3 network to add
          * @property passphrase The password for the WPA3 network to add
-         * @property launcher The activity result launcher for the request to add a WPA3 network
          * @property bssid The optional BSSID for the WPA3 network being added
          *
          * @see WPA3
@@ -155,11 +151,11 @@ sealed class AddNetworkRequest {
          * @author Patches Klinefelter
          * @since 11/2022, version 5.0.0
          */
-        @RequiresApi(Build.VERSION_CODES.R)
+        @RequiresApi(Build.VERSION_CODES.Q)
         data class Android30OrAbove(
+            val context: Context,
             val ssid: String,
             val passphrase: String,
-            val launcher: ActivityResultLauncher<Intent>,
             val bssid: String? = null
         ) : WPA3()
     }

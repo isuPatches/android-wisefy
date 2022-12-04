@@ -29,32 +29,50 @@ internal fun SearchScreenDialogContent(
             // No-op, no dialog
         }
         is SearchDialogState.SearchForAccessPoint.NoAccessPointFound -> {
-            WisefySampleNoticeDialog(title = R.string.search_result, body = R.string.access_point_not_found) {
+            WisefySampleNoticeDialog(
+                title = R.string.search_result,
+                body = R.string.access_point_not_found
+            ) {
                 viewModel.onDialogClosed()
             }
         }
         is SearchDialogState.SearchForAccessPoints.NoAccessPointsFound -> {
-            WisefySampleNoticeDialog(title = R.string.search_result, body = R.string.no_access_points_found) {
+            WisefySampleNoticeDialog(
+                title = R.string.search_result,
+                body = R.string.no_access_points_found
+            ) {
                 viewModel.onDialogClosed()
             }
         }
         is SearchDialogState.SearchForSSID.NoSSIDFound -> {
-            WisefySampleNoticeDialog(title = R.string.search_result, body = R.string.ssid_not_found) {
+            WisefySampleNoticeDialog(
+                title = R.string.search_result,
+                body = R.string.ssid_not_found
+            ) {
                 viewModel.onDialogClosed()
             }
         }
         is SearchDialogState.SearchForSSIDs.NoSSIDsFound -> {
-            WisefySampleNoticeDialog(title = R.string.search_result, body = R.string.no_ssids_found) {
+            WisefySampleNoticeDialog(
+                title = R.string.search_result,
+                body = R.string.no_ssids_found
+            ) {
                 viewModel.onDialogClosed()
             }
         }
         is SearchDialogState.SearchForSavedNetwork.NoSavedNetworkFound -> {
-            WisefySampleNoticeDialog(title = R.string.search_result, body = R.string.saved_network_not_found) {
+            WisefySampleNoticeDialog(
+                title = R.string.search_result,
+                body = R.string.saved_network_not_found
+            ) {
                 viewModel.onDialogClosed()
             }
         }
         is SearchDialogState.SearchForSavedNetworks.NoSavedNetworksFound -> {
-            WisefySampleNoticeDialog(title = R.string.search_result, body = R.string.no_saved_networks_found) {
+            WisefySampleNoticeDialog(
+                title = R.string.search_result,
+                body = R.string.no_saved_networks_found
+            ) {
                 viewModel.onDialogClosed()
             }
         }
