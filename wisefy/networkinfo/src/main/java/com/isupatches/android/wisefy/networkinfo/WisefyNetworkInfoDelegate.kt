@@ -95,10 +95,7 @@ class WisefyNetworkInfoDelegate(
             networkConnectionMutex.withLock {
                 val currentNetwork = adapter.getCurrentNetwork()
                 withContext(coroutineDispatcherProvider.main) {
-                    when (currentNetwork) {
-                        is GetCurrentNetworkResult.Empty -> callbacks?.onNoCurrentNetwork()
-                        is GetCurrentNetworkResult.Network -> callbacks?.onCurrentNetworkRetrieved(currentNetwork.value)
-                    }
+                    callbacks?.onCurrentNetworkRetrieved(currentNetwork.value)
                 }
             }
         }

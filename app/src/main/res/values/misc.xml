@@ -16,13 +16,11 @@
     <string name="success_disabling_wifi_args">Success disabling wifi. Result: %s</string>
     <string name="failure_disabling_wifi_args">Failure disabling wifi. Result: %s</string>
 
-    <string name="succeeded_disconnecting_from_current_network">Succeeded disconnecting from current network.</string>
-    <string name="succeeded_placing_request_to_disconnect_from_current_network">
-        Succeeded placing request to disconnect from current network.
+    <string name="success_disconnecting_from_current_network_args">
+        Success disconnecting from current network. Result: %s
     </string>
-    <string name="network_not_found_to_disconnect">Network not found to disconnect</string>
-    <string name="failed_disconnecting_from_current_network">
-        Failed disconnecting from the device\'s current network
+    <string name="failure_disconnecting_from_current_network_args">
+        Failure disconnecting from current network. Result: %s
     </string>
 
     <string name="success_enabling_wifi_args">Success enabling wifi. Result: %s</string>

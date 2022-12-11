@@ -17,6 +17,7 @@ package com.isupatches.android.wisefy.sample.features.remove
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.CHANGE_WIFI_STATE
+import android.content.res.Configuration
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
@@ -27,6 +28,9 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
+import com.isupatches.android.wisefy.sample.ComposablePreviewWisefy
 import com.isupatches.android.wisefy.sample.R
 import com.isupatches.android.wisefy.sample.logging.WisefySampleLogger
 import com.isupatches.android.wisefy.sample.ui.components.WisefyPrimaryButton
@@ -84,7 +88,7 @@ internal fun RemoveNetworkScreenContent(viewModel: RemoveNetworkViewModel) {
 }
 
 @Composable
-internal fun RemoveNetworkInputRows(
+private fun RemoveNetworkInputRows(
     inputState: () -> RemoveNetworkInputState,
     viewModel: RemoveNetworkViewModel
 ) {
@@ -129,4 +133,26 @@ internal fun RemoveNetworkInputRows(
             }
         )
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun RemoveNetworkScreenContentLightPreview() {
+    RemoveNetworkScreenContent(
+        viewModel = DefaultRemoveNetworkViewModel(
+            context = LocalContext.current,
+            wisefy = ComposablePreviewWisefy()
+        )
+    )
+}
+
+@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+private fun RemoveNetworkScreenContentDarkPreview() {
+    RemoveNetworkScreenContent(
+        viewModel = DefaultRemoveNetworkViewModel(
+            context = LocalContext.current,
+            wisefy = ComposablePreviewWisefy()
+        )
+    )
 }

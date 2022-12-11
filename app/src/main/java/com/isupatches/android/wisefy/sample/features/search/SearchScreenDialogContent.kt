@@ -15,9 +15,22 @@
  */
 package com.isupatches.android.wisefy.sample.features.search
 
+import android.content.res.Configuration
+import android.net.wifi.ScanResult
+import android.net.wifi.WifiConfiguration
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
+import com.isupatches.android.wisefy.core.exceptions.WisefyException
+import com.isupatches.android.wisefy.sample.ComposablePreviewWisefy
 import com.isupatches.android.wisefy.sample.R
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleNoticeDialog
+import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
 
 @Composable
 internal fun SearchScreenDialogContent(
@@ -86,7 +99,7 @@ internal fun SearchScreenDialogContent(
                 }
             )
         }
-        is SearchDialogState.Failure.InputError -> {
+        is SearchDialogState.InputError -> {
             WisefySampleNoticeDialog(title = R.string.search_result, body = R.string.network_input_invalid) {
                 viewModel.onDialogClosed()
             }
@@ -194,4 +207,56 @@ internal fun SearchScreenDialogContent(
             }
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun SearchScreenDialogContentLightPreview(
+    @PreviewParameter(SearchScreenDialogStatePreviewParameterProvider::class) dialogState: SearchDialogState
+) {
+    SearchScreenDialogContent(
+        viewModel = DefaultSearchViewModel(
+            context = LocalContext.current,
+            wisefy = ComposablePreviewWisefy(),
+        ),
+        dialogState = { dialogState }
+    )
+}
+
+@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+private fun RemoveNetworkScreenDialogContentDarkPreview(
+    @PreviewParameter(SearchScreenDialogStatePreviewParameterProvider::class) dialogState: SearchDialogState
+) {
+    SearchScreenDialogContent(
+        viewModel = DefaultSearchViewModel(
+            context = LocalContext.current,
+            wisefy = ComposablePreviewWisefy(),
+        ),
+        dialogState = { dialogState }
+    )
+}
+
+private class SearchScreenDialogStatePreviewParameterProvider : PreviewParameterProvider<SearchDialogState> {
+    override val values: Sequence<SearchDialogState> = sequenceOf(
+        SearchDialogState.Failure.WisefyAsync(WisefyException("", null)),
+        SearchDialogState.InputError,
+        SearchDialogState.SearchForSSID.Success(""),
+        SearchDialogState.SearchForSSID.NoSSIDFound,
+        SearchDialogState.SearchForSSID.PermissionError,
+        SearchDialogState.SearchForAccessPoint.NoAccessPointFound,
+        SearchDialogState.SearchForAccessPoint.PermissionError,
+        SearchDialogState.SearchForSavedNetwork.Success(SavedNetworkData.Configuration(WifiConfiguration())),
+        SearchDialogState.SearchForSavedNetwork.NoSavedNetworkFound,
+        SearchDialogState.SearchForSavedNetwork.PermissionError,
+        SearchDialogState.SearchForSSIDs.Success(emptyList()),
+        SearchDialogState.SearchForSSIDs.NoSSIDsFound,
+        SearchDialogState.SearchForSSIDs.PermissionError,
+        SearchDialogState.SearchForAccessPoints.Success(emptyList()),
+        SearchDialogState.SearchForAccessPoints.NoAccessPointsFound,
+        SearchDialogState.SearchForAccessPoints.PermissionError,
+        SearchDialogState.SearchForSavedNetworks.Success(emptyList()),
+        SearchDialogState.SearchForSavedNetworks.NoSavedNetworksFound,
+        SearchDialogState.SearchForSavedNetworks.PermissionError,
+    )
 }

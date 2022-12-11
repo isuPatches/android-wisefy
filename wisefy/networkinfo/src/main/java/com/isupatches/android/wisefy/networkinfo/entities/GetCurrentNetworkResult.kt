@@ -15,34 +15,4 @@
  */
 package com.isupatches.android.wisefy.networkinfo.entities
 
-/**
- * A set of classes and objects that are used to represent results for getting the device's current network.
- *
- * @author Patches Klinefelter
- * @since 03/2022
- */
-sealed class GetCurrentNetworkResult {
-
-    /**
-     * A data representation for when there is no current network for the device.
-     *
-     * @see GetCurrentNetworkResult
-     *
-     * @author Patches Klinefelter
-     * @since 03/2022
-     */
-    object Empty : GetCurrentNetworkResult()
-
-    /**
-     * A data representation for when there is a success retrieving the device's current network.
-     *
-     * @property value The value of the device's current network
-     *
-     * @see GetCurrentNetworkResult
-     * @see NetworkData
-     *
-     * @author Patches Klinefelter
-     * @since 03/2022
-     */
-    data class Network(val value: NetworkData) : GetCurrentNetworkResult()
-}
+data class GetCurrentNetworkResult(val value: NetworkData)

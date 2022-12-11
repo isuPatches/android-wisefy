@@ -15,9 +15,19 @@
  */
 package com.isupatches.android.wisefy.sample.features.add
 
+import android.content.res.Configuration
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
+import com.isupatches.android.wisefy.core.exceptions.WisefyException
+import com.isupatches.android.wisefy.networkconnection.entities.ConnectToNetworkResult
+import com.isupatches.android.wisefy.sample.ComposablePreviewWisefy
 import com.isupatches.android.wisefy.sample.R
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleNoticeDialog
+import com.isupatches.android.wisefy.sample.util.DefaultSdkUtil
 
 @Composable
 internal fun AddNetworkScreenDialogContent(
@@ -142,4 +152,51 @@ internal fun AddNetworkScreenDialogContent(
             )
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun AddNetworkScreenDialogContentLightPreview(
+    @PreviewParameter(AddNetworkDialogStatePreviewParameterProvider::class) dialogState: AddNetworkDialogState
+) {
+    AddNetworkScreenDialogContent(
+        viewModel = DefaultAddNetworkViewModel(
+            context = LocalContext.current,
+            wisefy = ComposablePreviewWisefy(),
+            sdkUtil = DefaultSdkUtil()
+        ),
+        dialogState = { dialogState }
+    )
+}
+
+@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+private fun AddNetworkScreenDialogContentDarkPreview(
+    @PreviewParameter(AddNetworkDialogStatePreviewParameterProvider::class) dialogState: AddNetworkDialogState
+) {
+    AddNetworkScreenDialogContent(
+        viewModel = DefaultAddNetworkViewModel(
+            context = LocalContext.current,
+            wisefy = ComposablePreviewWisefy(),
+            sdkUtil = DefaultSdkUtil()
+        ),
+        dialogState = { dialogState }
+    )
+}
+
+private class AddNetworkDialogStatePreviewParameterProvider : PreviewParameterProvider<AddNetworkDialogState> {
+    override val values: Sequence<AddNetworkDialogState> = sequenceOf(
+        AddNetworkDialogState.Failure.WisefyAsync(WisefyException("", null)),
+        AddNetworkDialogState.AddNetwork.Success(AddNetworkResult.Success.ResultCode(0)),
+        AddNetworkDialogState.AddNetwork.Failure(AddNetworkResult.Failure.ResultCode(-1)),
+        AddNetworkDialogState.AddNetwork.PermissionsError.AddOpenNetwork,
+        AddNetworkDialogState.AddNetwork.PermissionsError.AddWPA2Network,
+        AddNetworkDialogState.AddNetwork.PermissionsError.AddWPA3Network,
+        AddNetworkDialogState.ConnectToNetwork.Success(ConnectToNetworkResult.Success.True),
+        AddNetworkDialogState.ConnectToNetwork.Failure(ConnectToNetworkResult.Failure.False),
+        AddNetworkDialogState.ConnectToNetwork.PermissionsError,
+        AddNetworkDialogState.InputError.SSID,
+        AddNetworkDialogState.InputError.Passphrase,
+        AddNetworkDialogState.InputError.BSSID
+    )
 }

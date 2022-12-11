@@ -94,7 +94,7 @@ internal class DefaultRemoveNetworkViewModel(
         if (!isInputValid()) {
             _uiState.value = uiState.value.copy(
                 loadingState = RemoveNetworkLoadingState(isLoading = false),
-                dialogState = RemoveNetworkDialogState.Failure.InputError
+                dialogState = RemoveNetworkDialogState.InputError
             )
             return
         }
@@ -141,7 +141,7 @@ internal class DefaultRemoveNetworkViewModel(
             is RemoveNetworkResult.Failure -> {
                 _uiState.value = uiState.value.copy(
                     loadingState = RemoveNetworkLoadingState(isLoading = false),
-                    dialogState = RemoveNetworkDialogState.RemoveNetwork.Failure.UnableToRemove(result)
+                    dialogState = RemoveNetworkDialogState.RemoveNetwork.Failure(result)
                 )
             }
             null -> {

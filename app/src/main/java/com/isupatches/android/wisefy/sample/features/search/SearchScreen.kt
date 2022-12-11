@@ -15,10 +15,13 @@
  */
 package com.isupatches.android.wisefy.sample.features.search
 
+import android.content.res.Configuration
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.isupatches.android.wisefy.WisefyApi
+import com.isupatches.android.wisefy.sample.ComposablePreviewWisefy
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleLoadingIndicator
 
 @Composable
@@ -34,4 +37,16 @@ internal fun SearchScreen(
     WisefySampleLoadingIndicator(isLoading = { viewModel.uiState.value.loadingState.isLoading })
     SearchScreenDialogContent(dialogState = { viewModel.uiState.value.dialogState }, viewModel = viewModel)
     SearchScreenContent(viewModel = viewModel)
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun SearchScreenLightPreview() {
+    SearchScreen(ComposablePreviewWisefy())
+}
+
+@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+private fun SearchScreenDarkPreview() {
+    SearchScreen(ComposablePreviewWisefy())
 }

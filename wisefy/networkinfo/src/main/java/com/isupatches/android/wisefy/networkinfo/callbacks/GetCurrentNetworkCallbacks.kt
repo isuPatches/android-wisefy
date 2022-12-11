@@ -39,12 +39,4 @@ interface GetCurrentNetworkCallbacks : BaseWisefyCallbacks {
      * @since 03/2022
      */
     fun onCurrentNetworkRetrieved(network: NetworkData)
-
-    /**
-     * A callback triggered when the device has no current network.
-     *
-     * @author Patches Klinefelter
-     * @since 03/2022
-     */
-    fun onNoCurrentNetwork()
 }

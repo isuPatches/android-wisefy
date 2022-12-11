@@ -17,6 +17,7 @@ package com.isupatches.android.wisefy.sample.features.search
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.ACCESS_WIFI_STATE
+import android.content.res.Configuration
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
@@ -34,7 +35,10 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.tooling.preview.Preview
+import com.isupatches.android.wisefy.sample.ComposablePreviewWisefy
 import com.isupatches.android.wisefy.sample.R
 import com.isupatches.android.wisefy.sample.entities.SearchType
 import com.isupatches.android.wisefy.sample.logging.WisefySampleLogger
@@ -214,7 +218,7 @@ internal fun SearchScreenContent(viewModel: SearchViewModel) {
 }
 
 @Composable
-internal fun SearchScreenNetworkInputRows(
+private fun SearchScreenNetworkInputRows(
     inputState: () -> SearchInputState,
     viewModel: SearchViewModel
 ) {
@@ -262,7 +266,7 @@ internal fun SearchScreenNetworkInputRows(
 }
 
 @Composable
-internal fun SearchScreenSearchTypeInputRows(
+private fun SearchScreenSearchTypeInputRows(
     searchType: () -> SearchType,
     viewModel: SearchViewModel
 ) {
@@ -297,7 +301,7 @@ internal fun SearchScreenSearchTypeInputRows(
 }
 
 @Composable
-internal fun SearchScreenReturnFullListInputRows(
+private fun SearchScreenReturnFullListInputRows(
     returnFullList: () -> Boolean,
     viewModel: SearchViewModel
 ) {
@@ -336,7 +340,7 @@ internal fun SearchScreenReturnFullListInputRows(
 }
 
 @Composable
-internal fun SearchScreenFilterDuplicatesInputRows(
+private fun SearchScreenFilterDuplicatesInputRows(
     filterDuplicates: () -> Boolean,
     viewModel: SearchViewModel
 ) {
@@ -369,7 +373,7 @@ internal fun SearchScreenFilterDuplicatesInputRows(
 }
 
 @Composable
-internal fun SearchScreenTimeoutInputRows(
+private fun SearchScreenTimeoutInputRows(
     returnFullList: () -> Boolean,
     searchType: () -> SearchType,
     viewModel: SearchViewModel
@@ -404,9 +408,31 @@ internal fun SearchScreenTimeoutInputRows(
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-internal fun SearchScreenTimeoutLabelRow(timeout: () -> Int) {
+private fun SearchScreenTimeoutLabelRow(timeout: () -> Int) {
     WisefySampleCaptionLabel(
         text = pluralStringResource(R.plurals.timeout_after_x_seconds_args_html, timeout(), timeout()),
         modifier = Modifier
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun SearchScreenContentLightPreview() {
+    SearchScreenContent(
+        viewModel = DefaultSearchViewModel(
+            context = LocalContext.current,
+            wisefy = ComposablePreviewWisefy()
+        )
+    )
+}
+
+@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+private fun SearchScreenContentDarkPreview() {
+    SearchScreenContent(
+        viewModel = DefaultSearchViewModel(
+            context = LocalContext.current,
+            wisefy = ComposablePreviewWisefy()
+        )
     )
 }

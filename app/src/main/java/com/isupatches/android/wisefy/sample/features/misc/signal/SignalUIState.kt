@@ -19,20 +19,20 @@ import com.isupatches.android.wisefy.core.exceptions.WisefyException
 import com.isupatches.android.wisefy.signal.entities.CalculateSignalLevelResult
 import com.isupatches.android.wisefy.signal.entities.CompareSignalLevelResult
 
-internal data class SignalScreenUIState(
-    val loadingState: SignalScreenLoadingState,
-    val dialogState: SignalScreenDialogState,
-    val inputState: SignalScreenInputState
+internal data class SignalUIState(
+    val loadingState: SignalLoadingState,
+    val dialogState: SignalDialogState,
+    val inputState: SignalInputState
 )
 
-internal data class SignalScreenLoadingState(
+internal data class SignalLoadingState(
     val isLoading: Boolean = false
 )
 
-internal sealed class SignalScreenDialogState {
-    object None : SignalScreenDialogState()
+internal sealed class SignalDialogState {
+    object None : SignalDialogState()
 
-    sealed class InputError : SignalScreenDialogState() {
+    sealed class InputError : SignalDialogState() {
 
         object CalculateSignalLevel : InputError()
 
@@ -42,43 +42,43 @@ internal sealed class SignalScreenDialogState {
         }
     }
 
-    sealed class Failure : SignalScreenDialogState() {
+    sealed class Failure : SignalDialogState() {
         data class WisefyAsync(val exception: WisefyException) : Failure()
     }
 
-    sealed class CalculateSignalLevel : SignalScreenDialogState() {
+    sealed class CalculateSignalLevel : SignalDialogState() {
         data class Success(val result: CalculateSignalLevelResult.Success) : CalculateSignalLevel()
         data class Failure(val result: CalculateSignalLevelResult.Failure) : CalculateSignalLevel()
     }
 
-    sealed class CompareSignalLevel : SignalScreenDialogState() {
+    sealed class CompareSignalLevel : SignalDialogState() {
         data class Success(val result: CompareSignalLevelResult.Success) : CalculateSignalLevel()
     }
 }
 
-internal data class SignalScreenInputState(
-    val calculateSignalLevelInputState: SignalScreenCalculateSignalLevelInputState,
-    val compareSignalLevelInputState: SignalScreenCompareSignalLevelInputState
+internal data class SignalInputState(
+    val calculateSignalLevelInputState: CalculateSignalLevelInputState,
+    val compareSignalLevelInputState: CompareSignalLevelInputState
 )
 
-internal data class SignalScreenCalculateSignalLevelInputState(
+internal data class CalculateSignalLevelInputState(
     val rssiLevelInput: String,
-    val validityState: SignalScreenInputValidityState.CalculateSignalLevel
+    val validityState: SignalInputValidityState.CalculateSignalLevel
 )
 
-internal data class SignalScreenCompareSignalLevelInputState(
-    val rssi1InputState: SignalScreenCompareSignalLevelRSSIInputState,
-    val rssi2InputState: SignalScreenCompareSignalLevelRSSIInputState
+internal data class CompareSignalLevelInputState(
+    val rssi1InputState: CompareSignalLevelRSSIInputState,
+    val rssi2InputState: CompareSignalLevelRSSIInputState
 )
 
-internal data class SignalScreenCompareSignalLevelRSSIInputState(
+internal data class CompareSignalLevelRSSIInputState(
     val rssiLevelInput: String,
-    val validityState: SignalScreenInputValidityState.CompareSignalLevel
+    val validityState: SignalInputValidityState.CompareSignalLevel
 )
 
-internal sealed class SignalScreenInputValidityState {
+internal sealed class SignalInputValidityState {
 
-    sealed class CalculateSignalLevel : SignalScreenInputValidityState() {
+    sealed class CalculateSignalLevel : SignalInputValidityState() {
         object Valid : CalculateSignalLevel()
 
         sealed class Invalid : CalculateSignalLevel() {
@@ -87,7 +87,7 @@ internal sealed class SignalScreenInputValidityState {
         }
     }
 
-    sealed class CompareSignalLevel : SignalScreenInputValidityState() {
+    sealed class CompareSignalLevel : SignalInputValidityState() {
         object Valid : CompareSignalLevel()
 
         sealed class Invalid : CompareSignalLevel() {

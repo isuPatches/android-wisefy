@@ -17,7 +17,7 @@ package com.isupatches.android.wisefy.sample.main
 
 import android.content.Context
 import com.isupatches.android.wisefy.sample.util.SdkUtil
-import com.isupatches.android.wisefy.sample.util.SdkUtilImpl
+import com.isupatches.android.wisefy.sample.util.DefaultSdkUtil
 import com.isupatches.android.wisefy.sample.util.createWisefy
 import dagger.Binds
 import dagger.Module
@@ -32,7 +32,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 internal abstract class MainActivityModule {
 
     @Binds
-    abstract fun bindSdkUtil(impl: SdkUtilImpl): SdkUtil
+    abstract fun bindSdkUtil(impl: DefaultSdkUtil): SdkUtil
 
     companion object {
         @Provides

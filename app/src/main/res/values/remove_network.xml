@@ -5,9 +5,8 @@
     <string name="remove_network">Remove Network</string>
 
     <!-- Results -->
-    <string name="network_not_found_to_remove">Network not found to remove</string>
     <string name="succeeded_removing_network_args">Succeeded removing network. Result: %s</string>
-    <string name="failed_removing_network_args">Failed removing network. Result: %s</string>
+    <string name="failure_removing_network_args">Failure removing network. Result: %s</string>
 
     <!-- Permissions -->
     <string name="permission_error_remove_network">Permissions for removing network are denied</string>

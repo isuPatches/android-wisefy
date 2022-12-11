@@ -181,7 +181,7 @@ internal fun WisefySampleEditTextDarkPreview() {
 
 @Preview(showBackground = true)
 @Composable
-internal fun WisefySampleEditTextWithErrorLightPreview() {
+private fun WisefySampleEditTextWithErrorLightPreview() {
     WisefySampleEditText(
         text = "",
         onTextChange = { },
@@ -193,7 +193,7 @@ internal fun WisefySampleEditTextWithErrorLightPreview() {
 
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-internal fun WisefySampleEditTextWithErrorDarkPreview() {
+private fun WisefySampleEditTextWithErrorDarkPreview() {
     WisefySampleEditText(
         text = "",
         onTextChange = { },
@@ -205,7 +205,7 @@ internal fun WisefySampleEditTextWithErrorDarkPreview() {
 
 @Preview(showBackground = true)
 @Composable
-internal fun WisefySampleEditTextPasswordFieldLightPreview() {
+private fun WisefySampleEditTextPasswordFieldLightPreview() {
     WisefySampleEditText(
         text = "password",
         onTextChange = { },
@@ -216,7 +216,7 @@ internal fun WisefySampleEditTextPasswordFieldLightPreview() {
 
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-internal fun WisefySampleEditTextPasswordFieldDarkPreview() {
+private fun WisefySampleEditTextPasswordFieldDarkPreview() {
     WisefySampleEditText(
         text = "password",
         onTextChange = { },
@@ -227,7 +227,7 @@ internal fun WisefySampleEditTextPasswordFieldDarkPreview() {
 
 @Preview(showBackground = true)
 @Composable
-internal fun WisefySampleEditTextPasswordFieldWithErrorLightPreview() {
+private fun WisefySampleEditTextPasswordFieldWithErrorLightPreview() {
     WisefySampleEditText(
         text = "password",
         onTextChange = { },
@@ -239,7 +239,7 @@ internal fun WisefySampleEditTextPasswordFieldWithErrorLightPreview() {
 
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-internal fun WisefySampleEditTextPasswordFieldWithErrorDarkPreview() {
+private fun WisefySampleEditTextPasswordFieldWithErrorDarkPreview() {
     WisefySampleEditText(
         text = "password",
         onTextChange = { },

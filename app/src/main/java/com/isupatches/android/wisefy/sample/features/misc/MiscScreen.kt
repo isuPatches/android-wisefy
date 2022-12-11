@@ -15,11 +15,16 @@
  */
 package com.isupatches.android.wisefy.sample.features.misc
 
+import android.content.res.Configuration
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.isupatches.android.wisefy.WisefyApi
+import com.isupatches.android.wisefy.sample.ComposablePreviewWisefy
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleLoadingIndicator
+import com.isupatches.android.wisefy.sample.util.DefaultSdkUtil
 import com.isupatches.android.wisefy.sample.util.SdkUtil
 
 @Composable
@@ -35,5 +40,25 @@ internal fun MiscScreen(
         viewModel = viewModel,
         sdkUtil = sdkUtil,
         router = DefaultMiscScreenRouter(navController = navController)
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun MiscScreenLightPreview() {
+    MiscScreen(
+        wisefy = ComposablePreviewWisefy(),
+        navController = rememberNavController(),
+        sdkUtil = DefaultSdkUtil()
+    )
+}
+
+@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+private fun MiscScreenDarkPreview() {
+    MiscScreen(
+        wisefy = ComposablePreviewWisefy(),
+        navController = rememberNavController(),
+        sdkUtil = DefaultSdkUtil()
     )
 }

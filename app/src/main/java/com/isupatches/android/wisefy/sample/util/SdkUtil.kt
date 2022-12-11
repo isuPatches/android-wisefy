@@ -28,7 +28,7 @@ internal interface SdkUtil {
     fun isAtLeastR(): Boolean
 }
 
-internal class SdkUtilImpl @Inject constructor() : SdkUtil {
+internal class DefaultSdkUtil @Inject constructor() : SdkUtil {
 
     @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.Q)
     override fun isAtLeastQ() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q

@@ -15,7 +15,15 @@
  */
 package com.isupatches.android.wisefy.sample.features.remove
 
+import android.content.res.Configuration
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import com.isupatches.android.wisefy.core.exceptions.WisefyException
+import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkResult
+import com.isupatches.android.wisefy.sample.ComposablePreviewWisefy
 import com.isupatches.android.wisefy.sample.R
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleNoticeDialog
 
@@ -47,19 +55,10 @@ internal fun RemoveNetworkScreenDialogContent(
                 }
             )
         }
-        is RemoveNetworkDialogState.RemoveNetwork.Failure.NotFoundToRemove -> {
+        is RemoveNetworkDialogState.RemoveNetwork.Failure -> {
             WisefySampleNoticeDialog(
                 title = R.string.remove_network,
-                body = R.string.network_not_found_to_remove,
-                onClose = {
-                    viewModel.onDialogClosed()
-                }
-            )
-        }
-        is RemoveNetworkDialogState.RemoveNetwork.Failure.UnableToRemove -> {
-            WisefySampleNoticeDialog(
-                title = R.string.remove_network,
-                body = R.string.failed_removing_network_args,
+                body = R.string.failure_removing_network_args,
                 currentDialogState.result,
                 onClose = {
                     viewModel.onDialogClosed()
@@ -76,7 +75,7 @@ internal fun RemoveNetworkScreenDialogContent(
                 }
             )
         }
-        is RemoveNetworkDialogState.Failure.InputError -> {
+        is RemoveNetworkDialogState.InputError -> {
             WisefySampleNoticeDialog(
                 title = R.string.input_error,
                 body = R.string.network_input_invalid,
@@ -86,4 +85,42 @@ internal fun RemoveNetworkScreenDialogContent(
             )
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun RemoveNetworkScreenDialogContentLightPreview(
+    @PreviewParameter(RemoveNetworkDialogStatePreviewParameterProvider::class) dialogState: RemoveNetworkDialogState
+) {
+    RemoveNetworkScreenDialogContent(
+        viewModel = DefaultRemoveNetworkViewModel(
+            context = LocalContext.current,
+            wisefy = ComposablePreviewWisefy(),
+        ),
+        dialogState = { dialogState }
+    )
+}
+
+@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+private fun RemoveNetworkScreenDialogContentDarkPreview(
+    @PreviewParameter(RemoveNetworkDialogStatePreviewParameterProvider::class) dialogState: RemoveNetworkDialogState
+) {
+    RemoveNetworkScreenDialogContent(
+        viewModel = DefaultRemoveNetworkViewModel(
+            context = LocalContext.current,
+            wisefy = ComposablePreviewWisefy(),
+        ),
+        dialogState = { dialogState }
+    )
+}
+
+private class RemoveNetworkDialogStatePreviewParameterProvider : PreviewParameterProvider<RemoveNetworkDialogState> {
+    override val values: Sequence<RemoveNetworkDialogState> = sequenceOf(
+        RemoveNetworkDialogState.Failure.WisefyAsync(WisefyException("", null)),
+        RemoveNetworkDialogState.InputError,
+        RemoveNetworkDialogState.RemoveNetwork.Failure(RemoveNetworkResult.Failure.False),
+        RemoveNetworkDialogState.RemoveNetwork.PermissionsError,
+        RemoveNetworkDialogState.RemoveNetwork.Success(RemoveNetworkResult.Success.True)
+    )
 }

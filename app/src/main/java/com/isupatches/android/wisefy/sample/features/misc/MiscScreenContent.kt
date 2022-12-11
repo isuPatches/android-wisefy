@@ -18,6 +18,7 @@ package com.isupatches.android.wisefy.sample.features.misc
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.ACCESS_NETWORK_STATE
 import android.Manifest.permission.ACCESS_WIFI_STATE
+import android.content.res.Configuration
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.StringRes
@@ -32,11 +33,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
+import com.isupatches.android.wisefy.sample.ComposablePreviewWisefy
 import com.isupatches.android.wisefy.sample.R
 import com.isupatches.android.wisefy.sample.logging.WisefySampleLogger
 import com.isupatches.android.wisefy.sample.ui.components.WisefyPrimaryButton
 import com.isupatches.android.wisefy.sample.ui.primitives.WisefySampleSizes
 import com.isupatches.android.wisefy.sample.ui.theme.WisefySampleTheme
+import com.isupatches.android.wisefy.sample.util.DefaultSdkUtil
 import com.isupatches.android.wisefy.sample.util.SdkUtil
 import kotlinx.coroutines.launch
 
@@ -188,5 +193,35 @@ private fun MiscScreenOptionRow(option: MiscScreenOption, onClick: (MiscScreenOp
         onClick = {
             onClick(option)
         }
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun MiscScreenContentLightPreview() {
+    MiscScreenContent(
+        viewModel = DefaultMiscViewModel(
+            wisefy = ComposablePreviewWisefy(),
+            sdkUtil = DefaultSdkUtil()
+        ),
+        sdkUtil = DefaultSdkUtil(),
+        router = DefaultMiscScreenRouter(
+            navController = rememberNavController()
+        )
+    )
+}
+
+@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+private fun MiscScreenContentDarkPreview() {
+    MiscScreenContent(
+        viewModel = DefaultMiscViewModel(
+            wisefy = ComposablePreviewWisefy(),
+            sdkUtil = DefaultSdkUtil()
+        ),
+        sdkUtil = DefaultSdkUtil(),
+        router = DefaultMiscScreenRouter(
+            navController = rememberNavController()
+        )
     )
 }

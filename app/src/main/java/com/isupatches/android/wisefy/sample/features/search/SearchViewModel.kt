@@ -471,7 +471,7 @@ internal class DefaultSearchViewModel(
         } else {
             _uiState.value = uiState.value.copy(
                 loadingState = SearchLoadingState(isLoading = false),
-                dialogState = SearchDialogState.Failure.InputError
+                dialogState = SearchDialogState.InputError
             )
             false
         }

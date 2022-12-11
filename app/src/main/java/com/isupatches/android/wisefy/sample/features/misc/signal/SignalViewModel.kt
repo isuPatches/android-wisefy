@@ -32,7 +32,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 internal abstract class SignalViewModel : BaseViewModel() {
-    abstract val uiState: State<SignalScreenUIState>
+    abstract val uiState: State<SignalUIState>
 
     abstract fun calculateSignalLevel()
 
@@ -55,28 +55,28 @@ internal class DefaultSignalViewModel(
 ) : SignalViewModel() {
 
     private val _uiState = mutableStateOf(
-        SignalScreenUIState(
-            loadingState = SignalScreenLoadingState(isLoading = false),
-            dialogState = SignalScreenDialogState.None,
-            inputState = SignalScreenInputState(
-                calculateSignalLevelInputState = SignalScreenCalculateSignalLevelInputState(
+        SignalUIState(
+            loadingState = SignalLoadingState(isLoading = false),
+            dialogState = SignalDialogState.None,
+            inputState = SignalInputState(
+                calculateSignalLevelInputState = CalculateSignalLevelInputState(
                     rssiLevelInput = "",
-                    validityState = SignalScreenInputValidityState.CalculateSignalLevel.Invalid.Empty
+                    validityState = SignalInputValidityState.CalculateSignalLevel.Invalid.Empty
                 ),
-                compareSignalLevelInputState = SignalScreenCompareSignalLevelInputState(
-                    rssi1InputState = SignalScreenCompareSignalLevelRSSIInputState(
+                compareSignalLevelInputState = CompareSignalLevelInputState(
+                    rssi1InputState = CompareSignalLevelRSSIInputState(
                         rssiLevelInput = "",
-                        validityState = SignalScreenInputValidityState.CompareSignalLevel.Invalid.Empty
+                        validityState = SignalInputValidityState.CompareSignalLevel.Invalid.Empty
                     ),
-                    rssi2InputState = SignalScreenCompareSignalLevelRSSIInputState(
+                    rssi2InputState = CompareSignalLevelRSSIInputState(
                         rssiLevelInput = "",
-                        validityState = SignalScreenInputValidityState.CompareSignalLevel.Invalid.Empty
+                        validityState = SignalInputValidityState.CompareSignalLevel.Invalid.Empty
                     )
                 )
             )
         )
     )
-    override val uiState: State<SignalScreenUIState>
+    override val uiState: State<SignalUIState>
         get() = _uiState
 
     init {
@@ -104,8 +104,8 @@ internal class DefaultSignalViewModel(
 
     override fun calculateSignalLevel() {
         _uiState.value = uiState.value.copy(
-            loadingState = SignalScreenLoadingState(isLoading = true),
-            dialogState = SignalScreenDialogState.None
+            loadingState = SignalLoadingState(isLoading = true),
+            dialogState = SignalDialogState.None
         )
 
         if (!isCalculateSignalLevelInputValid()) {
@@ -125,8 +125,8 @@ internal class DefaultSignalViewModel(
             wisefy.calculateSignalLevel(request)
         } catch (ex: WisefyException) {
             _uiState.value = uiState.value.copy(
-                loadingState = SignalScreenLoadingState(isLoading = false),
-                dialogState = SignalScreenDialogState.Failure.WisefyAsync(exception = ex)
+                loadingState = SignalLoadingState(isLoading = false),
+                dialogState = SignalDialogState.Failure.WisefyAsync(exception = ex)
             )
             null
         }
@@ -134,14 +134,14 @@ internal class DefaultSignalViewModel(
         when (result) {
             is CalculateSignalLevelResult.Failure -> {
                 _uiState.value = uiState.value.copy(
-                    loadingState = SignalScreenLoadingState(isLoading = false),
-                    dialogState = SignalScreenDialogState.CalculateSignalLevel.Failure(result)
+                    loadingState = SignalLoadingState(isLoading = false),
+                    dialogState = SignalDialogState.CalculateSignalLevel.Failure(result)
                 )
             }
             is CalculateSignalLevelResult.Success -> {
                 _uiState.value = uiState.value.copy(
-                    loadingState = SignalScreenLoadingState(isLoading = false),
-                    dialogState = SignalScreenDialogState.CalculateSignalLevel.Success(result)
+                    loadingState = SignalLoadingState(isLoading = false),
+                    dialogState = SignalDialogState.CalculateSignalLevel.Success(result)
                 )
             }
             null -> {
@@ -152,8 +152,8 @@ internal class DefaultSignalViewModel(
 
     override fun compareSignalLevel() {
         _uiState.value = uiState.value.copy(
-            loadingState = SignalScreenLoadingState(isLoading = true),
-            dialogState = SignalScreenDialogState.None
+            loadingState = SignalLoadingState(isLoading = true),
+            dialogState = SignalDialogState.None
         )
 
         if (!isCompareSignalLevelInputValid()) {
@@ -167,8 +167,8 @@ internal class DefaultSignalViewModel(
             wisefy.compareSignalLevel(request)
         } catch (ex: WisefyException) {
             _uiState.value = uiState.value.copy(
-                loadingState = SignalScreenLoadingState(isLoading = false),
-                dialogState = SignalScreenDialogState.Failure.WisefyAsync(exception = ex)
+                loadingState = SignalLoadingState(isLoading = false),
+                dialogState = SignalDialogState.Failure.WisefyAsync(exception = ex)
             )
             null
         }
@@ -176,8 +176,8 @@ internal class DefaultSignalViewModel(
         when (result) {
             is CompareSignalLevelResult.Success -> {
                 _uiState.value = uiState.value.copy(
-                    loadingState = SignalScreenLoadingState(isLoading = false),
-                    dialogState = SignalScreenDialogState.CompareSignalLevel.Success(result)
+                    loadingState = SignalLoadingState(isLoading = false),
+                    dialogState = SignalDialogState.CompareSignalLevel.Success(result)
                 )
             }
             null -> {
@@ -206,18 +206,18 @@ internal class DefaultSignalViewModel(
 
     override fun onDialogClosed() {
         _uiState.value = uiState.value.copy(
-            loadingState = SignalScreenLoadingState(isLoading = false),
-            dialogState = SignalScreenDialogState.None
+            loadingState = SignalLoadingState(isLoading = false),
+            dialogState = SignalDialogState.None
         )
     }
 
     private fun isCalculateSignalLevelInputValid(): Boolean {
         if (uiState.value.inputState.calculateSignalLevelInputState.validityState !is
-            SignalScreenInputValidityState.CalculateSignalLevel.Valid
+            SignalInputValidityState.CalculateSignalLevel.Valid
         ) {
             _uiState.value = uiState.value.copy(
-                loadingState = SignalScreenLoadingState(isLoading = false),
-                dialogState = SignalScreenDialogState.InputError.CalculateSignalLevel
+                loadingState = SignalLoadingState(isLoading = false),
+                dialogState = SignalDialogState.InputError.CalculateSignalLevel
             )
             return false
         }
@@ -226,20 +226,20 @@ internal class DefaultSignalViewModel(
 
     private fun isCompareSignalLevelInputValid(): Boolean {
         if (uiState.value.inputState.compareSignalLevelInputState.rssi1InputState.validityState !is
-            SignalScreenInputValidityState.CompareSignalLevel.Valid
+            SignalInputValidityState.CompareSignalLevel.Valid
         ) {
             _uiState.value = uiState.value.copy(
-                loadingState = SignalScreenLoadingState(isLoading = false),
-                dialogState = SignalScreenDialogState.InputError.CompareSignalLevel.RSSI1
+                loadingState = SignalLoadingState(isLoading = false),
+                dialogState = SignalDialogState.InputError.CompareSignalLevel.RSSI1
             )
             return false
         }
         if (uiState.value.inputState.compareSignalLevelInputState.rssi2InputState.validityState !is
-            SignalScreenInputValidityState.CompareSignalLevel.Valid
+            SignalInputValidityState.CompareSignalLevel.Valid
         ) {
             _uiState.value = uiState.value.copy(
-                loadingState = SignalScreenLoadingState(isLoading = false),
-                dialogState = SignalScreenDialogState.InputError.CompareSignalLevel.RSSI2
+                loadingState = SignalLoadingState(isLoading = false),
+                dialogState = SignalDialogState.InputError.CompareSignalLevel.RSSI2
             )
             return false
         }
@@ -248,13 +248,13 @@ internal class DefaultSignalViewModel(
 
     private fun validateCalculateSignalLevelInputValidity(rssiLevel: String) {
         val validityState = when {
-            rssiLevel.isBlank() -> SignalScreenInputValidityState.CalculateSignalLevel.Invalid.Empty
-            rssiLevel.toIntOrNull() == null -> SignalScreenInputValidityState.CalculateSignalLevel.Invalid.NotAnInt
-            else -> SignalScreenInputValidityState.CalculateSignalLevel.Valid
+            rssiLevel.isBlank() -> SignalInputValidityState.CalculateSignalLevel.Invalid.Empty
+            rssiLevel.toIntOrNull() == null -> SignalInputValidityState.CalculateSignalLevel.Invalid.NotAnInt
+            else -> SignalInputValidityState.CalculateSignalLevel.Valid
         }
         _uiState.value = uiState.value.copy(
             inputState = uiState.value.inputState.copy(
-                calculateSignalLevelInputState = SignalScreenCalculateSignalLevelInputState(
+                calculateSignalLevelInputState = CalculateSignalLevelInputState(
                     rssiLevelInput = rssiLevel,
                     validityState = validityState
                 )
@@ -264,14 +264,14 @@ internal class DefaultSignalViewModel(
 
     private fun validateCompareSignalLevelRSSI1InputValidity(rssi1: String) {
         val validityState = when {
-            rssi1.isBlank() -> SignalScreenInputValidityState.CompareSignalLevel.Invalid.Empty
-            rssi1.toIntOrNull() == null -> SignalScreenInputValidityState.CompareSignalLevel.Invalid.NotAnInt
-            else -> SignalScreenInputValidityState.CompareSignalLevel.Valid
+            rssi1.isBlank() -> SignalInputValidityState.CompareSignalLevel.Invalid.Empty
+            rssi1.toIntOrNull() == null -> SignalInputValidityState.CompareSignalLevel.Invalid.NotAnInt
+            else -> SignalInputValidityState.CompareSignalLevel.Valid
         }
         _uiState.value = uiState.value.copy(
             inputState = uiState.value.inputState.copy(
                 compareSignalLevelInputState = uiState.value.inputState.compareSignalLevelInputState.copy(
-                    rssi1InputState = SignalScreenCompareSignalLevelRSSIInputState(
+                    rssi1InputState = CompareSignalLevelRSSIInputState(
                         rssiLevelInput = rssi1,
                         validityState = validityState
                     )
@@ -282,14 +282,14 @@ internal class DefaultSignalViewModel(
 
     private fun validateCompareSignalLevelRSSI2InputValidity(rssi2: String) {
         val validityState = when {
-            rssi2.isBlank() -> SignalScreenInputValidityState.CompareSignalLevel.Invalid.Empty
-            rssi2.toIntOrNull() == null -> SignalScreenInputValidityState.CompareSignalLevel.Invalid.NotAnInt
-            else -> SignalScreenInputValidityState.CompareSignalLevel.Valid
+            rssi2.isBlank() -> SignalInputValidityState.CompareSignalLevel.Invalid.Empty
+            rssi2.toIntOrNull() == null -> SignalInputValidityState.CompareSignalLevel.Invalid.NotAnInt
+            else -> SignalInputValidityState.CompareSignalLevel.Valid
         }
         _uiState.value = uiState.value.copy(
             inputState = uiState.value.inputState.copy(
                 compareSignalLevelInputState = uiState.value.inputState.compareSignalLevelInputState.copy(
-                    rssi2InputState = SignalScreenCompareSignalLevelRSSIInputState(
+                    rssi2InputState = CompareSignalLevelRSSIInputState(
                         rssiLevelInput = rssi2,
                         validityState = validityState
                     )

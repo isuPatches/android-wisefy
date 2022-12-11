@@ -20,8 +20,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.isupatches.android.wisefy.Wisefy
 import com.isupatches.android.wisefy.WisefyApi
+import com.isupatches.android.wisefy.sample.ComposablePreviewWisefy
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleLoadingIndicator
 
 @Composable
@@ -41,12 +41,12 @@ internal fun RemoveNetworkScreen(
 
 @Preview(showBackground = true)
 @Composable
-internal fun RemoveNetworkScreenLightPreview() {
-    RemoveNetworkScreen(Wisefy.Brains(LocalContext.current.applicationContext).getSmarts())
+private fun RemoveNetworkScreenLightPreview() {
+    RemoveNetworkScreen(ComposablePreviewWisefy())
 }
 
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-internal fun RemoveNetworkScreenDarkPreview() {
-    RemoveNetworkScreen(Wisefy.Brains(LocalContext.current.applicationContext).getSmarts())
+private fun RemoveNetworkScreenDarkPreview() {
+    RemoveNetworkScreen(ComposablePreviewWisefy())
 }

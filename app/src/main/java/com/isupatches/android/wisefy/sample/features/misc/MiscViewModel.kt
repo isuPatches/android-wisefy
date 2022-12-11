@@ -36,6 +36,7 @@ import com.isupatches.android.wisefy.ktx.getSavedNetworksAsync
 import com.isupatches.android.wisefy.ktx.isWifiEnabledAsync
 import com.isupatches.android.wisefy.networkconnection.callbacks.DisconnectFromCurrentNetworkCallbacks
 import com.isupatches.android.wisefy.networkconnection.entities.DisconnectFromCurrentNetworkRequest
+import com.isupatches.android.wisefy.networkconnection.entities.DisconnectFromCurrentNetworkResult
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkResult
 import com.isupatches.android.wisefy.networkinfo.entities.GetNetworkConnectionStatusResult
 import com.isupatches.android.wisefy.sample.scaffolding.BaseViewModel
@@ -49,7 +50,7 @@ import com.isupatches.android.wisefy.wifi.entities.EnableWifiResult
 import com.isupatches.android.wisefy.wifi.entities.IsWifiEnabledResult
 
 internal abstract class MiscViewModel : BaseViewModel() {
-    abstract val uiState: State<MiscScreenUIState>
+    abstract val uiState: State<MiscUIState>
 
     abstract fun onDialogClosed()
 
@@ -91,12 +92,12 @@ internal class DefaultMiscViewModel(
 ) : MiscViewModel() {
 
     private val _uiState = mutableStateOf(
-        MiscScreenUIState(
-            loadingState = MiscScreenLoadingState(isLoading = false),
-            dialogState = MiscScreenDialogState.None
+        MiscUIState(
+            loadingState = MiscLoadingState(isLoading = false),
+            dialogState = MiscDialogState.None
         )
     )
-    override val uiState: State<MiscScreenUIState>
+    override val uiState: State<MiscUIState>
         get() = _uiState
 
     override suspend fun disableWifi() {
@@ -109,52 +110,60 @@ internal class DefaultMiscViewModel(
 
     override fun disconnectFromCurrentNetwork() {
         if (sdkUtil.isAtLeastQ()) {
-            _uiState.value = MiscScreenUIState(
-                loadingState = MiscScreenLoadingState(isLoading = false),
-                dialogState = MiscScreenDialogState.DisconnectFromCurrentNetwork.DisplayAndroidQMessage
+            _uiState.value = MiscUIState(
+                loadingState = MiscLoadingState(isLoading = false),
+                dialogState = MiscDialogState.DisconnectFromCurrentNetwork.DisplayAndroidQMessage
             )
             return
         }
 
-        _uiState.value = MiscScreenUIState(
-            loadingState = MiscScreenLoadingState(isLoading = true),
-            dialogState = MiscScreenDialogState.None
+        _uiState.value = MiscUIState(
+            loadingState = MiscLoadingState(isLoading = true),
+            dialogState = MiscDialogState.None
         )
         wisefy.disconnectFromCurrentNetwork(
             request = DisconnectFromCurrentNetworkRequest(),
             callbacks = object : DisconnectFromCurrentNetworkCallbacks {
                 override fun onDisconnectRequestPlaced() {
-                    _uiState.value = MiscScreenUIState(
-                        loadingState = MiscScreenLoadingState(isLoading = false),
-                        dialogState = MiscScreenDialogState.DisconnectFromCurrentNetwork.Success.RequestPlaced
+                    _uiState.value = MiscUIState(
+                        loadingState = MiscLoadingState(isLoading = false),
+                        dialogState = MiscDialogState.DisconnectFromCurrentNetwork.Success(
+                            result = DisconnectFromCurrentNetworkResult.Success.DisconnectRequestSent
+                        )
                     )
                 }
 
                 override fun onDisconnectedFromCurrentNetwork() {
-                    _uiState.value = MiscScreenUIState(
-                        loadingState = MiscScreenLoadingState(isLoading = false),
-                        dialogState = MiscScreenDialogState.DisconnectFromCurrentNetwork.Success.Disconnected
+                    _uiState.value = MiscUIState(
+                        loadingState = MiscLoadingState(isLoading = false),
+                        dialogState = MiscDialogState.DisconnectFromCurrentNetwork.Success(
+                            result = DisconnectFromCurrentNetworkResult.Success.True
+                        )
                     )
                 }
 
                 override fun onNetworkNotFoundToDisconnectFrom() {
-                    _uiState.value = MiscScreenUIState(
-                        loadingState = MiscScreenLoadingState(isLoading = false),
-                        dialogState = MiscScreenDialogState.DisconnectFromCurrentNetwork.Failure.NetworkNotFound
+                    _uiState.value = MiscUIState(
+                        loadingState = MiscLoadingState(isLoading = false),
+                        dialogState = MiscDialogState.DisconnectFromCurrentNetwork.Failure(
+                            result = DisconnectFromCurrentNetworkResult.Failure.NetworkNotFound
+                        )
                     )
                 }
 
                 override fun onFailureDisconnectingFromCurrentNetwork() {
-                    _uiState.value = MiscScreenUIState(
-                        loadingState = MiscScreenLoadingState(isLoading = false),
-                        dialogState = MiscScreenDialogState.DisconnectFromCurrentNetwork.Failure.UnableToDisconnect
+                    _uiState.value = MiscUIState(
+                        loadingState = MiscLoadingState(isLoading = false),
+                        dialogState = MiscDialogState.DisconnectFromCurrentNetwork.Failure(
+                            result = DisconnectFromCurrentNetworkResult.Failure.False
+                        )
                     )
                 }
 
                 override fun onWisefyAsyncFailure(exception: WisefyException) {
-                    _uiState.value = MiscScreenUIState(
-                        loadingState = MiscScreenLoadingState(isLoading = false),
-                        dialogState = MiscScreenDialogState.Failure.WisefyAsync(exception = exception)
+                    _uiState.value = MiscUIState(
+                        loadingState = MiscLoadingState(isLoading = false),
+                        dialogState = MiscDialogState.Failure.WisefyAsync(exception = exception)
                     )
                 }
             }
@@ -171,31 +180,25 @@ internal class DefaultMiscViewModel(
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
     override suspend fun getCurrentNetwork() {
-        _uiState.value = MiscScreenUIState(
-            loadingState = MiscScreenLoadingState(isLoading = true),
-            dialogState = MiscScreenDialogState.None
+        _uiState.value = MiscUIState(
+            loadingState = MiscLoadingState(isLoading = true),
+            dialogState = MiscDialogState.None
         )
         val result = try {
             wisefy.getCurrentNetworkAsync()
         } catch (ex: WisefyException) {
-            _uiState.value = MiscScreenUIState(
-                loadingState = MiscScreenLoadingState(isLoading = false),
-                dialogState = MiscScreenDialogState.Failure.WisefyAsync(exception = ex)
+            _uiState.value = MiscUIState(
+                loadingState = MiscLoadingState(isLoading = false),
+                dialogState = MiscDialogState.Failure.WisefyAsync(exception = ex)
             )
             null
         }
 
         when (result) {
-            is GetCurrentNetworkResult.Empty -> {
-                _uiState.value = MiscScreenUIState(
-                    loadingState = MiscScreenLoadingState(isLoading = false),
-                    dialogState = MiscScreenDialogState.GetCurrentNetwork.Failure
-                )
-            }
-            is GetCurrentNetworkResult.Network -> {
-                _uiState.value = MiscScreenUIState(
-                    loadingState = MiscScreenLoadingState(isLoading = false),
-                    dialogState = MiscScreenDialogState.GetCurrentNetwork.Success(network = result.value)
+            is GetCurrentNetworkResult -> {
+                _uiState.value = MiscUIState(
+                    loadingState = MiscLoadingState(isLoading = false),
+                    dialogState = MiscDialogState.GetCurrentNetwork.Success(network = result.value)
                 )
             }
             null -> {
@@ -206,31 +209,31 @@ internal class DefaultMiscViewModel(
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     override suspend fun getNearbyAccessPoints() {
-        _uiState.value = MiscScreenUIState(
-            loadingState = MiscScreenLoadingState(isLoading = true),
-            dialogState = MiscScreenDialogState.None
+        _uiState.value = MiscUIState(
+            loadingState = MiscLoadingState(isLoading = true),
+            dialogState = MiscDialogState.None
         )
         val result = try {
             wisefy.getAccessPointsAsync()
         } catch (ex: WisefyException) {
-            _uiState.value = MiscScreenUIState(
-                loadingState = MiscScreenLoadingState(isLoading = false),
-                dialogState = MiscScreenDialogState.Failure.WisefyAsync(exception = ex)
+            _uiState.value = MiscUIState(
+                loadingState = MiscLoadingState(isLoading = false),
+                dialogState = MiscDialogState.Failure.WisefyAsync(exception = ex)
             )
             null
         }
 
         when (result) {
             is GetAccessPointsResult.Empty -> {
-                _uiState.value = MiscScreenUIState(
-                    loadingState = MiscScreenLoadingState(isLoading = false),
-                    dialogState = MiscScreenDialogState.GetNearbyAccessPoints.Failure
+                _uiState.value = MiscUIState(
+                    loadingState = MiscLoadingState(isLoading = false),
+                    dialogState = MiscDialogState.GetNearbyAccessPoints.Failure
                 )
             }
             is GetAccessPointsResult.AccessPoints -> {
-                _uiState.value = MiscScreenUIState(
-                    loadingState = MiscScreenLoadingState(isLoading = false),
-                    dialogState = MiscScreenDialogState.GetNearbyAccessPoints.Success(accessPoints = result.value)
+                _uiState.value = MiscUIState(
+                    loadingState = MiscLoadingState(isLoading = false),
+                    dialogState = MiscDialogState.GetNearbyAccessPoints.Success(accessPoints = result.value)
                 )
             }
             null -> {
@@ -240,26 +243,26 @@ internal class DefaultMiscViewModel(
     }
 
     override suspend fun getNetworkConnectionStatus() {
-        _uiState.value = MiscScreenUIState(
-            loadingState = MiscScreenLoadingState(isLoading = true),
-            dialogState = MiscScreenDialogState.None
+        _uiState.value = MiscUIState(
+            loadingState = MiscLoadingState(isLoading = true),
+            dialogState = MiscDialogState.None
         )
 
         val result = try {
             wisefy.getNetworkConnectionStatusAsync()
         } catch (ex: WisefyException) {
-            _uiState.value = MiscScreenUIState(
-                loadingState = MiscScreenLoadingState(isLoading = false),
-                dialogState = MiscScreenDialogState.Failure.WisefyAsync(exception = ex)
+            _uiState.value = MiscUIState(
+                loadingState = MiscLoadingState(isLoading = false),
+                dialogState = MiscDialogState.Failure.WisefyAsync(exception = ex)
             )
             null
         }
 
         when (result) {
             is GetNetworkConnectionStatusResult -> {
-                _uiState.value = MiscScreenUIState(
-                    loadingState = MiscScreenLoadingState(isLoading = false),
-                    dialogState = MiscScreenDialogState.GetNetworkConnectionStatus.Success(data = result)
+                _uiState.value = MiscUIState(
+                    loadingState = MiscLoadingState(isLoading = false),
+                    dialogState = MiscDialogState.GetNetworkConnectionStatus.Success(data = result)
                 )
             }
             null -> {
@@ -270,31 +273,31 @@ internal class DefaultMiscViewModel(
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override suspend fun getSavedNetworks() {
-        _uiState.value = MiscScreenUIState(
-            loadingState = MiscScreenLoadingState(isLoading = true),
-            dialogState = MiscScreenDialogState.None
+        _uiState.value = MiscUIState(
+            loadingState = MiscLoadingState(isLoading = true),
+            dialogState = MiscDialogState.None
         )
         val result = try {
             wisefy.getSavedNetworksAsync()
         } catch (ex: WisefyException) {
-            _uiState.value = MiscScreenUIState(
-                loadingState = MiscScreenLoadingState(isLoading = false),
-                dialogState = MiscScreenDialogState.Failure.WisefyAsync(exception = ex)
+            _uiState.value = MiscUIState(
+                loadingState = MiscLoadingState(isLoading = false),
+                dialogState = MiscDialogState.Failure.WisefyAsync(exception = ex)
             )
             null
         }
 
         when (result) {
             is GetSavedNetworksResult.SavedNetworks -> {
-                _uiState.value = MiscScreenUIState(
-                    loadingState = MiscScreenLoadingState(isLoading = false),
-                    dialogState = MiscScreenDialogState.GetSavedNetworks.Success(savedNetworks = result.value)
+                _uiState.value = MiscUIState(
+                    loadingState = MiscLoadingState(isLoading = false),
+                    dialogState = MiscDialogState.GetSavedNetworks.Success(savedNetworks = result.value)
                 )
             }
             is GetSavedNetworksResult.Empty -> {
-                _uiState.value = MiscScreenUIState(
-                    loadingState = MiscScreenLoadingState(isLoading = false),
-                    dialogState = MiscScreenDialogState.GetSavedNetworks.Failure
+                _uiState.value = MiscUIState(
+                    loadingState = MiscLoadingState(isLoading = false),
+                    dialogState = MiscDialogState.GetSavedNetworks.Failure
                 )
             }
             null -> {
@@ -304,31 +307,31 @@ internal class DefaultMiscViewModel(
     }
 
     override suspend fun isWifiEnabled() {
-        _uiState.value = MiscScreenUIState(
-            loadingState = MiscScreenLoadingState(isLoading = true),
-            dialogState = MiscScreenDialogState.None
+        _uiState.value = MiscUIState(
+            loadingState = MiscLoadingState(isLoading = true),
+            dialogState = MiscDialogState.None
         )
         val result = try {
             wisefy.isWifiEnabledAsync()
         } catch (ex: WisefyException) {
-            _uiState.value = MiscScreenUIState(
-                loadingState = MiscScreenLoadingState(isLoading = false),
-                dialogState = MiscScreenDialogState.Failure.WisefyAsync(exception = ex)
+            _uiState.value = MiscUIState(
+                loadingState = MiscLoadingState(isLoading = false),
+                dialogState = MiscDialogState.Failure.WisefyAsync(exception = ex)
             )
             null
         }
 
         when (result) {
             is IsWifiEnabledResult.True -> {
-                _uiState.value = MiscScreenUIState(
-                    loadingState = MiscScreenLoadingState(isLoading = false),
-                    dialogState = MiscScreenDialogState.IsWifiEnabled.True
+                _uiState.value = MiscUIState(
+                    loadingState = MiscLoadingState(isLoading = false),
+                    dialogState = MiscDialogState.IsWifiEnabled.True
                 )
             }
             is IsWifiEnabledResult.False -> {
-                _uiState.value = MiscScreenUIState(
-                    loadingState = MiscScreenLoadingState(isLoading = false),
-                    dialogState = MiscScreenDialogState.IsWifiEnabled.False
+                _uiState.value = MiscUIState(
+                    loadingState = MiscLoadingState(isLoading = false),
+                    dialogState = MiscDialogState.IsWifiEnabled.False
                 )
             }
             null -> {
@@ -338,67 +341,67 @@ internal class DefaultMiscViewModel(
     }
 
     override fun onDialogClosed() {
-        _uiState.value = MiscScreenUIState(
-            loadingState = MiscScreenLoadingState(isLoading = false),
-            dialogState = MiscScreenDialogState.None
+        _uiState.value = MiscUIState(
+            loadingState = MiscLoadingState(isLoading = false),
+            dialogState = MiscDialogState.None
         )
     }
 
     override fun onGetCurrentNetworkPermissionsError() {
-        _uiState.value = MiscScreenUIState(
-            loadingState = MiscScreenLoadingState(isLoading = false),
-            dialogState = MiscScreenDialogState.GetCurrentNetwork.PermissionsError
+        _uiState.value = MiscUIState(
+            loadingState = MiscLoadingState(isLoading = false),
+            dialogState = MiscDialogState.GetCurrentNetwork.PermissionsError
         )
     }
 
     override fun onGetNearbyAccessPointsPermissionError() {
-        _uiState.value = MiscScreenUIState(
-            loadingState = MiscScreenLoadingState(isLoading = false),
-            dialogState = MiscScreenDialogState.GetNearbyAccessPoints.PermissionsError
+        _uiState.value = MiscUIState(
+            loadingState = MiscLoadingState(isLoading = false),
+            dialogState = MiscDialogState.GetNearbyAccessPoints.PermissionsError
         )
     }
 
     override fun onGetNetworkConnectionStatusPermissionError() {
-        _uiState.value = MiscScreenUIState(
-            loadingState = MiscScreenLoadingState(isLoading = false),
-            dialogState = MiscScreenDialogState.GetNetworkConnectionStatus.PermissionsError
+        _uiState.value = MiscUIState(
+            loadingState = MiscLoadingState(isLoading = false),
+            dialogState = MiscDialogState.GetNetworkConnectionStatus.PermissionsError
         )
     }
 
     override fun onGetSavedNetworksPermissionsError() {
-        _uiState.value = MiscScreenUIState(
-            loadingState = MiscScreenLoadingState(isLoading = false),
-            dialogState = MiscScreenDialogState.GetSavedNetworks.PermissionsError
+        _uiState.value = MiscUIState(
+            loadingState = MiscLoadingState(isLoading = false),
+            dialogState = MiscDialogState.GetSavedNetworks.PermissionsError
         )
     }
 
     private suspend fun disableWifi(request: DisableWifiRequest) {
-        _uiState.value = MiscScreenUIState(
-            loadingState = MiscScreenLoadingState(isLoading = true),
-            dialogState = MiscScreenDialogState.None
+        _uiState.value = MiscUIState(
+            loadingState = MiscLoadingState(isLoading = true),
+            dialogState = MiscDialogState.None
         )
 
         val result = try {
             wisefy.disableWifiAsync(request = request)
         } catch (ex: WisefyException) {
-            _uiState.value = MiscScreenUIState(
-                loadingState = MiscScreenLoadingState(isLoading = false),
-                dialogState = MiscScreenDialogState.Failure.WisefyAsync(exception = ex)
+            _uiState.value = MiscUIState(
+                loadingState = MiscLoadingState(isLoading = false),
+                dialogState = MiscDialogState.Failure.WisefyAsync(exception = ex)
             )
             null
         }
 
         when (result) {
             is DisableWifiResult.Success -> {
-                _uiState.value = MiscScreenUIState(
-                    loadingState = MiscScreenLoadingState(isLoading = false),
-                    dialogState = MiscScreenDialogState.DisableWifi.Success(result)
+                _uiState.value = MiscUIState(
+                    loadingState = MiscLoadingState(isLoading = false),
+                    dialogState = MiscDialogState.DisableWifi.Success(result)
                 )
             }
             is DisableWifiResult.Failure -> {
-                _uiState.value = MiscScreenUIState(
-                    loadingState = MiscScreenLoadingState(isLoading = false),
-                    dialogState = MiscScreenDialogState.DisableWifi.Failure(result)
+                _uiState.value = MiscUIState(
+                    loadingState = MiscLoadingState(isLoading = false),
+                    dialogState = MiscDialogState.DisableWifi.Failure(result)
                 )
             }
             null -> {
@@ -408,31 +411,31 @@ internal class DefaultMiscViewModel(
     }
 
     private suspend fun enableWifi(request: EnableWifiRequest) {
-        _uiState.value = MiscScreenUIState(
-            loadingState = MiscScreenLoadingState(isLoading = true),
-            dialogState = MiscScreenDialogState.None
+        _uiState.value = MiscUIState(
+            loadingState = MiscLoadingState(isLoading = true),
+            dialogState = MiscDialogState.None
         )
         val result = try {
             wisefy.enableWifiAsync(request)
         } catch (ex: WisefyException) {
-            _uiState.value = MiscScreenUIState(
-                loadingState = MiscScreenLoadingState(isLoading = false),
-                dialogState = MiscScreenDialogState.Failure.WisefyAsync(exception = ex)
+            _uiState.value = MiscUIState(
+                loadingState = MiscLoadingState(isLoading = false),
+                dialogState = MiscDialogState.Failure.WisefyAsync(exception = ex)
             )
             null
         }
 
         when (result) {
             is EnableWifiResult.Success -> {
-                _uiState.value = MiscScreenUIState(
-                    loadingState = MiscScreenLoadingState(isLoading = false),
-                    dialogState = MiscScreenDialogState.EnableWifi.Success(result)
+                _uiState.value = MiscUIState(
+                    loadingState = MiscLoadingState(isLoading = false),
+                    dialogState = MiscDialogState.EnableWifi.Success(result)
                 )
             }
             is EnableWifiResult.Failure -> {
-                _uiState.value = MiscScreenUIState(
-                    loadingState = MiscScreenLoadingState(isLoading = false),
-                    dialogState = MiscScreenDialogState.EnableWifi.Failure(result)
+                _uiState.value = MiscUIState(
+                    loadingState = MiscLoadingState(isLoading = false),
+                    dialogState = MiscDialogState.EnableWifi.Failure(result)
                 )
             }
             null -> {

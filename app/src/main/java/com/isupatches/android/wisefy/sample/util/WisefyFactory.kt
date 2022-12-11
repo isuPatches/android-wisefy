@@ -16,10 +16,15 @@
 package com.isupatches.android.wisefy.sample.util
 
 import android.content.Context
+import com.isupatches.android.wisefy.BuildConfig
 import com.isupatches.android.wisefy.Wisefy
 import com.isupatches.android.wisefy.WisefyApi
 import com.isupatches.android.wisefy.sample.logging.WisefySampleLogger
 
 internal fun createWisefy(context: Context): WisefyApi {
-    return Wisefy.Brains(context = context, throwOnAssertions = true, logger = WisefySampleLogger).getSmarts()
+    return Wisefy.Brains(
+        context = context,
+        throwOnAssertions = BuildConfig.DEBUG,
+        logger = WisefySampleLogger
+    ).getSmarts()
 }

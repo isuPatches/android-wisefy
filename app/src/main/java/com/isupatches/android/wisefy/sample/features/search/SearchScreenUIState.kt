@@ -36,9 +36,10 @@ internal data class SearchLoadingState(val isLoading: Boolean)
 internal sealed class SearchDialogState {
     object None : SearchDialogState()
 
+    object InputError : SearchDialogState()
+
     sealed class Failure : SearchDialogState() {
         data class WisefyAsync(val throwable: Throwable) : Failure()
-        object InputError : Failure()
     }
 
     sealed class SearchForAccessPoint : SearchDialogState() {

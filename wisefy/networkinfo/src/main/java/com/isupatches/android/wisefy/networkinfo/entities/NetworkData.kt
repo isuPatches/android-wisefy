@@ -29,7 +29,7 @@ import android.net.wifi.WifiInfo
  * @since 03/2022
  */
 data class NetworkData(
-    val network: Network,
+    val network: Network?,
     val connectionInfo: WifiInfo?,
     val capabilities: NetworkCapabilities?,
     val linkProperties: LinkProperties?

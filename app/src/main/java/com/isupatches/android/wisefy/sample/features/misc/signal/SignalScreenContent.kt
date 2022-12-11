@@ -15,6 +15,7 @@
  */
 package com.isupatches.android.wisefy.sample.features.misc.signal
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -22,12 +23,16 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
+import com.isupatches.android.wisefy.sample.ComposablePreviewWisefy
 import com.isupatches.android.wisefy.sample.R
 import com.isupatches.android.wisefy.sample.ui.components.WisefyPrimaryButton
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleEditTextError
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleNumericalEditText
 import com.isupatches.android.wisefy.sample.ui.primitives.WisefySampleSizes
 import com.isupatches.android.wisefy.sample.ui.theme.WisefySampleTheme
+import com.isupatches.android.wisefy.sample.util.DefaultSdkUtil
 
 @Composable
 internal fun SignalScreenContent(
@@ -67,8 +72,8 @@ internal fun SignalScreenContent(
 }
 
 @Composable
-internal fun SignalScreenCalculateSignalLevelInputRows(
-    inputState: () -> SignalScreenCalculateSignalLevelInputState,
+private fun SignalScreenCalculateSignalLevelInputRows(
+    inputState: () -> CalculateSignalLevelInputState,
     viewModel: SignalViewModel
 ) {
     val currentInputState = inputState()
@@ -80,21 +85,21 @@ internal fun SignalScreenCalculateSignalLevelInputRows(
             },
             labelResId = R.string.rssi_value,
             error = when (currentInputState.validityState) {
-                is SignalScreenInputValidityState.CalculateSignalLevel.Invalid.Empty -> {
+                is SignalInputValidityState.CalculateSignalLevel.Invalid.Empty -> {
                     WisefySampleEditTextError(R.string.rssi_input_empty)
                 }
-                is SignalScreenInputValidityState.CalculateSignalLevel.Invalid.NotAnInt -> {
+                is SignalInputValidityState.CalculateSignalLevel.Invalid.NotAnInt -> {
                     WisefySampleEditTextError(R.string.rssi_input_invalid_int)
                 }
-                is SignalScreenInputValidityState.CalculateSignalLevel.Valid -> null
+                is SignalInputValidityState.CalculateSignalLevel.Valid -> null
             }
         )
     }
 }
 
 @Composable
-internal fun SignalScreenCompareSignalLevelInputRows(
-    inputState: () -> SignalScreenCompareSignalLevelInputState,
+private fun SignalScreenCompareSignalLevelInputRows(
+    inputState: () -> CompareSignalLevelInputState,
     viewModel: SignalViewModel
 ) {
     val currentInputState = inputState()
@@ -106,13 +111,13 @@ internal fun SignalScreenCompareSignalLevelInputRows(
             },
             labelResId = R.string.rssi1_value,
             error = when (currentInputState.rssi1InputState.validityState) {
-                is SignalScreenInputValidityState.CompareSignalLevel.Invalid.Empty -> {
+                is SignalInputValidityState.CompareSignalLevel.Invalid.Empty -> {
                     WisefySampleEditTextError(R.string.rssi_input_empty)
                 }
-                is SignalScreenInputValidityState.CompareSignalLevel.Invalid.NotAnInt -> {
+                is SignalInputValidityState.CompareSignalLevel.Invalid.NotAnInt -> {
                     WisefySampleEditTextError(R.string.rssi_input_invalid_int)
                 }
-                is SignalScreenInputValidityState.CompareSignalLevel.Valid -> null
+                is SignalInputValidityState.CompareSignalLevel.Valid -> null
             }
         )
     }
@@ -124,14 +129,38 @@ internal fun SignalScreenCompareSignalLevelInputRows(
             },
             labelResId = R.string.rssi2_value,
             error = when (currentInputState.rssi2InputState.validityState) {
-                is SignalScreenInputValidityState.CompareSignalLevel.Invalid.Empty -> {
+                is SignalInputValidityState.CompareSignalLevel.Invalid.Empty -> {
                     WisefySampleEditTextError(R.string.rssi_input_empty)
                 }
-                is SignalScreenInputValidityState.CompareSignalLevel.Invalid.NotAnInt -> {
+                is SignalInputValidityState.CompareSignalLevel.Invalid.NotAnInt -> {
                     WisefySampleEditTextError(R.string.rssi_input_invalid_int)
                 }
-                is SignalScreenInputValidityState.CompareSignalLevel.Valid -> null
+                is SignalInputValidityState.CompareSignalLevel.Valid -> null
             }
         )
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun SignalScreenContentLightPreview() {
+    SignalScreenContent(
+        viewModel = DefaultSignalViewModel(
+            context = LocalContext.current,
+            wisefy = ComposablePreviewWisefy(),
+            sdkUtil = DefaultSdkUtil()
+        )
+    )
+}
+
+@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+private fun SignalScreenContentDarkPreview() {
+    SignalScreenContent(
+        viewModel = DefaultSignalViewModel(
+            context = LocalContext.current,
+            wisefy = ComposablePreviewWisefy(),
+            sdkUtil = DefaultSdkUtil()
+        )
+    )
 }

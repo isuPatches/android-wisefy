@@ -34,19 +34,16 @@ internal sealed class RemoveNetworkDialogState {
 
     sealed class Failure : RemoveNetworkDialogState() {
         data class WisefyAsync(val exception: WisefyException) : Failure()
-        object InputError : Failure()
     }
 
     sealed class RemoveNetwork : RemoveNetworkDialogState() {
-        sealed class Failure : RemoveNetwork() {
-            object NotFoundToRemove : Failure()
-            data class UnableToRemove(val result: RemoveNetworkResult.Failure) : Failure()
-        }
-
+        data class Failure(val result: RemoveNetworkResult.Failure) : RemoveNetwork()
         data class Success(val result: RemoveNetworkResult.Success) : RemoveNetwork()
 
         object PermissionsError : RemoveNetwork()
     }
+
+    object InputError : RemoveNetworkDialogState()
 }
 
 internal data class RemoveNetworkInputState(

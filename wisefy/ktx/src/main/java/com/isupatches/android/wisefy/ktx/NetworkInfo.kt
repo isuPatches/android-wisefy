@@ -32,11 +32,11 @@ suspend fun WisefyApi.getCurrentNetworkAsync(
         query = query,
         callbacks = object : GetCurrentNetworkCallbacks {
             override fun onCurrentNetworkRetrieved(network: NetworkData) {
-                continuation.resumeWith(Result.success(GetCurrentNetworkResult.Network(network)))
+                continuation.resumeWith(Result.success(GetCurrentNetworkResult(network)))
             }
 
             override fun onNoCurrentNetwork() {
-                continuation.resumeWith(Result.success(GetCurrentNetworkResult.Empty))
+                continuation.resumeWith(Result.success(GetCurrentNetworkResult(NetworkData(null, null, null, null))))
             }
 
             override fun onWisefyAsyncFailure(exception: WisefyException) {

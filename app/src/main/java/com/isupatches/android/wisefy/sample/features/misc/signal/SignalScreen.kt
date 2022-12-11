@@ -15,11 +15,16 @@
  */
 package com.isupatches.android.wisefy.sample.features.misc.signal
 
+import android.content.res.Configuration
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.isupatches.android.wisefy.WisefyApi
+import com.isupatches.android.wisefy.sample.ComposablePreviewWisefy
+import com.isupatches.android.wisefy.sample.features.add.AddNetworkScreen
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleLoadingIndicator
+import com.isupatches.android.wisefy.sample.util.DefaultSdkUtil
 import com.isupatches.android.wisefy.sample.util.SdkUtil
 
 @Composable
@@ -37,4 +42,22 @@ internal fun SignalScreen(
     WisefySampleLoadingIndicator(isLoading = { viewModel.uiState.value.loadingState.isLoading })
     SignalScreenDialogContent(dialogState = { viewModel.uiState.value.dialogState }, viewModel = viewModel)
     SignalScreenContent(viewModel = viewModel)
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun SignalScreenLightPreview() {
+    SignalScreen(
+        wisefy = ComposablePreviewWisefy(),
+        sdkUtil = DefaultSdkUtil()
+    )
+}
+
+@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+private fun SignalScreenDarkPreview() {
+    SignalScreen(
+        wisefy = ComposablePreviewWisefy(),
+        sdkUtil = DefaultSdkUtil()
+    )
 }

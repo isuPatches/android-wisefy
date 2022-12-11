@@ -67,17 +67,15 @@ internal class DefaultNetworkInfoAdapter(
 ) : NetworkInfoApiInternal {
 
     override fun getCurrentNetwork(query: GetCurrentNetworkQuery): GetCurrentNetworkResult {
-        val network = api.getCurrentNetwork()
-        return network?.let {
-            GetCurrentNetworkResult.Network(
-                value = NetworkData(
-                    network = it,
-                    connectionInfo = wifiManager.connectionInfo,
-                    capabilities = api.getNetworkCapabilities(it),
-                    linkProperties = api.getLinkProperties(it)
-                )
+        val currentNetwork = api.getCurrentNetwork()
+        return GetCurrentNetworkResult(
+            value = NetworkData(
+                network = currentNetwork,
+                connectionInfo = wifiManager.connectionInfo,
+                capabilities = currentNetwork?.let { api.getNetworkCapabilities(it) },
+                linkProperties = currentNetwork?.let { api.getLinkProperties(it) }
             )
-        } ?: GetCurrentNetworkResult.Empty
+        )
     }
 
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
