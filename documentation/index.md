@@ -1,7 +1,7 @@
 ## Wisefy Documentation
 
 - [:accesspoints package](#accesspoints-package)
-  - [getNearbyAccessPoints](#getnearbyaccesspoints)
+  - [getAccessPoints](#getaccesspoints)
 - [:addnetwork package](#addnetwork-package)
   - [addNetwork](#addnetwork)
 - [:networkconnection package](#networkconnection-package)
@@ -14,6 +14,9 @@
   - [removeNetwork](#removenetwork)
 - [:savednetworks package](#savednetworks-package)
   - [getSavedNetworks](#getsavednetworks) 
+- [:signal package](#sginal-package)
+  - [calculateSignalLevel](#calculatesignallevel)
+  - [compareSignalLevel](#comparesignallevel)
 - [:wifi package](#wifi-package)
   - [disableWifi](#disablewifi)
   - [enabledWifi](#enablewifi)
@@ -21,17 +24,18 @@
 
 ### `:accesspoints` package
 
-#### getNearbyAccessPoints()
+#### getAccessPoints()
 
 Gets nearby access points
 
-- Usage example: [MiscViewModel::getNearbyAccessPoints](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#L397)
-- Request class: [GetNearbyAccessPointsQuery](/wisefy/accesspoints/src/main/java/com/isupatches/android/wisefy/accesspoints/entities/GetNearbyAccessPointsQuery.kt)
-- Result class: [GetNearbyAccessPointsResult](/wisefy/accesspoints/src/main/java/com/isupatches/android/wisefy/accesspoints/entities/GetNearbyAccessPointsResult.kt)
+- Usage example: [MiscViewModel::getNearbyAccessPoints](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#L211)
+- Request class: [GetAccessPointsQuery](/wisefy/accesspoints/src/main/java/com/isupatches/android/wisefy/accesspoints/entities/GetAccessPointsQuery.kt)
+- Result class: [GetAccessPointsResult](/wisefy/accesspoints/src/main/java/com/isupatches/android/wisefy/accesspoints/entities/GetAccessPointsResult.kt)
+- Callbacks: [GetAccessPointsCallbacks](/wisefy/accesspoints/src/main/java/com/isupatches/android/wisefy/accesspoints/callbacks/GetAccessPointsCallbacks.kt)
 - API options:
-  - *Synchronous*: `fun getNearbyAccessPoints(query: GetNearbyAccessPointsQuery): GetNearbyAccessPointsResult`
-  - *Async*: `fun getNearbyAccessPoints(query: GetNearbyAccessPointsQuery, callbacks: GetNearbyAccessPointCallbacks?)`
-  - *Coroutine*: `suspend fun WisefyApi.getNearbyAccessPointsAsync(query: GetNearbyAccessPointsQuery): GetNearbyAccessPointsResult`
+  - *Synchronous*: `fun getAccessPoints(query: GetAccessPointsQuery): GetAccessPointsResult`
+  - *Async*: `fun getAccessPoints(query: GetAccessPointsQuery, callbacks: GetAccessPointsCallbacks?)`
+  - *Coroutine*: `suspend fun WisefyApi.getAccessPointsAsync(query: GetAccessPointsQuery): GetAccessPointsResult`
 - Notes:
   - This can be leveraged to search for a single access point with `.first()`/`.firstOrNull()`
   - This can be leveraged for SSIDs with `.map { it.value.SSID }` or `.value.SSID`
@@ -43,9 +47,10 @@ Gets nearby access points
 
 Adds a network to the saved list of configurations / suggestions
 
-- Usage example: [AddNetworkViewModel::addNetwork](/app/src/main/java/com/isupatches/android/wisefy/sample/features/add/AddNetworkViewModel.kt#L186)
+- Usage example: [AddNetworkViewModel::addNetwork](/app/src/main/java/com/isupatches/android/wisefy/sample/features/add/AddNetworkViewModel.kt#L357)
 - Request class: [AddNetworkRequest](/wisefy/addnetwork/src/main/java/com/isupatches/android/wisefy/addnetwork/entities/AddNetworkRequest.kt)
 - Result class: [AddNetworkResult](/wisefy/addnetwork/src/main/java/com/isupatches/android/wisefy/addnetwork/entities/AddNetworkResult.kt)
+- Callbacks: [AddNetworkCallbacks](/wisefy/addnetwork/src/main/java/com/isupatches/android/wisefy/addnetwork/callbacks/AddNetworkCallbacks.kt)
 - API options:
   - *Synchronous*: `fun addNetwork(request: AddNetworkRequest): AddNetworkRestult`
   - *Async*: `fun addNetwork(request: AddNetworkRequest, callbacks: AddNetworkCallbacks?)`
@@ -63,9 +68,10 @@ Adds a network to the saved list of configurations / suggestions
 
 Gets the device's current network
 
-- Usage example: [MiscViewModel::getCurrentNetwork](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#L256)
+- Usage example: [MiscViewModel::getCurrentNetwork](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#L182)
 - Request class: [GetCurrentNetworkQuery](/wisefy/networkinfo/src/main/java/com/isupatches/android/wisefy/networkinfo/entities/GetCurrentNetworkQuery.kt)
 - Result class: [GetCurrentNetworkResult](/wisefy/networkinfo/src/main/java/com/isupatches/android/wisefy/networkinfo/entities/GetCurrentNetworkResult.kt)
+- Callbacks: [GetCurrentNetworkCallbacks](/wisefy/networkinfo/src/main/java/com/isupatches/android/wisefy/networkinfo/callbacks/GetCurrentNetworkCallbacks.kt)
 - API options:
   - *Synchronous*: `fun getCurrentNetwork(query: GetCurrentNetworkQuery): GetCurrentNetworkResult`
   - *Async*: `fun getCurrentNetwork(query: GetCurrentNetworkQuery, callbacks: GetCurrentNetworkCallbacks?)`
@@ -75,9 +81,10 @@ Gets the device's current network
 
 Gets the device's network connection status
 
-- Usage example: [MiscViewModel::getNetworkConnectionStatus](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#L431)
-- Request class: [GetNetworkConnectionStatusQuery](/wisefy/networkconnectionstatus/src/main/java/com/isupatches/android/wisefy/networkconnectionstatus/entities/GetNetworkConnectionStatusQuery.kt)
-- Result class: [GetNetworkConnectionStatusResult](/wisefy/networkconnectionstatus/src/main/java/com/isupatches/android/wisefy/networkconnectionstatus/entities/GetNetworkConnectionStatusResult.kt)
+- Usage example: [MiscViewModel::getNetworkConnectionStatus](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#L245)
+- Request class: [GetNetworkConnectionStatusQuery](/wisefy/networkinfo/src/main/java/com/isupatches/android/wisefy/networkinfo/entities/GetNetworkConnectionStatusQuery.kt)
+- Result class: [GetNetworkConnectionStatusResult](/wisefy/networkinfo/src/main/java/com/isupatches/android/wisefy/networkinfo/entities/GetNetworkConnectionStatusResult.kt)
+- Callbacks: [GetNetworkConnectionStatusCallbacks](/wisefy/networkinfo/src/main/java/com/isupatches/android/wisefy/networkinfo/callbacks/GetNetworkConnectionStatusCallbacks.kt)
 - API options:
   - *Synchronous*: `fun getNetworkConnectionStatus(query: GetNetworkConnectionStatusQuery): GetNetworkConnectionStatusResult`
   - *Async*: `fun getNetworkConnectionStatus(query: GetNetworkConnectionStatusQuery, callbacks: GetNetworkConnectionStatusCallbacks?)`
@@ -92,6 +99,7 @@ Removes a network from the saved suggestions / configurations
 - Usage example: [RemoveNetworkViewModel::removeNetwork](/app/src/main/java/com/isupatches/android/wisefy/sample/features/remove/RemoveNetworkViewModel.kt#L92)
 - Request class: [RemoveNetworkRequest](/wisefy/removenetwork/src/main/java/com/isupatches/android/wisefy/removenetwork/entities/RemoveNetworkRequest.kt)
 - Result class: [RemoveNetworkResult](/wisefy/removenetwork/src/main/java/com/isupatches/android/wisefy/removenetwork/entities/RemoveNetworkResult.kt)
+- Callbacks: [RemoveNetworkCallbacks](/wisefy/removenetwork/src/main/java/com/isupatches/android/wisefy/removenetwork/callbacks/RemoveNetworkCallbacks.kt)
 - API options:
   - *Synchronous*: `fun removeNetwork(request: RemoveNetworkRequest): RemoveNetworkResult`
   - *Async*: `fun removeNetwork(request: RemoveNetworkRequest, callbacks: RemoveNetworkCallbacks?)`
@@ -103,9 +111,10 @@ Removes a network from the saved suggestions / configurations
 
 Gets the saved networks on a device
 
-- Usage example: [MiscViewModel::getSavedNetworks](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#L496)
+- Usage example: [MiscViewModel::getSavedNetworks](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#L275)
 - Request class: [GetSavedNetworksQuery](/wisefy/savednetworks/src/main/java/com/isupatches/android/wisefy/savednetworks/entities/GetSavedNetworksQuery.kt)
 - Result class: [GetSavedNetworksResult](/wisefy/savednetworks/src/main/java/com/isupatches/android/wisefy/savednetworks/entities/GetSavedNetworksResult.kt)
+- Callbacks: [GetSavedNetworksCallbacks](/wisefy/savednetworks/src/main/java/com/isupatches/android/wisefy/savednetworks/callbacks/GetSavedNetworksCallbacks.kt)
 - API options:
   - *Synchronous*: `fun getSavedNetworks(query: GetSavedNetworksQuery): GetSavedNetworksResult`
   - *Async*: `fun getSavedNetworks(query: GetSavedNetworksQuery, callbacks: GetSavedNetworksCallbacks?)`
@@ -118,9 +127,26 @@ Gets the saved networks on a device
 Checking if a specific network is saved
 
 ### `:sginal` package
-  
-  - Calculating signal strength bars
-  - Comparing signal strength
+
+#### calculateSignalLevel()
+
+Calculates the strength given an RSSI level.
+
+- Usage example: [SignalViewModel::calculateSignalLevel](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/signal/SignalViewModel.kt#L105)
+- Request class: [CalculateSignalLevelRequest](/wisefy/signal/src/main/java/com/isupatches/android/wisefy/signal/entities/CalculateSignalLevelRequest.kt)
+- Result class: [CalculateSignalLevelResult](/wisefy/signal/src/main/java/com/isupatches/android/wisefy/signal/entities/CalculateSignalLevelResult.kt)
+- API options:
+  - *Synchronous*: `fun calculateSignalLevel(request: CalculateSignalLevelRequest): CalculateSignalLevelResult`
+
+#### compareSignalLevel()
+
+Compares the strength of two RSSI levels.
+
+- Usage example: [SignalViewModel::compareSignalLevel](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/signal/SignalViewModel.kt#L153)
+- Request class: [CompareSignalLevelRequest](/wisefy/signal/src/main/java/com/isupatches/android/wisefy/signal/entities/CompareSignalLevelRequest.kt)
+- Result class: [CompareSignalLevelResult](/wisefy/signal/src/main/java/com/isupatches/android/wisefy/signal/entities/CompareSignalLevelResult.kt)
+- API options:
+  - *Synchronous*: `fun compareSignalLevel(request: CompareSignalLevelRequest): CompareSignalLevelResult`
 
 ### `:wifi` package
 
@@ -128,9 +154,10 @@ Checking if a specific network is saved
 
 Disables Wifi
 
-- Usage example: [MiscViewModel::disableWifi](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#L120)
+- Usage example: [MiscViewModel::disableWifi](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#L378)
 - Request class: [DisableWifiRequest](/wisefy/wifi/src/main/java/com/isupatches/android/wisefy/wifi/entities/DisableWifiRequest.kt)
 - Result class: [DisableWifiResult](/wisefy/wifi/src/main/java/com/isupatches/android/wisefy/wifi/entities/DisableWifiResult.kt)
+- Callbacks: [DisableWifiCallbacks](/wisefy/wifi/src/main/java/com/isupatches/android/wisefy/wifi/callbacks/DisableWifiCallbacks.kt)
 - API options:
     - *Synchronous*: `fun disableWifi(request: DisableWifiRequest): DisableWifiResult`
     - *Async*: `fun disableWifi(request: DisableWifiRequest, callbacks: DisableWifiCallbacks?)`
@@ -142,9 +169,10 @@ Disables Wifi
 
 Enables Wifi
 
-- Usage example: [MiscViewModel::enableWifi](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#L215)
+- Usage example: [MiscViewModel::enableWifi](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#L413)
 - Request class: [EnableWifiRequest](/wisefy/wifi/src/main/java/com/isupatches/android/wisefy/wifi/entities/EnableWifiRequest.kt)
 - Result class: [EnableWifiResult](/wisefy/wifi/src/main/java/com/isupatches/android/wisefy/wifi/entities/EnableWifiResult.kt)
+- Callbacks: [DisableWifiCallbacks](/wisefy/wifi/src/main/java/com/isupatches/android/wisefy/wifi/callbacks/EnableWifiCallbacks.kt)
 - API options:
   - *Synchronous*: `fun enableWifi(request: EnableWifiRequest): EnableWifiResult`
   - *Async*: `fun enableWifi(request: EnableWifiRequest, callbacks: EnableWifiCallbacks?)`
