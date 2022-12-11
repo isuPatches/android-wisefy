@@ -16,8 +16,8 @@
 package com.isupatches.android.wisefy.sample.main
 
 import android.content.Context
-import com.isupatches.android.wisefy.sample.util.SdkUtil
 import com.isupatches.android.wisefy.sample.util.DefaultSdkUtil
+import com.isupatches.android.wisefy.sample.util.SdkUtil
 import com.isupatches.android.wisefy.sample.util.createWisefy
 import dagger.Binds
 import dagger.Module

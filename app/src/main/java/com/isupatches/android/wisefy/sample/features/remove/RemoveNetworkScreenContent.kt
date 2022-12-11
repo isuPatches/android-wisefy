@@ -137,6 +137,7 @@ private fun RemoveNetworkInputRows(
 
 @Preview(showBackground = true)
 @Composable
+@Suppress("UnusedPrivateMember")
 private fun RemoveNetworkScreenContentLightPreview() {
     RemoveNetworkScreenContent(
         viewModel = DefaultRemoveNetworkViewModel(
@@ -148,6 +149,7 @@ private fun RemoveNetworkScreenContentLightPreview() {
 
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
+@Suppress("UnusedPrivateMember")
 private fun RemoveNetworkScreenContentDarkPreview() {
     RemoveNetworkScreenContent(
         viewModel = DefaultRemoveNetworkViewModel(

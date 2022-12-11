@@ -44,12 +44,14 @@ internal fun WisefySampleToolbar() {
 
 @Preview(showBackground = true)
 @Composable
-internal fun WisefySampleToolbarLightPreview() {
+@Suppress("UnusedPrivateMember")
+private fun WisefySampleToolbarLightPreview() {
     WisefySampleToolbar()
 }
 
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-internal fun WisefySampleToolbarDarkPreview() {
+@Suppress("UnusedPrivateMember")
+private fun WisefySampleToolbarDarkPreview() {
     WisefySampleToolbar()
 }

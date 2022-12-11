@@ -45,6 +45,7 @@ internal fun MiscScreen(
 
 @Preview(showBackground = true)
 @Composable
+@Suppress("UnusedPrivateMember")
 private fun MiscScreenLightPreview() {
     MiscScreen(
         wisefy = ComposablePreviewWisefy(),
@@ -55,6 +56,7 @@ private fun MiscScreenLightPreview() {
 
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
+@Suppress("UnusedPrivateMember")
 private fun MiscScreenDarkPreview() {
     MiscScreen(
         wisefy = ComposablePreviewWisefy(),

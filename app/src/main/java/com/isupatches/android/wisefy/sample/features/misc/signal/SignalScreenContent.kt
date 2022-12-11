@@ -143,6 +143,7 @@ private fun SignalScreenCompareSignalLevelInputRows(
 
 @Preview(showBackground = true)
 @Composable
+@Suppress("UnusedPrivateMember")
 private fun SignalScreenContentLightPreview() {
     SignalScreenContent(
         viewModel = DefaultSignalViewModel(
@@ -155,6 +156,7 @@ private fun SignalScreenContentLightPreview() {
 
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
+@Suppress("UnusedPrivateMember")
 private fun SignalScreenContentDarkPreview() {
     SignalScreenContent(
         viewModel = DefaultSignalViewModel(

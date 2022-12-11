@@ -62,12 +62,14 @@ internal fun WisefyPrimaryButton(
 
 @Preview(showBackground = true)
 @Composable
+@Suppress("UnusedPrivateMember")
 private fun WisefyPrimaryButtonLightPreview() {
     WisefyPrimaryButton(R.string.wisefy) { }
 }
 
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
+@Suppress("UnusedPrivateMember")
 private fun WisefyPrimaryButtonDarkPreview() {
     WisefyPrimaryButton(R.string.wisefy) { }
 }

@@ -250,6 +250,7 @@ private fun AddNetworkInputRows(
 
 @Preview(showBackground = true)
 @Composable
+@Suppress("UnusedPrivateMember")
 private fun AddNetworkScreenContentLightPreview() {
     AddNetworkScreenContent(
         viewModel = DefaultAddNetworkViewModel(
@@ -263,6 +264,7 @@ private fun AddNetworkScreenContentLightPreview() {
 
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
+@Suppress("UnusedPrivateMember")
 private fun AddNetworkScreenContentDarkPreview() {
     AddNetworkScreenContent(
         viewModel = DefaultAddNetworkViewModel(

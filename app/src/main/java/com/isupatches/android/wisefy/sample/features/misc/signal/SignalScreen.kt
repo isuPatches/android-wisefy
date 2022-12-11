@@ -22,7 +22,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.isupatches.android.wisefy.WisefyApi
 import com.isupatches.android.wisefy.sample.ComposablePreviewWisefy
-import com.isupatches.android.wisefy.sample.features.add.AddNetworkScreen
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleLoadingIndicator
 import com.isupatches.android.wisefy.sample.util.DefaultSdkUtil
 import com.isupatches.android.wisefy.sample.util.SdkUtil
@@ -46,6 +45,7 @@ internal fun SignalScreen(
 
 @Preview(showBackground = true)
 @Composable
+@Suppress("UnusedPrivateMember")
 private fun SignalScreenLightPreview() {
     SignalScreen(
         wisefy = ComposablePreviewWisefy(),
@@ -55,6 +55,7 @@ private fun SignalScreenLightPreview() {
 
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
+@Suppress("UnusedPrivateMember")
 private fun SignalScreenDarkPreview() {
     SignalScreen(
         wisefy = ComposablePreviewWisefy(),

@@ -15,6 +15,7 @@
  */
 package com.isupatches.android.wisefy.sample.ui.components.navigation
 
+import android.content.res.Configuration
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
@@ -22,11 +23,14 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.isupatches.android.wisefy.sample.ui.primitives.WisefySampleTypography
+import com.isupatches.android.wisefy.sample.ui.theme.WisefySampleTheme
 
 private const val UNSELECTED_NAVIGATION_ITEM_ALPHA = 0.45f
 
@@ -80,5 +84,23 @@ internal fun WisefySampleBottomNavigation(navController: NavController) {
                 }
             )
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+@Suppress("UnusedPrivateMember")
+private fun WisefySampleBottomNavigationLightPreview() {
+    WisefySampleTheme {
+        WisefySampleBottomNavigation(navController = NavController(LocalContext.current))
+    }
+}
+
+@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+@Suppress("UnusedPrivateMember")
+private fun WisefySampleBottomNavigationDarkPreview() {
+    WisefySampleTheme {
+        WisefySampleBottomNavigation(navController = NavController(LocalContext.current))
     }
 }

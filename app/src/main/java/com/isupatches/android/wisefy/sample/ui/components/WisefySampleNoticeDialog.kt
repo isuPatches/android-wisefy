@@ -86,7 +86,8 @@ internal fun WisefySampleNoticeDialog(
 
 @Preview(showBackground = true)
 @Composable
-internal fun WisefySampleNoticeDialogLightPreview() {
+@Suppress("UnusedPrivateMember")
+private fun WisefySampleNoticeDialogLightPreview() {
     WisefySampleNoticeDialog(
         R.string.permission_error,
         R.string.permission_error_add_open_network,
@@ -96,7 +97,8 @@ internal fun WisefySampleNoticeDialogLightPreview() {
 
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-internal fun WisefySampleNoticeDialogDarkPreview() {
+@Suppress("UnusedPrivateMember")
+private fun WisefySampleNoticeDialogDarkPreview() {
     WisefySampleNoticeDialog(
         R.string.permission_error,
         R.string.permission_error_add_open_network,

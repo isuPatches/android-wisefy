@@ -41,12 +41,14 @@ internal fun RemoveNetworkScreen(
 
 @Preview(showBackground = true)
 @Composable
+@Suppress("UnusedPrivateMember")
 private fun RemoveNetworkScreenLightPreview() {
     RemoveNetworkScreen(ComposablePreviewWisefy())
 }
 
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
+@Suppress("UnusedPrivateMember")
 private fun RemoveNetworkScreenDarkPreview() {
     RemoveNetworkScreen(ComposablePreviewWisefy())
 }

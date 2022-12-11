@@ -386,7 +386,7 @@ private fun SearchScreenTimeoutInputRows(
             WisefySampleSlider(
                 valueRange = object : ClosedFloatingPointRange<Float> {
                     override fun lessThanOrEquals(a: Float, b: Float): Boolean {
-                        return a < b
+                        return a <= b
                     }
 
                     override val start: Float = MIN_SEARCH_TIMEOUT
@@ -417,6 +417,7 @@ private fun SearchScreenTimeoutLabelRow(timeout: () -> Int) {
 
 @Preview(showBackground = true)
 @Composable
+@Suppress("UnusedPrivateMember")
 private fun SearchScreenContentLightPreview() {
     SearchScreenContent(
         viewModel = DefaultSearchViewModel(
@@ -428,6 +429,7 @@ private fun SearchScreenContentLightPreview() {
 
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
+@Suppress("UnusedPrivateMember")
 private fun SearchScreenContentDarkPreview() {
     SearchScreenContent(
         viewModel = DefaultSearchViewModel(

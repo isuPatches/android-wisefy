@@ -25,27 +25,21 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.isupatches.android.wisefy.sample.R
 import com.isupatches.android.wisefy.sample.ui.primitives.WisefySampleTypography
+import com.isupatches.android.wisefy.sample.ui.theme.WisefySampleTheme
 
 @Composable
-internal fun WisefySampleDialogTitleLabel(@StringRes stringResId: Int, modifier: Modifier = Modifier) {
-    Text(
-        text = stringResource(stringResId),
-        style = WisefySampleTypography.h5,
-        color = MaterialTheme.colors.primary,
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-internal fun WisefySampleDialogTitleLabelLightPreview() {
-    WisefySampleDialogTitleLabel(R.string.wisefy)
-}
-
-@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
-@Composable
-internal fun WisefySampleDialogTitleLabelDarkPreview() {
-    WisefySampleDialogTitleLabel(R.string.wisefy)
+internal fun WisefySampleDialogTitleLabel(
+    @StringRes stringResId: Int,
+    modifier: Modifier = Modifier
+) {
+    WisefySampleTheme {
+        Text(
+            text = stringResource(stringResId),
+            style = WisefySampleTypography.h5,
+            color = MaterialTheme.colors.primary,
+            modifier = modifier
+        )
+    }
 }
 
 @Composable
@@ -54,51 +48,34 @@ internal fun WisefySampleDialogBodyLabel(
     modifier: Modifier = Modifier,
     vararg formatArgs: Any
 ) {
-    val text = if (formatArgs.any()) {
-        stringResource(stringResId, *formatArgs)
-    } else {
-        stringResource(stringResId)
+    WisefySampleTheme {
+        val text = if (formatArgs.any()) {
+            stringResource(stringResId, *formatArgs)
+        } else {
+            stringResource(stringResId)
+        }
+        Text(
+            text = text,
+            style = WisefySampleTypography.body1,
+            color = MaterialTheme.colors.onSurface,
+            modifier = modifier
+        )
     }
-    Text(
-        text = text,
-        style = WisefySampleTypography.body1,
-        color = MaterialTheme.colors.onSurface,
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-internal fun WisefySampleDialogBodyLabelLightPreview() {
-    WisefySampleDialogBodyLabel(R.string.wisefy)
-}
-
-@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
-@Composable
-internal fun WisefySampleDialogBodyLabelDarkPreview() {
-    WisefySampleDialogBodyLabel(R.string.wisefy)
 }
 
 @Composable
-internal fun WisefySampleBodyLabel(@StringRes stringResId: Int, modifier: Modifier = Modifier) {
-    Text(
-        text = stringResource(stringResId),
-        style = WisefySampleTypography.body1,
-        color = MaterialTheme.colors.onBackground,
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-internal fun WisefySampleBodyLabelLightPreview() {
-    WisefySampleBodyLabel(R.string.wisefy)
-}
-
-@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
-@Composable
-internal fun WisefySampleBodyLabelDarkPreview() {
-    WisefySampleBodyLabel(R.string.wisefy)
+internal fun WisefySampleBodyLabel(
+    @StringRes stringResId: Int,
+    modifier: Modifier = Modifier
+) {
+    WisefySampleTheme {
+        Text(
+            text = stringResource(stringResId),
+            style = WisefySampleTypography.body1,
+            color = MaterialTheme.colors.onBackground,
+            modifier = modifier
+        )
+    }
 }
 
 @Composable
@@ -106,44 +83,97 @@ internal fun WisefySampleSubHeaderLabel(
     @StringRes stringResId: Int,
     modifier: Modifier = Modifier
 ) {
-    Text(
-        text = stringResource(stringResId),
-        style = WisefySampleTypography.h6,
-        color = MaterialTheme.colors.onBackground,
-        modifier = modifier
-    )
+    WisefySampleTheme {
+        Text(
+            text = stringResource(stringResId),
+            style = WisefySampleTypography.h6,
+            color = MaterialTheme.colors.onBackground,
+            modifier = modifier
+        )
+    }
+}
+
+@Composable
+internal fun WisefySampleCaptionLabel(
+    text: String,
+    modifier: Modifier = Modifier
+) {
+    WisefySampleTheme {
+        Text(
+            text = text,
+            style = WisefySampleTypography.caption,
+            color = MaterialTheme.colors.onBackground,
+            modifier = modifier
+        )
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
-internal fun WisefySampleSubHeaderLabelLightPreview() {
+@Suppress("UnusedPrivateMember")
+private fun WisefySampleDialogTitleLabelLightPreview() {
+    WisefySampleDialogTitleLabel(R.string.wisefy)
+}
+
+@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+@Suppress("UnusedPrivateMember")
+private fun WisefySampleDialogTitleLabelDarkPreview() {
+    WisefySampleDialogTitleLabel(R.string.wisefy)
+}
+
+@Preview(showBackground = true)
+@Composable
+@Suppress("UnusedPrivateMember")
+private fun WisefySampleDialogBodyLabelLightPreview() {
+    WisefySampleDialogBodyLabel(R.string.wisefy)
+}
+
+@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+@Suppress("UnusedPrivateMember")
+private fun WisefySampleDialogBodyLabelDarkPreview() {
+    WisefySampleDialogBodyLabel(R.string.wisefy)
+}
+
+@Preview(showBackground = true)
+@Composable
+@Suppress("UnusedPrivateMember")
+private fun WisefySampleSubHeaderLabelLightPreview() {
     WisefySampleSubHeaderLabel(R.string.wisefy)
 }
 
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-internal fun WisefySampleSubHeaderLabelDarkPreview() {
+@Suppress("UnusedPrivateMember")
+private fun WisefySampleSubHeaderLabelDarkPreview() {
     WisefySampleSubHeaderLabel(R.string.wisefy)
-}
-
-@Composable
-internal fun WisefySampleCaptionLabel(text: String, modifier: Modifier) {
-    Text(
-        text = text,
-        style = WisefySampleTypography.caption,
-        color = MaterialTheme.colors.onBackground,
-        modifier = modifier
-    )
 }
 
 @Preview(showBackground = true)
 @Composable
-internal fun WisefySampleCaptionLabelLightPreview() {
+@Suppress("UnusedPrivateMember")
+private fun WisefySampleBodyLabelLightPreview() {
+    WisefySampleBodyLabel(R.string.wisefy)
+}
+
+@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+@Suppress("UnusedPrivateMember")
+private fun WisefySampleBodyLabelDarkPreview() {
+    WisefySampleBodyLabel(R.string.wisefy)
+}
+
+@Preview(showBackground = true)
+@Composable
+@Suppress("UnusedPrivateMember")
+private fun WisefySampleCaptionLabelLightPreview() {
     WisefySampleCaptionLabel(stringResource(id = R.string.wisefy), Modifier)
 }
 
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-internal fun WisefySampleCaptionLabelDarkPreview() {
+@Suppress("UnusedPrivateMember")
+private fun WisefySampleCaptionLabelDarkPreview() {
     WisefySampleCaptionLabel(stringResource(id = R.string.wisefy), Modifier)
 }

@@ -198,6 +198,7 @@ private fun MiscScreenOptionRow(option: MiscScreenOption, onClick: (MiscScreenOp
 
 @Preview(showBackground = true)
 @Composable
+@Suppress("UnusedPrivateMember")
 private fun MiscScreenContentLightPreview() {
     MiscScreenContent(
         viewModel = DefaultMiscViewModel(
@@ -213,6 +214,7 @@ private fun MiscScreenContentLightPreview() {
 
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
+@Suppress("UnusedPrivateMember")
 private fun MiscScreenContentDarkPreview() {
     MiscScreenContent(
         viewModel = DefaultMiscViewModel(

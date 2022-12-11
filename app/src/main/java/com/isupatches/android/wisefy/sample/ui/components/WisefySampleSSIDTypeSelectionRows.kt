@@ -15,44 +15,72 @@
  */
 package com.isupatches.android.wisefy.sample.ui.components
 
+import android.content.res.Configuration
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import com.isupatches.android.wisefy.sample.R
 import com.isupatches.android.wisefy.sample.entities.SSIDType
 import com.isupatches.android.wisefy.sample.ui.primitives.WisefySampleSizes
+import com.isupatches.android.wisefy.sample.ui.theme.WisefySampleTheme
 
 @Composable
 internal fun WisefySampleSSIDTypeSelectionRows(
     ssidType: () -> SSIDType,
     onSSIDTypeChanged: (SSIDType) -> Unit
 ) {
-    val currentSSIDType = ssidType()
-    Row {
-        WisefySampleSubHeaderLabel(
-            modifier = Modifier.padding(top = WisefySampleSizes.Large),
-            stringResId = R.string.ssid_type
-        )
-    }
-    Row(
-        modifier = Modifier.padding(top = WisefySampleSizes.Medium),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        WisefySampleRadioButton(
-            isSelected = currentSSIDType == SSIDType.SSID,
-            onClick = {
-                onSSIDTypeChanged(SSIDType.SSID)
+    WisefySampleTheme {
+        Column {
+            val currentSSIDType = ssidType()
+            Row {
+                WisefySampleSubHeaderLabel(
+                    modifier = Modifier.padding(top = WisefySampleSizes.Large),
+                    stringResId = R.string.ssid_type
+                )
             }
-        )
-        WisefySampleBodyLabel(stringResId = R.string.ssid)
-        WisefySampleRadioButton(
-            isSelected = currentSSIDType == SSIDType.BSSID,
-            onClick = {
-                onSSIDTypeChanged(SSIDType.BSSID)
+            Row(
+                modifier = Modifier.padding(top = WisefySampleSizes.Medium),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                WisefySampleRadioButton(
+                    isSelected = currentSSIDType == SSIDType.SSID,
+                    onClick = {
+                        onSSIDTypeChanged(SSIDType.SSID)
+                    }
+                )
+                WisefySampleBodyLabel(stringResId = R.string.ssid)
+                WisefySampleRadioButton(
+                    isSelected = currentSSIDType == SSIDType.BSSID,
+                    onClick = {
+                        onSSIDTypeChanged(SSIDType.BSSID)
+                    }
+                )
+                WisefySampleBodyLabel(stringResId = R.string.bssid)
             }
-        )
-        WisefySampleBodyLabel(stringResId = R.string.bssid)
+        }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+@Suppress("UnusedPrivateMember")
+private fun WisefySampleSSIDTypeSelectionRowsLightPreview() {
+    WisefySampleSSIDTypeSelectionRows(
+        onSSIDTypeChanged = { },
+        ssidType = { SSIDType.SSID }
+    )
+}
+
+@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+@Suppress("UnusedPrivateMember")
+private fun WisefySampleSSIDTypeSelectionRowsDarkPreview() {
+    WisefySampleSSIDTypeSelectionRows(
+        onSSIDTypeChanged = { },
+        ssidType = { SSIDType.SSID }
+    )
 }

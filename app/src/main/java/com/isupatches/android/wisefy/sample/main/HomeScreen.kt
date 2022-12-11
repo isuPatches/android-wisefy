@@ -86,12 +86,14 @@ internal fun HomeScreen() {
 
 @Preview(showBackground = true)
 @Composable
-internal fun HomeScreenLayoutLightPreview() {
+@Suppress("UnusedPrivateMember")
+private fun HomeScreenLayoutLightPreview() {
     HomeScreen()
 }
 
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-internal fun HomeScreenLayoutDarkPreview() {
+@Suppress("UnusedPrivateMember")
+private fun HomeScreenLayoutDarkPreview() {
     HomeScreen()
 }

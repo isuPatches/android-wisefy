@@ -246,6 +246,7 @@ internal fun MiscScreenDialogContent(
 
 @Preview(showBackground = true)
 @Composable
+@Suppress("UnusedPrivateMember")
 private fun MiscScreenDialogContentLightPreview(
     @PreviewParameter(MiscScreenDialogStatePreviewParameterProvider::class) dialogState: MiscDialogState
 ) {
@@ -260,6 +261,7 @@ private fun MiscScreenDialogContentLightPreview(
 
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
+@Suppress("UnusedPrivateMember")
 private fun MiscScreenDialogContentDarkPreview(
     @PreviewParameter(MiscScreenDialogStatePreviewParameterProvider::class) dialogState: MiscDialogState
 ) {

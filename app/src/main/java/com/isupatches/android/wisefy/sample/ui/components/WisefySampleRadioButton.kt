@@ -19,23 +19,28 @@ import android.content.res.Configuration
 import androidx.compose.material.RadioButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import com.isupatches.android.wisefy.sample.ui.theme.WisefySampleTheme
 
 @Composable
 internal fun WisefySampleRadioButton(
     isSelected: Boolean,
     onClick: () -> Unit
 ) {
-    RadioButton(selected = isSelected, onClick = onClick)
+    WisefySampleTheme {
+        RadioButton(selected = isSelected, onClick = onClick)
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
-internal fun WisefySampleRadioButtonLightPreview() {
+@Suppress("UnusedPrivateMember")
+private fun WisefySampleRadioButtonLightPreview() {
     WisefySampleRadioButton(isSelected = true, onClick = { })
 }
 
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-internal fun WisefySampleRadioButtonDarkPreview() {
+@Suppress("UnusedPrivateMember")
+private fun WisefySampleRadioButtonDarkPreview() {
     WisefySampleRadioButton(isSelected = true, onClick = { })
 }

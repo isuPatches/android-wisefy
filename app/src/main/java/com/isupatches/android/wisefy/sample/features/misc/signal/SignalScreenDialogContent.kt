@@ -110,6 +110,7 @@ internal fun SignalScreenDialogContent(
 
 @Preview(showBackground = true)
 @Composable
+@Suppress("UnusedPrivateMember")
 private fun SignalScreenDialogContentLightPreview(
     @PreviewParameter(SignalScreenDialogStatePreviewParameterProvider::class) dialogState: SignalDialogState
 ) {
@@ -125,6 +126,7 @@ private fun SignalScreenDialogContentLightPreview(
 
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
+@Suppress("UnusedPrivateMember")
 private fun SignalScreenDialogContentDarkPreview(
     @PreviewParameter(SignalScreenDialogStatePreviewParameterProvider::class) dialogState: SignalDialogState
 ) {

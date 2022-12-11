@@ -45,6 +45,7 @@ internal fun AddNetworkScreen(
 
 @Preview(showBackground = true)
 @Composable
+@Suppress("UnusedPrivateMember")
 private fun AddNetworkScreenLightPreview() {
     AddNetworkScreen(
         wisefy = ComposablePreviewWisefy(),
@@ -54,6 +55,7 @@ private fun AddNetworkScreenLightPreview() {
 
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
+@Suppress("UnusedPrivateMember")
 private fun AddNetworkScreenDarkPreview() {
     AddNetworkScreen(
         wisefy = ComposablePreviewWisefy(),

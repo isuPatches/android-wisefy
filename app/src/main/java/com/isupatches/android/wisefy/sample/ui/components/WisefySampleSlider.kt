@@ -24,6 +24,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.tooling.preview.Preview
 import com.isupatches.android.wisefy.sample.ui.primitives.WisefySliderColors
+import com.isupatches.android.wisefy.sample.ui.theme.WisefySampleTheme
 
 @Composable
 internal fun WisefySampleSlider(
@@ -31,19 +32,21 @@ internal fun WisefySampleSlider(
     onValueChange: (Float) -> Unit,
     onValueChangeFinished: (Float) -> Unit
 ) {
-    var sliderPosition by remember { mutableStateOf(0f) }
-    Slider(
-        value = sliderPosition,
-        valueRange = valueRange,
-        onValueChange = {
-            sliderPosition = it
-            onValueChange(it)
-        },
-        onValueChangeFinished = {
-            onValueChangeFinished(sliderPosition)
-        },
-        colors = WisefySliderColors()
-    )
+    WisefySampleTheme {
+        var sliderPosition by remember { mutableStateOf(0f) }
+        Slider(
+            value = sliderPosition,
+            valueRange = valueRange,
+            onValueChange = {
+                sliderPosition = it
+                onValueChange(it)
+            },
+            onValueChangeFinished = {
+                onValueChangeFinished(sliderPosition)
+            },
+            colors = WisefySliderColors()
+        )
+    }
 }
 
 private const val PREVIEW_START_VALUE = 0f
@@ -51,11 +54,12 @@ private const val PREVIEW_END_VALUE = 30f
 
 @Preview(showBackground = true)
 @Composable
-internal fun WisefySampleSliderLightPreview() {
+@Suppress("UnusedPrivateMember")
+private fun WisefySampleSliderLightPreview() {
     WisefySampleSlider(
         valueRange = object : ClosedFloatingPointRange<Float> {
             override fun lessThanOrEquals(a: Float, b: Float): Boolean {
-                return a < b
+                return a <= b
             }
 
             override val start: Float = PREVIEW_START_VALUE
@@ -68,11 +72,12 @@ internal fun WisefySampleSliderLightPreview() {
 
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-internal fun WisefySampleSliderDarkPreview() {
+@Suppress("UnusedPrivateMember")
+private fun WisefySampleSliderDarkPreview() {
     WisefySampleSlider(
         valueRange = object : ClosedFloatingPointRange<Float> {
             override fun lessThanOrEquals(a: Float, b: Float): Boolean {
-                return a < b
+                return a <= b
             }
 
             override val start: Float = PREVIEW_START_VALUE

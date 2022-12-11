@@ -41,12 +41,14 @@ internal fun SearchScreen(
 
 @Preview(showBackground = true)
 @Composable
+@Suppress("UnusedPrivateMember")
 private fun SearchScreenLightPreview() {
     SearchScreen(ComposablePreviewWisefy())
 }
 
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
+@Suppress("UnusedPrivateMember")
 private fun SearchScreenDarkPreview() {
     SearchScreen(ComposablePreviewWisefy())
 }

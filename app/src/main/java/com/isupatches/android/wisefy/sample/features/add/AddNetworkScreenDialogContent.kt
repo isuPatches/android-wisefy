@@ -156,6 +156,7 @@ internal fun AddNetworkScreenDialogContent(
 
 @Preview(showBackground = true)
 @Composable
+@Suppress("UnusedPrivateMember")
 private fun AddNetworkScreenDialogContentLightPreview(
     @PreviewParameter(AddNetworkDialogStatePreviewParameterProvider::class) dialogState: AddNetworkDialogState
 ) {
@@ -171,6 +172,7 @@ private fun AddNetworkScreenDialogContentLightPreview(
 
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
+@Suppress("UnusedPrivateMember")
 private fun AddNetworkScreenDialogContentDarkPreview(
     @PreviewParameter(AddNetworkDialogStatePreviewParameterProvider::class) dialogState: AddNetworkDialogState
 ) {

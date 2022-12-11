@@ -37,12 +37,14 @@ internal fun WisefySampleLoadingIndicator(
 
 @Preview(showBackground = true)
 @Composable
-internal fun WisefySampleLoadingIndicatorLightPreview() {
+@Suppress("UnusedPrivateMember")
+private fun WisefySampleLoadingIndicatorLightPreview() {
     WisefySampleLoadingIndicator { true }
 }
 
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-internal fun WisefySampleLoadingIndicatorDarkPreview() {
+@Suppress("UnusedPrivateMember")
+private fun WisefySampleLoadingIndicatorDarkPreview() {
     WisefySampleLoadingIndicator { true }
 }

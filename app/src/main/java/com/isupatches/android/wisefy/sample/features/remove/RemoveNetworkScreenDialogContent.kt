@@ -89,13 +89,14 @@ internal fun RemoveNetworkScreenDialogContent(
 
 @Preview(showBackground = true)
 @Composable
+@Suppress("UnusedPrivateMember")
 private fun RemoveNetworkScreenDialogContentLightPreview(
     @PreviewParameter(RemoveNetworkDialogStatePreviewParameterProvider::class) dialogState: RemoveNetworkDialogState
 ) {
     RemoveNetworkScreenDialogContent(
         viewModel = DefaultRemoveNetworkViewModel(
             context = LocalContext.current,
-            wisefy = ComposablePreviewWisefy(),
+            wisefy = ComposablePreviewWisefy()
         ),
         dialogState = { dialogState }
     )
@@ -103,13 +104,14 @@ private fun RemoveNetworkScreenDialogContentLightPreview(
 
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
+@Suppress("UnusedPrivateMember")
 private fun RemoveNetworkScreenDialogContentDarkPreview(
     @PreviewParameter(RemoveNetworkDialogStatePreviewParameterProvider::class) dialogState: RemoveNetworkDialogState
 ) {
     RemoveNetworkScreenDialogContent(
         viewModel = DefaultRemoveNetworkViewModel(
             context = LocalContext.current,
-            wisefy = ComposablePreviewWisefy(),
+            wisefy = ComposablePreviewWisefy()
         ),
         dialogState = { dialogState }
     )
