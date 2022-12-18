@@ -15,6 +15,9 @@
  */
 package com.isupatches.android.wisefy.ktx
 
+import android.Manifest.permission.ACCESS_WIFI_STATE
+import android.Manifest.permission.CHANGE_WIFI_STATE
+import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.WisefyApi
 import com.isupatches.android.wisefy.core.exceptions.WisefyException
 import com.isupatches.android.wisefy.wifi.callbacks.DisableWifiCallbacks
@@ -47,6 +50,7 @@ import kotlin.coroutines.suspendCoroutine
  * @since 07/2022, version 5.0.0
  */
 @Throws(WisefyException::class)
+@RequiresPermission(CHANGE_WIFI_STATE)
 suspend fun WisefyApi.disableWifiAsync(request: DisableWifiRequest): DisableWifiResult =
     suspendCoroutine { continuation ->
         disableWifi(
@@ -86,6 +90,7 @@ suspend fun WisefyApi.disableWifiAsync(request: DisableWifiRequest): DisableWifi
  * @since 07/2022, version 5.0.0
  */
 @Throws(WisefyException::class)
+@RequiresPermission(CHANGE_WIFI_STATE)
 suspend fun WisefyApi.enableWifiAsync(request: EnableWifiRequest): EnableWifiResult =
     suspendCoroutine { continuation ->
         enableWifi(
@@ -125,6 +130,7 @@ suspend fun WisefyApi.enableWifiAsync(request: EnableWifiRequest): EnableWifiRes
  * @since 07/2022, version 5.0.0
  */
 @Throws(WisefyException::class)
+@RequiresPermission(ACCESS_WIFI_STATE)
 suspend fun WisefyApi.isWifiEnabledAsync(query: IsWifiEnabledQuery = IsWifiEnabledQuery()): IsWifiEnabledResult =
     suspendCoroutine { continuation ->
         isWifiEnabled(

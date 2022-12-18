@@ -43,9 +43,9 @@ There are also new more modular artifacts published so that individual pieces of
 - `com.isupatches.android.wisefy:accesspoints:<LATEST VERSION>`
 - `com.isupatches.android.wisefy:addnetwork:<LATEST VERSION>`
 - `com.isupatches.android.wisefy:core:<LATEST VERSION>`
-- `com.isupatches.android.wisefy:networkconnection:<LATEST VERSION>` *Note* - Depends on :networkconnectionstatus and :savednetworks
+- `com.isupatches.android.wisefy:networkconnection:<LATEST VERSION>` *Note* - Depends on :networkinfo and :savednetworks
 - `com.isupatches.android.wisefy:networkinfo:<LATEST VERSION>`
-- `com.isupatches.android.wisefy:removenetwork:<LATEST VERSION>` *Note* - Depends on :savednetworks
+- `com.isupatches.android.wisefy:removenetwork:<LATEST VERSION>`
 - `com.isupatches.android.wisefy:savednetworks:<LATEST VERSION>`
 - `com.isupatches.android.wisefy:signal:<LATEST VERSION>`
 - `com.isupatches.android.wisefy:wifi:<LATEST VERSION>`
@@ -59,7 +59,7 @@ Here are the descriptions of what functionality each artifact provides:
 - `:networkinfo` For information about the device's current network and current connectivity status
 - `:removenetwork` For removing a Wifi network
 - `:savednetworks` For getting and searching for saved networks
-- `:signal` For calculating signal level and comparing signal level
+- `:signal` For calculating a signal level and comparing signal levels
 - `:wifi` For enabling and disabling Wifi
 
 ## KTX Artifact
@@ -104,7 +104,7 @@ I hope you enjoy the rewrite and please create an issue if you see anything odd 
   - [Declaring Versions and Ranges](https://docs.gradle.org/current/userguide/single_versions.html)
 - Sample app re-written
   - Down with SharedPreferences, onward to DataStore
-  - Written in Compose
+  - Written in Compose complete with previews
   - Niceties like progress bars added
   - Better input validation
 

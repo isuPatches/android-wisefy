@@ -15,6 +15,9 @@
  */
 package com.isupatches.android.wisefy.wifi
 
+import android.Manifest.permission.ACCESS_WIFI_STATE
+import android.Manifest.permission.CHANGE_WIFI_STATE
+import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.wifi.callbacks.DisableWifiCallbacks
 import com.isupatches.android.wisefy.wifi.callbacks.EnableWifiCallbacks
 import com.isupatches.android.wisefy.wifi.callbacks.IsWifiEnabledCallbacks
@@ -47,6 +50,7 @@ interface WifiApiAsync {
      * @author Patches Klinefelter
      * @since 07/2022, version 5.0.0
      */
+    @RequiresPermission(CHANGE_WIFI_STATE)
     fun disableWifi(request: DisableWifiRequest, callbacks: DisableWifiCallbacks?)
 
     /**
@@ -66,6 +70,7 @@ interface WifiApiAsync {
      * @author Patches Klinefelter
      * @since 07/2022, version 5.0.0
      */
+    @RequiresPermission(CHANGE_WIFI_STATE)
     fun enableWifi(request: EnableWifiRequest, callbacks: EnableWifiCallbacks?)
 
     /**
@@ -83,5 +88,6 @@ interface WifiApiAsync {
      * @author Patches Klinefelter
      * @since 07/2022, version 5.0.0
      */
+    @RequiresPermission(ACCESS_WIFI_STATE)
     fun isWifiEnabled(query: IsWifiEnabledQuery = IsWifiEnabledQuery(), callbacks: IsWifiEnabledCallbacks?)
 }

@@ -22,20 +22,20 @@ import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
 import com.isupatches.android.wisefy.accesspoints.os.apis.DefaultAccessPointsApi
+import com.isupatches.android.wisefy.core.bssidWithoutQuotes
+import com.isupatches.android.wisefy.core.hasBSSIDMatchingRegex
+import com.isupatches.android.wisefy.core.hasSSIDMatchingRegex
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
-import com.isupatches.android.wisefy.core.util.SdkUtil
+import com.isupatches.android.wisefy.core.ssidWithoutQuotes
 import com.isupatches.android.wisefy.core.util.rest
-import java.util.Locale
 
 /**
  * A default internal implementation for getting and searching for nearby access points through the Android OS.
  *
  * @param wifiManager The WifiManager instance to use
  * @param logger The [WisefyLogger] instance to use
- * @param sdkUtil The [SdkUtil] instance to use
  *
  * @see DefaultAccessPointsApi
- * @see SdkUtil
  * @see WisefyLogger
  *
  * @author Patches Klinefelter
@@ -43,8 +43,7 @@ import java.util.Locale
  */
 internal class DefaultAccessPointsApiImpl(
     private val wifiManager: WifiManager,
-    private val logger: WisefyLogger,
-    private val sdkUtil: SdkUtil
+    private val logger: WisefyLogger
 ) : DefaultAccessPointsApi {
 
     companion object {
@@ -65,7 +64,13 @@ internal class DefaultAccessPointsApiImpl(
         return if (filterDuplicates) {
             removeEntriesWithLowerSignalStrength(accessPoints = accessPointsTemp)
         } else {
-            accessPointsTemp.map { scanResult -> AccessPointData(rawValue = scanResult) }
+            accessPointsTemp.map { scanResult ->
+                AccessPointData(
+                    rawValue = scanResult,
+                    ssid = scanResult.ssidWithoutQuotes,
+                    bssid = scanResult.bssidWithoutQuotes
+                )
+            }
         }
     }
 
@@ -98,22 +103,11 @@ internal class DefaultAccessPointsApiImpl(
     }
 
     private fun accessPointSSIDMatchesRegex(accessPoint: ScanResult?, regex: String): Boolean {
-        val ssid = accessPoint?.getSSID() ?: ""
-        logger.d(
-            LOG_TAG,
-            "accessPoint. SSID: %s, regexForSSID: %s",
-            ssid,
-            regex
-        )
-        return ssid.isNotBlank() && ssid.matches(regex.toRegex())
+        return accessPoint?.hasSSIDMatchingRegex(regex) == true
     }
 
     private fun accessPointBSSIDMatchesRegex(accessPoint: ScanResult?, regex: String): Boolean {
-        logger.d(
-            LOG_TAG,
-            "accessPoint. SSID: %s, regexForBSSID: %s".format(Locale.US, accessPoint?.BSSID, regex)
-        )
-        return accessPoint?.BSSID?.matches(regex.toRegex()) ?: false
+        return accessPoint?.hasBSSIDMatchingRegex(regex) == true
     }
 
     private fun hasHighestSignalStrength(
@@ -121,13 +115,13 @@ internal class DefaultAccessPointsApiImpl(
         currentAccessPoint: ScanResult
     ): Boolean {
         for (accessPoint in accessPoints) {
-            if (accessPoint.getSSID().isNotBlank() &&
-                accessPoint.getSSID().equals(currentAccessPoint.getSSID(), ignoreCase = true)
+            if (accessPoint.ssidWithoutQuotes.isNotBlank() &&
+                accessPoint.ssidWithoutQuotes.equals(currentAccessPoint.ssidWithoutQuotes, ignoreCase = true)
             ) {
                 val comparisonResult = WifiManager.compareSignalLevel(accessPoint.level, currentAccessPoint.level)
                 logger.d(
                     LOG_TAG,
-                    "Current RSSI: %d\nAccess point RSSI: %d\nComparison result: %d",
+                    "Current RSSI: %d. Access point RSSI: %d. Comparison result: %d",
                     currentAccessPoint.level,
                     accessPoint.level,
                     comparisonResult
@@ -148,8 +142,8 @@ internal class DefaultAccessPointsApiImpl(
             var found = false
             for (i in accessPointsToReturn.indices) {
                 val accessPointData = accessPointsToReturn[i]
-                val ssid1 = accessPoint.getSSID()
-                val ssid2 = accessPointData.rawValue.getSSID()
+                val ssid1 = accessPoint.ssidWithoutQuotes
+                val ssid2 = accessPointData.rawValue.ssidWithoutQuotes
                 logger.d(LOG_TAG, "SSID 1: %s, SSID 2: %s", ssid1, ssid2)
                 if (ssid1.isNotBlank() && ssid1.equals(ssid2, ignoreCase = true)) {
                     found = true
@@ -159,21 +153,31 @@ internal class DefaultAccessPointsApiImpl(
                     )
                     logger.d(
                         LOG_TAG,
-                        "Access point 1 RSSI: %d\nAccess point 2 RSSI: %d\nComparison result: %d",
+                        "Access point 1 RSSI: %d. Access point 2 RSSI: %d. Comparison result: %d",
                         accessPointData.rssi,
                         accessPoint.level,
                         comparisonResult
                     )
                     if (comparisonResult > 0) {
                         logger.d(LOG_TAG, "New result has a higher or same signal strength, swapping")
-                        accessPointsToReturn[i] = AccessPointData(accessPoint)
+                        accessPointsToReturn[i] = AccessPointData(
+                            rawValue = accessPoint,
+                            ssid = accessPoint.ssidWithoutQuotes,
+                            bssid = accessPoint.bssidWithoutQuotes
+                        )
                     }
                 }
             }
 
             if (!found) {
                 logger.d(LOG_TAG, "Found new wifi network")
-                accessPointsToReturn.add(AccessPointData(accessPoint))
+                accessPointsToReturn.add(
+                    AccessPointData(
+                        rawValue = accessPoint,
+                        ssid = accessPoint.ssidWithoutQuotes,
+                        bssid = accessPoint.bssidWithoutQuotes
+                    )
+                )
             }
         }
         return accessPointsToReturn
@@ -186,7 +190,6 @@ internal class DefaultAccessPointsApiImpl(
     ): List<AccessPointData> {
         val matchingAccessPoints = ArrayList<AccessPointData>()
         val accessPointsTemp = wifiManager.scanResults
-
         if (accessPointsTemp == null || accessPointsTemp.isEmpty()) {
             return emptyList()
         }
@@ -195,10 +198,22 @@ internal class DefaultAccessPointsApiImpl(
             if (matcher(accessPoint)) {
                 if (filterDuplicates) {
                     if (hasHighestSignalStrength(accessPointsTemp, accessPoint)) {
-                        matchingAccessPoints.add(AccessPointData(rawValue = accessPoint))
+                        matchingAccessPoints.add(
+                            AccessPointData(
+                                rawValue = accessPoint,
+                                ssid = accessPoint.ssidWithoutQuotes,
+                                bssid = accessPoint.bssidWithoutQuotes
+                            )
+                        )
                     }
                 } else {
-                    matchingAccessPoints.add(AccessPointData(rawValue = accessPoint))
+                    matchingAccessPoints.add(
+                        AccessPointData(
+                            rawValue = accessPoint,
+                            ssid = accessPoint.ssidWithoutQuotes,
+                            bssid = accessPoint.bssidWithoutQuotes
+                        )
+                    )
                 }
             }
         }
@@ -226,14 +241,5 @@ internal class DefaultAccessPointsApiImpl(
             accessPointsTemp = scanForAccessPoints(filterDuplicates, matcher)
         }
         return accessPointsTemp
-    }
-
-    private fun ScanResult.getSSID(): String {
-        return if (sdkUtil.isAtLeastT()) {
-            wifiSsid?.toString()
-        } else {
-            @Suppress("Deprecation")
-            SSID
-        } ?: ""
     }
 }

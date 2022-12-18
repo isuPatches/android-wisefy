@@ -19,12 +19,17 @@ import androidx.navigation.NavHostController
 import com.isupatches.android.wisefy.sample.ui.components.navigation.WisefySampleNavGraph
 
 internal interface MiscScreenRouter {
+    fun openNearbyAccessPointsScreen()
     fun openSignalScreen()
 }
 
 internal class DefaultMiscScreenRouter(
     private val navController: NavHostController
 ) : MiscScreenRouter {
+
+    override fun openNearbyAccessPointsScreen() {
+        navController.navigate(WisefySampleNavGraph.Misc.NearbyAccessPoints.route)
+    }
 
     override fun openSignalScreen() {
         navController.navigate(WisefySampleNavGraph.Misc.Signal.route)

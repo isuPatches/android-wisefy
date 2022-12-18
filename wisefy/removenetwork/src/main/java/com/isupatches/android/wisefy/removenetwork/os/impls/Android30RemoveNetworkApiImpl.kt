@@ -15,13 +15,14 @@
  */
 package com.isupatches.android.wisefy.removenetwork.os.impls
 
-import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.CHANGE_WIFI_STATE
 import android.net.wifi.WifiManager
-import android.net.wifi.WifiNetworkSuggestion
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
+import com.isupatches.android.wisefy.core.hasBSSIDMatchingRegex
+import com.isupatches.android.wisefy.core.hasSSIDMatchingRegex
+import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.removenetwork.os.apis.Android30RemoveNetworkApi
 
 /**
@@ -36,11 +37,31 @@ import com.isupatches.android.wisefy.removenetwork.os.apis.Android30RemoveNetwor
  */
 @RequiresApi(Build.VERSION_CODES.R)
 internal class Android30RemoveNetworkApiImpl(
-    private val wifiManager: WifiManager
+    private val wifiManager: WifiManager,
+    private val logger: WisefyLogger
 ) : Android30RemoveNetworkApi {
 
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-    override fun removeNetwork(suggestion: WifiNetworkSuggestion): Int {
-        return wifiManager.removeNetworkSuggestions(listOf(suggestion))
+    companion object {
+        private const val LOG_TAG = "Android30RemoveNetworkApiImpl"
+    }
+
+    @RequiresPermission(CHANGE_WIFI_STATE)
+    override fun removeNetworkBySSID(regexForSSID: String): Int {
+        val networkToRemove = wifiManager.networkSuggestions.firstOrNull {
+            it.hasSSIDMatchingRegex(regexForSSID)
+        }
+        val result = networkToRemove?.let { wifiManager.removeNetworkSuggestions(listOf(it)) } ?: -1
+        logger.d(LOG_TAG, "Removing network suggestion.  Result: $result, networkToRemove: $networkToRemove")
+        return result
+    }
+
+    @RequiresPermission(CHANGE_WIFI_STATE)
+    override fun removeNetworkByBSSID(regexForBSSID: String): Int {
+        val networkToRemove = wifiManager.networkSuggestions.firstOrNull {
+            it.hasBSSIDMatchingRegex(regexForBSSID)
+        }
+        val result = networkToRemove?.let { wifiManager.removeNetworkSuggestions(listOf(it)) } ?: -1
+        logger.d(LOG_TAG, "Removing network suggestion.  Result: $result, networkToRemove: $networkToRemove")
+        return result
     }
 }

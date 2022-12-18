@@ -27,18 +27,9 @@ import androidx.annotation.RequiresPermission
  */
 internal interface DefaultRemoveNetworkApi {
 
-    /**
-     * A default internal API that is used to remove a network through the Android OS.
-     *
-     * *NOTE*
-     * - Returns for this are defined the same as `removeNetwork`:
-     *  https://developer.android.com/reference/android/net/wifi/WifiManager#removeNetwork(int)
-     *
-     * @return Boolean - Whether or not removing the network was successful.  True if removed, otherwise false.
-     *
-     * @author Patches Klinefelter
-     * @since 03/2022
-     */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    fun removeNetwork(networkId: Int): Boolean
+    fun removeNetworkBySSID(regexForSSID: String): Boolean
+
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
+    fun removeNetworkByBSSID(regexForBSSID: String): Boolean
 }

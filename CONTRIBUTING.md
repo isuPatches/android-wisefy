@@ -26,7 +26,7 @@ Some architecture/code guidelines:
  - Follow the patterns and naming conventions present to ensure consistency
    - The query class is prefixed with function name (f.e. the function `getCurrentNetwork` uses the query class `GetCurrentNetworkQuery`)
    - The request class is prefixed with function name (f.e. the function `addNetwork` uses the request class `AddNetworkRequest`)
-   - The result class is prefixed with function name (f.e. the function `reemoveNetwork` uses the result class `RemoveNetworkResult`)
+   - The result class is prefixed with function name (f.e. the function `removeNetwork` uses the result class `RemoveNetworkResult`)
    - The `ktx` extension functions have the suffix `Async` (f.e. the extension for `getNetworkConnectionStatus` is `getNetworkConnectionStatusAsync`)
    - Keep in-mind the folder and organization structure defined in the [README.md](/README.md)
  - Synchronous, async, and ktx options are supported for each feature (unless there is an exceptional case)

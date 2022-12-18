@@ -32,18 +32,22 @@
     <string name="wifi_is_enabled">Wifi is enabled</string>
     <string name="wifi_is_disabled">Wifi is disabled</string>
 
+    <string name="access_point_header_args">%1$s / %2$s</string>
+    <string name="access_point_raw_value_args">%s</string>
+    <string name="access_point_is_saved_by_ssid_args">Saved by SSID: %b</string>
+    <string name="access_point_is_saved_by_bssid_args">Saved by BSSID: %b</string>
+    <string name="access_point_security_capabilities_args">Security capabilities: %s</string>
+
     <!-- Permissions -->
+    <string name="permission_error_disable_wifi">Permissions for disabling wifi are denied</string>
+    <string name="permission_error_enable_wifi">Permissions for enabling wifi are denied</string>
     <string name="permission_error_get_nearby_access_points">
         Permissions for getting nearby access points are denied
     </string>
+    <string name="permission_error_get_current_network">Permissions for getting the current networks are denied</string>
     <string name="permission_error_get_network_connection_status">
         Permissions for getting network connection status are denied
     </string>
     <string name="permission_error_get_saved_networks">Permissions for getting saved networks are denied</string>
-
-    <string name="android_q_disconnect_message">
-        Starting with Android Q, applications are not allowed to alter connections, only offer suggestions
-    </string>
-    <string name="android_q_notice">Android Q Notice</string>
-    <string name="permission_error_get_current_network">Permissions for getting the current networks are denied</string>
+    <string name="permission_error_is_wifi_enabled">Permissions for checking if wifi is enabled are denied</string>
 </resources>

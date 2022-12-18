@@ -41,6 +41,8 @@ import com.isupatches.android.wisefy.savednetworks.entities.GetSavedNetworksResu
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
+private const val SECONDS_TO_MILLIS = 1000
+
 internal abstract class SearchViewModel : BaseViewModel() {
     abstract val uiState: State<SearchUIState>
 
@@ -76,8 +78,7 @@ internal abstract class SearchViewModel : BaseViewModel() {
     abstract fun onFilterDuplicatesChanged(enabled: Boolean)
     abstract fun onSSIDTypeChanged(ssidType: SSIDType)
 
-    abstract fun onSearchTimeoutValueChange(timeout: Int)
-    abstract fun onSearchTimeoutValueChangeFinished(timeout: Int)
+    abstract fun onSearchTimeoutValueChangeFinished(timeoutInSeconds: Int)
 
     abstract fun onDialogClosed()
 }
@@ -100,7 +101,7 @@ internal class DefaultSearchViewModel(
             ssidType = SSIDType.SSID,
             returnFullList = true,
             filterDuplicates = true,
-            timeout = 1
+            timeoutInSeconds = null
         )
     )
     override val uiState: State<SearchUIState>
@@ -140,6 +141,13 @@ internal class DefaultSearchViewModel(
             searchStore.shouldFilterDuplicates()
                 .collectLatest { filterDuplicates ->
                     _uiState.value = uiState.value.copy(filterDuplicates = filterDuplicates)
+                }
+        }
+
+        viewModelScope.launch {
+            searchStore.getTimeout()
+                .collectLatest { timeout ->
+                    _uiState.value = uiState.value.copy(timeoutInSeconds = timeout)
                 }
         }
     }
@@ -332,13 +340,10 @@ internal class DefaultSearchViewModel(
         }
     }
 
-    override fun onSearchTimeoutValueChange(timeout: Int) {
-        _uiState.value = uiState.value.copy(timeout = timeout)
-    }
-
-    override fun onSearchTimeoutValueChangeFinished(timeout: Int) {
+    override fun onSearchTimeoutValueChangeFinished(timeoutInSeconds: Int) {
         viewModelScope.launch {
-            searchStore.setTimeout(timeout)
+            _uiState.value = uiState.value.copy(timeoutInSeconds = timeoutInSeconds)
+            searchStore.setTimeout(timeoutInSeconds)
         }
     }
 
@@ -406,22 +411,28 @@ internal class DefaultSearchViewModel(
 
     private fun getAccessPointsQuery(): GetAccessPointsQuery {
         val networkInput = uiState.value.inputState
-        val timeout = if (uiState.value.searchType == SearchType.SAVED_NETWORK) {
+        val timeoutInSeconds = if (uiState.value.searchType == SearchType.SAVED_NETWORK) {
             null
         } else {
-            uiState.value.timeout
+            uiState.value.timeoutInSeconds
         }
         return when (uiState.value.ssidType) {
             SSIDType.SSID -> {
                 if (networkInput.inputValidityState is SearchInputValidityState.SSID.Valid) {
-                    GetAccessPointsQuery.BySSID(regex = networkInput.input, timeoutInMillis = timeout)
+                    GetAccessPointsQuery.BySSID(
+                        regex = networkInput.input,
+                        timeoutInMillis = timeoutInSeconds?.let { it * SECONDS_TO_MILLIS }
+                    )
                 } else {
                     error("")
                 }
             }
             SSIDType.BSSID -> {
                 if (networkInput.inputValidityState is SearchInputValidityState.BSSID.Valid) {
-                    GetAccessPointsQuery.ByBSSID(regex = networkInput.input, timeoutInMillis = timeout)
+                    GetAccessPointsQuery.ByBSSID(
+                        regex = networkInput.input,
+                        timeoutInMillis = timeoutInSeconds?.let { it * SECONDS_TO_MILLIS }
+                    )
                 } else {
                     error("")
                 }

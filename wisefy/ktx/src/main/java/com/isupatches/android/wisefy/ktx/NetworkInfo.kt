@@ -22,7 +22,6 @@ import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkQuery
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkResult
 import com.isupatches.android.wisefy.networkinfo.entities.NetworkData
 import kotlin.coroutines.suspendCoroutine
-import kotlin.jvm.Throws
 
 @Throws(WisefyException::class)
 suspend fun WisefyApi.getCurrentNetworkAsync(
@@ -33,10 +32,6 @@ suspend fun WisefyApi.getCurrentNetworkAsync(
         callbacks = object : GetCurrentNetworkCallbacks {
             override fun onCurrentNetworkRetrieved(network: NetworkData) {
                 continuation.resumeWith(Result.success(GetCurrentNetworkResult(network)))
-            }
-
-            override fun onNoCurrentNetwork() {
-                continuation.resumeWith(Result.success(GetCurrentNetworkResult(NetworkData(null, null, null, null))))
             }
 
             override fun onWisefyAsyncFailure(exception: WisefyException) {

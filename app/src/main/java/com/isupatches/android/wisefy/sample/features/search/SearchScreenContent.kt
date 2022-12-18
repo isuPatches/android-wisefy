@@ -38,10 +38,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.isupatches.android.wisefy.sample.ComposablePreviewWisefy
 import com.isupatches.android.wisefy.sample.R
 import com.isupatches.android.wisefy.sample.entities.SearchType
 import com.isupatches.android.wisefy.sample.logging.WisefySampleLogger
+import com.isupatches.android.wisefy.sample.ui.ComposablePreviewWisefy
 import com.isupatches.android.wisefy.sample.ui.components.WisefyPrimaryButton
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleBodyLabel
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleCaptionLabel
@@ -208,11 +208,15 @@ internal fun SearchScreenContent(viewModel: SearchViewModel) {
                 filterDuplicates = { viewModel.uiState.value.filterDuplicates },
                 viewModel = viewModel
             )
-            SearchScreenTimeoutInputRows(
-                returnFullList = { viewModel.uiState.value.returnFullList },
-                searchType = { viewModel.uiState.value.searchType },
-                viewModel = viewModel
-            )
+            if (viewModel.uiState.value.searchType != SearchType.SAVED_NETWORK) {
+                val timeoutInSeconds = viewModel.uiState.value.timeoutInSeconds
+                if (timeoutInSeconds != null) {
+                    SearchScreenTimeoutInputRows(
+                        timeout = { timeoutInSeconds },
+                        viewModel = viewModel
+                    )
+                }
+            }
         }
     }
 }
@@ -374,35 +378,31 @@ private fun SearchScreenFilterDuplicatesInputRows(
 
 @Composable
 private fun SearchScreenTimeoutInputRows(
-    returnFullList: () -> Boolean,
-    searchType: () -> SearchType,
+    timeout: () -> Int,
     viewModel: SearchViewModel
 ) {
-    val currentReturnFullListValue = returnFullList()
-    val currentSearchType = searchType()
-    val searchTimeout = remember { mutableStateOf(1) }
-    if (!currentReturnFullListValue && currentSearchType != SearchType.SAVED_NETWORK) {
-        Row(modifier = Modifier.padding(top = WisefySampleSizes.Medium)) {
-            WisefySampleSlider(
-                valueRange = object : ClosedFloatingPointRange<Float> {
-                    override fun lessThanOrEquals(a: Float, b: Float): Boolean {
-                        return a <= b
-                    }
-
-                    override val start: Float = MIN_SEARCH_TIMEOUT
-                    override val endInclusive: Float = MAX_SEARCH_TIMEOUT
-                },
-                onValueChange = { timeout ->
-                    searchTimeout.value = timeout.roundToInt()
-                },
-                onValueChangeFinished = { timeout ->
-                    viewModel.onSearchTimeoutValueChangeFinished(timeout.roundToInt())
+    val searchTimeout = remember { mutableStateOf(timeout()) }
+    Row(modifier = Modifier.padding(top = WisefySampleSizes.Medium)) {
+        WisefySampleSlider(
+            startPosition = { searchTimeout.value.toFloat() },
+            valueRange = object : ClosedFloatingPointRange<Float> {
+                override fun lessThanOrEquals(a: Float, b: Float): Boolean {
+                    return a <= b
                 }
-            )
-        }
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-            SearchScreenTimeoutLabelRow(timeout = { searchTimeout.value })
-        }
+
+                override val start: Float = MIN_SEARCH_TIMEOUT
+                override val endInclusive: Float = MAX_SEARCH_TIMEOUT
+            },
+            onValueChange = { timeout ->
+                searchTimeout.value = timeout.roundToInt()
+            },
+            onValueChangeFinished = { timeout ->
+                viewModel.onSearchTimeoutValueChangeFinished(timeout.roundToInt())
+            }
+        )
+    }
+    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+        SearchScreenTimeoutLabelRow(timeout = { searchTimeout.value })
     }
 }
 

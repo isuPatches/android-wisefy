@@ -24,8 +24,9 @@ import android.net.NetworkRequest
 import android.net.wifi.WifiInfo
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
-import com.isupatches.android.wisefy.core.constants.QUOTE
+import com.isupatches.android.wisefy.core.bssidWithoutQuotes
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
+import com.isupatches.android.wisefy.core.ssidWithoutQuotes
 import com.isupatches.android.wisefy.core.util.SdkUtil
 import com.isupatches.android.wisefy.networkinfo.entities.NetworkConnectionStatus
 import com.isupatches.android.wisefy.networkinfo.os.apis.DefaultNetworkInfoApi
@@ -61,6 +62,7 @@ internal class DefaultNetworkInfoApiImpl(
         private const val LOG_TAG = "DefaultNetworkInfoApiImpl"
     }
 
+    @RequiresPermission(ACCESS_NETWORK_STATE)
     override fun getCurrentNetwork(): Network? {
         return connectivityManager.activeNetwork
     }
@@ -80,13 +82,13 @@ internal class DefaultNetworkInfoApiImpl(
     @RequiresPermission(ACCESS_NETWORK_STATE)
     override fun getSSIDOfTheNetworkTheDeviceIsConnectedTo(): String? {
         val connectionInfo = getNetworkTransportInfo()
-        return connectionInfo?.ssid?.replace(QUOTE, "")
+        return connectionInfo?.ssidWithoutQuotes
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
     override fun getBSSIDOfTheNetworkTheDeviceIsConnectedTo(): String? {
         val connectionInfo = getNetworkTransportInfo()
-        return connectionInfo?.bssid?.replace(QUOTE, "")
+        return connectionInfo?.bssidWithoutQuotes
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)

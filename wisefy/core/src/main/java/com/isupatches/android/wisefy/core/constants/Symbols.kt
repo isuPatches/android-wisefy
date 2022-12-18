@@ -21,4 +21,4 @@ package com.isupatches.android.wisefy.core.constants
  * @author Patches Klinefelter
  * @since 11/2022, version 5.0.0
  */
-const val QUOTE: String = "\""
+internal const val QUOTE: String = "\""

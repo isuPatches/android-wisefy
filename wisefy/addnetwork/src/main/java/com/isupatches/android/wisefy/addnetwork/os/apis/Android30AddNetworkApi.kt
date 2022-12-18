@@ -17,7 +17,6 @@ package com.isupatches.android.wisefy.addnetwork.os.apis
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.CHANGE_WIFI_STATE
-import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
@@ -42,7 +41,6 @@ internal interface Android30AddNetworkApi {
      */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     fun addOpenNetwork(
-        context: Context,
         ssid: String,
         bssid: String?
     ): Int
@@ -59,7 +57,6 @@ internal interface Android30AddNetworkApi {
      */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     fun addWPA2Network(
-        context: Context,
         ssid: String,
         passphrase: String,
         bssid: String?
@@ -77,7 +74,6 @@ internal interface Android30AddNetworkApi {
      */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     fun addWPA3Network(
-        context: Context,
         ssid: String,
         passphrase: String,
         bssid: String?

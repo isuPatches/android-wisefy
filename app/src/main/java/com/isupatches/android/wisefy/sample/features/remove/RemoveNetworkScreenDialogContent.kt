@@ -23,8 +23,8 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.isupatches.android.wisefy.core.exceptions.WisefyException
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkResult
-import com.isupatches.android.wisefy.sample.ComposablePreviewWisefy
 import com.isupatches.android.wisefy.sample.R
+import com.isupatches.android.wisefy.sample.ui.ComposablePreviewWisefy
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleNoticeDialog
 
 @Composable
@@ -39,7 +39,7 @@ internal fun RemoveNetworkScreenDialogContent(
         is RemoveNetworkDialogState.RemoveNetwork.Success -> {
             WisefySampleNoticeDialog(
                 title = R.string.remove_network,
-                body = R.string.succeeded_removing_network_args,
+                body = R.string.success_removing_network_args,
                 currentDialogState.result,
                 onClose = {
                     viewModel.onDialogClosed()

@@ -23,7 +23,6 @@ import android.net.ConnectivityManager
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
-import com.isupatches.android.wisefy.core.constants.DeprecationMessages
 import com.isupatches.android.wisefy.core.coroutines.CoroutineDispatcherProvider
 import com.isupatches.android.wisefy.core.coroutines.createBaseCoroutineExceptionHandler
 import com.isupatches.android.wisefy.core.exceptions.WisefyException
@@ -125,14 +124,12 @@ class WisefyNetworkConnectionDelegate(
         }
     }
 
-    @Deprecated(DeprecationMessages.NetworkConnection.DISCONNECT_FROM_CURRENT_NETWORK)
     override fun disconnectFromCurrentNetwork(
         request: DisconnectFromCurrentNetworkRequest
     ): DisconnectFromCurrentNetworkResult {
         return adapter.disconnectFromCurrentNetwork(request)
     }
 
-    @Deprecated(DeprecationMessages.NetworkConnection.DISCONNECT_FROM_CURRENT_NETWORK)
     override fun disconnectFromCurrentNetwork(
         request: DisconnectFromCurrentNetworkRequest,
         callbacks: DisconnectFromCurrentNetworkCallbacks?
@@ -142,6 +139,9 @@ class WisefyNetworkConnectionDelegate(
                 val result = adapter.disconnectFromCurrentNetwork(request)
                 withContext(coroutineDispatcherProvider.main) {
                     when (result) {
+                        is DisconnectFromCurrentNetworkResult.Success.NetworkScreenOpened -> {
+                            callbacks?.onNetworkScreenOpened()
+                        }
                         is DisconnectFromCurrentNetworkResult.Success.True -> {
                             callbacks?.onDisconnectedFromCurrentNetwork()
                         }

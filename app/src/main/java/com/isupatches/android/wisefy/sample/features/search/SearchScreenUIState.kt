@@ -28,7 +28,7 @@ internal data class SearchUIState(
     val ssidType: SSIDType,
     val returnFullList: Boolean,
     val filterDuplicates: Boolean,
-    val timeout: Int?
+    val timeoutInSeconds: Int?
 )
 
 internal data class SearchLoadingState(val isLoading: Boolean)

@@ -36,7 +36,8 @@ sealed class AddNetworkResult {
         /**
          * A representation of a success while attempting to add a network based on Android OS level returns.
          *
-         * *NOTE* This could be instances such as:
+         * *NOTES*
+         * This could be instances such as:
          *  - Returning the id of the new network for the case of legacy wifiManager.addNetwork()
          *  https://developer.android.com/reference/android/net/wifi/WifiManager#addNetwork(android.net.wifi.WifiConfiguration))
          *  - STATUS_NETWORK_SUGGESTIONS_SUCCESS for SDK 29
@@ -67,11 +68,14 @@ sealed class AddNetworkResult {
         /**
          * A representation of a failure to add a network based on Android OS level returns.
          *
-         * *NOTE* This could be instances such as:
+         * *NOTE*
+         * This could be instances such as:
          *  - Returning -1 for the case of legacy wifiManager.addNetwork()
          *  https://developer.android.com/reference/android/net/wifi/WifiManager#addNetwork(android.net.wifi.WifiConfiguration))
          *  - Any of the failure codes for wifiManager.addNetworkSuggestions() for SDK 29
          *  https://developer.android.com/reference/android/net/wifi/WifiManager#addNetworkSuggestions(java.util.List%3Candroid.net.wifi.WifiNetworkSuggestion%3E)
+         *  - As of Android 11, in-place modifications are allowed so there will be no
+         *  STATUS_NETWORK_SUGGESTIONS_ERROR_ADD_DUPLICATE return
          *
          * @property value The raw value of the result code from the Android OS
          *

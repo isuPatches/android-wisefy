@@ -19,6 +19,8 @@ import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
+import com.isupatches.android.wisefy.core.hasBSSIDMatchingRegex
+import com.isupatches.android.wisefy.core.hasSSIDMatchingRegex
 import com.isupatches.android.wisefy.removenetwork.os.apis.DefaultRemoveNetworkApi
 
 /**
@@ -36,7 +38,14 @@ internal class DefaultRemoveNetworkApiImpl(
 ) : DefaultRemoveNetworkApi {
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun removeNetwork(networkId: Int): Boolean {
-        return wifiManager.removeNetwork(networkId)
+    override fun removeNetworkBySSID(regexForSSID: String): Boolean {
+        val networkToRemove = wifiManager.configuredNetworks.firstOrNull { it.hasSSIDMatchingRegex(regexForSSID) }
+        return networkToRemove?.let { wifiManager.removeNetwork(it.networkId) } ?: false
+    }
+
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
+    override fun removeNetworkByBSSID(regexForBSSID: String): Boolean {
+        val networkToRemove = wifiManager.configuredNetworks.firstOrNull { it.hasBSSIDMatchingRegex(regexForBSSID) }
+        return networkToRemove?.let { wifiManager.removeNetwork(it.networkId) } ?: false
     }
 }

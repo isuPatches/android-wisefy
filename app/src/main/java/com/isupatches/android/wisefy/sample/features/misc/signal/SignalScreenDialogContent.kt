@@ -22,8 +22,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.isupatches.android.wisefy.core.exceptions.WisefyException
-import com.isupatches.android.wisefy.sample.ComposablePreviewWisefy
 import com.isupatches.android.wisefy.sample.R
+import com.isupatches.android.wisefy.sample.ui.ComposablePreviewWisefy
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleNoticeDialog
 import com.isupatches.android.wisefy.sample.util.DefaultSdkUtil
 import com.isupatches.android.wisefy.signal.entities.CalculateSignalLevelResult
@@ -51,7 +51,7 @@ internal fun SignalScreenDialogContent(
         is SignalDialogState.CalculateSignalLevel.Success -> {
             WisefySampleNoticeDialog(
                 title = R.string.calculate_signal_level,
-                body = R.string.succeeded_calculating_signal_level_args,
+                body = R.string.success_calculating_signal_level_args,
                 currentDialogState.result,
                 onClose = {
                     viewModel.onDialogClosed()
@@ -61,7 +61,7 @@ internal fun SignalScreenDialogContent(
         is SignalDialogState.CompareSignalLevel.Success -> {
             WisefySampleNoticeDialog(
                 title = R.string.compare_signal_level,
-                body = R.string.succeeded_comparing_signal_level_args,
+                body = R.string.success_comparing_signal_level_args,
                 currentDialogState.result,
                 onClose = {
                     viewModel.onDialogClosed()

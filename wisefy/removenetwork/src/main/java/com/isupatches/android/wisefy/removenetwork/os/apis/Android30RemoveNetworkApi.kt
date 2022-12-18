@@ -15,9 +15,7 @@
  */
 package com.isupatches.android.wisefy.removenetwork.os.apis
 
-import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.CHANGE_WIFI_STATE
-import android.net.wifi.WifiNetworkSuggestion
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
@@ -31,18 +29,9 @@ import androidx.annotation.RequiresPermission
 @RequiresApi(Build.VERSION_CODES.R)
 internal interface Android30RemoveNetworkApi {
 
-    /**
-     * An Android 29 specific internal API that is used to remove a network through the Android OS.
-     *
-     * *NOTE*
-     * - Returns for this are the same as `removeNetworkSuggestion` found here:
-     *  https://developer.android.com/reference/android/net/wifi/WifiManager#removeNetworkSuggestions(java.util.List%3Candroid.net.wifi.WifiNetworkSuggestion%3E,%20int)
-     *
-     * @return Int - The result code for removing the network
-     *
-     * @author Patches Klinefelter
-     * @since 03/2022
-     */
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-    fun removeNetwork(suggestion: WifiNetworkSuggestion): Int
+    @RequiresPermission(CHANGE_WIFI_STATE)
+    fun removeNetworkBySSID(regexForSSID: String): Int
+
+    @RequiresPermission(CHANGE_WIFI_STATE)
+    fun removeNetworkByBSSID(regexForBSSID: String): Int
 }

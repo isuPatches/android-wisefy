@@ -30,9 +30,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import com.isupatches.android.wisefy.sample.ComposablePreviewWisefy
 import com.isupatches.android.wisefy.sample.R
 import com.isupatches.android.wisefy.sample.logging.WisefySampleLogger
+import com.isupatches.android.wisefy.sample.ui.ComposablePreviewWisefy
 import com.isupatches.android.wisefy.sample.ui.components.WisefyPrimaryButton
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleEditText
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleEditTextError

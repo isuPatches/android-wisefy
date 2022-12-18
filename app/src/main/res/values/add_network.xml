@@ -13,10 +13,10 @@
     <!-- Results -->
     <string name="input_error">Input Error</string>
 
-    <string name="succeeded_adding_network_args">Succeeded adding network. Result: %s</string>
+    <string name="success_adding_network_args">Success adding network. Result: %s</string>
     <string name="failure_adding_network_args">Failure adding network. Result: %s</string>
 
-    <string name="succeeded_connecting_to_network_args">Succeeded connecting to network. Result: %s</string>
+    <string name="success_connecting_to_network_args">Success connecting to network. Result: %s</string>
     <string name="failure_connecting_to_network_args">Failure connecting to network. Result: %s</string>
 
     <!-- Permissions -->

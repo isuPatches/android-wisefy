@@ -19,65 +19,40 @@ import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
-import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
-import com.isupatches.android.wisefy.core.constants.AssertionMessages
 import com.isupatches.android.wisefy.removenetwork.RemoveNetworkApi
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkRequest
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkResult
 import com.isupatches.android.wisefy.removenetwork.os.apis.DefaultRemoveNetworkApi
-import com.isupatches.android.wisefy.removenetwork.os.converters.toSearchForNetworkRequest
 import com.isupatches.android.wisefy.removenetwork.os.impls.DefaultRemoveNetworkApiImpl
-import com.isupatches.android.wisefy.savednetworks.SavedNetworkDelegate
-import com.isupatches.android.wisefy.savednetworks.entities.GetSavedNetworksResult
-import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
 
 /**
  * A default adapter for removing a network.
  *
  * @param wifiManager The WifiManager instance to use
- * @param savedNetworkDelegate The SavedNetworkDelegate instance to use
  * @param api The OS level API instance to use
  *
  * @see DefaultRemoveNetworkApi
  * @see DefaultRemoveNetworkApiImpl
  * @see RemoveNetworkApi
- * @see SavedNetworkDelegate
  *
  * @author Patches Klinefelter
  * @since 03/2022
  */
 internal class DefaultRemoveNetworkAdapter(
     private val wifiManager: WifiManager,
-    private val savedNetworkDelegate: SavedNetworkDelegate,
-    private val assertions: WisefyAssertions,
     private val api: DefaultRemoveNetworkApi = DefaultRemoveNetworkApiImpl(wifiManager)
 ) : RemoveNetworkApi {
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun removeNetwork(request: RemoveNetworkRequest): RemoveNetworkResult {
-        return when (
-            val savedNetworkSearchResult = savedNetworkDelegate.getSavedNetworks(
-                query = request.toSearchForNetworkRequest()
-            )
-        ) {
-            is GetSavedNetworksResult.Empty -> RemoveNetworkResult.Failure.NetworkNotFound
-            is GetSavedNetworksResult.SavedNetworks -> {
-                when (val savedNetwork = savedNetworkSearchResult.value.first()) {
-                    is SavedNetworkData.Configuration -> {
-                        val result = api.removeNetwork(savedNetwork.rawValue.networkId)
-                        if (result) {
-                            RemoveNetworkResult.Success.True
-                        } else {
-                            RemoveNetworkResult.Failure.False
-                        }
-                    }
-                    is SavedNetworkData.Suggestion -> {
-                        val message = AssertionMessages.RemoveNetwork.SUGGESTION_USED_PRE_ANDROID_Q
-                        assertions.fail(message = message)
-                        RemoveNetworkResult.Failure.Assertion(message = message)
-                    }
-                }
-            }
+        val result = when (request) {
+            is RemoveNetworkRequest.SSID -> api.removeNetworkBySSID(request.regex)
+            is RemoveNetworkRequest.BSSID -> api.removeNetworkByBSSID(request.regex)
+        }
+        return if (result) {
+            RemoveNetworkResult.Success.True
+        } else {
+            RemoveNetworkResult.Failure.False
         }
     }
 }

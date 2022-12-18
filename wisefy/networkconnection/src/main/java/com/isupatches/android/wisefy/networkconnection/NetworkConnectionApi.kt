@@ -17,7 +17,6 @@ package com.isupatches.android.wisefy.networkconnection
 
 import android.Manifest.permission.CHANGE_NETWORK_STATE
 import androidx.annotation.RequiresPermission
-import com.isupatches.android.wisefy.core.constants.DeprecationMessages
 import com.isupatches.android.wisefy.networkconnection.entities.ConnectToNetworkRequest
 import com.isupatches.android.wisefy.networkconnection.entities.ConnectToNetworkResult
 import com.isupatches.android.wisefy.networkconnection.entities.DisconnectFromCurrentNetworkRequest
@@ -58,8 +57,5 @@ interface NetworkConnectionApi {
      * @author Patches Klinefelter
      * @since 03/2022
      */
-    @Deprecated(DeprecationMessages.NetworkConnection.DISCONNECT_FROM_CURRENT_NETWORK)
-    fun disconnectFromCurrentNetwork(
-        request: DisconnectFromCurrentNetworkRequest = DisconnectFromCurrentNetworkRequest()
-    ): DisconnectFromCurrentNetworkResult
+    fun disconnectFromCurrentNetwork(request: DisconnectFromCurrentNetworkRequest): DisconnectFromCurrentNetworkResult
 }

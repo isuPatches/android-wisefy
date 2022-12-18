@@ -28,7 +28,6 @@ import com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedQuery
 import com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedResult
 import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
 import kotlin.coroutines.suspendCoroutine
-import kotlin.jvm.Throws
 
 /**
  * A coroutine extension for getting all of the saved networks on a device.

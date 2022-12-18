@@ -15,7 +15,6 @@
  */
 package com.isupatches.android.wisefy.sample.features.misc
 
-import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
 import com.isupatches.android.wisefy.core.exceptions.WisefyException
 import com.isupatches.android.wisefy.networkconnection.entities.DisconnectFromCurrentNetworkResult
 import com.isupatches.android.wisefy.networkinfo.entities.GetNetworkConnectionStatusResult
@@ -44,29 +43,24 @@ internal sealed class MiscDialogState {
     sealed class DisableWifi : MiscDialogState() {
         data class Success(val result: DisableWifiResult.Success) : DisableWifi()
         data class Failure(val result: DisableWifiResult.Failure) : DisableWifi()
+        object PermissionsError : DisableWifi()
     }
 
     sealed class DisconnectFromCurrentNetwork : MiscDialogState() {
         data class Success(val result: DisconnectFromCurrentNetworkResult.Success) : DisconnectFromCurrentNetwork()
         data class Failure(val result: DisconnectFromCurrentNetworkResult.Failure) : DisconnectFromCurrentNetwork()
-        object DisplayAndroidQMessage : DisconnectFromCurrentNetwork()
     }
 
     sealed class EnableWifi : MiscDialogState() {
         data class Success(val result: EnableWifiResult.Success) : EnableWifi()
         data class Failure(val result: EnableWifiResult.Failure) : EnableWifi()
+        object PermissionsError : EnableWifi()
     }
 
     sealed class GetCurrentNetwork : MiscDialogState() {
         data class Success(val network: NetworkData) : GetCurrentNetwork()
         object Failure : GetCurrentNetwork()
         object PermissionsError : GetCurrentNetwork()
-    }
-
-    sealed class GetNearbyAccessPoints : MiscDialogState() {
-        data class Success(val accessPoints: List<AccessPointData>) : GetNearbyAccessPoints()
-        object Failure : GetNearbyAccessPoints()
-        object PermissionsError : GetNearbyAccessPoints()
     }
 
     sealed class GetNetworkConnectionStatus : MiscDialogState() {
@@ -83,5 +77,6 @@ internal sealed class MiscDialogState {
     sealed class IsWifiEnabled : MiscDialogState() {
         object True : IsWifiEnabled()
         object False : IsWifiEnabled()
+        object PermissionsError : IsWifiEnabled()
     }
 }

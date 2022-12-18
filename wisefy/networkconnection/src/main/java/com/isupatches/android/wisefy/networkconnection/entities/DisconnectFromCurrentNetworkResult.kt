@@ -52,6 +52,8 @@ sealed class DisconnectFromCurrentNetworkResult {
          * @since 03/2022
          */
         object DisconnectRequestSent : Success()
+
+        object NetworkScreenOpened : Success()
     }
 
     /**

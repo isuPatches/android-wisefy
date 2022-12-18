@@ -24,7 +24,6 @@ import com.isupatches.android.wisefy.removenetwork.callbacks.RemoveNetworkCallba
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkRequest
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkResult
 import kotlin.coroutines.suspendCoroutine
-import kotlin.jvm.Throws
 
 /**
  * A coroutine extension for removing a network.

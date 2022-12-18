@@ -15,7 +15,10 @@
  */
 package com.isupatches.android.wisefy.wifi
 
+import android.Manifest.permission.ACCESS_WIFI_STATE
+import android.Manifest.permission.CHANGE_WIFI_STATE
 import android.net.wifi.WifiManager
+import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
 import com.isupatches.android.wisefy.core.coroutines.CoroutineDispatcherProvider
 import com.isupatches.android.wisefy.core.coroutines.createBaseCoroutineExceptionHandler
@@ -78,10 +81,12 @@ class WisefyWifiDelegate(
         logger.d(LOG_TAG, "WisefyWifiDelegate adapter is: ${adapter::class.java.simpleName}")
     }
 
+    @RequiresPermission(CHANGE_WIFI_STATE)
     override fun disableWifi(request: DisableWifiRequest): DisableWifiResult {
         return adapter.disableWifi(request)
     }
 
+    @RequiresPermission(CHANGE_WIFI_STATE)
     override fun disableWifi(request: DisableWifiRequest, callbacks: DisableWifiCallbacks?) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
             wifiMutex.withLock {
@@ -96,10 +101,12 @@ class WisefyWifiDelegate(
         }
     }
 
+    @RequiresPermission(CHANGE_WIFI_STATE)
     override fun enableWifi(request: EnableWifiRequest): EnableWifiResult {
         return adapter.enableWifi(request)
     }
 
+    @RequiresPermission(CHANGE_WIFI_STATE)
     override fun enableWifi(request: EnableWifiRequest, callbacks: EnableWifiCallbacks?) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
             wifiMutex.withLock {
@@ -114,10 +121,12 @@ class WisefyWifiDelegate(
         }
     }
 
+    @RequiresPermission(ACCESS_WIFI_STATE)
     override fun isWifiEnabled(query: IsWifiEnabledQuery): IsWifiEnabledResult {
         return adapter.isWifiEnabled(query)
     }
 
+    @RequiresPermission(ACCESS_WIFI_STATE)
     override fun isWifiEnabled(query: IsWifiEnabledQuery, callbacks: IsWifiEnabledCallbacks?) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
             wifiMutex.withLock {

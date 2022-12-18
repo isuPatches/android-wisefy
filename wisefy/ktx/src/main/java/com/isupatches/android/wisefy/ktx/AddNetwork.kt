@@ -24,7 +24,6 @@ import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkRequest
 import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
 import com.isupatches.android.wisefy.core.exceptions.WisefyException
 import kotlin.coroutines.suspendCoroutine
-import kotlin.jvm.Throws
 
 /**
  * A coroutine extension for adding a network.

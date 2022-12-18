@@ -17,7 +17,6 @@
 
 package com.isupatches.android.wisefy
 
-import android.Manifest.permission.ACCESS_COARSE_LOCATION
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.ACCESS_NETWORK_STATE
 import android.Manifest.permission.ACCESS_WIFI_STATE
@@ -40,7 +39,6 @@ import com.isupatches.android.wisefy.addnetwork.callbacks.AddNetworkCallbacks
 import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkRequest
 import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
 import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
-import com.isupatches.android.wisefy.core.constants.DeprecationMessages
 import com.isupatches.android.wisefy.core.coroutines.CoroutineDispatcherProvider
 import com.isupatches.android.wisefy.core.logging.DefaultWisefyLogger
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
@@ -218,7 +216,6 @@ class Wisefy private constructor(
                 coroutineDispatcherProvider = coroutineDispatcherProvider,
                 scope = wisefyScope,
                 logger = logger,
-                sdkUtil = sdkUtil,
                 wifiManager = wifiManager
             )
             addNetworkDelegate = WisefyAddNetworkDelegate(
@@ -247,7 +244,6 @@ class Wisefy private constructor(
                 scope = wisefyScope,
                 savedNetworkMutex = savedNetworkMutex,
                 logger = logger,
-                savedNetworkDelegate = savedNetworkDelegate,
                 sdkUtil = sdkUtil,
                 wifiManager = wifiManager,
                 assertions = assertions
@@ -514,22 +510,22 @@ class Wisefy private constructor(
         networkConnectionDelegate.connectToNetwork(request, callbacks)
     }
 
+    @RequiresPermission(CHANGE_WIFI_STATE)
     override fun disableWifi(request: DisableWifiRequest): DisableWifiResult {
         return wifiDelegate.disableWifi(request)
     }
 
+    @RequiresPermission(CHANGE_WIFI_STATE)
     override fun disableWifi(request: DisableWifiRequest, callbacks: DisableWifiCallbacks?) {
         wifiDelegate.disableWifi(request, callbacks)
     }
 
-    @Deprecated(DeprecationMessages.NetworkConnection.DISCONNECT_FROM_CURRENT_NETWORK)
     override fun disconnectFromCurrentNetwork(
         request: DisconnectFromCurrentNetworkRequest
     ): DisconnectFromCurrentNetworkResult {
         return networkConnectionDelegate.disconnectFromCurrentNetwork(request)
     }
 
-    @Deprecated(DeprecationMessages.NetworkConnection.DISCONNECT_FROM_CURRENT_NETWORK)
     override fun disconnectFromCurrentNetwork(
         request: DisconnectFromCurrentNetworkRequest,
         callbacks: DisconnectFromCurrentNetworkCallbacks?
@@ -537,10 +533,12 @@ class Wisefy private constructor(
         networkConnectionDelegate.disconnectFromCurrentNetwork(request, callbacks)
     }
 
+    @RequiresPermission(CHANGE_WIFI_STATE)
     override fun enableWifi(request: EnableWifiRequest): EnableWifiResult {
         return wifiDelegate.enableWifi(request)
     }
 
+    @RequiresPermission(CHANGE_WIFI_STATE)
     override fun enableWifi(request: EnableWifiRequest, callbacks: EnableWifiCallbacks?) {
         wifiDelegate.enableWifi(request, callbacks)
     }
@@ -583,12 +581,12 @@ class Wisefy private constructor(
         networkInfoDelegate.getNetworkConnectionStatus(query, callbacks)
     }
 
-    @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun getSavedNetworks(query: GetSavedNetworksQuery): GetSavedNetworksResult {
         return savedNetworkDelegate.getSavedNetworks(query)
     }
 
-    @RequiresPermission(allOf = [ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun getSavedNetworks(query: GetSavedNetworksQuery, callbacks: GetSavedNetworksCallbacks?) {
         savedNetworkDelegate.getSavedNetworks(query, callbacks)
     }
@@ -603,20 +601,22 @@ class Wisefy private constructor(
         return savedNetworkDelegate.isNetworkSaved(query, callbacks)
     }
 
+    @RequiresPermission(ACCESS_WIFI_STATE)
     override fun isWifiEnabled(query: IsWifiEnabledQuery): IsWifiEnabledResult {
         return wifiDelegate.isWifiEnabled(query)
     }
 
+    @RequiresPermission(ACCESS_WIFI_STATE)
     override fun isWifiEnabled(query: IsWifiEnabledQuery, callbacks: IsWifiEnabledCallbacks?) {
         wifiDelegate.isWifiEnabled(query, callbacks)
     }
 
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE, CHANGE_WIFI_STATE])
     override fun removeNetwork(request: RemoveNetworkRequest): RemoveNetworkResult {
         return removeNetworkDelegate.removeNetwork(request)
     }
 
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE, CHANGE_WIFI_STATE])
     override fun removeNetwork(request: RemoveNetworkRequest, callbacks: RemoveNetworkCallbacks?) {
         removeNetworkDelegate.removeNetwork(request, callbacks)
     }

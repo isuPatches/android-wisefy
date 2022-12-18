@@ -18,6 +18,7 @@ package com.isupatches.android.wisefy.sample.features.misc
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.ACCESS_NETWORK_STATE
 import android.Manifest.permission.ACCESS_WIFI_STATE
+import android.Manifest.permission.CHANGE_WIFI_STATE
 import android.content.res.Configuration
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -35,14 +36,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
-import com.isupatches.android.wisefy.sample.ComposablePreviewWisefy
+import com.isupatches.android.wisefy.networkconnection.entities.DisconnectFromCurrentNetworkRequest
 import com.isupatches.android.wisefy.sample.R
 import com.isupatches.android.wisefy.sample.logging.WisefySampleLogger
+import com.isupatches.android.wisefy.sample.ui.ComposablePreviewWisefy
 import com.isupatches.android.wisefy.sample.ui.components.WisefyPrimaryButton
 import com.isupatches.android.wisefy.sample.ui.primitives.WisefySampleSizes
 import com.isupatches.android.wisefy.sample.ui.theme.WisefySampleTheme
 import com.isupatches.android.wisefy.sample.util.DefaultSdkUtil
 import com.isupatches.android.wisefy.sample.util.SdkUtil
+import com.isupatches.android.wisefy.wifi.entities.DisableWifiRequest
+import com.isupatches.android.wisefy.wifi.entities.EnableWifiRequest
 import kotlinx.coroutines.launch
 
 private const val LOG_TAG = "MiscScreenContent"
@@ -56,11 +60,43 @@ internal fun MiscScreenContent(
     WisefySampleTheme {
         val scope = rememberCoroutineScope()
         val context = LocalContext.current
+
+        val enableWifiPermissionsLauncher =
+            rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+                if (isGranted) {
+                    scope.launch {
+                        if (sdkUtil.isAtLeastQ()) {
+                            viewModel.enableWifi(request = EnableWifiRequest.Android29OrAbove(context))
+                        } else {
+                            viewModel.enableWifi(request = EnableWifiRequest.Default)
+                        }
+                    }
+                } else {
+                    WisefySampleLogger.w(LOG_TAG, "Permissions for enabling wifi are denied")
+                    viewModel.onEnableWifiPermissionsError()
+                }
+            }
+
+        val disableWifiPermissionsLauncher =
+            rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+                if (isGranted) {
+                    scope.launch {
+                        if (sdkUtil.isAtLeastQ()) {
+                            viewModel.disableWifi(request = DisableWifiRequest.Android29OrAbove(context))
+                        } else {
+                            viewModel.disableWifi(request = DisableWifiRequest.Default)
+                        }
+                    }
+                } else {
+                    WisefySampleLogger.w(LOG_TAG, "Permissions for disabling wifi are denied")
+                    viewModel.onDisableWifiPermissionsError()
+                }
+            }
+
         val getCurrentNetworkPermissionsLauncher =
             rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
                 if (isGranted) {
                     scope.launch {
-                        @Suppress("MissingPermission")
                         viewModel.getCurrentNetwork()
                     }
                 } else {
@@ -69,24 +105,10 @@ internal fun MiscScreenContent(
                 }
             }
 
-        val getNearbyAccessPointsPermissionsLauncher =
-            rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-                if (isGranted) {
-                    scope.launch {
-                        @Suppress("MissingPermission")
-                        viewModel.getNearbyAccessPoints()
-                    }
-                } else {
-                    WisefySampleLogger.w(LOG_TAG, "Permissions for getting nearby access points are denied")
-                    viewModel.onGetNearbyAccessPointsPermissionError()
-                }
-            }
-
         val getNetworkConnectionStatusPermissionsLauncher =
             rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
                 if (isGranted) {
                     scope.launch {
-                        @Suppress("MissingPermission")
                         viewModel.getNetworkConnectionStatus()
                     }
                 } else {
@@ -99,7 +121,6 @@ internal fun MiscScreenContent(
             rememberLauncherForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result ->
                 if (result.all { it.value }) {
                     scope.launch {
-                        @Suppress("MissingPermission")
                         viewModel.getSavedNetworks()
                     }
                 } else {
@@ -108,33 +129,43 @@ internal fun MiscScreenContent(
                 }
             }
 
+        val isWifiEnabledPermissionsLauncher =
+            rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+                if (isGranted) {
+                    scope.launch {
+                        viewModel.isWifiEnabled()
+                    }
+                } else {
+                    WisefySampleLogger.w(LOG_TAG, "Permissions for checking if wifi is enabled are denied")
+                    viewModel.onIsWifiEnabledPermissionsError()
+                }
+            }
+
         val onMiscOptionClicked: (MiscScreenOption) -> Unit = { option ->
             when (option) {
                 MiscScreenOption.DISABLE_WIFI -> {
+                    disableWifiPermissionsLauncher.launch(CHANGE_WIFI_STATE)
+                }
+                MiscScreenOption.DISCONNECT_FROM_CURRENT_NETWORK -> {
                     scope.launch {
                         if (sdkUtil.isAtLeastQ()) {
-                            viewModel.disableWifi(context)
+                            viewModel.disconnectFromCurrentNetwork(
+                                request = DisconnectFromCurrentNetworkRequest.Android29OrAbove(context)
+                            )
                         } else {
-                            viewModel.disableWifi()
+                            viewModel.disconnectFromCurrentNetwork(
+                                request = DisconnectFromCurrentNetworkRequest.Default
+                            )
                         }
                     }
                 }
-                MiscScreenOption.DISCONNECT_FROM_CURRENT_NETWORK -> viewModel.disconnectFromCurrentNetwork()
                 MiscScreenOption.ENABLE_WIFI -> {
-                    scope.launch {
-                        if (sdkUtil.isAtLeastQ()) {
-                            viewModel.enableWifi(context)
-                        } else {
-                            viewModel.enableWifi()
-                        }
-                    }
+                    enableWifiPermissionsLauncher.launch(CHANGE_WIFI_STATE)
                 }
                 MiscScreenOption.GET_CURRENT_NETWORK -> {
                     getCurrentNetworkPermissionsLauncher.launch(ACCESS_NETWORK_STATE)
                 }
-                MiscScreenOption.GET_NEARBY_ACCESS_POINTS -> {
-                    getNearbyAccessPointsPermissionsLauncher.launch(ACCESS_FINE_LOCATION)
-                }
+                MiscScreenOption.GET_NEARBY_ACCESS_POINTS -> router.openNearbyAccessPointsScreen()
                 MiscScreenOption.GET_NETWORK_CONNECTION_STATUS -> {
                     getNetworkConnectionStatusPermissionsLauncher.launch(ACCESS_NETWORK_STATE)
                 }
@@ -142,9 +173,7 @@ internal fun MiscScreenContent(
                     getSavedNetworksPermissionsLauncher.launch(arrayOf(ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE))
                 }
                 MiscScreenOption.IS_WIFI_ENABLED -> {
-                    scope.launch {
-                        viewModel.isWifiEnabled()
-                    }
+                    isWifiEnabledPermissionsLauncher.launch(ACCESS_WIFI_STATE)
                 }
                 MiscScreenOption.SIGNAL_FUNCTIONS -> router.openSignalScreen()
             }
@@ -202,8 +231,7 @@ private fun MiscScreenOptionRow(option: MiscScreenOption, onClick: (MiscScreenOp
 private fun MiscScreenContentLightPreview() {
     MiscScreenContent(
         viewModel = DefaultMiscViewModel(
-            wisefy = ComposablePreviewWisefy(),
-            sdkUtil = DefaultSdkUtil()
+            wisefy = ComposablePreviewWisefy()
         ),
         sdkUtil = DefaultSdkUtil(),
         router = DefaultMiscScreenRouter(
@@ -218,8 +246,7 @@ private fun MiscScreenContentLightPreview() {
 private fun MiscScreenContentDarkPreview() {
     MiscScreenContent(
         viewModel = DefaultMiscViewModel(
-            wisefy = ComposablePreviewWisefy(),
-            sdkUtil = DefaultSdkUtil()
+            wisefy = ComposablePreviewWisefy()
         ),
         sdkUtil = DefaultSdkUtil(),
         router = DefaultMiscScreenRouter(

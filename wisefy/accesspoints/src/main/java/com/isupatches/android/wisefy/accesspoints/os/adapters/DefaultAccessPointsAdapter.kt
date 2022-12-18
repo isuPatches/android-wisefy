@@ -24,20 +24,17 @@ import com.isupatches.android.wisefy.accesspoints.entities.GetAccessPointsResult
 import com.isupatches.android.wisefy.accesspoints.os.apis.DefaultAccessPointsApi
 import com.isupatches.android.wisefy.accesspoints.os.impls.DefaultAccessPointsApiImpl
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
-import com.isupatches.android.wisefy.core.util.SdkUtil
 
 /**
  * A default adapter for getting and searching for nearby access points.
  *
  * @param wifiManager The WifiManager instance to use
  * @param logger The [WisefyLogger] instance to use
- * @param sdkUtil The [SdkUtil] instance to use
  * @param api The OS level API instance to use
  *
  * @see AccessPointsApi
  * @see DefaultAccessPointsApi
  * @see DefaultAccessPointsApiImpl
- * @see SdkUtil
  * @see WisefyLogger
  *
  * @author Patches Klinefelter
@@ -46,8 +43,7 @@ import com.isupatches.android.wisefy.core.util.SdkUtil
 internal class DefaultAccessPointsAdapter(
     wifiManager: WifiManager,
     logger: WisefyLogger,
-    sdkUtil: SdkUtil,
-    private val api: DefaultAccessPointsApi = DefaultAccessPointsApiImpl(wifiManager, logger, sdkUtil)
+    private val api: DefaultAccessPointsApi = DefaultAccessPointsApiImpl(wifiManager, logger)
 ) : AccessPointsApi {
 
     @RequiresPermission(ACCESS_FINE_LOCATION)

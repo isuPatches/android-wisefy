@@ -24,8 +24,8 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
 import com.isupatches.android.wisefy.core.exceptions.WisefyException
 import com.isupatches.android.wisefy.networkconnection.entities.ConnectToNetworkResult
-import com.isupatches.android.wisefy.sample.ComposablePreviewWisefy
 import com.isupatches.android.wisefy.sample.R
+import com.isupatches.android.wisefy.sample.ui.ComposablePreviewWisefy
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleNoticeDialog
 import com.isupatches.android.wisefy.sample.util.DefaultSdkUtil
 
@@ -51,7 +51,7 @@ internal fun AddNetworkScreenDialogContent(
         is AddNetworkDialogState.AddNetwork.Success -> {
             WisefySampleNoticeDialog(
                 title = R.string.add_network,
-                body = R.string.succeeded_adding_network_args,
+                body = R.string.success_adding_network_args,
                 currentDialogState.result,
                 onClose = {
                     viewModel.onDialogClosed()
@@ -98,7 +98,7 @@ internal fun AddNetworkScreenDialogContent(
         is AddNetworkDialogState.ConnectToNetwork.Success -> {
             WisefySampleNoticeDialog(
                 title = R.string.connect_to_network,
-                body = R.string.succeeded_connecting_to_network_args,
+                body = R.string.success_connecting_to_network_args,
                 currentDialogState.result,
                 onClose = {
                     viewModel.onDialogClosed()

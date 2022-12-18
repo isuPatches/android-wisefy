@@ -18,7 +18,7 @@ package com.isupatches.android.wisefy.build.plugins
 import com.android.build.gradle.LibraryExtension
 import java.io.File
 import java.net.URI
-import java.util.*
+import java.util.Properties
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaBasePlugin

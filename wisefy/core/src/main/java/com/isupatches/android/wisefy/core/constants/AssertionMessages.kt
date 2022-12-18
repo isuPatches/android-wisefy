@@ -32,33 +32,6 @@ object AssertionMessages {
     object AddNetwork {
 
         /**
-         * A singleton that houses the assertion messages present for functions using ActivityResultLauncher.
-         *
-         * @author Patches Klinefelter
-         * @since 11/2022, version 5.0.0
-         */
-        object RequestWithContext {
-
-            /**
-             * A string value for the assertion message for using ActivityResultLauncher prior to Android 30.
-             *
-             * @author Patches Klinefelter
-             * @since 11/2022, version 5.0.0
-             */
-            const val USED_PRE_ANDROID_30: String =
-                "Adding a network using the request that includes context is not available until Android R"
-
-            /**
-             * A string value for the assertion message for not using ActivityResultLauncher on Android 30+.
-             *
-             * @author Patches Klinefelter
-             * @since 11/2022, version 5.0.0
-             */
-            const val NOT_USED_ANDROID_30: String =
-                "Adding a network should be done with the request that includes context on Android R+"
-        }
-
-        /**
          * A singleton that houses the assertion messages present for functions adding a WPA3 network.
          *
          * @author Patches Klinefelter
@@ -90,44 +63,12 @@ object AssertionMessages {
      */
     object NetworkConnection {
 
-        /**
-         * A string value for the assertion message for trying to disconnect from the current network on on Android 29
-         * or higher.
-         *
-         * @author Patches Klinefelter
-         * @since 11/2022, version 5.0.0
-         */
-        const val DISCONNECT_DEPRECATED_WITH_ANDROID_Q: String =
-            DeprecationMessages.NetworkConnection.DISCONNECT_FROM_CURRENT_NETWORK
-    }
-
-    /**
-     * A singleton that houses the assertion messages present for the remove network features.
-     *
-     * @author Patches Klinefelter
-     * @since 11/2022, version 5.0.0
-     */
-    object RemoveNetwork {
-
-        /**
-         * A string value for the assertion message for trying to remove a network with a configuration instead of a
-         * suggestion on Android 29 or higher.
-         *
-         * @author Patches Klinefelter
-         * @since 11/2022, version 5.0.0
-         */
-        const val CONFIGURATION_USED_ANDROID_Q: String =
-            "Starting at Android Q, suggestions should be used. Configuration was used instead."
-
-        /**
-         * A string value for the assertion message for trying to remove a network with a suggestion instead of a
-         * configuration before Android 29.
-         *
-         * @author Patches Klinefelter
-         * @since 11/2022, version 5.0.0
-         */
-        const val SUGGESTION_USED_PRE_ANDROID_Q: String =
-            "Before Android Q, configurations should be used. Suggestion was used instead."
+        object DisconnectFromCurrentNetwork {
+            object RequestWithContext {
+                const val USED_PRE_ANDROID_30: String = ""
+                const val NOT_USED_ANDROID_30: String = ""
+            }
+        }
     }
 
     /**

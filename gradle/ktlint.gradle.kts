@@ -1,4 +1,3 @@
-import org.jmailen.gradle.kotlinter.KotlinterExtension
 import org.jmailen.gradle.kotlinter.KotlinterPlugin
 
 buildscript {

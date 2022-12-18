@@ -15,7 +15,10 @@
  */
 package com.isupatches.android.wisefy.wifi.os.impls
 
+import android.Manifest.permission.ACCESS_WIFI_STATE
+import android.Manifest.permission.CHANGE_WIFI_STATE
 import android.net.wifi.WifiManager
+import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.wifi.os.apis.DefaultWifiApi
 
 /**
@@ -32,14 +35,17 @@ internal class DefaultWifiApiImpl(
     private val wifiManager: WifiManager
 ) : DefaultWifiApi {
 
+    @RequiresPermission(CHANGE_WIFI_STATE)
     override fun disableWifi(): Boolean {
         return wifiManager.setWifiEnabled(false)
     }
 
+    @RequiresPermission(CHANGE_WIFI_STATE)
     override fun enableWifi(): Boolean {
         return wifiManager.setWifiEnabled(true)
     }
 
+    @RequiresPermission(ACCESS_WIFI_STATE)
     override fun isWifiEnabled(): Boolean {
         return wifiManager.isWifiEnabled
     }

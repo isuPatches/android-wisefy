@@ -16,6 +16,7 @@
 package com.isupatches.android.wisefy.networkconnection.os.apis
 
 import android.Manifest.permission.CHANGE_NETWORK_STATE
+import android.content.Context
 import android.net.NetworkRequest
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -41,4 +42,6 @@ internal interface Android29NetworkConnectionApi {
      */
     @RequiresPermission(CHANGE_NETWORK_STATE)
     fun connectToNetwork(request: NetworkRequest, timeoutInMillis: Int)
+
+    fun openNetworkScreen(context: Context)
 }

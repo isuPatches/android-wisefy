@@ -25,7 +25,6 @@ import com.isupatches.android.wisefy.accesspoints.os.adapters.DefaultAccessPoint
 import com.isupatches.android.wisefy.core.coroutines.CoroutineDispatcherProvider
 import com.isupatches.android.wisefy.core.coroutines.createBaseCoroutineExceptionHandler
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
-import com.isupatches.android.wisefy.core.util.SdkUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -36,12 +35,10 @@ import kotlinx.coroutines.withContext
  * @param coroutineDispatcherProvider The [CoroutineDispatcherProvider] instance to use
  * @param scope The coroutine scope to use
  * @param logger The [WisefyLogger] instance to use
- * @param sdkUtil The [SdkUtil] instance to use
  * @param wifiManager The WifiManager instance to use
  *
  * @see AccessPointsDelegate
  * @see CoroutineDispatcherProvider
- * @see SdkUtil
  * @see WisefyLogger
  *
  * @author Patches Klinefelter
@@ -51,7 +48,6 @@ class WisefyAccessPointsDelegate(
     private val coroutineDispatcherProvider: CoroutineDispatcherProvider,
     private val scope: CoroutineScope,
     logger: WisefyLogger,
-    sdkUtil: SdkUtil,
     wifiManager: WifiManager
 ) : AccessPointsDelegate {
 
@@ -59,7 +55,7 @@ class WisefyAccessPointsDelegate(
         private const val LOG_TAG = "WisefyAccessPointsDelegate"
     }
 
-    private val adapter = DefaultAccessPointsAdapter(wifiManager, logger, sdkUtil)
+    private val adapter = DefaultAccessPointsAdapter(wifiManager, logger)
 
     init {
         logger.d(LOG_TAG, "WisefyAccessPointsDelegate adapter is: ${adapter::class.java.simpleName}")

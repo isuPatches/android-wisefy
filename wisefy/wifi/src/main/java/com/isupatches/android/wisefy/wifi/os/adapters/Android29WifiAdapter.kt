@@ -15,9 +15,11 @@
  */
 package com.isupatches.android.wisefy.wifi.os.adapters
 
+import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.net.wifi.WifiManager
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
 import com.isupatches.android.wisefy.core.constants.AssertionMessages
 import com.isupatches.android.wisefy.wifi.WifiApi
@@ -81,6 +83,7 @@ internal class Android29WifiAdapter(
         }
     }
 
+    @RequiresPermission(ACCESS_WIFI_STATE)
     override fun isWifiEnabled(query: IsWifiEnabledQuery): IsWifiEnabledResult {
         val result = api.isWifiEnabled()
         return if (result) {

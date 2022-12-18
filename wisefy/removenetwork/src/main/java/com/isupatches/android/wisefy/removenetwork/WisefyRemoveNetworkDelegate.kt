@@ -16,6 +16,7 @@
 package com.isupatches.android.wisefy.removenetwork
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
+import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.Manifest.permission.CHANGE_WIFI_STATE
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
@@ -30,7 +31,6 @@ import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkResult
 import com.isupatches.android.wisefy.removenetwork.os.adapters.Android29RemoveNetworkAdapter
 import com.isupatches.android.wisefy.removenetwork.os.adapters.Android30RemoveNetworkAdapter
 import com.isupatches.android.wisefy.removenetwork.os.adapters.DefaultRemoveNetworkAdapter
-import com.isupatches.android.wisefy.savednetworks.SavedNetworkDelegate
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
@@ -43,12 +43,10 @@ import kotlinx.coroutines.withContext
  * @param coroutineDispatcherProvider The instance of the coroutine dispatcher provider to use
  * @param scope The coroutine scope to use
  * @param logger The logger instance to use
- * @param savedNetworkDelegate The SavedNetworkDelegate instance to use
  * @param sdkUtil The SdkUtil instance to use
  * @param wifiManager The WifiManager instance to use
  *
  * @see CoroutineDispatcherProvider
- * @see SavedNetworkDelegate
  * @see SdkUtil
  * @see WisefyLogger
  *
@@ -61,7 +59,6 @@ class WisefyRemoveNetworkDelegate(
     private val savedNetworkMutex: Mutex,
     assertions: WisefyAssertions,
     logger: WisefyLogger,
-    savedNetworkDelegate: SavedNetworkDelegate,
     sdkUtil: SdkUtil,
     wifiManager: WifiManager
 ) : RemoveNetworkDelegate {
@@ -71,21 +68,21 @@ class WisefyRemoveNetworkDelegate(
     }
 
     private val adapter: RemoveNetworkApi = when {
-        sdkUtil.isAtLeastR() -> Android30RemoveNetworkAdapter(wifiManager, savedNetworkDelegate, assertions)
+        sdkUtil.isAtLeastR() -> Android30RemoveNetworkAdapter(logger, wifiManager)
         sdkUtil.isAtLeastQ() -> Android29RemoveNetworkAdapter(assertions)
-        else -> DefaultRemoveNetworkAdapter(wifiManager, savedNetworkDelegate, assertions)
+        else -> DefaultRemoveNetworkAdapter(wifiManager)
     }
 
     init {
         logger.d(LOG_TAG, "WisefyRemoveNetworkDelegate adapter is: ${adapter::class.java.simpleName}")
     }
 
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE, CHANGE_WIFI_STATE])
     override fun removeNetwork(request: RemoveNetworkRequest): RemoveNetworkResult {
         return adapter.removeNetwork(request)
     }
 
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE, CHANGE_WIFI_STATE])
     override fun removeNetwork(request: RemoveNetworkRequest, callbacks: RemoveNetworkCallbacks?) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
             savedNetworkMutex.withLock {

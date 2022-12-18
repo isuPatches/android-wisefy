@@ -38,6 +38,7 @@ internal interface DefaultNetworkInfoApi {
      * @author Patches Klinefelter
      * @since 03/2022
      */
+    @RequiresPermission(ACCESS_NETWORK_STATE)
     fun getCurrentNetwork(): Network?
 
     /**

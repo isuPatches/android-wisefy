@@ -21,8 +21,6 @@ import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.Manifest.permission.CHANGE_NETWORK_STATE
 import android.Manifest.permission.CHANGE_WIFI_STATE
 import android.content.Context
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -32,7 +30,7 @@ import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkRequest
 import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
 import com.isupatches.android.wisefy.core.exceptions.WisefyException
 import com.isupatches.android.wisefy.ktx.addNetworkAsync
-import com.isupatches.android.wisefy.networkconnection.callbacks.ConnectToNetworkCallbacks
+import com.isupatches.android.wisefy.ktx.connectToNetworkAsync
 import com.isupatches.android.wisefy.networkconnection.entities.ConnectToNetworkRequest
 import com.isupatches.android.wisefy.networkconnection.entities.ConnectToNetworkResult
 import com.isupatches.android.wisefy.sample.entities.NetworkType
@@ -54,12 +52,8 @@ internal abstract class AddNetworkViewModel : BaseViewModel() {
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     abstract suspend fun addNetwork()
 
-    @RequiresApi(Build.VERSION_CODES.R)
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-    abstract suspend fun addNetwork(context: Context)
-
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE, ACCESS_NETWORK_STATE, CHANGE_NETWORK_STATE])
-    abstract fun connectToNetwork()
+    abstract suspend fun connectToNetwork()
 
     abstract fun onDialogClosed()
 
@@ -71,9 +65,6 @@ internal abstract class AddNetworkViewModel : BaseViewModel() {
 
     abstract fun onAddNetworkPermissionsError()
     abstract fun onConnectToNetworkPermissionError()
-
-    abstract fun onAddNetworkFailure(resultCode: Int)
-    abstract fun onAddNetworkSuccess(resultCode: Int)
 }
 
 internal class DefaultAddNetworkViewModel(
@@ -177,76 +168,119 @@ internal class DefaultAddNetworkViewModel(
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     override suspend fun addNetwork() {
-        addNetwork(getAddNetworkRequest())
-    }
-
-    @RequiresApi(Build.VERSION_CODES.R)
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-    override suspend fun addNetwork(context: Context) {
-        addNetwork(getAddNetworkRequestForAndroid30OrHigher(context))
-    }
-
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-    override fun connectToNetwork() {
         if (!isInputValid()) {
             return
         }
-
         _uiState.value = uiState.value.copy(
             loadingState = AddNetworkLoadingState(isLoading = true),
             dialogState = AddNetworkDialogState.None
         )
-
-        wisefy.connectToNetwork(
-            request = ConnectToNetworkRequest.SSID(
-                ssid = uiState.value.inputState.ssidInput,
-                timeoutInMillis = 3000
-            ),
-            callbacks = object : ConnectToNetworkCallbacks {
-                override fun onConnectionRequestPlaced() {
-                    _uiState.value = uiState.value.copy(
-                        loadingState = AddNetworkLoadingState(false),
-                        dialogState = AddNetworkDialogState.ConnectToNetwork.Success(
-                            result = ConnectToNetworkResult.Success.ConnectionRequestSent
-                        )
+        val request = when (uiState.value.networkType) {
+            NetworkType.OPEN -> {
+                AddNetworkRequest.Open(
+                    ssid = uiState.value.inputState.ssidInput,
+                    bssid = uiState.value.inputState.bssidInput
+                )
+            }
+            NetworkType.WPA2 -> {
+                AddNetworkRequest.WPA2(
+                    ssid = uiState.value.inputState.ssidInput,
+                    passphrase = uiState.value.inputState.passphraseInput,
+                    bssid = uiState.value.inputState.bssidInput
+                )
+            }
+            NetworkType.WPA3 -> {
+                if (sdkUtil.isAtLeastQ()) {
+                    AddNetworkRequest.WPA3(
+                        ssid = uiState.value.inputState.ssidInput,
+                        passphrase = uiState.value.inputState.passphraseInput,
+                        bssid = uiState.value.inputState.bssidInput
                     )
-                }
-
-                override fun onConnectedToNetwork() {
-                    _uiState.value = uiState.value.copy(
-                        loadingState = AddNetworkLoadingState(false),
-                        dialogState = AddNetworkDialogState.ConnectToNetwork.Success(
-                            result = ConnectToNetworkResult.Success.True
-                        )
-                    )
-                }
-
-                override fun onNetworkNotFoundToConnectTo() {
-                    _uiState.value = uiState.value.copy(
-                        loadingState = AddNetworkLoadingState(false),
-                        dialogState = AddNetworkDialogState.ConnectToNetwork.Failure(
-                            result = ConnectToNetworkResult.Failure.NetworkNotFound
-                        )
-                    )
-                }
-
-                override fun onFailureConnectingToNetwork() {
-                    _uiState.value = uiState.value.copy(
-                        loadingState = AddNetworkLoadingState(false),
-                        dialogState = AddNetworkDialogState.ConnectToNetwork.Failure(
-                            result = ConnectToNetworkResult.Failure.False
-                        )
-                    )
-                }
-
-                override fun onWisefyAsyncFailure(exception: WisefyException) {
-                    _uiState.value = uiState.value.copy(
-                        loadingState = AddNetworkLoadingState(false),
-                        dialogState = AddNetworkDialogState.Failure.WisefyAsync(exception = exception)
-                    )
+                } else {
+                    error("")
                 }
             }
+        }
+        when (val result = getAddNetworkResult(request)) {
+            is AddNetworkResult.Success -> {
+                _uiState.value = uiState.value.copy(
+                    loadingState = AddNetworkLoadingState(false),
+                    dialogState = AddNetworkDialogState.AddNetwork.Success(result)
+                )
+            }
+            is AddNetworkResult.Failure -> {
+                _uiState.value = uiState.value.copy(
+                    loadingState = AddNetworkLoadingState(false),
+                    dialogState = AddNetworkDialogState.AddNetwork.Failure(result)
+                )
+            }
+            null -> {
+                // Case handled above in the catch clause
+            }
+        }
+    }
+
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
+    override suspend fun connectToNetwork() {
+        if (!isInputValid()) {
+            return
+        }
+        _uiState.value = uiState.value.copy(
+            loadingState = AddNetworkLoadingState(isLoading = true),
+            dialogState = AddNetworkDialogState.None
         )
+        val result = try {
+            wisefy.connectToNetworkAsync(
+                request = ConnectToNetworkRequest.SSID(
+                    ssid = uiState.value.inputState.ssidInput,
+                    timeoutInMillis = 3000
+                )
+            )
+        } catch (ex: WisefyException) {
+            _uiState.value = uiState.value.copy(
+                loadingState = AddNetworkLoadingState(false),
+                dialogState = AddNetworkDialogState.Failure.WisefyAsync(exception = ex)
+            )
+            null
+        }
+
+        when (result) {
+            ConnectToNetworkResult.Success.True -> {
+                _uiState.value = uiState.value.copy(
+                    loadingState = AddNetworkLoadingState(false),
+                    dialogState = AddNetworkDialogState.ConnectToNetwork.Success(
+                        result = ConnectToNetworkResult.Success.True
+                    )
+                )
+            }
+            ConnectToNetworkResult.Success.ConnectionRequestSent -> {
+                _uiState.value = uiState.value.copy(
+                    loadingState = AddNetworkLoadingState(false),
+                    dialogState = AddNetworkDialogState.ConnectToNetwork.Success(
+                        result = ConnectToNetworkResult.Success.ConnectionRequestSent
+                    )
+                )
+            }
+            ConnectToNetworkResult.Failure.False -> {
+                _uiState.value = uiState.value.copy(
+                    loadingState = AddNetworkLoadingState(false),
+                    dialogState = AddNetworkDialogState.ConnectToNetwork.Failure(
+                        result = ConnectToNetworkResult.Failure.False
+                    )
+                )
+            }
+            ConnectToNetworkResult.Failure.NetworkNotFound -> {
+                _uiState.value = uiState.value.copy(
+                    loadingState = AddNetworkLoadingState(false),
+                    dialogState = AddNetworkDialogState.ConnectToNetwork.Failure(
+                        result = ConnectToNetworkResult.Failure.NetworkNotFound
+                    )
+                )
+            }
+            null -> {
+                // Case handled above in the catch clause
+            }
+        }
     }
 
     private fun isInputValid(): Boolean {
@@ -312,22 +346,6 @@ internal class DefaultAddNetworkViewModel(
         }
     }
 
-    override fun onAddNetworkSuccess(resultCode: Int) {
-        _uiState.value = uiState.value.copy(
-            loadingState = AddNetworkLoadingState(isLoading = false),
-            dialogState = AddNetworkDialogState.AddNetwork.Success(AddNetworkResult.Success.ResultCode(resultCode))
-        )
-    }
-
-    override fun onAddNetworkFailure(resultCode: Int) {
-        _uiState.value = uiState.value.copy(
-            loadingState = AddNetworkLoadingState(isLoading = false),
-            dialogState = AddNetworkDialogState.AddNetwork.Failure(
-                AddNetworkResult.Failure.ResultCode(resultCode)
-            )
-        )
-    }
-
     override fun onDialogClosed() {
         _uiState.value = uiState.value.copy(
             loadingState = AddNetworkLoadingState(isLoading = false),
@@ -354,31 +372,6 @@ internal class DefaultAddNetworkViewModel(
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-    private suspend fun addNetwork(request: AddNetworkRequest) {
-        if (!isInputValid()) {
-            return
-        }
-        showProgress()
-        when (val result = getAddNetworkResult(request)) {
-            is AddNetworkResult.Success -> {
-                _uiState.value = uiState.value.copy(
-                    loadingState = AddNetworkLoadingState(false),
-                    dialogState = AddNetworkDialogState.AddNetwork.Success(result)
-                )
-            }
-            is AddNetworkResult.Failure -> {
-                _uiState.value = uiState.value.copy(
-                    loadingState = AddNetworkLoadingState(false),
-                    dialogState = AddNetworkDialogState.AddNetwork.Failure(result)
-                )
-            }
-            null -> {
-                // Case handled above in the catch clause
-            }
-        }
-    }
-
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     private suspend fun getAddNetworkResult(request: AddNetworkRequest): AddNetworkResult? {
         return try {
             wisefy.addNetworkAsync(request)
@@ -389,71 +382,6 @@ internal class DefaultAddNetworkViewModel(
             )
             null
         }
-    }
-
-    private fun getAddNetworkRequest(): AddNetworkRequest {
-        return when (uiState.value.networkType) {
-            NetworkType.OPEN -> {
-                AddNetworkRequest.Open.Default(
-                    ssid = uiState.value.inputState.ssidInput,
-                    bssid = uiState.value.inputState.bssidInput
-                )
-            }
-            NetworkType.WPA2 -> {
-                AddNetworkRequest.WPA2.Default(
-                    ssid = uiState.value.inputState.ssidInput,
-                    passphrase = uiState.value.inputState.passphraseInput,
-                    bssid = uiState.value.inputState.bssidInput
-                )
-            }
-            NetworkType.WPA3 -> {
-                if (sdkUtil.isAtLeastQ()) {
-                    AddNetworkRequest.WPA3.Default(
-                        ssid = uiState.value.inputState.ssidInput,
-                        passphrase = uiState.value.inputState.passphraseInput,
-                        bssid = uiState.value.inputState.bssidInput
-                    )
-                } else {
-                    error("")
-                }
-            }
-        }
-    }
-
-    @RequiresApi(Build.VERSION_CODES.R)
-    private fun getAddNetworkRequestForAndroid30OrHigher(context: Context): AddNetworkRequest {
-        return when (uiState.value.networkType) {
-            NetworkType.OPEN -> {
-                AddNetworkRequest.Open.Android30OrAbove(
-                    context = context,
-                    ssid = uiState.value.inputState.ssidInput,
-                    bssid = uiState.value.inputState.bssidInput
-                )
-            }
-            NetworkType.WPA2 -> {
-                AddNetworkRequest.WPA2.Android30OrAbove(
-                    context = context,
-                    ssid = uiState.value.inputState.ssidInput,
-                    passphrase = uiState.value.inputState.passphraseInput,
-                    bssid = uiState.value.inputState.bssidInput
-                )
-            }
-            NetworkType.WPA3 -> {
-                AddNetworkRequest.WPA3.Android30OrAbove(
-                    context = context,
-                    ssid = uiState.value.inputState.ssidInput,
-                    passphrase = uiState.value.inputState.passphraseInput,
-                    bssid = uiState.value.inputState.bssidInput
-                )
-            }
-        }
-    }
-
-    private fun showProgress() {
-        _uiState.value = uiState.value.copy(
-            loadingState = AddNetworkLoadingState(isLoading = true),
-            dialogState = AddNetworkDialogState.None
-        )
     }
 }
 

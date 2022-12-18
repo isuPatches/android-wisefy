@@ -22,7 +22,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.isupatches.android.wisefy.WisefyApi
-import com.isupatches.android.wisefy.sample.ComposablePreviewWisefy
+import com.isupatches.android.wisefy.sample.ui.ComposablePreviewWisefy
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleLoadingIndicator
 import com.isupatches.android.wisefy.sample.util.DefaultSdkUtil
 import com.isupatches.android.wisefy.sample.util.SdkUtil
@@ -32,7 +32,7 @@ internal fun MiscScreen(
     wisefy: WisefyApi,
     sdkUtil: SdkUtil,
     navController: NavHostController,
-    viewModel: MiscViewModel = viewModel(factory = MiscViewModelFactory(wisefy, sdkUtil))
+    viewModel: MiscViewModel = viewModel(factory = MiscViewModelFactory(wisefy))
 ) {
     WisefySampleLoadingIndicator(isLoading = { viewModel.uiState.value.loadingState.isLoading })
     MiscScreenDialogContent(dialogState = { viewModel.uiState.value.dialogState }, viewModel = viewModel)

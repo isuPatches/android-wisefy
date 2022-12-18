@@ -26,7 +26,6 @@ import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
 import com.isupatches.android.wisefy.core.constants.AssertionMessages
-import com.isupatches.android.wisefy.core.constants.DeprecationMessages
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.networkconnection.NetworkConnectionApi
 import com.isupatches.android.wisefy.networkconnection.entities.ConnectToNetworkRequest
@@ -89,12 +88,23 @@ internal class Android29NetworkConnectionAdapter(
         return ConnectToNetworkResult.Success.ConnectionRequestSent
     }
 
-    @Deprecated(DeprecationMessages.NetworkConnection.DISCONNECT_FROM_CURRENT_NETWORK)
     override fun disconnectFromCurrentNetwork(
         request: DisconnectFromCurrentNetworkRequest
     ): DisconnectFromCurrentNetworkResult {
-        val message = AssertionMessages.NetworkConnection.DISCONNECT_DEPRECATED_WITH_ANDROID_Q
-        assertions.fail(message = message)
-        return DisconnectFromCurrentNetworkResult.Failure.Assertion(message = message)
+        return when (request) {
+            is DisconnectFromCurrentNetworkRequest.Android29OrAbove -> {
+                api.openNetworkScreen(request.context)
+                DisconnectFromCurrentNetworkResult.Success.NetworkScreenOpened
+            }
+            is DisconnectFromCurrentNetworkRequest.Default -> {
+                val message = AssertionMessages
+                    .NetworkConnection
+                    .DisconnectFromCurrentNetwork
+                    .RequestWithContext
+                    .NOT_USED_ANDROID_30
+                assertions.fail(message = message)
+                DisconnectFromCurrentNetworkResult.Failure.Assertion(message = message)
+            }
+        }
     }
 }

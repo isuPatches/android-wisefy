@@ -40,23 +40,4 @@ object DeprecationMessages {
         const val CALCULATE_BARS: String = "Please replace calculateBars(rssiLevel: Int, targetNumberOfBars: Int) " +
             "with calculateBars(rssiLevel: Int)"
     }
-
-    /**
-     * A singleton that houses the deprecation messages present for the network connection features.
-     *
-     * @author Patches Klinefelter
-     * @since 11/2022, version 5.0.0
-     */
-    object NetworkConnection {
-
-        /**
-         * A string value for the deprecation message for disconnectFromCurrentNetwork().
-         *
-         * @author Patches Klinefelter
-         * @since 11/2022, version 5.0.0
-         */
-        const val DISCONNECT_FROM_CURRENT_NETWORK: String =
-            "Starting with Build.VERSION_CODES#Q, applications are not allowed to disconnect from a network. They can" +
-                " only request a network suggestion."
-    }
 }

@@ -16,10 +16,15 @@
 package com.isupatches.android.wisefy.networkconnection.os.impls
 
 import android.Manifest.permission.CHANGE_NETWORK_STATE
+import android.content.Context
+import android.content.Intent
 import android.net.ConnectivityManager
+import android.net.LinkProperties
 import android.net.Network
+import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import android.os.Build
+import android.provider.Settings
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
@@ -51,17 +56,50 @@ internal class Android29NetworkConnectionApiImpl(
     @RequiresPermission(CHANGE_NETWORK_STATE)
     override fun connectToNetwork(request: NetworkRequest, timeoutInMillis: Int) {
         val networkCallback = object : ConnectivityManager.NetworkCallback() {
+            override fun onLosing(network: Network, maxMsToLive: Int) {
+                super.onLosing(network, maxMsToLive)
+                logger.d(LOG_TAG, "onLosing")
+            }
+
+            override fun onLost(network: Network) {
+                super.onLost(network)
+                logger.d(LOG_TAG, "onLost")
+            }
+
+            override fun onCapabilitiesChanged(network: Network, networkCapabilities: NetworkCapabilities) {
+                super.onCapabilitiesChanged(network, networkCapabilities)
+                logger.d(LOG_TAG, "onCapabilitiesChanged")
+            }
+
+            override fun onLinkPropertiesChanged(network: Network, linkProperties: LinkProperties) {
+                super.onLinkPropertiesChanged(network, linkProperties)
+                logger.d(LOG_TAG, "onLinkPropertiesChanged")
+            }
+
+            override fun onBlockedStatusChanged(network: Network, blocked: Boolean) {
+                super.onBlockedStatusChanged(network, blocked)
+                logger.d(LOG_TAG, "onBlockedStatusChanged")
+            }
+
             override fun onAvailable(network: Network) {
                 super.onAvailable(network)
-                logger.d(LOG_TAG, "Network available")
+                logger.d(LOG_TAG, "onAvailable")
             }
 
             override fun onUnavailable() {
                 super.onUnavailable()
-                logger.d(LOG_TAG, "Network unavailable")
+                logger.d(LOG_TAG, "onUnavailable")
             }
         }
         this.networkCallback = networkCallback
-        connectionManager.requestNetwork(request, networkCallback, timeoutInMillis)
+        logger.d(LOG_TAG, "requestNetwork; timeoutInMillis: $timeoutInMillis, request: $request")
+        connectionManager.requestNetwork(request, networkCallback)
+    }
+
+    override fun openNetworkScreen(context: Context) {
+        context.startActivity(
+            Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        )
     }
 }

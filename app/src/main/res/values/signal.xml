@@ -11,8 +11,8 @@
 
     <!-- Results -->
     <string name="failure_calculating_signal_level_args">Failure calculating signal level. Result: %s</string>
-    <string name="succeeded_calculating_signal_level_args">Succeeded calculating signal level. Result: %s</string>
-    <string name="succeeded_comparing_signal_level_args">Succeeded comparing signal level. Result: %s</string>
+    <string name="success_calculating_signal_level_args">Success calculating signal level. Result: %s</string>
+    <string name="success_comparing_signal_level_args">Success comparing signal level. Result: %s</string>
 
     <!-- Input Errors -->
 

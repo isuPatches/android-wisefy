@@ -35,10 +35,10 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import com.isupatches.android.wisefy.sample.ComposablePreviewWisefy
 import com.isupatches.android.wisefy.sample.R
 import com.isupatches.android.wisefy.sample.entities.NetworkType
 import com.isupatches.android.wisefy.sample.logging.WisefySampleLogger
+import com.isupatches.android.wisefy.sample.ui.ComposablePreviewWisefy
 import com.isupatches.android.wisefy.sample.ui.components.WisefyPrimaryButton
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleBodyLabel
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleEditText
@@ -59,18 +59,13 @@ internal fun AddNetworkScreenContent(
 ) {
     WisefySampleTheme {
         val scope = rememberCoroutineScope()
-        val context = LocalContext.current
 
         val addNetworkPermissionLauncher =
             rememberLauncherForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result ->
                 if (result.all { it.value }) {
                     scope.launch {
                         @Suppress("MissingPermission")
-                        if (sdkUtil.isAtLeastR()) {
-                            viewModel.addNetwork(context = context)
-                        } else {
-                            viewModel.addNetwork()
-                        }
+                        viewModel.addNetwork()
                     }
                 } else {
                     WisefySampleLogger.w(LOG_TAG, "Permissions required to add a network are denied")
@@ -87,7 +82,7 @@ internal fun AddNetworkScreenContent(
                     }
                 } else {
                     WisefySampleLogger.w(LOG_TAG, "Permissions required to connect to a network are denied")
-                    viewModel.onAddNetworkPermissionsError()
+                    viewModel.onConnectToNetworkPermissionError()
                 }
             }
 

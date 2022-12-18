@@ -66,11 +66,17 @@ internal fun WisefySampleDialogBodyLabel(
 @Composable
 internal fun WisefySampleBodyLabel(
     @StringRes stringResId: Int,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    vararg formatArgs: Any
 ) {
     WisefySampleTheme {
+        val text = if (formatArgs.any()) {
+            stringResource(stringResId, *formatArgs)
+        } else {
+            stringResource(stringResId)
+        }
         Text(
-            text = stringResource(stringResId),
+            text = text,
             style = WisefySampleTypography.body1,
             color = MaterialTheme.colors.onBackground,
             modifier = modifier
@@ -81,11 +87,17 @@ internal fun WisefySampleBodyLabel(
 @Composable
 internal fun WisefySampleSubHeaderLabel(
     @StringRes stringResId: Int,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    vararg formatArgs: Any
 ) {
     WisefySampleTheme {
+        val text = if (formatArgs.any()) {
+            stringResource(stringResId, *formatArgs)
+        } else {
+            stringResource(stringResId)
+        }
         Text(
-            text = stringResource(stringResId),
+            text = text,
             style = WisefySampleTypography.h6,
             color = MaterialTheme.colors.onBackground,
             modifier = modifier

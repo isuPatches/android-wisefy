@@ -24,7 +24,6 @@ import com.isupatches.android.wisefy.accesspoints.entities.GetAccessPointsQuery
 import com.isupatches.android.wisefy.accesspoints.entities.GetAccessPointsResult
 import com.isupatches.android.wisefy.core.exceptions.WisefyException
 import kotlin.coroutines.suspendCoroutine
-import kotlin.jvm.Throws
 
 /**
  * A coroutine extension for getting all nearby access points.

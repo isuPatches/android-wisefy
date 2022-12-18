@@ -23,7 +23,6 @@ import com.isupatches.android.wisefy.networkinfo.callbacks.GetNetworkConnectionS
 import com.isupatches.android.wisefy.networkinfo.entities.GetNetworkConnectionStatusQuery
 import com.isupatches.android.wisefy.networkinfo.entities.GetNetworkConnectionStatusResult
 import kotlin.coroutines.suspendCoroutine
-import kotlin.jvm.Throws
 
 @Throws(WisefyException::class)
 @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)

@@ -32,6 +32,10 @@ interface AddNetworkApiAsync {
     /**
      * An asynchronous API for adding a network.
      *
+     * * *NOTES*
+     *  - As of Android 11, in-place modifications are allowed so there will be no
+     *  STATUS_NETWORK_SUGGESTIONS_ERROR_ADD_DUPLICATE return
+     *
      * @param request The details of the request to add a network
      * @param callbacks The optional callbacks for when the result for adding a network is returned
      *

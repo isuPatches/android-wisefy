@@ -15,9 +15,13 @@
  */
 package com.isupatches.android.wisefy.wifi.os.apis
 
+import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.content.Context
+import androidx.annotation.RequiresPermission
 
 internal interface Android29WifiApi {
     fun openWifiSettings(context: Context)
+
+    @RequiresPermission(ACCESS_WIFI_STATE)
     fun isWifiEnabled(): Boolean
 }

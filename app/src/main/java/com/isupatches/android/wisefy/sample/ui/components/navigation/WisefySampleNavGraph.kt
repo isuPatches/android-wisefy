@@ -27,5 +27,6 @@ sealed class WisefySampleNavGraph(open val route: String) {
 
     sealed class Misc(override val route: String) : WisefySampleNavGraph(route) {
         object Signal : Misc(route = "signal")
+        object NearbyAccessPoints : Misc(route = "nearbyAccessPoints")
     }
 }

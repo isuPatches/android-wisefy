@@ -15,10 +15,12 @@
  */
 package com.isupatches.android.wisefy.wifi.os.impls
 
+import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.content.Context
 import android.content.Intent
 import android.net.wifi.WifiManager
 import android.provider.Settings
+import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.wifi.os.apis.Android29WifiApi
 
 internal class Android29WifiApiImpl(
@@ -29,6 +31,7 @@ internal class Android29WifiApiImpl(
         context.startActivity(Intent(Settings.ACTION_WIFI_SETTINGS).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
     }
 
+    @RequiresPermission(ACCESS_WIFI_STATE)
     override fun isWifiEnabled(): Boolean {
         return wifiManager.isWifiEnabled
     }

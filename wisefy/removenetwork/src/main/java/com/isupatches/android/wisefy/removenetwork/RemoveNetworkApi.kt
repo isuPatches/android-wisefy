@@ -16,6 +16,7 @@
 package com.isupatches.android.wisefy.removenetwork
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
+import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.Manifest.permission.CHANGE_WIFI_STATE
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.removenetwork.callbacks.RemoveNetworkCallbacks
@@ -43,6 +44,6 @@ interface RemoveNetworkApi {
      * @author Patches Klinefelter
      * @since 03/2022
      */
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE, CHANGE_WIFI_STATE])
     fun removeNetwork(request: RemoveNetworkRequest): RemoveNetworkResult
 }

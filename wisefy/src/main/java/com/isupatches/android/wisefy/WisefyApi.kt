@@ -40,7 +40,6 @@ import com.isupatches.android.wisefy.wifi.WifiApiAsync
  * @see AddNetworkApiAsync
  * @see NetworkConnectionApi
  * @see NetworkConnectionApiAsync
- * @see NetworkConnectionStatusApi
  * @see NetworkInfoApi
  * @see NetworkInfoApiAsync
  * @see RemoveNetworkApi

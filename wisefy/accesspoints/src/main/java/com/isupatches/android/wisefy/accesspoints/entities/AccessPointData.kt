@@ -37,6 +37,8 @@ import com.isupatches.android.wisefy.core.constants.MIN_FREQUENCY_5GHZ
  */
 data class AccessPointData(
     val rawValue: ScanResult,
+    val ssid: String,
+    val bssid: String,
     val frequency: Int = rawValue.frequency,
     val rssi: Int = rawValue.level,
     val is5gHz: Boolean = frequency in (MIN_FREQUENCY_5GHZ + 1) until MAX_FREQUENCY_5GHZ,

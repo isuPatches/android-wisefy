@@ -20,6 +20,7 @@
 - [:wifi package](#wifi-package)
   - [disableWifi](#disablewifi)
   - [enabledWifi](#enablewifi)
+  - [isWifiEnabled](#iswifienabled)
 - [Mutex Locks](#mutex-locks)
 
 ### `:accesspoints` package
@@ -36,6 +37,7 @@ Gets nearby access points
   - *Synchronous*: `fun getAccessPoints(query: GetAccessPointsQuery): GetAccessPointsResult`
   - *Async*: `fun getAccessPoints(query: GetAccessPointsQuery, callbacks: GetAccessPointsCallbacks?)`
   - *Coroutine*: `suspend fun WisefyApi.getAccessPointsAsync(query: GetAccessPointsQuery): GetAccessPointsResult`
+- Permissions: ACCESS_FINE_LOCATION
 - Notes:
   - This can be leveraged to search for a single access point with `.first()`/`.firstOrNull()`
   - This can be leveraged for SSIDs with `.map { it.value.SSID }` or `.value.SSID`
@@ -55,6 +57,7 @@ Adds a network to the saved list of configurations / suggestions
   - *Synchronous*: `fun addNetwork(request: AddNetworkRequest): AddNetworkRestult`
   - *Async*: `fun addNetwork(request: AddNetworkRequest, callbacks: AddNetworkCallbacks?)`
   - *Coroutine*: `suspend fun WisefyApi.addNetworkAsync(request: AddNetworkRequest): AddNetworkResult`
+- Permissions: ACCESS_FINE_LOCATION and CHANGE_WIFI_STATE
 - Notes: Currently supports Open and WPA2 network types along with WPA3 starting with Android Q
 
 #### `:networkconnection` package
@@ -76,6 +79,7 @@ Gets the device's current network
   - *Synchronous*: `fun getCurrentNetwork(query: GetCurrentNetworkQuery): GetCurrentNetworkResult`
   - *Async*: `fun getCurrentNetwork(query: GetCurrentNetworkQuery, callbacks: GetCurrentNetworkCallbacks?)`
   - *Coroutine*: `suspend fun WisefyApi.getCurrentNetworkAsync(query: GetCurrentNetworkQuery): GetCurrentNetworkResult`
+- Permissions: ACCESS_NETWORK_STATE
 
 #### getNetworkConnectionStatus()
 
@@ -89,7 +93,8 @@ Gets the device's network connection status
   - *Synchronous*: `fun getNetworkConnectionStatus(query: GetNetworkConnectionStatusQuery): GetNetworkConnectionStatusResult`
   - *Async*: `fun getNetworkConnectionStatus(query: GetNetworkConnectionStatusQuery, callbacks: GetNetworkConnectionStatusCallbacks?)`
   - *Coroutine*: `suspend fun WisefyApi.getNetworkConnectionStatusAsync(query: GetNetworkConnectionStatusQuery): GetNetworkConnectionStatusResult`
-  
+- Permissions: ACCESS_NETWORK_STATE
+
 #### `:removenetwork` package
 
 #### removeNetwork()
@@ -104,6 +109,7 @@ Removes a network from the saved suggestions / configurations
   - *Synchronous*: `fun removeNetwork(request: RemoveNetworkRequest): RemoveNetworkResult`
   - *Async*: `fun removeNetwork(request: RemoveNetworkRequest, callbacks: RemoveNetworkCallbacks?)`
   - *Coroutine*: `suspend fun WisefyApi.removeNetworkAsync(request: RemoveNetworkRequest): RemoveNetworkResult`
+- Permissions: ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE, and CHANGE_WIFI_STATE
 
 ### `:savednetworks` package
 
@@ -119,12 +125,23 @@ Gets the saved networks on a device
   - *Synchronous*: `fun getSavedNetworks(query: GetSavedNetworksQuery): GetSavedNetworksResult`
   - *Async*: `fun getSavedNetworks(query: GetSavedNetworksQuery, callbacks: GetSavedNetworksCallbacks?)`
   - *Coroutine*: `suspend fun WisefyApi.getSavedNetworksAsync(query: GetSavedNetworksQuery): GetSavedNetworksResult`
+- Permissions: ACCESS_FINE_LOCATION and ACCESS_WIFI_STATE
 - Notes:
   - This can be leveraged to search for a single access point with `.first()`/`.firstOrNull()`
 
 #### isNetworkSaved()
 
-Checking if a specific network is saved
+For checking if a specific network is saved
+
+- Usage example: todo@patches
+- Query class: [IsNetworkSavedQuery](/wisefy/savednetworks/src/main/java/com/isupatches/android/wisefy/savednetworks/entities/IsNetworkSavedQuery.kt)
+- Result class: [IsNetworkSavedResult](/wisefy/savednetworks/src/main/java/com/isupatches/android/wisefy/savednetworks/entities/IsNetworkSavedResult.kt)
+- Callbacks: [IsNetworkSavedCallbacks](/wisefy/savednetworks/src/main/java/com/isupatches/android/wisefy/savednetworks/callbacks/IsNetworkSavedCallbacks.kt)
+- API options:
+  - *Synchronous*: `fun isNetworkSaved(query: IsNetworkSavedQuery): IsNetworkSavedResult`
+  - *Async*: `fun isNetworkSaved(query: IsNetworkSavedQuery, callbacks: IsNetworkSavedCallbacks?)`
+  - *Coroutine*: `suspend fun WisefyApi.isNetworkSavedAsync(query: IsNetworkSavedQuery): IsNetworkSavedResult`
+- Permissions: ACCESS_FINE_LOCATION and ACCESS_WIFI_STATE
 
 ### `:sginal` package
 
@@ -137,6 +154,7 @@ Calculates the strength given an RSSI level.
 - Result class: [CalculateSignalLevelResult](/wisefy/signal/src/main/java/com/isupatches/android/wisefy/signal/entities/CalculateSignalLevelResult.kt)
 - API options:
   - *Synchronous*: `fun calculateSignalLevel(request: CalculateSignalLevelRequest): CalculateSignalLevelResult`
+- Permissions: None
 
 #### compareSignalLevel()
 
@@ -147,6 +165,7 @@ Compares the strength of two RSSI levels.
 - Result class: [CompareSignalLevelResult](/wisefy/signal/src/main/java/com/isupatches/android/wisefy/signal/entities/CompareSignalLevelResult.kt)
 - API options:
   - *Synchronous*: `fun compareSignalLevel(request: CompareSignalLevelRequest): CompareSignalLevelResult`
+- Permissions: None
 
 ### `:wifi` package
 
@@ -162,6 +181,7 @@ Disables Wifi
     - *Synchronous*: `fun disableWifi(request: DisableWifiRequest): DisableWifiResult`
     - *Async*: `fun disableWifi(request: DisableWifiRequest, callbacks: DisableWifiCallbacks?)`
     - *Coroutine*: `suspend fun WisefyApi.disableWifiAsync(request: DisableWifiRequest): DisableWifiResult`
+- Permissions: CHANGE_WIFI_STATE
 - Notes:
   - Starting at Android Q (SDK 29), this will take the user to the Wifi Settings screen
 
@@ -177,9 +197,24 @@ Enables Wifi
   - *Synchronous*: `fun enableWifi(request: EnableWifiRequest): EnableWifiResult`
   - *Async*: `fun enableWifi(request: EnableWifiRequest, callbacks: EnableWifiCallbacks?)`
   - *Coroutine*: `suspend fun WisefyApi.enableWifiAsync(request: EnableWifiRequest): EnableWifiResult`
+- Permissions: CHANGE_WIFI_STATE
 - Notes:
   - Starting at Android Q (SDK 29), this will take the user to the Wifi Settings screen
 
+#### isWifiEnabled()
+
+Returns if Wifi is enabled
+
+- Usage example: [MiscViewModel::isWifiEnabled](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#L309)
+- Query class: [IsWifiEnabledQuery](/wisefy/wifi/src/main/java/com/isupatches/android/wisefy/wifi/entities/IsWifiEnabledQuery.kt)
+- Result class: [IsWifiEnabledResult](/wisefy/wifi/src/main/java/com/isupatches/android/wisefy/wifi/entities/IsWifiEnabledResult.kt)
+- Callbacks: [IsWifiEnabledCallbacks](/wisefy/wifi/src/main/java/com/isupatches/android/wisefy/wifi/callbacks/IsWifiEnabledCallbacks.kt)
+- API options:
+  - *Synchronous*: `fun isWifiEnabled(query: IsWifiEnabledQuery): IsWifiEnabledResult`
+  - *Async*: `fun isWifiEnabled(query: IsWifiEnabledQuery, callbacks: IsWifiEnabledCallbacks?)`
+  - *Coroutine*: `suspend fun WisefyApi.isWifiEnabledAsync(query: IsWifiEnabledQuery): IsWifiEnabledResult`
+- Permissions: ACCESS_WIFI_STATE
+  
 ### Mutex Locks
 
 - networkConnectionMutex: `connectToNetwork`, `disconnectFromCurrentNetwork`, `getCurrentNetwork`, and 

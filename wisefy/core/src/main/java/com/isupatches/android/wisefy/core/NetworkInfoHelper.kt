@@ -13,17 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.android.wisefy.networkconnection.entities
+package com.isupatches.android.wisefy.core
 
-import android.content.Context
+import android.net.wifi.WifiInfo
+import com.isupatches.android.wisefy.core.constants.QUOTE
 
-/**
- * A set of classes that are used in requests to connect and disconnect from a network.
- *
- * @author Patches Klinefelter
- * @since 03/2022
- */
-sealed class DisconnectFromCurrentNetworkRequest {
-    object Default : DisconnectFromCurrentNetworkRequest()
-    data class Android29OrAbove(val context: Context) : DisconnectFromCurrentNetworkRequest()
-}
+val WifiInfo.ssidWithoutQuotes: String
+    get() = ssid.replace(QUOTE, "")
+
+val WifiInfo.bssidWithoutQuotes: String
+    get() = bssid.replace(QUOTE, "")

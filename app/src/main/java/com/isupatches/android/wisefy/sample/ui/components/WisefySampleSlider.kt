@@ -28,12 +28,13 @@ import com.isupatches.android.wisefy.sample.ui.theme.WisefySampleTheme
 
 @Composable
 internal fun WisefySampleSlider(
+    startPosition: () -> Float?,
     valueRange: ClosedFloatingPointRange<Float>,
     onValueChange: (Float) -> Unit,
     onValueChangeFinished: (Float) -> Unit
 ) {
     WisefySampleTheme {
-        var sliderPosition by remember { mutableStateOf(0f) }
+        var sliderPosition by remember { mutableStateOf(startPosition() ?: 0f) }
         Slider(
             value = sliderPosition,
             valueRange = valueRange,
@@ -57,6 +58,7 @@ private const val PREVIEW_END_VALUE = 30f
 @Suppress("UnusedPrivateMember")
 private fun WisefySampleSliderLightPreview() {
     WisefySampleSlider(
+        startPosition = { 0f },
         valueRange = object : ClosedFloatingPointRange<Float> {
             override fun lessThanOrEquals(a: Float, b: Float): Boolean {
                 return a <= b
@@ -75,6 +77,7 @@ private fun WisefySampleSliderLightPreview() {
 @Suppress("UnusedPrivateMember")
 private fun WisefySampleSliderDarkPreview() {
     WisefySampleSlider(
+        startPosition = { 0f },
         valueRange = object : ClosedFloatingPointRange<Float> {
             override fun lessThanOrEquals(a: Float, b: Float): Boolean {
                 return a <= b

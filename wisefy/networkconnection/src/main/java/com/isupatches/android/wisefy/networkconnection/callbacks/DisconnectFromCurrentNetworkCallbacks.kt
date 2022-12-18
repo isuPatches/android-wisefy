@@ -27,6 +27,8 @@ import com.isupatches.android.wisefy.core.base.BaseWisefyCallbacks
  */
 interface DisconnectFromCurrentNetworkCallbacks : BaseWisefyCallbacks {
 
+    fun onNetworkScreenOpened()
+
     /**
      * A callback triggered when the device has successfully disconnected from the current network.
      *

@@ -15,24 +15,18 @@
  */
 package com.isupatches.android.wisefy.removenetwork.os.adapters
 
-import android.Manifest.permission.ACCESS_FINE_LOCATION
-import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.Manifest.permission.CHANGE_WIFI_STATE
 import android.net.wifi.WifiManager
+import android.net.wifi.WifiManager.STATUS_NETWORK_SUGGESTIONS_SUCCESS
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
-import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
-import com.isupatches.android.wisefy.core.constants.AssertionMessages
+import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.removenetwork.RemoveNetworkApi
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkRequest
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkResult
 import com.isupatches.android.wisefy.removenetwork.os.apis.Android30RemoveNetworkApi
-import com.isupatches.android.wisefy.removenetwork.os.converters.toSearchForNetworkRequest
 import com.isupatches.android.wisefy.removenetwork.os.impls.Android30RemoveNetworkApiImpl
-import com.isupatches.android.wisefy.savednetworks.SavedNetworkDelegate
-import com.isupatches.android.wisefy.savednetworks.entities.GetSavedNetworksResult
-import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
 
 /**
  * An Android 29 specific adapter for removing a network.
@@ -49,37 +43,21 @@ import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
  */
 @RequiresApi(Build.VERSION_CODES.R)
 internal class Android30RemoveNetworkAdapter(
+    logger: WisefyLogger,
     private val wifiManager: WifiManager,
-    private val savedNetworkDelegate: SavedNetworkDelegate,
-    private val assertions: WisefyAssertions,
-    private val api: Android30RemoveNetworkApi = Android30RemoveNetworkApiImpl(wifiManager)
+    private val api: Android30RemoveNetworkApi = Android30RemoveNetworkApiImpl(wifiManager, logger)
 ) : RemoveNetworkApi {
 
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE, ACCESS_WIFI_STATE])
+    @RequiresPermission(CHANGE_WIFI_STATE)
     override fun removeNetwork(request: RemoveNetworkRequest): RemoveNetworkResult {
-        return when (
-            val savedNetworkSearchResult = savedNetworkDelegate.getSavedNetworks(
-                query = request.toSearchForNetworkRequest()
-            )
-        ) {
-            is GetSavedNetworksResult.Empty -> RemoveNetworkResult.Failure.NetworkNotFound
-            is GetSavedNetworksResult.SavedNetworks -> {
-                when (val savedNetwork = savedNetworkSearchResult.value.first()) {
-                    is SavedNetworkData.Suggestion -> {
-                        val result = api.removeNetwork(savedNetwork.rawValue)
-                        if (result == WifiManager.STATUS_NETWORK_SUGGESTIONS_SUCCESS) {
-                            RemoveNetworkResult.Success.ResultCode(result)
-                        } else {
-                            RemoveNetworkResult.Failure.ResultCode(result)
-                        }
-                    }
-                    is SavedNetworkData.Configuration -> {
-                        val message = AssertionMessages.RemoveNetwork.CONFIGURATION_USED_ANDROID_Q
-                        assertions.fail(message = message)
-                        RemoveNetworkResult.Failure.Assertion(message = message)
-                    }
-                }
-            }
+        val result = when (request) {
+            is RemoveNetworkRequest.SSID -> api.removeNetworkBySSID(request.regex)
+            is RemoveNetworkRequest.BSSID -> api.removeNetworkByBSSID(request.regex)
+        }
+        return if (result == STATUS_NETWORK_SUGGESTIONS_SUCCESS) {
+            RemoveNetworkResult.Success.ResultCode(result)
+        } else {
+            RemoveNetworkResult.Failure.ResultCode(result)
         }
     }
 }

@@ -20,7 +20,8 @@ import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.net.wifi.WifiConfiguration
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
-import com.isupatches.android.wisefy.core.constants.QUOTE
+import com.isupatches.android.wisefy.core.hasBSSIDMatchingRegex
+import com.isupatches.android.wisefy.core.hasSSIDMatchingRegex
 import com.isupatches.android.wisefy.savednetworks.os.apis.DefaultSavedNetworkApi
 
 /**
@@ -44,17 +45,11 @@ internal class DefaultSavedNetworkApiImpl(
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun searchForSavedNetworksBySSID(regexForSSID: String): List<WifiConfiguration> {
-        return getSavedNetworks().filter { configuration ->
-            configuration.SSID.replace(QUOTE, "").matches(regexForSSID.toRegex()) ||
-                configuration.SSID.matches(regexForSSID.toRegex())
-        }
+        return getSavedNetworks().filter { it.hasSSIDMatchingRegex(regexForSSID) }
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun searchForSavedNetworksByBSSID(regexForBSSID: String): List<WifiConfiguration> {
-        return getSavedNetworks().filter { configuration ->
-            configuration.BSSID.replace(QUOTE, "").matches(regexForBSSID.toRegex()) ||
-                configuration.BSSID.matches(regexForBSSID.toRegex())
-        }
+        return getSavedNetworks().filter { it.hasBSSIDMatchingRegex(regexForBSSID) }
     }
 }

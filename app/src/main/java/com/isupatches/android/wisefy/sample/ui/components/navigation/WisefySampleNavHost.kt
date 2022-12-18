@@ -25,6 +25,7 @@ import androidx.navigation.compose.composable
 import com.isupatches.android.wisefy.WisefyApi
 import com.isupatches.android.wisefy.sample.features.add.AddNetworkScreen
 import com.isupatches.android.wisefy.sample.features.misc.MiscScreen
+import com.isupatches.android.wisefy.sample.features.misc.nearbyaccesspoints.NearbyAccessPointsScreen
 import com.isupatches.android.wisefy.sample.features.misc.signal.SignalScreen
 import com.isupatches.android.wisefy.sample.features.remove.RemoveNetworkScreen
 import com.isupatches.android.wisefy.sample.features.search.SearchScreen
@@ -60,6 +61,9 @@ internal fun WisefySampleNavHost(
         }
         composable(WisefySampleNavGraph.Misc.Signal.route) {
             SignalScreen(wisefy = wisefy, sdkUtil = sdkUtil)
+        }
+        composable(WisefySampleNavGraph.Misc.NearbyAccessPoints.route) {
+            NearbyAccessPointsScreen(wisefy = wisefy)
         }
     }
 }
