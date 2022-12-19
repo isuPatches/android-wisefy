@@ -15,7 +15,25 @@
  */
 package com.isupatches.android.wisefy.core.util
 
-fun withTimeout(timeoutInMillis: Int, block: () -> Unit) {
-    timeoutInMillis
-    block()
+private const val BASE_DELAY_IN_MS = 1000L
+
+fun withTimeout(timeoutInMillis: Int, block: () -> Boolean): Boolean {
+    var currentTime: Long
+    val endTime = System.currentTimeMillis() + timeoutInMillis
+    do {
+        if (block()) {
+            return true
+        }
+        sleep()
+        currentTime = System.currentTimeMillis()
+    } while (currentTime < endTime)
+    return false
+}
+
+private fun sleep(timeToSleepInMillis: Long = BASE_DELAY_IN_MS) {
+    try {
+        Thread.sleep(timeToSleepInMillis)
+    } catch (ie: InterruptedException) {
+        // Do nothing
+    }
 }

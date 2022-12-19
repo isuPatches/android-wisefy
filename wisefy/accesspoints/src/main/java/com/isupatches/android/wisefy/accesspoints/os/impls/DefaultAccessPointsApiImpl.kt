@@ -27,7 +27,7 @@ import com.isupatches.android.wisefy.core.hasBSSIDMatchingRegex
 import com.isupatches.android.wisefy.core.hasSSIDMatchingRegex
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.core.ssidWithoutQuotes
-import com.isupatches.android.wisefy.core.util.rest
+import com.isupatches.android.wisefy.core.util.withTimeout
 
 /**
  * A default internal implementation for getting and searching for nearby access points through the Android OS.
@@ -99,6 +99,24 @@ internal class DefaultAccessPointsApiImpl(
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
+    private fun filterAccessPoints(
+        filterDuplicates: Boolean,
+        matcher: (ScanResult) -> Boolean
+    ): List<AccessPointData> {
+        val allAccessPoints = getLastScanResults()
+        if (allAccessPoints.isEmpty()) {
+            return emptyList()
+        }
+        return if (filterDuplicates) {
+            removeEntriesWithLowerSignalStrength(allAccessPoints.filter(matcher))
+        } else {
+            allAccessPoints.filter(matcher).map {
+                AccessPointData(rawValue = it, ssid = it.ssidWithoutQuotes, bssid = it.bssidWithoutQuotes)
+            }
+        }
+    }
+
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     private fun getLastScanResults(): List<ScanResult> {
         // For SDK 23 and above, devices will be limited on ability to trigger scans and it's been
         // indicated by Android Google docs that eventually apps will no longer be able to trigger a
@@ -136,29 +154,11 @@ internal class DefaultAccessPointsApiImpl(
                     ssid = accessPoint.ssidWithoutQuotes,
                     bssid = accessPoint.bssidWithoutQuotes
                 )
-                logger.d(LOG_TAG, "Adding new network. $accessPointData")
+                logger.d(LOG_TAG, "Found new network. $accessPointData")
                 accessPointsToReturn[accessPoint.ssidWithoutQuotes] = accessPointData
             }
         }
         return accessPointsToReturn.values.toList()
-    }
-
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    private fun scanForAccessPoints(
-        filterDuplicates: Boolean,
-        matcher: (ScanResult) -> Boolean
-    ): List<AccessPointData> {
-        val allAccessPoints = getLastScanResults()
-        if (allAccessPoints.isEmpty()) {
-            return emptyList()
-        }
-        return if (filterDuplicates) {
-            removeEntriesWithLowerSignalStrength(allAccessPoints.filter(matcher))
-        } else {
-            allAccessPoints.filter(matcher).map {
-                AccessPointData(rawValue = it, ssid = it.ssidWithoutQuotes, bssid = it.bssidWithoutQuotes)
-            }
-        }
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
@@ -167,19 +167,15 @@ internal class DefaultAccessPointsApiImpl(
         timeoutInMillis: Int?,
         matcher: (ScanResult) -> Boolean
     ): List<AccessPointData> {
-        var accessPointsTemp: List<AccessPointData>
+        var filteredAccessPoints: List<AccessPointData> = emptyList()
         if (timeoutInMillis != null) {
-            val endTime = System.currentTimeMillis() + timeoutInMillis
-            do {
-                accessPointsTemp = scanForAccessPoints(filterDuplicates, matcher)
-                if (accessPointsTemp.isNotEmpty()) {
-                    break
-                }
-                rest()
-            } while (System.currentTimeMillis() < endTime)
+            withTimeout(timeoutInMillis) {
+                filteredAccessPoints = filterAccessPoints(filterDuplicates, matcher)
+                filteredAccessPoints.isNotEmpty()
+            }
         } else {
-            accessPointsTemp = scanForAccessPoints(filterDuplicates, matcher)
+            filteredAccessPoints = filterAccessPoints(filterDuplicates, matcher)
         }
-        return accessPointsTemp
+        return filteredAccessPoints
     }
 }

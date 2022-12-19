@@ -27,7 +27,7 @@ import com.isupatches.android.wisefy.core.entities.NetworkConnectionStatus
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.core.ssidWithoutQuotes
 import com.isupatches.android.wisefy.core.util.SdkUtil
-import com.isupatches.android.wisefy.core.util.rest
+import com.isupatches.android.wisefy.core.util.withTimeout
 import com.isupatches.android.wisefy.networkconnection.os.apis.DefaultNetworkConnectionApi
 
 /**
@@ -120,43 +120,15 @@ internal class DefaultNetworkConnectionApiImpl(
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
     private fun waitForConnectionToSSID(ssid: String, timeoutInMillis: Int): Boolean {
-        logger.d(
-            LOG_TAG,
-            "Waiting %d milliseconds to connect to network with ssid %s",
-            timeoutInMillis,
-            ssid
-        )
-        var currentTime: Long
-        val endTime = System.currentTimeMillis() + timeoutInMillis
-        do {
-            if (isCurrentNetworkConnectedBySSID(ssid)) {
-                return true
-            }
-            rest()
-            currentTime = System.currentTimeMillis()
-            logger.d(LOG_TAG, "Current time: %d, End time: %d (waitToConnectToSSID)", currentTime, endTime)
-        } while (currentTime < endTime)
-        return false
+        return withTimeout(timeoutInMillis) {
+            isCurrentNetworkConnectedBySSID(ssid)
+        }
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
     private fun waitForConnectionToBSSID(bssid: String, timeoutInMillis: Int): Boolean {
-        logger.d(
-            LOG_TAG,
-            "Waiting %d milliseconds to connect to network with bssid %s",
-            timeoutInMillis,
-            bssid
-        )
-        var currentTime: Long
-        val endTime = System.currentTimeMillis() + timeoutInMillis
-        do {
-            if (isCurrentNetworkConnectedByBSSID(bssid)) {
-                return true
-            }
-            rest()
-            currentTime = System.currentTimeMillis()
-            logger.d(LOG_TAG, "Current time: %d, End time: %d (waitToConnectToBSSID)", currentTime, endTime)
-        } while (currentTime < endTime)
-        return false
+        return withTimeout(timeoutInMillis) {
+            isCurrentNetworkConnectedByBSSID(bssid)
+        }
     }
 }
