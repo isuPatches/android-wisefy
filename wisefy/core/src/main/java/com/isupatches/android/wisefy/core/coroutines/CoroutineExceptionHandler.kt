@@ -15,6 +15,7 @@
  */
 package com.isupatches.android.wisefy.core.coroutines
 
+import android.util.Log
 import com.isupatches.android.wisefy.core.base.BaseWisefyCallbacks
 import com.isupatches.android.wisefy.core.exceptions.WisefyException
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -35,6 +36,7 @@ import kotlinx.coroutines.CoroutineExceptionHandler
  */
 fun createBaseCoroutineExceptionHandler(callbacks: BaseWisefyCallbacks?): CoroutineExceptionHandler {
     return CoroutineExceptionHandler { _, throwable ->
+        Log.e("TEST", "BOOM== CoroutineExceptionHandler", throwable)
         callbacks?.onWisefyAsyncFailure(WisefyException(message = null, throwable = throwable))
     }
 }

@@ -17,10 +17,12 @@ package com.isupatches.android.wisefy.removenetwork.os.impls
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.ACCESS_WIFI_STATE
+import android.net.wifi.WifiConfiguration
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.core.hasBSSIDMatchingRegex
 import com.isupatches.android.wisefy.core.hasSSIDMatchingRegex
+import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.removenetwork.os.apis.DefaultRemoveNetworkApi
 
 /**
@@ -34,18 +36,29 @@ import com.isupatches.android.wisefy.removenetwork.os.apis.DefaultRemoveNetworkA
  * @since 03/2022
  */
 internal class DefaultRemoveNetworkApiImpl(
-    private val wifiManager: WifiManager
+    private val wifiManager: WifiManager,
+    private val logger: WisefyLogger
 ) : DefaultRemoveNetworkApi {
+
+    companion object {
+        private const val LOG_TAG = "DefaultRemoveNetworkApiImpl"
+    }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun removeNetworkBySSID(regexForSSID: String): Boolean {
         val networkToRemove = wifiManager.configuredNetworks.firstOrNull { it.hasSSIDMatchingRegex(regexForSSID) }
-        return networkToRemove?.let { wifiManager.removeNetwork(it.networkId) } ?: false
+        return removeWifiConfiguration(wifiConfiguration = networkToRemove)
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun removeNetworkByBSSID(regexForBSSID: String): Boolean {
         val networkToRemove = wifiManager.configuredNetworks.firstOrNull { it.hasBSSIDMatchingRegex(regexForBSSID) }
-        return networkToRemove?.let { wifiManager.removeNetwork(it.networkId) } ?: false
+        return removeWifiConfiguration(wifiConfiguration = networkToRemove)
+    }
+
+    private fun removeWifiConfiguration(wifiConfiguration: WifiConfiguration?): Boolean {
+        val result = wifiConfiguration?.let { wifiManager.removeNetwork(it.networkId) } ?: false
+        logger.d(LOG_TAG, "Removing network suggestion.  Result: $result, wifiConfiguration: $wifiConfiguration")
+        return result
     }
 }

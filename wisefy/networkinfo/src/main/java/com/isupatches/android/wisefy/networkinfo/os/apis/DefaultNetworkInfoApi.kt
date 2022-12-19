@@ -67,23 +67,6 @@ internal interface DefaultNetworkInfoApi {
     @RequiresPermission(ACCESS_NETWORK_STATE)
     fun getLinkProperties(network: Network): LinkProperties?
 
-    /**
-     * An internal API that is used to add a network watcher.
-     *
-     * @author Patches Klinefelter
-     * @since 03/2022
-     */
-    @RequiresPermission(ACCESS_NETWORK_STATE)
-    fun attachNetworkWatcher()
-
-    /**
-     * An internal API that is used to remove a network watcher.
-     *
-     * @author Patches Klinefelter
-     * @since 03/2022
-     */
-    fun detachNetworkWatcher()
-
     @RequiresPermission(ACCESS_NETWORK_STATE)
     fun getSSIDOfTheNetworkTheDeviceIsConnectedTo(): String?
 

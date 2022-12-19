@@ -13,17 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.android.wisefy.networkinfo.entities
+package com.isupatches.android.wisefy.core.util
 
-/**
- * A set of states for a network connection.
- *
- * @author Patches Klinefelter
- * @since 03/2022
- */
-internal enum class NetworkConnectionStatus {
-    AVAILABLE,
-    LOSING,
-    LOST,
-    UNAVAILABLE
+fun withTimeout(timeoutInMillis: Int, block: () -> Unit) {
+    timeoutInMillis
+    block()
 }

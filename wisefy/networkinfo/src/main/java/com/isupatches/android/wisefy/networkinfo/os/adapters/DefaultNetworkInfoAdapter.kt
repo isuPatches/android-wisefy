@@ -19,10 +19,10 @@ import android.Manifest
 import android.net.ConnectivityManager
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
+import com.isupatches.android.wisefy.core.entities.NetworkConnectionStatus
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.core.util.SdkUtil
 import com.isupatches.android.wisefy.networkinfo.NetworkInfoApi
-import com.isupatches.android.wisefy.networkinfo.NetworkInfoApiInternal
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkQuery
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkResult
 import com.isupatches.android.wisefy.networkinfo.entities.GetNetworkConnectionStatusQuery
@@ -31,8 +31,6 @@ import com.isupatches.android.wisefy.networkinfo.entities.NetworkConnectionStatu
 import com.isupatches.android.wisefy.networkinfo.entities.NetworkData
 import com.isupatches.android.wisefy.networkinfo.os.apis.DefaultNetworkInfoApi
 import com.isupatches.android.wisefy.networkinfo.os.impls.DefaultNetworkInfoApiImpl
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.sync.Mutex
 
 /**
  * A default adapter for getting information about a network, the device's current network, and the device's IP.
@@ -54,17 +52,15 @@ internal class DefaultNetworkInfoAdapter(
     private val wifiManager: WifiManager,
     sdkUtil: SdkUtil,
     logger: WisefyLogger,
-    scope: CoroutineScope,
-    networkConnectionMutex: Mutex,
+    networkConnectionStatusProvider: () -> NetworkConnectionStatus,
     private val api: DefaultNetworkInfoApi = DefaultNetworkInfoApiImpl(
         wifiManager = wifiManager,
         connectivityManager = connectivityManager,
         sdkUtil = sdkUtil,
         logger = logger,
-        scope = scope,
-        networkConnectionMutex = networkConnectionMutex
+        networkConnectionStatusProvider = networkConnectionStatusProvider
     )
-) : NetworkInfoApiInternal {
+) : NetworkInfoApi {
 
     override fun getCurrentNetwork(query: GetCurrentNetworkQuery): GetCurrentNetworkResult {
         val currentNetwork = api.getCurrentNetwork()
@@ -91,14 +87,5 @@ internal class DefaultNetworkInfoAdapter(
                 ip = api.getIP()
             )
         )
-    }
-
-    @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
-    override fun attachNetworkWatcher() {
-        api.attachNetworkWatcher()
-    }
-
-    override fun detachNetworkWatcher() {
-        api.detachNetworkWatcher()
     }
 }

@@ -26,6 +26,7 @@ import com.isupatches.android.wisefy.addnetwork.os.apis.DefaultAddNetworkApi
 import com.isupatches.android.wisefy.addnetwork.os.impls.DefaultAddNetworkApiImpl
 import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
 import com.isupatches.android.wisefy.core.constants.AssertionMessages
+import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.core.util.SdkUtil
 
 /**
@@ -45,9 +46,10 @@ import com.isupatches.android.wisefy.core.util.SdkUtil
  */
 internal class DefaultAddNetworkAdapter(
     wifiManager: WifiManager,
+    logger: WisefyLogger,
     private val assertions: WisefyAssertions,
     private val sdkUtil: SdkUtil,
-    private val api: DefaultAddNetworkApi = DefaultAddNetworkApiImpl(wifiManager)
+    private val api: DefaultAddNetworkApi = DefaultAddNetworkApiImpl(wifiManager, logger)
 ) : AddNetworkApi {
 
     companion object {

@@ -28,12 +28,12 @@ fun ScanResult.hasBSSIDMatchingRegex(regex: String): Boolean {
 }
 
 val ScanResult.ssidWithoutQuotes: String
-    get() = if (Build.VERSION.SDK_INT > Build.VERSION_CODES.TIRAMISU) {
+    get() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         wifiSsid?.toString()?.replace(QUOTE, "")
     } else {
         @Suppress("Deprecation")
-        SSID.replace(QUOTE, "")
+        SSID?.replace(QUOTE, "")
     } ?: ""
 
 val ScanResult.bssidWithoutQuotes: String
-    get() = BSSID.replace(QUOTE, "")
+    get() = BSSID?.replace(QUOTE, "") ?: ""

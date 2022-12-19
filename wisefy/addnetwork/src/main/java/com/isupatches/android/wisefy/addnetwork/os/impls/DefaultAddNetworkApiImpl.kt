@@ -16,9 +16,11 @@
 package com.isupatches.android.wisefy.addnetwork.os.impls
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
+import android.net.wifi.WifiConfiguration
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.addnetwork.os.apis.DefaultAddNetworkApi
+import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.core.wifimanager.legacy.createOpenNetworkConfiguration
 import com.isupatches.android.wisefy.core.wifimanager.legacy.createWPA2NetworkConfiguration
 
@@ -33,18 +35,28 @@ import com.isupatches.android.wisefy.core.wifimanager.legacy.createWPA2NetworkCo
  * @since 11/2022, version 5.0.0
  */
 internal class DefaultAddNetworkApiImpl(
-    private val wifiManager: WifiManager
+    private val wifiManager: WifiManager,
+    private val logger: WisefyLogger
 ) : DefaultAddNetworkApi {
+
+    companion object {
+        private const val LOG_TAG = "DefaultAddNetworkApiImpl"
+    }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun addOpenNetwork(ssid: String, bssid: String?): Int {
-        val networkConfiguration = createOpenNetworkConfiguration(ssid, bssid)
-        return wifiManager.addNetwork(networkConfiguration)
+        return addNetworkConfiguration(configuration = createOpenNetworkConfiguration(ssid, bssid))
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun addWPA2Network(ssid: String, passphrase: String, bssid: String?): Int {
-        val networkConfiguration = createWPA2NetworkConfiguration(ssid, passphrase, bssid)
-        return wifiManager.addNetwork(networkConfiguration)
+        return addNetworkConfiguration(configuration = createWPA2NetworkConfiguration(ssid, passphrase, bssid))
+    }
+
+    @RequiresPermission(ACCESS_FINE_LOCATION)
+    private fun addNetworkConfiguration(configuration: WifiConfiguration): Int {
+        val result = wifiManager.addNetwork(configuration)
+        logger.d(LOG_TAG, "Add network.  Result: $result, configuration: $configuration")
+        return result
     }
 }

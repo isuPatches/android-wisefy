@@ -73,7 +73,7 @@ class WisefyAddNetworkDelegate(
     private val adapter = when {
         sdkUtil.isAtLeastR() -> Android30AddNetworkAdapter(wifiManager, logger, assertions)
         sdkUtil.isAtLeastQ() -> Android29AddNetworkAdapter(assertions)
-        else -> DefaultAddNetworkAdapter(wifiManager, assertions, sdkUtil)
+        else -> DefaultAddNetworkAdapter(wifiManager, logger, assertions, sdkUtil)
     }
 
     init {

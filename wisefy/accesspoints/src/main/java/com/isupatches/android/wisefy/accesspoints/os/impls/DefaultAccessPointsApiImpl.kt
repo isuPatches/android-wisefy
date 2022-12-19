@@ -52,19 +52,15 @@ internal class DefaultAccessPointsApiImpl(
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun getNearbyAccessPoints(filterDuplicates: Boolean): List<AccessPointData> {
-        // For SDK 23 and above, devices will be limited on ability to trigger scans and it's been
-        // indicated by Android Google docs that eventually apps will no longer be able to trigger a
-        // scan to prevent abusive apps, therefore for WiseFy we're going to just use the last
-        // set of scan results...the downside is this may take some time to be updated.
-        val accessPointsTemp = wifiManager.scanResults
-        if (accessPointsTemp == null || accessPointsTemp.isEmpty()) {
+        val allAccessPoints = getLastScanResults()
+        if (allAccessPoints.isEmpty()) {
             return emptyList()
         }
 
         return if (filterDuplicates) {
-            removeEntriesWithLowerSignalStrength(accessPoints = accessPointsTemp)
+            removeEntriesWithLowerSignalStrength(accessPoints = allAccessPoints)
         } else {
-            accessPointsTemp.map { scanResult ->
+            allAccessPoints.map { scanResult ->
                 AccessPointData(
                     rawValue = scanResult,
                     ssid = scanResult.ssidWithoutQuotes,
@@ -83,8 +79,8 @@ internal class DefaultAccessPointsApiImpl(
         return searchForMultipleAccessPoints(
             filterDuplicates = filterDuplicates,
             timeoutInMillis = timeoutInMillis
-        ) { scanResult ->
-            accessPointSSIDMatchesRegex(accessPoint = scanResult, regex = regex)
+        ) { accessPoint ->
+            accessPoint.hasSSIDMatchingRegex(regex)
         }
     }
 
@@ -97,90 +93,54 @@ internal class DefaultAccessPointsApiImpl(
         return searchForMultipleAccessPoints(
             filterDuplicates = filterDuplicates,
             timeoutInMillis = timeoutInMillis
-        ) { scanResult ->
-            accessPointBSSIDMatchesRegex(accessPoint = scanResult, regex = regex)
+        ) { accessPoint ->
+            accessPoint.hasBSSIDMatchingRegex(regex)
         }
     }
 
-    private fun accessPointSSIDMatchesRegex(accessPoint: ScanResult?, regex: String): Boolean {
-        return accessPoint?.hasSSIDMatchingRegex(regex) == true
-    }
-
-    private fun accessPointBSSIDMatchesRegex(accessPoint: ScanResult?, regex: String): Boolean {
-        return accessPoint?.hasBSSIDMatchingRegex(regex) == true
-    }
-
-    private fun hasHighestSignalStrength(
-        accessPoints: List<ScanResult>,
-        currentAccessPoint: ScanResult
-    ): Boolean {
-        for (accessPoint in accessPoints) {
-            if (accessPoint.ssidWithoutQuotes.isNotBlank() &&
-                accessPoint.ssidWithoutQuotes.equals(currentAccessPoint.ssidWithoutQuotes, ignoreCase = true)
-            ) {
-                val comparisonResult = WifiManager.compareSignalLevel(accessPoint.level, currentAccessPoint.level)
-                logger.d(
-                    LOG_TAG,
-                    "Current RSSI: %d. Access point RSSI: %d. Comparison result: %d",
-                    currentAccessPoint.level,
-                    accessPoint.level,
-                    comparisonResult
-                )
-                if (comparisonResult > 0) {
-                    logger.d(LOG_TAG, "Stronger signal strength found")
-                    return false
-                }
-            }
-        }
-        return true
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
+    private fun getLastScanResults(): List<ScanResult> {
+        // For SDK 23 and above, devices will be limited on ability to trigger scans and it's been
+        // indicated by Android Google docs that eventually apps will no longer be able to trigger a
+        // scan to prevent abusive apps, therefore for WiseFy we're going to just use the last
+        // set of scan results...the downside is this may take some time to be updated.
+        return wifiManager.scanResults ?: emptyList()
     }
 
     private fun removeEntriesWithLowerSignalStrength(accessPoints: List<ScanResult>): List<AccessPointData> {
-        val accessPointsToReturn = ArrayList<AccessPointData>()
-
-        for (accessPoint in accessPoints) {
-            var found = false
-            for (i in accessPointsToReturn.indices) {
-                val accessPointData = accessPointsToReturn[i]
-                val ssid1 = accessPoint.ssidWithoutQuotes
-                val ssid2 = accessPointData.rawValue.ssidWithoutQuotes
-                logger.d(LOG_TAG, "SSID 1: %s, SSID 2: %s", ssid1, ssid2)
-                if (ssid1.isNotBlank() && ssid1.equals(ssid2, ignoreCase = true)) {
-                    found = true
-                    val comparisonResult = WifiManager.compareSignalLevel(
-                        accessPoint.level,
-                        accessPointData.rssi
-                    )
-                    logger.d(
-                        LOG_TAG,
-                        "Access point 1 RSSI: %d. Access point 2 RSSI: %d. Comparison result: %d",
-                        accessPointData.rssi,
-                        accessPoint.level,
-                        comparisonResult
-                    )
-                    if (comparisonResult > 0) {
-                        logger.d(LOG_TAG, "New result has a higher or same signal strength, swapping")
-                        accessPointsToReturn[i] = AccessPointData(
-                            rawValue = accessPoint,
-                            ssid = accessPoint.ssidWithoutQuotes,
-                            bssid = accessPoint.bssidWithoutQuotes
-                        )
-                    }
-                }
-            }
-
-            if (!found) {
-                logger.d(LOG_TAG, "Found new wifi network")
-                accessPointsToReturn.add(
-                    AccessPointData(
+        val accessPointsToReturn = mutableMapOf<String, AccessPointData>()
+        accessPoints.forEach { accessPoint ->
+            if (accessPointsToReturn.containsKey(accessPoint.ssidWithoutQuotes)) {
+                val previousAccessPoint = requireNotNull(accessPointsToReturn[accessPoint.ssidWithoutQuotes])
+                val comparisonResult = WifiManager.compareSignalLevel(accessPoint.level, previousAccessPoint.rssi)
+                logger.d(
+                    LOG_TAG,
+                    "Comparing.  SSID 1: %s, RSSI 1: %d, SSID 2: %s, RSSI 2: %d, comparison result: %d",
+                    accessPoint.ssidWithoutQuotes,
+                    accessPoint.level,
+                    previousAccessPoint.ssid,
+                    previousAccessPoint.rssi,
+                    comparisonResult
+                )
+                if (comparisonResult > 0) {
+                    logger.d(LOG_TAG, "Found network with same SSID but higher RSSI, swapping")
+                    accessPointsToReturn[accessPoint.ssidWithoutQuotes] = AccessPointData(
                         rawValue = accessPoint,
                         ssid = accessPoint.ssidWithoutQuotes,
                         bssid = accessPoint.bssidWithoutQuotes
                     )
+                }
+            } else {
+                val accessPointData = AccessPointData(
+                    rawValue = accessPoint,
+                    ssid = accessPoint.ssidWithoutQuotes,
+                    bssid = accessPoint.bssidWithoutQuotes
                 )
+                logger.d(LOG_TAG, "Adding new network. $accessPointData")
+                accessPointsToReturn[accessPoint.ssidWithoutQuotes] = accessPointData
             }
         }
-        return accessPointsToReturn
+        return accessPointsToReturn.values.toList()
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
@@ -188,37 +148,17 @@ internal class DefaultAccessPointsApiImpl(
         filterDuplicates: Boolean,
         matcher: (ScanResult) -> Boolean
     ): List<AccessPointData> {
-        val matchingAccessPoints = ArrayList<AccessPointData>()
-        val accessPointsTemp = wifiManager.scanResults
-        if (accessPointsTemp == null || accessPointsTemp.isEmpty()) {
+        val allAccessPoints = getLastScanResults()
+        if (allAccessPoints.isEmpty()) {
             return emptyList()
         }
-
-        for (accessPoint in accessPointsTemp) {
-            if (matcher(accessPoint)) {
-                if (filterDuplicates) {
-                    if (hasHighestSignalStrength(accessPointsTemp, accessPoint)) {
-                        matchingAccessPoints.add(
-                            AccessPointData(
-                                rawValue = accessPoint,
-                                ssid = accessPoint.ssidWithoutQuotes,
-                                bssid = accessPoint.bssidWithoutQuotes
-                            )
-                        )
-                    }
-                } else {
-                    matchingAccessPoints.add(
-                        AccessPointData(
-                            rawValue = accessPoint,
-                            ssid = accessPoint.ssidWithoutQuotes,
-                            bssid = accessPoint.bssidWithoutQuotes
-                        )
-                    )
-                }
+        return if (filterDuplicates) {
+            removeEntriesWithLowerSignalStrength(allAccessPoints.filter(matcher))
+        } else {
+            allAccessPoints.filter(matcher).map {
+                AccessPointData(rawValue = it, ssid = it.ssidWithoutQuotes, bssid = it.bssidWithoutQuotes)
             }
         }
-
-        return matchingAccessPoints.ifEmpty { emptyList() }
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])

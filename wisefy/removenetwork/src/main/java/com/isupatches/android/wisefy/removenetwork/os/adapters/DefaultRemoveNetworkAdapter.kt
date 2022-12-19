@@ -19,6 +19,7 @@ import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
+import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.removenetwork.RemoveNetworkApi
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkRequest
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkResult
@@ -39,8 +40,9 @@ import com.isupatches.android.wisefy.removenetwork.os.impls.DefaultRemoveNetwork
  * @since 03/2022
  */
 internal class DefaultRemoveNetworkAdapter(
-    private val wifiManager: WifiManager,
-    private val api: DefaultRemoveNetworkApi = DefaultRemoveNetworkApiImpl(wifiManager)
+    logger: WisefyLogger,
+    wifiManager: WifiManager,
+    private val api: DefaultRemoveNetworkApi = DefaultRemoveNetworkApiImpl(wifiManager, logger)
 ) : RemoveNetworkApi {
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])

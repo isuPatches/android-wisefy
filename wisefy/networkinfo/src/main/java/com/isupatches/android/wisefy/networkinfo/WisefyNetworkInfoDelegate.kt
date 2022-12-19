@@ -21,6 +21,7 @@ import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.core.coroutines.CoroutineDispatcherProvider
 import com.isupatches.android.wisefy.core.coroutines.createBaseCoroutineExceptionHandler
+import com.isupatches.android.wisefy.core.entities.NetworkConnectionStatus
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.core.util.SdkUtil
 import com.isupatches.android.wisefy.networkinfo.callbacks.GetCurrentNetworkCallbacks
@@ -57,7 +58,8 @@ class WisefyNetworkInfoDelegate(
     connectivityManager: ConnectivityManager,
     logger: WisefyLogger,
     sdkUtil: SdkUtil,
-    wifiManager: WifiManager
+    wifiManager: WifiManager,
+    networkConnectionStatusProvider: () -> NetworkConnectionStatus
 ) : NetworkInfoDelegate {
 
     companion object {
@@ -69,31 +71,21 @@ class WisefyNetworkInfoDelegate(
         wifiManager = wifiManager,
         sdkUtil = sdkUtil,
         logger = logger,
-        scope = scope,
-        networkConnectionMutex = networkConnectionMutex
+        networkConnectionStatusProvider = networkConnectionStatusProvider
     )
 
     init {
         logger.d(LOG_TAG, "WisefyNetworkInfoDelegate adapter is: ${adapter::class.java.simpleName}")
     }
 
-    @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun attachNetworkWatcher() {
-        adapter.attachNetworkWatcher()
-    }
-
-    override fun detachNetworkWatcher() {
-        adapter.detachNetworkWatcher()
-    }
-
     override fun getCurrentNetwork(query: GetCurrentNetworkQuery): GetCurrentNetworkResult {
-        return adapter.getCurrentNetwork()
+        return adapter.getCurrentNetwork(query)
     }
 
     override fun getCurrentNetwork(query: GetCurrentNetworkQuery, callbacks: GetCurrentNetworkCallbacks?) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
             networkConnectionMutex.withLock {
-                val currentNetwork = adapter.getCurrentNetwork()
+                val currentNetwork = adapter.getCurrentNetwork(query)
                 withContext(coroutineDispatcherProvider.main) {
                     callbacks?.onCurrentNetworkRetrieved(currentNetwork.value)
                 }

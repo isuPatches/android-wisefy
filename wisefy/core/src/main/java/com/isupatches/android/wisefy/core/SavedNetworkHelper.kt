@@ -29,11 +29,11 @@ fun WifiConfiguration.hasBSSIDMatchingRegex(regex: String): Boolean {
     return bssidWithoutQuotes.matches(regex.toRegex())
 }
 
-private val WifiConfiguration.ssidWithoutQuotes: String
-    get() = SSID.replace(QUOTE, "")
+val WifiConfiguration.ssidWithoutQuotes: String
+    get() = SSID?.replace(QUOTE, "") ?: ""
 
-private val WifiConfiguration.bssidWithoutQuotes: String
-    get() = BSSID.replace(QUOTE, "")
+val WifiConfiguration.bssidWithoutQuotes: String
+    get() = BSSID?.replace(QUOTE, "") ?: ""
 
 @RequiresApi(Build.VERSION_CODES.R)
 fun WifiNetworkSuggestion.hasSSIDMatchingRegex(regex: String): Boolean {

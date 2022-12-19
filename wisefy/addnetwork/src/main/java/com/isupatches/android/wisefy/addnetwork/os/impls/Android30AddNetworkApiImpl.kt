@@ -49,28 +49,17 @@ internal class Android30AddNetworkApiImpl(
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-    override fun addOpenNetwork(
-        ssid: String,
-        bssid: String?
-    ): Int {
+    override fun addOpenNetwork(ssid: String, bssid: String?): Int {
         return addNetworkSuggestion(suggestion = createOpenNetworkSuggestion(ssid, bssid))
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-    override fun addWPA2Network(
-        ssid: String,
-        passphrase: String,
-        bssid: String?
-    ): Int {
+    override fun addWPA2Network(ssid: String, passphrase: String, bssid: String?): Int {
         return addNetworkSuggestion(suggestion = createWPA2NetworkSuggestion(ssid, passphrase, bssid))
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-    override fun addWPA3Network(
-        ssid: String,
-        passphrase: String,
-        bssid: String?
-    ): Int {
+    override fun addWPA3Network(ssid: String, passphrase: String, bssid: String?): Int {
         return addNetworkSuggestion(suggestion = createWPA3NetworkSuggestion(ssid, passphrase, bssid))
     }
 

@@ -70,7 +70,7 @@ class WisefyRemoveNetworkDelegate(
     private val adapter: RemoveNetworkApi = when {
         sdkUtil.isAtLeastR() -> Android30RemoveNetworkAdapter(logger, wifiManager)
         sdkUtil.isAtLeastQ() -> Android29RemoveNetworkAdapter(assertions)
-        else -> DefaultRemoveNetworkAdapter(wifiManager)
+        else -> DefaultRemoveNetworkAdapter(logger, wifiManager)
     }
 
     init {

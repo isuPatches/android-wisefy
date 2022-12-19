@@ -25,4 +25,4 @@ package com.isupatches.android.wisefy.networkinfo
  * @author Patches Klinefelter
  * @since 03/2022
  */
-interface NetworkInfoDelegate : NetworkInfoApiInternal, NetworkInfoApiAsync
+interface NetworkInfoDelegate : NetworkInfoApi, NetworkInfoApiAsync

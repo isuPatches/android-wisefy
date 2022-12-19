@@ -24,6 +24,10 @@ import android.Manifest.permission.CHANGE_NETWORK_STATE
 import android.Manifest.permission.CHANGE_WIFI_STATE
 import android.content.Context
 import android.net.ConnectivityManager
+import android.net.LinkProperties
+import android.net.Network
+import android.net.NetworkCapabilities
+import android.net.NetworkRequest
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
 import androidx.annotation.VisibleForTesting
@@ -40,6 +44,7 @@ import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkRequest
 import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
 import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
 import com.isupatches.android.wisefy.core.coroutines.CoroutineDispatcherProvider
+import com.isupatches.android.wisefy.core.entities.NetworkConnectionStatus
 import com.isupatches.android.wisefy.core.logging.DefaultWisefyLogger
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.core.util.SdkUtilImpl
@@ -93,7 +98,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancelChildren
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 
 /**
  * The private constructor used by [Brains] to create a Wisefy instance.
@@ -101,7 +108,6 @@ import kotlinx.coroutines.sync.Mutex
  * @param accessPointsDelegate The [AccessPointsDelegate] instance to use
  * @param addNetworkDelegate The [AddNetworkDelegate] instance to use
  * @param networkConnectionDelegate The [NetworkConnectionDelegate] instance to use
- * @param networkConnectionStatusDelegate The [NetworkConnectionStatusDelegate] instance to use
  * @param networkInfoDelegate The [NetworkInfoDelegate] instance to use
  * @param removeNetworkDelegate The [RemoveNetworkDelegate] instance to use
  * @param savedNetworkDelegate The [SavedNetworkDelegate] instance to use
@@ -122,7 +128,10 @@ class Wisefy private constructor(
     private val savedNetworkDelegate: SavedNetworkDelegate,
     private val signalDelegate: SignalDelegate,
     private val wifiDelegate: WifiDelegate,
-    private val scope: CoroutineScope
+    private val logger: WisefyLogger,
+    private val scope: CoroutineScope,
+    private val connectivityManager: ConnectivityManager,
+    private val networkConnectionMutex: Mutex
 ) : WisefyApi {
 
     /**
@@ -154,6 +163,8 @@ class Wisefy private constructor(
         private var wifiDelegate: WifiDelegate
         private var wisefyScope: CoroutineScope
 
+        private var networkConnectionMutex: Mutex
+
         init {
             connectivityManager = context.applicationContext.getSystemService(
                 Context.CONNECTIVITY_SERVICE
@@ -172,7 +183,7 @@ class Wisefy private constructor(
              * - Getting the current network connection info
              * - Getting the current network connection status
              */
-            val networkConnectionMutex = Mutex()
+            networkConnectionMutex = Mutex()
 
             /*
              * Used to ensure async conflicts don't happen with these features:
@@ -190,26 +201,6 @@ class Wisefy private constructor(
              * - Checking if Wifi is enabled
              */
             val wifiMutex = Mutex()
-
-            // Used by other utils
-            savedNetworkDelegate = WisefySavedNetworkDelegate(
-                coroutineDispatcherProvider = coroutineDispatcherProvider,
-                scope = wisefyScope,
-                savedNetworkMutex = savedNetworkMutex,
-                logger = logger,
-                sdkUtil = sdkUtil,
-                wifiManager = wifiManager,
-                assertions = assertions
-            )
-            networkInfoDelegate = WisefyNetworkInfoDelegate(
-                coroutineDispatcherProvider = coroutineDispatcherProvider,
-                scope = wisefyScope,
-                networkConnectionMutex = networkConnectionMutex,
-                connectivityManager = connectivityManager,
-                logger = logger,
-                sdkUtil = sdkUtil,
-                wifiManager = wifiManager
-            )
 
             // Not used by other utils
             accessPointsDelegate = WisefyAccessPointsDelegate(
@@ -233,13 +224,35 @@ class Wisefy private constructor(
                 networkConnectionMutex = networkConnectionMutex,
                 connectivityManager = connectivityManager,
                 logger = logger,
-                networkInfoDelegate = networkInfoDelegate,
-                savedNetworkDelegate = savedNetworkDelegate,
+                sdkUtil = sdkUtil,
+                wifiManager = wifiManager,
+                assertions = assertions,
+                networkConnectionStatusProvider = {
+                    NetworkConnectionStatus.AVAILABLE
+                }
+            )
+            networkInfoDelegate = WisefyNetworkInfoDelegate(
+                coroutineDispatcherProvider = coroutineDispatcherProvider,
+                scope = wisefyScope,
+                networkConnectionMutex = networkConnectionMutex,
+                connectivityManager = connectivityManager,
+                logger = logger,
+                sdkUtil = sdkUtil,
+                wifiManager = wifiManager,
+                networkConnectionStatusProvider = {
+                    NetworkConnectionStatus.AVAILABLE
+                }
+            )
+            removeNetworkDelegate = WisefyRemoveNetworkDelegate(
+                coroutineDispatcherProvider = coroutineDispatcherProvider,
+                scope = wisefyScope,
+                savedNetworkMutex = savedNetworkMutex,
+                logger = logger,
                 sdkUtil = sdkUtil,
                 wifiManager = wifiManager,
                 assertions = assertions
             )
-            removeNetworkDelegate = WisefyRemoveNetworkDelegate(
+            savedNetworkDelegate = WisefySavedNetworkDelegate(
                 coroutineDispatcherProvider = coroutineDispatcherProvider,
                 scope = wisefyScope,
                 savedNetworkMutex = savedNetworkMutex,
@@ -468,18 +481,22 @@ class Wisefy private constructor(
                 savedNetworkDelegate = savedNetworkDelegate,
                 signalDelegate = signalDelegate,
                 wifiDelegate = wifiDelegate,
-                scope = wisefyScope
+                logger = logger,
+                networkConnectionMutex = networkConnectionMutex,
+                scope = wisefyScope,
+                connectivityManager = connectivityManager
             )
         }
     }
 
+    @RequiresPermission(ACCESS_NETWORK_STATE)
     override fun init() {
-        networkInfoDelegate.attachNetworkWatcher()
+        startListeningForNetworkChanges()
     }
 
     override fun dump() {
         scope.coroutineContext[Job]?.cancelChildren()
-        networkInfoDelegate.detachNetworkWatcher()
+        stopListeningForNetworkChanges()
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
@@ -619,5 +636,70 @@ class Wisefy private constructor(
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE, CHANGE_WIFI_STATE])
     override fun removeNetwork(request: RemoveNetworkRequest, callbacks: RemoveNetworkCallbacks?) {
         removeNetworkDelegate.removeNetwork(request, callbacks)
+    }
+
+    private val wisefyNetworkCallbacks = WisefyNetworkCallbacks(
+        logger = logger,
+        onNetworkConnectionStatusUpdated = { status ->
+            scope.launch {
+                networkConnectionMutex.withLock {
+                    connectionStatus = status
+                }
+            }
+        }
+    )
+
+    @RequiresPermission(ACCESS_NETWORK_STATE)
+    private fun startListeningForNetworkChanges() {
+        val request = NetworkRequest.Builder().build()
+        connectivityManager.registerNetworkCallback(request, wisefyNetworkCallbacks)
+    }
+
+    private fun stopListeningForNetworkChanges() {
+        connectivityManager.unregisterNetworkCallback(wisefyNetworkCallbacks)
+        connectionStatus = null
+    }
+
+    private var connectionStatus: NetworkConnectionStatus? = null
+
+    private class WisefyNetworkCallbacks(
+        private val logger: WisefyLogger,
+        private val onNetworkConnectionStatusUpdated: (NetworkConnectionStatus) -> Unit
+    ) : ConnectivityManager.NetworkCallback() {
+
+        companion object {
+            private const val LOG_TAG = "WisefyNetworkCallback"
+        }
+
+        override fun onAvailable(network: Network) {
+            super.onAvailable(network)
+            logger.d(LOG_TAG, "onAvailable, $network")
+            onNetworkConnectionStatusUpdated(NetworkConnectionStatus.AVAILABLE)
+        }
+
+        override fun onCapabilitiesChanged(network: Network, networkCapabilities: NetworkCapabilities) {
+            super.onCapabilitiesChanged(network, networkCapabilities)
+            logger.d(
+                LOG_TAG,
+                "onCapabilitiesChanged, network: $network, networkCapabilities: $networkCapabilities"
+            )
+        }
+
+        override fun onLinkPropertiesChanged(network: Network, linkProperties: LinkProperties) {
+            super.onLinkPropertiesChanged(network, linkProperties)
+            logger.d(LOG_TAG, "onLinkPropertiesChanged, network: $network, linkProperties: $linkProperties")
+        }
+
+        override fun onLosing(network: Network, maxMsToLive: Int) {
+            super.onLosing(network, maxMsToLive)
+            logger.d(LOG_TAG, "onLosing, network: $network, maxMsToLive: $maxMsToLive")
+            onNetworkConnectionStatusUpdated(NetworkConnectionStatus.LOSING)
+        }
+
+        override fun onLost(network: Network) {
+            super.onLost(network)
+            logger.d(LOG_TAG, "onLost, network: $network")
+            onNetworkConnectionStatusUpdated(NetworkConnectionStatus.LOST)
+        }
     }
 }

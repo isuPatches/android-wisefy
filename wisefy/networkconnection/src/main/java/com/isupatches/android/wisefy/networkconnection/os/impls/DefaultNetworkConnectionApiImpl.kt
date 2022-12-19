@@ -19,37 +19,34 @@ import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.ACCESS_NETWORK_STATE
 import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.net.ConnectivityManager
+import android.net.wifi.WifiInfo
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
+import com.isupatches.android.wisefy.core.bssidWithoutQuotes
+import com.isupatches.android.wisefy.core.entities.NetworkConnectionStatus
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
+import com.isupatches.android.wisefy.core.ssidWithoutQuotes
+import com.isupatches.android.wisefy.core.util.SdkUtil
 import com.isupatches.android.wisefy.core.util.rest
 import com.isupatches.android.wisefy.networkconnection.os.apis.DefaultNetworkConnectionApi
-import com.isupatches.android.wisefy.networkinfo.NetworkInfoDelegate
-import com.isupatches.android.wisefy.savednetworks.SavedNetworkDelegate
-import com.isupatches.android.wisefy.savednetworks.entities.GetSavedNetworksQuery
-import com.isupatches.android.wisefy.savednetworks.entities.GetSavedNetworksResult
-import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
 
 /**
  * A default implementation for connecting to or disconnecting from a network through the Android OS.
  *
  * @param wifiManager The WifiManager instance to use
- * @param networkInfoDelegate The NetworkInfoDelegate instance to use
- * @param savedNetworkDelegate The SavedNetworkDelegate instance to use
  * @param logger The WisefyLogger instance to use
  *
  * @see DefaultNetworkConnectionApi
- * @see NetworkInfoDelegate
- * @see SavedNetworkDelegate
  *
  * @author Patches Klinefelter
  * @since 03/2022
  */
 internal class DefaultNetworkConnectionApiImpl(
+    private val connectivityManager: ConnectivityManager,
     private val wifiManager: WifiManager,
-    private val networkInfoDelegate: NetworkInfoDelegate,
-    private val savedNetworkDelegate: SavedNetworkDelegate,
-    private val logger: WisefyLogger
+    private val logger: WisefyLogger,
+    private val sdkUtil: SdkUtil,
+    private val networkConnectionStatusProvider: () -> NetworkConnectionStatus
 ) : DefaultNetworkConnectionApi, ConnectivityManager.NetworkCallback() {
 
     companion object {
@@ -58,98 +55,71 @@ internal class DefaultNetworkConnectionApiImpl(
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE, ACCESS_NETWORK_STATE])
     override fun connectToNetworkBySSID(ssid: String, timeoutInMillis: Int): Boolean? {
-        return when (
-            val savedNetworkSearchResult = savedNetworkDelegate.getSavedNetworks(
-                GetSavedNetworksQuery.BySSID(regex = ssid)
-            )
-        ) {
-            is GetSavedNetworksResult.Empty -> null
-            is GetSavedNetworksResult.SavedNetworks -> {
-                when (val saveNetwork = savedNetworkSearchResult.value.first()) {
-                    is SavedNetworkData.Configuration -> {
-                        saveNetwork.rawValue.let {
-                            wifiManager.disconnect()
-                            wifiManager.enableNetwork(it.networkId, true)
-                            wifiManager.reconnect()
-                            waitToConnectToSSID(ssid, timeoutInMillis)
-                        }
-                    }
-                    is SavedNetworkData.Suggestion -> false
-                }
-            }
+        val savedNetwork = wifiManager.configuredNetworks.firstOrNull { it.ssidWithoutQuotes == ssid }
+        return savedNetwork?.let {
+            connect(networkId = it.networkId)
+            waitForConnectionToSSID(ssid = ssid, timeoutInMillis = timeoutInMillis)
         }
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE, ACCESS_NETWORK_STATE])
     override fun connectToNetworkByBSSID(bssid: String, timeoutInMillis: Int): Boolean? {
-        return when (
-            val savedNetworkSearchResult = savedNetworkDelegate.getSavedNetworks(
-                GetSavedNetworksQuery.ByBSSID(regex = bssid)
-            )
-        ) {
-            is GetSavedNetworksResult.Empty -> null
-            is GetSavedNetworksResult.SavedNetworks -> {
-                when (val saveNetwork = savedNetworkSearchResult.value.first()) {
-                    is SavedNetworkData.Configuration -> {
-                        saveNetwork.rawValue.let {
-                            wifiManager.disconnect()
-                            wifiManager.enableNetwork(it.networkId, true)
-                            wifiManager.reconnect()
-                            waitToConnectToBSSID(bssid, timeoutInMillis)
-                        }
-                    }
-                    is SavedNetworkData.Suggestion -> false
-                }
-            }
+        val savedNetwork = wifiManager.configuredNetworks.firstOrNull { it.bssidWithoutQuotes == bssid }
+        return savedNetwork?.let {
+            connect(networkId = it.networkId)
+            waitForConnectionToBSSID(bssid = bssid, timeoutInMillis = timeoutInMillis)
         }
     }
 
     override fun disconnectFromCurrentNetwork(): Boolean {
-        return wifiManager.disconnect()
+        val result = wifiManager.disconnect()
+        logger.d(LOG_TAG, "Disconnecting from network. result: $result")
+        return result
+    }
+
+    private fun connect(networkId: Int) {
+        val disconnectResult = wifiManager.disconnect()
+        val enableNetworkResult = wifiManager.enableNetwork(networkId, true)
+        val reconnectResult = wifiManager.reconnect()
+        logger.d(
+            LOG_TAG,
+            "Connecting to network with id: $networkId. disconnectResult: $disconnectResult, enableNetworkResult: " +
+                "$enableNetworkResult, reconnectResult: $reconnectResult"
+        )
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
     private fun isCurrentNetworkConnectedBySSID(ssid: String): Boolean {
-        val connectionStatus = networkInfoDelegate.getNetworkConnectionStatus()
-        if (!connectionStatus.value.ssidOfNetworkConnectedTo.isNullOrEmpty()) {
-            logger.d(
-                LOG_TAG,
-                "Current SSID value: %s, Desired SSID value: %s",
-                connectionStatus.value.ssidOfNetworkConnectedTo ?: "",
-                ssid
-            )
-            if (connectionStatus.value.ssidOfNetworkConnectedTo.equals(ssid, ignoreCase = true) &&
-                networkInfoDelegate.getNetworkConnectionStatus().value.isConnected
-            ) {
-                logger.d(LOG_TAG, "Network is connected")
-                return true
-            }
+        return when (networkConnectionStatusProvider()) {
+            NetworkConnectionStatus.AVAILABLE -> getNetworkTransportInfo()?.ssidWithoutQuotes == ssid
+            NetworkConnectionStatus.LOSING,
+            NetworkConnectionStatus.LOST,
+            NetworkConnectionStatus.UNAVAILABLE -> false
         }
-        return false
+    }
+
+    @RequiresPermission(ACCESS_NETWORK_STATE)
+    private fun getNetworkTransportInfo(): WifiInfo? {
+        return if (sdkUtil.isAtLeastS()) {
+            connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)?.transportInfo as? WifiInfo
+        } else {
+            @Suppress("Deprecation")
+            wifiManager.connectionInfo
+        }
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
     private fun isCurrentNetworkConnectedByBSSID(bssid: String): Boolean {
-        val connectionStatus = networkInfoDelegate.getNetworkConnectionStatus()
-        if (!connectionStatus.value.bssidOfNetworkConnectedTo.isNullOrEmpty()) {
-            logger.d(
-                LOG_TAG,
-                "Current BSSID value: %s, Desired BSSID value: %s",
-                connectionStatus.value.bssidOfNetworkConnectedTo ?: "",
-                bssid
-            )
-            if (connectionStatus.value.bssidOfNetworkConnectedTo.equals(bssid, ignoreCase = true) &&
-                networkInfoDelegate.getNetworkConnectionStatus().value.isConnected
-            ) {
-                logger.d(LOG_TAG, "Network is connected")
-                return true
-            }
+        return when (networkConnectionStatusProvider()) {
+            NetworkConnectionStatus.AVAILABLE -> getNetworkTransportInfo()?.bssidWithoutQuotes == bssid
+            NetworkConnectionStatus.LOSING,
+            NetworkConnectionStatus.LOST,
+            NetworkConnectionStatus.UNAVAILABLE -> false
         }
-        return false
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    private fun waitToConnectToSSID(ssid: String, timeoutInMillis: Int): Boolean {
+    private fun waitForConnectionToSSID(ssid: String, timeoutInMillis: Int): Boolean {
         logger.d(
             LOG_TAG,
             "Waiting %d milliseconds to connect to network with ssid %s",
@@ -170,7 +140,7 @@ internal class DefaultNetworkConnectionApiImpl(
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    private fun waitToConnectToBSSID(bssid: String, timeoutInMillis: Int): Boolean {
+    private fun waitForConnectionToBSSID(bssid: String, timeoutInMillis: Int): Boolean {
         logger.d(
             LOG_TAG,
             "Waiting %d milliseconds to connect to network with bssid %s",

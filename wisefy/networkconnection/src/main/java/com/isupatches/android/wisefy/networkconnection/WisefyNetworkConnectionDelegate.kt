@@ -25,6 +25,7 @@ import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
 import com.isupatches.android.wisefy.core.coroutines.CoroutineDispatcherProvider
 import com.isupatches.android.wisefy.core.coroutines.createBaseCoroutineExceptionHandler
+import com.isupatches.android.wisefy.core.entities.NetworkConnectionStatus
 import com.isupatches.android.wisefy.core.exceptions.WisefyException
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.core.util.SdkUtil
@@ -36,8 +37,6 @@ import com.isupatches.android.wisefy.networkconnection.entities.DisconnectFromCu
 import com.isupatches.android.wisefy.networkconnection.entities.DisconnectFromCurrentNetworkResult
 import com.isupatches.android.wisefy.networkconnection.os.adapters.Android29NetworkConnectionAdapter
 import com.isupatches.android.wisefy.networkconnection.os.adapters.DefaultNetworkConnectionAdapter
-import com.isupatches.android.wisefy.networkinfo.NetworkInfoDelegate
-import com.isupatches.android.wisefy.savednetworks.SavedNetworkDelegate
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
@@ -52,15 +51,11 @@ import kotlinx.coroutines.withContext
  * @param networkConnectionMutex
  * @param connectivityManager The ConnectivityManager instance to use
  * @param logger The logger instance to use
- * @param networkInfoDelegate The NetworkInfoDelegate instance to use
- * @param savedNetworkDelegate The SavedNetworkDelegate instance to use
  * @param sdkUtil The SdkUtil instance to use
  * @param wifiManager The WifiManager instance to use
  *
  * @see CoroutineDispatcherProvider
  * @see NetworkConnectionDelegate
- * @see NetworkInfoDelegate
- * @see SavedNetworkDelegate
  * @see SdkUtil
  * @see WisefyLogger
  *
@@ -74,10 +69,9 @@ class WisefyNetworkConnectionDelegate(
     assertions: WisefyAssertions,
     connectivityManager: ConnectivityManager,
     logger: WisefyLogger,
-    networkInfoDelegate: NetworkInfoDelegate,
-    savedNetworkDelegate: SavedNetworkDelegate,
     sdkUtil: SdkUtil,
-    wifiManager: WifiManager
+    wifiManager: WifiManager,
+    networkConnectionStatusProvider: () -> NetworkConnectionStatus
 ) : NetworkConnectionDelegate {
 
     companion object {
@@ -86,14 +80,13 @@ class WisefyNetworkConnectionDelegate(
 
     private val adapter = when {
         sdkUtil.isAtLeastQ() -> Android29NetworkConnectionAdapter(connectivityManager, logger, assertions)
-        else -> {
-            DefaultNetworkConnectionAdapter(
-                wifiManager,
-                networkInfoDelegate,
-                savedNetworkDelegate,
-                logger
-            )
-        }
+        else -> DefaultNetworkConnectionAdapter(
+            connectivityManager,
+            wifiManager,
+            logger,
+            sdkUtil,
+            networkConnectionStatusProvider
+        )
     }
 
     init {

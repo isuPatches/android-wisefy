@@ -17,6 +17,7 @@ package com.isupatches.android.wisefy.removenetwork.os.impls
 
 import android.Manifest.permission.CHANGE_WIFI_STATE
 import android.net.wifi.WifiManager
+import android.net.wifi.WifiNetworkSuggestion
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
@@ -47,21 +48,19 @@ internal class Android30RemoveNetworkApiImpl(
 
     @RequiresPermission(CHANGE_WIFI_STATE)
     override fun removeNetworkBySSID(regexForSSID: String): Int {
-        val networkToRemove = wifiManager.networkSuggestions.firstOrNull {
-            it.hasSSIDMatchingRegex(regexForSSID)
-        }
-        val result = networkToRemove?.let { wifiManager.removeNetworkSuggestions(listOf(it)) } ?: -1
-        logger.d(LOG_TAG, "Removing network suggestion.  Result: $result, networkToRemove: $networkToRemove")
-        return result
+        val networkToRemove = wifiManager.networkSuggestions.firstOrNull { it.hasSSIDMatchingRegex(regexForSSID) }
+        return removeNetworkSuggestion(networkSuggestion = networkToRemove)
     }
 
     @RequiresPermission(CHANGE_WIFI_STATE)
     override fun removeNetworkByBSSID(regexForBSSID: String): Int {
-        val networkToRemove = wifiManager.networkSuggestions.firstOrNull {
-            it.hasBSSIDMatchingRegex(regexForBSSID)
-        }
-        val result = networkToRemove?.let { wifiManager.removeNetworkSuggestions(listOf(it)) } ?: -1
-        logger.d(LOG_TAG, "Removing network suggestion.  Result: $result, networkToRemove: $networkToRemove")
+        val networkToRemove = wifiManager.networkSuggestions.firstOrNull { it.hasBSSIDMatchingRegex(regexForBSSID) }
+        return removeNetworkSuggestion(networkSuggestion = networkToRemove)
+    }
+
+    private fun removeNetworkSuggestion(networkSuggestion: WifiNetworkSuggestion?): Int {
+        val result = networkSuggestion?.let { wifiManager.removeNetworkSuggestions(listOf(it)) } ?: -1
+        logger.d(LOG_TAG, "Removing network suggestion.  Result: $result, networkSuggestion: $networkSuggestion")
         return result
     }
 }

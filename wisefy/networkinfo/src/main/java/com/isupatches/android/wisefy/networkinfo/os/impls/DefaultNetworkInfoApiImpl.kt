@@ -20,20 +20,15 @@ import android.net.ConnectivityManager
 import android.net.LinkProperties
 import android.net.Network
 import android.net.NetworkCapabilities
-import android.net.NetworkRequest
 import android.net.wifi.WifiInfo
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.core.bssidWithoutQuotes
+import com.isupatches.android.wisefy.core.entities.NetworkConnectionStatus
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.core.ssidWithoutQuotes
 import com.isupatches.android.wisefy.core.util.SdkUtil
-import com.isupatches.android.wisefy.networkinfo.entities.NetworkConnectionStatus
 import com.isupatches.android.wisefy.networkinfo.os.apis.DefaultNetworkInfoApi
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
 import java.math.BigInteger
 import java.net.InetAddress
 import java.net.UnknownHostException
@@ -54,8 +49,7 @@ internal class DefaultNetworkInfoApiImpl(
     private val connectivityManager: ConnectivityManager,
     private val sdkUtil: SdkUtil,
     private val logger: WisefyLogger,
-    private val scope: CoroutineScope,
-    private val networkConnectionMutex: Mutex
+    private val networkConnectionStatusProvider: () -> NetworkConnectionStatus
 ) : DefaultNetworkInfoApi {
 
     companion object {
@@ -77,18 +71,14 @@ internal class DefaultNetworkInfoApiImpl(
         return connectivityManager.getLinkProperties(network)
     }
 
-    private val wisefyNetworkCallback = WisefyNetworkCallback()
-
     @RequiresPermission(ACCESS_NETWORK_STATE)
     override fun getSSIDOfTheNetworkTheDeviceIsConnectedTo(): String? {
-        val connectionInfo = getNetworkTransportInfo()
-        return connectionInfo?.ssidWithoutQuotes
+        return getNetworkTransportInfo()?.ssidWithoutQuotes
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
     override fun getBSSIDOfTheNetworkTheDeviceIsConnectedTo(): String? {
-        val connectionInfo = getNetworkTransportInfo()
-        return connectionInfo?.bssidWithoutQuotes
+        return getNetworkTransportInfo()?.bssidWithoutQuotes
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
@@ -171,76 +161,6 @@ internal class DefaultNetworkInfoApiImpl(
     }
 
     private fun isNetworkConnected(): Boolean {
-        return connectionStatus == NetworkConnectionStatus.AVAILABLE
-    }
-
-    private var connectionStatus: NetworkConnectionStatus? = null
-
-    @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun attachNetworkWatcher() {
-        startListeningForNetworkChanges(connectivityManager)
-    }
-
-    override fun detachNetworkWatcher() {
-        stopListeningForNetworkChanges(connectivityManager)
-    }
-
-    @RequiresPermission(ACCESS_NETWORK_STATE)
-    private fun startListeningForNetworkChanges(connectivityManager: ConnectivityManager) {
-        val request = NetworkRequest.Builder().build()
-        connectivityManager.registerNetworkCallback(request, wisefyNetworkCallback)
-    }
-
-    private fun stopListeningForNetworkChanges(connectivityManager: ConnectivityManager) {
-        connectivityManager.unregisterNetworkCallback(wisefyNetworkCallback)
-        connectionStatus = null
-    }
-
-    private inner class WisefyNetworkCallback : ConnectivityManager.NetworkCallback() {
-
-        override fun onAvailable(network: Network) {
-            super.onAvailable(network)
-            logger.d(LOG_TAG, "onAvailable, $network")
-            updateConnectionStatus(NetworkConnectionStatus.AVAILABLE)
-        }
-
-        override fun onCapabilitiesChanged(network: Network, networkCapabilities: NetworkCapabilities) {
-            super.onCapabilitiesChanged(network, networkCapabilities)
-            logger.d(
-                LOG_TAG,
-                "onCapabilitiesChanged, network: $network, networkCapabilities: $networkCapabilities"
-            )
-        }
-
-        override fun onLinkPropertiesChanged(network: Network, linkProperties: LinkProperties) {
-            super.onLinkPropertiesChanged(network, linkProperties)
-            logger.d(LOG_TAG, "onLinkPropertiesChanged, network: $network, linkProperties: $linkProperties")
-        }
-
-        override fun onLosing(network: Network, maxMsToLive: Int) {
-            super.onLosing(network, maxMsToLive)
-            logger.d(LOG_TAG, "onLosing, network: $network, maxMsToLive: $maxMsToLive")
-            updateConnectionStatus(NetworkConnectionStatus.LOSING)
-        }
-
-        override fun onLost(network: Network) {
-            super.onLost(network)
-            logger.d(LOG_TAG, "onLost, network: $network")
-            updateConnectionStatus(NetworkConnectionStatus.LOST)
-        }
-
-        override fun onUnavailable() {
-            super.onUnavailable()
-            logger.d(LOG_TAG, "onUnavailable")
-            updateConnectionStatus(NetworkConnectionStatus.UNAVAILABLE)
-        }
-
-        private fun updateConnectionStatus(status: NetworkConnectionStatus) {
-            scope.launch {
-                networkConnectionMutex.withLock {
-                    connectionStatus = status
-                }
-            }
-        }
+        return networkConnectionStatusProvider() == NetworkConnectionStatus.AVAILABLE
     }
 }

@@ -18,9 +18,12 @@ package com.isupatches.android.wisefy.networkconnection.os.adapters
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.ACCESS_NETWORK_STATE
 import android.Manifest.permission.ACCESS_WIFI_STATE
+import android.net.ConnectivityManager
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
+import com.isupatches.android.wisefy.core.entities.NetworkConnectionStatus
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
+import com.isupatches.android.wisefy.core.util.SdkUtil
 import com.isupatches.android.wisefy.networkconnection.NetworkConnectionApi
 import com.isupatches.android.wisefy.networkconnection.entities.ConnectToNetworkRequest
 import com.isupatches.android.wisefy.networkconnection.entities.ConnectToNetworkResult
@@ -28,38 +31,34 @@ import com.isupatches.android.wisefy.networkconnection.entities.DisconnectFromCu
 import com.isupatches.android.wisefy.networkconnection.entities.DisconnectFromCurrentNetworkResult
 import com.isupatches.android.wisefy.networkconnection.os.apis.DefaultNetworkConnectionApi
 import com.isupatches.android.wisefy.networkconnection.os.impls.DefaultNetworkConnectionApiImpl
-import com.isupatches.android.wisefy.networkinfo.NetworkInfoDelegate
-import com.isupatches.android.wisefy.savednetworks.SavedNetworkDelegate
 
 /**
  * A default adapter for connecting to or disconnecting from a network.
  *
  * @param wifiManager The WifiManager instance to use
- * @param networkInfoDelegate The NetworkInfoDelegate instance to use
- * @param savedNetworkDelegate The SavedNetworkDelegate instance to use
  * @param logger The logger instance to use
  * @param api The OS level API instance to use
  *
  * @see DefaultNetworkConnectionApi
  * @see DefaultNetworkConnectionApiImpl
  * @see NetworkConnectionApi
- * @see NetworkInfoDelegate
- * @see SavedNetworkDelegate
  * @see WisefyLogger
  *
  * @author Patches Klinefelter
  * @since 03/2022
  */
 internal class DefaultNetworkConnectionAdapter(
+    connectivityManager: ConnectivityManager,
     wifiManager: WifiManager,
-    networkInfoDelegate: NetworkInfoDelegate,
-    savedNetworkDelegate: SavedNetworkDelegate,
     logger: WisefyLogger,
+    sdkUtil: SdkUtil,
+    networkConnectionStatusProvider: () -> NetworkConnectionStatus,
     private val api: DefaultNetworkConnectionApi = DefaultNetworkConnectionApiImpl(
+        connectivityManager,
         wifiManager,
-        networkInfoDelegate,
-        savedNetworkDelegate,
-        logger
+        logger,
+        sdkUtil,
+        networkConnectionStatusProvider
     )
 ) : NetworkConnectionApi {
 
