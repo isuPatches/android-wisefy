@@ -21,6 +21,7 @@ import android.net.wifi.WifiManager
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
+import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.savednetworks.SavedNetworkApi
 import com.isupatches.android.wisefy.savednetworks.entities.GetSavedNetworksQuery
 import com.isupatches.android.wisefy.savednetworks.entities.GetSavedNetworksResult
@@ -46,7 +47,8 @@ import com.isupatches.android.wisefy.savednetworks.os.impls.Android30SavedNetwor
 @RequiresApi(Build.VERSION_CODES.R)
 internal class Android30SavedNetworkAdapter(
     wifiManager: WifiManager,
-    private val api: Android30SavedNetworkApi = Android30SavedNetworkApiImpl(wifiManager)
+    logger: WisefyLogger,
+    private val api: Android30SavedNetworkApi = Android30SavedNetworkApiImpl(wifiManager, logger)
 ) : SavedNetworkApi {
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])

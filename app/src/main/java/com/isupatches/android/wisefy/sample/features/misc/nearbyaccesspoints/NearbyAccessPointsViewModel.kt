@@ -65,9 +65,8 @@ internal class DefaultNearbyAccessPointsViewModel(
             dialogState = NearbyAccessPointsDialogState.None
         )
         try {
-            val result = wisefy.getAccessPoints(GetAccessPointsQuery.All())
 
-            when (result) {
+            when (val result = wisefy.getAccessPoints(GetAccessPointsQuery.All())) {
                 is GetAccessPointsResult.Empty -> {
                     _uiState.value = NearbyAccessPointsUIState(
                         loadingState = NearbyAccessPointsLoadingState(isLoading = false),

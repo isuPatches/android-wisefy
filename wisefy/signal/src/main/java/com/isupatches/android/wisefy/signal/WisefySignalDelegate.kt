@@ -46,16 +46,15 @@ class WisefySignalDelegate(
     assertions: WisefyAssertions,
     logger: WisefyLogger,
     sdkUtil: SdkUtil,
-    wifiManager: WifiManager
+    wifiManager: WifiManager,
+    private val adapter: SignalApi = when {
+        sdkUtil.isAtLeastR() -> Android30SignalAdapter(wifiManager, logger, assertions)
+        else -> DefaultSignalAdapter(logger, assertions)
+    }
 ) : SignalDelegate {
 
     companion object {
         private const val LOG_TAG = "WisefySignalDelegate"
-    }
-
-    private val adapter = when {
-        sdkUtil.isAtLeastR() -> Android30SignalAdapter(wifiManager, assertions)
-        else -> DefaultSignalAdapter(assertions)
     }
 
     init {

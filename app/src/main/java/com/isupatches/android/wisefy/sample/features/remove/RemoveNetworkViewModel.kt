@@ -15,7 +15,9 @@
  */
 package com.isupatches.android.wisefy.sample.features.remove
 
+import android.Manifest
 import android.Manifest.permission.ACCESS_FINE_LOCATION
+import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.Manifest.permission.CHANGE_WIFI_STATE
 import android.content.Context
 import androidx.annotation.RequiresPermission
@@ -40,7 +42,7 @@ import kotlinx.coroutines.launch
 internal abstract class RemoveNetworkViewModel : BaseViewModel() {
     abstract val uiState: State<RemoveNetworkUIState>
 
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE, CHANGE_WIFI_STATE])
     abstract suspend fun removeNetwork()
 
     abstract fun onInputChanged(input: String)
@@ -88,7 +90,7 @@ internal class DefaultRemoveNetworkViewModel(
         }
     }
 
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE, CHANGE_WIFI_STATE])
     override suspend fun removeNetwork() {
         val currentInputState = uiState.value.inputState
         if (!isInputValid()) {

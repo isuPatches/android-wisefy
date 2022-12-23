@@ -48,14 +48,13 @@ class WisefyAccessPointsDelegate(
     private val coroutineDispatcherProvider: CoroutineDispatcherProvider,
     private val scope: CoroutineScope,
     logger: WisefyLogger,
-    wifiManager: WifiManager
+    wifiManager: WifiManager,
+    private val adapter: AccessPointsApi = DefaultAccessPointsAdapter(wifiManager, logger)
 ) : AccessPointsDelegate {
 
     companion object {
         private const val LOG_TAG = "WisefyAccessPointsDelegate"
     }
-
-    private val adapter = DefaultAccessPointsAdapter(wifiManager, logger)
 
     init {
         logger.d(LOG_TAG, "WisefyAccessPointsDelegate adapter is: ${adapter::class.java.simpleName}")

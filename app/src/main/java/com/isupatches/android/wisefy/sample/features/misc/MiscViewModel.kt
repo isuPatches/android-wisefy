@@ -251,6 +251,7 @@ internal class DefaultMiscViewModel(private val wisefy: WisefyApi) : MiscViewMod
         }
     }
 
+    @RequiresPermission(ACCESS_NETWORK_STATE)
     override suspend fun getNetworkConnectionStatus() {
         _uiState.value = MiscUIState(
             loadingState = MiscLoadingState(isLoading = true),

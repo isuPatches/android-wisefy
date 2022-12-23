@@ -31,6 +31,7 @@ import com.isupatches.android.wisefy.networkconnection.entities.DisconnectFromCu
 import com.isupatches.android.wisefy.networkconnection.entities.DisconnectFromCurrentNetworkResult
 import com.isupatches.android.wisefy.networkconnection.os.apis.DefaultNetworkConnectionApi
 import com.isupatches.android.wisefy.networkconnection.os.impls.DefaultNetworkConnectionApiImpl
+import kotlinx.coroutines.runBlocking
 
 /**
  * A default adapter for connecting to or disconnecting from a network.
@@ -52,7 +53,7 @@ internal class DefaultNetworkConnectionAdapter(
     wifiManager: WifiManager,
     logger: WisefyLogger,
     sdkUtil: SdkUtil,
-    networkConnectionStatusProvider: () -> NetworkConnectionStatus,
+    networkConnectionStatusProvider: suspend () -> NetworkConnectionStatus?,
     private val api: DefaultNetworkConnectionApi = DefaultNetworkConnectionApiImpl(
         connectivityManager,
         wifiManager,
@@ -64,21 +65,16 @@ internal class DefaultNetworkConnectionAdapter(
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE, ACCESS_NETWORK_STATE])
     override fun connectToNetwork(request: ConnectToNetworkRequest): ConnectToNetworkResult {
-        return when (request) {
-            is ConnectToNetworkRequest.SSID -> {
-                when (api.connectToNetworkBySSID(request.ssid, request.timeoutInMillis)) {
-                    true -> ConnectToNetworkResult.Success.True
-                    false -> ConnectToNetworkResult.Failure.False
-                    null -> ConnectToNetworkResult.Failure.NetworkNotFound
-                }
+        val result = runBlocking {
+            when (request) {
+                is ConnectToNetworkRequest.SSID -> api.connectToNetworkBySSID(request.ssid, request.timeoutInMillis)
+                is ConnectToNetworkRequest.BSSID -> api.connectToNetworkBySSID(request.bssid, request.timeoutInMillis)
             }
-            is ConnectToNetworkRequest.BSSID -> {
-                when (api.connectToNetworkBySSID(request.bssid, request.timeoutInMillis)) {
-                    true -> ConnectToNetworkResult.Success.True
-                    false -> ConnectToNetworkResult.Failure.False
-                    null -> ConnectToNetworkResult.Failure.NetworkNotFound
-                }
-            }
+        }
+        return when (result) {
+            true -> ConnectToNetworkResult.Success.True
+            false -> ConnectToNetworkResult.Failure.False
+            null -> ConnectToNetworkResult.Failure.NetworkNotFound
         }
     }
 

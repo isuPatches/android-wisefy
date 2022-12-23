@@ -15,8 +15,14 @@
  */
 package com.isupatches.android.wisefy.sample.features.misc.nearbyaccesspoints
 
+import android.content.res.Configuration
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import com.isupatches.android.wisefy.core.exceptions.WisefyException
 import com.isupatches.android.wisefy.sample.R
+import com.isupatches.android.wisefy.sample.ui.ComposablePreviewWisefy
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleNoticeDialog
 import com.isupatches.android.wisefy.sample.ui.theme.WisefySampleTheme
 
@@ -51,4 +57,42 @@ internal fun NearbyAccessPointsScreenDialogContent(
             }
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+@Suppress("UnusedPrivateMember")
+private fun AddNetworkScreenDialogContentLightPreview(
+    @PreviewParameter(NearbyAccessPointsDialogStatePreviewParameterProvider::class)
+    dialogState: NearbyAccessPointsDialogState
+) {
+    NearbyAccessPointsScreenDialogContent(
+        viewModel = DefaultNearbyAccessPointsViewModel(
+            wisefy = ComposablePreviewWisefy()
+        ),
+        dialogState = { dialogState }
+    )
+}
+
+@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+@Suppress("UnusedPrivateMember")
+private fun AddNetworkScreenDialogContentDarkPreview(
+    @PreviewParameter(NearbyAccessPointsDialogStatePreviewParameterProvider::class)
+    dialogState: NearbyAccessPointsDialogState
+) {
+    NearbyAccessPointsScreenDialogContent(
+        viewModel = DefaultNearbyAccessPointsViewModel(
+            wisefy = ComposablePreviewWisefy()
+        ),
+        dialogState = { dialogState }
+    )
+}
+
+private class NearbyAccessPointsDialogStatePreviewParameterProvider :
+    PreviewParameterProvider<NearbyAccessPointsDialogState> {
+    override val values: Sequence<NearbyAccessPointsDialogState> = sequenceOf(
+        NearbyAccessPointsDialogState.Failure.WisefyAsync(WisefyException("", null)),
+        NearbyAccessPointsDialogState.GetNearbyAccessPoints.PermissionsError,
+    )
 }

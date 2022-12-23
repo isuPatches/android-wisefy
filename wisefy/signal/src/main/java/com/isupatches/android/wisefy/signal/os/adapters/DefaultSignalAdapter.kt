@@ -17,6 +17,7 @@ package com.isupatches.android.wisefy.signal.os.adapters
 
 import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
 import com.isupatches.android.wisefy.core.constants.AssertionMessages
+import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.signal.SignalApi
 import com.isupatches.android.wisefy.signal.entities.CalculateSignalLevelRequest
 import com.isupatches.android.wisefy.signal.entities.CalculateSignalLevelResult
@@ -41,14 +42,15 @@ import com.isupatches.android.wisefy.signal.os.impls.DefaultSignalApiImpl
  * @since 07/2022, version 5.0.0
  */
 internal class DefaultSignalAdapter(
+    logger: WisefyLogger,
     private val assertions: WisefyAssertions,
-    private val api: DefaultSignalApi = DefaultSignalApiImpl()
+    private val api: DefaultSignalApi = DefaultSignalApiImpl(logger)
 ) : SignalApi {
 
     override fun calculateSignalLevel(request: CalculateSignalLevelRequest): CalculateSignalLevelResult {
         return when (request) {
             is CalculateSignalLevelRequest.BelowAndroid30 -> {
-                val result = api.calculateBars(request.rssiLevel, request.numLevels)
+                val result = api.calculateSignalLevel(request.rssiLevel, request.numLevels)
                 CalculateSignalLevelResult.Success(value = result)
             }
             is CalculateSignalLevelRequest.Android30AndAbove -> {

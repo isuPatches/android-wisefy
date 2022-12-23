@@ -16,6 +16,7 @@
 package com.isupatches.android.wisefy.sample.features.remove
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
+import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.Manifest.permission.CHANGE_WIFI_STATE
 import android.content.res.Configuration
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -80,7 +81,9 @@ internal fun RemoveNetworkScreenContent(viewModel: RemoveNetworkViewModel) {
             )
             Row(modifier = Modifier.padding(top = WisefySampleSizes.Large)) {
                 WisefyPrimaryButton(stringResId = R.string.remove_network) {
-                    removeNetworkPermissionsLauncher.launch(arrayOf(ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE))
+                    removeNetworkPermissionsLauncher.launch(
+                        arrayOf(ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE, CHANGE_WIFI_STATE)
+                    )
                 }
             }
         }

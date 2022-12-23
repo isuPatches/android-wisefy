@@ -65,16 +65,15 @@ class WisefyWifiDelegate(
     assertions: WisefyAssertions,
     logger: WisefyLogger,
     sdkUtil: SdkUtil,
-    wifiManager: WifiManager
+    wifiManager: WifiManager,
+    private val adapter: WifiApi = when {
+        sdkUtil.isAtLeastQ() -> Android29WifiAdapter(wifiManager, logger, assertions)
+        else -> DefaultWifiAdapter(wifiManager, logger, assertions)
+    }
 ) : WifiDelegate {
 
     companion object {
         private const val LOG_TAG = "WisefyWifiDelegate"
-    }
-
-    private val adapter = when {
-        sdkUtil.isAtLeastQ() -> Android29WifiAdapter(wifiManager, assertions)
-        else -> DefaultWifiAdapter(wifiManager, assertions)
     }
 
     init {

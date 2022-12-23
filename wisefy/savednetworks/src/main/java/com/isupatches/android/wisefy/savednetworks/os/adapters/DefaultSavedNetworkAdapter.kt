@@ -19,6 +19,7 @@ import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
+import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.savednetworks.SavedNetworkApi
 import com.isupatches.android.wisefy.savednetworks.entities.GetSavedNetworksQuery
 import com.isupatches.android.wisefy.savednetworks.entities.GetSavedNetworksResult
@@ -43,7 +44,8 @@ import com.isupatches.android.wisefy.savednetworks.os.impls.DefaultSavedNetworkA
  */
 internal class DefaultSavedNetworkAdapter(
     wifiManager: WifiManager,
-    private val api: DefaultSavedNetworkApi = DefaultSavedNetworkApiImpl(wifiManager)
+    logger: WisefyLogger,
+    private val api: DefaultSavedNetworkApi = DefaultSavedNetworkApiImpl(wifiManager, logger)
 ) : SavedNetworkApi {
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])

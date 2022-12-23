@@ -28,6 +28,7 @@ import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.core.ssidWithoutQuotes
 import com.isupatches.android.wisefy.core.util.SdkUtil
 import com.isupatches.android.wisefy.core.util.withTimeout
+import com.isupatches.android.wisefy.core.util.withTimeoutAsync
 import com.isupatches.android.wisefy.networkconnection.os.apis.DefaultNetworkConnectionApi
 
 /**
@@ -46,7 +47,7 @@ internal class DefaultNetworkConnectionApiImpl(
     private val wifiManager: WifiManager,
     private val logger: WisefyLogger,
     private val sdkUtil: SdkUtil,
-    private val networkConnectionStatusProvider: () -> NetworkConnectionStatus
+    private val networkConnectionStatusProvider: suspend () -> NetworkConnectionStatus?
 ) : DefaultNetworkConnectionApi, ConnectivityManager.NetworkCallback() {
 
     companion object {
@@ -54,7 +55,7 @@ internal class DefaultNetworkConnectionApiImpl(
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE, ACCESS_NETWORK_STATE])
-    override fun connectToNetworkBySSID(ssid: String, timeoutInMillis: Int): Boolean? {
+    override suspend fun connectToNetworkBySSID(ssid: String, timeoutInMillis: Int): Boolean? {
         val savedNetwork = wifiManager.configuredNetworks.firstOrNull { it.ssidWithoutQuotes == ssid }
         return savedNetwork?.let {
             connect(networkId = it.networkId)
@@ -63,7 +64,7 @@ internal class DefaultNetworkConnectionApiImpl(
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE, ACCESS_NETWORK_STATE])
-    override fun connectToNetworkByBSSID(bssid: String, timeoutInMillis: Int): Boolean? {
+    override suspend fun connectToNetworkByBSSID(bssid: String, timeoutInMillis: Int): Boolean? {
         val savedNetwork = wifiManager.configuredNetworks.firstOrNull { it.bssidWithoutQuotes == bssid }
         return savedNetwork?.let {
             connect(networkId = it.networkId)
@@ -89,12 +90,13 @@ internal class DefaultNetworkConnectionApiImpl(
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    private fun isCurrentNetworkConnectedBySSID(ssid: String): Boolean {
+    private suspend fun isCurrentNetworkConnectedBySSID(ssid: String): Boolean {
         return when (networkConnectionStatusProvider()) {
             NetworkConnectionStatus.AVAILABLE -> getNetworkTransportInfo()?.ssidWithoutQuotes == ssid
             NetworkConnectionStatus.LOSING,
             NetworkConnectionStatus.LOST,
-            NetworkConnectionStatus.UNAVAILABLE -> false
+            NetworkConnectionStatus.UNAVAILABLE,
+            null -> false
         }
     }
 
@@ -109,25 +111,26 @@ internal class DefaultNetworkConnectionApiImpl(
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    private fun isCurrentNetworkConnectedByBSSID(bssid: String): Boolean {
+    private suspend fun isCurrentNetworkConnectedByBSSID(bssid: String): Boolean {
         return when (networkConnectionStatusProvider()) {
             NetworkConnectionStatus.AVAILABLE -> getNetworkTransportInfo()?.bssidWithoutQuotes == bssid
             NetworkConnectionStatus.LOSING,
             NetworkConnectionStatus.LOST,
-            NetworkConnectionStatus.UNAVAILABLE -> false
+            NetworkConnectionStatus.UNAVAILABLE,
+            null -> false
         }
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    private fun waitForConnectionToSSID(ssid: String, timeoutInMillis: Int): Boolean {
-        return withTimeout(timeoutInMillis) {
+    private suspend fun waitForConnectionToSSID(ssid: String, timeoutInMillis: Int): Boolean {
+        return withTimeoutAsync(timeoutInMillis) {
             isCurrentNetworkConnectedBySSID(ssid)
         }
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    private fun waitForConnectionToBSSID(bssid: String, timeoutInMillis: Int): Boolean {
-        return withTimeout(timeoutInMillis) {
+    private suspend fun waitForConnectionToBSSID(bssid: String, timeoutInMillis: Int): Boolean {
+        return withTimeoutAsync(timeoutInMillis) {
             isCurrentNetworkConnectedByBSSID(bssid)
         }
     }

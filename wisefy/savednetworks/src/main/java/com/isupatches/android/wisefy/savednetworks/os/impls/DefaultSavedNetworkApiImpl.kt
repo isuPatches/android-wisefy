@@ -22,6 +22,7 @@ import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.core.hasBSSIDMatchingRegex
 import com.isupatches.android.wisefy.core.hasSSIDMatchingRegex
+import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.savednetworks.os.apis.DefaultSavedNetworkApi
 
 /**
@@ -35,12 +36,19 @@ import com.isupatches.android.wisefy.savednetworks.os.apis.DefaultSavedNetworkAp
  * @since 07/2022, version 5.0.0
  */
 internal class DefaultSavedNetworkApiImpl(
-    private val wifiManager: WifiManager
+    private val wifiManager: WifiManager,
+    private val logger: WisefyLogger
 ) : DefaultSavedNetworkApi {
+
+    companion object {
+        private const val LOG_TAG = "DefaultSavedNetworkApiImpl"
+    }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun getSavedNetworks(): List<WifiConfiguration> {
-        return wifiManager.configuredNetworks ?: emptyList()
+        val savedNetworkConfigurations = wifiManager.configuredNetworks
+        logger.d(LOG_TAG, "Saved network configurations: $savedNetworkConfigurations")
+        return savedNetworkConfigurations
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])

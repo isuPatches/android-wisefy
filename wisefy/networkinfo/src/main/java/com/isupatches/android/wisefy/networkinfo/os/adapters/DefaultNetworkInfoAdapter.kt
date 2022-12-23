@@ -31,6 +31,7 @@ import com.isupatches.android.wisefy.networkinfo.entities.NetworkConnectionStatu
 import com.isupatches.android.wisefy.networkinfo.entities.NetworkData
 import com.isupatches.android.wisefy.networkinfo.os.apis.DefaultNetworkInfoApi
 import com.isupatches.android.wisefy.networkinfo.os.impls.DefaultNetworkInfoApiImpl
+import kotlinx.coroutines.runBlocking
 
 /**
  * A default adapter for getting information about a network, the device's current network, and the device's IP.
@@ -52,7 +53,7 @@ internal class DefaultNetworkInfoAdapter(
     private val wifiManager: WifiManager,
     sdkUtil: SdkUtil,
     logger: WisefyLogger,
-    networkConnectionStatusProvider: () -> NetworkConnectionStatus,
+    networkConnectionStatusProvider: suspend () -> NetworkConnectionStatus?,
     private val api: DefaultNetworkInfoApi = DefaultNetworkInfoApiImpl(
         wifiManager = wifiManager,
         connectivityManager = connectivityManager,
@@ -76,11 +77,12 @@ internal class DefaultNetworkInfoAdapter(
 
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     override fun getNetworkConnectionStatus(query: GetNetworkConnectionStatusQuery): GetNetworkConnectionStatusResult {
+        val isDeviceConnected = runBlocking { api.isDeviceConnected() }
         return GetNetworkConnectionStatusResult(
             value = NetworkConnectionStatusData(
-                isConnected = api.isDeviceConnected(),
-                isConnectedToMobileNetwork = api.isDeviceConnectedToMobileNetwork(),
-                isConnectedToWifiNetwork = api.isDeviceConnectedToWifiNetwork(),
+                isConnected = isDeviceConnected,
+                isConnectedToMobileNetwork = isDeviceConnected && api.isTransportTypeMobile(),
+                isConnectedToWifiNetwork = isDeviceConnected && api.isTransportTypeWifi(),
                 isRoaming = api.isDeviceRoaming(),
                 ssidOfNetworkConnectedTo = api.getSSIDOfTheNetworkTheDeviceIsConnectedTo(),
                 bssidOfNetworkConnectedTo = api.getBSSIDOfTheNetworkTheDeviceIsConnectedTo(),

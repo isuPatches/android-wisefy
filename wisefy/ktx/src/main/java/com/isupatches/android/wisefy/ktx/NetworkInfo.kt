@@ -15,14 +15,20 @@
  */
 package com.isupatches.android.wisefy.ktx
 
+import android.Manifest.permission.ACCESS_NETWORK_STATE
+import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.WisefyApi
 import com.isupatches.android.wisefy.core.exceptions.WisefyException
 import com.isupatches.android.wisefy.networkinfo.callbacks.GetCurrentNetworkCallbacks
+import com.isupatches.android.wisefy.networkinfo.callbacks.GetNetworkConnectionStatusCallbacks
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkQuery
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkResult
+import com.isupatches.android.wisefy.networkinfo.entities.GetNetworkConnectionStatusQuery
+import com.isupatches.android.wisefy.networkinfo.entities.GetNetworkConnectionStatusResult
 import com.isupatches.android.wisefy.networkinfo.entities.NetworkData
 import kotlin.coroutines.suspendCoroutine
 
+@RequiresPermission(ACCESS_NETWORK_STATE)
 @Throws(WisefyException::class)
 suspend fun WisefyApi.getCurrentNetworkAsync(
     query: GetCurrentNetworkQuery = GetCurrentNetworkQuery()
@@ -32,6 +38,25 @@ suspend fun WisefyApi.getCurrentNetworkAsync(
         callbacks = object : GetCurrentNetworkCallbacks {
             override fun onCurrentNetworkRetrieved(network: NetworkData) {
                 continuation.resumeWith(Result.success(GetCurrentNetworkResult(network)))
+            }
+
+            override fun onWisefyAsyncFailure(exception: WisefyException) {
+                continuation.resumeWith(Result.failure(exception))
+            }
+        }
+    )
+}
+
+@Throws(WisefyException::class)
+@RequiresPermission(ACCESS_NETWORK_STATE)
+suspend fun WisefyApi.getNetworkConnectionStatusAsync(
+    query: GetNetworkConnectionStatusQuery = GetNetworkConnectionStatusQuery()
+): GetNetworkConnectionStatusResult = suspendCoroutine { continuation ->
+    getNetworkConnectionStatus(
+        query = query,
+        callbacks = object : GetNetworkConnectionStatusCallbacks {
+            override fun onDeviceNetworkConnectionStatusRetrieved(result: GetNetworkConnectionStatusResult) {
+                continuation.resumeWith(Result.success(result))
             }
 
             override fun onWisefyAsyncFailure(exception: WisefyException) {

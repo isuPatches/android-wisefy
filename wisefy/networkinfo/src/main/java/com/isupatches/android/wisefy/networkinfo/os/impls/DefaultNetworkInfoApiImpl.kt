@@ -49,7 +49,7 @@ internal class DefaultNetworkInfoApiImpl(
     private val connectivityManager: ConnectivityManager,
     private val sdkUtil: SdkUtil,
     private val logger: WisefyLogger,
-    private val networkConnectionStatusProvider: () -> NetworkConnectionStatus
+    private val networkConnectionStatusProvider: suspend () -> NetworkConnectionStatus?
 ) : DefaultNetworkInfoApi {
 
     companion object {
@@ -99,22 +99,8 @@ internal class DefaultNetworkInfoApiImpl(
         }
     }
 
-    override fun isDeviceConnected(): Boolean {
-        return isNetworkConnected()
-    }
-
-    @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun isDeviceConnectedToMobileNetwork(): Boolean {
-        return doesNetworkHaveTransportTypeAndInternetCapability(
-            transportType = NetworkCapabilities.TRANSPORT_CELLULAR
-        ) && isNetworkConnected()
-    }
-
-    @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun isDeviceConnectedToWifiNetwork(): Boolean {
-        return doesNetworkHaveTransportTypeAndInternetCapability(
-            transportType = NetworkCapabilities.TRANSPORT_WIFI
-        ) && isNetworkConnected()
+    override suspend fun isDeviceConnected(): Boolean {
+        return networkConnectionStatusProvider() == NetworkConnectionStatus.AVAILABLE
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
@@ -128,6 +114,18 @@ internal class DefaultNetworkInfoApiImpl(
             @Suppress("Deprecation")
             networkInfo != null && networkInfo.isRoaming
         }
+    }
+
+    override fun isTransportTypeMobile(): Boolean {
+        return doesNetworkHaveTransportTypeAndInternetCapability(
+            transportType = NetworkCapabilities.TRANSPORT_CELLULAR
+        )
+    }
+
+    override fun isTransportTypeWifi(): Boolean {
+        return doesNetworkHaveTransportTypeAndInternetCapability(
+            transportType = NetworkCapabilities.TRANSPORT_WIFI
+        )
     }
 
     /**
@@ -158,9 +156,5 @@ internal class DefaultNetworkInfoApiImpl(
     @RequiresPermission(ACCESS_NETWORK_STATE)
     private fun getActiveNetworkCapabilities(): NetworkCapabilities? {
         return connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
-    }
-
-    private fun isNetworkConnected(): Boolean {
-        return networkConnectionStatusProvider() == NetworkConnectionStatus.AVAILABLE
     }
 }

@@ -60,17 +60,16 @@ class WisefyRemoveNetworkDelegate(
     assertions: WisefyAssertions,
     logger: WisefyLogger,
     sdkUtil: SdkUtil,
-    wifiManager: WifiManager
-) : RemoveNetworkDelegate {
-
-    companion object {
-        private const val LOG_TAG = "WisefyRemoveNetworkDelegate"
-    }
-
+    wifiManager: WifiManager,
     private val adapter: RemoveNetworkApi = when {
         sdkUtil.isAtLeastR() -> Android30RemoveNetworkAdapter(logger, wifiManager)
         sdkUtil.isAtLeastQ() -> Android29RemoveNetworkAdapter(assertions)
         else -> DefaultRemoveNetworkAdapter(logger, wifiManager)
+    }
+) : RemoveNetworkDelegate {
+
+    companion object {
+        private const val LOG_TAG = "WisefyRemoveNetworkDelegate"
     }
 
     init {

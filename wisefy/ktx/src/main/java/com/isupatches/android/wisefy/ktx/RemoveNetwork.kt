@@ -15,7 +15,9 @@
  */
 package com.isupatches.android.wisefy.ktx
 
+import android.Manifest
 import android.Manifest.permission.ACCESS_FINE_LOCATION
+import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.Manifest.permission.CHANGE_WIFI_STATE
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.WisefyApi
@@ -41,7 +43,7 @@ import kotlin.coroutines.suspendCoroutine
  * @since 07/2022, version 5.0.0
  */
 @Throws(WisefyException::class)
-@RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
+@RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE, CHANGE_WIFI_STATE])
 suspend fun WisefyApi.removeNetworkAsync(request: RemoveNetworkRequest): RemoveNetworkResult =
     suspendCoroutine { continuation ->
         removeNetwork(

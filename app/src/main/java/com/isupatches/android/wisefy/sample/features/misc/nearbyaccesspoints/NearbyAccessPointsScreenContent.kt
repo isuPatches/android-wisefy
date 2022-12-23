@@ -15,6 +15,10 @@
  */
 package com.isupatches.android.wisefy.sample.features.misc.nearbyaccesspoints
 
+import android.content.res.Configuration
+import android.net.wifi.ScanResult
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -26,7 +30,11 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
+import com.isupatches.android.wisefy.accesspoints.entities.SecurityCapability
 import com.isupatches.android.wisefy.sample.R
+import com.isupatches.android.wisefy.sample.ui.ComposablePreviewWisefy
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleBodyLabel
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleSubHeaderLabel
 import com.isupatches.android.wisefy.sample.ui.primitives.WisefySampleSizes
@@ -100,4 +108,60 @@ private fun AccessPointRow(accessPoint: AccessPointUIData) {
             }
         }
     }
+}
+
+@RequiresApi(Build.VERSION_CODES.R)
+@Preview(showBackground = true)
+@Composable
+@Suppress("UnusedPrivateMember")
+private fun NearbyAccessPointsScreenContentLightPreview() {
+    NearbyAccessPointsScreenContent(
+        accessPoints = {
+            listOf(
+                AccessPointUIData(
+                    accessPoint = AccessPointData(
+                        rawValue = ScanResult().also {
+                            it.capabilities = ""
+                        },
+                        ssid = "",
+                        bssid = "",
+                        frequency = 4900
+                    ),
+                    isSavedBySSID = false,
+                    isSavedByBSSID = false,
+                    securityCapabilities = SecurityCapability.ALL.associateWith {
+                        false
+                    }
+                )
+            )
+        }
+    )
+}
+
+@RequiresApi(Build.VERSION_CODES.R)
+@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+@Suppress("UnusedPrivateMember")
+private fun NearbyAccessPointsScreenContentDarkPreview() {
+    NearbyAccessPointsScreenContent(
+        accessPoints = {
+            listOf(
+                AccessPointUIData(
+                    accessPoint = AccessPointData(
+                        rawValue = ScanResult().also {
+                            it.capabilities = ""
+                        },
+                        ssid = "",
+                        bssid = "",
+                        frequency = 4900
+                    ),
+                    isSavedBySSID = false,
+                    isSavedByBSSID = false,
+                    securityCapabilities = SecurityCapability.ALL.associateWith {
+                        false
+                    }
+                )
+            )
+        }
+    )
 }

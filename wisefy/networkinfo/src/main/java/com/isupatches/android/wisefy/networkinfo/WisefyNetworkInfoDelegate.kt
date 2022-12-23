@@ -25,8 +25,11 @@ import com.isupatches.android.wisefy.core.entities.NetworkConnectionStatus
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.core.util.SdkUtil
 import com.isupatches.android.wisefy.networkinfo.callbacks.GetCurrentNetworkCallbacks
+import com.isupatches.android.wisefy.networkinfo.callbacks.GetNetworkConnectionStatusCallbacks
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkQuery
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkResult
+import com.isupatches.android.wisefy.networkinfo.entities.GetNetworkConnectionStatusQuery
+import com.isupatches.android.wisefy.networkinfo.entities.GetNetworkConnectionStatusResult
 import com.isupatches.android.wisefy.networkinfo.os.adapters.DefaultNetworkInfoAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -59,20 +62,19 @@ class WisefyNetworkInfoDelegate(
     logger: WisefyLogger,
     sdkUtil: SdkUtil,
     wifiManager: WifiManager,
-    networkConnectionStatusProvider: () -> NetworkConnectionStatus
-) : NetworkInfoDelegate {
-
-    companion object {
-        private const val LOG_TAG = "WisefyNetworkInfoDelegate"
-    }
-
-    private val adapter = DefaultNetworkInfoAdapter(
+    networkConnectionStatusProvider: suspend () -> NetworkConnectionStatus?,
+    private val adapter: NetworkInfoApi = DefaultNetworkInfoAdapter(
         connectivityManager = connectivityManager,
         wifiManager = wifiManager,
         sdkUtil = sdkUtil,
         logger = logger,
         networkConnectionStatusProvider = networkConnectionStatusProvider
     )
+) : NetworkInfoDelegate {
+
+    companion object {
+        private const val LOG_TAG = "WisefyNetworkInfoDelegate"
+    }
 
     init {
         logger.d(LOG_TAG, "WisefyNetworkInfoDelegate adapter is: ${adapter::class.java.simpleName}")
@@ -94,23 +96,19 @@ class WisefyNetworkInfoDelegate(
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    override fun getNetworkConnectionStatus(
-        query: com.isupatches.android.wisefy.networkinfo.entities.GetNetworkConnectionStatusQuery
-    ): com.isupatches.android.wisefy.networkinfo.entities.GetNetworkConnectionStatusResult {
+    override fun getNetworkConnectionStatus(query: GetNetworkConnectionStatusQuery): GetNetworkConnectionStatusResult {
         return adapter.getNetworkConnectionStatus(query)
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
     override fun getNetworkConnectionStatus(
-        query: com.isupatches.android.wisefy.networkinfo.entities.GetNetworkConnectionStatusQuery,
-        callbacks: com.isupatches.android.wisefy.networkinfo.callbacks.GetNetworkConnectionStatusCallbacks?
+        query: GetNetworkConnectionStatusQuery,
+        callbacks: GetNetworkConnectionStatusCallbacks?
     ) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
-            networkConnectionMutex.withLock {
-                val currentNetworkConnectionStatus = adapter.getNetworkConnectionStatus(query)
-                withContext(coroutineDispatcherProvider.main) {
-                    callbacks?.onDeviceNetworkConnectionStatusRetrieved(currentNetworkConnectionStatus)
-                }
+            val currentNetworkConnectionStatus = adapter.getNetworkConnectionStatus(query)
+            withContext(coroutineDispatcherProvider.main) {
+                callbacks?.onDeviceNetworkConnectionStatusRetrieved(currentNetworkConnectionStatus)
             }
         }
     }

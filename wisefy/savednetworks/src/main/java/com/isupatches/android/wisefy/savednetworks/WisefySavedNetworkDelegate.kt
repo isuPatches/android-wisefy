@@ -69,17 +69,16 @@ class WisefySavedNetworkDelegate(
     assertions: WisefyAssertions,
     logger: WisefyLogger,
     sdkUtil: SdkUtil,
-    wifiManager: WifiManager
+    wifiManager: WifiManager,
+    private val adapter: SavedNetworkApi = when {
+        sdkUtil.isAtLeastR() -> Android30SavedNetworkAdapter(wifiManager, logger)
+        sdkUtil.isAtLeastQ() -> Android29SavedNetworkAdapter(assertions)
+        else -> DefaultSavedNetworkAdapter(wifiManager, logger)
+    }
 ) : SavedNetworkDelegate {
 
     companion object {
         private const val LOG_TAG = "WisefySavedNetworkDelegate"
-    }
-
-    private val adapter = when {
-        sdkUtil.isAtLeastR() -> Android30SavedNetworkAdapter(wifiManager)
-        sdkUtil.isAtLeastQ() -> Android29SavedNetworkAdapter(assertions)
-        else -> DefaultSavedNetworkAdapter(wifiManager)
     }
 
     init {

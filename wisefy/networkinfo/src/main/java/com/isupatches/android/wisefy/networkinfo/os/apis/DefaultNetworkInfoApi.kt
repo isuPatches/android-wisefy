@@ -85,31 +85,7 @@ internal interface DefaultNetworkInfoApi {
      * @author Patches Klinefelter
      * @since 03/2022
      */
-    fun isDeviceConnected(): Boolean
-
-    /**
-     * An internal API that is used to check if the device is currently connected to a mobile network.
-     *
-     * @return Boolean - Whether the device is connected to a mobile network. True if connected to a mobile network,
-     * otherwise false
-     *
-     * @author Patches Klinefelter
-     * @since 03/2022
-     */
-    @RequiresPermission(ACCESS_NETWORK_STATE)
-    fun isDeviceConnectedToMobileNetwork(): Boolean
-
-    /**
-     * An internal API that is used to check if the device is currently connected to a Wifi network.
-     *
-     * @return Boolean - Whether the device is connected to a Wifi network. True if connected to a Wifi network,
-     * otherwise false
-     *
-     * @author Patches Klinefelter
-     * @since 03/2022
-     */
-    @RequiresPermission(ACCESS_NETWORK_STATE)
-    fun isDeviceConnectedToWifiNetwork(): Boolean
+    suspend fun isDeviceConnected(): Boolean
 
     /**
      * An internal API that is used to check if the device is currently roaming.
@@ -121,4 +97,10 @@ internal interface DefaultNetworkInfoApi {
      */
     @RequiresPermission(ACCESS_NETWORK_STATE)
     fun isDeviceRoaming(): Boolean
+
+    @RequiresPermission(ACCESS_NETWORK_STATE)
+    fun isTransportTypeMobile(): Boolean
+
+    @RequiresPermission(ACCESS_NETWORK_STATE)
+    fun isTransportTypeWifi(): Boolean
 }

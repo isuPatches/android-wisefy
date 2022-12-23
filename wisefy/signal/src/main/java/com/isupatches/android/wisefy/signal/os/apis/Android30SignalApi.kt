@@ -37,7 +37,7 @@ internal interface Android30SignalApi {
      * @author Patches Klinefelter
      * @since 07/2022, version 5.0.0
      */
-    fun calculateBars(rssiLevel: Int): Int
+    fun calculateSignalLevel(rssiLevel: Int): Int
 
     /**
      * An Android 30 specific API to compare the RSSI levels of two networks.

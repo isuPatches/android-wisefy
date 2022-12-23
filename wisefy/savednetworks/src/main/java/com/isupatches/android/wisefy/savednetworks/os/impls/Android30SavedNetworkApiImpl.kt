@@ -24,6 +24,7 @@ import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.core.hasBSSIDMatchingRegex
 import com.isupatches.android.wisefy.core.hasSSIDMatchingRegex
+import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.savednetworks.os.apis.Android30SavedNetworkApi
 
 /**
@@ -38,12 +39,19 @@ import com.isupatches.android.wisefy.savednetworks.os.apis.Android30SavedNetwork
  */
 @RequiresApi(Build.VERSION_CODES.R)
 internal class Android30SavedNetworkApiImpl(
-    private val wifiManager: WifiManager
+    private val wifiManager: WifiManager,
+    private val logger: WisefyLogger
 ) : Android30SavedNetworkApi {
+
+    companion object {
+        private const val LOG_TAG = "Android30SavedNetworkApiImpl"
+    }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun getSavedNetworks(): List<WifiNetworkSuggestion> {
-        return wifiManager.networkSuggestions
+        val savedNetworkSuggestions = wifiManager.networkSuggestions
+        logger.d(LOG_TAG, "Saved network suggestions: $savedNetworkSuggestions")
+        return savedNetworkSuggestions
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])

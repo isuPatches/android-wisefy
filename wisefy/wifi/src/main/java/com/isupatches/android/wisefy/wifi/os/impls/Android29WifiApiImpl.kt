@@ -21,18 +21,27 @@ import android.content.Intent
 import android.net.wifi.WifiManager
 import android.provider.Settings
 import androidx.annotation.RequiresPermission
+import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.wifi.os.apis.Android29WifiApi
 
 internal class Android29WifiApiImpl(
-    private val wifiManager: WifiManager
+    private val wifiManager: WifiManager,
+    private val logger: WisefyLogger
 ) : Android29WifiApi {
 
+    companion object {
+        private const val LOG_TAG = "Android29WifiApiImpl"
+    }
+
     override fun openWifiSettings(context: Context) {
+        logger.d(LOG_TAG, "Opening Wifi settings screen")
         context.startActivity(Intent(Settings.ACTION_WIFI_SETTINGS).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
     }
 
     @RequiresPermission(ACCESS_WIFI_STATE)
     override fun isWifiEnabled(): Boolean {
-        return wifiManager.isWifiEnabled
+        val isWifiEnabled = wifiManager.isWifiEnabled
+        logger.d(LOG_TAG, "Result from isWifiEnabled: $isWifiEnabled")
+        return isWifiEnabled
     }
 }

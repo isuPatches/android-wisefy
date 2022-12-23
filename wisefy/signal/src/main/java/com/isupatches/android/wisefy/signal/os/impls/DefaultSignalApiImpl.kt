@@ -17,6 +17,7 @@ package com.isupatches.android.wisefy.signal.os.impls
 
 import android.net.wifi.WifiManager
 import com.isupatches.android.wisefy.core.constants.DeprecationMessages
+import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.signal.os.apis.DefaultSignalApi
 
 /**
@@ -27,17 +28,27 @@ import com.isupatches.android.wisefy.signal.os.apis.DefaultSignalApi
  * @author Patches Klinefelter
  * @since 07/2022, version 5.0.0
  */
-internal class DefaultSignalApiImpl : DefaultSignalApi {
+internal class DefaultSignalApiImpl(
+    private val logger: WisefyLogger
+) : DefaultSignalApi {
+
+    companion object {
+        private const val LOG_TAG = "DefaultSignalApiImpl"
+    }
 
     @Deprecated(
         message = DeprecationMessages.Signal.CALCULATE_BARS,
         replaceWith = ReplaceWith("this.calculateBars(rssiLevel)")
     )
-    override fun calculateBars(rssiLevel: Int, targetNumberOfBars: Int): Int {
-        return WifiManager.calculateSignalLevel(rssiLevel, targetNumberOfBars)
+    override fun calculateSignalLevel(rssiLevel: Int, targetNumberOfBars: Int): Int {
+        val result = WifiManager.calculateSignalLevel(rssiLevel, targetNumberOfBars)
+        logger.d(LOG_TAG, "Result from calculateSignalLevel: $result")
+        return result
     }
 
     override fun compareSignalLevel(rssi1: Int, rssi2: Int): Int {
-        return WifiManager.compareSignalLevel(rssi1, rssi2)
+        val result = WifiManager.compareSignalLevel(rssi1, rssi2)
+        logger.d(LOG_TAG, "Result from compareSignalLevel: $result")
+        return result
     }
 }

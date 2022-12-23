@@ -19,6 +19,7 @@ import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.Manifest.permission.CHANGE_WIFI_STATE
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
+import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.wifi.os.apis.DefaultWifiApi
 
 /**
@@ -32,21 +33,32 @@ import com.isupatches.android.wisefy.wifi.os.apis.DefaultWifiApi
  * @since 07/2022, version 5.0.0
  */
 internal class DefaultWifiApiImpl(
-    private val wifiManager: WifiManager
+    private val wifiManager: WifiManager,
+    private val logger: WisefyLogger
 ) : DefaultWifiApi {
+
+    companion object {
+        private const val LOG_TAG = "DefaultWifiApiImpl"
+    }
 
     @RequiresPermission(CHANGE_WIFI_STATE)
     override fun disableWifi(): Boolean {
-        return wifiManager.setWifiEnabled(false)
+        val result = wifiManager.setWifiEnabled(false)
+        logger.d(LOG_TAG, "Result from disableWifi: $result")
+        return result
     }
 
     @RequiresPermission(CHANGE_WIFI_STATE)
     override fun enableWifi(): Boolean {
-        return wifiManager.setWifiEnabled(true)
+        val result = wifiManager.setWifiEnabled(true)
+        logger.d(LOG_TAG, "Result from enableWifi: $result")
+        return result
     }
 
     @RequiresPermission(ACCESS_WIFI_STATE)
     override fun isWifiEnabled(): Boolean {
-        return wifiManager.isWifiEnabled
+        val isWifiEnabled = wifiManager.isWifiEnabled
+        logger.d(LOG_TAG, "Result from isWifiEnabled: $isWifiEnabled")
+        return isWifiEnabled
     }
 }

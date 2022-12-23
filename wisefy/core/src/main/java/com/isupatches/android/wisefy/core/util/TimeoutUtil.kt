@@ -30,6 +30,19 @@ fun withTimeout(timeoutInMillis: Int, block: () -> Boolean): Boolean {
     return false
 }
 
+suspend fun withTimeoutAsync(timeoutInMillis: Int, block: suspend () -> Boolean): Boolean {
+    var currentTime: Long
+    val endTime = System.currentTimeMillis() + timeoutInMillis
+    do {
+        if (block()) {
+            return true
+        }
+        sleep()
+        currentTime = System.currentTimeMillis()
+    } while (currentTime < endTime)
+    return false
+}
+
 private fun sleep(timeToSleepInMillis: Long = BASE_DELAY_IN_MS) {
     try {
         Thread.sleep(timeToSleepInMillis)

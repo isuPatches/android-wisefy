@@ -19,7 +19,9 @@ import android.net.wifi.WifiManager
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
+import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.signal.os.apis.Android30SignalApi
+import kotlin.math.log
 
 /**
  * An Android 30+ internal implementation for signal strength functionality through the Android OS.
@@ -33,13 +35,24 @@ import com.isupatches.android.wisefy.signal.os.apis.Android30SignalApi
  * @since 07/2022, version 5.0.0
  */
 @RequiresApi(Build.VERSION_CODES.R)
-internal class Android30SignalApiImpl(private val wifiManager: WifiManager) : Android30SignalApi {
+internal class Android30SignalApiImpl(
+    private val wifiManager: WifiManager,
+    private val logger: WisefyLogger
+) : Android30SignalApi {
 
-    override fun calculateBars(rssiLevel: Int): Int {
-        return wifiManager.calculateSignalLevel(rssiLevel)
+    companion object {
+        private const val LOG_TAG = "Android30SignalApiImpl"
+    }
+
+    override fun calculateSignalLevel(rssiLevel: Int): Int {
+        val result = wifiManager.calculateSignalLevel(rssiLevel)
+        logger.d(LOG_TAG, "Result from calculateSignalLevel: $result")
+        return result
     }
 
     override fun compareSignalLevel(rssi1: Int, rssi2: Int): Int {
-        return WifiManager.compareSignalLevel(rssi1, rssi2)
+        val result = WifiManager.compareSignalLevel(rssi1, rssi2)
+        logger.d(LOG_TAG, "Result from compareSignalLevel: $result")
+        return result
     }
 }

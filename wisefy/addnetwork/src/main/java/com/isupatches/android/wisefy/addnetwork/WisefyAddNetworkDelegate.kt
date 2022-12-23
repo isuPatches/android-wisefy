@@ -63,17 +63,16 @@ class WisefyAddNetworkDelegate(
     assertions: WisefyAssertions,
     logger: WisefyLogger,
     sdkUtil: SdkUtil,
-    wifiManager: WifiManager
+    wifiManager: WifiManager,
+    private val adapter: AddNetworkApi = when {
+        sdkUtil.isAtLeastR() -> Android30AddNetworkAdapter(wifiManager, logger, assertions)
+        sdkUtil.isAtLeastQ() -> Android29AddNetworkAdapter(assertions)
+        else -> DefaultAddNetworkAdapter(wifiManager, logger, assertions, sdkUtil)
+    }
 ) : AddNetworkDelegate {
 
     companion object {
         private const val LOG_TAG = "WisefyAddNetworkDelegate"
-    }
-
-    private val adapter = when {
-        sdkUtil.isAtLeastR() -> Android30AddNetworkAdapter(wifiManager, logger, assertions)
-        sdkUtil.isAtLeastQ() -> Android29AddNetworkAdapter(assertions)
-        else -> DefaultAddNetworkAdapter(wifiManager, logger, assertions, sdkUtil)
     }
 
     init {
@@ -89,7 +88,7 @@ class WisefyAddNetworkDelegate(
     override fun addNetwork(request: AddNetworkRequest, callbacks: AddNetworkCallbacks?) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
             savedNetworkMutex.withLock {
-                val result = addNetwork(request)
+                val result = adapter.addNetwork(request)
                 withContext(coroutineDispatcherProvider.main) {
                     when (result) {
                         is AddNetworkResult.Success -> callbacks?.onNetworkAdded(result)

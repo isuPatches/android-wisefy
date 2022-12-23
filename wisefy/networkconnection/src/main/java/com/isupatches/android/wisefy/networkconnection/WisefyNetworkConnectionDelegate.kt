@@ -71,14 +71,8 @@ class WisefyNetworkConnectionDelegate(
     logger: WisefyLogger,
     sdkUtil: SdkUtil,
     wifiManager: WifiManager,
-    networkConnectionStatusProvider: () -> NetworkConnectionStatus
-) : NetworkConnectionDelegate {
-
-    companion object {
-        private const val LOG_TAG = "WisefyNetworkConnectionDelegate"
-    }
-
-    private val adapter = when {
+    networkConnectionStatusProvider: suspend () -> NetworkConnectionStatus?,
+    private val adapter: NetworkConnectionApi = when {
         sdkUtil.isAtLeastQ() -> Android29NetworkConnectionAdapter(connectivityManager, logger, assertions)
         else -> DefaultNetworkConnectionAdapter(
             connectivityManager,
@@ -87,6 +81,11 @@ class WisefyNetworkConnectionDelegate(
             sdkUtil,
             networkConnectionStatusProvider
         )
+    }
+) : NetworkConnectionDelegate {
+
+    companion object {
+        private const val LOG_TAG = "WisefyNetworkConnectionDelegate"
     }
 
     init {
