@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Patches Klinefelter
+ * Copyright 2022 Patches Barrett
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkResult
 /**
  * A set of synchronous APIs for removing a network.
  *
- * @author Patches Klinefelter
+ * @author Patches Barrett
  * @since 03/2022
  */
 interface RemoveNetworkApi {
@@ -41,7 +41,7 @@ interface RemoveNetworkApi {
      *
      * @return RemoveNetworkResult - The result of removing a network
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 03/2022
      */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE, CHANGE_WIFI_STATE])

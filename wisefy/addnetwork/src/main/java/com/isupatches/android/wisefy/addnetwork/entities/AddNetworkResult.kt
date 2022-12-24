@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Patches Klinefelter
+ * Copyright 2022 Patches Barrett
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@ package com.isupatches.android.wisefy.addnetwork.entities
 /**
  * A set of classes and objects that represent a result while attempting to add a network.
  *
- * @author Patches Klinefelter
+ * @author Patches Barrett
  * @since 12/2022, version 5.0.0
  */
 sealed class AddNetworkResult {
@@ -28,7 +28,7 @@ sealed class AddNetworkResult {
      *
      * @see AddNetworkResult
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
     sealed class Success : AddNetworkResult() {
@@ -50,7 +50,7 @@ sealed class AddNetworkResult {
          *
          * @see Success
          *
-         * @author Patches Klinefelter
+         * @author Patches Barrett
          * @since 12/2022, version 5.0.0
          */
         data class ResultCode(val value: Int) : Success()
@@ -61,7 +61,7 @@ sealed class AddNetworkResult {
      *
      * @see AddNetworkResult
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
     sealed class Failure : AddNetworkResult() {
@@ -83,7 +83,7 @@ sealed class AddNetworkResult {
          *
          * @see Failure
          *
-         * @author Patches Klinefelter
+         * @author Patches Barrett
          * @since 12/2022, version 5.0.0
          */
         data class ResultCode(val value: Int) : Failure()
@@ -97,7 +97,7 @@ sealed class AddNetworkResult {
          *
          * @see Failure
          *
-         * @author Patches Klinefelter
+         * @author Patches Barrett
          * @since 12/2022, version 5.0.0
          */
         data class Assertion(val message: String) : Failure()

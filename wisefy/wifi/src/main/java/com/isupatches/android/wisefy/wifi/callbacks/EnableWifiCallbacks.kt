@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Patches Klinefelter
+ * Copyright 2022 Patches Barrett
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ import com.isupatches.android.wisefy.wifi.entities.EnableWifiResult
  *
  * @see BaseWisefyCallbacks
  *
- * @author Patches Klinefelter
+ * @author Patches Barrett
  * @since 07/2022, version 5.0.0
  */
 interface EnableWifiCallbacks : BaseWisefyCallbacks {
@@ -31,7 +31,7 @@ interface EnableWifiCallbacks : BaseWisefyCallbacks {
     /**
      * A callback triggered when there is a failure enabling Wifi.
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 07/2022, version 5.0.0
      */
     fun onFailureEnablingWifi(result: EnableWifiResult.Failure)
@@ -39,7 +39,7 @@ interface EnableWifiCallbacks : BaseWisefyCallbacks {
     /**
      * A callback triggered when Wifi is successfully enabled.
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 07/2022, version 5.0.0
      */
     fun onSuccessEnablingWifi(result: EnableWifiResult.Success)

@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Patches Klinefelter
+ * Copyright 2022 Patches Barrett
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
  *
  * @see BaseWisefyCallbacks
  *
- * @author Patches Klinefelter
+ * @author Patches Barrett
  * @since 07/2022, version 5.0.0
  */
 interface GetSavedNetworksCallbacks : BaseWisefyCallbacks {
@@ -31,7 +31,7 @@ interface GetSavedNetworksCallbacks : BaseWisefyCallbacks {
     /**
      * A callback triggered when there are no saved networks on the device.
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 07/2022, version 5.0.0
      */
     fun onNoSavedNetworksFound()
@@ -43,7 +43,7 @@ interface GetSavedNetworksCallbacks : BaseWisefyCallbacks {
      *
      * @see SavedNetworkData
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 07/2022, version 5.0.0
      */
     fun onSavedNetworksRetrieved(savedNetworks: List<SavedNetworkData>)

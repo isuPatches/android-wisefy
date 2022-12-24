@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Patches Klinefelter
+ * Copyright 2022 Patches Barrett
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,8 +30,8 @@ import kotlinx.coroutines.CoroutineExceptionHandler
  * @see BaseWisefyCallbacks
  * @see WisefyException
  *
- * @author Patches Klinefelter
- * @since 11/2022, version 5.0.0
+ * @author Patches Barrett
+ * @since 12/2022, version 5.0.0
  */
 fun createBaseCoroutineExceptionHandler(callbacks: BaseWisefyCallbacks?): CoroutineExceptionHandler {
     return CoroutineExceptionHandler { _, throwable ->

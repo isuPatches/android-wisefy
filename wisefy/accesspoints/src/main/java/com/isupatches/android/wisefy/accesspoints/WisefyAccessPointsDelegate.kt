@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Patches Klinefelter
+ * Copyright 2022 Patches Barrett
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,7 +44,7 @@ import kotlinx.coroutines.withContext
  * @see DefaultAccessPointsAdapter
  * @see WisefyLogger
  *
- * @author Patches Klinefelter
+ * @author Patches Barrett
  * @since 12/2022, version 5.0.0
  */
 class WisefyAccessPointsDelegate(

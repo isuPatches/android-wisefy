@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Patches Klinefelter
+ * Copyright 2022 Patches Barrett
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ import androidx.annotation.RequiresApi
  *
  * @return WifiNetworkSuggestion - The network suggestion for the open network
  *
- * @author Patches Klinefelter
+ * @author Patches Barrett
  * @since 11/2022, version 5.0.0
  */
 @RequiresApi(Build.VERSION_CODES.Q)
@@ -54,7 +54,7 @@ fun createOpenNetworkSuggestion(
  *
  * @return WifiNetworkSuggestion - The network suggestion for the WPA2 network
  *
- * @author Patches Klinefelter
+ * @author Patches Barrett
  * @since 11/2022, version 5.0.0
  */
 @RequiresApi(Build.VERSION_CODES.Q)
@@ -82,7 +82,7 @@ fun createWPA2NetworkSuggestion(
  *
  * @return WifiNetworkSuggestion - The network suggestion for the WPA3 network
  *
- * @author Patches Klinefelter
+ * @author Patches Barrett
  * @since 11/2022, version 5.0.0
  */
 @RequiresApi(Build.VERSION_CODES.Q)

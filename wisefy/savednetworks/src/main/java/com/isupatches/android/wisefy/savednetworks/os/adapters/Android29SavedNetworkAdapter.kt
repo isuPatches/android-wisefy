@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Patches Klinefelter
+ * Copyright 2022 Patches Barrett
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,7 +36,7 @@ import com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedResult
  * @see SavedNetworkApi
  * @see WisefyAssertions
  *
- * @author Patches Klinefelter
+ * @author Patches Barrett
  * @since 07/2022, version 5.0.0
  */
 @RequiresApi(Build.VERSION_CODES.Q)
@@ -46,13 +46,13 @@ internal class Android29SavedNetworkAdapter(
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun getSavedNetworks(query: GetSavedNetworksQuery): GetSavedNetworksResult {
-        assertions.fail(message = AssertionMessages.AndroidQ.SAVED_NETWORK_FUNCTIONALITY_UNAVAILABLE_ANDROID_29)
+        assertions.fail(message = AssertionMessages.AndroidQ.SAVED_NETWORK_FUNCTIONALITY_UNAVAILABLE_ANDROID_Q)
         return GetSavedNetworksResult.Empty
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun isNetworkSaved(query: IsNetworkSavedQuery): IsNetworkSavedResult {
-        assertions.fail(message = AssertionMessages.AndroidQ.SAVED_NETWORK_FUNCTIONALITY_UNAVAILABLE_ANDROID_29)
+        assertions.fail(message = AssertionMessages.AndroidQ.SAVED_NETWORK_FUNCTIONALITY_UNAVAILABLE_ANDROID_Q)
         return IsNetworkSavedResult.False
     }
 }

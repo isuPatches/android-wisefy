@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Patches Klinefelter
+ * Copyright 2022 Patches Barrett
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,7 +32,7 @@ import org.gradle.kotlin.dsl.get
 import org.gradle.plugins.signing.SigningExtension
 
 private const val DEVELOPER_ID = "isuPatches"
-private const val DEVELOPER_NAME = "Patches Klinefelter"
+private const val DEVELOPER_NAME = "Patches Barrett"
 private const val DEVELOPER_EMAIL = "isuPatches@yahoo.com"
 
 private const val LIBRARY_CONNECTION = "https://github.com/isuPatches/android-wisefy.git"

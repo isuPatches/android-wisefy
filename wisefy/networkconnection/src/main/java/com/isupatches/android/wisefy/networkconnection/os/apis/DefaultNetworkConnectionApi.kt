@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Patches Klinefelter
+ * Copyright 2022 Patches Barrett
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ import androidx.annotation.RequiresPermission
 /**
  * A default internal API for connecting to and disconnecting from a network through the Android OS.
  *
- * @author Patches Klinefelter
+ * @author Patches Barrett
  * @since 03/2022
  */
 internal interface DefaultNetworkConnectionApi {
@@ -36,7 +36,7 @@ internal interface DefaultNetworkConnectionApi {
      *
      * @return Boolean or null - Whether or not connecting to the network was successful, null if no network found
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 03/2022
      */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE, ACCESS_NETWORK_STATE])
@@ -50,7 +50,7 @@ internal interface DefaultNetworkConnectionApi {
      *
      * @return Boolean or null - Whether or not connecting to the network was successful, null if no network found
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 03/2022
      */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE, ACCESS_NETWORK_STATE])
@@ -61,7 +61,7 @@ internal interface DefaultNetworkConnectionApi {
      *
      * @return Boolean - Whether or not disconnecting from the current network was successful
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 03/2022
      */
     fun disconnectFromCurrentNetwork(): Boolean

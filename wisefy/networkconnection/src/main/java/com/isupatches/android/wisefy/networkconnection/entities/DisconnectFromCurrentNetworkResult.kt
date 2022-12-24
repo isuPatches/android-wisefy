@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Patches Klinefelter
+ * Copyright 2022 Patches Barrett
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@ package com.isupatches.android.wisefy.networkconnection.entities
 /**
  * A set of classes that are data representations of a result when disconnecting from the current network.
  *
- * @author Patches Klinefelter
+ * @author Patches Barrett
  * @since 03/2022
  */
 @Deprecated("")
@@ -29,7 +29,7 @@ sealed class DisconnectFromCurrentNetworkResult {
      *
      * @see DisconnectFromCurrentNetworkResult
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 03/2022
      */
     @Deprecated("")
@@ -40,7 +40,7 @@ sealed class DisconnectFromCurrentNetworkResult {
          *
          * @see Success
          *
-         * @author Patches Klinefelter
+         * @author Patches Barrett
          * @since 03/2022
          */
         @Deprecated("")
@@ -51,7 +51,7 @@ sealed class DisconnectFromCurrentNetworkResult {
          *
          * @see Success
          *
-         * @author Patches Klinefelter
+         * @author Patches Barrett
          * @since 03/2022
          */
         @Deprecated("")
@@ -66,7 +66,7 @@ sealed class DisconnectFromCurrentNetworkResult {
      *
      * @see DisconnectFromCurrentNetworkResult
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 03/2022
      */
     @Deprecated("")
@@ -77,7 +77,7 @@ sealed class DisconnectFromCurrentNetworkResult {
          *
          * @see Failure
          *
-         * @author Patches Klinefelter
+         * @author Patches Barrett
          * @since 03/2022
          */
         @Deprecated("")
@@ -88,7 +88,7 @@ sealed class DisconnectFromCurrentNetworkResult {
          *
          * @see Failure
          *
-         * @author Patches Klinefelter
+         * @author Patches Barrett
          * @since 03/2022
          */
         @Deprecated("")

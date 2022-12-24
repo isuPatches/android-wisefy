@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Patches Klinefelter
+ * Copyright 2022 Patches Barrett
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ import com.isupatches.android.wisefy.core.constants.AssertionMessages
  * @see AddNetworkApi
  * @see WisefyAssertions
  *
- * @author Patches Klinefelter
+ * @author Patches Barrett
  * @since 12/2022, version 5.0.0
  */
 @RequiresApi(Build.VERSION_CODES.Q)
@@ -40,7 +40,7 @@ internal class Android29AddNetworkAdapter(
 ) : AddNetworkApi {
 
     override fun addNetwork(request: AddNetworkRequest): AddNetworkResult {
-        val message = AssertionMessages.AndroidQ.SAVED_NETWORK_FUNCTIONALITY_UNAVAILABLE_ANDROID_29
+        val message = AssertionMessages.AndroidQ.SAVED_NETWORK_FUNCTIONALITY_UNAVAILABLE_ANDROID_Q
         assertions.fail(message)
         return AddNetworkResult.Failure.Assertion(message)
     }

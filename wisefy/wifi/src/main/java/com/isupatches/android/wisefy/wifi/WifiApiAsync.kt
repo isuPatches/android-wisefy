@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Patches Klinefelter
+ * Copyright 2022 Patches Barrett
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ import com.isupatches.android.wisefy.wifi.entities.IsWifiEnabledQuery
 /**
  * A set of asynchronous APIs for enabling and disabling Wifi.
  *
- * @author Patches Klinefelter
+ * @author Patches Barrett
  * @since 07/2022, version 5.0.0
  */
 interface WifiApiAsync {
@@ -47,7 +47,7 @@ interface WifiApiAsync {
      * @see DisableWifiRequest
      * @see DisableWifiCallbacks
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 07/2022, version 5.0.0
      */
     @RequiresPermission(CHANGE_WIFI_STATE)
@@ -67,7 +67,7 @@ interface WifiApiAsync {
      * @see EnableWifiRequest
      * @see EnableWifiCallbacks
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 07/2022, version 5.0.0
      */
     @RequiresPermission(CHANGE_WIFI_STATE)
@@ -85,7 +85,7 @@ interface WifiApiAsync {
      * @see IsWifiEnabledQuery
      * @see IsWifiEnabledCallbacks
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 07/2022, version 5.0.0
      */
     @RequiresPermission(ACCESS_WIFI_STATE)

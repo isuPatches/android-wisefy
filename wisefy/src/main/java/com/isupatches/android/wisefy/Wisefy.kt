@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Patches Klinefelter
+ * Copyright 2022 Patches Barrett
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -117,7 +117,7 @@ import kotlinx.coroutines.sync.Mutex
  * @param wifiDelegate The [WifiDelegate] instance to use
  * @param scope The [CoroutineScope] to use for async operations
  *
- * @author Patches Klinefelter
+ * @author Patches Barrett
  * @since 07/2022, version 5.0.0
  */
 @Suppress("SyntheticAccessor")
@@ -143,7 +143,7 @@ class Wisefy private constructor(
      * to use within Wisefy
      * @param logger The [WisefyLogger] instance to use within Wisefy
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 07/2022, version 5.0.0
      */
     class Brains @JvmOverloads constructor(
@@ -291,7 +291,7 @@ class Wisefy private constructor(
          *
          * @return [Brains] - The builder instance
          *
-         * @author Patches Klinefelter
+         * @author Patches Barrett
          * @since 07/2022, version 5.0.0
          */
         internal fun logger(logger: WisefyLogger): Brains = apply {
@@ -305,7 +305,7 @@ class Wisefy private constructor(
          *
          * @return [Brains] - The builder instance
          *
-         * @author Patches Klinefelter
+         * @author Patches Barrett
          * @since 07/2022, version 5.0.0
          */
         @VisibleForTesting
@@ -320,7 +320,7 @@ class Wisefy private constructor(
          *
          * @return [Brains] - The builder instance
          *
-         * @author Patches Klinefelter
+         * @author Patches Barrett
          * @since 07/2022, version 5.0.0
          */
         @VisibleForTesting
@@ -337,7 +337,7 @@ class Wisefy private constructor(
          *
          * @return [Brains] - The builder instance
          *
-         * @author Patches Klinefelter
+         * @author Patches Barrett
          * @since 07/2022, version 5.0.0
          */
         @VisibleForTesting
@@ -354,7 +354,7 @@ class Wisefy private constructor(
          *
          * @return [Brains] - The builder instance
          *
-         * @author Patches Klinefelter
+         * @author Patches Barrett
          * @since 07/2022, version 5.0.0
          */
         @VisibleForTesting
@@ -371,7 +371,7 @@ class Wisefy private constructor(
          *
          * @return [Brains] - The builder instance
          *
-         * @author Patches Klinefelter
+         * @author Patches Barrett
          * @since 07/2022, version 5.0.0
          */
         @VisibleForTesting
@@ -390,7 +390,7 @@ class Wisefy private constructor(
          *
          * @return [Brains] - The builder instance
          *
-         * @author Patches Klinefelter
+         * @author Patches Barrett
          * @since 07/2022, version 5.0.0
          */
         @VisibleForTesting
@@ -407,7 +407,7 @@ class Wisefy private constructor(
          *
          * @return [Brains] - The builder instance
          *
-         * @author Patches Klinefelter
+         * @author Patches Barrett
          * @since 07/2022, version 5.0.0
          */
         @VisibleForTesting
@@ -424,7 +424,7 @@ class Wisefy private constructor(
          *
          * @return [Brains] - The builder instance
          *
-         * @author Patches Klinefelter
+         * @author Patches Barrett
          * @since 07/2022, version 5.0.0
          */
         @VisibleForTesting
@@ -441,7 +441,7 @@ class Wisefy private constructor(
          *
          * @return [Brains] - The builder instance
          *
-         * @author Patches Klinefelter
+         * @author Patches Barrett
          * @since 07/2022, version 5.0.0
          */
         @VisibleForTesting
@@ -458,7 +458,7 @@ class Wisefy private constructor(
          *
          * @return [Brains] - The builder instance
          *
-         * @author Patches Klinefelter
+         * @author Patches Barrett
          * @since 07/2022, version 5.0.0
          */
         @VisibleForTesting
@@ -472,7 +472,7 @@ class Wisefy private constructor(
          *
          * @return WisefyApi - The Wisefy instance created by the [Wisefy.Brains] builder
          *
-         * @author Patches Klinefelter
+         * @author Patches Barrett
          * @since 07/2022, version 5.0.0
          */
         fun getSmarts(): WisefyApi {

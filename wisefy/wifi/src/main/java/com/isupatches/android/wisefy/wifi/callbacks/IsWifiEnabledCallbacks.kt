@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Patches Klinefelter
+ * Copyright 2022 Patches Barrett
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ import com.isupatches.android.wisefy.core.base.BaseWisefyCallbacks
  *
  * @see BaseWisefyCallbacks
  *
- * @author Patches Klinefelter
+ * @author Patches Barrett
  * @since 07/2022, version 5.0.0
  */
 interface IsWifiEnabledCallbacks : BaseWisefyCallbacks {
@@ -30,7 +30,7 @@ interface IsWifiEnabledCallbacks : BaseWisefyCallbacks {
     /**
      * A callback triggered when Wifi is enabled.
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 07/2022, version 5.0.0
      */
     fun onWifiIsEnabled()
@@ -38,7 +38,7 @@ interface IsWifiEnabledCallbacks : BaseWisefyCallbacks {
     /**
      * A callback triggered when Wifi is disabled.
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 07/2022, version 5.0.0
      */
     fun onWifiIsDisabled()

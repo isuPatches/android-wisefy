@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Patches Klinefelter
+ * Copyright 2022 Patches Barrett
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@ package com.isupatches.android.wisefy.savednetworks.entities
 /**
  * A set of classes and objects that are used to represent requests to see if a network is saved.
  *
- * @author Patches Klinefelter
+ * @author Patches Barrett
  * @since 07/2022, version 5.0.0
  */
 sealed class IsNetworkSavedQuery {
@@ -30,7 +30,7 @@ sealed class IsNetworkSavedQuery {
      *
      * @see IsNetworkSavedQuery
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 07/2022, version 5.0.0
      */
     data class SSID(val regex: String) : IsNetworkSavedQuery()
@@ -42,7 +42,7 @@ sealed class IsNetworkSavedQuery {
      *
      * @see IsNetworkSavedQuery
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 07/2022, version 5.0.0
      */
     data class BSSID(val regex: String) : IsNetworkSavedQuery()

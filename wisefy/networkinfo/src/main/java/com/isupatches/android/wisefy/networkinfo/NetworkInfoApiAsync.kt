@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Patches Klinefelter
+ * Copyright 2022 Patches Barrett
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ import com.isupatches.android.wisefy.networkinfo.entities.GetNetworkConnectionSt
  * A set of asynchronous APIs for getting information about a network, the device's current network,
  * and the device's IP.
  *
- * @author Patches Klinefelter
+ * @author Patches Barrett
  * @since 03/2022
  */
 interface NetworkInfoApiAsync {
@@ -40,7 +40,7 @@ interface NetworkInfoApiAsync {
      * @see GetCurrentNetworkQuery
      * @see GetCurrentNetworkCallbacks
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 03/2022
      */
     @RequiresPermission(ACCESS_NETWORK_STATE)

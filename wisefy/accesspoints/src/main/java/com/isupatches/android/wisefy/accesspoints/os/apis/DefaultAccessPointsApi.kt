@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Patches Klinefelter
+ * Copyright 2022 Patches Barrett
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
 /**
  * A default internal API for querying access points through the Android OS.
  *
- * @author Patches Klinefelter
+ * @author Patches Barrett
  * @since 12/2022, version 5.0.0
  */
 internal interface DefaultAccessPointsApi {
@@ -36,7 +36,7 @@ internal interface DefaultAccessPointsApi {
      *
      * @return List<AccessPointData> - List of access points or empty list if there are none
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
     @RequiresPermission(ACCESS_FINE_LOCATION)
@@ -53,7 +53,7 @@ internal interface DefaultAccessPointsApi {
      *
      * @return List<AccessPointData> - The list of matching access points or empty list if there are no matches
      * *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
     @RequiresPermission(ACCESS_FINE_LOCATION)
@@ -74,7 +74,7 @@ internal interface DefaultAccessPointsApi {
      *
      * @return List<AccessPointData> - The list of matching access points or empty list if there are no matches
      * *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
     @RequiresPermission(ACCESS_FINE_LOCATION)

@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Patches Klinefelter
+ * Copyright 2022 Patches Barrett
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ import androidx.annotation.RequiresPermission
 /**
  * An Android 30 specific internal API for getting and searching for saved networks through the Android OS.
  *
- * @author Patches Klinefelter
+ * @author Patches Barrett
  * @since 07/2022, version 5.0.0
  */
 @RequiresApi(Build.VERSION_CODES.R)
@@ -36,7 +36,7 @@ internal interface Android30SavedNetworkApi {
      *
      * @return List<WifiNetworkSuggestion> - The list of saved networks
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 07/2022, version 5.0.0
      */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
@@ -49,7 +49,7 @@ internal interface Android30SavedNetworkApi {
      *
      * @return List<WifiNetworkSuggestion> - The list of matching saved networks
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 07/2022, version 5.0.0
      */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
@@ -62,7 +62,7 @@ internal interface Android30SavedNetworkApi {
      *
      * @return List<WifiNetworkSuggestion> - The list of matching saved networks
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 07/2022, version 5.0.0
      */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])

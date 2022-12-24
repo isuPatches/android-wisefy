@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Patches Klinefelter
+ * Copyright 2022 Patches Barrett
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@ package com.isupatches.android.wisefy.removenetwork.entities
 /**
  * A set of classes and objects that are used to represent a result while attempting to remove a network.
  *
- * @author Patches Klinefelter
+ * @author Patches Barrett
  * @since 03/2022
  */
 sealed class RemoveNetworkResult {
@@ -28,7 +28,7 @@ sealed class RemoveNetworkResult {
      *
      * @see RemoveNetworkResult
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 03/2022
      */
     sealed class Success : RemoveNetworkResult() {
@@ -44,7 +44,7 @@ sealed class RemoveNetworkResult {
          *
          * @see Success
          *
-         * @author Patches Klinefelter
+         * @author Patches Barrett
          * @since 03/2022
          */
         data class ResultCode(val value: Int) : Success()
@@ -58,7 +58,7 @@ sealed class RemoveNetworkResult {
          *
          * @see Success
          *
-         * @author Patches Klinefelter
+         * @author Patches Barrett
          * @since 03/2022
          */
         object True : Success()
@@ -69,7 +69,7 @@ sealed class RemoveNetworkResult {
      *
      * @see RemoveNetworkResult
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 03/2022
      */
     sealed class Failure : RemoveNetworkResult() {
@@ -83,7 +83,7 @@ sealed class RemoveNetworkResult {
          *
          * @see Failure
          *
-         * @author Patches Klinefelter
+         * @author Patches Barrett
          * @since 03/2022
          */
         object False : Failure()
@@ -93,7 +93,7 @@ sealed class RemoveNetworkResult {
          *
          * @see Failure
          *
-         * @author Patches Klinefelter
+         * @author Patches Barrett
          * @since 03/2022
          */
         object NetworkNotFound : Failure()
@@ -109,7 +109,7 @@ sealed class RemoveNetworkResult {
          *
          * @see Failure
          *
-         * @author Patches Klinefelter
+         * @author Patches Barrett
          * @since 03/2022
          */
         data class ResultCode(val value: Int) : Failure()

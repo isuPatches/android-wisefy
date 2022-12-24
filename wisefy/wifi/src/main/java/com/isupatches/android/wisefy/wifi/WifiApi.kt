@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Patches Klinefelter
+ * Copyright 2022 Patches Barrett
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ import com.isupatches.android.wisefy.wifi.entities.IsWifiEnabledResult
 /**
  * A set of synchronous APIs for enabling, disabling, and checking the state of Wifi.
  *
- * @author Patches Klinefelter
+ * @author Patches Barrett
  * @since 07/2022, version 5.0.0
  */
 interface WifiApi {
@@ -43,7 +43,7 @@ interface WifiApi {
      *
      * @return DisableWifiResult - The result of disabling Wifi
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 07/2022, version 5.0.0
      */
     @RequiresPermission(CHANGE_WIFI_STATE)
@@ -59,7 +59,7 @@ interface WifiApi {
      *
      * @return EnableWifiResult - The result of enabling Wifi
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 07/2022, version 5.0.0
      */
     @RequiresPermission(CHANGE_WIFI_STATE)
@@ -75,7 +75,7 @@ interface WifiApi {
      *
      * @return IsWifiEnabledResult - The result of checking if Wifi is enabled
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 07/2022, version 5.0.0
      */
     @RequiresPermission(ACCESS_WIFI_STATE)

@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Patches Klinefelter
+ * Copyright 2022 Patches Barrett
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ import com.isupatches.android.wisefy.core.base.BaseWisefyCallbacks
  *
  * @see BaseWisefyCallbacks
  *
- * @author Patches Klinefelter
+ * @author Patches Barrett
  * @since 12/2022, version 5.0.0
  */
 interface AddNetworkCallbacks : BaseWisefyCallbacks {
@@ -35,7 +35,7 @@ interface AddNetworkCallbacks : BaseWisefyCallbacks {
      *
      * @see AddNetworkResult.Failure
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
     fun onFailureAddingNetwork(result: AddNetworkResult.Failure)
@@ -47,7 +47,7 @@ interface AddNetworkCallbacks : BaseWisefyCallbacks {
      *
      * @see AddNetworkResult.Success
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
     fun onSuccessAddingNetwork(result: AddNetworkResult.Success)

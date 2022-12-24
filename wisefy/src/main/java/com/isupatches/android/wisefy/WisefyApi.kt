@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Patches Klinefelter
+ * Copyright 2022 Patches Barrett
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -50,7 +50,7 @@ import com.isupatches.android.wisefy.wifi.WifiApiAsync
  * @see WifiApi
  * @see WifiApiAsync
  *
- * @author Patches Klinefelter
+ * @author Patches Barrett
  * @since 07/2022, version 5.0.0
  */
 interface WisefyApi :
@@ -74,7 +74,7 @@ interface WisefyApi :
      * The initialization function for Wisefy.  This is recommended to be called in the `onCreate` of the activity for
      * the application.
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 07/2022, version 5.0.0
      */
     fun init()
@@ -83,7 +83,7 @@ interface WisefyApi :
      * The cleanup function for Wisefy.  This is recommended to be called in the `onDestroy` of the activity for the
      * application.
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 07/2022, version 5.0.0
      */
     fun dump()

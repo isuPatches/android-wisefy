@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Patches Klinefelter
+ * Copyright 2022 Patches Barrett
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,8 +24,8 @@ package com.isupatches.android.wisefy.core.assertions
  *
  * @param throwOnAssertions If enabled, assertions will throw an IllegalArgumentException, otherwise they are no-op
  *
- * @author Patches Klinefelter
- * @since 11/2022, version 5.0.0
+ * @author Patches Barrett
+ * @since 12/2022, version 5.0.0
  */
 class WisefyAssertions(private val throwOnAssertions: Boolean) {
 
@@ -34,9 +34,10 @@ class WisefyAssertions(private val throwOnAssertions: Boolean) {
      *
      * @param message The message for the exception to throw
      *
-     * @author Patches Klinefelter
-     * @since 11/2022, version 5.0.0
+     * @author Patches Barrett
+     * @since 12/2022, version 5.0.0
      */
+    @Throws(IllegalStateException::class)
     fun fail(message: String) {
         if (throwOnAssertions) {
             error(message)

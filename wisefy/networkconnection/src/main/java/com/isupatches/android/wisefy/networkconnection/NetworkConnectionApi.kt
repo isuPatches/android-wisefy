@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Patches Klinefelter
+ * Copyright 2022 Patches Barrett
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ import com.isupatches.android.wisefy.networkconnection.entities.DisconnectFromCu
 /**
  * A set of synchronous APIs for connecting to and disconnecting from a network.
  *
- * @author Patches Klinefelter
+ * @author Patches Barrett
  * @since 03/2022
  */
 interface NetworkConnectionApi {
@@ -47,7 +47,7 @@ interface NetworkConnectionApi {
      *
      * @return ConnectToNetworkResult - The result of connecting to a network
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 03/2022
      */
     @Deprecated("")
@@ -62,7 +62,7 @@ interface NetworkConnectionApi {
      *
      * @return DisconnectFromCurrentNetworkResult - The result of disconnecting from the current network
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 03/2022
      */
     @Deprecated("")

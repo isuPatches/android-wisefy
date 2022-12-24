@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Patches Klinefelter
+ * Copyright 2022 Patches Barrett
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ import com.isupatches.android.wisefy.accesspoints.entities.GetAccessPointsResult
 /**
  * A set of synchronous APIs for getting and searching for nearby access points.
  *
- * @author Patches Klinefelter
+ * @author Patches Barrett
  * @since 12/2022, version 5.0.0
  */
 interface AccessPointsApi {
@@ -38,7 +38,7 @@ interface AccessPointsApi {
      *
      * @return GetNearbyAccessPointsResult - The result of getting nearby access points
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
     @RequiresPermission(ACCESS_FINE_LOCATION)

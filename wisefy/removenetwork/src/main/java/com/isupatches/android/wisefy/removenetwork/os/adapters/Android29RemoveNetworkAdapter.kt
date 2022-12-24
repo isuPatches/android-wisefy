@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Patches Klinefelter
+ * Copyright 2022 Patches Barrett
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ internal class Android29RemoveNetworkAdapter(
 ) : RemoveNetworkApi {
 
     override fun removeNetwork(request: RemoveNetworkRequest): RemoveNetworkResult {
-        val message = AssertionMessages.AndroidQ.SAVED_NETWORK_FUNCTIONALITY_UNAVAILABLE_ANDROID_29
+        val message = AssertionMessages.AndroidQ.SAVED_NETWORK_FUNCTIONALITY_UNAVAILABLE_ANDROID_Q
         assertions.fail(message)
         return RemoveNetworkResult.Failure.Assertion(message)
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Patches Klinefelter
+ * Copyright 2022 Patches Barrett
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,7 +42,7 @@ import com.isupatches.android.wisefy.signal.os.impls.Android30SignalApiImpl
  * @see SignalApi
  * @see WisefyAssertions
  *
- * @author Patches Klinefelter
+ * @author Patches Barrett
  * @since 07/2022, version 5.0.0
  */
 @RequiresApi(Build.VERSION_CODES.R)
@@ -60,7 +60,7 @@ internal class Android30SignalAdapter(
                 CalculateSignalLevelResult.Success(value = result)
             }
             is CalculateSignalLevelRequest.BelowAndroid30 -> {
-                val message = AssertionMessages.Signal.INCORRECT_CALCULATE_BARS_USED_ANDROID_30
+                val message = AssertionMessages.Signal.INCORRECT_CALCULATE_BARS_USED_ANDROID_R_OR_HIGHER
                 assertions.fail(message = message)
                 CalculateSignalLevelResult.Failure.Assertion(message)
             }

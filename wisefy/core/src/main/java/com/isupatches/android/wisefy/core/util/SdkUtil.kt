@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Patches Klinefelter
+ * Copyright 2022 Patches Barrett
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,18 +21,18 @@ import androidx.annotation.ChecksSdkIntAtLeast
 /**
  * An interface that helps the library determine the SDK level of the device.
  *
- * @author Patches Klinefelter
- * @since 11/2022, version 5.0.0
+ * @author Patches Barrett
+ * @since 12/2022, version 5.0.0
  */
 interface SdkUtil {
 
     /**
      * A function that will check whether the device is on at least Android P.
      *
-     * @return Boolean - True if the device's SDK is at least Android P, other false
+     * @return Boolean - True if the device's SDK is at least Android P, otherwise false
      *
-     * @author Patches Klinefelter
-     * @since 11/2022, version 5.0.0
+     * @author Patches Barrett
+     * @since 12/2022, version 5.0.0
      */
     @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.P)
     fun isAtLeastP(): Boolean
@@ -40,10 +40,10 @@ interface SdkUtil {
     /**
      * A function that will check whether the device is on at least Android Q.
      *
-     * @return Boolean - True if the device's SDK is at least Android Q, other false
+     * @return Boolean - True if the device's SDK is at least Android Q, otherwise false
      *
-     * @author Patches Klinefelter
-     * @since 11/2022, version 5.0.0
+     * @author Patches Barrett
+     * @since 12/2022, version 5.0.0
      */
     @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.Q)
     fun isAtLeastQ(): Boolean
@@ -51,9 +51,9 @@ interface SdkUtil {
     /**
      * A function that will check whether the device is on at least Android R.
      *
-     * @return Boolean - True if the device's SDK is at least Android R, other false
+     * @return Boolean - True if the device's SDK is at least Android R, otherwise false
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 11/2022, version 5.0.0
      */
     @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.R)
@@ -62,10 +62,10 @@ interface SdkUtil {
     /**
      * A function that will check whether the device is on at least Android S.
      *
-     * @return Boolean - True if the device's SDK is at least Android S, other false
+     * @return Boolean - True if the device's SDK is at least Android S, otherwise false
      *
-     * @author Patches Klinefelter
-     * @since 11/2022, version 5.0.0
+     * @author Patches Barrett
+     * @since 12/2022, version 5.0.0
      */
     @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.S)
     fun isAtLeastS(): Boolean
@@ -73,10 +73,10 @@ interface SdkUtil {
     /**
      * A function that will check whether the device is on at least Android T.
      *
-     * @return Boolean - True if the device's SDK is at least Android T, other false
+     * @return Boolean - True if the device's SDK is at least Android T, otherwise false
      *
-     * @author Patches Klinefelter
-     * @since 11/2022, version 5.0.0
+     * @author Patches Barrett
+     * @since 12/2022, version 5.0.0
      */
     @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.TIRAMISU)
     fun isAtLeastT(): Boolean
@@ -87,8 +87,8 @@ interface SdkUtil {
  *
  * @see SdkUtil
  *
- * @author Patches Klinefelter
- * @since 11/2022, version 5.0.0
+ * @author Patches Barrett
+ * @since 12/2022, version 5.0.0
  */
 class SdkUtilImpl : SdkUtil {
     @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.P)

@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Patches Klinefelter
+ * Copyright 2022 Patches Barrett
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,8 +20,8 @@ package com.isupatches.android.wisefy.core.logging
  *
  * @see WisefyLogger
  *
- * @author Patches Klinefelter
- * @since 11/2022, version 5.0.0
+ * @author Patches Barrett
+ * @since 12/2022, version 5.0.0
  */
 class DefaultWisefyLogger : WisefyLogger {
 
@@ -34,8 +34,8 @@ class DefaultWisefyLogger : WisefyLogger {
      *
      * @return Int - 0 bytes logged
      *
-     * @author Patches Klinefelter
-     * @since 11/2022, version 5.0.0
+     * @author Patches Barrett
+     * @since 12/2022, version 5.0.0
      */
     override fun i(tag: String, message: String, vararg args: Any): Int = 0
 
@@ -48,8 +48,8 @@ class DefaultWisefyLogger : WisefyLogger {
      *
      * @return Int - 0 bytes logged
      *
-     * @author Patches Klinefelter
-     * @since 11/2022, version 5.0.0
+     * @author Patches Barrett
+     * @since 12/2022, version 5.0.0
      */
     override fun v(tag: String, message: String, vararg args: Any): Int = 0
 
@@ -62,8 +62,8 @@ class DefaultWisefyLogger : WisefyLogger {
      *
      * @return Int - 0 bytes logged
      *
-     * @author Patches Klinefelter
-     * @since 11/2022, version 5.0.0
+     * @author Patches Barrett
+     * @since 12/2022, version 5.0.0
      */
     override fun d(tag: String, message: String, vararg args: Any): Int = 0
 
@@ -76,8 +76,8 @@ class DefaultWisefyLogger : WisefyLogger {
      *
      * @return Int - 0 bytes logged
      *
-     * @author Patches Klinefelter
-     * @since 11/2022, version 5.0.0
+     * @author Patches Barrett
+     * @since 12/2022, version 5.0.0
      */
     override fun w(tag: String, message: String, vararg args: Any): Int = 0
 
@@ -90,8 +90,8 @@ class DefaultWisefyLogger : WisefyLogger {
      *
      * @return Int - 0 bytes logged
      *
-     * @author Patches Klinefelter
-     * @since 11/2022, version 5.0.0
+     * @author Patches Barrett
+     * @since 12/2022, version 5.0.0
      */
     override fun e(tag: String, message: String, vararg args: Any): Int = 0
 
@@ -105,8 +105,8 @@ class DefaultWisefyLogger : WisefyLogger {
      *
      * @return Int - 0 bytes logged
      *
-     * @author Patches Klinefelter
-     * @since 11/2022, version 5.0.0
+     * @author Patches Barrett
+     * @since 12/2022, version 5.0.0
      */
     override fun e(tag: String, throwable: Throwable, message: String, vararg args: Any): Int = 0
 
@@ -119,8 +119,8 @@ class DefaultWisefyLogger : WisefyLogger {
      *
      * @return Int - 0 bytes logged
      *
-     * @author Patches Klinefelter
-     * @since 11/2022, version 5.0.0
+     * @author Patches Barrett
+     * @since 12/2022, version 5.0.0
      */
     override fun wtf(tag: String, message: String, vararg args: Any): Int = 0
 
@@ -134,8 +134,8 @@ class DefaultWisefyLogger : WisefyLogger {
      *
      * @return Int - 0 bytes logged
      *
-     * @author Patches Klinefelter
-     * @since 11/2022, version 5.0.0
+     * @author Patches Barrett
+     * @since 12/2022, version 5.0.0
      */
     override fun wtf(tag: String, throwable: Throwable, message: String, vararg args: Any): Int = 0
 }

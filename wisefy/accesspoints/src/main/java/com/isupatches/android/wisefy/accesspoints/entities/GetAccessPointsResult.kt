@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Patches Klinefelter
+ * Copyright 2022 Patches Barrett
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@ package com.isupatches.android.wisefy.accesspoints.entities
 /**
  * A set of classes and objects that represent a result while querying for access points.
  *
- * @author Patches Klinefelter
+ * @author Patches Barrett
  * @since 12/2022, version 5.0.0
  */
 sealed class GetAccessPointsResult {
@@ -28,7 +28,7 @@ sealed class GetAccessPointsResult {
      *
      * @see GetAccessPointsResult
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
     object Empty : GetAccessPointsResult()
@@ -41,7 +41,7 @@ sealed class GetAccessPointsResult {
      * @see AccessPointData
      * @see GetAccessPointsResult
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
     data class AccessPoints(val value: List<AccessPointData>) : GetAccessPointsResult()

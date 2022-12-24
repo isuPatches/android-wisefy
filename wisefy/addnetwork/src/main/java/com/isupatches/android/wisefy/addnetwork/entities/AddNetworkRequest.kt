@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Patches Klinefelter
+ * Copyright 2022 Patches Barrett
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ import androidx.annotation.RequiresApi
 /**
  * A set of classes and objects that represent requests to add a network.
  *
- * @author Patches Klinefelter
+ * @author Patches Barrett
  * @since 12/2022, version 5.0.0
  */
 sealed class AddNetworkRequest {
@@ -34,7 +34,7 @@ sealed class AddNetworkRequest {
      *
      * @see AddNetworkRequest
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
     data class Open(val ssid: String, val bssid: String? = null) : AddNetworkRequest()
@@ -48,7 +48,7 @@ sealed class AddNetworkRequest {
      *
      * @see AddNetworkRequest
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
     data class WPA2(val ssid: String, val passphrase: String, val bssid: String? = null) : AddNetworkRequest()
@@ -62,7 +62,7 @@ sealed class AddNetworkRequest {
      *
      * @see AddNetworkRequest
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
     @RequiresApi(Build.VERSION_CODES.Q)

@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Patches Klinefelter
+ * Copyright 2022 Patches Barrett
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ import com.isupatches.android.wisefy.signal.entities.CompareSignalLevelResult
 /**
  * A set of synchronous APIs for signal strength functionality.
  *
- * @author Patches Klinefelter
+ * @author Patches Barrett
  * @since 07/2022, version 5.0.0
  */
 interface SignalApi {
@@ -38,7 +38,7 @@ interface SignalApi {
      *
      * @return CalculateBarsResult - The result of calculating the signal strength bars for a network
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 07/2022, version 5.0.0
      */
     fun calculateSignalLevel(request: CalculateSignalLevelRequest): CalculateSignalLevelResult
@@ -53,7 +53,7 @@ interface SignalApi {
      *
      * @return CompareSignalLevelResult - The result of comparing the RSSI levels of two networks
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 07/2022, version 5.0.0
      */
     fun compareSignalLevel(request: CompareSignalLevelRequest): CompareSignalLevelResult

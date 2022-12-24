@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Patches Klinefelter
+ * Copyright 2022 Patches Barrett
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,8 +18,8 @@ package com.isupatches.android.wisefy.core.logging
 /**
  * A logging interface that can be provided to Wisefy to log messages.
  *
- * @author Patches Klinefelter
- * @since 11/2022, version 5.0.0
+ * @author Patches Barrett
+ * @since 12/2022, version 5.0.0
  */
 interface WisefyLogger {
 
@@ -32,8 +32,8 @@ interface WisefyLogger {
      *
      * @return Int - The amount of bytes logged
      *
-     * @author Patches Klinefelter
-     * @since 11/2022, version 5.0.0
+     * @author Patches Barrett
+     * @since 12/2022, version 5.0.0
      */
     fun i(tag: String, message: String, vararg args: Any): Int
 
@@ -46,8 +46,8 @@ interface WisefyLogger {
      *
      * @return Int - The amount of bytes logged
      *
-     * @author Patches Klinefelter
-     * @since 11/2022, version 5.0.0
+     * @author Patches Barrett
+     * @since 12/2022, version 5.0.0
      */
     fun v(tag: String, message: String, vararg args: Any): Int
 
@@ -60,13 +60,13 @@ interface WisefyLogger {
      *
      * @return Int - The amount of bytes logged
      *
-     * @author Patches Klinefelter
-     * @since 11/2022, version 5.0.0
+     * @author Patches Barrett
+     * @since 12/2022, version 5.0.0
      */
     fun d(tag: String, message: String, vararg args: Any): Int
 
     /**
-     * A function that logs a warnning message.
+     * A function that logs a warning message.
      *
      * @param tag The tag for the log message
      * @param message The message to log (can include placeholders)
@@ -74,8 +74,8 @@ interface WisefyLogger {
      *
      * @return Int - The amount of bytes logged
      *
-     * @author Patches Klinefelter
-     * @since 11/2022, version 5.0.0
+     * @author Patches Barrett
+     * @since 12/2022, version 5.0.0
      */
     fun w(tag: String, message: String, vararg args: Any): Int
 
@@ -88,8 +88,8 @@ interface WisefyLogger {
      *
      * @return Int - The amount of bytes logged
      *
-     * @author Patches Klinefelter
-     * @since 11/2022, version 5.0.0
+     * @author Patches Barrett
+     * @since 12/2022, version 5.0.0
      */
     fun e(tag: String, message: String, vararg args: Any): Int
 
@@ -103,8 +103,8 @@ interface WisefyLogger {
      *
      * @return Int - The amount of bytes logged
      *
-     * @author Patches Klinefelter
-     * @since 11/2022, version 5.0.0
+     * @author Patches Barrett
+     * @since 12/2022, version 5.0.0
      */
     fun e(tag: String, throwable: Throwable, message: String, vararg args: Any): Int
 
@@ -117,8 +117,8 @@ interface WisefyLogger {
      *
      * @return Int - The amount of bytes logged
      *
-     * @author Patches Klinefelter
-     * @since 11/2022, version 5.0.0
+     * @author Patches Barrett
+     * @since 12/2022, version 5.0.0
      */
     fun wtf(tag: String, message: String, vararg args: Any): Int
 
@@ -132,8 +132,8 @@ interface WisefyLogger {
      *
      * @return Int - The amount of bytes logged
      *
-     * @author Patches Klinefelter
-     * @since 11/2022, version 5.0.0
+     * @author Patches Barrett
+     * @since 12/2022, version 5.0.0
      */
     fun wtf(tag: String, throwable: Throwable, message: String, vararg args: Any): Int
 }

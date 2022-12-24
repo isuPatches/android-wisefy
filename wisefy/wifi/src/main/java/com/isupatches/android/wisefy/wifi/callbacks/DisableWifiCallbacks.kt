@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Patches Klinefelter
+ * Copyright 2022 Patches Barrett
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ import com.isupatches.android.wisefy.wifi.entities.DisableWifiResult
  *
  * @see BaseWisefyCallbacks
  *
- * @author Patches Klinefelter
+ * @author Patches Barrett
  * @since 07/2022, version 5.0.0
  */
 interface DisableWifiCallbacks : BaseWisefyCallbacks {
@@ -31,7 +31,7 @@ interface DisableWifiCallbacks : BaseWisefyCallbacks {
     /**
      * A callback triggered when there is a failure disabling Wifi.
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 07/2022, version 5.0.0
      */
     fun onFailureDisablingWifi(result: DisableWifiResult.Failure)
@@ -39,7 +39,7 @@ interface DisableWifiCallbacks : BaseWisefyCallbacks {
     /**
      * A callback triggered when Wifi is successfully disabled.
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 07/2022, version 5.0.0
      */
     fun onSuccessDisablingWifi(result: DisableWifiResult.Success)

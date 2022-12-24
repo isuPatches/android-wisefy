@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Patches Klinefelter
+ * Copyright 2022 Patches Barrett
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ import androidx.annotation.RequiresPermission
  * A default internal API for getting information about a network, the device's current network, and the device's IP
  * through the Android OS.
  *
- * @author Patches Klinefelter
+ * @author Patches Barrett
  * @since 03/2022
  */
 internal interface DefaultNetworkInfoApi {
@@ -35,7 +35,7 @@ internal interface DefaultNetworkInfoApi {
      *
      * @return WifiInfo or null - The current network or null if the device is not connected to one
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 03/2022
      */
     @RequiresPermission(ACCESS_NETWORK_STATE)
@@ -48,7 +48,7 @@ internal interface DefaultNetworkInfoApi {
      *
      * @return NetworkCapabilities or null - The network capabilities from the the Android OS (can be null)
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 03/2022
      */
     @RequiresPermission(ACCESS_NETWORK_STATE)
@@ -61,7 +61,7 @@ internal interface DefaultNetworkInfoApi {
      *
      * @return NetworkCapabilities or null - The link properties from the the Android OS (can be null)
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 03/2022
      */
     @RequiresPermission(ACCESS_NETWORK_STATE)
@@ -82,7 +82,7 @@ internal interface DefaultNetworkInfoApi {
      * @return Boolean - Whether the device is connected to a Wifi or mobile network. True if connected to a Wifi or
      * mobile network, otherwise false
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 03/2022
      */
     suspend fun isDeviceConnected(): Boolean
@@ -92,7 +92,7 @@ internal interface DefaultNetworkInfoApi {
      *
      * @return Boolean - Whether the network is roaming. True if roaming, otherwise false
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 03/2022
      */
     @RequiresPermission(ACCESS_NETWORK_STATE)

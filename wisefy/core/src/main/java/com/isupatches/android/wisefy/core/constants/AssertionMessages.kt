@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Patches Klinefelter
+ * Copyright 2022 Patches Barrett
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,92 +18,151 @@ package com.isupatches.android.wisefy.core.constants
 /**
  * A singleton that houses all of the assertion messages present throughout the app.
  *
- * @author Patches Klinefelter
- * @since 11/2022, version 5.0.0
+ * @author Patches Barrett
+ * @since 12/2022, version 5.0.0
  */
 object AssertionMessages {
 
     /**
      * A singleton that houses the assertion messages present for the add network features.
      *
-     * @author Patches Klinefelter
-     * @since 11/2022, version 5.0.0
+     * @author Patches Barrett
+     * @since 12/2022, version 5.0.0
      */
     object AddNetwork {
 
         /**
          * A singleton that houses the assertion messages present for functions adding a WPA3 network.
          *
-         * @author Patches Klinefelter
-         * @since 11/2022, version 5.0.0
+         * @author Patches Barrett
+         * @since 12/2022, version 5.0.0
          */
         object WPA3Network {
 
             /**
-             * A string value for the assertion message for trying to add a WPA3 network before Android 29.
+             * A string value for the assertion message for trying to add a WPA3 network before Android Q / SDK 29.
              *
-             * @author Patches Klinefelter
-             * @since 11/2022, version 5.0.0
+             * @author Patches Barrett
+             * @since 12/2022, version 5.0.0
              */
-            const val USED_PRE_ANDROID_29: String = "WPA3 networks are not supported until Android Q"
+            const val USED_PRE_ANDROID_29: String = "WPA3 networks are not supported until Android Q / SDK 29"
         }
     }
 
+    /**
+     * A singleton that houses the assertion messages present for Android Q.
+     *
+     * @author Patches Barrett
+     * @since 12/2022, version 5.0.0
+     */
     object AndroidQ {
 
-        const val SAVED_NETWORK_FUNCTIONALITY_UNAVAILABLE_ANDROID_29: String =
-            "Saved network functionality is not supported on Android Q"
+        /**
+         * A string value for the assertion message for trying to work with saved networks on Android Q / SDK 29.
+         *
+         * @author Patches Barrett
+         * @since 12/2022, version 5.0.0
+         */
+        const val SAVED_NETWORK_FUNCTIONALITY_UNAVAILABLE_ANDROID_Q: String =
+            "Saved network functionality is not supported on Android Q / SDK 29"
     }
 
     /**
      * A singleton that houses the assertion messages present for the network connection features.
      *
-     * @author Patches Klinefelter
-     * @since 11/2022, version 5.0.0
+     * @author Patches Barrett
+     * @since 12/2022, version 5.0.0
      */
     object NetworkConnection {
 
+        /**
+         * A singleton that houses the assertion messages present for the changeNetwork API.
+         *
+         * @author Patches Barrett
+         * @since 12/2022, version 5.0.0
+         */
         object ChangeNetwork {
-            const val USED_BEFORE_ANDROID_Q = "Change network API used before Android 29"
+
+            /**
+             * A string value for the assertion message for calling the changeNetwork API before Android Q.
+             *
+             * @author Patches Barrett
+             * @since 12/2022, version 5.0.0
+             */
+            const val USED_BEFORE_ANDROID_Q: String = "Change network API used before Android Q / SDK 29"
         }
 
+        /**
+         * A singleton that houses the assertion messages present for the connectToNetwork API.
+         *
+         * @author Patches Barrett
+         * @since 12/2022, version 5.0.0
+         */
         object ConnectToNetwork {
-            const val USED_ANDROID_Q_OR_HIGHER = ""
+
+            /**
+             * A string value for the assertion message for calling the connectToNetwork API on Android Q / SDK 29
+             * or higher.
+             *
+             * @author Patches Barrett
+             * @since 12/2022, version 5.0.0
+             */
+            const val USED_ANDROID_Q_OR_HIGHER: String = "Connect to network API used on Android Q / SDK 29 or higher"
         }
 
+        /**
+         * A singleton that houses the assertion messages present for the disconnectFromCurrentNetwork API.
+         *
+         * @author Patches Barrett
+         * @since 12/2022, version 5.0.0
+         */
         object DisconnectFromCurrentNetwork {
-            const val USED_ANDROID_Q_OR_HIGHER = ""
+
+            /**
+             * A string value for the assertion message for calling the disconnectFromCurrentNetwork API on Android Q /
+             * SDK 29 or higher.
+             *
+             * @author Patches Barrett
+             * @since 12/2022, version 5.0.0
+             */
+            const val USED_ANDROID_Q_OR_HIGHER: String = "Connect to network API used on Android Q / SDK 29 or higher"
         }
     }
 
     /**
      * A singleton that houses the assertion messages present for the signal features.
      *
-     * @author Patches Klinefelter
-     * @since 11/2022, version 5.0.0
+     * @author Patches Barrett
+     * @since 12/2022, version 5.0.0
      */
     object Signal {
 
         /**
          * A string value for the assertion message for using calculateBars(rssiLevel: Int) before Android 30.
          *
-         * @author Patches Klinefelter
-         * @since 11/2022, version 5.0.0
+         * @author Patches Barrett
+         * @since 12/2022, version 5.0.0
          */
-        const val INCORRECT_CALCULATE_BARS_USED_ANDROID_30: String =
-            "calculateBars(rssiLevel: Int): Int should be used for Android R"
+        const val INCORRECT_CALCULATE_BARS_USED_ANDROID_R_OR_HIGHER: String =
+            "calculateBars(rssiLevel: Int): Int should be used for Android R / SDK 30 or higher"
 
         /**
          * A string value for the assertion message for using calculateBars(rssiLevel: Int, targetNumberOfBars: Int)
          * on Android 30+.
          *
-         * @author Patches Klinefelter
-         * @since 11/2022, version 5.0.0
+         * @author Patches Barrett
+         * @since 12/2022, version 5.0.0
          */
-        const val INCORRECT_CALCULATE_BARS_USED_PRE_ANDROID_30: String =
-            "calculateBars(rssiLevel: Int): Int is not available until Android R"
+        const val INCORRECT_CALCULATE_BARS_USED_PRE_ANDROID_R: String =
+            "calculateBars(rssiLevel: Int): Int is not available until Android R / SDK 30"
     }
 
+    /**
+     * A singleton that houses the assertion messages present for the wifi features.
+     *
+     * @author Patches Barrett
+     * @since 12/2022, version 5.0.0
+     */
     object Wifi {
         const val ANDROID_29_REQUEST_USED_ON_PRE_ANDROID_29 = ""
         const val DEFAULT_REQUEST_USED_ANDROID_29_OR_HIGHER = ""

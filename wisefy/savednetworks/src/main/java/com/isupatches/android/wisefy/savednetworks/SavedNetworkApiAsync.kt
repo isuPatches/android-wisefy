@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Patches Klinefelter
+ * Copyright 2022 Patches Barrett
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ import com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedQuery
 /**
  * A set of asynchronous APIs for getting and searching for saved networks.
  *
- * @author Patches Klinefelter
+ * @author Patches Barrett
  * @since 07/2022, version 5.0.0
  */
 interface SavedNetworkApiAsync {
@@ -40,7 +40,7 @@ interface SavedNetworkApiAsync {
      * @see GetSavedNetworksQuery
      * @see GetSavedNetworksCallbacks
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 07/2022, version 5.0.0
      */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
@@ -58,7 +58,7 @@ interface SavedNetworkApiAsync {
      * @see IsNetworkSavedQuery
      * @see IsNetworkSavedCallbacks
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 07/2022, version 5.0.0
      */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])

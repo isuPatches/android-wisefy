@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Patches Klinefelter
+ * Copyright 2022 Patches Barrett
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@ package com.isupatches.android.wisefy.savednetworks.entities
  * A set of classes and objects that are used to represent a result while getting all of the saved networks on the
  * device.
  *
- * @author Patches Klinefelter
+ * @author Patches Barrett
  * @since 07/2022, version 5.0.0
  */
 sealed class GetSavedNetworksResult {
@@ -29,7 +29,7 @@ sealed class GetSavedNetworksResult {
      *
      * @see GetSavedNetworksResult
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 07/2022, version 5.0.0
      */
     object Empty : GetSavedNetworksResult()
@@ -42,7 +42,7 @@ sealed class GetSavedNetworksResult {
      * @see GetSavedNetworksResult
      * @see SavedNetworkData
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 07/2022, version 5.0.0
      */
     data class SavedNetworks(val value: List<SavedNetworkData>) : GetSavedNetworksResult()

@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Patches Klinefelter
+ * Copyright 2022 Patches Barrett
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,7 +38,7 @@ import com.isupatches.android.wisefy.removenetwork.os.impls.Android30RemoveNetwo
  * @see Android30RemoveNetworkApiImpl
  * @see RemoveNetworkApi
  *
- * @author Patches Klinefelter
+ * @author Patches Barrett
  * @since 03/2022
  */
 @RequiresApi(Build.VERSION_CODES.R)

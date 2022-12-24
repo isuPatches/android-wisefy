@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Patches Klinefelter
+ * Copyright 2022 Patches Barrett
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@ package com.isupatches.android.wisefy.wifi.entities
 /**
  * A set of classes and objects that are data representations of a result when disabling Wifi.
  *
- * @author Patches Klinefelter
+ * @author Patches Barrett
  * @since 07/2022, version 5.0.0
  */
 sealed class DisableWifiResult {
@@ -28,7 +28,7 @@ sealed class DisableWifiResult {
      *
      * @see DisableWifiResult
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 07/2022, version 5.0.0
      */
     sealed class Success : DisableWifiResult() {
@@ -41,7 +41,7 @@ sealed class DisableWifiResult {
      *
      * @see DisableWifiResult
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 07/2022, version 5.0.0
      */
     sealed class Failure : DisableWifiResult() {

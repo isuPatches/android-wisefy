@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Patches Klinefelter
+ * Copyright 2022 Patches Barrett
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ import androidx.annotation.RequiresPermission
 /**
  * A default set of APIs for enabling, disabling, and checking the state of Wifi through the Android OS.
  *
- * @author Patches Klinefelter
+ * @author Patches Barrett
  * @since 07/2022, version 5.0.0
  */
 internal interface DefaultWifiApi {
@@ -32,7 +32,7 @@ internal interface DefaultWifiApi {
      *
      * @return Boolean - The result of disabling Wifi.  True if successful, otherwise false.
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 07/2022, version 5.0.0
      */
     @RequiresPermission(CHANGE_WIFI_STATE)
@@ -43,7 +43,7 @@ internal interface DefaultWifiApi {
      *
      * @return Boolean - The result of enabling Wifi.  True if successful, otherwise false.
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 07/2022, version 5.0.0
      */
     @RequiresPermission(CHANGE_WIFI_STATE)
@@ -54,7 +54,7 @@ internal interface DefaultWifiApi {
      *
      * @return Boolean - Whether Wifi is enabled on the device.  True if enabled, otherwise false.
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 07/2022, version 5.0.0
      */
     @RequiresPermission(ACCESS_WIFI_STATE)

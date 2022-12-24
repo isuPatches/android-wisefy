@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Patches Klinefelter
+ * Copyright 2022 Patches Barrett
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ import java.util.Locale
  *
  * @return WifiConfiguration - The network configuration for the open network
  *
- * @author Patches Klinefelter
+ * @author Patches Barrett
  * @since 11/2022, version 5.0.0
  */
 fun createOpenNetworkConfiguration(ssid: String, bssid: String?): WifiConfiguration {
@@ -62,7 +62,7 @@ fun createOpenNetworkConfiguration(ssid: String, bssid: String?): WifiConfigurat
  *
  * @return WifiConfiguration - The network configuration for the WPA2 network
  *
- * @author Patches Klinefelter
+ * @author Patches Barrett
  * @since 11/2022, version 5.0.0
  */
 fun createWPA2NetworkConfiguration(ssid: String, passphrase: String, bssid: String?): WifiConfiguration {

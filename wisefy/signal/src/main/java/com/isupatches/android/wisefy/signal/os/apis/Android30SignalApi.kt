@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Patches Klinefelter
+ * Copyright 2022 Patches Barrett
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ import androidx.annotation.RequiresApi
 /**
  * An Android 30 specific API for functions related to the signal strength of networks.
  *
- * @author Patches Klinefelter
+ * @author Patches Barrett
  * @since 07/2022, version 5.0.0
  */
 @RequiresApi(Build.VERSION_CODES.R)
@@ -34,7 +34,7 @@ internal interface Android30SignalApi {
      *
      * @return Int - The number of signal strength bars for the network given RSSI level.
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 07/2022, version 5.0.0
      */
     fun calculateSignalLevel(rssiLevel: Int): Int
@@ -51,7 +51,7 @@ internal interface Android30SignalApi {
      * @return Int - The result of the comparison.  This will be less than 0 if first signal is weaker, 0 if the two
      * have the same strength, and greater than zero if the second signal is stronger
      *
-     * @author Patches Klinefelter
+     * @author Patches Barrett
      * @since 07/2022, version 5.0.0
      */
     fun compareSignalLevel(rssi1: Int, rssi2: Int): Int
