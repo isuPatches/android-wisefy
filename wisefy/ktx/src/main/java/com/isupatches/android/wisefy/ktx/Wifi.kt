@@ -56,7 +56,7 @@ suspend fun WisefyApi.disableWifiAsync(request: DisableWifiRequest): DisableWifi
         disableWifi(
             request = request,
             callbacks = object : DisableWifiCallbacks {
-                override fun onWifiDisabled(result: DisableWifiResult.Success) {
+                override fun onSuccessDisablingWifi(result: DisableWifiResult.Success) {
                     continuation.resumeWith(Result.success(result))
                 }
 
@@ -96,7 +96,7 @@ suspend fun WisefyApi.enableWifiAsync(request: EnableWifiRequest): EnableWifiRes
         enableWifi(
             request = request,
             callbacks = object : EnableWifiCallbacks {
-                override fun onWifiEnabled(result: EnableWifiResult.Success) {
+                override fun onSuccessEnablingWifi(result: EnableWifiResult.Success) {
                     continuation.resumeWith(Result.success(result))
                 }
 

@@ -16,9 +16,13 @@
 package com.isupatches.android.wisefy.networkconnection
 
 import android.Manifest.permission.CHANGE_NETWORK_STATE
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
+import com.isupatches.android.wisefy.networkconnection.callbacks.ChangeNetworkCallbacks
 import com.isupatches.android.wisefy.networkconnection.callbacks.ConnectToNetworkCallbacks
 import com.isupatches.android.wisefy.networkconnection.callbacks.DisconnectFromCurrentNetworkCallbacks
+import com.isupatches.android.wisefy.networkconnection.entities.ChangeNetworkRequest
 import com.isupatches.android.wisefy.networkconnection.entities.ConnectToNetworkRequest
 import com.isupatches.android.wisefy.networkconnection.entities.DisconnectFromCurrentNetworkRequest
 
@@ -29,6 +33,9 @@ import com.isupatches.android.wisefy.networkconnection.entities.DisconnectFromCu
  * @since 03/2022
  */
 interface NetworkConnectionApiAsync {
+
+    @RequiresApi(Build.VERSION_CODES.Q)
+    fun changeNetwork(request: ChangeNetworkRequest, callbacks: ChangeNetworkCallbacks?)
 
     /**
      * An asynchronous API to connect to a network.
@@ -42,6 +49,7 @@ interface NetworkConnectionApiAsync {
      * @author Patches Klinefelter
      * @since 03/2022
      */
+    @Deprecated("")
     @RequiresPermission(CHANGE_NETWORK_STATE)
     fun connectToNetwork(request: ConnectToNetworkRequest, callbacks: ConnectToNetworkCallbacks?)
 
@@ -57,6 +65,7 @@ interface NetworkConnectionApiAsync {
      * @author Patches Klinefelter
      * @since 03/2022
      */
+    @Deprecated("")
     fun disconnectFromCurrentNetwork(
         request: DisconnectFromCurrentNetworkRequest,
         callbacks: DisconnectFromCurrentNetworkCallbacks?

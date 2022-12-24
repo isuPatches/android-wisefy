@@ -21,7 +21,6 @@ import androidx.annotation.RequiresApi
 import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.signal.os.apis.Android30SignalApi
-import kotlin.math.log
 
 /**
  * An Android 30+ internal implementation for signal strength functionality through the Android OS.

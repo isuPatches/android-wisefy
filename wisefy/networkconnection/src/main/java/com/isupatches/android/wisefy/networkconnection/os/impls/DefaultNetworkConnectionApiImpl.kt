@@ -27,7 +27,6 @@ import com.isupatches.android.wisefy.core.entities.NetworkConnectionStatus
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.core.ssidWithoutQuotes
 import com.isupatches.android.wisefy.core.util.SdkUtil
-import com.isupatches.android.wisefy.core.util.withTimeout
 import com.isupatches.android.wisefy.core.util.withTimeoutAsync
 import com.isupatches.android.wisefy.networkconnection.os.apis.DefaultNetworkConnectionApi
 
@@ -48,7 +47,7 @@ internal class DefaultNetworkConnectionApiImpl(
     private val logger: WisefyLogger,
     private val sdkUtil: SdkUtil,
     private val networkConnectionStatusProvider: suspend () -> NetworkConnectionStatus?
-) : DefaultNetworkConnectionApi, ConnectivityManager.NetworkCallback() {
+) : DefaultNetworkConnectionApi {
 
     companion object {
         private const val LOG_TAG = "DefaultNetworkConnectionApiImpl"

@@ -13,15 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.android.wisefy.accesspoints
+package com.isupatches.android.wisefy.networkconnection.entities
 
-/**
- * A delegate for synchronous and asynchronous access point APIs.
- *
- * @see AccessPointsApi
- * @see AccessPointsApiAsync
- *
- * @author Patches Klinefelter
- * @since 12/2022, version 5.0.0
- */
-interface AccessPointsDelegate : AccessPointsApi, AccessPointsApiAsync
+sealed class ChangeNetworkResult {
+
+    sealed class Success : ChangeNetworkResult() {
+        object InternetConnectionPanelOpened : Success()
+    }
+
+    sealed class Failure : ChangeNetworkResult() {
+
+        data class Assertion(val message: String) : Failure()
+    }
+}

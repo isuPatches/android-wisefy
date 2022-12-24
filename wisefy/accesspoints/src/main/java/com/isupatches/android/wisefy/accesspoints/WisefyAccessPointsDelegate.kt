@@ -36,13 +36,16 @@ import kotlinx.coroutines.withContext
  * @param scope The coroutine scope to use
  * @param logger The [WisefyLogger] instance to use
  * @param wifiManager The WifiManager instance to use
+ * @param adapter The adapter instance used (determined based on the Android OS level)
  *
+ * @see AccessPointsApi
  * @see AccessPointsDelegate
  * @see CoroutineDispatcherProvider
+ * @see DefaultAccessPointsAdapter
  * @see WisefyLogger
  *
  * @author Patches Klinefelter
- * @since 11/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 class WisefyAccessPointsDelegate(
     private val coroutineDispatcherProvider: CoroutineDispatcherProvider,

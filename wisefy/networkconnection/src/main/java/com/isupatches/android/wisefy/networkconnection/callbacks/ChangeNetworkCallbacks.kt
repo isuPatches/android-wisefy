@@ -13,15 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.android.wisefy.accesspoints
+package com.isupatches.android.wisefy.networkconnection.callbacks
 
-/**
- * A delegate for synchronous and asynchronous access point APIs.
- *
- * @see AccessPointsApi
- * @see AccessPointsApiAsync
- *
- * @author Patches Klinefelter
- * @since 12/2022, version 5.0.0
- */
-interface AccessPointsDelegate : AccessPointsApi, AccessPointsApiAsync
+import com.isupatches.android.wisefy.core.base.BaseWisefyCallbacks
+import com.isupatches.android.wisefy.networkconnection.entities.ChangeNetworkResult
+
+interface ChangeNetworkCallbacks : BaseWisefyCallbacks {
+
+    fun onFailureChangingNetworks(result: ChangeNetworkResult.Failure)
+
+    fun onSuccessChangingNetworks(result: ChangeNetworkResult.Success)
+}

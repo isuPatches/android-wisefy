@@ -29,18 +29,6 @@ import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkResult
 interface RemoveNetworkCallbacks : BaseWisefyCallbacks {
 
     /**
-     * A callback triggered when there is a success removing a network.
-     *
-     * @param result The result of removing the network
-     *
-     * @see RemoveNetworkResult
-     *
-     * @author Patches Klinefelter
-     * @since 03/2022
-     */
-    fun onNetworkRemoved(result: RemoveNetworkResult.Success)
-
-    /**
      * A callback triggered when there is a failure removing a network.
      *
      * @param result The result of removing the network
@@ -51,4 +39,16 @@ interface RemoveNetworkCallbacks : BaseWisefyCallbacks {
      * @since 03/2022
      */
     fun onFailureRemovingNetwork(result: RemoveNetworkResult.Failure)
+
+    /**
+     * A callback triggered when there is a success removing a network.
+     *
+     * @param result The result of removing the network
+     *
+     * @see RemoveNetworkResult
+     *
+     * @author Patches Klinefelter
+     * @since 03/2022
+     */
+    fun onSuccessRemovingNetwork(result: RemoveNetworkResult.Success)
 }

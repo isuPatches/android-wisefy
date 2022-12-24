@@ -47,7 +47,7 @@ suspend fun WisefyApi.addNetworkAsync(request: AddNetworkRequest): AddNetworkRes
         addNetwork(
             request = request,
             callbacks = object : AddNetworkCallbacks {
-                override fun onNetworkAdded(result: AddNetworkResult.Success) {
+                override fun onSuccessAddingNetwork(result: AddNetworkResult.Success) {
                     continuation.resumeWith(Result.success(result))
                 }
 

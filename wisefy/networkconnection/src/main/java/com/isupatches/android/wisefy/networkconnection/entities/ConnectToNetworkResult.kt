@@ -21,6 +21,7 @@ package com.isupatches.android.wisefy.networkconnection.entities
  * @author Patches Klinefelter
  * @since 03/2022
  */
+@Deprecated("")
 sealed class ConnectToNetworkResult {
 
     /**
@@ -31,6 +32,7 @@ sealed class ConnectToNetworkResult {
      * @author Patches Klinefelter
      * @since 03/2022
      */
+    @Deprecated("")
     sealed class Success : ConnectToNetworkResult() {
 
         /**
@@ -41,6 +43,7 @@ sealed class ConnectToNetworkResult {
          * @author Patches Klinefelter
          * @since 03/2022
          */
+        @Deprecated("")
         object True : Success()
 
         /**
@@ -51,6 +54,7 @@ sealed class ConnectToNetworkResult {
          * @author Patches Klinefelter
          * @since 03/2022
          */
+        @Deprecated("")
         object ConnectionRequestSent : Success()
     }
 
@@ -62,6 +66,7 @@ sealed class ConnectToNetworkResult {
      * @author Patches Klinefelter
      * @since 03/2022
      */
+    @Deprecated("")
     sealed class Failure : ConnectToNetworkResult() {
 
         /**
@@ -72,6 +77,7 @@ sealed class ConnectToNetworkResult {
          * @author Patches Klinefelter
          * @since 03/2022
          */
+        @Deprecated("")
         object False : Failure()
 
         /**
@@ -82,6 +88,10 @@ sealed class ConnectToNetworkResult {
          * @author Patches Klinefelter
          * @since 03/2022
          */
+        @Deprecated("")
         object NetworkNotFound : Failure()
+
+        @Deprecated("")
+        data class Assertion(val message: String) : Failure()
     }
 }

@@ -29,18 +29,18 @@ import com.isupatches.android.wisefy.wifi.entities.EnableWifiResult
 interface EnableWifiCallbacks : BaseWisefyCallbacks {
 
     /**
-     * A callback triggered when Wifi is successfully enabled.
-     *
-     * @author Patches Klinefelter
-     * @since 07/2022, version 5.0.0
-     */
-    fun onWifiEnabled(result: EnableWifiResult.Success)
-
-    /**
      * A callback triggered when there is a failure enabling Wifi.
      *
      * @author Patches Klinefelter
      * @since 07/2022, version 5.0.0
      */
     fun onFailureEnablingWifi(result: EnableWifiResult.Failure)
+
+    /**
+     * A callback triggered when Wifi is successfully enabled.
+     *
+     * @author Patches Klinefelter
+     * @since 07/2022, version 5.0.0
+     */
+    fun onSuccessEnablingWifi(result: EnableWifiResult.Success)
 }

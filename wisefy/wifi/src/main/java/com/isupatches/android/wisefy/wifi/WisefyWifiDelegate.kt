@@ -92,7 +92,7 @@ class WisefyWifiDelegate(
                 val result = adapter.disableWifi(request)
                 withContext(coroutineDispatcherProvider.main) {
                     when (result) {
-                        is DisableWifiResult.Success -> callbacks?.onWifiDisabled(result)
+                        is DisableWifiResult.Success -> callbacks?.onSuccessDisablingWifi(result)
                         is DisableWifiResult.Failure -> callbacks?.onFailureDisablingWifi(result)
                     }
                 }
@@ -112,7 +112,7 @@ class WisefyWifiDelegate(
                 val result = adapter.enableWifi(request)
                 withContext(coroutineDispatcherProvider.main) {
                     when (result) {
-                        is EnableWifiResult.Success -> callbacks?.onWifiEnabled(result)
+                        is EnableWifiResult.Success -> callbacks?.onSuccessEnablingWifi(result)
                         is EnableWifiResult.Failure -> callbacks?.onFailureEnablingWifi(result)
                     }
                 }

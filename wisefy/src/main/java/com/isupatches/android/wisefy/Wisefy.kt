@@ -26,7 +26,8 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkRequest
 import android.net.wifi.WifiManager
-import android.util.Log
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import androidx.annotation.VisibleForTesting
 import com.isupatches.android.wisefy.Wisefy.Brains
@@ -42,14 +43,16 @@ import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkRequest
 import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
 import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
 import com.isupatches.android.wisefy.core.coroutines.CoroutineDispatcherProvider
-import com.isupatches.android.wisefy.core.entities.NetworkConnectionStatus
 import com.isupatches.android.wisefy.core.logging.DefaultWisefyLogger
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.core.util.SdkUtilImpl
 import com.isupatches.android.wisefy.networkconnection.NetworkConnectionDelegate
 import com.isupatches.android.wisefy.networkconnection.WisefyNetworkConnectionDelegate
+import com.isupatches.android.wisefy.networkconnection.callbacks.ChangeNetworkCallbacks
 import com.isupatches.android.wisefy.networkconnection.callbacks.ConnectToNetworkCallbacks
 import com.isupatches.android.wisefy.networkconnection.callbacks.DisconnectFromCurrentNetworkCallbacks
+import com.isupatches.android.wisefy.networkconnection.entities.ChangeNetworkRequest
+import com.isupatches.android.wisefy.networkconnection.entities.ChangeNetworkResult
 import com.isupatches.android.wisefy.networkconnection.entities.ConnectToNetworkRequest
 import com.isupatches.android.wisefy.networkconnection.entities.ConnectToNetworkResult
 import com.isupatches.android.wisefy.networkconnection.entities.DisconnectFromCurrentNetworkRequest
@@ -127,10 +130,10 @@ class Wisefy private constructor(
     private val savedNetworkDelegate: SavedNetworkDelegate,
     private val signalDelegate: SignalDelegate,
     private val wifiDelegate: WifiDelegate,
-    private val logger: WisefyLogger,
     private val scope: CoroutineScope,
     private val connectivityManager: ConnectivityManager,
-    private val networkConnectionMutex: Mutex
+    private val networkConnectionMutex: Mutex,
+    logger: WisefyLogger
 ) : WisefyApi {
 
     /**
@@ -482,10 +485,10 @@ class Wisefy private constructor(
                 savedNetworkDelegate = savedNetworkDelegate,
                 signalDelegate = signalDelegate,
                 wifiDelegate = wifiDelegate,
-                logger = logger,
-                networkConnectionMutex = networkConnectionMutex,
                 scope = wisefyScope,
-                connectivityManager = connectivityManager
+                connectivityManager = connectivityManager,
+                networkConnectionMutex = networkConnectionMutex,
+                logger = logger
             )
         }
     }
@@ -522,6 +525,16 @@ class Wisefy private constructor(
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     override fun addNetwork(request: AddNetworkRequest, callbacks: AddNetworkCallbacks?) {
         addNetworkDelegate.addNetwork(request, callbacks)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.Q)
+    override fun changeNetwork(request: ChangeNetworkRequest): ChangeNetworkResult {
+        return networkConnectionDelegate.changeNetwork(request)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.Q)
+    override fun changeNetwork(request: ChangeNetworkRequest, callbacks: ChangeNetworkCallbacks?) {
+        networkConnectionDelegate.changeNetwork(request, callbacks)
     }
 
     override fun calculateSignalLevel(request: CalculateSignalLevelRequest): CalculateSignalLevelResult {

@@ -34,7 +34,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
 import com.isupatches.android.wisefy.accesspoints.entities.SecurityCapability
 import com.isupatches.android.wisefy.sample.R
-import com.isupatches.android.wisefy.sample.ui.ComposablePreviewWisefy
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleBodyLabel
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleSubHeaderLabel
 import com.isupatches.android.wisefy.sample.ui.primitives.WisefySampleSizes

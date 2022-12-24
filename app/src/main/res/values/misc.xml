@@ -2,8 +2,8 @@
 <resources>
 
     <!-- Actions -->
+    <string name="change_network">Change Network</string>
     <string name="disable_wifi">Disable Wifi</string>
-    <string name="disconnect_from_current_network">Disconnect From Current Network</string>
     <string name="enabled_wifi">Enabled Wifi</string>
     <string name="get_current_network">Get Current Network</string>
     <string name="get_nearby_access_points">Get Nearby Access Points</string>
@@ -13,15 +13,11 @@
     <string name="signal_functions">Signal Functions</string>
 
     <!-- Results -->
+    <string name="success_changing_network_args">Success changing network. Result: %s</string>
+    <string name="failure_changing_network_args">Failure changing network. Result: %s</string>
+
     <string name="success_disabling_wifi_args">Success disabling wifi. Result: %s</string>
     <string name="failure_disabling_wifi_args">Failure disabling wifi. Result: %s</string>
-
-    <string name="success_disconnecting_from_current_network_args">
-        Success disconnecting from current network. Result: %s
-    </string>
-    <string name="failure_disconnecting_from_current_network_args">
-        Failure disconnecting from current network. Result: %s
-    </string>
 
     <string name="success_enabling_wifi_args">Success enabling wifi. Result: %s</string>
     <string name="failure_enabling_wifi_args">Failure enabling wifi. Result: %s</string>
@@ -41,13 +37,16 @@
     <!-- Permissions -->
     <string name="permission_error_disable_wifi">Permissions for disabling wifi are denied</string>
     <string name="permission_error_enable_wifi">Permissions for enabling wifi are denied</string>
+    <string name="permission_error_get_current_network">Permissions for getting the current network are denied</string>
     <string name="permission_error_get_nearby_access_points">
         Permissions for getting nearby access points are denied
     </string>
-    <string name="permission_error_get_current_network">Permissions for getting the current networks are denied</string>
     <string name="permission_error_get_network_connection_status">
         Permissions for getting network connection status are denied
     </string>
     <string name="permission_error_get_saved_networks">Permissions for getting saved networks are denied</string>
     <string name="permission_error_is_wifi_enabled">Permissions for checking if wifi is enabled are denied</string>
+
+    <!-- Other -->
+    <string name="change_network_called_pre_android_q">Change network cannot be called on pre-Android Q devices</string>
 </resources>

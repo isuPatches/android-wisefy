@@ -16,9 +16,6 @@
 package com.isupatches.android.wisefy.sample.features.add
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
-import android.Manifest.permission.ACCESS_NETWORK_STATE
-import android.Manifest.permission.ACCESS_WIFI_STATE
-import android.Manifest.permission.CHANGE_NETWORK_STATE
 import android.Manifest.permission.CHANGE_WIFI_STATE
 import android.content.res.Configuration
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -73,19 +70,6 @@ internal fun AddNetworkScreenContent(
                 }
             }
 
-        val connectToNetworkPermissionLauncher =
-            rememberLauncherForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result ->
-                if (result.all { it.value }) {
-                    scope.launch {
-                        @Suppress("MissingPermission")
-                        viewModel.connectToNetwork()
-                    }
-                } else {
-                    WisefySampleLogger.w(LOG_TAG, "Permissions required to connect to a network are denied")
-                    viewModel.onConnectToNetworkPermissionError()
-                }
-            }
-
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -119,13 +103,6 @@ internal fun AddNetworkScreenContent(
             Row(modifier = Modifier.padding(top = WisefySampleSizes.Large)) {
                 WisefyPrimaryButton(stringResId = R.string.add_network) {
                     addNetworkPermissionLauncher.launch(arrayOf(ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE))
-                }
-            }
-            Row(modifier = Modifier.padding(top = WisefySampleSizes.Large)) {
-                WisefyPrimaryButton(stringResId = R.string.connect_to_network) {
-                    connectToNetworkPermissionLauncher.launch(
-                        arrayOf(ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE, ACCESS_NETWORK_STATE, CHANGE_NETWORK_STATE)
-                    )
                 }
             }
         }

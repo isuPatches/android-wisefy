@@ -15,36 +15,25 @@
  */
 package com.isupatches.android.wisefy.ktx
 
-import android.Manifest.permission.CHANGE_NETWORK_STATE
-import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.WisefyApi
 import com.isupatches.android.wisefy.core.exceptions.WisefyException
-import com.isupatches.android.wisefy.networkconnection.callbacks.ConnectToNetworkCallbacks
-import com.isupatches.android.wisefy.networkconnection.entities.ConnectToNetworkRequest
-import com.isupatches.android.wisefy.networkconnection.entities.ConnectToNetworkResult
+import com.isupatches.android.wisefy.networkconnection.callbacks.ChangeNetworkCallbacks
+import com.isupatches.android.wisefy.networkconnection.entities.ChangeNetworkRequest
+import com.isupatches.android.wisefy.networkconnection.entities.ChangeNetworkResult
 import kotlin.coroutines.suspendCoroutine
 
 @Throws(WisefyException::class)
-@RequiresPermission(CHANGE_NETWORK_STATE)
-suspend fun WisefyApi.connectToNetworkAsync(request: ConnectToNetworkRequest): ConnectToNetworkResult =
+suspend fun WisefyApi.changeNetworkAsync(request: ChangeNetworkRequest): ChangeNetworkResult =
     suspendCoroutine { continuation ->
-        connectToNetwork(
+        changeNetwork(
             request = request,
-            callbacks = object : ConnectToNetworkCallbacks {
-                override fun onConnectedToNetwork() {
-                    continuation.resumeWith(Result.success(ConnectToNetworkResult.Success.True))
+            callbacks = object : ChangeNetworkCallbacks {
+                override fun onFailureChangingNetworks(result: ChangeNetworkResult.Failure) {
+                    continuation.resumeWith(Result.success(result))
                 }
 
-                override fun onConnectionRequestPlaced() {
-                    continuation.resumeWith(Result.success(ConnectToNetworkResult.Success.ConnectionRequestSent))
-                }
-
-                override fun onFailureConnectingToNetwork() {
-                    continuation.resumeWith(Result.success(ConnectToNetworkResult.Failure.False))
-                }
-
-                override fun onNetworkNotFoundToConnectTo() {
-                    continuation.resumeWith(Result.success(ConnectToNetworkResult.Failure.NetworkNotFound))
+                override fun onSuccessChangingNetworks(result: ChangeNetworkResult.Success) {
+                    continuation.resumeWith(Result.success(result))
                 }
 
                 override fun onWisefyAsyncFailure(exception: WisefyException) {

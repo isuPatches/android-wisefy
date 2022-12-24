@@ -23,7 +23,6 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
 import com.isupatches.android.wisefy.core.exceptions.WisefyException
-import com.isupatches.android.wisefy.networkconnection.entities.ConnectToNetworkResult
 import com.isupatches.android.wisefy.sample.R
 import com.isupatches.android.wisefy.sample.ui.ComposablePreviewWisefy
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleNoticeDialog
@@ -85,40 +84,11 @@ internal fun AddNetworkScreenDialogContent(
                 }
             )
         }
-        is AddNetworkDialogState.ConnectToNetwork.Failure -> {
-            WisefySampleNoticeDialog(
-                title = R.string.connect_to_network,
-                body = R.string.failure_connecting_to_network_args,
-                currentDialogState.result,
-                onClose = {
-                    viewModel.onDialogClosed()
-                }
-            )
-        }
-        is AddNetworkDialogState.ConnectToNetwork.Success -> {
-            WisefySampleNoticeDialog(
-                title = R.string.connect_to_network,
-                body = R.string.success_connecting_to_network_args,
-                currentDialogState.result,
-                onClose = {
-                    viewModel.onDialogClosed()
-                }
-            )
-        }
-        is AddNetworkDialogState.ConnectToNetwork.PermissionsError -> {
-            WisefySampleNoticeDialog(
-                title = R.string.permission_error,
-                body = R.string.permission_error_connect_to_network,
-                onClose = {
-                    viewModel.onDialogClosed()
-                }
-            )
-        }
         is AddNetworkDialogState.Failure.WisefyAsync -> {
             WisefySampleNoticeDialog(
                 title = R.string.wisefy_async_error,
                 body = R.string.wisefy_async_error_descriptions_args,
-                currentDialogState.exception.message ?: "",
+                currentDialogState.exception.cause?.message ?: "",
                 onClose = {
                     viewModel.onDialogClosed()
                 }
@@ -194,9 +164,6 @@ private class AddNetworkDialogStatePreviewParameterProvider : PreviewParameterPr
         AddNetworkDialogState.AddNetwork.PermissionsError.AddOpenNetwork,
         AddNetworkDialogState.AddNetwork.PermissionsError.AddWPA2Network,
         AddNetworkDialogState.AddNetwork.PermissionsError.AddWPA3Network,
-        AddNetworkDialogState.ConnectToNetwork.Success(ConnectToNetworkResult.Success.True),
-        AddNetworkDialogState.ConnectToNetwork.Failure(ConnectToNetworkResult.Failure.False),
-        AddNetworkDialogState.ConnectToNetwork.PermissionsError,
         AddNetworkDialogState.InputError.SSID,
         AddNetworkDialogState.InputError.Passphrase,
         AddNetworkDialogState.InputError.BSSID

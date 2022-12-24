@@ -17,7 +17,6 @@ package com.isupatches.android.wisefy.sample.features.add
 
 import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
 import com.isupatches.android.wisefy.core.exceptions.WisefyException
-import com.isupatches.android.wisefy.networkconnection.entities.ConnectToNetworkResult
 import com.isupatches.android.wisefy.sample.entities.NetworkType
 
 internal data class AddNetworkUIState(
@@ -47,12 +46,6 @@ internal sealed class AddNetworkDialogState {
             object AddWPA2Network : PermissionsError()
             object AddWPA3Network : PermissionsError()
         }
-    }
-
-    sealed class ConnectToNetwork : AddNetworkDialogState() {
-        data class Failure(val result: ConnectToNetworkResult.Failure) : ConnectToNetwork()
-        data class Success(val result: ConnectToNetworkResult.Success) : ConnectToNetwork()
-        object PermissionsError : ConnectToNetwork()
     }
 
     sealed class InputError : AddNetworkDialogState() {

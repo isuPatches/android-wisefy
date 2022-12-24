@@ -15,7 +15,6 @@
  */
 package com.isupatches.android.wisefy.sample.features.remove
 
-import android.Manifest
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.Manifest.permission.CHANGE_WIFI_STATE

@@ -19,20 +19,23 @@ import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.ACCESS_NETWORK_STATE
 import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.Manifest.permission.CHANGE_WIFI_STATE
+import android.content.Context
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import com.isupatches.android.wisefy.WisefyApi
 import com.isupatches.android.wisefy.core.exceptions.WisefyException
+import com.isupatches.android.wisefy.ktx.changeNetworkAsync
 import com.isupatches.android.wisefy.ktx.disableWifiAsync
 import com.isupatches.android.wisefy.ktx.enableWifiAsync
 import com.isupatches.android.wisefy.ktx.getCurrentNetworkAsync
 import com.isupatches.android.wisefy.ktx.getNetworkConnectionStatusAsync
 import com.isupatches.android.wisefy.ktx.getSavedNetworksAsync
 import com.isupatches.android.wisefy.ktx.isWifiEnabledAsync
-import com.isupatches.android.wisefy.networkconnection.callbacks.DisconnectFromCurrentNetworkCallbacks
-import com.isupatches.android.wisefy.networkconnection.entities.DisconnectFromCurrentNetworkRequest
-import com.isupatches.android.wisefy.networkconnection.entities.DisconnectFromCurrentNetworkResult
+import com.isupatches.android.wisefy.networkconnection.entities.ChangeNetworkRequest
+import com.isupatches.android.wisefy.networkconnection.entities.ChangeNetworkResult
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkResult
 import com.isupatches.android.wisefy.networkinfo.entities.GetNetworkConnectionStatusResult
 import com.isupatches.android.wisefy.sample.scaffolding.BaseViewModel
@@ -49,17 +52,10 @@ internal abstract class MiscViewModel : BaseViewModel() {
 
     abstract fun onDialogClosed()
 
-    abstract fun onDisableWifiPermissionsError()
-    abstract fun onEnableWifiPermissionsError()
-    abstract fun onGetCurrentNetworkPermissionsError()
-    abstract fun onGetNetworkConnectionStatusPermissionError()
-    abstract fun onGetSavedNetworksPermissionsError()
-    abstract fun onIsWifiEnabledPermissionsError()
+    abstract suspend fun changeNetwork(context: Context)
 
     @RequiresPermission(CHANGE_WIFI_STATE)
     abstract suspend fun disableWifi(request: DisableWifiRequest)
-
-    abstract suspend fun disconnectFromCurrentNetwork(request: DisconnectFromCurrentNetworkRequest)
 
     @RequiresPermission(CHANGE_WIFI_STATE)
     abstract suspend fun enableWifi(request: EnableWifiRequest)
@@ -75,6 +71,15 @@ internal abstract class MiscViewModel : BaseViewModel() {
 
     @RequiresPermission(ACCESS_WIFI_STATE)
     abstract suspend fun isWifiEnabled()
+
+    abstract fun onChangeNetworkPreAndroidQ()
+
+    abstract fun onDisableWifiPermissionsError()
+    abstract fun onEnableWifiPermissionsError()
+    abstract fun onGetCurrentNetworkPermissionsError()
+    abstract fun onGetNetworkConnectionStatusPermissionError()
+    abstract fun onGetSavedNetworksPermissionsError()
+    abstract fun onIsWifiEnabledPermissionsError()
 }
 
 internal class DefaultMiscViewModel(private val wisefy: WisefyApi) : MiscViewModel() {
@@ -87,6 +92,42 @@ internal class DefaultMiscViewModel(private val wisefy: WisefyApi) : MiscViewMod
     )
     override val uiState: State<MiscUIState>
         get() = _uiState
+
+    @RequiresApi(Build.VERSION_CODES.Q)
+    override suspend fun changeNetwork(context: Context) {
+        _uiState.value = MiscUIState(
+            loadingState = MiscLoadingState(isLoading = true),
+            dialogState = MiscDialogState.None
+        )
+
+        val result = try {
+            wisefy.changeNetworkAsync(request = ChangeNetworkRequest(context = context))
+        } catch (ex: WisefyException) {
+            _uiState.value = MiscUIState(
+                loadingState = MiscLoadingState(isLoading = false),
+                dialogState = MiscDialogState.Failure.WisefyAsync(exception = ex)
+            )
+            null
+        }
+
+        when (result) {
+            is ChangeNetworkResult.Success -> {
+                _uiState.value = MiscUIState(
+                    loadingState = MiscLoadingState(isLoading = false),
+                    dialogState = MiscDialogState.ChangeNetwork.Success(result)
+                )
+            }
+            is ChangeNetworkResult.Failure -> {
+                _uiState.value = MiscUIState(
+                    loadingState = MiscLoadingState(isLoading = false),
+                    dialogState = MiscDialogState.ChangeNetwork.Failure(result)
+                )
+            }
+            null -> {
+                // Case handled above in the catch clause
+            }
+        }
+    }
 
     @RequiresPermission(CHANGE_WIFI_STATE)
     override suspend fun disableWifi(request: DisableWifiRequest) {
@@ -122,69 +163,6 @@ internal class DefaultMiscViewModel(private val wisefy: WisefyApi) : MiscViewMod
                 // Case handled above in the catch clause
             }
         }
-    }
-
-    override suspend fun disconnectFromCurrentNetwork(request: DisconnectFromCurrentNetworkRequest) {
-        _uiState.value = MiscUIState(
-            loadingState = MiscLoadingState(isLoading = true),
-            dialogState = MiscDialogState.None
-        )
-        wisefy.disconnectFromCurrentNetwork(
-            request = request,
-            callbacks = object : DisconnectFromCurrentNetworkCallbacks {
-                override fun onNetworkScreenOpened() {
-                    _uiState.value = MiscUIState(
-                        loadingState = MiscLoadingState(isLoading = false),
-                        dialogState = MiscDialogState.DisconnectFromCurrentNetwork.Success(
-                            result = DisconnectFromCurrentNetworkResult.Success.NetworkScreenOpened
-                        )
-                    )
-                }
-
-                override fun onDisconnectRequestPlaced() {
-                    _uiState.value = MiscUIState(
-                        loadingState = MiscLoadingState(isLoading = false),
-                        dialogState = MiscDialogState.DisconnectFromCurrentNetwork.Success(
-                            result = DisconnectFromCurrentNetworkResult.Success.DisconnectRequestSent
-                        )
-                    )
-                }
-
-                override fun onDisconnectedFromCurrentNetwork() {
-                    _uiState.value = MiscUIState(
-                        loadingState = MiscLoadingState(isLoading = false),
-                        dialogState = MiscDialogState.DisconnectFromCurrentNetwork.Success(
-                            result = DisconnectFromCurrentNetworkResult.Success.True
-                        )
-                    )
-                }
-
-                override fun onNetworkNotFoundToDisconnectFrom() {
-                    _uiState.value = MiscUIState(
-                        loadingState = MiscLoadingState(isLoading = false),
-                        dialogState = MiscDialogState.DisconnectFromCurrentNetwork.Failure(
-                            result = DisconnectFromCurrentNetworkResult.Failure.NetworkNotFound
-                        )
-                    )
-                }
-
-                override fun onFailureDisconnectingFromCurrentNetwork() {
-                    _uiState.value = MiscUIState(
-                        loadingState = MiscLoadingState(isLoading = false),
-                        dialogState = MiscDialogState.DisconnectFromCurrentNetwork.Failure(
-                            result = DisconnectFromCurrentNetworkResult.Failure.False
-                        )
-                    )
-                }
-
-                override fun onWisefyAsyncFailure(exception: WisefyException) {
-                    _uiState.value = MiscUIState(
-                        loadingState = MiscLoadingState(isLoading = false),
-                        dialogState = MiscDialogState.Failure.WisefyAsync(exception = exception)
-                    )
-                }
-            }
-        )
     }
 
     @RequiresPermission(CHANGE_WIFI_STATE)
@@ -355,6 +333,13 @@ internal class DefaultMiscViewModel(private val wisefy: WisefyApi) : MiscViewMod
         _uiState.value = MiscUIState(
             loadingState = MiscLoadingState(isLoading = false),
             dialogState = MiscDialogState.None
+        )
+    }
+
+    override fun onChangeNetworkPreAndroidQ() {
+        _uiState.value = MiscUIState(
+            loadingState = MiscLoadingState(isLoading = false),
+            dialogState = MiscDialogState.ChangeNetwork.PreAndroidQ
         )
     }
 

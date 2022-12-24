@@ -23,6 +23,7 @@ package com.isupatches.android.wisefy.networkconnection.entities
  * @author Patches Klinefelter
  * @since 03/2022
  */
+@Deprecated("")
 sealed class ConnectToNetworkRequest(
     open val timeoutInMillis: Int
 ) {
@@ -38,6 +39,7 @@ sealed class ConnectToNetworkRequest(
      * @author Patches Klinefelter
      * @since 03/2022
      */
+    @Deprecated("")
     data class SSID(
         val ssid: String,
         override val timeoutInMillis: Int
@@ -54,6 +56,7 @@ sealed class ConnectToNetworkRequest(
      * @author Patches Klinefelter
      * @since 03/2022
      */
+    @Deprecated("")
     data class BSSID(
         val bssid: String,
         override val timeoutInMillis: Int

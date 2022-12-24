@@ -16,6 +16,7 @@
 package com.isupatches.android.wisefy.networkconnection.callbacks
 
 import com.isupatches.android.wisefy.core.base.BaseWisefyCallbacks
+import com.isupatches.android.wisefy.networkconnection.entities.ConnectToNetworkResult
 
 /**
  * A set of callbacks for connecting to a network.
@@ -25,40 +26,10 @@ import com.isupatches.android.wisefy.core.base.BaseWisefyCallbacks
  * @author Patches Klinefelter
  * @since 03/2022
  */
+@Deprecated("")
 interface ConnectToNetworkCallbacks : BaseWisefyCallbacks {
 
-    /**
-     * A callback triggered when the device has successfully connected to a network.
-     *
-     * @author Patches Klinefelter
-     * @since 03/2022
-     */
-    fun onConnectedToNetwork()
+    fun onFailureConnectingToNetwork(result: ConnectToNetworkResult.Failure)
 
-    /**
-     * A callback triggered when a request is placed to connect to a network.
-     *
-     * *NOTES*
-     *  - Android 30 specific
-     *
-     * @author Patches Klinefelter
-     * @since 03/2022
-     */
-    fun onConnectionRequestPlaced()
-
-    /**
-     * A callback triggered when there is a failure connecting to a network.
-     *
-     * @author Patches Klinefelter
-     * @since 03/2022
-     */
-    fun onFailureConnectingToNetwork()
-
-    /**
-     * A callback triggered when there is no network found to connect to.
-     *
-     * @author Patches Klinefelter
-     * @since 03/2022
-     */
-    fun onNetworkNotFoundToConnectTo()
+    fun onSuccessConnectingToNetwork(result: ConnectToNetworkResult.Success)
 }

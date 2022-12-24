@@ -63,11 +63,16 @@ object AssertionMessages {
      */
     object NetworkConnection {
 
+        object ChangeNetwork {
+            const val USED_BEFORE_ANDROID_Q = "Change network API used before Android 29"
+        }
+
+        object ConnectToNetwork {
+            const val USED_ANDROID_Q_OR_HIGHER = ""
+        }
+
         object DisconnectFromCurrentNetwork {
-            object RequestWithContext {
-                const val USED_PRE_ANDROID_30: String = ""
-                const val NOT_USED_ANDROID_30: String = ""
-            }
+            const val USED_ANDROID_Q_OR_HIGHER = ""
         }
     }
 

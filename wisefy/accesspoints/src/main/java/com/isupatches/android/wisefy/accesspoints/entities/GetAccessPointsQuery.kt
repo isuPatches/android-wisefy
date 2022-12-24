@@ -16,12 +16,12 @@
 package com.isupatches.android.wisefy.accesspoints.entities
 
 /**
- * A set of classes or objects that represent a query for nearby access points.
+ * A set of classes or objects that represent a query for access points.
  *
  * @property filterDuplicates Whether nearby access points with the same SSID but lower RSSI levels should be excluded
  *
  * @author Patches Klinefelter
- * @since 11/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 sealed class GetAccessPointsQuery(open val filterDuplicates: Boolean) {
 
@@ -31,12 +31,12 @@ sealed class GetAccessPointsQuery(open val filterDuplicates: Boolean) {
      * @see GetAccessPointsQuery
      *
      * @author Patches Klinefelter
-     * @since 11/2022, version 5.0.0
+     * @since 12/2022, version 5.0.0
      */
     data class All(override val filterDuplicates: Boolean = true) : GetAccessPointsQuery(filterDuplicates)
 
     /**
-     * A representation of a query to get nearby access points filtered by a regex for its SSID.
+     * A representation of a query to get access points filtered by a regex for their SSID.
      *
      * @property regex The regex to use when matching the SSID
      * @property timeoutInMillis The optional timeout in milliseconds to wait for matching access points
@@ -44,7 +44,7 @@ sealed class GetAccessPointsQuery(open val filterDuplicates: Boolean) {
      * @see GetAccessPointsQuery
      *
      * @author Patches Klinefelter
-     * @since 11/2022, version 5.0.0
+     * @since 12/2022, version 5.0.0
      */
     data class BySSID(
         val regex: String,
@@ -53,7 +53,7 @@ sealed class GetAccessPointsQuery(open val filterDuplicates: Boolean) {
     ) : GetAccessPointsQuery(filterDuplicates)
 
     /**
-     * A representation of a query to get nearby access points filtered by a regex for its BSSID.
+     * A representation of a query to get access points filtered by a regex for their BSSID.
      *
      * @property regex The regex to use when matching the BSSID
      * @property timeoutInMillis The optional timeout in milliseconds to wait for matching access points
@@ -61,7 +61,7 @@ sealed class GetAccessPointsQuery(open val filterDuplicates: Boolean) {
      * @see GetAccessPointsQuery
      *
      * @author Patches Klinefelter
-     * @since 11/2022, version 5.0.0
+     * @since 12/2022, version 5.0.0
      */
     data class ByBSSID(
         val regex: String,

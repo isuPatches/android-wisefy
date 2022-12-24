@@ -5,7 +5,8 @@
     <!-- Main Screen -->
     <string name="wisefy">Wisefy</string>
     <string name="wisefy_sample_description">
-        Explore the various uses for Wisefy by poking around this sample app based on MVP architecture.
+        Explore the various uses for Wisefy by poking around this sample app powered by HILT, Jetpack Compose,
+        and the Jetpack Navigation component.
     </string>
 
     <!-- Shared -->

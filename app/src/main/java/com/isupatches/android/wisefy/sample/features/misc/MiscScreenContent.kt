@@ -36,7 +36,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
-import com.isupatches.android.wisefy.networkconnection.entities.DisconnectFromCurrentNetworkRequest
 import com.isupatches.android.wisefy.sample.R
 import com.isupatches.android.wisefy.sample.logging.WisefySampleLogger
 import com.isupatches.android.wisefy.sample.ui.ComposablePreviewWisefy
@@ -143,21 +142,17 @@ internal fun MiscScreenContent(
 
         val onMiscOptionClicked: (MiscScreenOption) -> Unit = { option ->
             when (option) {
+                MiscScreenOption.CHANGE_NETWORK -> {
+                    if (sdkUtil.isAtLeastQ()) {
+                        scope.launch {
+                            viewModel.changeNetwork(context = context)
+                        }
+                    } else {
+                        viewModel.onChangeNetworkPreAndroidQ()
+                    }
+                }
                 MiscScreenOption.DISABLE_WIFI -> {
                     disableWifiPermissionsLauncher.launch(CHANGE_WIFI_STATE)
-                }
-                MiscScreenOption.DISCONNECT_FROM_CURRENT_NETWORK -> {
-                    scope.launch {
-                        if (sdkUtil.isAtLeastQ()) {
-                            viewModel.disconnectFromCurrentNetwork(
-                                request = DisconnectFromCurrentNetworkRequest.Android29OrAbove(context)
-                            )
-                        } else {
-                            viewModel.disconnectFromCurrentNetwork(
-                                request = DisconnectFromCurrentNetworkRequest.Default
-                            )
-                        }
-                    }
                 }
                 MiscScreenOption.ENABLE_WIFI -> {
                     enableWifiPermissionsLauncher.launch(CHANGE_WIFI_STATE)
@@ -201,11 +196,8 @@ internal fun MiscScreenContent(
 }
 
 internal enum class MiscScreenOption(val id: Long, @StringRes val stringResId: Int) {
+    CHANGE_NETWORK(R.id.change_network.toLong(), R.string.change_network),
     DISABLE_WIFI(R.id.disable_wifi.toLong(), R.string.disable_wifi),
-    DISCONNECT_FROM_CURRENT_NETWORK(
-        R.id.disconnect_from_current_network.toLong(),
-        R.string.disconnect_from_current_network
-    ),
     ENABLE_WIFI(R.id.enable_wifi.toLong(), R.string.enabled_wifi),
     GET_CURRENT_NETWORK(R.id.get_current_network.toLong(), R.string.get_current_network),
     GET_NEARBY_ACCESS_POINTS(R.id.get_nearby_access_points.toLong(), R.string.get_nearby_access_points),

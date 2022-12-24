@@ -15,7 +15,6 @@
  */
 package com.isupatches.android.wisefy.ktx
 
-import android.Manifest
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.Manifest.permission.CHANGE_WIFI_STATE
@@ -49,7 +48,7 @@ suspend fun WisefyApi.removeNetworkAsync(request: RemoveNetworkRequest): RemoveN
         removeNetwork(
             request = request,
             callbacks = object : RemoveNetworkCallbacks {
-                override fun onNetworkRemoved(result: RemoveNetworkResult.Success) {
+                override fun onSuccessRemovingNetwork(result: RemoveNetworkResult.Success) {
                     continuation.resumeWith(Result.success(result))
                 }
 

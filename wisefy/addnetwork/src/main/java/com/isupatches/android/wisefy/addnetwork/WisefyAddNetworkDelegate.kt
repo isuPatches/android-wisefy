@@ -91,7 +91,7 @@ class WisefyAddNetworkDelegate(
                 val result = adapter.addNetwork(request)
                 withContext(coroutineDispatcherProvider.main) {
                     when (result) {
-                        is AddNetworkResult.Success -> callbacks?.onNetworkAdded(result)
+                        is AddNetworkResult.Success -> callbacks?.onSuccessAddingNetwork(result)
                         is AddNetworkResult.Failure -> callbacks?.onFailureAddingNetwork(result)
                     }
                 }

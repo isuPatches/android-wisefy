@@ -16,7 +16,7 @@
 package com.isupatches.android.wisefy.sample.features.misc
 
 import com.isupatches.android.wisefy.core.exceptions.WisefyException
-import com.isupatches.android.wisefy.networkconnection.entities.DisconnectFromCurrentNetworkResult
+import com.isupatches.android.wisefy.networkconnection.entities.ChangeNetworkResult
 import com.isupatches.android.wisefy.networkinfo.entities.GetNetworkConnectionStatusResult
 import com.isupatches.android.wisefy.networkinfo.entities.NetworkData
 import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
@@ -40,15 +40,16 @@ internal sealed class MiscDialogState {
         data class WisefyAsync(val exception: WisefyException) : Failure()
     }
 
+    sealed class ChangeNetwork : MiscDialogState() {
+        data class Success(val result: ChangeNetworkResult.Success) : ChangeNetwork()
+        data class Failure(val result: ChangeNetworkResult.Failure) : ChangeNetwork()
+        object PreAndroidQ : ChangeNetwork()
+    }
+
     sealed class DisableWifi : MiscDialogState() {
         data class Success(val result: DisableWifiResult.Success) : DisableWifi()
         data class Failure(val result: DisableWifiResult.Failure) : DisableWifi()
         object PermissionsError : DisableWifi()
-    }
-
-    sealed class DisconnectFromCurrentNetwork : MiscDialogState() {
-        data class Success(val result: DisconnectFromCurrentNetworkResult.Success) : DisconnectFromCurrentNetwork()
-        data class Failure(val result: DisconnectFromCurrentNetworkResult.Failure) : DisconnectFromCurrentNetwork()
     }
 
     sealed class EnableWifi : MiscDialogState() {

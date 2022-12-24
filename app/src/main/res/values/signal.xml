@@ -15,7 +15,6 @@
     <string name="success_comparing_signal_level_args">Success comparing signal level. Result: %s</string>
 
     <!-- Input Errors -->
-
     <string name="rssi_input_invalid_int">Invalid RSSI input (not an Int)</string>
     <string name="rssi_input_empty">Please enter in an RSSI</string>
 </resources>

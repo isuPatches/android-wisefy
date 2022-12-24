@@ -23,7 +23,12 @@ import android.content.Context
  * @author Patches Klinefelter
  * @since 03/2022
  */
+@Deprecated("")
 sealed class DisconnectFromCurrentNetworkRequest {
+
+    @Deprecated("")
     object Default : DisconnectFromCurrentNetworkRequest()
+
+    @Deprecated("")
     data class Android29OrAbove(val context: Context) : DisconnectFromCurrentNetworkRequest()
 }

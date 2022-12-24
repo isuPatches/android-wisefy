@@ -26,7 +26,7 @@ import com.isupatches.android.wisefy.accesspoints.os.impls.DefaultAccessPointsAp
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 
 /**
- * A default adapter for getting and searching for nearby access points.
+ * A default adapter for querying for access points.
  *
  * @param wifiManager The WifiManager instance to use
  * @param logger The [WisefyLogger] instance to use
@@ -38,7 +38,7 @@ import com.isupatches.android.wisefy.core.logging.WisefyLogger
  * @see WisefyLogger
  *
  * @author Patches Klinefelter
- * @since 11/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 internal class DefaultAccessPointsAdapter(
     wifiManager: WifiManager,

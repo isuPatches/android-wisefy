@@ -21,7 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.isupatches.android.wisefy.core.exceptions.WisefyException
-import com.isupatches.android.wisefy.networkconnection.entities.DisconnectFromCurrentNetworkResult
+import com.isupatches.android.wisefy.networkconnection.entities.ChangeNetworkResult
 import com.isupatches.android.wisefy.networkinfo.entities.GetNetworkConnectionStatusResult
 import com.isupatches.android.wisefy.networkinfo.entities.NetworkConnectionStatusData
 import com.isupatches.android.wisefy.networkinfo.entities.NetworkData
@@ -50,6 +50,35 @@ internal fun MiscScreenDialogContent(
                 }
             )
         }
+        is MiscDialogState.ChangeNetwork.Failure -> {
+            WisefySampleNoticeDialog(
+                title = R.string.change_network,
+                body = R.string.failure_changing_network_args,
+                currentDialogState.result,
+                onClose = {
+                    viewModel.onDialogClosed()
+                }
+            )
+        }
+        is MiscDialogState.ChangeNetwork.PreAndroidQ -> {
+            WisefySampleNoticeDialog(
+                title = R.string.change_network,
+                body = R.string.change_network_called_pre_android_q,
+                onClose = {
+                    viewModel.onDialogClosed()
+                }
+            )
+        }
+        is MiscDialogState.ChangeNetwork.Success -> {
+            WisefySampleNoticeDialog(
+                title = R.string.change_network,
+                body = R.string.success_changing_network_args,
+                currentDialogState.result,
+                onClose = {
+                    viewModel.onDialogClosed()
+                }
+            )
+        }
         is MiscDialogState.DisableWifi.Failure -> {
             WisefySampleNoticeDialog(
                 title = R.string.disable_wifi,
@@ -73,26 +102,6 @@ internal fun MiscScreenDialogContent(
             WisefySampleNoticeDialog(
                 title = R.string.disable_wifi,
                 body = R.string.success_disabling_wifi_args,
-                currentDialogState.result,
-                onClose = {
-                    viewModel.onDialogClosed()
-                }
-            )
-        }
-        is MiscDialogState.DisconnectFromCurrentNetwork.Failure -> {
-            WisefySampleNoticeDialog(
-                title = R.string.disconnect_from_current_network,
-                body = R.string.failure_disconnecting_from_current_network_args,
-                currentDialogState.result,
-                onClose = {
-                    viewModel.onDialogClosed()
-                }
-            )
-        }
-        is MiscDialogState.DisconnectFromCurrentNetwork.Success -> {
-            WisefySampleNoticeDialog(
-                title = R.string.disconnect_from_current_network,
-                body = R.string.success_disconnecting_from_current_network_args,
                 currentDialogState.result,
                 onClose = {
                     viewModel.onDialogClosed()
@@ -264,11 +273,12 @@ private fun MiscScreenDialogContentDarkPreview(
 private class MiscScreenDialogStatePreviewParameterProvider : PreviewParameterProvider<MiscDialogState> {
     override val values: Sequence<MiscDialogState> = sequenceOf(
         MiscDialogState.Failure.WisefyAsync(WisefyException("", null)),
+        MiscDialogState.ChangeNetwork.Failure(ChangeNetworkResult.Failure.Assertion("")),
+        MiscDialogState.ChangeNetwork.PreAndroidQ,
+        MiscDialogState.ChangeNetwork.Success(ChangeNetworkResult.Success.InternetConnectionPanelOpened),
         MiscDialogState.DisableWifi.Success(DisableWifiResult.Success.Disabled),
         MiscDialogState.DisableWifi.Failure(DisableWifiResult.Failure.UnableToDisable),
         MiscDialogState.DisableWifi.PermissionsError,
-        MiscDialogState.DisconnectFromCurrentNetwork.Success(DisconnectFromCurrentNetworkResult.Success.True),
-        MiscDialogState.DisconnectFromCurrentNetwork.Failure(DisconnectFromCurrentNetworkResult.Failure.False),
         MiscDialogState.EnableWifi.Success(EnableWifiResult.Success.Enabled),
         MiscDialogState.EnableWifi.Failure(EnableWifiResult.Failure.UnableToEnable),
         MiscDialogState.EnableWifi.PermissionsError,

@@ -50,5 +50,5 @@ interface AddNetworkCallbacks : BaseWisefyCallbacks {
      * @author Patches Klinefelter
      * @since 11/2022, version 5.0.0
      */
-    fun onNetworkAdded(result: AddNetworkResult.Success)
+    fun onSuccessAddingNetwork(result: AddNetworkResult.Success)
 }

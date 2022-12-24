@@ -21,10 +21,14 @@ import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.net.ConnectivityManager
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
+import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
+import com.isupatches.android.wisefy.core.constants.AssertionMessages
 import com.isupatches.android.wisefy.core.entities.NetworkConnectionStatus
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.core.util.SdkUtil
 import com.isupatches.android.wisefy.networkconnection.NetworkConnectionApi
+import com.isupatches.android.wisefy.networkconnection.entities.ChangeNetworkRequest
+import com.isupatches.android.wisefy.networkconnection.entities.ChangeNetworkResult
 import com.isupatches.android.wisefy.networkconnection.entities.ConnectToNetworkRequest
 import com.isupatches.android.wisefy.networkconnection.entities.ConnectToNetworkResult
 import com.isupatches.android.wisefy.networkconnection.entities.DisconnectFromCurrentNetworkRequest
@@ -52,6 +56,7 @@ internal class DefaultNetworkConnectionAdapter(
     connectivityManager: ConnectivityManager,
     wifiManager: WifiManager,
     logger: WisefyLogger,
+    private val assertions: WisefyAssertions,
     sdkUtil: SdkUtil,
     networkConnectionStatusProvider: suspend () -> NetworkConnectionStatus?,
     private val api: DefaultNetworkConnectionApi = DefaultNetworkConnectionApiImpl(
@@ -63,12 +68,19 @@ internal class DefaultNetworkConnectionAdapter(
     )
 ) : NetworkConnectionApi {
 
+    override fun changeNetwork(request: ChangeNetworkRequest): ChangeNetworkResult {
+        val message = AssertionMessages.NetworkConnection.ChangeNetwork.USED_BEFORE_ANDROID_Q
+        assertions.fail(message)
+        return ChangeNetworkResult.Failure.Assertion(message)
+    }
+
+    @Deprecated("")
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE, ACCESS_NETWORK_STATE])
     override fun connectToNetwork(request: ConnectToNetworkRequest): ConnectToNetworkResult {
         val result = runBlocking {
             when (request) {
                 is ConnectToNetworkRequest.SSID -> api.connectToNetworkBySSID(request.ssid, request.timeoutInMillis)
-                is ConnectToNetworkRequest.BSSID -> api.connectToNetworkBySSID(request.bssid, request.timeoutInMillis)
+                is ConnectToNetworkRequest.BSSID -> api.connectToNetworkByBSSID(request.bssid, request.timeoutInMillis)
             }
         }
         return when (result) {
@@ -78,6 +90,7 @@ internal class DefaultNetworkConnectionAdapter(
         }
     }
 
+    @Deprecated("")
     override fun disconnectFromCurrentNetwork(
         request: DisconnectFromCurrentNetworkRequest
     ): DisconnectFromCurrentNetworkResult {

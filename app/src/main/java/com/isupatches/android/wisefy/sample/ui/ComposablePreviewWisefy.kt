@@ -15,6 +15,8 @@
  */
 package com.isupatches.android.wisefy.sample.ui
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.isupatches.android.wisefy.WisefyApi
 import com.isupatches.android.wisefy.accesspoints.callbacks.GetAccessPointsCallbacks
 import com.isupatches.android.wisefy.accesspoints.entities.GetAccessPointsQuery
@@ -22,8 +24,11 @@ import com.isupatches.android.wisefy.accesspoints.entities.GetAccessPointsResult
 import com.isupatches.android.wisefy.addnetwork.callbacks.AddNetworkCallbacks
 import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkRequest
 import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
+import com.isupatches.android.wisefy.networkconnection.callbacks.ChangeNetworkCallbacks
 import com.isupatches.android.wisefy.networkconnection.callbacks.ConnectToNetworkCallbacks
 import com.isupatches.android.wisefy.networkconnection.callbacks.DisconnectFromCurrentNetworkCallbacks
+import com.isupatches.android.wisefy.networkconnection.entities.ChangeNetworkRequest
+import com.isupatches.android.wisefy.networkconnection.entities.ChangeNetworkResult
 import com.isupatches.android.wisefy.networkconnection.entities.ConnectToNetworkRequest
 import com.isupatches.android.wisefy.networkconnection.entities.ConnectToNetworkResult
 import com.isupatches.android.wisefy.networkconnection.entities.DisconnectFromCurrentNetworkRequest
@@ -74,7 +79,7 @@ internal class ComposablePreviewWisefy : WisefyApi {
     }
 
     override fun addNetwork(request: AddNetworkRequest, callbacks: AddNetworkCallbacks?) {
-        callbacks?.onNetworkAdded(AddNetworkResult.Success.ResultCode(1))
+        callbacks?.onSuccessAddingNetwork(AddNetworkResult.Success.ResultCode(1))
     }
 
     override fun calculateSignalLevel(request: CalculateSignalLevelRequest): CalculateSignalLevelResult {
@@ -85,12 +90,22 @@ internal class ComposablePreviewWisefy : WisefyApi {
         return CompareSignalLevelResult.Success.RSSIValuesAreEqual(value = 0)
     }
 
+    @RequiresApi(Build.VERSION_CODES.Q)
+    override fun changeNetwork(request: ChangeNetworkRequest): ChangeNetworkResult {
+        return ChangeNetworkResult.Success.InternetConnectionPanelOpened
+    }
+
+    @RequiresApi(Build.VERSION_CODES.Q)
+    override fun changeNetwork(request: ChangeNetworkRequest, callbacks: ChangeNetworkCallbacks?) {
+        callbacks?.onSuccessChangingNetworks(result = ChangeNetworkResult.Success.InternetConnectionPanelOpened)
+    }
+
     override fun connectToNetwork(request: ConnectToNetworkRequest): ConnectToNetworkResult {
         return ConnectToNetworkResult.Success.True
     }
 
     override fun connectToNetwork(request: ConnectToNetworkRequest, callbacks: ConnectToNetworkCallbacks?) {
-        callbacks?.onConnectedToNetwork()
+        callbacks?.onSuccessConnectingToNetwork(result = ConnectToNetworkResult.Success.True)
     }
 
     override fun disableWifi(request: DisableWifiRequest): DisableWifiResult {
@@ -98,7 +113,7 @@ internal class ComposablePreviewWisefy : WisefyApi {
     }
 
     override fun disableWifi(request: DisableWifiRequest, callbacks: DisableWifiCallbacks?) {
-        callbacks?.onWifiDisabled(result = DisableWifiResult.Success.Disabled)
+        callbacks?.onSuccessDisablingWifi(result = DisableWifiResult.Success.Disabled)
     }
 
     override fun disconnectFromCurrentNetwork(
@@ -111,7 +126,7 @@ internal class ComposablePreviewWisefy : WisefyApi {
         request: DisconnectFromCurrentNetworkRequest,
         callbacks: DisconnectFromCurrentNetworkCallbacks?
     ) {
-        callbacks?.onDisconnectedFromCurrentNetwork()
+        callbacks?.onSuccessDisconnectingFromCurrentNetwork(result = DisconnectFromCurrentNetworkResult.Success.True)
     }
 
     override fun enableWifi(request: EnableWifiRequest): EnableWifiResult {
@@ -119,7 +134,7 @@ internal class ComposablePreviewWisefy : WisefyApi {
     }
 
     override fun enableWifi(request: EnableWifiRequest, callbacks: EnableWifiCallbacks?) {
-        callbacks?.onWifiEnabled(result = EnableWifiResult.Success.Enabled)
+        callbacks?.onSuccessEnablingWifi(result = EnableWifiResult.Success.Enabled)
     }
 
     override fun getAccessPoints(query: GetAccessPointsQuery): GetAccessPointsResult {
@@ -214,6 +229,6 @@ internal class ComposablePreviewWisefy : WisefyApi {
     }
 
     override fun removeNetwork(request: RemoveNetworkRequest, callbacks: RemoveNetworkCallbacks?) {
-        callbacks?.onNetworkRemoved(RemoveNetworkResult.Success.True)
+        callbacks?.onSuccessRemovingNetwork(RemoveNetworkResult.Success.True)
     }
 }

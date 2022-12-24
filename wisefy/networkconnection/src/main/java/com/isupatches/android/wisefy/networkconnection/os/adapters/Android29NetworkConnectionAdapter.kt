@@ -15,19 +15,14 @@
  */
 package com.isupatches.android.wisefy.networkconnection.os.adapters
 
-import android.Manifest.permission.CHANGE_NETWORK_STATE
-import android.net.ConnectivityManager
-import android.net.MacAddress
-import android.net.NetworkCapabilities
-import android.net.NetworkRequest
-import android.net.wifi.WifiNetworkSpecifier
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
 import com.isupatches.android.wisefy.core.constants.AssertionMessages
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.networkconnection.NetworkConnectionApi
+import com.isupatches.android.wisefy.networkconnection.entities.ChangeNetworkRequest
+import com.isupatches.android.wisefy.networkconnection.entities.ChangeNetworkResult
 import com.isupatches.android.wisefy.networkconnection.entities.ConnectToNetworkRequest
 import com.isupatches.android.wisefy.networkconnection.entities.ConnectToNetworkResult
 import com.isupatches.android.wisefy.networkconnection.entities.DisconnectFromCurrentNetworkRequest
@@ -52,59 +47,27 @@ import com.isupatches.android.wisefy.networkconnection.os.impls.Android29Network
  */
 @RequiresApi(Build.VERSION_CODES.Q)
 internal class Android29NetworkConnectionAdapter(
-    connectivityManager: ConnectivityManager,
     logger: WisefyLogger,
     private val assertions: WisefyAssertions,
-    private val api: Android29NetworkConnectionApi = Android29NetworkConnectionApiImpl(connectivityManager, logger)
+    private val api: Android29NetworkConnectionApi = Android29NetworkConnectionApiImpl(logger = logger)
 ) : NetworkConnectionApi {
 
-    @RequiresPermission(CHANGE_NETWORK_STATE)
+    override fun changeNetwork(request: ChangeNetworkRequest): ChangeNetworkResult {
+        api.openInternetConnectivityPanel(request.context)
+        return ChangeNetworkResult.Success.InternetConnectionPanelOpened
+    }
+
     override fun connectToNetwork(request: ConnectToNetworkRequest): ConnectToNetworkResult {
-        val networkRequest = when (request) {
-            is ConnectToNetworkRequest.SSID -> {
-                NetworkRequest.Builder()
-                    .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
-                    .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-                    .setNetworkSpecifier(
-                        WifiNetworkSpecifier.Builder()
-                            .setSsid(request.ssid)
-                            .build()
-                    )
-                    .build()
-            }
-            is ConnectToNetworkRequest.BSSID -> {
-                NetworkRequest.Builder()
-                    .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
-                    .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-                    .setNetworkSpecifier(
-                        WifiNetworkSpecifier.Builder()
-                            .setBssid(MacAddress.fromString(request.bssid))
-                            .build()
-                    )
-                    .build()
-            }
-        }
-        api.connectToNetwork(networkRequest, request.timeoutInMillis)
-        return ConnectToNetworkResult.Success.ConnectionRequestSent
+        val message = AssertionMessages.NetworkConnection.ConnectToNetwork.USED_ANDROID_Q_OR_HIGHER
+        assertions.fail(message)
+        return ConnectToNetworkResult.Failure.Assertion(message)
     }
 
     override fun disconnectFromCurrentNetwork(
         request: DisconnectFromCurrentNetworkRequest
     ): DisconnectFromCurrentNetworkResult {
-        return when (request) {
-            is DisconnectFromCurrentNetworkRequest.Android29OrAbove -> {
-                api.openNetworkScreen(request.context)
-                DisconnectFromCurrentNetworkResult.Success.NetworkScreenOpened
-            }
-            is DisconnectFromCurrentNetworkRequest.Default -> {
-                val message = AssertionMessages
-                    .NetworkConnection
-                    .DisconnectFromCurrentNetwork
-                    .RequestWithContext
-                    .NOT_USED_ANDROID_30
-                assertions.fail(message = message)
-                DisconnectFromCurrentNetworkResult.Failure.Assertion(message = message)
-            }
-        }
+        val message = AssertionMessages.NetworkConnection.DisconnectFromCurrentNetwork.USED_ANDROID_Q_OR_HIGHER
+        assertions.fail(message)
+        return DisconnectFromCurrentNetworkResult.Failure.Assertion(message)
     }
 }

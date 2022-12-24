@@ -20,10 +20,10 @@ import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
 
 /**
- * A default internal API for getting and searching for nearby access points through the Android OS.
+ * A default internal API for querying access points through the Android OS.
  *
  * @author Patches Klinefelter
- * @since 11/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 internal interface DefaultAccessPointsApi {
 
@@ -37,7 +37,7 @@ internal interface DefaultAccessPointsApi {
      * @return List<AccessPointData> - List of access points or empty list if there are none
      *
      * @author Patches Klinefelter
-     * @since 11/2022, version 5.0.0
+     * @since 12/2022, version 5.0.0
      */
     @RequiresPermission(ACCESS_FINE_LOCATION)
     fun getNearbyAccessPoints(filterDuplicates: Boolean): List<AccessPointData>
@@ -54,7 +54,7 @@ internal interface DefaultAccessPointsApi {
      * @return List<AccessPointData> - The list of matching access points or empty list if there are no matches
      * *
      * @author Patches Klinefelter
-     * @since 11/2022, version 5.0.0
+     * @since 12/2022, version 5.0.0
      */
     @RequiresPermission(ACCESS_FINE_LOCATION)
     fun searchForAccessPointsBySSID(
@@ -75,7 +75,7 @@ internal interface DefaultAccessPointsApi {
      * @return List<AccessPointData> - The list of matching access points or empty list if there are no matches
      * *
      * @author Patches Klinefelter
-     * @since 11/2022, version 5.0.0
+     * @since 12/2022, version 5.0.0
      */
     @RequiresPermission(ACCESS_FINE_LOCATION)
     fun searchForAccessPointsByBSSID(

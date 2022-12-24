@@ -3,7 +3,6 @@
 
     <!-- Actions -->
     <string name="add_network">Add Network</string>
-    <string name="connect_to_network">Connect to Network</string>
 
     <!-- Network Types -->
     <string name="open">Open</string>
@@ -16,13 +15,9 @@
     <string name="success_adding_network_args">Success adding network. Result: %s</string>
     <string name="failure_adding_network_args">Failure adding network. Result: %s</string>
 
-    <string name="success_connecting_to_network_args">Success connecting to network. Result: %s</string>
-    <string name="failure_connecting_to_network_args">Failure connecting to network. Result: %s</string>
-
     <!-- Permissions -->
     <string name="permission_error_add_open_network">Permissions for adding an open network are denied</string>
     <string name="permission_error_add_wpa2_network">Permissions for adding a WPA2 network are denied</string>
     <string name="permission_error_add_wpa3_network">Permissions for adding a WPA3 network are denied</string>
-    <string name="permission_error_connect_to_network">Permissions for connecting to a network are denied</string>
 
 </resources>

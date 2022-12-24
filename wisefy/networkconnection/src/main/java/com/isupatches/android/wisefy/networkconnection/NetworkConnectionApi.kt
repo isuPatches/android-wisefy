@@ -16,7 +16,11 @@
 package com.isupatches.android.wisefy.networkconnection
 
 import android.Manifest.permission.CHANGE_NETWORK_STATE
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
+import com.isupatches.android.wisefy.networkconnection.entities.ChangeNetworkRequest
+import com.isupatches.android.wisefy.networkconnection.entities.ChangeNetworkResult
 import com.isupatches.android.wisefy.networkconnection.entities.ConnectToNetworkRequest
 import com.isupatches.android.wisefy.networkconnection.entities.ConnectToNetworkResult
 import com.isupatches.android.wisefy.networkconnection.entities.DisconnectFromCurrentNetworkRequest
@@ -29,6 +33,9 @@ import com.isupatches.android.wisefy.networkconnection.entities.DisconnectFromCu
  * @since 03/2022
  */
 interface NetworkConnectionApi {
+
+    @RequiresApi(Build.VERSION_CODES.Q)
+    fun changeNetwork(request: ChangeNetworkRequest): ChangeNetworkResult
 
     /**
      * A synchronous API to connect to a network.
@@ -43,6 +50,7 @@ interface NetworkConnectionApi {
      * @author Patches Klinefelter
      * @since 03/2022
      */
+    @Deprecated("")
     @RequiresPermission(CHANGE_NETWORK_STATE)
     fun connectToNetwork(request: ConnectToNetworkRequest): ConnectToNetworkResult
 
@@ -57,5 +65,6 @@ interface NetworkConnectionApi {
      * @author Patches Klinefelter
      * @since 03/2022
      */
+    @Deprecated("")
     fun disconnectFromCurrentNetwork(request: DisconnectFromCurrentNetworkRequest): DisconnectFromCurrentNetworkResult
 }

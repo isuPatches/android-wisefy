@@ -23,17 +23,19 @@ import com.isupatches.android.wisefy.core.constants.MIN_FREQUENCY_5GHZ
  * A data representation of an Access Point from the Android OS.
  *
  * @property rawValue The direct Android OS information about the access point
- * @property frequency A convenience property to expose the frequency of the access point from the rawValue
- * @property rssi A convenience property to expose the RSSI level of the access point from the rawValue
- * @property is5gHz A convenience property to check if the access point is 5gHz based on its rawValue
+ * @property ssid A convenience property to expose the SSID of the access point from the [rawValue]
+ * @property bssid A convenience property to expose the BSSID of the access point from the [rawValue]
+ * @property frequency A convenience property to expose the frequency of the access point from the [rawValue]
+ * @property rssi A convenience property to expose the RSSI level of the access point from the [rawValue]
+ * @property is5gHz A convenience property to check if the access point is 5gHz based on its [rawValue]
  * @property isSecure A convenience property to check if the access point has any of the [SecurityCapability]
- * listed based on its rawValue
+ * listed based on its [rawValue]
  *
  * @see ScanResult
  * @see SecurityCapability
  *
  * @author Patches Klinefelter
- * @since 11/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 data class AccessPointData(
     val rawValue: ScanResult,
@@ -46,16 +48,16 @@ data class AccessPointData(
 ) {
 
     /**
-     * A function to check if the given access point has a certain [SecurityCapability] based on its rawValue.
+     * A function to check if the given access point has a certain [SecurityCapability] based on its [rawValue].
      *
-     * @param securityCapability The [SecurityCapability] to check the access point for
+     * @param securityCapability The given [SecurityCapability] to check the access point for
      *
      * @see SecurityCapability
      *
      * @return Boolean - True if the access point contains the [SecurityCapability], otherwise false
      *
      * @author Patches Klinefelter
-     * @since 11/2022, version 5.0.0
+     * @since 12/2022, version 5.0.0
      */
     fun containSecurityCapability(securityCapability: SecurityCapability): Boolean {
         return rawValue.capabilities.contains(securityCapability.stringValue)

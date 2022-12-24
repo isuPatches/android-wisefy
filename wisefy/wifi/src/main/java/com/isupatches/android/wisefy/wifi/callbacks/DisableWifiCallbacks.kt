@@ -29,18 +29,18 @@ import com.isupatches.android.wisefy.wifi.entities.DisableWifiResult
 interface DisableWifiCallbacks : BaseWisefyCallbacks {
 
     /**
-     * A callback triggered when Wifi is successfully disabled.
-     *
-     * @author Patches Klinefelter
-     * @since 07/2022, version 5.0.0
-     */
-    fun onWifiDisabled(result: DisableWifiResult.Success)
-
-    /**
      * A callback triggered when there is a failure disabling Wifi.
      *
      * @author Patches Klinefelter
      * @since 07/2022, version 5.0.0
      */
     fun onFailureDisablingWifi(result: DisableWifiResult.Failure)
+
+    /**
+     * A callback triggered when Wifi is successfully disabled.
+     *
+     * @author Patches Klinefelter
+     * @since 07/2022, version 5.0.0
+     */
+    fun onSuccessDisablingWifi(result: DisableWifiResult.Success)
 }

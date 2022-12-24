@@ -30,7 +30,7 @@ import com.isupatches.android.wisefy.core.ssidWithoutQuotes
 import com.isupatches.android.wisefy.core.util.withTimeout
 
 /**
- * A default internal implementation for getting and searching for nearby access points through the Android OS.
+ * A default internal implementation for querying for access points through the Android OS.
  *
  * @param wifiManager The WifiManager instance to use
  * @param logger The [WisefyLogger] instance to use
@@ -39,7 +39,7 @@ import com.isupatches.android.wisefy.core.util.withTimeout
  * @see WisefyLogger
  *
  * @author Patches Klinefelter
- * @since 11/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 internal class DefaultAccessPointsApiImpl(
     private val wifiManager: WifiManager,

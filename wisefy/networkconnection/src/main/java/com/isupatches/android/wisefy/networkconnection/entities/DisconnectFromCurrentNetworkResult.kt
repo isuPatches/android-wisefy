@@ -21,6 +21,7 @@ package com.isupatches.android.wisefy.networkconnection.entities
  * @author Patches Klinefelter
  * @since 03/2022
  */
+@Deprecated("")
 sealed class DisconnectFromCurrentNetworkResult {
 
     /**
@@ -31,6 +32,7 @@ sealed class DisconnectFromCurrentNetworkResult {
      * @author Patches Klinefelter
      * @since 03/2022
      */
+    @Deprecated("")
     sealed class Success : DisconnectFromCurrentNetworkResult() {
 
         /**
@@ -41,6 +43,7 @@ sealed class DisconnectFromCurrentNetworkResult {
          * @author Patches Klinefelter
          * @since 03/2022
          */
+        @Deprecated("")
         object True : Success()
 
         /**
@@ -51,8 +54,10 @@ sealed class DisconnectFromCurrentNetworkResult {
          * @author Patches Klinefelter
          * @since 03/2022
          */
+        @Deprecated("")
         object DisconnectRequestSent : Success()
 
+        @Deprecated("")
         object NetworkScreenOpened : Success()
     }
 
@@ -64,6 +69,7 @@ sealed class DisconnectFromCurrentNetworkResult {
      * @author Patches Klinefelter
      * @since 03/2022
      */
+    @Deprecated("")
     sealed class Failure : DisconnectFromCurrentNetworkResult() {
 
         /**
@@ -74,6 +80,7 @@ sealed class DisconnectFromCurrentNetworkResult {
          * @author Patches Klinefelter
          * @since 03/2022
          */
+        @Deprecated("")
         object False : Failure()
 
         /**
@@ -84,8 +91,10 @@ sealed class DisconnectFromCurrentNetworkResult {
          * @author Patches Klinefelter
          * @since 03/2022
          */
+        @Deprecated("")
         object NetworkNotFound : Failure()
 
+        @Deprecated("")
         data class Assertion(val message: String) : Failure()
     }
 }

@@ -88,7 +88,7 @@ class WisefyRemoveNetworkDelegate(
                 val result = adapter.removeNetwork(request)
                 withContext(coroutineDispatcherProvider.main) {
                     when (result) {
-                        is RemoveNetworkResult.Success -> callbacks?.onNetworkRemoved(result)
+                        is RemoveNetworkResult.Success -> callbacks?.onSuccessRemovingNetwork(result)
                         is RemoveNetworkResult.Failure -> callbacks?.onFailureRemovingNetwork(result)
                     }
                 }

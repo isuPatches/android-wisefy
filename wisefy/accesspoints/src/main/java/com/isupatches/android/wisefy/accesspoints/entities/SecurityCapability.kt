@@ -21,14 +21,14 @@ package com.isupatches.android.wisefy.accesspoints.entities
  * @property stringValue The string value of the security capability
  *
  * @author Patches Klinefelter
- * @since 11/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 enum class SecurityCapability(val stringValue: String) {
     /**
      * A representation of the EAP security capability.
      *
      * @author Patches Klinefelter
-     * @since 11/2022, version 5.0.0
+     * @since 12/2022, version 5.0.0
      */
     EAP("EAP"),
 
@@ -36,7 +36,7 @@ enum class SecurityCapability(val stringValue: String) {
      * A representation of the PSK security capability.
      *
      * @author Patches Klinefelter
-     * @since 11/2022, version 5.0.0
+     * @since 12/2022, version 5.0.0
      */
     PSK("PSK"),
 
@@ -44,7 +44,7 @@ enum class SecurityCapability(val stringValue: String) {
      * A representation of the WEP security capability.
      *
      * @author Patches Klinefelter
-     * @since 11/2022, version 5.0.0
+     * @since 12/2022, version 5.0.0
      */
     WEP("WEP"),
 
@@ -52,7 +52,7 @@ enum class SecurityCapability(val stringValue: String) {
      * A representation of the WPA security capability.
      *
      * @author Patches Klinefelter
-     * @since 11/2022, version 5.0.0
+     * @since 12/2022, version 5.0.0
      */
     WPA("WPA"),
 
@@ -60,7 +60,7 @@ enum class SecurityCapability(val stringValue: String) {
      * A representation of the WPA2 security capability.
      *
      * @author Patches Klinefelter
-     * @since 11/2022, version 5.0.0
+     * @since 12/2022, version 5.0.0
      */
     WPA2("WPA2"),
 
@@ -68,7 +68,7 @@ enum class SecurityCapability(val stringValue: String) {
      * A representation of the WPA3 security capability.
      *
      * @author Patches Klinefelter
-     * @since 11/2022, version 5.0.0
+     * @since 12/2022, version 5.0.0
      */
     WPA3("WPA3");
 
@@ -79,7 +79,7 @@ enum class SecurityCapability(val stringValue: String) {
          * @see SecurityCapability
          *
          * @author Patches Klinefelter
-         * @since 11/2022, version 5.0.0
+         * @since 12/2022, version 5.0.0
          */
         val ALL: List<SecurityCapability> = values().asList()
     }

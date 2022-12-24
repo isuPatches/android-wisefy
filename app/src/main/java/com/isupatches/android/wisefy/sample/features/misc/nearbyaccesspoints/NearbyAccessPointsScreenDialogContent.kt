@@ -93,6 +93,6 @@ private class NearbyAccessPointsDialogStatePreviewParameterProvider :
     PreviewParameterProvider<NearbyAccessPointsDialogState> {
     override val values: Sequence<NearbyAccessPointsDialogState> = sequenceOf(
         NearbyAccessPointsDialogState.Failure.WisefyAsync(WisefyException("", null)),
-        NearbyAccessPointsDialogState.GetNearbyAccessPoints.PermissionsError,
+        NearbyAccessPointsDialogState.GetNearbyAccessPoints.PermissionsError
     )
 }

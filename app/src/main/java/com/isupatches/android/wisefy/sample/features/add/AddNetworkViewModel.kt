@@ -16,9 +16,6 @@
 package com.isupatches.android.wisefy.sample.features.add
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
-import android.Manifest.permission.ACCESS_NETWORK_STATE
-import android.Manifest.permission.ACCESS_WIFI_STATE
-import android.Manifest.permission.CHANGE_NETWORK_STATE
 import android.Manifest.permission.CHANGE_WIFI_STATE
 import android.content.Context
 import androidx.annotation.RequiresPermission
@@ -30,9 +27,6 @@ import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkRequest
 import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
 import com.isupatches.android.wisefy.core.exceptions.WisefyException
 import com.isupatches.android.wisefy.ktx.addNetworkAsync
-import com.isupatches.android.wisefy.ktx.connectToNetworkAsync
-import com.isupatches.android.wisefy.networkconnection.entities.ConnectToNetworkRequest
-import com.isupatches.android.wisefy.networkconnection.entities.ConnectToNetworkResult
 import com.isupatches.android.wisefy.sample.entities.NetworkType
 import com.isupatches.android.wisefy.sample.scaffolding.BaseViewModel
 import com.isupatches.android.wisefy.sample.scaffolding.BaseViewModelFactory
@@ -52,9 +46,6 @@ internal abstract class AddNetworkViewModel : BaseViewModel() {
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     abstract suspend fun addNetwork()
 
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE, ACCESS_NETWORK_STATE, CHANGE_NETWORK_STATE])
-    abstract suspend fun connectToNetwork()
-
     abstract fun onDialogClosed()
 
     abstract fun onSSIDInputChanged(input: String)
@@ -64,7 +55,6 @@ internal abstract class AddNetworkViewModel : BaseViewModel() {
     abstract fun onNetworkTypeSelected(networkType: NetworkType)
 
     abstract fun onAddNetworkPermissionsError()
-    abstract fun onConnectToNetworkPermissionError()
 }
 
 internal class DefaultAddNetworkViewModel(
@@ -220,69 +210,6 @@ internal class DefaultAddNetworkViewModel(
         }
     }
 
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-    override suspend fun connectToNetwork() {
-        if (!isInputValid()) {
-            return
-        }
-        _uiState.value = uiState.value.copy(
-            loadingState = AddNetworkLoadingState(isLoading = true),
-            dialogState = AddNetworkDialogState.None
-        )
-        val result = try {
-            wisefy.connectToNetworkAsync(
-                request = ConnectToNetworkRequest.SSID(
-                    ssid = uiState.value.inputState.ssidInput,
-                    timeoutInMillis = 3000
-                )
-            )
-        } catch (ex: WisefyException) {
-            _uiState.value = uiState.value.copy(
-                loadingState = AddNetworkLoadingState(false),
-                dialogState = AddNetworkDialogState.Failure.WisefyAsync(exception = ex)
-            )
-            null
-        }
-
-        when (result) {
-            ConnectToNetworkResult.Success.True -> {
-                _uiState.value = uiState.value.copy(
-                    loadingState = AddNetworkLoadingState(false),
-                    dialogState = AddNetworkDialogState.ConnectToNetwork.Success(
-                        result = ConnectToNetworkResult.Success.True
-                    )
-                )
-            }
-            ConnectToNetworkResult.Success.ConnectionRequestSent -> {
-                _uiState.value = uiState.value.copy(
-                    loadingState = AddNetworkLoadingState(false),
-                    dialogState = AddNetworkDialogState.ConnectToNetwork.Success(
-                        result = ConnectToNetworkResult.Success.ConnectionRequestSent
-                    )
-                )
-            }
-            ConnectToNetworkResult.Failure.False -> {
-                _uiState.value = uiState.value.copy(
-                    loadingState = AddNetworkLoadingState(false),
-                    dialogState = AddNetworkDialogState.ConnectToNetwork.Failure(
-                        result = ConnectToNetworkResult.Failure.False
-                    )
-                )
-            }
-            ConnectToNetworkResult.Failure.NetworkNotFound -> {
-                _uiState.value = uiState.value.copy(
-                    loadingState = AddNetworkLoadingState(false),
-                    dialogState = AddNetworkDialogState.ConnectToNetwork.Failure(
-                        result = ConnectToNetworkResult.Failure.NetworkNotFound
-                    )
-                )
-            }
-            null -> {
-                // Case handled above in the catch clause
-            }
-        }
-    }
-
     private fun isInputValid(): Boolean {
         if (uiState.value.inputState.ssidInputValidityState !is AddNetworkSSIDInputValidityState.Valid) {
             _uiState.value = uiState.value.copy(
@@ -361,13 +288,6 @@ internal class DefaultAddNetworkViewModel(
                 NetworkType.WPA2 -> AddNetworkDialogState.AddNetwork.PermissionsError.AddWPA2Network
                 NetworkType.WPA3 -> AddNetworkDialogState.AddNetwork.PermissionsError.AddWPA3Network
             }
-        )
-    }
-
-    override fun onConnectToNetworkPermissionError() {
-        _uiState.value = uiState.value.copy(
-            loadingState = AddNetworkLoadingState(isLoading = false),
-            dialogState = AddNetworkDialogState.ConnectToNetwork.PermissionsError
         )
     }
 
