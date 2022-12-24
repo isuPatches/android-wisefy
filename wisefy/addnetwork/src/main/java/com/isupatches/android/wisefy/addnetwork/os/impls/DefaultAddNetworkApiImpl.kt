@@ -28,11 +28,13 @@ import com.isupatches.android.wisefy.core.wifimanager.legacy.createWPA2NetworkCo
  * A default internal implementation for adding networks through the Android OS.
  *
  * @param wifiManager The WifiManager instance to use
+ * @param logger The [WisefyLogger] instance to use
  *
  * @see DefaultAddNetworkApi
+ * @see WisefyLogger
  *
  * @author Patches Klinefelter
- * @since 11/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 internal class DefaultAddNetworkApiImpl(
     private val wifiManager: WifiManager,

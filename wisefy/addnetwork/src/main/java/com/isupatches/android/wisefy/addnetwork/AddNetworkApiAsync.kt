@@ -25,16 +25,12 @@ import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkRequest
  * A set of asynchronous APIs related to adding networks.
  *
  * @author Patches Klinefelter
- * @since 11/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 interface AddNetworkApiAsync {
 
     /**
      * An asynchronous API for adding a network.
-     *
-     * * *NOTES*
-     *  - As of Android 11, in-place modifications are allowed so there will be no
-     *  STATUS_NETWORK_SUGGESTIONS_ERROR_ADD_DUPLICATE return
      *
      * @param request The details of the request to add a network
      * @param callbacks The optional callbacks for when the result for adding a network is returned
@@ -43,7 +39,7 @@ interface AddNetworkApiAsync {
      * @see AddNetworkCallbacks
      *
      * @author Patches Klinefelter
-     * @since 11/2022, version 5.0.0
+     * @since 12/2022, version 5.0.0
      */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     fun addNetwork(request: AddNetworkRequest, callbacks: AddNetworkCallbacks?)

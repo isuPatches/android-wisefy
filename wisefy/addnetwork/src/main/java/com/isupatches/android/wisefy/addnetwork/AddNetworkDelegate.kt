@@ -22,6 +22,6 @@ package com.isupatches.android.wisefy.addnetwork
  * @see AddNetworkApiAsync
  *
  * @author Patches Klinefelter
- * @since 11/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 interface AddNetworkDelegate : AddNetworkApi, AddNetworkApiAsync

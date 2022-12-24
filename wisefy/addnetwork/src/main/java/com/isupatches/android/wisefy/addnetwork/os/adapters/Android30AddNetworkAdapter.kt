@@ -30,9 +30,10 @@ import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 
 /**
- * An Android 29 specific adapter for adding networks.
+ * An Android 30 specific adapter for adding networks.
  *
  * @param wifiManager The WifiManager instance to use
+ * @param logger The [WisefyLogger] instance to use
  * @param assertions The [WisefyAssertions] instance to use
  * @param api The OS level API instance to use
  *
@@ -42,14 +43,14 @@ import com.isupatches.android.wisefy.core.logging.WisefyLogger
  * @see WisefyAssertions
  *
  * @author Patches Klinefelter
- * @since 11/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 @RequiresApi(Build.VERSION_CODES.R)
 internal class Android30AddNetworkAdapter(
     wifiManager: WifiManager,
-    wisefyLogger: WisefyLogger,
+    logger: WisefyLogger,
     private val assertions: WisefyAssertions,
-    private val api: Android30AddNetworkApi = Android30AddNetworkApiImpl(wifiManager, wisefyLogger)
+    private val api: Android30AddNetworkApi = Android30AddNetworkApiImpl(wifiManager, logger)
 ) : AddNetworkApi {
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])

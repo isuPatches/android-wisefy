@@ -46,15 +46,20 @@ import kotlinx.coroutines.withContext
  * @param logger The [WisefyLogger] instance to use
  * @param sdkUtil The [SdkUtil] instance to use
  * @param wifiManager The WifiManager instance to use
+ * @param adapter The adapter instance to use for adding a network (determined based on the Android OS level)
  *
+ * @see AddNetworkApi
  * @see AddNetworkDelegate
+ * @see Android30AddNetworkAdapter
+ * @see Android29AddNetworkAdapter
  * @see CoroutineDispatcherProvider
+ * @see DefaultAddNetworkAdapter
  * @see SdkUtil
  * @see WisefyAssertions
  * @see WisefyLogger
  *
  * @author Patches Klinefelter
- * @since 11/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 class WisefyAddNetworkDelegate(
     private val coroutineDispatcherProvider: CoroutineDispatcherProvider,
@@ -67,7 +72,7 @@ class WisefyAddNetworkDelegate(
     private val adapter: AddNetworkApi = when {
         sdkUtil.isAtLeastR() -> Android30AddNetworkAdapter(wifiManager, logger, assertions)
         sdkUtil.isAtLeastQ() -> Android29AddNetworkAdapter(assertions)
-        else -> DefaultAddNetworkAdapter(wifiManager, logger, assertions, sdkUtil)
+        else -> DefaultAddNetworkAdapter(wifiManager, logger, assertions)
     }
 ) : AddNetworkDelegate {
 

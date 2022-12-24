@@ -32,11 +32,13 @@ import com.isupatches.android.wisefy.core.wifimanager.createWPA3NetworkSuggestio
  * An internal Android 30 specific implementation for adding networks through the Android OS.
  *
  * @param wifiManager The WifiManager instance to use
+ * @param logger The [WisefyLogger] instance to use
  *
  * @see Android30AddNetworkApi
+ * @see WisefyLogger
  *
  * @author Patches Klinefelter
- * @since 11/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 @RequiresApi(Build.VERSION_CODES.R)
 internal class Android30AddNetworkApiImpl(

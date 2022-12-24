@@ -22,12 +22,12 @@ import androidx.annotation.RequiresApi
  * A set of classes and objects that represent requests to add a network.
  *
  * @author Patches Klinefelter
- * @since 11/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 sealed class AddNetworkRequest {
 
     /**
-     * A set of classes and objects that represent requests to add an open network.
+     * A representation of a request to add an open network.
      *
      * @property ssid The SSID of the open network to add
      * @property bssid The optional BSSID for the open network being added
@@ -35,35 +35,35 @@ sealed class AddNetworkRequest {
      * @see AddNetworkRequest
      *
      * @author Patches Klinefelter
-     * @since 11/2022, version 5.0.0
+     * @since 12/2022, version 5.0.0
      */
     data class Open(val ssid: String, val bssid: String? = null) : AddNetworkRequest()
 
     /**
-     * A representation of a request to add a WPA2 network prior to Android 30.
+     * A representation of a request to add a WPA2 network.
      *
      * @property ssid The SSID of the WPA2 network to add
-     * @property passphrase The password for the WPA2 network to add
+     * @property passphrase The password or passphrase for the WPA2 network to add
      * @property bssid The optional BSSID for the WPA2 network being added
      *
      * @see AddNetworkRequest
      *
      * @author Patches Klinefelter
-     * @since 11/2022, version 5.0.0
+     * @since 12/2022, version 5.0.0
      */
     data class WPA2(val ssid: String, val passphrase: String, val bssid: String? = null) : AddNetworkRequest()
 
     /**
-     * A representation of a request to add a WPA3 network prior to Android 30.
+     * A representation of a request to add a WPA3 network.
      *
      * @property ssid The SSID of the WPA3 network to add
-     * @property passphrase The password for the WPA3 network to add
+     * @property passphrase The password or passphrase for the WPA3 network to add
      * @property bssid The optional BSSID for the WPA3 network being added
      *
      * @see AddNetworkRequest
      *
      * @author Patches Klinefelter
-     * @since 11/2022, version 5.0.0
+     * @since 12/2022, version 5.0.0
      */
     @RequiresApi(Build.VERSION_CODES.Q)
     data class WPA3(val ssid: String, val passphrase: String, val bssid: String? = null) : AddNetworkRequest()

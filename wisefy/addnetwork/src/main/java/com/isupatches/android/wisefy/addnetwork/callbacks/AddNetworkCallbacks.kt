@@ -24,7 +24,7 @@ import com.isupatches.android.wisefy.core.base.BaseWisefyCallbacks
  * @see BaseWisefyCallbacks
  *
  * @author Patches Klinefelter
- * @since 11/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 interface AddNetworkCallbacks : BaseWisefyCallbacks {
 
@@ -36,19 +36,19 @@ interface AddNetworkCallbacks : BaseWisefyCallbacks {
      * @see AddNetworkResult.Failure
      *
      * @author Patches Klinefelter
-     * @since 11/2022, version 5.0.0
+     * @since 12/2022, version 5.0.0
      */
     fun onFailureAddingNetwork(result: AddNetworkResult.Failure)
 
     /**
-     * A callback triggered when a success is returned for adding a network.
+     * A callback triggered when there is a success while adding a network.
      *
      * @param result The details from the successful attempt adding a network
      *
      * @see AddNetworkResult.Success
      *
      * @author Patches Klinefelter
-     * @since 11/2022, version 5.0.0
+     * @since 12/2022, version 5.0.0
      */
     fun onSuccessAddingNetwork(result: AddNetworkResult.Success)
 }

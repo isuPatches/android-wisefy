@@ -27,12 +27,12 @@ import com.isupatches.android.wisefy.addnetwork.os.impls.DefaultAddNetworkApiImp
 import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
 import com.isupatches.android.wisefy.core.constants.AssertionMessages
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
-import com.isupatches.android.wisefy.core.util.SdkUtil
 
 /**
  * A default adapter for adding networks.
  *
  * @param wifiManager The WifiManager instance to use
+ * @param logger The [WisefyLogger] instance to use
  * @param assertions The [WisefyAssertions] instance to use
  * @param api The OS level API instance to use
  *
@@ -40,15 +40,15 @@ import com.isupatches.android.wisefy.core.util.SdkUtil
  * @see DefaultAddNetworkApi
  * @see DefaultAddNetworkApiImpl
  * @see WisefyAssertions
+ * @see WisefyLogger
  *
  * @author Patches Klinefelter
- * @since 11/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 internal class DefaultAddNetworkAdapter(
     wifiManager: WifiManager,
     logger: WisefyLogger,
     private val assertions: WisefyAssertions,
-    private val sdkUtil: SdkUtil,
     private val api: DefaultAddNetworkApi = DefaultAddNetworkApiImpl(wifiManager, logger)
 ) : AddNetworkApi {
 
@@ -64,11 +64,7 @@ internal class DefaultAddNetworkAdapter(
                 if (resultCode > WIFI_MANAGER_ADD_NETWORK_FAILURE) {
                     AddNetworkResult.Success.ResultCode(resultCode)
                 } else {
-                    if (sdkUtil.isAtLeastQ()) {
-                        AddNetworkResult.Failure.AndroidQ
-                    } else {
-                        AddNetworkResult.Failure.ResultCode(resultCode)
-                    }
+                    AddNetworkResult.Failure.ResultCode(resultCode)
                 }
             }
             is AddNetworkRequest.WPA2 -> {
@@ -76,11 +72,7 @@ internal class DefaultAddNetworkAdapter(
                 if (resultCode > WIFI_MANAGER_ADD_NETWORK_FAILURE) {
                     AddNetworkResult.Success.ResultCode(resultCode)
                 } else {
-                    if (sdkUtil.isAtLeastQ()) {
-                        AddNetworkResult.Failure.AndroidQ
-                    } else {
-                        AddNetworkResult.Failure.ResultCode(resultCode)
-                    }
+                    AddNetworkResult.Failure.ResultCode(resultCode)
                 }
             }
             is AddNetworkRequest.WPA3 -> {

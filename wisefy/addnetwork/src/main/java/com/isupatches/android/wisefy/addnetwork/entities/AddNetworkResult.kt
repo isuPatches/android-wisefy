@@ -19,7 +19,7 @@ package com.isupatches.android.wisefy.addnetwork.entities
  * A set of classes and objects that represent a result while attempting to add a network.
  *
  * @author Patches Klinefelter
- * @since 11/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 sealed class AddNetworkResult {
 
@@ -29,12 +29,13 @@ sealed class AddNetworkResult {
      * @see AddNetworkResult
      *
      * @author Patches Klinefelter
-     * @since 11/2022, version 5.0.0
+     * @since 12/2022, version 5.0.0
      */
     sealed class Success : AddNetworkResult() {
 
         /**
-         * A representation of a success while attempting to add a network based on Android OS level returns.
+         * A representation of a success while attempting to add a network based on result codes returned from the
+         * Android OS.
          *
          * *NOTES*
          * This could be instances such as:
@@ -42,13 +43,15 @@ sealed class AddNetworkResult {
          *  https://developer.android.com/reference/android/net/wifi/WifiManager#addNetwork(android.net.wifi.WifiConfiguration))
          *  - STATUS_NETWORK_SUGGESTIONS_SUCCESS for SDK 29
          *  https://developer.android.com/reference/android/net/wifi/WifiManager#STATUS_NETWORK_SUGGESTIONS_SUCCESS
+         * - As of Android 11, in-place modifications are allowed so there will be no
+         *  STATUS_NETWORK_SUGGESTIONS_ERROR_ADD_DUPLICATE return
          *
          * @property value The value of the result code from the Android OS
          *
          * @see Success
          *
          * @author Patches Klinefelter
-         * @since 11/2022, version 5.0.0
+         * @since 12/2022, version 5.0.0
          */
         data class ResultCode(val value: Int) : Success()
     }
@@ -59,14 +62,13 @@ sealed class AddNetworkResult {
      * @see AddNetworkResult
      *
      * @author Patches Klinefelter
-     * @since 11/2022, version 5.0.0
+     * @since 12/2022, version 5.0.0
      */
     sealed class Failure : AddNetworkResult() {
 
-        object AndroidQ : Failure()
-
         /**
-         * A representation of a failure to add a network based on Android OS level returns.
+         * A representation of a failure while attempting to add a network based on result codes returned from the
+         * Android OS.
          *
          * *NOTE*
          * This could be instances such as:
@@ -82,7 +84,7 @@ sealed class AddNetworkResult {
          * @see Failure
          *
          * @author Patches Klinefelter
-         * @since 11/2022, version 5.0.0
+         * @since 12/2022, version 5.0.0
          */
         data class ResultCode(val value: Int) : Failure()
 
@@ -96,7 +98,7 @@ sealed class AddNetworkResult {
          * @see Failure
          *
          * @author Patches Klinefelter
-         * @since 11/2022, version 5.0.0
+         * @since 12/2022, version 5.0.0
          */
         data class Assertion(val message: String) : Failure()
     }

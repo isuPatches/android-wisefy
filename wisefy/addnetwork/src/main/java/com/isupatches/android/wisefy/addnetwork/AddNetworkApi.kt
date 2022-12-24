@@ -25,7 +25,7 @@ import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
  * A set of synchronous APIs related to adding networks.
  *
  * @author Patches Klinefelter
- * @since 11/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 interface AddNetworkApi {
 
@@ -37,10 +37,10 @@ interface AddNetworkApi {
      * @see AddNetworkRequest
      * @see AddNetworkResult
      *
-     * @return AddNetworkResult - The result when adding a network
+     * @return AddNetworkResult - The result while adding a network
      *
      * @author Patches Klinefelter
-     * @since 11/2022, version 5.0.0
+     * @since 12/2022, version 5.0.0
      */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     fun addNetwork(request: AddNetworkRequest): AddNetworkResult

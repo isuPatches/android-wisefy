@@ -23,6 +23,17 @@ import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
 import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
 import com.isupatches.android.wisefy.core.constants.AssertionMessages
 
+/**
+ * An Android 29 specific adapter for adding networks.
+ *
+ * @param assertions The [WisefyAssertions] instance to use
+ *
+ * @see AddNetworkApi
+ * @see WisefyAssertions
+ *
+ * @author Patches Klinefelter
+ * @since 12/2022, version 5.0.0
+ */
 @RequiresApi(Build.VERSION_CODES.Q)
 internal class Android29AddNetworkAdapter(
     private val assertions: WisefyAssertions
