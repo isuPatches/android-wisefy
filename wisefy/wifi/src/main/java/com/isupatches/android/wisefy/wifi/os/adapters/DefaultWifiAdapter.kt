@@ -33,17 +33,21 @@ import com.isupatches.android.wisefy.wifi.os.apis.DefaultWifiApi
 import com.isupatches.android.wisefy.wifi.os.impls.DefaultWifiApiImpl
 
 /**
- * A default adapter for enabling, disabling, and checking the state of Wifi.
+ * A default adapter for enabling, disabling, and checking the state of wifi.
  *
  * @param wifiManager The WifiManager instance to use
+ * @param logger The [WisefyLogger] instance to use
+ * @param assertions The [WisefyAssertions] instance to use
  * @param api The OS level API instance to use
  *
  * @see DefaultWifiApi
  * @see DefaultWifiApiImpl
  * @see WifiApi
+ * @see WisefyAssertions
+ * @see WisefyLogger
  *
  * @author Patches Barrett
- * @since 07/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 internal class DefaultWifiAdapter(
     wifiManager: WifiManager,

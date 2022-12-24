@@ -13,6 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@file:Suppress("DEPRECATION")
+
 package com.isupatches.android.wisefy.addnetwork.os.impls
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION

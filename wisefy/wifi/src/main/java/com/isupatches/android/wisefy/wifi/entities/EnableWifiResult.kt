@@ -32,7 +32,26 @@ sealed class EnableWifiResult {
      * @since 07/2022, version 5.0.0
      */
     sealed class Success : EnableWifiResult() {
+
+        /**
+         * A representation of when wifi is successfully enable on pre-Android Q / SDK 29 devices.
+         *
+         * @see Success
+         *
+         * @author Patches Barrett
+         * @since 12/2022, version 5.0.0
+         */
         object Enabled : Success()
+
+        /**
+         * A representation of when the wifi settings screen is opened on Android Q / SDK 29 or higher devices for
+         * the user to manually enable wifi.
+         *
+         * @see Success
+         *
+         * @author Patches Barrett
+         * @since 12/2022, version 5.0.0
+         */
         object WifiSettingScreenOpened : Success()
     }
 
@@ -42,10 +61,32 @@ sealed class EnableWifiResult {
      * @see EnableWifiResult
      *
      * @author Patches Barrett
-     * @since 07/2022, version 5.0.0
+     * @since 12/2022, version 5.0.0
      */
     sealed class Failure : EnableWifiResult() {
+
+        /**
+         * A representation of when there is a failure enabling wifi on pre-Android Q / SDK 29 devices.
+         *
+         * @see Failure
+         *
+         * @author Patches Barrett
+         * @since 12/2022, version 5.0.0
+         */
         object UnableToEnable : Failure()
+
+        /**
+         * A representation of a failure enabling wifi due to hitting an unexpected path causing an assertion.
+         *
+         * *NOTE* This is for developer specific feedback and should NEVER actually be hit unless there is a bug.
+         *
+         * @property message A text description describing the assertion error hit
+         *
+         * @see Failure
+         *
+         * @author Patches Barrett
+         * @since 12/2022, version 5.0.0
+         */
         data class Assertion(val message: String) : Failure()
     }
 }

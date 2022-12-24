@@ -18,28 +18,28 @@ package com.isupatches.android.wisefy.wifi.callbacks
 import com.isupatches.android.wisefy.core.base.BaseWisefyCallbacks
 
 /**
- * A set of callbacks for checking the current state of Wifi.
+ * A set of callbacks for checking the current state of wifi.
  *
  * @see BaseWisefyCallbacks
  *
  * @author Patches Barrett
- * @since 07/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 interface IsWifiEnabledCallbacks : BaseWisefyCallbacks {
 
     /**
-     * A callback triggered when Wifi is enabled.
+     * A callback triggered when wifi is enabled.
      *
      * @author Patches Barrett
-     * @since 07/2022, version 5.0.0
+     * @since 12/2022, version 5.0.0
      */
     fun onWifiIsEnabled()
 
     /**
-     * A callback triggered when Wifi is disabled.
+     * A callback triggered when wifi is disabled.
      *
      * @author Patches Barrett
-     * @since 07/2022, version 5.0.0
+     * @since 12/2022, version 5.0.0
      */
     fun onWifiIsDisabled()
 }

@@ -188,7 +188,7 @@ Want to help? Have an idea for a cool feature or want to fix a bug for the commu
 [CONTRIBUTING](CONTRIBUTING.md) for how you can make impactful changes for Wisefy.
 
 ## License ##
-Copyright 2022 Patches Klinefelter
+Copyright 2022 Patches Barrett
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in
 compliance with the License. You may obtain a copy of the License at

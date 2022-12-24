@@ -18,12 +18,33 @@ package com.isupatches.android.wisefy.wifi.entities
 import android.content.Context
 
 /**
- * A class that is used to represent a request to enable Wifi.
+ * A set of classes and objects that represent requests to enable wifi.
  *
  * @author Patches Barrett
- * @since 07/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 sealed class EnableWifiRequest {
+
+    /**
+     * A representation of a request to enable wifi on a device before Android Q / SDK 29.
+     *
+     * @see DisableWifiRequest
+     *
+     * @author Patches Barrett
+     * @since 12/2022, version 5.0.0
+     */
     object Default : EnableWifiRequest()
+
+    /**
+     * A representation of a request to enable wifi on an Android Q / SDK 29 or higher device.
+     *
+     * @property context The reference to the context to place the request to enable wifi on Android Q / SDK 29
+     * or higher devices.
+     *
+     * @see DisableWifiRequest
+     *
+     * @author Patches Barrett
+     * @since 12/2022, version 5.0.0
+     */
     data class Android29OrAbove(val context: Context) : EnableWifiRequest()
 }

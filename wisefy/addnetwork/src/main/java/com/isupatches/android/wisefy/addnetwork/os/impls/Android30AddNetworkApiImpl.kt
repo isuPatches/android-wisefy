@@ -29,7 +29,7 @@ import com.isupatches.android.wisefy.core.wifimanager.createWPA2NetworkSuggestio
 import com.isupatches.android.wisefy.core.wifimanager.createWPA3NetworkSuggestion
 
 /**
- * An internal Android 30 specific implementation for adding networks through the Android OS.
+ * An internal Android 30 or higher implementation for adding networks through the Android OS.
  *
  * @param wifiManager The WifiManager instance to use
  * @param logger The [WisefyLogger] instance to use

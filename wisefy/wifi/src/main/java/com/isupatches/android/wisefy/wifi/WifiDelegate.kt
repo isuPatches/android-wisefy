@@ -16,12 +16,12 @@
 package com.isupatches.android.wisefy.wifi
 
 /**
- * A delegate for synchronous and asynchronous APIs to enable, disable and check the state of Wifi.
+ * A delegate for synchronous and asynchronous APIs to enable, disable and check the state of wifi.
  *
  * @see WifiApi
  * @see WifiApiAsync
  *
  * @author Patches Barrett
- * @since 07/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 interface WifiDelegate : WifiApi, WifiApiAsync

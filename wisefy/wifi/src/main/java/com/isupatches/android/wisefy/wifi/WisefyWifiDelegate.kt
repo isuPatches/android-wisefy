@@ -42,21 +42,27 @@ import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 
 /**
- * An internal Wisefy delegate for enabling, disabling, and checking the state of Wifi.
+ * An internal Wisefy delegate for enabling, disabling, and checking the state of wifi.
  *
  * @param coroutineDispatcherProvider The [CoroutineDispatcherProvider] instance to use
  * @param scope The coroutine scope to use
+ * @param wifiMutex The mutex for all read/write operations involving wifi
+ * @param assertions The [WisefyAssertions] instance to use
  * @param logger The [WisefyLogger] instance to use
  * @param sdkUtil The [SdkUtil] instance to use
  * @param wifiManager The WifiManager instance to use
+ * @param adapter The adapter instance to use for wifi operations (determined based on the Android OS level)
  *
+ * @see Android29WifiAdapter
  * @see CoroutineDispatcherProvider
+ * @see DefaultWifiAdapter
  * @see SdkUtil
  * @see WifiDelegate
+ * @see WisefyAssertions
  * @see WisefyLogger
  *
  * @author Patches Barrett
- * @since 07/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 class WisefyWifiDelegate(
     private val coroutineDispatcherProvider: CoroutineDispatcherProvider,

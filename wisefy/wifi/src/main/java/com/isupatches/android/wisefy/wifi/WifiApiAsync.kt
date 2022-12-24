@@ -26,29 +26,29 @@ import com.isupatches.android.wisefy.wifi.entities.EnableWifiRequest
 import com.isupatches.android.wisefy.wifi.entities.IsWifiEnabledQuery
 
 /**
- * A set of asynchronous APIs for enabling and disabling Wifi.
+ * A set of asynchronous APIs for enabling and disabling wifi.
  *
  * @author Patches Barrett
- * @since 07/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 interface WifiApiAsync {
 
     /**
-     * An asynchronous API to disable Wifi.
+     * An asynchronous API to disable wifi.
      *
      * *NOTES*
-     *  - Internally locked by a mutex along with the async APIs to enable Wifi and check the device's current Wifi
+     *  - Internally locked by a mutex along with the async APIs to enable wifi and check the device's current wifi
      *    state
-     *  - Will open the Wifi settings screen on Android Q or higher
+     *  - Will open the Wifi settings screen on Android Q / SDK 29 or higher
      *
-     * @param request The details of the request to disable Wifi
-     * @param callbacks The callbacks for results when disabling Wifi
+     * @param request The details of the request to disable wifi
+     * @param callbacks The callbacks for results when disabling wifi
      *
      * @see DisableWifiRequest
      * @see DisableWifiCallbacks
      *
      * @author Patches Barrett
-     * @since 07/2022, version 5.0.0
+     * @since 12/2022, version 5.0.0
      */
     @RequiresPermission(CHANGE_WIFI_STATE)
     fun disableWifi(request: DisableWifiRequest, callbacks: DisableWifiCallbacks?)
@@ -57,36 +57,36 @@ interface WifiApiAsync {
      * An asynchronous API to enable Wifi.
      *
      * *NOTES*
-     *  - Internally locked by a mutex along with the async APIs to disable Wifi and check the device's current Wifi
+     *  - Internally locked by a mutex along with the async APIs to disable wifi and check the device's current wifi
      *    state
-     *  - Will open the Wifi settings screen on Android Q or higher
+     *  - Will open the wifi settings screen on Android Q / SDK 29 or higher
      *
-     * @param request The details of the request to enable Wifi
-     * @param callbacks The callbacks for results when enabling Wifi
+     * @param request The details of the request to enable wifi
+     * @param callbacks The callbacks for results when enabling wifi
      *
      * @see EnableWifiRequest
      * @see EnableWifiCallbacks
      *
      * @author Patches Barrett
-     * @since 07/2022, version 5.0.0
+     * @since 12/2022, version 5.0.0
      */
     @RequiresPermission(CHANGE_WIFI_STATE)
     fun enableWifi(request: EnableWifiRequest, callbacks: EnableWifiCallbacks?)
 
     /**
-     * An asynchronous API to check the current state of Wifi (f.e. enabled or disabled).
+     * An asynchronous API to check the current state of wifi (f.e. enabled or disabled).
      *
      * *NOTES*
-     *  - Internally locked by a mutex along with the async APIs to enable and disable Wifi
+     *  - Internally locked by a mutex along with the async APIs to enable and disable wifi
      *
-     * @param query The details of the query to check the current state of Wifi
-     * @param callbacks The callbacks for results when checking the current state of Wifi
+     * @param query The details of the query to check the current state of wifi
+     * @param callbacks The callbacks for results when checking the current state of wifi
      *
      * @see IsWifiEnabledQuery
      * @see IsWifiEnabledCallbacks
      *
      * @author Patches Barrett
-     * @since 07/2022, version 5.0.0
+     * @since 12/2022, version 5.0.0
      */
     @RequiresPermission(ACCESS_WIFI_STATE)
     fun isWifiEnabled(query: IsWifiEnabledQuery = IsWifiEnabledQuery(), callbacks: IsWifiEnabledCallbacks?)

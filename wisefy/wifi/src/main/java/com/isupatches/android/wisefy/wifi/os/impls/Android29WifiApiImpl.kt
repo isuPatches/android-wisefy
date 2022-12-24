@@ -24,6 +24,19 @@ import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.wifi.os.apis.Android29WifiApi
 
+/**
+ * An Android 29 or higher implementation for enabling, disabling, and checking the state of wifi through the
+ * Android OS.
+ *
+ * @param wifiManager The WifiManager instance to use
+ * @param logger The [WisefyLogger] instance to use
+ *
+ * @see Android29WifiApi
+ * @see WisefyLogger
+ *
+ * @author Patches Barrett
+ * @since 12/2022, version 5.0.0
+ */
 internal class Android29WifiApiImpl(
     private val wifiManager: WifiManager,
     private val logger: WisefyLogger

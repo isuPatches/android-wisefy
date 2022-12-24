@@ -19,9 +19,32 @@ import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.content.Context
 import androidx.annotation.RequiresPermission
 
+/**
+ * An Android 29 or higher set of APIs for enabling, disabling, and checking the state of wifi through the Android OS.
+ *
+ * @author Patches Barrett
+ * @since 12/2022, version 5.0.0
+ */
 internal interface Android29WifiApi {
+
+    /**
+     * An Android 29 specific API to open the wifi settings screen so that the user can manually enable or disable wifi.
+     *
+     * @param context The context used to open the wifi settings screen
+     *
+     * @author Patches Barrett
+     * @since 12/2022, version 5.0.0
+     */
     fun openWifiSettings(context: Context)
 
+    /**
+     * An Android 29 specific API to check if wifi is enabled through the Android OS.
+     *
+     * @return Boolean - Whether wifi is enabled on the device. True if enabled, otherwise false.
+     *
+     * @author Patches Barrett
+     * @since 12/2022, version 5.0.0
+     */
     @RequiresPermission(ACCESS_WIFI_STATE)
     fun isWifiEnabled(): Boolean
 }

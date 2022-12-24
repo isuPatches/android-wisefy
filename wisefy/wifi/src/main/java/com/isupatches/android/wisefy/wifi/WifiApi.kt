@@ -26,57 +26,63 @@ import com.isupatches.android.wisefy.wifi.entities.IsWifiEnabledQuery
 import com.isupatches.android.wisefy.wifi.entities.IsWifiEnabledResult
 
 /**
- * A set of synchronous APIs for enabling, disabling, and checking the state of Wifi.
+ * A set of synchronous APIs for enabling, disabling, and checking the state of wifi.
  *
  * @author Patches Barrett
- * @since 07/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 interface WifiApi {
 
     /**
-     * A synchronous API to disable Wifi.
+     * A synchronous API to disable wifi.
      *
-     * @param request The details of the request to disable Wifi
+     * @param request The details of the request to disable wifi
+     *
+     * *NOTES*
+     *  - Will open the Wifi settings screen on Android Q / SDK 29 or higher
      *
      * @see DisableWifiRequest
      * @see DisableWifiResult
      *
-     * @return DisableWifiResult - The result of disabling Wifi
+     * @return DisableWifiResult - The result of disabling wifi
      *
      * @author Patches Barrett
-     * @since 07/2022, version 5.0.0
+     * @since 12/2022, version 5.0.0
      */
     @RequiresPermission(CHANGE_WIFI_STATE)
     fun disableWifi(request: DisableWifiRequest): DisableWifiResult
 
     /**
-     * A synchronous API to enable Wifi.
+     * A synchronous API to enable wifi.
      *
-     * @param request The details of the request to enable Wifi
+     * *NOTES*
+     *  - Will open the Wifi settings screen on Android Q / SDK 29 or higher
+     *
+     * @param request The details of the request to enable wifi
      *
      * @see EnableWifiRequest
      * @see EnableWifiResult
      *
-     * @return EnableWifiResult - The result of enabling Wifi
+     * @return EnableWifiResult - The result of enabling wifi
      *
      * @author Patches Barrett
-     * @since 07/2022, version 5.0.0
+     * @since 12/2022, version 5.0.0
      */
     @RequiresPermission(CHANGE_WIFI_STATE)
     fun enableWifi(request: EnableWifiRequest): EnableWifiResult
 
     /**
-     * A synchronous API to check if Wifi is enabled.
+     * A synchronous API to check if wifi is enabled.
      *
-     * @param query The details of the query to check if Wifi is enabled
+     * @param query The details of the query to check if wifi is enabled
      *
      * @see IsWifiEnabledQuery
      * @see IsWifiEnabledResult
      *
-     * @return IsWifiEnabledResult - The result of checking if Wifi is enabled
+     * @return IsWifiEnabledResult - The result of checking if wifi is enabled
      *
      * @author Patches Barrett
-     * @since 07/2022, version 5.0.0
+     * @since 12/2022, version 5.0.0
      */
     @RequiresPermission(ACCESS_WIFI_STATE)
     fun isWifiEnabled(query: IsWifiEnabledQuery = IsWifiEnabledQuery()): IsWifiEnabledResult

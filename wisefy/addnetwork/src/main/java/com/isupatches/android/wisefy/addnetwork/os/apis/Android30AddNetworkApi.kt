@@ -22,7 +22,7 @@ import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 
 /**
- * An internal Android 30 specific API for adding networks through the Android OS.
+ * An internal Android 30 or higher API for adding networks through the Android OS.
  *
  * @author Patches Barrett
  * @since 12/2022, version 5.0.0

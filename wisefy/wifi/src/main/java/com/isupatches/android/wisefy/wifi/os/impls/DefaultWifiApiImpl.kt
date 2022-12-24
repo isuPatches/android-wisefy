@@ -23,14 +23,16 @@ import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.wifi.os.apis.DefaultWifiApi
 
 /**
- * A default internal implementation for enabling, disabling, and checking the state of Wifi through the Android OS.
+ * A default internal implementation for enabling, disabling, and checking the state of wifi through the Android OS.
  *
  * @param wifiManager The WifiManager instance to use
+ * @param logger The [WisefyLogger] instance to use
  *
  * @see DefaultWifiApi
+ * @see WisefyLogger
  *
  * @author Patches Barrett
- * @since 07/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 internal class DefaultWifiApiImpl(
     private val wifiManager: WifiManager,
@@ -43,6 +45,7 @@ internal class DefaultWifiApiImpl(
 
     @RequiresPermission(CHANGE_WIFI_STATE)
     override fun disableWifi(): Boolean {
+        @Suppress("Deprecation")
         val result = wifiManager.setWifiEnabled(false)
         logger.d(LOG_TAG, "Result from disableWifi: $result")
         return result
@@ -50,6 +53,7 @@ internal class DefaultWifiApiImpl(
 
     @RequiresPermission(CHANGE_WIFI_STATE)
     override fun enableWifi(): Boolean {
+        @Suppress("Deprecation")
         val result = wifiManager.setWifiEnabled(true)
         logger.d(LOG_TAG, "Result from enableWifi: $result")
         return result

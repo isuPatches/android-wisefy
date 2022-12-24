@@ -30,7 +30,7 @@ import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 
 /**
- * An Android 30 specific adapter for adding networks.
+ * An Android 30 or higher adapter for adding networks.
  *
  * @param wifiManager The WifiManager instance to use
  * @param logger The [WisefyLogger] instance to use
