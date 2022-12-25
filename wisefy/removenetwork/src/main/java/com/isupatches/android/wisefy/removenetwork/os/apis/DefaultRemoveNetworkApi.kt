@@ -23,13 +23,43 @@ import androidx.annotation.RequiresPermission
  * A default internal API for removing a network through the Android OS.
  *
  * @author Patches Barrett
- * @since 03/2022
+ * @since 12/2022, version 5.0.0
  */
 internal interface DefaultRemoveNetworkApi {
 
+    /**
+     * An Android 30 API for removing a network by SSID.
+     *
+     * *NOTE*
+     * - Only removes the first network whose SSID matches
+     * - Returns for this are the same as `removeNetwork` found here:
+     * https://developer.android.com/reference/android/net/wifi/WifiManager#removeNetwork(int)
+     *
+     * @param ssid The SSID of the network to remove
+     *
+     * @return Int - The result while removing the network a network
+     *
+     * @author Patches Barrett
+     * @since 12/2022, version 5.0.0
+     */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    fun removeNetworkBySSID(regexForSSID: String): Boolean
+    fun removeNetworkBySSID(ssid: String): Boolean
 
+    /**
+     * An Android 30 API for removing a network by BSSID.
+     *
+     * *NOTE*
+     * - Only removes the first network whose BSSID matches
+     * - Returns for this are the same as `removeNetwork` found here:
+     * https://developer.android.com/reference/android/net/wifi/WifiManager#removeNetwork(int)
+     *
+     * @param bssid The BSSID of the network to remove
+     *
+     * @return Int - The result while removing the network a network
+     *
+     * @author Patches Barrett
+     * @since 12/2022, version 5.0.0
+     */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    fun removeNetworkByBSSID(regexForBSSID: String): Boolean
+    fun removeNetworkByBSSID(bssid: String): Boolean
 }

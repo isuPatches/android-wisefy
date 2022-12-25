@@ -21,20 +21,22 @@ import android.net.wifi.WifiNetworkSuggestion
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
-import com.isupatches.android.wisefy.core.hasBSSIDMatchingRegex
-import com.isupatches.android.wisefy.core.hasSSIDMatchingRegex
+import com.isupatches.android.wisefy.core.bssidWithoutQuotes
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
+import com.isupatches.android.wisefy.core.ssidWithoutQuotes
 import com.isupatches.android.wisefy.removenetwork.os.apis.Android30RemoveNetworkApi
 
 /**
- * An Android 29 specific implementation for removing a network.
+ * An Android 30 or higher implementation for removing a network.
  *
- * @param wifiManager The WifiManager instance to use
+ * @property wifiManager The WifiManager instance to use
+ * @property logger The [WisefyLogger] instance to use
  *
  * @see Android30RemoveNetworkApi
+ * @see WisefyLogger
  *
  * @author Patches Barrett
- * @since 03/2022
+ * @since 12/2022, version 5.0.0
  */
 @RequiresApi(Build.VERSION_CODES.R)
 internal class Android30RemoveNetworkApiImpl(
@@ -43,14 +45,18 @@ internal class Android30RemoveNetworkApiImpl(
 ) : Android30RemoveNetworkApi {
 
     @RequiresPermission(CHANGE_WIFI_STATE)
-    override fun removeNetworkBySSID(regexForSSID: String): Int {
-        val networkToRemove = wifiManager.networkSuggestions.firstOrNull { it.hasSSIDMatchingRegex(regexForSSID) }
+    override fun removeNetworkBySSID(ssid: String): Int {
+        val networkToRemove = wifiManager.networkSuggestions.firstOrNull {
+            it.ssidWithoutQuotes.equals(ssid, ignoreCase = true)
+        }
         return removeNetworkSuggestion(networkSuggestion = networkToRemove)
     }
 
     @RequiresPermission(CHANGE_WIFI_STATE)
-    override fun removeNetworkByBSSID(regexForBSSID: String): Int {
-        val networkToRemove = wifiManager.networkSuggestions.firstOrNull { it.hasBSSIDMatchingRegex(regexForBSSID) }
+    override fun removeNetworkByBSSID(bssid: String): Int {
+        val networkToRemove = wifiManager.networkSuggestions.firstOrNull {
+            it.bssidWithoutQuotes.equals(bssid, ignoreCase = true)
+        }
         return removeNetworkSuggestion(networkSuggestion = networkToRemove)
     }
 

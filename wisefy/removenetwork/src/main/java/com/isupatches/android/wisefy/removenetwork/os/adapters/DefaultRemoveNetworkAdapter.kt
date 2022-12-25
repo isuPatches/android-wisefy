@@ -29,15 +29,17 @@ import com.isupatches.android.wisefy.removenetwork.os.impls.DefaultRemoveNetwork
 /**
  * A default adapter for removing a network.
  *
+ * @param logger The [WisefyLogger] instance to use
  * @param wifiManager The WifiManager instance to use
- * @param api The OS level API instance to use
+ * @property api The OS level API instance to use
  *
  * @see DefaultRemoveNetworkApi
  * @see DefaultRemoveNetworkApiImpl
  * @see RemoveNetworkApi
+ * @see WisefyLogger
  *
  * @author Patches Barrett
- * @since 03/2022
+ * @since 12/2022, version 5.0.0
  */
 internal class DefaultRemoveNetworkAdapter(
     logger: WisefyLogger,

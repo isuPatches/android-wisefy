@@ -27,7 +27,7 @@ sealed class CalculateSignalLevelResult {
     /**
      * A representation of a success while attempting to calculate the sign level of a network.
      *
-     * @param value The number of signal bars for the network based on its RSSI level
+     * @property value The number of signal bars for the network based on its RSSI level
      *
      * @see CalculateSignalLevelResult
      *

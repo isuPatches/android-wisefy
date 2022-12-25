@@ -40,18 +40,23 @@ import kotlinx.coroutines.withContext
 /**
  * An internal Wisefy delegate for removing a network through the Android OS.
  *
- * @param coroutineDispatcherProvider The instance of the coroutine dispatcher provider to use
- * @param scope The coroutine scope to use
- * @param logger The logger instance to use
- * @param sdkUtil The SdkUtil instance to use
+ * @property coroutineDispatcherProvider The instance of the coroutine dispatcher provider to use
+ * @property scope The coroutine scope to use
+ * @property savedNetworkMutex A mutex shared with add/remove network to ensure synchronization between saved network
+ *  reads and writes
+ * @param assertions The [WisefyAssertions] instance to use
+ * @param logger The [WisefyLogger] instance to use
+ * @param sdkUtil The [SdkUtil] instance to use
  * @param wifiManager The WifiManager instance to use
+ * @property adapter The adapter instance to use for removing a network (determined based on the Android OS level)
  *
  * @see CoroutineDispatcherProvider
  * @see SdkUtil
+ * @see WisefyAssertions
  * @see WisefyLogger
  *
  * @author Patches Barrett
- * @since 03/2022
+ * @since 12/2022, version 5.0.0
  */
 class WisefyRemoveNetworkDelegate(
     private val coroutineDispatcherProvider: CoroutineDispatcherProvider,

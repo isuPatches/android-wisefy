@@ -24,7 +24,7 @@ import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkResult
  * @see BaseWisefyCallbacks
  *
  * @author Patches Barrett
- * @since 03/2022
+ * @since 12/2022, version 5.0.0
  */
 interface RemoveNetworkCallbacks : BaseWisefyCallbacks {
 
@@ -36,7 +36,7 @@ interface RemoveNetworkCallbacks : BaseWisefyCallbacks {
      * @see RemoveNetworkResult
      *
      * @author Patches Barrett
-     * @since 03/2022
+     * @since 12/2022, version 5.0.0
      */
     fun onFailureRemovingNetwork(result: RemoveNetworkResult.Failure)
 
@@ -48,7 +48,7 @@ interface RemoveNetworkCallbacks : BaseWisefyCallbacks {
      * @see RemoveNetworkResult
      *
      * @author Patches Barrett
-     * @since 03/2022
+     * @since 12/2022, version 5.0.0
      */
     fun onSuccessRemovingNetwork(result: RemoveNetworkResult.Success)
 }

@@ -32,17 +32,19 @@ import com.isupatches.android.wisefy.savednetworks.os.apis.Android30SavedNetwork
 import com.isupatches.android.wisefy.savednetworks.os.impls.Android30SavedNetworkApiImpl
 
 /**
- * An Android 30 specific adapter for adding networks.
+ * An Android 30 or higher adapter for adding networks.
  *
  * @param wifiManager The WifiManager instance to use
- * @param api The OS level API instance to use
+ * @param logger The [WisefyLogger] instance to use
+ * @property api The OS level API instance to use
  *
  * @see Android30SavedNetworkApi
  * @see Android30SavedNetworkApiImpl
  * @see SavedNetworkApi
+ * @see WisefyLogger
  *
  * @author Patches Barrett
- * @since 07/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 @RequiresApi(Build.VERSION_CODES.R)
 internal class Android30SavedNetworkAdapter(

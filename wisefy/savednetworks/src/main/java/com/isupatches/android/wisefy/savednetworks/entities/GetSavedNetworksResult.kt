@@ -20,7 +20,7 @@ package com.isupatches.android.wisefy.savednetworks.entities
  * device.
  *
  * @author Patches Barrett
- * @since 07/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 sealed class GetSavedNetworksResult {
 
@@ -30,7 +30,7 @@ sealed class GetSavedNetworksResult {
      * @see GetSavedNetworksResult
      *
      * @author Patches Barrett
-     * @since 07/2022, version 5.0.0
+     * @since 12/2022, version 5.0.0
      */
     object Empty : GetSavedNetworksResult()
 
@@ -43,7 +43,7 @@ sealed class GetSavedNetworksResult {
      * @see SavedNetworkData
      *
      * @author Patches Barrett
-     * @since 07/2022, version 5.0.0
+     * @since 12/2022, version 5.0.0
      */
     data class SavedNetworks(val value: List<SavedNetworkData>) : GetSavedNetworksResult()
 }

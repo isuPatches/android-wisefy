@@ -29,17 +29,19 @@ import com.isupatches.android.wisefy.removenetwork.os.apis.Android30RemoveNetwor
 import com.isupatches.android.wisefy.removenetwork.os.impls.Android30RemoveNetworkApiImpl
 
 /**
- * An Android 29 specific adapter for removing a network.
+ * An Android 30 or higher adapter for removing a network.
  *
- * @param wifiManager The WifiManager instance to use
- * @param api The OS level API instance to use
+ * @param logger The [WisefyLogger] instance to use
+ * @property wifiManager The WifiManager instance to use
+ * @property api The OS level API instance to use
  *
  * @see Android30RemoveNetworkApi
  * @see Android30RemoveNetworkApiImpl
  * @see RemoveNetworkApi
+ * @see WisefyLogger
  *
  * @author Patches Barrett
- * @since 03/2022
+ * @since 12/2022, version 5.0.0
  */
 @RequiresApi(Build.VERSION_CODES.R)
 internal class Android30RemoveNetworkAdapter(

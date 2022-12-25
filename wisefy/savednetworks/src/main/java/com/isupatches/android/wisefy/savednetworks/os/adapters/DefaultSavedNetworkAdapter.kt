@@ -33,14 +33,16 @@ import com.isupatches.android.wisefy.savednetworks.os.impls.DefaultSavedNetworkA
  * A default adapter for adding networks.
  *
  * @param wifiManager The WifiManager instance to use
- * @param api The OS level API instance to use
+ * @param logger The [WisefyLogger] instance to use
+ * @property api The OS level API instance to use
  *
  * @see DefaultSavedNetworkApi
  * @see DefaultSavedNetworkApiImpl
  * @see SavedNetworkApi
+ * @see WisefyLogger
  *
  * @author Patches Barrett
- * @since 07/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 internal class DefaultSavedNetworkAdapter(
     wifiManager: WifiManager,

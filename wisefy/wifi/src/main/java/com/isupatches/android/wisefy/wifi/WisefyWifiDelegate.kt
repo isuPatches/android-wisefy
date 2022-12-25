@@ -44,14 +44,14 @@ import kotlinx.coroutines.withContext
 /**
  * An internal Wisefy delegate for enabling, disabling, and checking the state of wifi.
  *
- * @param coroutineDispatcherProvider The [CoroutineDispatcherProvider] instance to use
- * @param scope The coroutine scope to use
- * @param wifiMutex The mutex for all read/write operations involving wifi
+ * @property coroutineDispatcherProvider The [CoroutineDispatcherProvider] instance to use
+ * @property scope The coroutine scope to use
+ * @property wifiMutex The mutex for all read/write operations involving wifi
  * @param assertions The [WisefyAssertions] instance to use
  * @param logger The [WisefyLogger] instance to use
  * @param sdkUtil The [SdkUtil] instance to use
  * @param wifiManager The WifiManager instance to use
- * @param adapter The adapter instance to use for wifi operations (determined based on the Android OS level)
+ * @property adapter The adapter instance to use for wifi operations (determined based on the Android OS level)
  *
  * @see Android29WifiAdapter
  * @see CoroutineDispatcherProvider
@@ -72,15 +72,12 @@ class WisefyWifiDelegate(
     logger: WisefyLogger,
     sdkUtil: SdkUtil,
     wifiManager: WifiManager,
-    private val adapter: WifiApi = when {
-        sdkUtil.isAtLeastQ() -> Android29WifiAdapter(wifiManager, logger, assertions)
-        else -> DefaultWifiAdapter(wifiManager, logger, assertions)
+    private val adapter: WifiApi = if (sdkUtil.isAtLeastQ()) {
+        Android29WifiAdapter(wifiManager, logger, assertions)
+    } else {
+        DefaultWifiAdapter(wifiManager, logger, assertions)
     }
 ) : WifiDelegate {
-
-    companion object {
-        private const val LOG_TAG = "WisefyWifiDelegate"
-    }
 
     init {
         logger.d(LOG_TAG, "WisefyWifiDelegate adapter is: ${adapter::class.java.simpleName}")
@@ -144,5 +141,9 @@ class WisefyWifiDelegate(
                 }
             }
         }
+    }
+
+    companion object {
+        private const val LOG_TAG = "WisefyWifiDelegate"
     }
 }

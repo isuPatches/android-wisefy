@@ -112,7 +112,7 @@ fun WifiNetworkSuggestion.hasBSSIDMatchingRegex(regex: String): Boolean {
  * @author Patches Barrett
  * @since 12/2022, version 5.0.0
  */
-private val WifiNetworkSuggestion.ssidWithoutQuotes: String
+val WifiNetworkSuggestion.ssidWithoutQuotes: String
     @RequiresApi(Build.VERSION_CODES.R)
     get() = ssid?.replace(QUOTE, "") ?: ""
 
@@ -125,6 +125,6 @@ private val WifiNetworkSuggestion.ssidWithoutQuotes: String
  * @author Patches Barrett
  * @since 12/2022, version 5.0.0
  */
-private val WifiNetworkSuggestion.bssidWithoutQuotes: String
+val WifiNetworkSuggestion.bssidWithoutQuotes: String
     @RequiresApi(Build.VERSION_CODES.R)
     get() = bssid?.toString()?.replace(QUOTE, "") ?: ""

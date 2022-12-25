@@ -45,22 +45,28 @@ import kotlinx.coroutines.withContext
  * *Notes*
  *  - These functions share a mutex with add/remove network
  *
- * @param coroutineDispatcherProvider The CoroutineDispatcherProvider instance to use
- * @param scope The CoroutineScope to use
- * @param savedNetworkMutex A mutex shared with add/remove network to ensure synchronization between saved network
+ * @property coroutineDispatcherProvider The CoroutineDispatcherProvider instance to use
+ * @property scope The CoroutineScope to use
+ * @property savedNetworkMutex A mutex shared with add/remove network to ensure synchronization between saved network
  *  reads and writes
  * @param assertions The [WisefyAssertions] instance to use
  * @param logger The [WisefyLogger] instance to use
  * @param sdkUtil The [SdkUtil] instance to use
  * @param wifiManager The WifiManager instance to use
+ * @property adapter The adapter instance to use for querying for saved networks and checking if a network is saved
+ * (determined based on the Android OS level)
  *
+ * @see Android29SavedNetworkAdapter
+ * @see Android30SavedNetworkAdapter
  * @see CoroutineDispatcherProvider
+ * @see DefaultSavedNetworkAdapter
  * @see WisefyAssertions
  * @see WisefyLogger
+ * @see SavedNetworkApi
  * @see SdkUtil
  *
  * @author Patches Barrett
- * @since 07/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 class WisefySavedNetworkDelegate(
     private val coroutineDispatcherProvider: CoroutineDispatcherProvider,
@@ -76,10 +82,6 @@ class WisefySavedNetworkDelegate(
         else -> DefaultSavedNetworkAdapter(wifiManager, logger)
     }
 ) : SavedNetworkDelegate {
-
-    companion object {
-        private const val LOG_TAG = "WisefySavedNetworkDelegate"
-    }
 
     init {
         logger.d(LOG_TAG, "WisefySavedNetworkDelegate adapter is: ${adapter::class.java.simpleName}")
@@ -125,5 +127,9 @@ class WisefySavedNetworkDelegate(
                 }
             }
         }
+    }
+
+    companion object {
+        private const val LOG_TAG = "WisefySavedNetworkDelegate"
     }
 }

@@ -37,8 +37,8 @@ import com.isupatches.android.wisefy.wifi.os.impls.DefaultWifiApiImpl
  *
  * @param wifiManager The WifiManager instance to use
  * @param logger The [WisefyLogger] instance to use
- * @param assertions The [WisefyAssertions] instance to use
- * @param api The OS level API instance to use
+ * @property assertions The [WisefyAssertions] instance to use
+ * @property api The OS level API instance to use
  *
  * @see DefaultWifiApi
  * @see DefaultWifiApiImpl
@@ -58,39 +58,33 @@ internal class DefaultWifiAdapter(
 
     @RequiresPermission(CHANGE_WIFI_STATE)
     override fun disableWifi(request: DisableWifiRequest): DisableWifiResult {
-        return when (request) {
-            is DisableWifiRequest.Default -> {
-                val result = api.disableWifi()
-                if (result) {
-                    DisableWifiResult.Success.Disabled
-                } else {
-                    DisableWifiResult.Failure.UnableToDisable
-                }
+        return if (request is DisableWifiRequest.Default) {
+            val result = api.disableWifi()
+            if (result) {
+                DisableWifiResult.Success.Disabled
+            } else {
+                DisableWifiResult.Failure.UnableToDisable
             }
-            else -> {
-                val message = AssertionMessages.Wifi.ANDROID_29_REQUEST_USED_ON_PRE_ANDROID_29
-                assertions.fail(message = message)
-                DisableWifiResult.Failure.Assertion(message = message)
-            }
+        } else {
+            val message = AssertionMessages.Wifi.ANDROID_29_REQUEST_USED_ON_PRE_ANDROID_29
+            assertions.fail(message = message)
+            DisableWifiResult.Failure.Assertion(message = message)
         }
     }
 
     @RequiresPermission(CHANGE_WIFI_STATE)
     override fun enableWifi(request: EnableWifiRequest): EnableWifiResult {
-        return when (request) {
-            is EnableWifiRequest.Default -> {
-                val result = api.enableWifi()
-                if (result) {
-                    EnableWifiResult.Success.Enabled
-                } else {
-                    EnableWifiResult.Failure.UnableToEnable
-                }
+        return if (request is EnableWifiRequest.Default) {
+            val result = api.enableWifi()
+            if (result) {
+                EnableWifiResult.Success.Enabled
+            } else {
+                EnableWifiResult.Failure.UnableToEnable
             }
-            else -> {
-                val message = AssertionMessages.Wifi.ANDROID_29_REQUEST_USED_ON_PRE_ANDROID_29
-                assertions.fail(message = message)
-                EnableWifiResult.Failure.Assertion(message = message)
-            }
+        } else {
+            val message = AssertionMessages.Wifi.ANDROID_29_REQUEST_USED_ON_PRE_ANDROID_29
+            assertions.fail(message = message)
+            EnableWifiResult.Failure.Assertion(message = message)
         }
     }
 

@@ -23,7 +23,7 @@ import com.isupatches.android.wisefy.signal.os.apis.DefaultSignalApi
 /**
  * A default implementation for signal strength functionality through the Android OS.
  *
- * @param logger The [WisefyLogger] instance to use
+ * @property logger The [WisefyLogger] instance to use
  *
  * @see DefaultSignalApi
  * @see WisefyLogger
@@ -34,10 +34,6 @@ import com.isupatches.android.wisefy.signal.os.apis.DefaultSignalApi
 internal class DefaultSignalApiImpl(
     private val logger: WisefyLogger
 ) : DefaultSignalApi {
-
-    companion object {
-        private const val LOG_TAG = "DefaultSignalApiImpl"
-    }
 
     @Deprecated(
         message = DeprecationMessages.Signal.CALCULATE_BARS,
@@ -54,5 +50,9 @@ internal class DefaultSignalApiImpl(
         val result = WifiManager.compareSignalLevel(rssi1, rssi2)
         logger.d(LOG_TAG, "Result from compareSignalLevel: $result")
         return result
+    }
+
+    companion object {
+        private const val LOG_TAG = "DefaultSignalApiImpl"
     }
 }

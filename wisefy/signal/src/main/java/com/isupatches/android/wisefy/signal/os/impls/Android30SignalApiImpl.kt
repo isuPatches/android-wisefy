@@ -24,8 +24,8 @@ import com.isupatches.android.wisefy.signal.os.apis.Android30SignalApi
 /**
  * An Android 30 or higher internal implementation for signal strength functionality through the Android OS.
  *
- * @param wifiManager The WifiManager instance to use
- * @param logger The [WisefyLogger] instance to use
+ * @property wifiManager The WifiManager instance to use
+ * @property logger The [WisefyLogger] instance to use
  *
  * @see Android30SignalApi
  * @see WisefyLogger
@@ -39,10 +39,6 @@ internal class Android30SignalApiImpl(
     private val logger: WisefyLogger
 ) : Android30SignalApi {
 
-    companion object {
-        private const val LOG_TAG = "Android30SignalApiImpl"
-    }
-
     override fun calculateSignalLevel(rssiLevel: Int): Int {
         val result = wifiManager.calculateSignalLevel(rssiLevel)
         logger.d(LOG_TAG, "Result from calculateSignalLevel: $result")
@@ -53,5 +49,9 @@ internal class Android30SignalApiImpl(
         val result = WifiManager.compareSignalLevel(rssi1, rssi2)
         logger.d(LOG_TAG, "Result from compareSignalLevel: $result")
         return result
+    }
+
+    companion object {
+        private const val LOG_TAG = "Android30SignalApiImpl"
     }
 }

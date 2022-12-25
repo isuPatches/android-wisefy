@@ -31,13 +31,13 @@ import com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedResult
 /**
  * An Android 29 specific adapter for adding networks.
  *
- * @param assertions The [WisefyAssertions] instance to use
+ * @property assertions The [WisefyAssertions] instance to use
  *
  * @see SavedNetworkApi
  * @see WisefyAssertions
  *
  * @author Patches Barrett
- * @since 07/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 @RequiresApi(Build.VERSION_CODES.Q)
 internal class Android29SavedNetworkAdapter(

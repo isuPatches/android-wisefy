@@ -19,13 +19,41 @@ package com.isupatches.android.wisefy.savednetworks.entities
  * A data representation of a request to get all of the saved networks on the device.
  *
  * @author Patches Barrett
- * @since 07/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 sealed class GetSavedNetworksQuery {
 
+    /**
+     * A data representation of a query to get all saved networks.
+     *
+     * @see GetSavedNetworksQuery
+     *
+     * @author Patches Barrett
+     * @since 12/2022, version 5.0.0
+     */
     object All : GetSavedNetworksQuery()
 
+    /**
+     * A data representation of a query to get saved networks matching a given SSID.
+     *
+     * @property regex The regex to use when finding the network by SSID
+     *
+     * @see GetSavedNetworksQuery
+     *
+     * @author Patches Barrett
+     * @since 12/2022, version 5.0.0
+     */
     data class BySSID(val regex: String) : GetSavedNetworksQuery()
 
+    /**
+     * A data representation of a query to get saved networks matching a given BSSID.
+     *
+     * @property regex The regex to use when finding the network by BSSID
+     *
+     * @see GetSavedNetworksQuery
+     *
+     * @author Patches Barrett
+     * @since 12/2022, version 5.0.0
+     */
     data class ByBSSID(val regex: String) : GetSavedNetworksQuery()
 }

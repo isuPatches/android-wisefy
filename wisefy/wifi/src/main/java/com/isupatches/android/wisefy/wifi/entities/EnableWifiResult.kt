@@ -19,7 +19,7 @@ package com.isupatches.android.wisefy.wifi.entities
  * A set of classes and objects that are data representations of a result when enabling Wifi.
  *
  * @author Patches Barrett
- * @since 07/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 sealed class EnableWifiResult {
 
@@ -29,7 +29,7 @@ sealed class EnableWifiResult {
      * @see EnableWifiResult
      *
      * @author Patches Barrett
-     * @since 07/2022, version 5.0.0
+     * @since 12/2022, version 5.0.0
      */
     sealed class Success : EnableWifiResult() {
 

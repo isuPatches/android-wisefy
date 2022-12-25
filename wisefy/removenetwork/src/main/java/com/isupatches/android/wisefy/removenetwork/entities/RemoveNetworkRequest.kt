@@ -19,31 +19,31 @@ package com.isupatches.android.wisefy.removenetwork.entities
  * A set of classes and objects that are used to represent requests for removing a network.
  *
  * @author Patches Barrett
- * @since 03/2022
+ * @since 12/2022, version 5.0.0
  */
 sealed class RemoveNetworkRequest {
 
     /**
      * A data representation to remove a network by SSID.
      *
-     * @param regex The regex to use when finding the network by SSID
+     * @property regex The regex to use when finding the network by SSID
      *
      * @see RemoveNetworkRequest
      *
      * @author Patches Barrett
-     * @since 03/2022
+     * @since 12/2022, version 5.0.0
      */
     data class SSID(val regex: String) : RemoveNetworkRequest()
 
     /**
      * A data representation to remove a network by BSSID.
      *
-     * @param regex The regex to use when finding the network by BSSID
+     * @property regex The regex to use when finding the network by BSSID
      *
      * @see RemoveNetworkRequest
      *
      * @author Patches Barrett
-     * @since 03/2022
+     * @since 12/2022, version 5.0.0
      */
     data class BSSID(val regex: String) : RemoveNetworkRequest()
 }

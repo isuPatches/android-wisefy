@@ -28,24 +28,22 @@ import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.savednetworks.os.apis.Android30SavedNetworkApi
 
 /**
- * An internal Android 30 specific implementation for getting and searching for saved networks through the Android OS.
+ * An internal Android 30 or higher implementation for getting and searching for saved networks through the Android OS.
  *
- * @param wifiManager The WifiManager instance to use
+ * @property wifiManager The WifiManager instance to use
+ * @property logger The [WisefyLogger] instance to use
  *
  * @see Android30SavedNetworkApi
+ * @see WisefyLogger
  *
  * @author Patches Barrett
- * @since 07/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 @RequiresApi(Build.VERSION_CODES.R)
 internal class Android30SavedNetworkApiImpl(
     private val wifiManager: WifiManager,
     private val logger: WisefyLogger
 ) : Android30SavedNetworkApi {
-
-    companion object {
-        private const val LOG_TAG = "Android30SavedNetworkApiImpl"
-    }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun getSavedNetworks(): List<WifiNetworkSuggestion> {
@@ -62,5 +60,9 @@ internal class Android30SavedNetworkApiImpl(
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun searchForSavedNetworksByBSSID(regexForBSSID: String): List<WifiNetworkSuggestion> {
         return getSavedNetworks().filter { it.hasBSSIDMatchingRegex(regexForBSSID) }
+    }
+
+    companion object {
+        private const val LOG_TAG = "Android30SavedNetworkApiImpl"
     }
 }

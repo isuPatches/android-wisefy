@@ -30,9 +30,9 @@ sealed class CompareSignalLevelResult {
      * *Notes*
      * See https://developer.android.com/reference/android/net/wifi/WifiManager#compareSignalLevel(int,%20int)
      *
-     * @param value The result of the comparison. This will be less than 0 if first RSSI value is weaker than the second
-     * RSSI, 0 if the two have the same strength, and greater than zero if the first RSSI is stronger than the second
-     * RSSI value.
+     * @property value The result of the comparison. This will be less than 0 if first RSSI value is weaker than the
+     * second RSSI, 0 if the two have the same strength, and greater than zero if the first RSSI is stronger than the
+     * second RSSI value.
      *
      * @author Patches Barrett
      * @since 12/2022, version 5.0.0
@@ -42,7 +42,7 @@ sealed class CompareSignalLevelResult {
         /**
          * A representation of when the first network has an RSSI value that is weaker than the second network's RSSI.
          *
-         * @param value The difference between the first and second networks RSSI value (expected to be negative)
+         * @property value The difference between the first and second networks RSSI value (expected to be negative)
          *
          * @see Success
          *
@@ -54,7 +54,7 @@ sealed class CompareSignalLevelResult {
         /**
          * A representation of when the first network has an RSSI value that is equal to the second network's RSSI.
          *
-         * @param value The difference between the first and second networks RSSI value (always 0)
+         * @property value The difference between the first and second networks RSSI value (always 0)
          *
          * @see Success
          *
@@ -66,7 +66,7 @@ sealed class CompareSignalLevelResult {
         /**
          * A representation of when the first network has an RSSI value that is stronger than the second network's RSSI.
          *
-         * @param value The difference between the first and second networks RSSI value (expected to be positive)
+         * @property value The difference between the first and second networks RSSI value (expected to be positive)
          *
          * @see Success
          *

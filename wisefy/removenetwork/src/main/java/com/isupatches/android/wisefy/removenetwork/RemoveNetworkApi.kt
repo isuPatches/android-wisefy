@@ -27,7 +27,7 @@ import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkResult
  * A set of synchronous APIs for removing a network.
  *
  * @author Patches Barrett
- * @since 03/2022
+ * @since 12/2022, version 5.0.0
  */
 interface RemoveNetworkApi {
 
@@ -42,7 +42,7 @@ interface RemoveNetworkApi {
      * @return RemoveNetworkResult - The result of removing a network
      *
      * @author Patches Barrett
-     * @since 03/2022
+     * @since 12/2022, version 5.0.0
      */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE, CHANGE_WIFI_STATE])
     fun removeNetwork(request: RemoveNetworkRequest): RemoveNetworkResult

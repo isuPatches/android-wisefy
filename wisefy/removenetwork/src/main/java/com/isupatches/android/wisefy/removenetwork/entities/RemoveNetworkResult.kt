@@ -19,7 +19,7 @@ package com.isupatches.android.wisefy.removenetwork.entities
  * A set of classes and objects that are used to represent a result while attempting to remove a network.
  *
  * @author Patches Barrett
- * @since 03/2022
+ * @since 12/2022, version 5.0.0
  */
 sealed class RemoveNetworkResult {
 
@@ -29,7 +29,7 @@ sealed class RemoveNetworkResult {
      * @see RemoveNetworkResult
      *
      * @author Patches Barrett
-     * @since 03/2022
+     * @since 12/2022, version 5.0.0
      */
     sealed class Success : RemoveNetworkResult() {
 
@@ -45,7 +45,7 @@ sealed class RemoveNetworkResult {
          * @see Success
          *
          * @author Patches Barrett
-         * @since 03/2022
+         * @since 12/2022, version 5.0.0
          */
         data class ResultCode(val value: Int) : Success()
 
@@ -59,7 +59,7 @@ sealed class RemoveNetworkResult {
          * @see Success
          *
          * @author Patches Barrett
-         * @since 03/2022
+         * @since 12/2022, version 5.0.0
          */
         object True : Success()
     }
@@ -70,7 +70,7 @@ sealed class RemoveNetworkResult {
      * @see RemoveNetworkResult
      *
      * @author Patches Barrett
-     * @since 03/2022
+     * @since 12/2022, version 5.0.0
      */
     sealed class Failure : RemoveNetworkResult() {
 
@@ -84,19 +84,9 @@ sealed class RemoveNetworkResult {
          * @see Failure
          *
          * @author Patches Barrett
-         * @since 03/2022
+         * @since 12/2022, version 5.0.0
          */
         object False : Failure()
-
-        /**
-         * A data representation of a failure finding the network to remove.
-         *
-         * @see Failure
-         *
-         * @author Patches Barrett
-         * @since 03/2022
-         */
-        object NetworkNotFound : Failure()
 
         /**
          * A data representation of a failure removing a network based on Android OS level returns.
@@ -110,10 +100,22 @@ sealed class RemoveNetworkResult {
          * @see Failure
          *
          * @author Patches Barrett
-         * @since 03/2022
+         * @since 12/2022, version 5.0.0
          */
         data class ResultCode(val value: Int) : Failure()
 
+        /**
+         * A representation of a failure removing a network due to hitting an unexpected path causing an assertion.
+         *
+         * *NOTE* This is for developer specific feedback and should NEVER actually be hit unless there is a bug.
+         *
+         * @property message A text description describing the assertion error hit
+         *
+         * @see Failure
+         *
+         * @author Patches Barrett
+         * @since 12/2022, version 5.0.0
+         */
         data class Assertion(val message: String) : Failure()
     }
 }

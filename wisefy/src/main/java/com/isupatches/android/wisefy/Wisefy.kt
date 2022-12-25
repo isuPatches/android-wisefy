@@ -309,7 +309,7 @@ class Wisefy private constructor(
          * @return [Brains] - The builder instance
          *
          * @author Patches Barrett
-         * @since 07/2022, version 5.0.0
+         * @since 12/2022, version 5.0.0
          */
         internal fun logger(logger: WisefyLogger): Brains = apply {
             this.logger = logger
@@ -323,7 +323,7 @@ class Wisefy private constructor(
          * @return [Brains] - The builder instance
          *
          * @author Patches Barrett
-         * @since 07/2022, version 5.0.0
+         * @since 12/2022, version 5.0.0
          */
         @VisibleForTesting
         internal fun customConnectivityManager(connectivityManager: ConnectivityManager): Brains = apply {
@@ -338,7 +338,7 @@ class Wisefy private constructor(
          * @return [Brains] - The builder instance
          *
          * @author Patches Barrett
-         * @since 07/2022, version 5.0.0
+         * @since 12/2022, version 5.0.0
          */
         @VisibleForTesting
         internal fun customWifiManager(wifiManager: WifiManager): Brains = apply {
@@ -355,7 +355,7 @@ class Wisefy private constructor(
          * @return [Brains] - The builder instance
          *
          * @author Patches Barrett
-         * @since 07/2022, version 5.0.0
+         * @since 12/2022, version 5.0.0
          */
         @VisibleForTesting
         internal fun customAccessPointsDelegate(accessPointsDelegate: AccessPointsDelegate): Brains = apply {
@@ -372,7 +372,7 @@ class Wisefy private constructor(
          * @return [Brains] - The builder instance
          *
          * @author Patches Barrett
-         * @since 07/2022, version 5.0.0
+         * @since 12/2022, version 5.0.0
          */
         @VisibleForTesting
         internal fun customAddNetworkDelegate(addNetworkDelegate: AddNetworkDelegate): Brains = apply {
@@ -389,7 +389,7 @@ class Wisefy private constructor(
          * @return [Brains] - The builder instance
          *
          * @author Patches Barrett
-         * @since 07/2022, version 5.0.0
+         * @since 12/2022, version 5.0.0
          */
         @VisibleForTesting
         internal fun customNetworkConnectionDelegate(
@@ -408,7 +408,7 @@ class Wisefy private constructor(
          * @return [Brains] - The builder instance
          *
          * @author Patches Barrett
-         * @since 07/2022, version 5.0.0
+         * @since 12/2022, version 5.0.0
          */
         @VisibleForTesting
         internal fun customNetworkInfoDelegate(networkInfoDelegate: NetworkInfoDelegate): Brains = apply {
@@ -425,7 +425,7 @@ class Wisefy private constructor(
          * @return [Brains] - The builder instance
          *
          * @author Patches Barrett
-         * @since 07/2022, version 5.0.0
+         * @since 12/2022, version 5.0.0
          */
         @VisibleForTesting
         internal fun customRemoveNetworkDelegate(removeNetworkDelegate: RemoveNetworkDelegate): Brains = apply {
@@ -442,7 +442,7 @@ class Wisefy private constructor(
          * @return [Brains] - The builder instance
          *
          * @author Patches Barrett
-         * @since 07/2022, version 5.0.0
+         * @since 12/2022, version 5.0.0
          */
         @VisibleForTesting
         internal fun customSavedNetworkDelegate(savedNetworkDelegate: SavedNetworkDelegate): Brains = apply {
@@ -459,7 +459,7 @@ class Wisefy private constructor(
          * @return [Brains] - The builder instance
          *
          * @author Patches Barrett
-         * @since 07/2022, version 5.0.0
+         * @since 12/2022, version 5.0.0
          */
         @VisibleForTesting
         internal fun customSignalDelegate(signalDelegate: SignalDelegate): Brains = apply {
@@ -476,7 +476,7 @@ class Wisefy private constructor(
          * @return [Brains] - The builder instance
          *
          * @author Patches Barrett
-         * @since 07/2022, version 5.0.0
+         * @since 12/2022, version 5.0.0
          */
         @VisibleForTesting
         internal fun customWifiDelegate(wifiDelegate: WifiDelegate): Brains = apply {
@@ -490,7 +490,7 @@ class Wisefy private constructor(
          * @return WisefyApi - The Wisefy instance created by the [Wisefy.Brains] builder
          *
          * @author Patches Barrett
-         * @since 07/2022, version 5.0.0
+         * @since 12/2022, version 5.0.0
          */
         fun getSmarts(): WisefyApi {
             return Wisefy(

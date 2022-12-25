@@ -21,17 +21,47 @@ import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 
 /**
- * An Android 29 specific API for removing a network through the Android OS.
+ * An Android 30 or higher API for removing a network through the Android OS.
  *
  * @author Patches Barrett
- * @since 03/2022
+ * @since 12/2022, version 5.0.0
  */
 @RequiresApi(Build.VERSION_CODES.R)
 internal interface Android30RemoveNetworkApi {
 
+    /**
+     * An Android 30 API for removing a network by SSID.
+     *
+     * *NOTE*
+     * - Only removes the first network whose SSID matches
+     * - Returns for this are the same as `removeNetworkSuggestion` found here:
+     *  https://developer.android.com/reference/android/net/wifi/WifiManager#removeNetworkSuggestions(java.util.List%3Candroid.net.wifi.WifiNetworkSuggestion%3E,%20int)
+     *
+     * @param ssid The SSID of the network to remove
+     *
+     * @return Int - The result while removing the network a network
+     *
+     * @author Patches Barrett
+     * @since 12/2022, version 5.0.0
+     */
     @RequiresPermission(CHANGE_WIFI_STATE)
-    fun removeNetworkBySSID(regexForSSID: String): Int
+    fun removeNetworkBySSID(ssid: String): Int
 
+    /**
+     * An Android 30 API for removing a network by BSSID.
+     *
+     * *NOTE*
+     * - Only removes the first network whose BSSID matches
+     * - Returns for this are the same as `removeNetworkSuggestion` found here:
+     *  https://developer.android.com/reference/android/net/wifi/WifiManager#removeNetworkSuggestions(java.util.List%3Candroid.net.wifi.WifiNetworkSuggestion%3E,%20int)
+     *
+     * @param bssid The BSSID of the network to remove
+     *
+     * @return Int - The result while removing the network a network
+     *
+     * @author Patches Barrett
+     * @since 12/2022, version 5.0.0
+     */
     @RequiresPermission(CHANGE_WIFI_STATE)
-    fun removeNetworkByBSSID(regexForBSSID: String): Int
+    fun removeNetworkByBSSID(bssid: String): Int
 }

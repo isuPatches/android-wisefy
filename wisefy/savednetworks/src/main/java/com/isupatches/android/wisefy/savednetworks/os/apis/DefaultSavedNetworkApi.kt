@@ -24,7 +24,7 @@ import androidx.annotation.RequiresPermission
  * A default internal API for getting and searching for saved networks through the Android OS.
  *
  * @author Patches Barrett
- * @since 07/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 internal interface DefaultSavedNetworkApi {
 
@@ -34,7 +34,7 @@ internal interface DefaultSavedNetworkApi {
      * @return List<WifiConfiguration> - The list of saved networks
      *
      * @author Patches Barrett
-     * @since 07/2022, version 5.0.0
+     * @since 12/2022, version 5.0.0
      */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     fun getSavedNetworks(): List<WifiConfiguration>
@@ -47,7 +47,7 @@ internal interface DefaultSavedNetworkApi {
      * @return List<WifiConfiguration> - The list of matching saved networks
      *
      * @author Patches Barrett
-     * @since 07/2022, version 5.0.0
+     * @since 12/2022, version 5.0.0
      */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     fun searchForSavedNetworksBySSID(regexForSSID: String): List<WifiConfiguration>
@@ -60,7 +60,7 @@ internal interface DefaultSavedNetworkApi {
      * @return List<WifiConfiguration> - The list of matching saved networks
      *
      * @author Patches Barrett
-     * @since 07/2022, version 5.0.0
+     * @since 12/2022, version 5.0.0
      */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     fun searchForSavedNetworksByBSSID(regexForBSSID: String): List<WifiConfiguration>

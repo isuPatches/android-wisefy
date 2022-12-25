@@ -36,10 +36,10 @@ import com.isupatches.android.wisefy.wifi.os.impls.Android29WifiApiImpl
 /**
  * An Android 29 or higher adapter for enabling, disabling, and checking the state of wifi.
  *
- * @param assertions The [WisefyAssertions] instance to use
+ * @param wifiManager The WifiManager instance to use
  * @param logger The [WisefyLogger] instance to use
- * @param assertions The [WisefyAssertions] instance to use
- * @param api The OS level API instance to use
+ * @property assertions The [WisefyAssertions] instance to use
+ * @property api The OS level API instance to use
  *
  * @see Android29WifiApi
  * @see Android29WifiApiImpl

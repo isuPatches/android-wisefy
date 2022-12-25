@@ -24,7 +24,7 @@ import androidx.annotation.RequiresApi
  * A set of classes and objects that are used to represent a saved network on the device.
  *
  * @author Patches Barrett
- * @since 07/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 sealed class SavedNetworkData {
 
@@ -36,7 +36,7 @@ sealed class SavedNetworkData {
      * @see SavedNetworkData
      *
      * @author Patches Barrett
-     * @since 07/2022, version 5.0.0
+     * @since 12/2022, version 5.0.0
      */
     data class Configuration(val rawValue: WifiConfiguration) : SavedNetworkData()
 
@@ -48,7 +48,7 @@ sealed class SavedNetworkData {
      * @see SavedNetworkData
      *
      * @author Patches Barrett
-     * @since 07/2022, version 5.0.0
+     * @since 12/2022, version 5.0.0
      */
     @RequiresApi(Build.VERSION_CODES.Q)
     data class Suggestion(val rawValue: WifiNetworkSuggestion) : SavedNetworkData()

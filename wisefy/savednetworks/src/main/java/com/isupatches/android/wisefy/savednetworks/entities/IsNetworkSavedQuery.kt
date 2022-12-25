@@ -19,31 +19,31 @@ package com.isupatches.android.wisefy.savednetworks.entities
  * A set of classes and objects that are used to represent requests to see if a network is saved.
  *
  * @author Patches Barrett
- * @since 07/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 sealed class IsNetworkSavedQuery {
 
     /**
      * A data representation to check if a network is saved by SSID.
      *
-     * @param regex The regex to use when finding the network by SSID
+     * @property regex The regex to use when finding the network by SSID
      *
      * @see IsNetworkSavedQuery
      *
      * @author Patches Barrett
-     * @since 07/2022, version 5.0.0
+     * @since 12/2022, version 5.0.0
      */
     data class SSID(val regex: String) : IsNetworkSavedQuery()
 
     /**
      * A data representation to check if a network is saved by BSSID.
      *
-     * @param regex The regex to use when finding the network by BSSID
+     * @property regex The regex to use when finding the network by BSSID
      *
      * @see IsNetworkSavedQuery
      *
      * @author Patches Barrett
-     * @since 07/2022, version 5.0.0
+     * @since 12/2022, version 5.0.0
      */
     data class BSSID(val regex: String) : IsNetworkSavedQuery()
 }

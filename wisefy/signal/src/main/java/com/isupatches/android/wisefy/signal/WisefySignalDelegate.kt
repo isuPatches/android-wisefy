@@ -33,7 +33,8 @@ import com.isupatches.android.wisefy.signal.os.adapters.DefaultSignalAdapter
  * @param logger The [WisefyLogger] instance to use
  * @param sdkUtil The [SdkUtil] instance to use
  * @param wifiManager The WifiManager instance to use
- * @param adapter The adapter instance to use for signal strength operations (determined based on the Android OS level)
+ * @property adapter The adapter instance to use for signal strength operations (determined based on the Android OS
+ * level)
  *
  * @see Android30SignalAdapter
  * @see DefaultSignalAdapter
@@ -51,15 +52,12 @@ class WisefySignalDelegate(
     logger: WisefyLogger,
     sdkUtil: SdkUtil,
     wifiManager: WifiManager,
-    private val adapter: SignalApi = when {
-        sdkUtil.isAtLeastR() -> Android30SignalAdapter(wifiManager, logger, assertions)
-        else -> DefaultSignalAdapter(logger, assertions)
+    private val adapter: SignalApi = if (sdkUtil.isAtLeastR()) {
+        Android30SignalAdapter(wifiManager, logger, assertions)
+    } else {
+        DefaultSignalAdapter(logger, assertions)
     }
 ) : SignalDelegate {
-
-    companion object {
-        private const val LOG_TAG = "WisefySignalDelegate"
-    }
 
     init {
         logger.d(LOG_TAG, "WisefySignalDelegate adapter is: ${adapter::class.java.simpleName}")
@@ -71,5 +69,9 @@ class WisefySignalDelegate(
 
     override fun compareSignalLevel(request: CompareSignalLevelRequest): CompareSignalLevelResult {
         return adapter.compareSignalLevel(request)
+    }
+
+    companion object {
+        private const val LOG_TAG = "WisefySignalDelegate"
     }
 }

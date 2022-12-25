@@ -27,7 +27,7 @@ import com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedResult
  * A set of synchronous APIs for getting and searching for saved networks.
  *
  * @author Patches Barrett
- * @since 07/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 interface SavedNetworkApi {
 
@@ -42,7 +42,7 @@ interface SavedNetworkApi {
      * @return GetSavedNetworksResult - The result of getting the saved networks on the device
      *
      * @author Patches Barrett
-     * @since 07/2022, version 5.0.0
+     * @since 12/2022, version 5.0.0
      */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     fun getSavedNetworks(query: GetSavedNetworksQuery = GetSavedNetworksQuery.All): GetSavedNetworksResult
@@ -58,7 +58,7 @@ interface SavedNetworkApi {
      * @return IsNetworkSavedResult - The result of checking if a network is saved on the device
      *
      * @author Patches Barrett
-     * @since 07/2022, version 5.0.0
+     * @since 12/2022, version 5.0.0
      */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     fun isNetworkSaved(query: IsNetworkSavedQuery): IsNetworkSavedResult

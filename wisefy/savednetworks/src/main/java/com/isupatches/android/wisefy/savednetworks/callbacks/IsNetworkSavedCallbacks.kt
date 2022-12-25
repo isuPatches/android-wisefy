@@ -23,7 +23,7 @@ import com.isupatches.android.wisefy.core.base.BaseWisefyCallbacks
  * @see BaseWisefyCallbacks
  *
  * @author Patches Barrett
- * @since 07/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 interface IsNetworkSavedCallbacks : BaseWisefyCallbacks {
 
@@ -31,7 +31,7 @@ interface IsNetworkSavedCallbacks : BaseWisefyCallbacks {
      * A callback triggered when there are matching saved networks.
      *
      * @author Patches Barrett
-     * @since 07/2022, version 5.0.0
+     * @since 12/2022, version 5.0.0
      */
     fun onNetworkIsSaved()
 
@@ -39,7 +39,7 @@ interface IsNetworkSavedCallbacks : BaseWisefyCallbacks {
      * A callback triggered when there is no matching saved network.
      *
      * @author Patches Barrett
-     * @since 07/2022, version 5.0.0
+     * @since 12/2022, version 5.0.0
      */
     fun onNetworkIsNotSaved()
 }

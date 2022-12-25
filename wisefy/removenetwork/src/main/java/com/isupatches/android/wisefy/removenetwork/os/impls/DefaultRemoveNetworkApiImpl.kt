@@ -13,6 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@file:Suppress("Deprecation")
+
 package com.isupatches.android.wisefy.removenetwork.os.impls
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
@@ -20,20 +22,22 @@ import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.net.wifi.WifiConfiguration
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
-import com.isupatches.android.wisefy.core.hasBSSIDMatchingRegex
-import com.isupatches.android.wisefy.core.hasSSIDMatchingRegex
+import com.isupatches.android.wisefy.core.bssidWithoutQuotes
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
+import com.isupatches.android.wisefy.core.ssidWithoutQuotes
 import com.isupatches.android.wisefy.removenetwork.os.apis.DefaultRemoveNetworkApi
 
 /**
  * A default implementation for removing a network.
  *
- * @param wifiManager The WifiManager instance to use
+ * @property wifiManager The WifiManager instance to use
+ * @property logger The [WisefyLogger] instnace to use
  *
  * @see DefaultRemoveNetworkApi
+ * @see WisefyLogger
  *
  * @author Patches Barrett
- * @since 03/2022
+ * @since 12/2022, version 5.0.0
  */
 internal class DefaultRemoveNetworkApiImpl(
     private val wifiManager: WifiManager,
@@ -41,14 +45,18 @@ internal class DefaultRemoveNetworkApiImpl(
 ) : DefaultRemoveNetworkApi {
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun removeNetworkBySSID(regexForSSID: String): Boolean {
-        val networkToRemove = wifiManager.configuredNetworks.firstOrNull { it.hasSSIDMatchingRegex(regexForSSID) }
+    override fun removeNetworkBySSID(ssid: String): Boolean {
+        val networkToRemove = wifiManager.configuredNetworks.firstOrNull {
+            it.ssidWithoutQuotes.equals(ssid, ignoreCase = true)
+        }
         return removeWifiConfiguration(wifiConfiguration = networkToRemove)
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun removeNetworkByBSSID(regexForBSSID: String): Boolean {
-        val networkToRemove = wifiManager.configuredNetworks.firstOrNull { it.hasBSSIDMatchingRegex(regexForBSSID) }
+    override fun removeNetworkByBSSID(bssid: String): Boolean {
+        val networkToRemove = wifiManager.configuredNetworks.firstOrNull {
+            it.bssidWithoutQuotes.equals(bssid, ignoreCase = true)
+        }
         return removeWifiConfiguration(wifiConfiguration = networkToRemove)
     }
 
