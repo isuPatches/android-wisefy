@@ -18,7 +18,6 @@ package com.isupatches.android.wisefy.networkconnection
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.ACCESS_NETWORK_STATE
 import android.Manifest.permission.ACCESS_WIFI_STATE
-import android.Manifest.permission.CHANGE_NETWORK_STATE
 import android.net.ConnectivityManager
 import android.net.wifi.WifiManager
 import android.os.Build
@@ -128,14 +127,14 @@ class WisefyNetworkConnectionDelegate(
     }
 
     @Deprecated(DeprecationMessages.NetworkConnection.CONNECT_TO_NETWORK)
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE, ACCESS_NETWORK_STATE, CHANGE_NETWORK_STATE])
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE, ACCESS_NETWORK_STATE])
     override fun connectToNetwork(request: ConnectToNetworkRequest): ConnectToNetworkResult {
         @Suppress("Deprecation")
         return adapter.connectToNetwork(request)
     }
 
     @Deprecated(DeprecationMessages.NetworkConnection.CONNECT_TO_NETWORK)
-    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE, ACCESS_NETWORK_STATE, CHANGE_NETWORK_STATE])
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE, ACCESS_NETWORK_STATE])
     override fun connectToNetwork(request: ConnectToNetworkRequest, callbacks: ConnectToNetworkCallbacks?) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
             networkConnectionMutex.withLock {

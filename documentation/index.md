@@ -5,8 +5,9 @@
 - [:addnetwork package](#addnetwork-package)
   - [addNetwork](#addnetwork)
 - [:networkconnection package](#networkconnection-package)
-  - [connectToNetwork](#connectToNetwork)
-  - [disconnectFromCurrentNetwork](#disconnectFromCurrentNetwork)
+  - [changeNetwork](#changenetwork)
+  - [connectToNetwork](#connecttonetwork)
+  - [disconnectFromCurrentNetwork](#disconnectfromcurrentnetwork)
 - [:networkinfo package](#networkinfo-package)
   - [getCurrentNetwork](#getcurrentnetwork)
   - [getNetworkConnectionStatus](#getnetworkconnectionstatus)
@@ -27,7 +28,7 @@
 
 #### getAccessPoints()
 
-Gets nearby access points
+Queries for nearby access points.
 
 - Usage example: [MiscViewModel::getNearbyAccessPoints](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#L211)
 - Request class: [GetAccessPointsQuery](/wisefy/accesspoints/src/main/java/com/isupatches/android/wisefy/accesspoints/entities/GetAccessPointsQuery.kt)
@@ -47,7 +48,7 @@ Gets nearby access points
 
 #### addNetwork()
 
-Adds a network to the saved list of configurations / suggestions
+Adds a network to the saved list of configurations / suggestions.
 
 - Usage example: [AddNetworkViewModel::addNetwork](/app/src/main/java/com/isupatches/android/wisefy/sample/features/add/AddNetworkViewModel.kt#L357)
 - Request class: [AddNetworkRequest](/wisefy/addnetwork/src/main/java/com/isupatches/android/wisefy/addnetwork/entities/AddNetworkRequest.kt)
@@ -62,14 +63,52 @@ Adds a network to the saved list of configurations / suggestions
 
 #### `:networkconnection` package
 
-    - Connecting to a network
-    - Disconnecting from the current network
+#### changeNetwork()
+
+Opens the internet connectivity panel for the user to manually change the device's current network.
+
+- Usage example: [MiscViewModel::changeNetwork](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#L97)
+- Request class: [ChangeNetworkRequest](/wisefy/networkconnection/src/main/java/com/isupatches/android/wisefy/networkconnection/entities/ChangeNetworkRequest.kt)
+- Result class: [ChangeNetworkResult](/wisefy/networkconnection/src/main/java/com/isupatches/android/wisefy/networkconnection/entities/ChangeNetworkResult.kt)
+- Callbacks: [ChangeNetworkCallbacks](/wisefy/networkconnection/src/main/java/com/isupatches/android/wisefy/networkconnection/callbacks/ChangeNetworkCallbacks.kt)
+- API options:
+  - *Synchronous*: `fun changeNetwork(request: ChangeNetworkRequest): ChangeNetworkResult`
+  - *Async*: `fun changeNetwork(request: ChangeNetworkRequest, callbacks: ChangeNetworkCallbacks?)`
+  - *Coroutine*: `suspend fun WisefyApi.changeNetworkAsync(request: ChangeNetworkRequest): ChangeNetworkResult`
+- Permissions: None
+- Notes: Requires Android Q / SDK 29
+
+#### connectToNetwork()
+
+Connects to a network. 
+
+- Usage example: None
+- Request class: [ConnectToNetworkRequest](/wisefy/networkconnection/src/main/java/com/isupatches/android/wisefy/networkconnection/entities/ConnectToNetworkRequest.kt)
+- Result class: [ConnectToNetworkResult](/wisefy/networkconnection/src/main/java/com/isupatches/android/wisefy/networkconnection/entities/ConnectToNetworkResult.kt)
+- Callbacks: [ConnectToNetworkCallbacks](/wisefy/networkconnection/src/main/java/com/isupatches/android/wisefy/networkconnection/callbacks/ConnectToNetworkCallbacks.kt)
+- API options:
+  - *Synchronous*: `fun connectToNetwork(request: ConnectToNetworkRequest): ConnectToNetworkResult`
+  - *Async*: `fun connectToNetwork(request: ConnectToNetworkRequest, callbacks: ConnectToNetworkCallbacks?)`
+- Permissions: ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE, and ACCESS_NETWORK_STATE
+
+#### disconnectFromCurrentNetwork()
+
+Disconnects from the device's current network.
+
+- Usage example: None
+- Request class: [DisconnectFromCurrentNetworkRequest](/wisefy/networkconnection/src/main/java/com/isupatches/android/wisefy/networkconnection/entities/DisconnectFromCurrentNetworkRequest.kt)
+- Result class: [DisconnectFromCurrentNetworkResult](/wisefy/networkconnection/src/main/java/com/isupatches/android/wisefy/networkconnection/entities/DisconnectFromCurrentNetworkResult.kt)
+- Callbacks: [DisconnectFromCurrentNetworkCallbacks](/wisefy/networkconnection/src/main/java/com/isupatches/android/wisefy/networkconnection/callbacks/DisconnectFromCurrentNetworkCallbacks.kt)
+- API options:
+  - *Synchronous*: `fun disconnectFromCurrentNetwork(request: DisconnectFromCurrentNetworkRequest): DisconnectFromCurrentNetworkResult`
+  - *Async*: `fun disconnectFromCurrentNetwork(request: DisconnectFromCurrentNetworkRequest, callbacks: DisconnectFromCurrentNetworkCallbacks?)`
+- Permissions: None
 
 ### `:networkinfo` package
 
 #### getCurrentNetwork()
 
-Gets the device's current network
+Queries the device's current network.
 
 - Usage example: [MiscViewModel::getCurrentNetwork](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#L182)
 - Request class: [GetCurrentNetworkQuery](/wisefy/networkinfo/src/main/java/com/isupatches/android/wisefy/networkinfo/entities/GetCurrentNetworkQuery.kt)
@@ -83,7 +122,7 @@ Gets the device's current network
 
 #### getNetworkConnectionStatus()
 
-Gets the device's network connection status
+Queries the device's network connection status.
 
 - Usage example: [MiscViewModel::getNetworkConnectionStatus](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#L245)
 - Request class: [GetNetworkConnectionStatusQuery](/wisefy/networkinfo/src/main/java/com/isupatches/android/wisefy/networkinfo/entities/GetNetworkConnectionStatusQuery.kt)
@@ -99,7 +138,7 @@ Gets the device's network connection status
 
 #### removeNetwork()
 
-Removes a network from the saved suggestions / configurations
+Removes a network from the saved suggestions / configurations.
 
 - Usage example: [RemoveNetworkViewModel::removeNetwork](/app/src/main/java/com/isupatches/android/wisefy/sample/features/remove/RemoveNetworkViewModel.kt#L92)
 - Request class: [RemoveNetworkRequest](/wisefy/removenetwork/src/main/java/com/isupatches/android/wisefy/removenetwork/entities/RemoveNetworkRequest.kt)
@@ -115,7 +154,7 @@ Removes a network from the saved suggestions / configurations
 
 #### getSavedNetworks()
 
-Gets the saved networks on a device
+Queries the saved networks on a device.
 
 - Usage example: [MiscViewModel::getSavedNetworks](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#L275)
 - Request class: [GetSavedNetworksQuery](/wisefy/savednetworks/src/main/java/com/isupatches/android/wisefy/savednetworks/entities/GetSavedNetworksQuery.kt)
@@ -131,7 +170,7 @@ Gets the saved networks on a device
 
 #### isNetworkSaved()
 
-For checking if a specific network is saved
+Checks if a specific network is saved.
 
 - Usage example: todo@patches
 - Query class: [IsNetworkSavedQuery](/wisefy/savednetworks/src/main/java/com/isupatches/android/wisefy/savednetworks/entities/IsNetworkSavedQuery.kt)
@@ -147,7 +186,7 @@ For checking if a specific network is saved
 
 #### calculateSignalLevel()
 
-Calculates the strength given an RSSI level.
+Calculates the strength of a network given an RSSI level.
 
 - Usage example: [SignalViewModel::calculateSignalLevel](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/signal/SignalViewModel.kt#L105)
 - Request class: [CalculateSignalLevelRequest](/wisefy/signal/src/main/java/com/isupatches/android/wisefy/signal/entities/CalculateSignalLevelRequest.kt)
@@ -158,7 +197,7 @@ Calculates the strength given an RSSI level.
 
 #### compareSignalLevel()
 
-Compares the strength of two RSSI levels.
+Compares the strength of two networks by their respective RSSI levels.
 
 - Usage example: [SignalViewModel::compareSignalLevel](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/signal/SignalViewModel.kt#L153)
 - Request class: [CompareSignalLevelRequest](/wisefy/signal/src/main/java/com/isupatches/android/wisefy/signal/entities/CompareSignalLevelRequest.kt)
@@ -171,7 +210,7 @@ Compares the strength of two RSSI levels.
 
 #### disableWifi()
 
-Disables Wifi
+Disables Wifi.
 
 - Usage example: [MiscViewModel::disableWifi](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#L378)
 - Request class: [DisableWifiRequest](/wisefy/wifi/src/main/java/com/isupatches/android/wisefy/wifi/entities/DisableWifiRequest.kt)
@@ -187,7 +226,7 @@ Disables Wifi
 
 #### enableWifi()
 
-Enables Wifi
+Enables Wifi.
 
 - Usage example: [MiscViewModel::enableWifi](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#L413)
 - Request class: [EnableWifiRequest](/wisefy/wifi/src/main/java/com/isupatches/android/wisefy/wifi/entities/EnableWifiRequest.kt)
@@ -203,7 +242,7 @@ Enables Wifi
 
 #### isWifiEnabled()
 
-Returns if Wifi is enabled
+Queries if Wifi is enabled.
 
 - Usage example: [MiscViewModel::isWifiEnabled](/app/src/main/java/com/isupatches/android/wisefy/sample/features/misc/MiscViewModel.kt#L309)
 - Query class: [IsWifiEnabledQuery](/wisefy/wifi/src/main/java/com/isupatches/android/wisefy/wifi/entities/IsWifiEnabledQuery.kt)

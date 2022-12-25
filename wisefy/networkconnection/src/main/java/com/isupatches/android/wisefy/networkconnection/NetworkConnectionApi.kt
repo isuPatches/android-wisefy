@@ -15,7 +15,9 @@
  */
 package com.isupatches.android.wisefy.networkconnection
 
-import android.Manifest.permission.CHANGE_NETWORK_STATE
+import android.Manifest.permission.ACCESS_FINE_LOCATION
+import android.Manifest.permission.ACCESS_NETWORK_STATE
+import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
@@ -68,7 +70,7 @@ interface NetworkConnectionApi {
      * @since 12/2022, version 5.0.0
      */
     @Deprecated(DeprecationMessages.NetworkConnection.CONNECT_TO_NETWORK)
-    @RequiresPermission(CHANGE_NETWORK_STATE)
+    @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE, ACCESS_NETWORK_STATE])
     fun connectToNetwork(request: ConnectToNetworkRequest): ConnectToNetworkResult
 
     /**

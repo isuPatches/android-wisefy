@@ -129,12 +129,12 @@ dependencies {
     /*
      * This should be uncommented to run sample app directly against source code
      */
-    implementation(project(":wisefy:ktx"))
+//    implementation(project(":wisefy:ktx"))
 
     /*
      * This should be uncommented to run sample app directly against release versions of wisefy / wisefy-ktx
      */
-//    implementation(platform("com.isupatches.android.wisefy-ktx:5.0.0-RC3"))
+    implementation("com.isupatches.android.wisefy:ktx:5.0.0")
 
     // AndroidX
     compose()
