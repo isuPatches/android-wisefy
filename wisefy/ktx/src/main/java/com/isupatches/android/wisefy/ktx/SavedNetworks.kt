@@ -32,8 +32,10 @@ import kotlin.coroutines.suspendCoroutine
 /**
  * A coroutine extension for getting all of the saved networks on a device.
  *
- * *NOTES*
- *  - Internally locked by a mutex for all saved network related functionality (f.e. add, remove, get, search, etc.)
+ * *Notes*
+ *  - Locked by the savedNetworkMutex along with functions for adding, removing, and checking if a network is saved
+ *
+ * @receiver [WisefyApi]
  *
  * @param query The details of the query to get all saved networks on the device
  *
@@ -45,7 +47,7 @@ import kotlin.coroutines.suspendCoroutine
  * @throws WisefyException
  *
  * @author Patches Barrett
- * @since 07/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 @Throws(WisefyException::class)
 @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
@@ -74,10 +76,12 @@ suspend fun WisefyApi.getSavedNetworksAsync(
 /**
  * A coroutine extension for checking if a network is saved on a device.
  *
- * *NOTES*
- *  - Internally locked by a mutex for all saved network related functionality (f.e. add, remove, get, search, etc.)
+ * *Notes*
+ *  - Locked by the savedNetworkMutex along with functions for adding, removing, and querying for saved networks
  *
- * @param request The details of the request to check if a network is saved on a device
+ * @receiver [WisefyApi]
+ *
+ * @param query The details of the request to check if a network is saved on a device
  *
  * @see IsNetworkSavedQuery
  * @see IsNetworkSavedResult
@@ -87,7 +91,7 @@ suspend fun WisefyApi.getSavedNetworksAsync(
  * @throws WisefyException
  *
  * @author Patches Barrett
- * @since 07/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 @Throws(WisefyException::class)
 @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])

@@ -37,8 +37,7 @@ interface WifiApiAsync {
      * An asynchronous API to disable wifi.
      *
      * *NOTES*
-     *  - Internally locked by a mutex along with the async APIs to enable wifi and check the device's current wifi
-     *    state
+     *  - Locked by the wifiMutex along with functions for enabling wifi and checking if wifi is enabled
      *  - Will open the Wifi settings screen on Android Q / SDK 29 or higher
      *
      * @param request The details of the request to disable wifi
@@ -57,8 +56,7 @@ interface WifiApiAsync {
      * An asynchronous API to enable Wifi.
      *
      * *NOTES*
-     *  - Internally locked by a mutex along with the async APIs to disable wifi and check the device's current wifi
-     *    state
+     *  - Locked by the wifiMutex along with functions for disabling wifi and checking if wifi is enabled
      *  - Will open the wifi settings screen on Android Q / SDK 29 or higher
      *
      * @param request The details of the request to enable wifi
@@ -77,7 +75,7 @@ interface WifiApiAsync {
      * An asynchronous API to check the current state of wifi (f.e. enabled or disabled).
      *
      * *NOTES*
-     *  - Internally locked by a mutex along with the async APIs to enable and disable wifi
+     *  - Locked by the wifiMutex along with functions for enabling and disabling wifi
      *
      * @param query The details of the query to check the current state of wifi
      * @param callbacks The callbacks for results when checking the current state of wifi

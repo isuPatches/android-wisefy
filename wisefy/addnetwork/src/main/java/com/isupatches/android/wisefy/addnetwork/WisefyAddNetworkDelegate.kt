@@ -39,14 +39,14 @@ import kotlinx.coroutines.withContext
 /**
  * An internal Wisefy delegate for adding networks.
  *
- * @param coroutineDispatcherProvider The [CoroutineDispatcherProvider] instance to use
- * @param scope The coroutine scope to use
- * @param savedNetworkMutex The mutex for all read/write operations involving saved networks
+ * @property coroutineDispatcherProvider The [CoroutineDispatcherProvider] instance to use
+ * @property scope The coroutine scope to use
+ * @property savedNetworkMutex The mutex for all read/write operations involving saved networks
  * @param assertions The [WisefyAssertions] instance to use
  * @param logger The [WisefyLogger] instance to use
  * @param sdkUtil The [SdkUtil] instance to use
  * @param wifiManager The WifiManager instance to use
- * @param adapter The adapter instance to use for adding a network (determined based on the Android OS level)
+ * @property adapter The adapter instance to use for adding a network (determined based on the Android OS level)
  *
  * @see AddNetworkApi
  * @see AddNetworkDelegate
@@ -76,10 +76,6 @@ class WisefyAddNetworkDelegate(
     }
 ) : AddNetworkDelegate {
 
-    companion object {
-        private const val LOG_TAG = "WisefyAddNetworkDelegate"
-    }
-
     init {
         logger.d(LOG_TAG, "WisefyAddNetworkDelegate adapter is: ${adapter::class.java.simpleName}")
     }
@@ -102,5 +98,9 @@ class WisefyAddNetworkDelegate(
                 }
             }
         }
+    }
+
+    companion object {
+        private const val LOG_TAG = "WisefyAddNetworkDelegate"
     }
 }

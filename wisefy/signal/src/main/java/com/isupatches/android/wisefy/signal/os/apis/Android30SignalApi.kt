@@ -19,28 +19,28 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 
 /**
- * An Android 30 specific API for functions related to the signal strength of networks.
+ * An Android 30 or higher API for functions related to the signal strength of networks.
  *
  * @author Patches Barrett
- * @since 07/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 @RequiresApi(Build.VERSION_CODES.R)
 internal interface Android30SignalApi {
 
     /**
-     * An Android 30 specific API to calculate the bars of signal strength given the network's RSSI.
+     * An Android 30 or higher API to calculate the bars of signal strength given the network's RSSI.
      *
      * @param rssiLevel The RSSI level of the network
      *
      * @return Int - The number of signal strength bars for the network given RSSI level.
      *
      * @author Patches Barrett
-     * @since 07/2022, version 5.0.0
+     * @since 12/2022, version 5.0.0
      */
     fun calculateSignalLevel(rssiLevel: Int): Int
 
     /**
-     * An Android 30 specific API to compare the RSSI levels of two networks.
+     * An Android 30 or higher API to compare the RSSI levels of two networks.
      *
      * @param rssi1 The RSSI level of the first network
      * @param rssi2 The RSSI level of the second network
@@ -52,7 +52,7 @@ internal interface Android30SignalApi {
      * have the same strength, and greater than zero if the second signal is stronger
      *
      * @author Patches Barrett
-     * @since 07/2022, version 5.0.0
+     * @since 12/2022, version 5.0.0
      */
     fun compareSignalLevel(rssi1: Int, rssi2: Int): Int
 }

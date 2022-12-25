@@ -23,16 +23,6 @@ internal class WisefyNetworkConnectionStatusManager private constructor(
     private val networkConnectionStatusMutex: Mutex
 ) {
 
-    companion object {
-        private var instance: WisefyNetworkConnectionStatusManager? = null
-
-        fun getInstance(networkConnectionStatusMutex: Mutex): WisefyNetworkConnectionStatusManager {
-            return instance ?: WisefyNetworkConnectionStatusManager(networkConnectionStatusMutex).also { manager ->
-                this.instance = manager
-            }
-        }
-    }
-
     private var networkConnectionStatus: NetworkConnectionStatus? = null
 
     suspend fun getNetworkConnectionStatus(): NetworkConnectionStatus? {
@@ -50,6 +40,16 @@ internal class WisefyNetworkConnectionStatusManager private constructor(
     suspend fun clear() {
         networkConnectionStatusMutex.withLock {
             networkConnectionStatus = null
+        }
+    }
+
+    companion object {
+        private var instance: WisefyNetworkConnectionStatusManager? = null
+
+        fun getInstance(networkConnectionStatusMutex: Mutex): WisefyNetworkConnectionStatusManager {
+            return instance ?: WisefyNetworkConnectionStatusManager(networkConnectionStatusMutex).also { manager ->
+                this.instance = manager
+            }
         }
     }
 }

@@ -29,7 +29,7 @@ import androidx.annotation.RequiresApi
  * @return WifiNetworkSuggestion - The network suggestion for the open network
  *
  * @author Patches Barrett
- * @since 11/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 @RequiresApi(Build.VERSION_CODES.Q)
 fun createOpenNetworkSuggestion(
@@ -55,7 +55,7 @@ fun createOpenNetworkSuggestion(
  * @return WifiNetworkSuggestion - The network suggestion for the WPA2 network
  *
  * @author Patches Barrett
- * @since 11/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 @RequiresApi(Build.VERSION_CODES.Q)
 fun createWPA2NetworkSuggestion(
@@ -83,7 +83,7 @@ fun createWPA2NetworkSuggestion(
  * @return WifiNetworkSuggestion - The network suggestion for the WPA3 network
  *
  * @author Patches Barrett
- * @since 11/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 @RequiresApi(Build.VERSION_CODES.Q)
 fun createWPA3NetworkSuggestion(

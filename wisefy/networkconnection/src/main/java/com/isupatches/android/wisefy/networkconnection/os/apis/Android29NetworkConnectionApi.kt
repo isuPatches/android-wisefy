@@ -20,13 +20,21 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 
 /**
- * An Android 29 specific internal API for connecting to and disconnecting from a network through the Android OS.
+ * An Android 29 or higher internal API for connecting to and disconnecting from a network through the Android OS.
  *
  * @author Patches Barrett
- * @since 03/2022
+ * @since 12/2022, version 5.0.0
  */
 @RequiresApi(Build.VERSION_CODES.Q)
 internal interface Android29NetworkConnectionApi {
 
+    /**
+     * An API to manually change the device's current network by opening up the internet connectivity panel.
+     *
+     * @param context The context to use to open the internet connectivity panel
+     *
+     * @author Patches Barrett
+     * @since 12/2022, version 5.0.0
+     */
     fun openInternetConnectivityPanel(context: Context)
 }

@@ -17,4 +17,12 @@ package com.isupatches.android.wisefy.networkconnection.entities
 
 import android.content.Context
 
+/**
+ * A representation of a request to change the device's current network.
+ *
+ * @property context The context used to open the internet connectivity panel
+ *
+ * @author Patches Barrett
+ * @since 12/2022, version 5.0.0
+ */
 data class ChangeNetworkRequest(val context: Context)

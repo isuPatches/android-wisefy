@@ -30,7 +30,7 @@ import com.isupatches.android.wisefy.core.logging.WisefyLogger
  *
  * @param wifiManager The WifiManager instance to use
  * @param logger The [WisefyLogger] instance to use
- * @param api The OS level API instance to use
+ * @property api The OS level API instance to use
  *
  * @see AccessPointsApi
  * @see DefaultAccessPointsApi

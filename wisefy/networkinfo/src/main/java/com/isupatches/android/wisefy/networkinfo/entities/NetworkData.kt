@@ -23,10 +23,13 @@ import android.net.wifi.WifiInfo
 /**
  * A data representation of the current network from Android OS level returns.
  *
- * @property value The raw value of the current network from the Android OS
+ * @property network The raw value of the current network from the Android OS
+ * @property connectionInfo The raw value of the current connection info from the Android OS
+ * @property capabilities The raw value of he network capabilities from the Android OS
+ * @property linkProperties The raw value of the link properties from the Android OS
  *
  * @author Patches Barrett
- * @since 03/2022
+ * @since 12/2022, version 5.0.0
  */
 data class NetworkData(
     val network: Network?,

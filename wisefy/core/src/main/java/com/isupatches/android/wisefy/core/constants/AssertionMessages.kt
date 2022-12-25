@@ -164,7 +164,25 @@ object AssertionMessages {
      * @since 12/2022, version 5.0.0
      */
     object Wifi {
-        const val ANDROID_29_REQUEST_USED_ON_PRE_ANDROID_29 = ""
-        const val DEFAULT_REQUEST_USED_ANDROID_29_OR_HIGHER = ""
+
+        /**
+         * A string value for trying to open the wifi settings screen to enable or disable wifi on pre-Android Q /
+         * SDK 29 devices.
+         *
+         * @author Patches Barrett
+         * @since 12/2022, version 5.0.0
+         */
+        const val ANDROID_29_REQUEST_USED_ON_PRE_ANDROID_29: String = "Before Android Q / SDK 29, apps can enable and" +
+            "disable wifi without having to redirect to the wifi settings screen"
+
+        /**
+         * A string value for trying to enable or disable wifi without opening the wifi setting screen on Android Q /
+         * SDK 29 devices.
+         *
+         * @author Patches Barrett
+         * @since 12/2022, version 5.0.0
+         */
+        const val DEFAULT_REQUEST_USED_ANDROID_29_OR_HIGHER: String = "Starting with Android Q / SDK 29, app cannot" +
+            "enable or disable wifi so the user must be directed the wifi settings screen"
     }
 }

@@ -28,6 +28,11 @@ import kotlin.coroutines.suspendCoroutine
 /**
  * A coroutine extension for adding a network.
  *
+ * *Notes*
+ *  - Locked by the savedNetworkMutex along with functions for removing, querying, and checking if a network is saved
+ *
+ * @receiver [WisefyApi]
+ *
  * @param request The details of the request to add a network
  *
  * @see AddNetworkRequest
@@ -38,7 +43,7 @@ import kotlin.coroutines.suspendCoroutine
  * @throws WisefyException
  *
  * @author Patches Barrett
- * @since 08/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 @Throws(WisefyException::class)
 @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])

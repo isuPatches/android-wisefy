@@ -33,13 +33,19 @@ import com.isupatches.android.wisefy.networkconnection.os.apis.DefaultNetworkCon
 /**
  * A default implementation for connecting to or disconnecting from a network through the Android OS.
  *
- * @param wifiManager The WifiManager instance to use
- * @param logger The WisefyLogger instance to use
+ * @property connectivityManager The ConnectivityManager instance to use
+ * @property wifiManager The WifiManager instance to use
+ * @property logger The [WisefyLogger] instance to use
+ * @property sdkUtil The [SdkUtil] instance to use
+ * @property networkConnectionStatusProvider The on-demand way to retrieve the current network connection status
  *
  * @see DefaultNetworkConnectionApi
+ * @see NetworkConnectionStatus
+ * @see SdkUtil
+ * @see WisefyLogger
  *
  * @author Patches Barrett
- * @since 03/2022
+ * @since 12/2022, version 5.0.0
  */
 internal class DefaultNetworkConnectionApiImpl(
     private val connectivityManager: ConnectivityManager,
@@ -49,14 +55,12 @@ internal class DefaultNetworkConnectionApiImpl(
     private val networkConnectionStatusProvider: suspend () -> NetworkConnectionStatus?
 ) : DefaultNetworkConnectionApi {
 
-    companion object {
-        private const val LOG_TAG = "DefaultNetworkConnectionApiImpl"
-    }
-
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE, ACCESS_NETWORK_STATE])
     override suspend fun connectToNetworkBySSID(ssid: String, timeoutInMillis: Int): Boolean? {
+        @Suppress("Deprecation")
         val savedNetwork = wifiManager.configuredNetworks.firstOrNull { it.ssidWithoutQuotes == ssid }
         return savedNetwork?.let {
+            @Suppress("Deprecation")
             connect(networkId = it.networkId)
             waitForConnectionToSSID(ssid = ssid, timeoutInMillis = timeoutInMillis)
         }
@@ -64,19 +68,23 @@ internal class DefaultNetworkConnectionApiImpl(
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE, ACCESS_NETWORK_STATE])
     override suspend fun connectToNetworkByBSSID(bssid: String, timeoutInMillis: Int): Boolean? {
+        @Suppress("Deprecation")
         val savedNetwork = wifiManager.configuredNetworks.firstOrNull { it.bssidWithoutQuotes == bssid }
         return savedNetwork?.let {
+            @Suppress("Deprecation")
             connect(networkId = it.networkId)
             waitForConnectionToBSSID(bssid = bssid, timeoutInMillis = timeoutInMillis)
         }
     }
 
+    @Suppress("Deprecation")
     override fun disconnectFromCurrentNetwork(): Boolean {
         val result = wifiManager.disconnect()
         logger.d(LOG_TAG, "Disconnecting from network. result: $result")
         return result
     }
 
+    @Suppress("Deprecation")
     private fun connect(networkId: Int) {
         val disconnectResult = wifiManager.disconnect()
         val enableNetworkResult = wifiManager.enableNetwork(networkId, true)
@@ -132,5 +140,9 @@ internal class DefaultNetworkConnectionApiImpl(
         return withTimeoutAsync(timeoutInMillis) {
             isCurrentNetworkConnectedByBSSID(bssid)
         }
+    }
+
+    companion object {
+        private const val LOG_TAG = "DefaultNetworkConnectionApiImpl"
     }
 }

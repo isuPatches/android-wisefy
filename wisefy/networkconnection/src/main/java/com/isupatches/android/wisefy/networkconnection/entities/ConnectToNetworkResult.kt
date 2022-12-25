@@ -16,46 +16,32 @@
 package com.isupatches.android.wisefy.networkconnection.entities
 
 /**
- * A set of classes that are data representations of a result when connecting to or disconnecting from a network.
+ * A set of classes and objects that are data representations of a result when connecting to a network.
  *
  * @author Patches Barrett
- * @since 03/2022
+ * @since 12/2022, version 5.0.0
  */
-@Deprecated("")
 sealed class ConnectToNetworkResult {
 
     /**
-     * A set of classes that are data representations of a success when connecting to a network.
+     * A set of classes and objects that are data representations of a success when connecting to a network.
      *
      * @see ConnectToNetworkResult
      *
      * @author Patches Barrett
-     * @since 03/2022
+     * @since 12/2022, version 5.0.0
      */
-    @Deprecated("")
     sealed class Success : ConnectToNetworkResult() {
 
         /**
-         * A data representation for when there is a success connecting to or disconnecting from a network.
+         * A data representation for when there is a success connecting to a network.
          *
          * @see Success
          *
          * @author Patches Barrett
-         * @since 03/2022
+         * @since 12/2022, version 5.0.0
          */
-        @Deprecated("")
         object True : Success()
-
-        /**
-         * A data representation for when there is a request sent to connecting to a network.
-         *
-         * @see Success
-         *
-         * @author Patches Barrett
-         * @since 03/2022
-         */
-        @Deprecated("")
-        object ConnectionRequestSent : Success()
     }
 
     /**
@@ -64,34 +50,42 @@ sealed class ConnectToNetworkResult {
      * @see ConnectToNetworkResult
      *
      * @author Patches Barrett
-     * @since 03/2022
+     * @since 12/2022, version 5.0.0
      */
-    @Deprecated("")
     sealed class Failure : ConnectToNetworkResult() {
 
         /**
-         * A data representation for when there is a failure connecting to or disconnecting from a network.
+         * A data representation for when there is a failure connecting to a network.
          *
          * @see Failure
          *
          * @author Patches Barrett
-         * @since 03/2022
+         * @since 12/2022, version 5.0.0
          */
-        @Deprecated("")
         object False : Failure()
 
         /**
-         * A data representation for when there is no network found to connect to or disconnect from.
+         * A data representation for when there is no network found to connect to.
          *
          * @see Failure
          *
          * @author Patches Barrett
-         * @since 03/2022
+         * @since 12/2022, version 5.0.0
          */
-        @Deprecated("")
         object NetworkNotFound : Failure()
 
-        @Deprecated("")
+        /**
+         * A representation of a failure connecting to a network due to hitting an unexpected path causing an assertion.
+         *
+         * *NOTE* This is for developer specific feedback and should NEVER actually be hit unless there is a bug.
+         *
+         * @property message A text description describing the assertion error hit
+         *
+         * @see Failure
+         *
+         * @author Patches Barrett
+         * @since 12/2022, version 5.0.0
+         */
         data class Assertion(val message: String) : Failure()
     }
 }

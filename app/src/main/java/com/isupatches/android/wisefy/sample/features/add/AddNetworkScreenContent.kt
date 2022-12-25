@@ -61,7 +61,6 @@ internal fun AddNetworkScreenContent(
             rememberLauncherForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result ->
                 if (result.all { it.value }) {
                     scope.launch {
-                        @Suppress("MissingPermission")
                         viewModel.addNetwork()
                     }
                 } else {

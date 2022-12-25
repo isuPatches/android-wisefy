@@ -15,6 +15,20 @@
  */
 package com.isupatches.android.wisefy.networkinfo.entities
 
+/**
+ * A data representation of the current network connection status from Android OS level returns.
+ *
+ * @property isConnected If the device is connected to a mobile or wifi network
+ * @property isConnectedToMobileNetwork If the device is connected to a mobile network
+ * @property isConnectedToWifiNetwork If the device is connected to a wifi network
+ * @property isRoaming If the device is roaming
+ * @property ssidOfNetworkConnectedTo The current SSID that the device is connected to, or null
+ * @property bssidOfNetworkConnectedTo The current BSSID that the device is connected to, or null
+ * @property ip The IP address of the device from it's current network, or null
+ *
+ * @author Patches Barrett
+ * @since 12/2022, version 5.0.0
+ */
 data class NetworkConnectionStatusData(
     val isConnected: Boolean,
     val isConnectedToMobileNetwork: Boolean,

@@ -33,14 +33,18 @@ import com.isupatches.android.wisefy.signal.os.adapters.DefaultSignalAdapter
  * @param logger The [WisefyLogger] instance to use
  * @param sdkUtil The [SdkUtil] instance to use
  * @param wifiManager The WifiManager instance to use
+ * @param adapter The adapter instance to use for signal strength operations (determined based on the Android OS level)
  *
+ * @see Android30SignalAdapter
+ * @see DefaultSignalAdapter
+ * @see SignalApi
  * @see SignalDelegate
  * @see SdkUtil
  * @see WisefyAssertions
  * @see WisefyLogger
  *
  * @author Patches Barrett
- * @since 07/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 class WisefySignalDelegate(
     assertions: WisefyAssertions,

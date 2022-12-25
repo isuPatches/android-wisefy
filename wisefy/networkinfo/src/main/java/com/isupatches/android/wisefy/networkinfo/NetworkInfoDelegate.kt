@@ -16,13 +16,13 @@
 package com.isupatches.android.wisefy.networkinfo
 
 /**
- * A delegate for synchronous and asynchronous APIs for getting information about a network, the device's current
- * network, and the device's IP.
+ * A delegate for synchronous and asynchronous APIs for getting information about the device's current network and
+ * connection status.
  *
  * @see NetworkInfoApi
  * @see NetworkInfoApiAsync
  *
  * @author Patches Barrett
- * @since 03/2022
+ * @since 12/2022, version 5.0.0
  */
 interface NetworkInfoDelegate : NetworkInfoApi, NetworkInfoApiAsync

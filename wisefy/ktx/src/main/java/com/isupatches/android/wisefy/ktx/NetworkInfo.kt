@@ -25,9 +25,31 @@ import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkQuery
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkResult
 import com.isupatches.android.wisefy.networkinfo.entities.GetNetworkConnectionStatusQuery
 import com.isupatches.android.wisefy.networkinfo.entities.GetNetworkConnectionStatusResult
+import com.isupatches.android.wisefy.networkinfo.entities.NetworkConnectionStatusData
 import com.isupatches.android.wisefy.networkinfo.entities.NetworkData
 import kotlin.coroutines.suspendCoroutine
 
+/**
+ * A coroutine extension for getting the device's current network.
+ *
+ * *Notes*
+ *  - Locked by the networkConnectionMutex along with functions for connecting, disconnecting, changing, and getting
+ *    the device's current network connection status
+ *
+ * @receiver [WisefyApi]
+ *
+ * @param query The details of the query to get the device's current network
+ *
+ * @see GetCurrentNetworkQuery
+ * @see GetCurrentNetworkResult
+ *
+ * @return GetCurrentNetworkResult - The result when getting device's current network
+ *
+ * @throws WisefyException
+ *
+ * @author Patches Barrett
+ * @since 12/2022, version 5.0.0
+ */
 @RequiresPermission(ACCESS_NETWORK_STATE)
 @Throws(WisefyException::class)
 suspend fun WisefyApi.getCurrentNetworkAsync(
@@ -47,6 +69,27 @@ suspend fun WisefyApi.getCurrentNetworkAsync(
     )
 }
 
+/**
+ * A coroutine extension for getting the device's current network connection status.
+ *
+ * *Notes*
+ *  - Locked by the networkConnectionMutex along with functions for connecting, disconnecting, changing, and getting the
+ *    device's current network
+ *
+ * @receiver [WisefyApi]
+ *
+ * @param query The details of the query to get the device's current network connection status
+ *
+ * @see GetNetworkConnectionStatusQuery
+ * @see GetNetworkConnectionStatusResult
+ *
+ * @return GetNetworkConnectionStatusResult - The result when getting device's current network connection status
+ *
+ * @throws WisefyException
+ *
+ * @author Patches Barrett
+ * @since 12/2022, version 5.0.0
+ */
 @Throws(WisefyException::class)
 @RequiresPermission(ACCESS_NETWORK_STATE)
 suspend fun WisefyApi.getNetworkConnectionStatusAsync(
@@ -55,8 +98,10 @@ suspend fun WisefyApi.getNetworkConnectionStatusAsync(
     getNetworkConnectionStatus(
         query = query,
         callbacks = object : GetNetworkConnectionStatusCallbacks {
-            override fun onDeviceNetworkConnectionStatusRetrieved(result: GetNetworkConnectionStatusResult) {
-                continuation.resumeWith(Result.success(result))
+            override fun onDeviceNetworkConnectionStatusRetrieved(
+                networkConnectionStatus: NetworkConnectionStatusData
+            ) {
+                continuation.resumeWith(Result.success(GetNetworkConnectionStatusResult(networkConnectionStatus)))
             }
 
             override fun onWisefyAsyncFailure(exception: WisefyException) {

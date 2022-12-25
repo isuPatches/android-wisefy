@@ -16,47 +16,44 @@
 package com.isupatches.android.wisefy.networkconnection.entities
 
 /**
- * A set of classes that are used in requests to connect and disconnect from a network.
+ * A set of classes and objects that are used in requests to connect to a network.
  *
- * @property timeoutInMillis The timeout in milliseconds to wait for a connection/disconnection for the network
+ * @property timeoutInMillis The timeout in milliseconds to wait for a connection to the network
  *
  * @author Patches Barrett
- * @since 03/2022
+ * @since 12/2022, version 5.0.0
  */
-@Deprecated("")
 sealed class ConnectToNetworkRequest(
     open val timeoutInMillis: Int
 ) {
 
     /**
-     * A data representation of a request to connect to or disconnect from a network by SSID.
+     * A representation of a request to connect to a network by SSID.
      *
      * @property ssid The SSID of the network to connect to or disconnect from
-     * @property timeoutInMillis The timeout in milliseconds to wait for a connection/disconnection for the network
+     * @property timeoutInMillis The timeout in milliseconds to wait for a connection to the network
      *
      * @see ConnectToNetworkRequest
      *
      * @author Patches Barrett
-     * @since 03/2022
+     * @since 12/2022, version 5.0.0
      */
-    @Deprecated("")
     data class SSID(
         val ssid: String,
         override val timeoutInMillis: Int
     ) : ConnectToNetworkRequest(timeoutInMillis)
 
     /**
-     * A data representation of a request to connect or disconnect from a network by BSSID.
+     * A representation of a request to connect to a network by BSSID.
      *
      * @property bssid The BSSID of the network to connect to or disconnect from
-     * @property timeoutInMillis The timeout in milliseconds to wait for a connection/disconnection for the network
+     * @property timeoutInMillis The timeout in milliseconds to wait for a connection to the network
      *
      * @see ConnectToNetworkRequest
      *
      * @author Patches Barrett
-     * @since 03/2022
+     * @since 12/2022, version 5.0.0
      */
-    @Deprecated("")
     data class BSSID(
         val bssid: String,
         override val timeoutInMillis: Int

@@ -26,7 +26,7 @@ import com.isupatches.android.wisefy.core.constants.AssertionMessages
 /**
  * An Android 29 specific adapter for adding networks.
  *
- * @param assertions The [WisefyAssertions] instance to use
+ * @property assertions The [WisefyAssertions] instance to use
  *
  * @see AddNetworkApi
  * @see WisefyAssertions

@@ -69,7 +69,6 @@ internal fun SearchScreenContent(viewModel: SearchViewModel) {
         rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
                 scope.launch {
-                    @Suppress("MissingPermission")
                     viewModel.searchForAccessPoint()
                 }
             } else {
@@ -82,7 +81,6 @@ internal fun SearchScreenContent(viewModel: SearchViewModel) {
         rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
                 scope.launch {
-                    @Suppress("MissingPermission")
                     viewModel.searchForAccessPoints()
                 }
             } else {
@@ -95,7 +93,6 @@ internal fun SearchScreenContent(viewModel: SearchViewModel) {
         rememberLauncherForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result ->
             if (result.all { it.value }) {
                 scope.launch {
-                    @Suppress("MissingPermission")
                     viewModel.searchForSavedNetwork()
                 }
             } else {
@@ -108,7 +105,6 @@ internal fun SearchScreenContent(viewModel: SearchViewModel) {
         rememberLauncherForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result ->
             if (result.all { it.value }) {
                 scope.launch {
-                    @Suppress("MissingPermission")
                     viewModel.searchForSavedNetworks()
                 }
             } else {
@@ -121,7 +117,6 @@ internal fun SearchScreenContent(viewModel: SearchViewModel) {
         rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
                 scope.launch {
-                    @Suppress("MissingPermission")
                     viewModel.searchForSSID()
                 }
             } else {
@@ -134,7 +129,6 @@ internal fun SearchScreenContent(viewModel: SearchViewModel) {
         rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
                 scope.launch {
-                    @Suppress("MissingPermission")
                     viewModel.searchForSSIDs()
                 }
             } else {
@@ -386,12 +380,12 @@ private fun SearchScreenTimeoutInputRows(
         WisefySampleSlider(
             startPosition = { searchTimeout.value.toFloat() },
             valueRange = object : ClosedFloatingPointRange<Float> {
+                override val start: Float = MIN_SEARCH_TIMEOUT
+                override val endInclusive: Float = MAX_SEARCH_TIMEOUT
+
                 override fun lessThanOrEquals(a: Float, b: Float): Boolean {
                     return a <= b
                 }
-
-                override val start: Float = MIN_SEARCH_TIMEOUT
-                override val endInclusive: Float = MAX_SEARCH_TIMEOUT
             },
             onValueChange = { timeout ->
                 searchTimeout.value = timeout.roundToInt()

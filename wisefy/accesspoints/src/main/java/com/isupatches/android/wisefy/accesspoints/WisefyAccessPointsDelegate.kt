@@ -32,11 +32,11 @@ import kotlinx.coroutines.withContext
 /**
  * An internal Wisefy delegate for getting and searching for nearby access points.
  *
- * @param coroutineDispatcherProvider The [CoroutineDispatcherProvider] instance to use
- * @param scope The coroutine scope to use
+ * @property coroutineDispatcherProvider The [CoroutineDispatcherProvider] instance to use
+ * @property scope The coroutine scope to use
  * @param logger The [WisefyLogger] instance to use
  * @param wifiManager The WifiManager instance to use
- * @param adapter The adapter instance to use for access point queries (determined based on the Android OS level)
+ * @property adapter The adapter instance to use for access point queries (determined based on the Android OS level)
  *
  * @see AccessPointsApi
  * @see AccessPointsDelegate
@@ -54,10 +54,6 @@ class WisefyAccessPointsDelegate(
     wifiManager: WifiManager,
     private val adapter: AccessPointsApi = DefaultAccessPointsAdapter(wifiManager, logger)
 ) : AccessPointsDelegate {
-
-    companion object {
-        private const val LOG_TAG = "WisefyAccessPointsDelegate"
-    }
 
     init {
         logger.d(LOG_TAG, "WisefyAccessPointsDelegate adapter is: ${adapter::class.java.simpleName}")
@@ -84,5 +80,9 @@ class WisefyAccessPointsDelegate(
                 }
             }
         }
+    }
+
+    companion object {
+        private const val LOG_TAG = "WisefyAccessPointsDelegate"
     }
 }

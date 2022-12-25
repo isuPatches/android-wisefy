@@ -43,7 +43,7 @@ data class AccessPointData(
     val bssid: String,
     val frequency: Int = rawValue.frequency,
     val rssi: Int = rawValue.level,
-    val is5gHz: Boolean = frequency in (MIN_FREQUENCY_5GHZ + 1) until MAX_FREQUENCY_5GHZ,
+    val is5gHz: Boolean = frequency in MIN_FREQUENCY_5GHZ + 1 until MAX_FREQUENCY_5GHZ,
     val isSecure: Boolean = SecurityCapability.ALL.any { rawValue.capabilities.contains(it.stringValue) }
 ) {
 

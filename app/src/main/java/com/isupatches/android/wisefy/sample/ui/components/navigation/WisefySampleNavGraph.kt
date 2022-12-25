@@ -15,7 +15,7 @@
  */
 package com.isupatches.android.wisefy.sample.ui.components.navigation
 
-sealed class WisefySampleNavGraph(open val route: String) {
+internal sealed class WisefySampleNavGraph(open val route: String) {
 
     sealed class Main(override val route: String) : WisefySampleNavGraph(route) {
         object Add : Main(route = "add")

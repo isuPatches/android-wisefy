@@ -18,9 +18,37 @@ package com.isupatches.android.wisefy.networkconnection.callbacks
 import com.isupatches.android.wisefy.core.base.BaseWisefyCallbacks
 import com.isupatches.android.wisefy.networkconnection.entities.ChangeNetworkResult
 
+/**
+ * A set of callbacks for changing the current network.
+ *
+ * @see BaseWisefyCallbacks
+ *
+ * @author Patches Barrett
+ * @since 12/2022, version 5.0.0
+ */
 interface ChangeNetworkCallbacks : BaseWisefyCallbacks {
 
+    /**
+     * A callback triggered when there is a failure changing the current network.
+     *
+     * @param result The details from the failure while attempting to change the current network
+     *
+     * @see ChangeNetworkResult.Failure
+     *
+     * @author Patches Barrett
+     * @since 12/2022, version 5.0.0
+     */
     fun onFailureChangingNetworks(result: ChangeNetworkResult.Failure)
 
+    /**
+     * A callback triggered when there is a success while changing the current network.
+     *
+     * @param result The details from the successful attempt changing the current network
+     *
+     * @see ChangeNetworkResult.Success
+     *
+     * @author Patches Barrett
+     * @since 12/2022, version 5.0.0
+     */
     fun onSuccessChangingNetworks(result: ChangeNetworkResult.Success)
 }

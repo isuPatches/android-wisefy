@@ -51,7 +51,6 @@ internal fun RemoveNetworkScreenContent(viewModel: RemoveNetworkViewModel) {
         rememberLauncherForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result ->
             if (result.all { it.value }) {
                 scope.launch {
-                    @Suppress("MissingPermission")
                     viewModel.removeNetwork()
                 }
             } else {

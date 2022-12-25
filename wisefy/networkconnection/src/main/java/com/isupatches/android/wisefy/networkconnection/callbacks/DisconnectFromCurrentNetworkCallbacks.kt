@@ -24,12 +24,31 @@ import com.isupatches.android.wisefy.networkconnection.entities.DisconnectFromCu
  * @see BaseWisefyCallbacks
  *
  * @author Patches Barrett
- * @since 03/2022
+ * @since 12/2022, version 5.0.0
  */
-@Deprecated("")
 interface DisconnectFromCurrentNetworkCallbacks : BaseWisefyCallbacks {
 
+    /**
+     * A callback triggered when there is a failure disconnecting from the current network.
+     *
+     * @param result The details from the failure while attempting to disconnect from the current network
+     *
+     * @see DisconnectFromCurrentNetworkResult.Failure
+     *
+     * @author Patches Barrett
+     * @since 12/2022, version 5.0.0
+     */
     fun onFailureDisconnectingFromCurrentNetwork(result: DisconnectFromCurrentNetworkResult.Failure)
 
+    /**
+     * A callback triggered when there is a success while disconnecting from the current network.
+     *
+     * @param result The details from the successful attempt disconnecting from the current network
+     *
+     * @see DisconnectFromCurrentNetworkResult.Success
+     *
+     * @author Patches Barrett
+     * @since 12/2022, version 5.0.0
+     */
     fun onSuccessDisconnectingFromCurrentNetwork(result: DisconnectFromCurrentNetworkResult.Success)
 }

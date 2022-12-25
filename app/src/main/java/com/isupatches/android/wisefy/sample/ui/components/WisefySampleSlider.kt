@@ -60,12 +60,12 @@ private fun WisefySampleSliderLightPreview() {
     WisefySampleSlider(
         startPosition = { 0f },
         valueRange = object : ClosedFloatingPointRange<Float> {
+            override val start: Float = PREVIEW_START_VALUE
+            override val endInclusive: Float = PREVIEW_END_VALUE
+
             override fun lessThanOrEquals(a: Float, b: Float): Boolean {
                 return a <= b
             }
-
-            override val start: Float = PREVIEW_START_VALUE
-            override val endInclusive: Float = PREVIEW_END_VALUE
         },
         onValueChange = { },
         onValueChangeFinished = { }
@@ -79,12 +79,12 @@ private fun WisefySampleSliderDarkPreview() {
     WisefySampleSlider(
         startPosition = { 0f },
         valueRange = object : ClosedFloatingPointRange<Float> {
+            override val start: Float = PREVIEW_START_VALUE
+            override val endInclusive: Float = PREVIEW_END_VALUE
+
             override fun lessThanOrEquals(a: Float, b: Float): Boolean {
                 return a <= b
             }
-
-            override val start: Float = PREVIEW_START_VALUE
-            override val endInclusive: Float = PREVIEW_END_VALUE
         },
         onValueChange = { },
         onValueChangeFinished = { }

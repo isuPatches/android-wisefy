@@ -16,8 +16,27 @@
 package com.isupatches.android.wisefy.networkinfo.callbacks
 
 import com.isupatches.android.wisefy.core.base.BaseWisefyCallbacks
-import com.isupatches.android.wisefy.networkinfo.entities.GetNetworkConnectionStatusResult
+import com.isupatches.android.wisefy.networkinfo.entities.NetworkConnectionStatusData
 
+/**
+ * A set of callbacks for retrieving the device's current network connection status.
+ *
+ * @see BaseWisefyCallbacks
+ *
+ * @author Patches Barrett
+ * @since 12/2022, version 5.0.0
+ */
 interface GetNetworkConnectionStatusCallbacks : BaseWisefyCallbacks {
-    fun onDeviceNetworkConnectionStatusRetrieved(result: GetNetworkConnectionStatusResult)
+
+    /**
+     * A callback triggered when there is a success getting the device's current network connection status.
+     *
+     * @param networkConnectionStatus The current network connection status of the device
+     *
+     * @see NetworkConnectionStatusData
+     *
+     * @author Patches Barrett
+     * @since 12/2022, version 5.0.0
+     */
+    fun onDeviceNetworkConnectionStatusRetrieved(networkConnectionStatus: NetworkConnectionStatusData)
 }

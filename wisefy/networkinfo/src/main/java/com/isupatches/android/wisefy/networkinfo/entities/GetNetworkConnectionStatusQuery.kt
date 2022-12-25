@@ -15,4 +15,10 @@
  */
 package com.isupatches.android.wisefy.networkinfo.entities
 
+/**
+ * A data representation of a request to get the device's current network connection status.
+ *
+ * @author Patches Barrett
+ * @since 12/2022, version 5.0.0
+ */
 class GetNetworkConnectionStatusQuery

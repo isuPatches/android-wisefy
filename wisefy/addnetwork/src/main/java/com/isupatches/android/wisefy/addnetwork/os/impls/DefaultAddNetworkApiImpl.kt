@@ -29,8 +29,8 @@ import com.isupatches.android.wisefy.core.wifimanager.legacy.createWPA2NetworkCo
 /**
  * A default internal implementation for adding networks through the Android OS.
  *
- * @param wifiManager The WifiManager instance to use
- * @param logger The [WisefyLogger] instance to use
+ * @property wifiManager The WifiManager instance to use
+ * @property logger The [WisefyLogger] instance to use
  *
  * @see DefaultAddNetworkApi
  * @see WisefyLogger
@@ -42,10 +42,6 @@ internal class DefaultAddNetworkApiImpl(
     private val wifiManager: WifiManager,
     private val logger: WisefyLogger
 ) : DefaultAddNetworkApi {
-
-    companion object {
-        private const val LOG_TAG = "DefaultAddNetworkApiImpl"
-    }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     override fun addOpenNetwork(ssid: String, bssid: String?): Int {
@@ -62,5 +58,9 @@ internal class DefaultAddNetworkApiImpl(
         val result = wifiManager.addNetwork(configuration)
         logger.d(LOG_TAG, "Add network.  Result: $result, configuration: $configuration")
         return result
+    }
+
+    companion object {
+        private const val LOG_TAG = "DefaultAddNetworkApiImpl"
     }
 }

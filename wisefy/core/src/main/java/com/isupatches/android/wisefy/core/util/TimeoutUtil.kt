@@ -17,6 +17,25 @@ package com.isupatches.android.wisefy.core.util
 
 private const val BASE_DELAY_IN_MS = 1000L
 
+/**
+ * A convenience function that will wait for a given time until the provided function returns true.
+ *
+ * Usage example:
+ *   withTimeout(timeoutInMillis) {
+ *       filteredAccessPoints = filterAccessPoints(filterDuplicates, matcher)
+ *       // Stops loop at end of timeout or if we have a non-empty list of access points
+ *       filteredAccessPoints.isNotEmpty()
+ *   }
+ *
+ * @param timeoutInMillis The allotted time for the code to execute before aborting
+ * @param block A code block that should return true to exit the loop, otherwise false to continue until the time
+ * limit is met
+ *
+ * @return Boolean - True if the condition was met before the timeout was reached, otherwise false
+ *
+ * @author Patches Barrett
+ * @since 12/2022, version 5.0.0
+ */
 fun withTimeout(timeoutInMillis: Int, block: () -> Boolean): Boolean {
     var currentTime: Long
     val endTime = System.currentTimeMillis() + timeoutInMillis
@@ -30,6 +49,24 @@ fun withTimeout(timeoutInMillis: Int, block: () -> Boolean): Boolean {
     return false
 }
 
+/**
+ * A convenience function that will wait for a given time until the provided function returns true.
+ *
+ * Usage example:
+ *   withTimeoutAsync(timeoutInMillis) {
+ *       // Stops loop at the end of the timeout or when connected to network with a matching SSID
+ *       isCurrentNetworkConnectedBySSID(ssid)
+ *   }
+ *
+ * @param timeoutInMillis The allotted time for the code to execute before aborting
+ * @param block A suspendable code block that should return true to exit the loop, otherwise false to continue until
+ * the time limit is met
+ *
+ * @return Boolean - True if the condition was met before the timeout was reached, otherwise false
+ *
+ * @author Patches Barrett
+ * @since 12/2022, version 5.0.0
+ */
 suspend fun withTimeoutAsync(timeoutInMillis: Int, block: suspend () -> Boolean): Boolean {
     var currentTime: Long
     val endTime = System.currentTimeMillis() + timeoutInMillis

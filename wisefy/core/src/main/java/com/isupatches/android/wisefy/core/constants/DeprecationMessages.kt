@@ -48,8 +48,22 @@ object DeprecationMessages {
      * @since 12/2022, version 5.0.0
      */
     object NetworkConnection {
-        const val DISCONNECT_FROM_CURRENT_NETWORK = "As of Android Q, applications canot "
 
-        const val CONNECT_TO_NETWORK = ""
+        /**
+         * A string value for the deprecation message for disconnectFromCurrentNetwork.
+         *
+         * @author Patches Barrett
+         * @since 12/2022, version 5.0.0
+         */
+        const val DISCONNECT_FROM_CURRENT_NETWORK: String = "As of Android Q / SDK, applications cannot directly " +
+            "disconnect from the current network."
+
+        /**
+         * A string value for the deprecation message for connectToNetwork.
+         *
+         * @author Patches Barrett
+         * @since 12/2022, version 5.0.0
+         */
+        const val CONNECT_TO_NETWORK: String = "As of Android Q / SDK, applications cannot directly connect to networks"
     }
 }

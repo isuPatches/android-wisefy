@@ -37,6 +37,7 @@ import java.net.UnknownHostException
  * A default implementation for getting information about a network, the device's current network, and the device's IP.
  *
  * @param connectivityManager The ConnectivityManager instance to use
+ * @param networkConnectionStatusProvider The on-demand way to retrieve the current network connection status
  *
  * @see DefaultNetworkInfoApi
  * @see WisefyLogger
@@ -51,10 +52,6 @@ internal class DefaultNetworkInfoApiImpl(
     private val logger: WisefyLogger,
     private val networkConnectionStatusProvider: suspend () -> NetworkConnectionStatus?
 ) : DefaultNetworkInfoApi {
-
-    companion object {
-        private const val LOG_TAG = "DefaultNetworkInfoApiImpl"
-    }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
     override fun getCurrentNetwork(): Network? {
@@ -128,14 +125,6 @@ internal class DefaultNetworkInfoApiImpl(
         )
     }
 
-    /**
-     * A function that will retrieve the network transport info for the device's current network .
-     *
-     * @return WifiInfo or null - The network from ConnectivityManager or null if cannot be retrieved
-     *
-     * @author Patches Barrett
-     * @since 03/2022
-     */
     @RequiresPermission(ACCESS_NETWORK_STATE)
     private fun getNetworkTransportInfo(): WifiInfo? {
         return if (sdkUtil.isAtLeastS()) {
@@ -156,5 +145,9 @@ internal class DefaultNetworkInfoApiImpl(
     @RequiresPermission(ACCESS_NETWORK_STATE)
     private fun getActiveNetworkCapabilities(): NetworkCapabilities? {
         return connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+    }
+
+    companion object {
+        private const val LOG_TAG = "DefaultNetworkInfoApiImpl"
     }
 }

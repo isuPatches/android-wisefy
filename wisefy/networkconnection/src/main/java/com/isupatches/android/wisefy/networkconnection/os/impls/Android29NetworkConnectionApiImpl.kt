@@ -24,29 +24,29 @@ import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.networkconnection.os.apis.Android29NetworkConnectionApi
 
 /**
- * An Android 29 specific implementation for connecting to or disconnecting from a network through the Android OS.
+ * An Android 29 or higher implementation for connecting to or disconnecting from a network through the Android OS.
  *
- * @param logger The WisefyLogger instance to use
+ * @property logger The [WisefyLogger] instance to use
  *
  * @see Android29NetworkConnectionApi
+ * @see WisefyLogger
  *
  * @author Patches Barrett
- * @since 03/2022
+ * @since 12/2022, version 5.0.0
  */
 @RequiresApi(Build.VERSION_CODES.Q)
 internal class Android29NetworkConnectionApiImpl(
     private val logger: WisefyLogger
 ) : Android29NetworkConnectionApi {
 
-    companion object {
-        private const val LOG_TAG = "Android29NetworkConnectionApiImpl"
-    }
-
     override fun openInternetConnectivityPanel(context: Context) {
         logger.d(LOG_TAG, "Opening internet connectivity panel")
         context.startActivity(
-            Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY)
-                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         )
+    }
+
+    companion object {
+        private const val LOG_TAG = "Android29NetworkConnectionApiImpl"
     }
 }

@@ -24,7 +24,7 @@ import com.isupatches.android.wisefy.networkinfo.entities.NetworkData
  * @see BaseWisefyCallbacks
  *
  * @author Patches Barrett
- * @since 03/2022
+ * @since 12/2022, version 5.0.0
  */
 interface GetCurrentNetworkCallbacks : BaseWisefyCallbacks {
 
@@ -36,7 +36,7 @@ interface GetCurrentNetworkCallbacks : BaseWisefyCallbacks {
      * @see NetworkData
      *
      * @author Patches Barrett
-     * @since 03/2022
+     * @since 12/2022, version 5.0.0
      */
     fun onCurrentNetworkRetrieved(network: NetworkData)
 }

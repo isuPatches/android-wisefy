@@ -24,7 +24,7 @@ import androidx.annotation.RequiresPermission
  * A default internal API for connecting to and disconnecting from a network through the Android OS.
  *
  * @author Patches Barrett
- * @since 03/2022
+ * @since 12/2022, version 5.0.0
  */
 internal interface DefaultNetworkConnectionApi {
 
@@ -37,7 +37,7 @@ internal interface DefaultNetworkConnectionApi {
      * @return Boolean or null - Whether or not connecting to the network was successful, null if no network found
      *
      * @author Patches Barrett
-     * @since 03/2022
+     * @since 12/2022, version 5.0.0
      */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE, ACCESS_NETWORK_STATE])
     suspend fun connectToNetworkBySSID(ssid: String, timeoutInMillis: Int): Boolean?
@@ -51,7 +51,7 @@ internal interface DefaultNetworkConnectionApi {
      * @return Boolean or null - Whether or not connecting to the network was successful, null if no network found
      *
      * @author Patches Barrett
-     * @since 03/2022
+     * @since 12/2022, version 5.0.0
      */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE, ACCESS_NETWORK_STATE])
     suspend fun connectToNetworkByBSSID(bssid: String, timeoutInMillis: Int): Boolean?
@@ -62,7 +62,7 @@ internal interface DefaultNetworkConnectionApi {
      * @return Boolean - Whether or not disconnecting from the current network was successful
      *
      * @author Patches Barrett
-     * @since 03/2022
+     * @since 12/2022, version 5.0.0
      */
     fun disconnectFromCurrentNetwork(): Boolean
 }

@@ -27,10 +27,6 @@ internal class WisefyNetworkCallbacks(
     private val onNetworkConnectionStatusUpdated: (NetworkConnectionStatus) -> Unit
 ) : ConnectivityManager.NetworkCallback() {
 
-    companion object {
-        private const val LOG_TAG = "WisefyNetworkCallback"
-    }
-
     override fun onAvailable(network: Network) {
         super.onAvailable(network)
         logger.d(LOG_TAG, "onAvailable, $network")
@@ -60,5 +56,9 @@ internal class WisefyNetworkCallbacks(
         super.onLost(network)
         logger.d(LOG_TAG, "onLost, network: $network")
         onNetworkConnectionStatusUpdated(NetworkConnectionStatus.LOST)
+    }
+
+    companion object {
+        private const val LOG_TAG = "WisefyNetworkCallback"
     }
 }

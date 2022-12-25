@@ -26,7 +26,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
 
-@Suppress("unused")
+@Suppress("unused", "UnnecessaryAbstractClass")
 @Module
 @InstallIn(ActivityComponent::class)
 internal abstract class MainActivityModule {

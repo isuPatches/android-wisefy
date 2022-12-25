@@ -15,7 +15,6 @@
  */
 package com.isupatches.android.wisefy.build
 
-@Suppress("StringLiteralDuplication")
 object Versions {
     // Core tooling
     const val AGP: String = "7.3.0"

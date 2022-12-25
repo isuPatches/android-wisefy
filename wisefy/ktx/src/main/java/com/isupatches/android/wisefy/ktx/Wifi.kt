@@ -32,22 +32,25 @@ import com.isupatches.android.wisefy.wifi.entities.IsWifiEnabledResult
 import kotlin.coroutines.suspendCoroutine
 
 /**
- * A coroutine extension for disabling Wifi.
+ * A coroutine extension for disabling wifi.
  *
  * *NOTES*
- *  - Locked by a mutex along with the async APIs to enable Wifi and check the device's current Wifi state
+ *  - Locked by the wifiMutex along with functions for enabling wifi and checking if wifi is enabled
+ *  - Will open the wifi settings screen on Android Q / SDK 29 or higher
  *
- * @param request The details of the request to disable wifi.
+ * @receiver [WisefyApi]
+ *
+ * @param request The details of the request to disable wifi
  *
  * @see DisableWifiRequest
  * @see DisableWifiResult
  *
- * @return DisableWifiResult - The result of disabling Wifi
+ * @return DisableWifiResult - The result of disabling wifi
  *
  * @throws WisefyException
  *
  * @author Patches Barrett
- * @since 07/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 @Throws(WisefyException::class)
 @RequiresPermission(CHANGE_WIFI_STATE)
@@ -72,22 +75,25 @@ suspend fun WisefyApi.disableWifiAsync(request: DisableWifiRequest): DisableWifi
     }
 
 /**
- * A coroutine extension for enabling Wifi.
+ * A coroutine extension for enabling wifi.
  *
  * *NOTES*
- *  - Locked by a mutex along with the async APIs to disable Wifi and check the device's current Wifi state
+ *  - Locked by the wifiMutex along with functions for disabling wifi and checking if wifi is enabled
+ *  - Will open the wifi settings screen on Android Q / SDK 29 or higher
  *
- * @param request The details of the request to enable wifi.
+ * @receiver [WisefyApi]
+ *
+ * @param request The details of the request to enable wifi
  *
  * @see EnableWifiRequest
  * @see EnableWifiResult
  *
- * @return EnableWifiResult - The result of enabling Wifi
+ * @return EnableWifiResult - The result of enabling wifi
  *
  * @throws WisefyException
  *
  * @author Patches Barrett
- * @since 07/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 @Throws(WisefyException::class)
 @RequiresPermission(CHANGE_WIFI_STATE)
@@ -112,22 +118,24 @@ suspend fun WisefyApi.enableWifiAsync(request: EnableWifiRequest): EnableWifiRes
     }
 
 /**
- * A coroutine extension for checking the current state of Wifi.
+ * A coroutine extension for checking the current state of wifi.
  *
  * *NOTES*
- *  - Locked by a mutex along with the async APIs to enable and disable Wifi
+ *  - Locked by the wifiMutex along with functions for enabling and disabling wifi
  *
- * @param query The details of the query to check the current state of wifi.
+ * @receiver [WisefyApi]
+ *
+ * @param query The details of the query to check the current state of wifi
  *
  * @see IsWifiEnabledQuery
  * @see IsWifiEnabledResult
  *
- * @return IsWifiEnabledResult - The result of checking if Wifi is enabled
+ * @return IsWifiEnabledResult - The result of checking if wifi is enabled
  *
  * @throws WisefyException
  *
  * @author Patches Barrett
- * @since 07/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 @Throws(WisefyException::class)
 @RequiresPermission(ACCESS_WIFI_STATE)

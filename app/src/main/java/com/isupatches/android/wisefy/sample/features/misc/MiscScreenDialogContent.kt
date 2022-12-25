@@ -275,7 +275,7 @@ private class MiscScreenDialogStatePreviewParameterProvider : PreviewParameterPr
         MiscDialogState.Failure.WisefyAsync(WisefyException("", null)),
         MiscDialogState.ChangeNetwork.Failure(ChangeNetworkResult.Failure.Assertion("")),
         MiscDialogState.ChangeNetwork.PreAndroidQ,
-        MiscDialogState.ChangeNetwork.Success(ChangeNetworkResult.Success.InternetConnectionPanelOpened),
+        MiscDialogState.ChangeNetwork.Success(ChangeNetworkResult.Success.InternetConnectivityPanelOpened),
         MiscDialogState.DisableWifi.Success(DisableWifiResult.Success.Disabled),
         MiscDialogState.DisableWifi.Failure(DisableWifiResult.Failure.UnableToDisable),
         MiscDialogState.DisableWifi.PermissionsError,

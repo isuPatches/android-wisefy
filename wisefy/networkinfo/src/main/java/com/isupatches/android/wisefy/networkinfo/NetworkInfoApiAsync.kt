@@ -23,16 +23,19 @@ import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkQuery
 import com.isupatches.android.wisefy.networkinfo.entities.GetNetworkConnectionStatusQuery
 
 /**
- * A set of asynchronous APIs for getting information about a network, the device's current network,
- * and the device's IP.
+ * A set of asynchronous APIs for getting information about the device's current network and connection status.
  *
  * @author Patches Barrett
- * @since 03/2022
+ * @since 12/2022, version 5.0.0
  */
 interface NetworkInfoApiAsync {
 
     /**
      * An asynchronous API to get the device's current network.
+     *
+     * *Notes*
+     *  - Locked by the networkConnectionMutex along with functions for connecting, disconnecting, changing and getting
+     *    the device's current network connection status
      *
      * @param query The details of the query to get the device's current network
      * @param callbacks The callbacks for retrieving the device's current network
@@ -41,7 +44,7 @@ interface NetworkInfoApiAsync {
      * @see GetCurrentNetworkCallbacks
      *
      * @author Patches Barrett
-     * @since 03/2022
+     * @since 12/2022, version 5.0.0
      */
     @RequiresPermission(ACCESS_NETWORK_STATE)
     fun getCurrentNetwork(
@@ -49,6 +52,22 @@ interface NetworkInfoApiAsync {
         callbacks: GetCurrentNetworkCallbacks?
     )
 
+    /**
+     * An asynchronous API to get the device's current network connection status.
+     *
+     * *Notes*
+     *  - Locked by the networkConnectionMutex along with functions for connecting, disconnecting, changing, and getting
+     *    the device's current network
+     *
+     * @param query The details of the query to get the device's current network connection status
+     * @param callbacks The callbacks for retrieving the device's current network connection status
+     *
+     * @see GetNetworkConnectionStatusQuery
+     * @see GetNetworkConnectionStatusCallbacks
+     *
+     * @author Patches Barrett
+     * @since 12/2022, version 5.0.0
+     */
     @RequiresPermission(ACCESS_NETWORK_STATE)
     fun getNetworkConnectionStatus(
         query: GetNetworkConnectionStatusQuery = GetNetworkConnectionStatusQuery(),

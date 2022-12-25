@@ -18,20 +18,20 @@ package com.isupatches.android.wisefy.signal.os.impls
 import android.net.wifi.WifiManager
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.signal.os.apis.Android30SignalApi
 
 /**
- * An Android 30+ internal implementation for signal strength functionality through the Android OS.
+ * An Android 30 or higher internal implementation for signal strength functionality through the Android OS.
  *
- * @param assertions The [WisefyAssertions] instance to use
  * @param wifiManager The WifiManager instance to use
+ * @param logger The [WisefyLogger] instance to use
  *
  * @see Android30SignalApi
+ * @see WisefyLogger
  *
  * @author Patches Barrett
- * @since 07/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 @RequiresApi(Build.VERSION_CODES.R)
 internal class Android30SignalApiImpl(

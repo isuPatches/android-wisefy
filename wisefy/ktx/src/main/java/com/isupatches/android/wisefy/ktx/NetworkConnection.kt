@@ -15,6 +15,8 @@
  */
 package com.isupatches.android.wisefy.ktx
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.isupatches.android.wisefy.WisefyApi
 import com.isupatches.android.wisefy.core.exceptions.WisefyException
 import com.isupatches.android.wisefy.networkconnection.callbacks.ChangeNetworkCallbacks
@@ -22,6 +24,28 @@ import com.isupatches.android.wisefy.networkconnection.entities.ChangeNetworkReq
 import com.isupatches.android.wisefy.networkconnection.entities.ChangeNetworkResult
 import kotlin.coroutines.suspendCoroutine
 
+/**
+ * A coroutine extension for changing the current network.
+ *
+ * *Notes*
+ *  - Locked by the networkConnectionMutex along with functions for connecting, disconnecting, getting the device's
+ *    current network connection status, and getting the device's current network
+ *
+ * @receiver [WisefyApi]
+ *
+ * @param request The details of the request to change the current network
+ *
+ * @see ChangeNetworkRequest
+ * @see ChangeNetworkResult
+ *
+ * @return ChangeNetworkResult - The result when changing the current network
+ *
+ * @throws WisefyException
+ *
+ * @author Patches Barrett
+ * @since 12/2022, version 5.0.0
+ */
+@RequiresApi(Build.VERSION_CODES.Q)
 @Throws(WisefyException::class)
 suspend fun WisefyApi.changeNetworkAsync(request: ChangeNetworkRequest): ChangeNetworkResult =
     suspendCoroutine { continuation ->

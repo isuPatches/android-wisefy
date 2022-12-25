@@ -30,6 +30,7 @@ import com.isupatches.android.wisefy.signal.os.impls.DefaultSignalApiImpl
 /**
  * A default adapter for functions related to the signal strength of networks.
  *
+ * @param logger The [WisefyLogger] instance to use
  * @param assertions The [WisefyAssertions] instance to use
  * @param api The OS level API instance to use
  *
@@ -37,9 +38,10 @@ import com.isupatches.android.wisefy.signal.os.impls.DefaultSignalApiImpl
  * @see DefaultSignalApiImpl
  * @see SignalApi
  * @see WisefyAssertions
+ * @see WisefyLogger
  *
  * @author Patches Barrett
- * @since 07/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 internal class DefaultSignalAdapter(
     logger: WisefyLogger,
@@ -50,6 +52,7 @@ internal class DefaultSignalAdapter(
     override fun calculateSignalLevel(request: CalculateSignalLevelRequest): CalculateSignalLevelResult {
         return when (request) {
             is CalculateSignalLevelRequest.BelowAndroid30 -> {
+                @Suppress("Deprecation")
                 val result = api.calculateSignalLevel(request.rssiLevel, request.numLevels)
                 CalculateSignalLevelResult.Success(value = result)
             }

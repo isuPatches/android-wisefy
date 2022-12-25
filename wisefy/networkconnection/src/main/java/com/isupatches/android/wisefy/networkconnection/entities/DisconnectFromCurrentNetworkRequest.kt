@@ -15,20 +15,10 @@
  */
 package com.isupatches.android.wisefy.networkconnection.entities
 
-import android.content.Context
-
 /**
- * A set of classes that are used in requests to connect and disconnect from a network.
+ * A representation of a request to disconnect from the current network.
  *
  * @author Patches Barrett
- * @since 03/2022
+ * @since 12/2022, version 5.0.0
  */
-@Deprecated("")
-sealed class DisconnectFromCurrentNetworkRequest {
-
-    @Deprecated("")
-    object Default : DisconnectFromCurrentNetworkRequest()
-
-    @Deprecated("")
-    data class Android29OrAbove(val context: Context) : DisconnectFromCurrentNetworkRequest()
-}
+class DisconnectFromCurrentNetworkRequest

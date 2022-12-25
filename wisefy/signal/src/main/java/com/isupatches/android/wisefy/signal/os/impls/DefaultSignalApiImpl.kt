@@ -23,10 +23,13 @@ import com.isupatches.android.wisefy.signal.os.apis.DefaultSignalApi
 /**
  * A default implementation for signal strength functionality through the Android OS.
  *
+ * @param logger The [WisefyLogger] instance to use
+ *
  * @see DefaultSignalApi
+ * @see WisefyLogger
  *
  * @author Patches Barrett
- * @since 07/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 internal class DefaultSignalApiImpl(
     private val logger: WisefyLogger
@@ -41,6 +44,7 @@ internal class DefaultSignalApiImpl(
         replaceWith = ReplaceWith("this.calculateBars(rssiLevel)")
     )
     override fun calculateSignalLevel(rssiLevel: Int, targetNumberOfBars: Int): Int {
+        @Suppress("Deprecation")
         val result = WifiManager.calculateSignalLevel(rssiLevel, targetNumberOfBars)
         logger.d(LOG_TAG, "Result from calculateSignalLevel: $result")
         return result

@@ -19,6 +19,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
 import com.isupatches.android.wisefy.core.constants.AssertionMessages
+import com.isupatches.android.wisefy.core.constants.DeprecationMessages
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.networkconnection.NetworkConnectionApi
 import com.isupatches.android.wisefy.networkconnection.entities.ChangeNetworkRequest
@@ -31,11 +32,11 @@ import com.isupatches.android.wisefy.networkconnection.os.apis.Android29NetworkC
 import com.isupatches.android.wisefy.networkconnection.os.impls.Android29NetworkConnectionApiImpl
 
 /**
- * An Android 29 specific adapter for connecting to or disconnecting from a network.
+ * An Android 29 or higher adapter for connecting to or disconnecting from a network.
  *
- * @param connectivityManager The ConnectivityManager instance to use
- * @param logger The logger instance to use
- * @param api The OS level API instance to use
+ * @param logger The [WisefyLogger] instance to use
+ * @property assertions The [WisefyAssertions] instance to use
+ * @property api The OS level API instance to use
  *
  * @see Android29NetworkConnectionApi
  * @see Android29NetworkConnectionApiImpl
@@ -43,7 +44,7 @@ import com.isupatches.android.wisefy.networkconnection.os.impls.Android29Network
  * @see WisefyLogger
  *
  * @author Patches Barrett
- * @since 03/2022
+ * @since 12/2022, version 5.0.0
  */
 @RequiresApi(Build.VERSION_CODES.Q)
 internal class Android29NetworkConnectionAdapter(
@@ -54,15 +55,17 @@ internal class Android29NetworkConnectionAdapter(
 
     override fun changeNetwork(request: ChangeNetworkRequest): ChangeNetworkResult {
         api.openInternetConnectivityPanel(request.context)
-        return ChangeNetworkResult.Success.InternetConnectionPanelOpened
+        return ChangeNetworkResult.Success.InternetConnectivityPanelOpened
     }
 
+    @Deprecated(DeprecationMessages.NetworkConnection.CONNECT_TO_NETWORK)
     override fun connectToNetwork(request: ConnectToNetworkRequest): ConnectToNetworkResult {
         val message = AssertionMessages.NetworkConnection.ConnectToNetwork.USED_ANDROID_Q_OR_HIGHER
         assertions.fail(message)
         return ConnectToNetworkResult.Failure.Assertion(message)
     }
 
+    @Deprecated(DeprecationMessages.NetworkConnection.DISCONNECT_FROM_CURRENT_NETWORK)
     override fun disconnectFromCurrentNetwork(
         request: DisconnectFromCurrentNetworkRequest
     ): DisconnectFromCurrentNetworkResult {

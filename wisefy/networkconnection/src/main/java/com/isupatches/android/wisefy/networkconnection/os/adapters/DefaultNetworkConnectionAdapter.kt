@@ -23,6 +23,7 @@ import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
 import com.isupatches.android.wisefy.core.constants.AssertionMessages
+import com.isupatches.android.wisefy.core.constants.DeprecationMessages
 import com.isupatches.android.wisefy.core.entities.NetworkConnectionStatus
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.core.util.SdkUtil
@@ -40,9 +41,13 @@ import kotlinx.coroutines.runBlocking
 /**
  * A default adapter for connecting to or disconnecting from a network.
  *
+ * @param connectivityManager The ConnectivityManager instance to use
  * @param wifiManager The WifiManager instance to use
- * @param logger The logger instance to use
- * @param api The OS level API instance to use
+ * @param logger The [WisefyLogger] instance to use
+ * @property assertions The [WisefyAssertions] instance to use
+ * @param sdkUtil The [SdkUtil] instance to use
+ * @param networkConnectionStatusProvider The on-demand way to retrieve the current network connection status
+ * @property api The OS level API instance to use
  *
  * @see DefaultNetworkConnectionApi
  * @see DefaultNetworkConnectionApiImpl
@@ -50,7 +55,7 @@ import kotlinx.coroutines.runBlocking
  * @see WisefyLogger
  *
  * @author Patches Barrett
- * @since 03/2022
+ * @since 12/2022, version 5.0.0
  */
 internal class DefaultNetworkConnectionAdapter(
     connectivityManager: ConnectivityManager,
@@ -74,7 +79,7 @@ internal class DefaultNetworkConnectionAdapter(
         return ChangeNetworkResult.Failure.Assertion(message)
     }
 
-    @Deprecated("")
+    @Deprecated(DeprecationMessages.NetworkConnection.CONNECT_TO_NETWORK)
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE, ACCESS_NETWORK_STATE])
     override fun connectToNetwork(request: ConnectToNetworkRequest): ConnectToNetworkResult {
         val result = runBlocking {
@@ -90,7 +95,7 @@ internal class DefaultNetworkConnectionAdapter(
         }
     }
 
-    @Deprecated("")
+    @Deprecated(DeprecationMessages.NetworkConnection.DISCONNECT_FROM_CURRENT_NETWORK)
     override fun disconnectFromCurrentNetwork(
         request: DisconnectFromCurrentNetworkRequest
     ): DisconnectFromCurrentNetworkResult {

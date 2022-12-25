@@ -22,7 +22,7 @@ package com.isupatches.android.wisefy.core.assertions
  * the end user perspective. Typically this will be enabled by setting [throwOnAssertions] to be the same as something
  * like BuildConfig.DEBUG.
  *
- * @param throwOnAssertions If enabled, assertions will throw an IllegalArgumentException, otherwise they are no-op
+ * @property throwOnAssertions If enabled, assertions will throw an IllegalArgumentException, otherwise they are no-op
  *
  * @author Patches Barrett
  * @since 12/2022, version 5.0.0

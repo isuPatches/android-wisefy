@@ -43,8 +43,10 @@ import kotlinx.coroutines.withContext
  *
  * @param coroutineDispatcherProvider The instance of the coroutine dispatcher provider to use
  * @param scope The coroutine scope to use
+ * @param networkConnectionMutex
  * @param connectivityManager The ConnectivityManager instance to use
- * @param logger The logger instance to use
+ * @param logger The [WisefyLogger] instance to use
+ * @param sdkUtil The [SdkUtil] instance to use
  * @param wifiManager The WifiManager instance to use
  *
  * @see CoroutineDispatcherProvider
@@ -71,10 +73,6 @@ class WisefyNetworkInfoDelegate(
         networkConnectionStatusProvider = networkConnectionStatusProvider
     )
 ) : NetworkInfoDelegate {
-
-    companion object {
-        private const val LOG_TAG = "WisefyNetworkInfoDelegate"
-    }
 
     init {
         logger.d(LOG_TAG, "WisefyNetworkInfoDelegate adapter is: ${adapter::class.java.simpleName}")
@@ -106,10 +104,14 @@ class WisefyNetworkInfoDelegate(
         callbacks: GetNetworkConnectionStatusCallbacks?
     ) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
-            val currentNetworkConnectionStatus = adapter.getNetworkConnectionStatus(query)
+            val result = adapter.getNetworkConnectionStatus(query)
             withContext(coroutineDispatcherProvider.main) {
-                callbacks?.onDeviceNetworkConnectionStatusRetrieved(currentNetworkConnectionStatus)
+                callbacks?.onDeviceNetworkConnectionStatusRetrieved(result.value)
             }
         }
+    }
+
+    companion object {
+        private const val LOG_TAG = "WisefyNetworkInfoDelegate"
     }
 }

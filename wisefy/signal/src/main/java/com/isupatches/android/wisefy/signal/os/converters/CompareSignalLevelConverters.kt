@@ -17,10 +17,22 @@ package com.isupatches.android.wisefy.signal.os.converters
 
 import com.isupatches.android.wisefy.signal.entities.CompareSignalLevelResult
 
+/**
+ * A function that converts a raw Int result from WifiManager.compareSignalLevel into a [CompareSignalLevelResult].
+ *
+ * @receiver Int - The raw result from WifiManager.compareSignalLevel
+ *
+ * @see CompareSignalLevelResult
+ *
+ * @return CompareSignalLevelResult - A more readable variant of the result as any [CompareSignalLevelResult] type
+ *
+ * @author Patches Barrett
+ * @since 12/2022, version 5.0.0
+ */
 internal fun Int.toCompareSignalLevelResult(): CompareSignalLevelResult {
     return when {
         this > 0 -> CompareSignalLevelResult.Success.FirstRSSIValueIsStronger(this)
         this < 0 -> CompareSignalLevelResult.Success.FirstRSSIValueIsWeaker(this)
-        else -> CompareSignalLevelResult.Success.RSSIValuesAreEqual(this)
+        else -> CompareSignalLevelResult.Success.RSSIValuesAreEqual(0)
     }
 }

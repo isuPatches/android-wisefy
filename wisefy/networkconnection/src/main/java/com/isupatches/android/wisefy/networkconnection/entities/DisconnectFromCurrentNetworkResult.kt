@@ -16,23 +16,21 @@
 package com.isupatches.android.wisefy.networkconnection.entities
 
 /**
- * A set of classes that are data representations of a result when disconnecting from the current network.
+ * A set of classes and objects that are representations of a result when disconnecting from the current network.
  *
  * @author Patches Barrett
- * @since 03/2022
+ * @since 12/2022, version 5.0.0
  */
-@Deprecated("")
 sealed class DisconnectFromCurrentNetworkResult {
 
     /**
-     * A set of classes that are data representations of a success when disconnecting from the current network.
+     * A set of classes objects that are representations of a success when disconnecting from the current network.
      *
      * @see DisconnectFromCurrentNetworkResult
      *
      * @author Patches Barrett
-     * @since 03/2022
+     * @since 12/2022, version 5.0.0
      */
-    @Deprecated("")
     sealed class Success : DisconnectFromCurrentNetworkResult() {
 
         /**
@@ -41,35 +39,19 @@ sealed class DisconnectFromCurrentNetworkResult {
          * @see Success
          *
          * @author Patches Barrett
-         * @since 03/2022
+         * @since 12/2022, version 5.0.0
          */
-        @Deprecated("")
         object True : Success()
-
-        /**
-         * A data representation for when there is a request sent to disconnect from the current network.
-         *
-         * @see Success
-         *
-         * @author Patches Barrett
-         * @since 03/2022
-         */
-        @Deprecated("")
-        object DisconnectRequestSent : Success()
-
-        @Deprecated("")
-        object NetworkScreenOpened : Success()
     }
 
     /**
-     * A set of classes that are data representations of a failure when disconnecting from the current network.
+     * A set of classes and objects that are representations of a failure when disconnecting from the current network.
      *
      * @see DisconnectFromCurrentNetworkResult
      *
      * @author Patches Barrett
-     * @since 03/2022
+     * @since 12/2022, version 5.0.0
      */
-    @Deprecated("")
     sealed class Failure : DisconnectFromCurrentNetworkResult() {
 
         /**
@@ -78,23 +60,23 @@ sealed class DisconnectFromCurrentNetworkResult {
          * @see Failure
          *
          * @author Patches Barrett
-         * @since 03/2022
+         * @since 12/2022, version 5.0.0
          */
-        @Deprecated("")
         object False : Failure()
 
         /**
-         * A data representation for when there is no current network found to disconnect from.
+         * A representation of a failure disconnecting from the current network due to hitting an unexpected path
+         * causing an assertion.
+         *
+         * *NOTE* This is for developer specific feedback and should NEVER actually be hit unless there is a bug.
+         *
+         * @property message A text description describing the assertion error hit
          *
          * @see Failure
          *
          * @author Patches Barrett
-         * @since 03/2022
+         * @since 12/2022, version 5.0.0
          */
-        @Deprecated("")
-        object NetworkNotFound : Failure()
-
-        @Deprecated("")
         data class Assertion(val message: String) : Failure()
     }
 }

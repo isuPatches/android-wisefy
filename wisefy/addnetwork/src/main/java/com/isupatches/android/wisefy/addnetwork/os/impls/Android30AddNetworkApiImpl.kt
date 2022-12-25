@@ -31,8 +31,8 @@ import com.isupatches.android.wisefy.core.wifimanager.createWPA3NetworkSuggestio
 /**
  * An internal Android 30 or higher implementation for adding networks through the Android OS.
  *
- * @param wifiManager The WifiManager instance to use
- * @param logger The [WisefyLogger] instance to use
+ * @property wifiManager The WifiManager instance to use
+ * @property logger The [WisefyLogger] instance to use
  *
  * @see Android30AddNetworkApi
  * @see WisefyLogger
@@ -45,10 +45,6 @@ internal class Android30AddNetworkApiImpl(
     private val wifiManager: WifiManager,
     private val logger: WisefyLogger
 ) : Android30AddNetworkApi {
-
-    companion object {
-        private const val LOG_TAG = "Android30AddNetworkApiImpl"
-    }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     override fun addOpenNetwork(ssid: String, bssid: String?): Int {
@@ -70,5 +66,9 @@ internal class Android30AddNetworkApiImpl(
         val result = wifiManager.addNetworkSuggestions(listOf(suggestion))
         logger.d(LOG_TAG, "Add network suggestion.  Result: $result, suggestion: $suggestion")
         return result
+    }
+
+    companion object {
+        private const val LOG_TAG = "Android30AddNetworkApiImpl"
     }
 }

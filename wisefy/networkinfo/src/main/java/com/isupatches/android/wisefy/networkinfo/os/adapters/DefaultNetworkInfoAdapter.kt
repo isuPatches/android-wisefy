@@ -36,17 +36,22 @@ import kotlinx.coroutines.runBlocking
 /**
  * A default adapter for getting information about a network, the device's current network, and the device's IP.
  *
- * @param wifiManager The WifiManager instance to use
  * @param connectivityManager The ConnectivityManager instance to use
+ * @property wifiManager The WifiManager instance to use
+ * @param sdkUtil The [SdkUtil] instance to use
+ * @param logger The [WisefyLogger] instance to use
+ * @param networkConnectionStatusProvider The on-demand way to retrieve the current network connection status
  * @param api The OS level API instance to use
  *
  * @see DefaultNetworkInfoApi
  * @see DefaultNetworkInfoApiImpl
+ * @see NetworkConnectionStatus
  * @see NetworkInfoApi
+ * @see SdkUtil
  * @see WisefyLogger
  *
  * @author Patches Barrett
- * @since 03/2022
+ * @since 12/2022, version 5.0.0
  */
 internal class DefaultNetworkInfoAdapter(
     connectivityManager: ConnectivityManager,

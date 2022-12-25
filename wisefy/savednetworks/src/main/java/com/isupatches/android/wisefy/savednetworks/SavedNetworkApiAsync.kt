@@ -34,6 +34,9 @@ interface SavedNetworkApiAsync {
     /**
      * An asynchronous API to get the saved networks on the device.
      *
+     * *Notes*
+     *  - Locked by the savedNetworkMutex along with functions for adding, removing, and checking if a network is saved
+     *
      * @param query The details of the query to get the saved networks on the device
      * @param callbacks The callbacks for when the result for getting saved networks on the device is returned
      *
@@ -51,6 +54,9 @@ interface SavedNetworkApiAsync {
 
     /**
      * An asynchronous API to check if a network is saved on the device.
+     *
+     * *Notes*
+     *  - Locked by the savedNetworkMutex along with functions for adding, removing, and querying for saved networks
      *
      * @param query The details of the query to check if a network is saved on the device
      * @param callbacks The callbacks for the result of whether the network is saved on the device

@@ -29,6 +29,11 @@ import kotlin.coroutines.suspendCoroutine
 /**
  * A coroutine extension for removing a network.
  *
+ * *Notes*
+ *  - Locked by the savedNetworkMutex along with functions for adding, querying, and checking if a network is saved
+ *
+ * @receiver [WisefyApi]
+ *
  * @param request The details of the request to remove a network
  *
  * @see RemoveNetworkRequest
@@ -39,7 +44,7 @@ import kotlin.coroutines.suspendCoroutine
  * @throws WisefyException
  *
  * @author Patches Barrett
- * @since 07/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 @Throws(WisefyException::class)
 @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE, CHANGE_WIFI_STATE])

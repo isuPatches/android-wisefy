@@ -15,4 +15,14 @@
  */
 package com.isupatches.android.wisefy.networkinfo.entities
 
+/**
+ * A representation of a success while getting the device's current network from the Android OS.
+ *
+ * @property value The data about the device's current network
+ *
+ * @see NetworkData
+ *
+ * @author Patches Barrett
+ * @since 12/2022, version 5.0.0
+ */
 data class GetCurrentNetworkResult(val value: NetworkData)

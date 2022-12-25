@@ -24,12 +24,31 @@ import com.isupatches.android.wisefy.networkconnection.entities.ConnectToNetwork
  * @see BaseWisefyCallbacks
  *
  * @author Patches Barrett
- * @since 03/2022
+ * @since 12/2022, version 5.0.0
  */
-@Deprecated("")
 interface ConnectToNetworkCallbacks : BaseWisefyCallbacks {
 
+    /**
+     * A callback triggered when there is a failure connecting to a network.
+     *
+     * @param result The details from the failure while attempting to connect to a network
+     *
+     * @see ConnectToNetworkResult.Failure
+     *
+     * @author Patches Barrett
+     * @since 12/2022, version 5.0.0
+     */
     fun onFailureConnectingToNetwork(result: ConnectToNetworkResult.Failure)
 
+    /**
+     * A callback triggered when there is a success while connecting to a network.
+     *
+     * @param result The details from the successful attempt connecting to a network
+     *
+     * @see ConnectToNetworkResult.Success
+     *
+     * @author Patches Barrett
+     * @since 12/2022, version 5.0.0
+     */
     fun onSuccessConnectingToNetwork(result: ConnectToNetworkResult.Success)
 }

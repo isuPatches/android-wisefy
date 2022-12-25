@@ -32,8 +32,8 @@ import com.isupatches.android.wisefy.core.util.withTimeout
 /**
  * A default internal implementation for querying for access points through the Android OS.
  *
- * @param wifiManager The WifiManager instance to use
- * @param logger The [WisefyLogger] instance to use
+ * @property wifiManager The WifiManager instance to use
+ * @property logger The [WisefyLogger] instance to use
  *
  * @see DefaultAccessPointsApi
  * @see WisefyLogger
@@ -45,10 +45,6 @@ internal class DefaultAccessPointsApiImpl(
     private val wifiManager: WifiManager,
     private val logger: WisefyLogger
 ) : DefaultAccessPointsApi {
-
-    companion object {
-        private const val LOG_TAG = "DefaultAccessPointsApiImpl"
-    }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun getNearbyAccessPoints(filterDuplicates: Boolean): List<AccessPointData> {
@@ -177,5 +173,9 @@ internal class DefaultAccessPointsApiImpl(
             filteredAccessPoints = filterAccessPoints(filterDuplicates, matcher)
         }
         return filteredAccessPoints
+    }
+
+    companion object {
+        private const val LOG_TAG = "DefaultAccessPointsApiImpl"
     }
 }

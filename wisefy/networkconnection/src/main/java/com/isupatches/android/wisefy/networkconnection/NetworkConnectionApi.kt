@@ -19,6 +19,7 @@ import android.Manifest.permission.CHANGE_NETWORK_STATE
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
+import com.isupatches.android.wisefy.core.constants.DeprecationMessages
 import com.isupatches.android.wisefy.networkconnection.entities.ChangeNetworkRequest
 import com.isupatches.android.wisefy.networkconnection.entities.ChangeNetworkResult
 import com.isupatches.android.wisefy.networkconnection.entities.ConnectToNetworkRequest
@@ -30,10 +31,26 @@ import com.isupatches.android.wisefy.networkconnection.entities.DisconnectFromCu
  * A set of synchronous APIs for connecting to and disconnecting from a network.
  *
  * @author Patches Barrett
- * @since 03/2022
+ * @since 12/2022, version 5.0.0
  */
 interface NetworkConnectionApi {
 
+    /**
+     * An synchronous API to change the network the device is connected to.
+     *
+     * *Notes*
+     *  - Will open up the internet connectivity panel
+     *
+     * @param request The details of the request to change the device's network
+     *
+     * @see ChangeNetworkRequest
+     * @see ChangeNetworkResult
+     *
+     * @return ChangeNetworkResult - The result of changing the device's network
+     *
+     * @author Patches Barrett
+     * @since 12/2022, version 5.0.0
+     */
     @RequiresApi(Build.VERSION_CODES.Q)
     fun changeNetwork(request: ChangeNetworkRequest): ChangeNetworkResult
 
@@ -48,9 +65,9 @@ interface NetworkConnectionApi {
      * @return ConnectToNetworkResult - The result of connecting to a network
      *
      * @author Patches Barrett
-     * @since 03/2022
+     * @since 12/2022, version 5.0.0
      */
-    @Deprecated("")
+    @Deprecated(DeprecationMessages.NetworkConnection.CONNECT_TO_NETWORK)
     @RequiresPermission(CHANGE_NETWORK_STATE)
     fun connectToNetwork(request: ConnectToNetworkRequest): ConnectToNetworkResult
 
@@ -63,8 +80,8 @@ interface NetworkConnectionApi {
      * @return DisconnectFromCurrentNetworkResult - The result of disconnecting from the current network
      *
      * @author Patches Barrett
-     * @since 03/2022
+     * @since 12/2022, version 5.0.0
      */
-    @Deprecated("")
+    @Deprecated(DeprecationMessages.NetworkConnection.DISCONNECT_FROM_CURRENT_NETWORK)
     fun disconnectFromCurrentNetwork(request: DisconnectFromCurrentNetworkRequest): DisconnectFromCurrentNetworkResult
 }

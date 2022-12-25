@@ -24,6 +24,7 @@ import com.isupatches.android.wisefy.accesspoints.entities.GetAccessPointsResult
 import com.isupatches.android.wisefy.addnetwork.callbacks.AddNetworkCallbacks
 import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkRequest
 import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
+import com.isupatches.android.wisefy.core.constants.DeprecationMessages
 import com.isupatches.android.wisefy.networkconnection.callbacks.ChangeNetworkCallbacks
 import com.isupatches.android.wisefy.networkconnection.callbacks.ConnectToNetworkCallbacks
 import com.isupatches.android.wisefy.networkconnection.callbacks.DisconnectFromCurrentNetworkCallbacks
@@ -92,18 +93,20 @@ internal class ComposablePreviewWisefy : WisefyApi {
 
     @RequiresApi(Build.VERSION_CODES.Q)
     override fun changeNetwork(request: ChangeNetworkRequest): ChangeNetworkResult {
-        return ChangeNetworkResult.Success.InternetConnectionPanelOpened
+        return ChangeNetworkResult.Success.InternetConnectivityPanelOpened
     }
 
     @RequiresApi(Build.VERSION_CODES.Q)
     override fun changeNetwork(request: ChangeNetworkRequest, callbacks: ChangeNetworkCallbacks?) {
-        callbacks?.onSuccessChangingNetworks(result = ChangeNetworkResult.Success.InternetConnectionPanelOpened)
+        callbacks?.onSuccessChangingNetworks(result = ChangeNetworkResult.Success.InternetConnectivityPanelOpened)
     }
 
+    @Deprecated(DeprecationMessages.NetworkConnection.CONNECT_TO_NETWORK)
     override fun connectToNetwork(request: ConnectToNetworkRequest): ConnectToNetworkResult {
         return ConnectToNetworkResult.Success.True
     }
 
+    @Deprecated(DeprecationMessages.NetworkConnection.CONNECT_TO_NETWORK)
     override fun connectToNetwork(request: ConnectToNetworkRequest, callbacks: ConnectToNetworkCallbacks?) {
         callbacks?.onSuccessConnectingToNetwork(result = ConnectToNetworkResult.Success.True)
     }
@@ -116,12 +119,14 @@ internal class ComposablePreviewWisefy : WisefyApi {
         callbacks?.onSuccessDisablingWifi(result = DisableWifiResult.Success.Disabled)
     }
 
+    @Deprecated(DeprecationMessages.NetworkConnection.DISCONNECT_FROM_CURRENT_NETWORK)
     override fun disconnectFromCurrentNetwork(
         request: DisconnectFromCurrentNetworkRequest
     ): DisconnectFromCurrentNetworkResult {
         return DisconnectFromCurrentNetworkResult.Success.True
     }
 
+    @Deprecated(DeprecationMessages.NetworkConnection.DISCONNECT_FROM_CURRENT_NETWORK)
     override fun disconnectFromCurrentNetwork(
         request: DisconnectFromCurrentNetworkRequest,
         callbacks: DisconnectFromCurrentNetworkCallbacks?
@@ -186,16 +191,14 @@ internal class ComposablePreviewWisefy : WisefyApi {
         callbacks: GetNetworkConnectionStatusCallbacks?
     ) {
         callbacks?.onDeviceNetworkConnectionStatusRetrieved(
-            result = GetNetworkConnectionStatusResult(
-                value = NetworkConnectionStatusData(
-                    isConnected = false,
-                    isConnectedToMobileNetwork = false,
-                    isConnectedToWifiNetwork = false,
-                    isRoaming = false,
-                    ssidOfNetworkConnectedTo = null,
-                    bssidOfNetworkConnectedTo = null,
-                    ip = null
-                )
+            networkConnectionStatus = NetworkConnectionStatusData(
+                isConnected = false,
+                isConnectedToMobileNetwork = false,
+                isConnectedToWifiNetwork = false,
+                isRoaming = false,
+                ssidOfNetworkConnectedTo = null,
+                bssidOfNetworkConnectedTo = null,
+                ip = null
             )
         )
     }

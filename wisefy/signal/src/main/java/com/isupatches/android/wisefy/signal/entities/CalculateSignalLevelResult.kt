@@ -20,13 +20,45 @@ package com.isupatches.android.wisefy.signal.entities
  * based on an RSSI level.
  *
  * @author Patches Barrett
- * @since 07/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 sealed class CalculateSignalLevelResult {
 
+    /**
+     * A representation of a success while attempting to calculate the sign level of a network.
+     *
+     * @param value The number of signal bars for the network based on its RSSI level
+     *
+     * @see CalculateSignalLevelResult
+     *
+     * @author Patches Barrett
+     * @since 12/2022, version 5.0.0
+     */
     data class Success(val value: Int) : CalculateSignalLevelResult()
 
+    /**
+     * A set of classes that denote a failure while attempting to calculate the sign level of a network.
+     *
+     * @see CalculateSignalLevelResult
+     *
+     * @author Patches Barrett
+     * @since 12/2022, version 5.0.0
+     */
     sealed class Failure : CalculateSignalLevelResult() {
+
+        /**
+         * A representation of a failure to calculate the sign level of a network due to hitting an unexpected path
+         * causing an assertion.
+         *
+         * *NOTE* This is for developer specific feedback and should NEVER actually be hit unless there is a bug.
+         *
+         * @property message A text description describing the assertion error hit
+         *
+         * @see Failure
+         *
+         * @author Patches Barrett
+         * @since 12/2022, version 5.0.0
+         */
         data class Assertion(val message: String) : Failure()
     }
 }

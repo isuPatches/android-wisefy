@@ -25,6 +25,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
+import com.isupatches.android.wisefy.core.constants.DeprecationMessages
 import com.isupatches.android.wisefy.core.coroutines.CoroutineDispatcherProvider
 import com.isupatches.android.wisefy.core.coroutines.createBaseCoroutineExceptionHandler
 import com.isupatches.android.wisefy.core.entities.NetworkConnectionStatus
@@ -50,21 +51,29 @@ import kotlinx.coroutines.withContext
 /**
  * An internal Wisefy delegate for getting and searching for nearby access points through the Android OS.
  *
- * @param coroutineDispatcherProvider The instance of the coroutine dispatcher provider to use
- * @param scope The coroutine scope to use
- * @param networkConnectionMutex
+ * @property coroutineDispatcherProvider The instance of the coroutine dispatcher provider to use
+ * @property scope The coroutine scope to use
+ * @property networkConnectionMutex
+ * @param assertions The [WisefyAssertions] instance to use
  * @param connectivityManager The ConnectivityManager instance to use
- * @param logger The logger instance to use
- * @param sdkUtil The SdkUtil instance to use
+ * @param logger The [WisefyLogger] instance to use
+ * @param sdkUtil The [SdkUtil] instance to use
  * @param wifiManager The WifiManager instance to use
+ * @param networkConnectionStatusProvider The on-demand way to retrieve the current network connection status
+ * @property adapter The adapter instance to use for connecting, disconnecting, and changing networks
+ * (determined based on the Android OS level)
  *
+ * @see Android29NetworkConnectionAdapter
  * @see CoroutineDispatcherProvider
+ * @see DefaultNetworkConnectionAdapter
  * @see NetworkConnectionDelegate
+ * @see NetworkConnectionStatus
  * @see SdkUtil
+ * @see WisefyAssertions
  * @see WisefyLogger
  *
  * @author Patches Barrett
- * @since 03/2022
+ * @since 12/2022, version 5.0.0
  */
 class WisefyNetworkConnectionDelegate(
     private val coroutineDispatcherProvider: CoroutineDispatcherProvider,
@@ -76,12 +85,13 @@ class WisefyNetworkConnectionDelegate(
     sdkUtil: SdkUtil,
     wifiManager: WifiManager,
     networkConnectionStatusProvider: suspend () -> NetworkConnectionStatus?,
-    private val adapter: NetworkConnectionApi = when {
-        sdkUtil.isAtLeastQ() -> Android29NetworkConnectionAdapter(
+    private val adapter: NetworkConnectionApi = if (sdkUtil.isAtLeastQ()) {
+        Android29NetworkConnectionAdapter(
             logger,
             assertions
         )
-        else -> DefaultNetworkConnectionAdapter(
+    } else {
+        DefaultNetworkConnectionAdapter(
             connectivityManager,
             wifiManager,
             logger,
@@ -91,10 +101,6 @@ class WisefyNetworkConnectionDelegate(
         )
     }
 ) : NetworkConnectionDelegate {
-
-    companion object {
-        private const val LOG_TAG = "WisefyNetworkConnectionDelegate"
-    }
 
     init {
         logger.d(LOG_TAG, "WisefyNetworkConnectionDelegate adapter is: ${adapter::class.java.simpleName}")
@@ -120,17 +126,19 @@ class WisefyNetworkConnectionDelegate(
         }
     }
 
-    @Deprecated("")
+    @Deprecated(DeprecationMessages.NetworkConnection.CONNECT_TO_NETWORK)
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE, ACCESS_NETWORK_STATE, CHANGE_NETWORK_STATE])
     override fun connectToNetwork(request: ConnectToNetworkRequest): ConnectToNetworkResult {
+        @Suppress("DEPRECATION")
         return adapter.connectToNetwork(request)
     }
 
-    @Deprecated("")
+    @Deprecated(DeprecationMessages.NetworkConnection.CONNECT_TO_NETWORK)
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE, ACCESS_NETWORK_STATE, CHANGE_NETWORK_STATE])
     override fun connectToNetwork(request: ConnectToNetworkRequest, callbacks: ConnectToNetworkCallbacks?) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
             networkConnectionMutex.withLock {
+                @Suppress("DEPRECATION")
                 val result = adapter.connectToNetwork(request)
                 withContext(coroutineDispatcherProvider.main) {
                     when (result) {
@@ -142,20 +150,22 @@ class WisefyNetworkConnectionDelegate(
         }
     }
 
-    @Deprecated("")
+    @Deprecated(DeprecationMessages.NetworkConnection.DISCONNECT_FROM_CURRENT_NETWORK)
     override fun disconnectFromCurrentNetwork(
         request: DisconnectFromCurrentNetworkRequest
     ): DisconnectFromCurrentNetworkResult {
+        @Suppress("DEPRECATION")
         return adapter.disconnectFromCurrentNetwork(request)
     }
 
-    @Deprecated("")
+    @Deprecated(DeprecationMessages.NetworkConnection.DISCONNECT_FROM_CURRENT_NETWORK)
     override fun disconnectFromCurrentNetwork(
         request: DisconnectFromCurrentNetworkRequest,
         callbacks: DisconnectFromCurrentNetworkCallbacks?
     ) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
             networkConnectionMutex.withLock {
+                @Suppress("DEPRECATION")
                 val result = adapter.disconnectFromCurrentNetwork(request)
                 withContext(coroutineDispatcherProvider.main) {
                     when (result) {
@@ -169,5 +179,9 @@ class WisefyNetworkConnectionDelegate(
                 }
             }
         }
+    }
+
+    companion object {
+        private const val LOG_TAG = "WisefyNetworkConnectionDelegate"
     }
 }

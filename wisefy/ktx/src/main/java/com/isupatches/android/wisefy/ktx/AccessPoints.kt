@@ -28,8 +28,7 @@ import kotlin.coroutines.suspendCoroutine
 /**
  * A coroutine extension for getting all nearby access points.
  *
- * *NOTES*
- *  - Internally locked by a mutex for all access point related functionality (f.e. get, search, etc.)
+ * @receiver [WisefyApi]
  *
  * @param query The details of the query to get all nearby access points
  *
@@ -41,7 +40,7 @@ import kotlin.coroutines.suspendCoroutine
  * @throws WisefyException
  *
  * @author Patches Barrett
- * @since 08/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 @Throws(WisefyException::class)
 @RequiresPermission(ACCESS_FINE_LOCATION)

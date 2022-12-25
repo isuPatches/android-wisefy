@@ -28,7 +28,7 @@ import java.util.Locale
  * @return WifiConfiguration - The network configuration for the open network
  *
  * @author Patches Barrett
- * @since 11/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 fun createOpenNetworkConfiguration(ssid: String, bssid: String?): WifiConfiguration {
     return WifiConfiguration().apply {
@@ -63,7 +63,7 @@ fun createOpenNetworkConfiguration(ssid: String, bssid: String?): WifiConfigurat
  * @return WifiConfiguration - The network configuration for the WPA2 network
  *
  * @author Patches Barrett
- * @since 11/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 fun createWPA2NetworkConfiguration(ssid: String, passphrase: String, bssid: String?): WifiConfiguration {
     return WifiConfiguration().apply {

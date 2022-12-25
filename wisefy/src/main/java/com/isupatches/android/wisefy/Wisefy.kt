@@ -107,18 +107,31 @@ import kotlinx.coroutines.sync.Mutex
 /**
  * The private constructor used by [Brains] to create a Wisefy instance.
  *
- * @param accessPointsDelegate The [AccessPointsDelegate] instance to use
- * @param addNetworkDelegate The [AddNetworkDelegate] instance to use
- * @param networkConnectionDelegate The [NetworkConnectionDelegate] instance to use
- * @param networkInfoDelegate The [NetworkInfoDelegate] instance to use
- * @param removeNetworkDelegate The [RemoveNetworkDelegate] instance to use
- * @param savedNetworkDelegate The [SavedNetworkDelegate] instance to use
- * @param signalDelegate The [SignalDelegate] instance to use
- * @param wifiDelegate The [WifiDelegate] instance to use
- * @param scope The [CoroutineScope] to use for async operations
+ * @property accessPointsDelegate The [AccessPointsDelegate] instance to use
+ * @property addNetworkDelegate The [AddNetworkDelegate] instance to use
+ * @property networkConnectionDelegate The [NetworkConnectionDelegate] instance to use
+ * @property networkInfoDelegate The [NetworkInfoDelegate] instance to use
+ * @property removeNetworkDelegate The [RemoveNetworkDelegate] instance to use
+ * @property savedNetworkDelegate The [SavedNetworkDelegate] instance to use
+ * @property signalDelegate The [SignalDelegate] instance to use
+ * @property wifiDelegate The [WifiDelegate] instance to use
+ * @property scope The [CoroutineScope] to use for async operations
+ * @property connectivityManager The ConnectivityManager instance to use
+ * @property networkConnectionMutex The mutex for network connection operations
+ * @param logger The [WisefyLogger] instance to use
+ *
+ * @see AccessPointsDelegate
+ * @see AddNetworkDelegate
+ * @see NetworkConnectionDelegate
+ * @see NetworkInfoDelegate
+ * @see RemoveNetworkDelegate
+ * @see SignalDelegate
+ * @see WifiDelegate
+ * @see WisefyApi
+ * @see WisefyLogger
  *
  * @author Patches Barrett
- * @since 07/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 @Suppress("SyntheticAccessor")
 class Wisefy private constructor(
@@ -141,10 +154,14 @@ class Wisefy private constructor(
      *
      * @param context The application context. Used for creating a [ConnectivityManager] and [wifiManager] instance
      * to use within Wisefy
-     * @param logger The [WisefyLogger] instance to use within Wisefy
+     * @param throwOnAssertions Whether assertions will throw an [IllegalStateException] when hit or be no-op
+     * @property logger The [WisefyLogger] instance to use within Wisefy
+     *
+     * @see DefaultWisefyLogger
+     * @see WisefyLogger
      *
      * @author Patches Barrett
-     * @since 07/2022, version 5.0.0
+     * @since 12/2022, version 5.0.0
      */
     class Brains @JvmOverloads constructor(
         context: Context,

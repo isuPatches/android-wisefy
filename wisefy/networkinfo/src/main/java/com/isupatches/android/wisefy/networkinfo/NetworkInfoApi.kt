@@ -23,10 +23,10 @@ import com.isupatches.android.wisefy.networkinfo.entities.GetNetworkConnectionSt
 import com.isupatches.android.wisefy.networkinfo.entities.GetNetworkConnectionStatusResult
 
 /**
- * A set of synchronous APIs for getting information about a network, the device's current network, and the device's IP.
+ * A set of synchronous APIs for getting information about the device's current network and network connection status.
  *
  * @author Patches Barrett
- * @since 03/2022
+ * @since 12/2022, version 5.0.0
  */
 interface NetworkInfoApi {
 
@@ -41,13 +41,26 @@ interface NetworkInfoApi {
      * @return GetCurrentNetworkResult - The result of getting the device's current network
      *
      * @author Patches Barrett
-     * @since 03/2022
+     * @since 12/2022, version 5.0.0
      */
     @RequiresPermission(ACCESS_NETWORK_STATE)
     fun getCurrentNetwork(
         query: GetCurrentNetworkQuery = GetCurrentNetworkQuery()
     ): GetCurrentNetworkResult
 
+    /**
+     * A synchronous API to get the device's current network connection status.
+     *
+     * @param query The details of the query to get the device's current network connection status
+     *
+     * @see GetNetworkConnectionStatusQuery
+     * @see GetNetworkConnectionStatusResult
+     *
+     * @return GetNetworkConnectionStatusResult - The result of getting the device's current network connection status
+     *
+     * @author Patches Barrett
+     * @since 12/2022, version 5.0.0
+     */
     @RequiresPermission(ACCESS_NETWORK_STATE)
     fun getNetworkConnectionStatus(
         query: GetNetworkConnectionStatusQuery = GetNetworkConnectionStatusQuery()

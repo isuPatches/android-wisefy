@@ -33,8 +33,8 @@ import com.isupatches.android.wisefy.core.logging.WisefyLogger
  *
  * @param wifiManager The WifiManager instance to use
  * @param logger The [WisefyLogger] instance to use
- * @param assertions The [WisefyAssertions] instance to use
- * @param api The OS level API instance to use
+ * @property assertions The [WisefyAssertions] instance to use
+ * @property api The OS level API instance to use
  *
  * @see AddNetworkApi
  * @see DefaultAddNetworkApi
@@ -51,10 +51,6 @@ internal class DefaultAddNetworkAdapter(
     private val assertions: WisefyAssertions,
     private val api: DefaultAddNetworkApi = DefaultAddNetworkApiImpl(wifiManager, logger)
 ) : AddNetworkApi {
-
-    companion object {
-        private const val WIFI_MANAGER_ADD_NETWORK_FAILURE = -1
-    }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     override fun addNetwork(request: AddNetworkRequest): AddNetworkResult {
@@ -81,5 +77,9 @@ internal class DefaultAddNetworkAdapter(
                 AddNetworkResult.Failure.Assertion(message = message)
             }
         }
+    }
+
+    companion object {
+        private const val WIFI_MANAGER_ADD_NETWORK_FAILURE = -1
     }
 }

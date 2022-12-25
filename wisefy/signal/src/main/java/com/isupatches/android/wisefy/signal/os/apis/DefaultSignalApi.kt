@@ -21,7 +21,7 @@ import com.isupatches.android.wisefy.core.constants.DeprecationMessages
  * A default API for functions related to the signal strength of networks.
  *
  * @author Patches Barrett
- * @since 07/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 internal interface DefaultSignalApi {
 
@@ -34,7 +34,7 @@ internal interface DefaultSignalApi {
      * @return Int - The number of signal strength bars for the network given RSSI level and a desired number of bars.
      *
      * @author Patches Barrett
-     * @since 07/2022, version 5.0.0
+     * @since 12/2022, version 5.0.0
      */
     @Deprecated(DeprecationMessages.Signal.CALCULATE_BARS)
     fun calculateSignalLevel(rssiLevel: Int, targetNumberOfBars: Int): Int
@@ -52,7 +52,7 @@ internal interface DefaultSignalApi {
      * have the same strength, and greater than zero if the second signal is stronger
      *
      * @author Patches Barrett
-     * @since 07/2022, version 5.0.0
+     * @since 12/2022, version 5.0.0
      */
     fun compareSignalLevel(rssi1: Int, rssi2: Int): Int
 }

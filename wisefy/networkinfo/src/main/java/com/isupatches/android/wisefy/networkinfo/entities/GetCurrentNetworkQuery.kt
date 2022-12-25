@@ -19,6 +19,6 @@ package com.isupatches.android.wisefy.networkinfo.entities
  * A data representation of a request to get the device's current network.
  *
  * @author Patches Barrett
- * @since 03/2022
+ * @since 12/2022, version 5.0.0
  */
 class GetCurrentNetworkQuery

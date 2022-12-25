@@ -16,23 +16,63 @@
 package com.isupatches.android.wisefy.signal.entities
 
 /**
- * A data class that is used to represent a result when comparing the RSSI level of two networks.
- *
- * *Notes*
- * See https://developer.android.com/reference/android/net/wifi/WifiManager#compareSignalLevel(int,%20int)
- *
- * @param value The result of the comparison. This will be less than 0 if first RSSI value is weaker than the second
- * RSSI, 0 if the two have the same strength, and greater than zero if the first RSSI is stronger than the second
- * RSSI value.
+ * A set of classes and objects that are used to represent a result while comparing the RSSI values of two networks.
  *
  * @author Patches Barrett
- * @since 07/2022, version 5.0.0
+ * @since 12/2022, version 5.0.0
  */
 sealed class CompareSignalLevelResult {
 
+    /**
+     * A set of classes and objects that are used to represent a success while comparing the RSSI values of two
+     * networks.
+     *
+     * *Notes*
+     * See https://developer.android.com/reference/android/net/wifi/WifiManager#compareSignalLevel(int,%20int)
+     *
+     * @param value The result of the comparison. This will be less than 0 if first RSSI value is weaker than the second
+     * RSSI, 0 if the two have the same strength, and greater than zero if the first RSSI is stronger than the second
+     * RSSI value.
+     *
+     * @author Patches Barrett
+     * @since 12/2022, version 5.0.0
+     */
     sealed class Success(open val value: Int) : CompareSignalLevelResult() {
+
+        /**
+         * A representation of when the first network has an RSSI value that is weaker than the second network's RSSI.
+         *
+         * @param value The difference between the first and second networks RSSI value (expected to be negative)
+         *
+         * @see Success
+         *
+         * @author Patches Barrett
+         * @since 12/2022, version 5.0.0
+         */
         data class FirstRSSIValueIsWeaker(override val value: Int) : Success(value)
+
+        /**
+         * A representation of when the first network has an RSSI value that is equal to the second network's RSSI.
+         *
+         * @param value The difference between the first and second networks RSSI value (always 0)
+         *
+         * @see Success
+         *
+         * @author Patches Barrett
+         * @since 12/2022, version 5.0.0
+         */
         data class RSSIValuesAreEqual(override val value: Int) : Success(value)
+
+        /**
+         * A representation of when the first network has an RSSI value that is stronger than the second network's RSSI.
+         *
+         * @param value The difference between the first and second networks RSSI value (expected to be positive)
+         *
+         * @see Success
+         *
+         * @author Patches Barrett
+         * @since 12/2022, version 5.0.0
+         */
         data class FirstRSSIValueIsStronger(override val value: Int) : Success(value)
     }
 }
