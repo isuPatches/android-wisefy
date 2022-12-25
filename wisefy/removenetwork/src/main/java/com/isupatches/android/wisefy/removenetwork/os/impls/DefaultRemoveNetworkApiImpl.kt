@@ -13,13 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@file:Suppress("Deprecation")
-
 package com.isupatches.android.wisefy.removenetwork.os.impls
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.ACCESS_WIFI_STATE
-import android.net.wifi.WifiConfiguration
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.core.bssidWithoutQuotes
@@ -46,21 +43,24 @@ internal class DefaultRemoveNetworkApiImpl(
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun removeNetworkBySSID(ssid: String): Boolean {
+        @Suppress("Deprecation")
         val networkToRemove = wifiManager.configuredNetworks.firstOrNull {
             it.ssidWithoutQuotes.equals(ssid, ignoreCase = true)
         }
-        return removeWifiConfiguration(wifiConfiguration = networkToRemove)
+        return removeNetworkConfiguration(wifiConfiguration = networkToRemove)
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun removeNetworkByBSSID(bssid: String): Boolean {
+        @Suppress("Deprecation")
         val networkToRemove = wifiManager.configuredNetworks.firstOrNull {
             it.bssidWithoutQuotes.equals(bssid, ignoreCase = true)
         }
-        return removeWifiConfiguration(wifiConfiguration = networkToRemove)
+        return removeNetworkConfiguration(wifiConfiguration = networkToRemove)
     }
 
-    private fun removeWifiConfiguration(wifiConfiguration: WifiConfiguration?): Boolean {
+    @Suppress("Deprecation")
+    private fun removeNetworkConfiguration(wifiConfiguration: android.net.wifi.WifiConfiguration?): Boolean {
         val result = wifiConfiguration?.let { wifiManager.removeNetwork(it.networkId) } ?: false
         logger.d(LOG_TAG, "Removing network suggestion.  Result: $result, wifiConfiguration: $wifiConfiguration")
         return result

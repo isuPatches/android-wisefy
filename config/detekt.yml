@@ -55,9 +55,9 @@ comments:
     licenseTemplateFile: 'license.template'
     licenseTemplateIsRegex: false
   CommentOverPrivateFunction:
-    active: false
+    active: true
   CommentOverPrivateProperty:
-    active: false
+    active: true
   DeprecatedBlockTag:
     active: true
   EndOfSentenceFormat:
@@ -97,7 +97,7 @@ complexity:
     includePrivateDeclarations: false
   ComplexMethod:
     active: true
-    threshold: 25
+    threshold: 30
     ignoreSingleWhenExpression: false
     ignoreSimpleWhenEntries: false
     ignoreNestingFunctions: false
@@ -447,7 +447,7 @@ potential-bugs:
   IteratorNotThrowingNoSuchElementException:
     active: true
   LateinitUsage:
-    active: false
+    active: false # Disabled for Dagger
     excludes: ['**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/jsTest/**', '**/iosTest/**']
     ignoreOnClassesPattern: ''
   MapGetWithNotNullAssertionOperator:
@@ -498,7 +498,7 @@ style:
   CollapsibleIfStatements:
     active: true
   DataClassContainsFunctions:
-    active: false
+    active: true
     conversionFunctionPrefix: 'to'
   DataClassShouldBeImmutable:
     active: true
@@ -514,7 +514,7 @@ style:
   ExplicitItLambdaParameter:
     active: true
   ExpressionBodySyntax:
-    active: false
+    active: false # Disabled because I personally feel explicitness and braces helps readability
     includeLineWrapping: false
   ForbiddenComment:
     active: true
@@ -612,7 +612,7 @@ style:
   OptionalUnit:
     active: true
   OptionalWhenBraces:
-    active: false
+    active: false # Disabled because I personally feel braces helps readability
   PreferToOverPairSyntax:
     active: true
   ProtectedMemberInFinalClass:

@@ -15,62 +15,65 @@
  */
 package com.isupatches.android.wisefy.core
 
-import android.net.wifi.WifiConfiguration
 import android.net.wifi.WifiNetworkSuggestion
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.isupatches.android.wisefy.core.constants.QUOTE
 
 /**
- * A helper function to determine if the SSID for the [WifiConfiguration] matches a given regex.
+ * A helper function to determine if the SSID for the [android.net.wifi.WifiConfiguration] matches a given regex.
  *
  * @param regex The regex to check if the SSID of the access point matches
  *
- * @return Boolean - True if the SSID of the [WifiConfiguration] matches, otherwise false
+ * @return Boolean - True if the SSID of the [android.net.wifi.WifiConfiguration] matches, otherwise false
  *
  * @author Patches Barrett
  * @since 12/2022, version 5.0.0
  */
-fun WifiConfiguration.hasSSIDMatchingRegex(regex: String): Boolean {
+@Suppress("Deprecation")
+fun android.net.wifi.WifiConfiguration.hasSSIDMatchingRegex(regex: String): Boolean {
     return ssidWithoutQuotes.matches(regex.toRegex())
 }
 
 /**
- * A helper function to determine if the BSSID for the [WifiConfiguration] matches a given regex.
+ * A helper function to determine if the BSSID for the [android.net.wifi.WifiConfiguration] matches a given regex.
  *
  * @param regex The regex to check if the BSSID of the access point matches
  *
- * @return Boolean - True if the BSSID of the [WifiConfiguration] matches, otherwise false
+ * @return Boolean - True if the BSSID of the [android.net.wifi.WifiConfiguration] matches, otherwise false
  *
  * @author Patches Barrett
  * @since 12/2022, version 5.0.0
  */
-fun WifiConfiguration.hasBSSIDMatchingRegex(regex: String): Boolean {
+@Suppress("Deprecation")
+fun android.net.wifi.WifiConfiguration.hasBSSIDMatchingRegex(regex: String): Boolean {
     return bssidWithoutQuotes.matches(regex.toRegex())
 }
 
 /**
- * A convenience property to expose the SSID of a [WifiConfiguration] taking into account any SDK level considerations
- * and with stripping unnecessary quotes.
+ * A convenience property to expose the SSID of a [android.net.wifi.WifiConfiguration] taking into account any SDK level
+ * considerations and with stripping unnecessary quotes.
  *
- * @return String - The value of the [WifiConfiguration]'s SSID with quotes removed
+ * @return String - The value of the [android.net.wifi.WifiConfiguration]'s SSID with quotes removed
  *
  * @author Patches Barrett
  * @since 12/2022, version 5.0.0
  */
-val WifiConfiguration.ssidWithoutQuotes: String
+@Suppress("Deprecation")
+val android.net.wifi.WifiConfiguration.ssidWithoutQuotes: String
     get() = SSID?.replace(QUOTE, "") ?: ""
 
 /**
- * A convenience property to expose the BSSID of a [WifiConfiguration] taking into account any SDK level considerations
- * and with stripping unnecessary quotes.
+ * A convenience property to expose the BSSID of a [android.net.wifi.WifiConfiguration] taking into account any SDK
+ * level considerations and with stripping unnecessary quotes.
  *
- * @return String - The value of the [WifiConfiguration]'s BSSID with quotes removed
+ * @return String - The value of the [android.net.wifi.WifiConfiguration]'s BSSID with quotes removed
  *
  * @author Patches Barrett
  * @since 12/2022, version 5.0.0
  */
-val WifiConfiguration.bssidWithoutQuotes: String
+@Suppress("Deprecation")
+val android.net.wifi.WifiConfiguration.bssidWithoutQuotes: String
     get() = BSSID?.replace(QUOTE, "") ?: ""
 
 /**

@@ -45,14 +45,14 @@ import kotlinx.coroutines.withContext
  * *Notes*
  *  - These functions share a mutex with add/remove network
  *
- * @property coroutineDispatcherProvider The CoroutineDispatcherProvider instance to use
- * @property scope The CoroutineScope to use
- * @property savedNetworkMutex A mutex shared with add/remove network to ensure synchronization between saved network
- *  reads and writes
  * @param assertions The [WisefyAssertions] instance to use
  * @param logger The [WisefyLogger] instance to use
  * @param sdkUtil The [SdkUtil] instance to use
  * @param wifiManager The WifiManager instance to use
+ * @property coroutineDispatcherProvider The CoroutineDispatcherProvider instance to use
+ * @property scope The CoroutineScope to use
+ * @property savedNetworkMutex A mutex shared with add/remove network to ensure synchronization between saved network
+ *  reads and writes
  * @property adapter The adapter instance to use for querying for saved networks and checking if a network is saved
  * (determined based on the Android OS level)
  *
@@ -69,13 +69,13 @@ import kotlinx.coroutines.withContext
  * @since 12/2022, version 5.0.0
  */
 class WisefySavedNetworkDelegate(
-    private val coroutineDispatcherProvider: CoroutineDispatcherProvider,
-    private val scope: CoroutineScope,
-    private val savedNetworkMutex: Mutex,
     assertions: WisefyAssertions,
     logger: WisefyLogger,
     sdkUtil: SdkUtil,
     wifiManager: WifiManager,
+    private val coroutineDispatcherProvider: CoroutineDispatcherProvider,
+    private val scope: CoroutineScope,
+    private val savedNetworkMutex: Mutex,
     private val adapter: SavedNetworkApi = when {
         sdkUtil.isAtLeastR() -> Android30SavedNetworkAdapter(wifiManager, logger)
         sdkUtil.isAtLeastQ() -> Android29SavedNetworkAdapter(assertions)

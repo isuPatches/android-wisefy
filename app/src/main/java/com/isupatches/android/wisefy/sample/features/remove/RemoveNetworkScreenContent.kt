@@ -104,25 +104,25 @@ private fun RemoveNetworkInputRows(
             labelResId = R.string.regex_for_network,
             error = when (currentInputState.networkInputValidityState) {
                 is RemoveNetworkInputValidityState.SSID.Invalid.Empty -> {
-                    WisefySampleEditTextError(R.string.network_input_empty)
+                    WisefySampleEditTextError(R.string.ssid_input_empty)
                 }
                 is RemoveNetworkInputValidityState.SSID.Invalid.TooShort -> {
-                    WisefySampleEditTextError(R.string.network_input_too_short)
+                    WisefySampleEditTextError(R.string.ssid_input_too_short)
                 }
                 is RemoveNetworkInputValidityState.SSID.Invalid.TooLong -> {
-                    WisefySampleEditTextError(R.string.network_input_too_long)
+                    WisefySampleEditTextError(R.string.ssid_input_too_long)
                 }
                 is RemoveNetworkInputValidityState.SSID.Invalid.InvalidCharacters -> {
-                    WisefySampleEditTextError(R.string.network_input_invalid_characters)
+                    WisefySampleEditTextError(R.string.ssid_input_invalid_characters)
                 }
                 is RemoveNetworkInputValidityState.SSID.Invalid.InvalidStartCharacters -> {
-                    WisefySampleEditTextError(R.string.network_input_invalid_start_characters)
+                    WisefySampleEditTextError(R.string.ssid_input_invalid_start_characters)
                 }
                 is RemoveNetworkInputValidityState.SSID.Invalid.LeadingOrTrailingSpaces -> {
-                    WisefySampleEditTextError(R.string.network_input_leading_or_trailing_spaces)
+                    WisefySampleEditTextError(R.string.ssid_input_leading_or_trailing_spaces)
                 }
                 is RemoveNetworkInputValidityState.SSID.Invalid.InvalidUnicode -> {
-                    WisefySampleEditTextError(R.string.network_input_not_valid_unicode)
+                    WisefySampleEditTextError(R.string.ssid_input_not_valid_unicode)
                 }
                 is RemoveNetworkInputValidityState.BSSID.Invalid.Empty -> {
                     WisefySampleEditTextError(R.string.bssid_input_empty)

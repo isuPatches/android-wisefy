@@ -62,6 +62,7 @@ allprojects {
         withType<KotlinCompile> {
             kotlinOptions {
                 jvmTarget = "11"
+                allWarningsAsErrors = true
                 // https://issuetracker.google.com/issues/217593040
                 freeCompilerArgs = freeCompilerArgs + "-Xjvm-default=all"
             }

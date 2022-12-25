@@ -44,9 +44,9 @@ import kotlinx.coroutines.runBlocking
  * @param connectivityManager The ConnectivityManager instance to use
  * @param wifiManager The WifiManager instance to use
  * @param logger The [WisefyLogger] instance to use
- * @property assertions The [WisefyAssertions] instance to use
  * @param sdkUtil The [SdkUtil] instance to use
  * @param networkConnectionStatusProvider The on-demand way to retrieve the current network connection status
+ * @property assertions The [WisefyAssertions] instance to use
  * @property api The OS level API instance to use
  *
  * @see DefaultNetworkConnectionApi
@@ -61,9 +61,9 @@ internal class DefaultNetworkConnectionAdapter(
     connectivityManager: ConnectivityManager,
     wifiManager: WifiManager,
     logger: WisefyLogger,
-    private val assertions: WisefyAssertions,
     sdkUtil: SdkUtil,
     networkConnectionStatusProvider: suspend () -> NetworkConnectionStatus?,
+    private val assertions: WisefyAssertions,
     private val api: DefaultNetworkConnectionApi = DefaultNetworkConnectionApiImpl(
         connectivityManager,
         wifiManager,

@@ -16,7 +16,6 @@
 package com.isupatches.android.wisefy.sample.features.search
 
 import android.content.res.Configuration
-import android.net.wifi.WifiConfiguration
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
@@ -89,14 +88,20 @@ internal fun SearchScreenDialogContent(
             WisefySampleNoticeDialog(
                 title = R.string.wisefy_async_error,
                 body = R.string.wisefy_async_error_descriptions_args,
-                currentDialogState.throwable.message ?: "",
+                currentDialogState.exception.message ?: "",
+                currentDialogState.exception.cause?.message ?: "",
                 onClose = {
                     viewModel.onDialogClosed()
                 }
             )
         }
-        is SearchDialogState.InputError -> {
-            WisefySampleNoticeDialog(title = R.string.search_result, body = R.string.network_input_invalid) {
+        is SearchDialogState.InputError.SSID -> {
+            WisefySampleNoticeDialog(title = R.string.input_error, body = R.string.ssid_input_invalid) {
+                viewModel.onDialogClosed()
+            }
+        }
+        is SearchDialogState.InputError.BSSID -> {
+            WisefySampleNoticeDialog(title = R.string.input_error, body = R.string.bssid_input_invalid) {
                 viewModel.onDialogClosed()
             }
         }
@@ -235,16 +240,20 @@ private fun RemoveNetworkScreenDialogContentDarkPreview(
     )
 }
 
+@Suppress("Deprecation")
 private class SearchScreenDialogStatePreviewParameterProvider : PreviewParameterProvider<SearchDialogState> {
     override val values: Sequence<SearchDialogState> = sequenceOf(
         SearchDialogState.Failure.WisefyAsync(WisefyException("", null)),
-        SearchDialogState.InputError,
+        SearchDialogState.InputError.SSID,
+        SearchDialogState.InputError.BSSID,
         SearchDialogState.SearchForSSID.Success(""),
         SearchDialogState.SearchForSSID.NoSSIDFound,
         SearchDialogState.SearchForSSID.PermissionError,
         SearchDialogState.SearchForAccessPoint.NoAccessPointFound,
         SearchDialogState.SearchForAccessPoint.PermissionError,
-        SearchDialogState.SearchForSavedNetwork.Success(SavedNetworkData.Configuration(WifiConfiguration())),
+        SearchDialogState.SearchForSavedNetwork.Success(
+            SavedNetworkData.Configuration(android.net.wifi.WifiConfiguration())
+        ),
         SearchDialogState.SearchForSavedNetwork.NoSavedNetworkFound,
         SearchDialogState.SearchForSavedNetwork.PermissionError,
         SearchDialogState.SearchForSSIDs.Success(emptyList()),

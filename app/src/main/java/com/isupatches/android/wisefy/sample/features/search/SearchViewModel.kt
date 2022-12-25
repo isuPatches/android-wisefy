@@ -154,7 +154,7 @@ internal class DefaultSearchViewModel(
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     override suspend fun searchForAccessPoint() {
-        if (!isInputValid()) {
+        if (isInputInvalid()) {
             return
         }
         showProgress()
@@ -179,7 +179,7 @@ internal class DefaultSearchViewModel(
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     override suspend fun searchForAccessPoints() {
-        if (!isInputValid()) {
+        if (isInputInvalid()) {
             return
         }
         showProgress()
@@ -204,7 +204,7 @@ internal class DefaultSearchViewModel(
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override suspend fun searchForSavedNetwork() {
-        if (!isInputValid()) {
+        if (isInputInvalid()) {
             return
         }
         showProgress()
@@ -229,7 +229,7 @@ internal class DefaultSearchViewModel(
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override suspend fun searchForSavedNetworks() {
-        if (!isInputValid()) {
+        if (isInputInvalid()) {
             return
         }
         showProgress()
@@ -254,15 +254,15 @@ internal class DefaultSearchViewModel(
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     override suspend fun searchForSSID() {
-        if (!isInputValid()) {
+        if (isInputInvalid()) {
             return
         }
         showProgress()
         when (val result = getAccessPoints()) {
             is GetAccessPointsResult.AccessPoints -> {
                 val ssid = when (uiState.value.ssidType) {
-                    SSIDType.SSID -> result.value.first().rawValue.SSID
-                    SSIDType.BSSID -> result.value.first().rawValue.BSSID
+                    SSIDType.SSID -> result.value.first().ssid
+                    SSIDType.BSSID -> result.value.first().bssid
                 }
                 _uiState.value = uiState.value.copy(
                     loadingState = SearchLoadingState(isLoading = false),
@@ -283,15 +283,15 @@ internal class DefaultSearchViewModel(
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
     override suspend fun searchForSSIDs() {
-        if (!isInputValid()) {
+        if (isInputInvalid()) {
             return
         }
         showProgress()
         when (val result = getAccessPoints()) {
             is GetAccessPointsResult.AccessPoints -> {
                 val ssids = when (uiState.value.ssidType) {
-                    SSIDType.SSID -> result.value.map { it.rawValue.SSID }
-                    SSIDType.BSSID -> result.value.map { it.rawValue.BSSID }
+                    SSIDType.SSID -> result.value.map { it.ssid }
+                    SSIDType.BSSID -> result.value.map { it.bssid }
                 }
                 _uiState.value = uiState.value.copy(
                     loadingState = SearchLoadingState(isLoading = false),
@@ -403,7 +403,7 @@ internal class DefaultSearchViewModel(
         } catch (ex: WisefyException) {
             _uiState.value = uiState.value.copy(
                 loadingState = SearchLoadingState(isLoading = false),
-                dialogState = SearchDialogState.Failure.WisefyAsync(throwable = ex)
+                dialogState = SearchDialogState.Failure.WisefyAsync(exception = ex)
             )
             null
         }
@@ -418,24 +418,16 @@ internal class DefaultSearchViewModel(
         }
         return when (uiState.value.ssidType) {
             SSIDType.SSID -> {
-                if (networkInput.inputValidityState is SearchInputValidityState.SSID.Valid) {
-                    GetAccessPointsQuery.BySSID(
-                        regex = networkInput.input,
-                        timeoutInMillis = timeoutInSeconds?.let { it * SECONDS_TO_MILLIS }
-                    )
-                } else {
-                    error("")
-                }
+                GetAccessPointsQuery.BySSID(
+                    regex = networkInput.input,
+                    timeoutInMillis = timeoutInSeconds?.let { it * SECONDS_TO_MILLIS }
+                )
             }
             SSIDType.BSSID -> {
-                if (networkInput.inputValidityState is SearchInputValidityState.BSSID.Valid) {
-                    GetAccessPointsQuery.ByBSSID(
-                        regex = networkInput.input,
-                        timeoutInMillis = timeoutInSeconds?.let { it * SECONDS_TO_MILLIS }
-                    )
-                } else {
-                    error("")
-                }
+                GetAccessPointsQuery.ByBSSID(
+                    regex = networkInput.input,
+                    timeoutInMillis = timeoutInSeconds?.let { it * SECONDS_TO_MILLIS }
+                )
             }
         }
     }
@@ -447,7 +439,7 @@ internal class DefaultSearchViewModel(
         } catch (ex: WisefyException) {
             _uiState.value = uiState.value.copy(
                 loadingState = SearchLoadingState(isLoading = false),
-                dialogState = SearchDialogState.Failure.WisefyAsync(throwable = ex)
+                dialogState = SearchDialogState.Failure.WisefyAsync(exception = ex)
             )
             null
         }
@@ -456,36 +448,34 @@ internal class DefaultSearchViewModel(
     private fun getSavedNetworksQuery(): GetSavedNetworksQuery {
         val networkInput = uiState.value.inputState
         return when (uiState.value.ssidType) {
-            SSIDType.SSID -> {
-                if (networkInput.inputValidityState is SearchInputValidityState.SSID.Valid) {
-                    GetSavedNetworksQuery.BySSID(regex = networkInput.input)
-                } else {
-                    error("")
-                }
-            }
-            SSIDType.BSSID -> {
-                if (networkInput.inputValidityState is SearchInputValidityState.SSID.Valid) {
-                    GetSavedNetworksQuery.ByBSSID(regex = networkInput.input)
-                } else {
-                    error("")
-                }
-            }
+            SSIDType.SSID -> GetSavedNetworksQuery.BySSID(regex = networkInput.input)
+            SSIDType.BSSID -> GetSavedNetworksQuery.ByBSSID(regex = networkInput.input)
         }
     }
 
-    private fun isInputValid(): Boolean {
-        val inputValidityState = uiState.value.inputState.inputValidityState
-        return if (inputValidityState is SearchInputValidityState.SSID.Valid ||
-            inputValidityState is SearchInputValidityState.BSSID.Valid
-        ) {
-            true
-        } else {
-            _uiState.value = uiState.value.copy(
-                loadingState = SearchLoadingState(isLoading = false),
-                dialogState = SearchDialogState.InputError
-            )
-            false
+    private fun isInputInvalid(): Boolean {
+        val currentInputState = uiState.value.inputState
+        when (uiState.value.ssidType) {
+            SSIDType.SSID -> {
+                if (currentInputState.inputValidityState != SearchInputValidityState.SSID.Valid) {
+                    _uiState.value = uiState.value.copy(
+                        loadingState = SearchLoadingState(isLoading = false),
+                        dialogState = SearchDialogState.InputError.SSID
+                    )
+                    return true
+                }
+            }
+            SSIDType.BSSID -> {
+                if (currentInputState.inputValidityState != SearchInputValidityState.BSSID.Valid) {
+                    _uiState.value = uiState.value.copy(
+                        loadingState = SearchLoadingState(isLoading = false),
+                        dialogState = SearchDialogState.InputError.BSSID
+                    )
+                    return true
+                }
+            }
         }
+        return false
     }
 
     private fun showProgress() {

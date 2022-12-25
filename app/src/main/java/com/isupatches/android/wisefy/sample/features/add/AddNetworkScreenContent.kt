@@ -61,6 +61,7 @@ internal fun AddNetworkScreenContent(
             rememberLauncherForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result ->
                 if (result.all { it.value }) {
                     scope.launch {
+                        @Suppress("MissingPermission")
                         viewModel.addNetwork()
                     }
                 } else {
@@ -149,25 +150,25 @@ private fun AddNetworkInputRows(
             labelResId = R.string.network_name,
             error = when (currentInputState.ssidInputValidityState) {
                 is AddNetworkSSIDInputValidityState.Invalid.Empty -> {
-                    WisefySampleEditTextError(R.string.network_input_empty)
+                    WisefySampleEditTextError(R.string.ssid_input_empty)
                 }
                 is AddNetworkSSIDInputValidityState.Invalid.TooShort -> {
-                    WisefySampleEditTextError(R.string.network_input_too_short)
+                    WisefySampleEditTextError(R.string.ssid_input_too_short)
                 }
                 is AddNetworkSSIDInputValidityState.Invalid.TooLong -> {
-                    WisefySampleEditTextError(R.string.network_input_too_long)
+                    WisefySampleEditTextError(R.string.ssid_input_too_long)
                 }
                 is AddNetworkSSIDInputValidityState.Invalid.InvalidCharacters -> {
-                    WisefySampleEditTextError(R.string.network_input_invalid_characters)
+                    WisefySampleEditTextError(R.string.ssid_input_invalid_characters)
                 }
                 is AddNetworkSSIDInputValidityState.Invalid.InvalidStartCharacters -> {
-                    WisefySampleEditTextError(R.string.network_input_invalid_start_characters)
+                    WisefySampleEditTextError(R.string.ssid_input_invalid_start_characters)
                 }
                 is AddNetworkSSIDInputValidityState.Invalid.LeadingOrTrailingSpaces -> {
-                    WisefySampleEditTextError(R.string.network_input_leading_or_trailing_spaces)
+                    WisefySampleEditTextError(R.string.ssid_input_leading_or_trailing_spaces)
                 }
                 is AddNetworkSSIDInputValidityState.Invalid.InvalidUnicode -> {
-                    WisefySampleEditTextError(R.string.network_input_not_valid_unicode)
+                    WisefySampleEditTextError(R.string.ssid_input_not_valid_unicode)
                 }
                 is AddNetworkSSIDInputValidityState.Valid -> null
             }

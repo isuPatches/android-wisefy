@@ -230,25 +230,25 @@ private fun SearchScreenNetworkInputRows(
             labelResId = R.string.regex_for_network,
             error = when (currentInputState.inputValidityState) {
                 is SearchInputValidityState.SSID.Invalid.Empty -> {
-                    WisefySampleEditTextError(R.string.network_input_empty)
+                    WisefySampleEditTextError(R.string.ssid_input_empty)
                 }
                 is SearchInputValidityState.SSID.Invalid.TooShort -> {
-                    WisefySampleEditTextError(R.string.network_input_too_short)
+                    WisefySampleEditTextError(R.string.ssid_input_too_short)
                 }
                 is SearchInputValidityState.SSID.Invalid.TooLong -> {
-                    WisefySampleEditTextError(R.string.network_input_too_long)
+                    WisefySampleEditTextError(R.string.ssid_input_too_long)
                 }
                 is SearchInputValidityState.SSID.Invalid.InvalidCharacters -> {
-                    WisefySampleEditTextError(R.string.network_input_invalid_characters)
+                    WisefySampleEditTextError(R.string.ssid_input_invalid_characters)
                 }
                 is SearchInputValidityState.SSID.Invalid.InvalidStartCharacters -> {
-                    WisefySampleEditTextError(R.string.network_input_invalid_start_characters)
+                    WisefySampleEditTextError(R.string.ssid_input_invalid_start_characters)
                 }
                 is SearchInputValidityState.SSID.Invalid.LeadingOrTrailingSpaces -> {
-                    WisefySampleEditTextError(R.string.network_input_leading_or_trailing_spaces)
+                    WisefySampleEditTextError(R.string.ssid_input_leading_or_trailing_spaces)
                 }
                 is SearchInputValidityState.SSID.Invalid.InvalidUnicode -> {
-                    WisefySampleEditTextError(R.string.network_input_not_valid_unicode)
+                    WisefySampleEditTextError(R.string.ssid_input_not_valid_unicode)
                 }
                 is SearchInputValidityState.SSID.Valid -> null
                 is SearchInputValidityState.BSSID.Invalid.Empty -> {

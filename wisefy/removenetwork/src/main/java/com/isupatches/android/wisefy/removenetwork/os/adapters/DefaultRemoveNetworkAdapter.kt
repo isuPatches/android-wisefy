@@ -50,8 +50,8 @@ internal class DefaultRemoveNetworkAdapter(
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun removeNetwork(request: RemoveNetworkRequest): RemoveNetworkResult {
         val result = when (request) {
-            is RemoveNetworkRequest.SSID -> api.removeNetworkBySSID(request.regex)
-            is RemoveNetworkRequest.BSSID -> api.removeNetworkByBSSID(request.regex)
+            is RemoveNetworkRequest.SSID -> api.removeNetworkBySSID(request.ssid)
+            is RemoveNetworkRequest.BSSID -> api.removeNetworkByBSSID(request.bssid)
         }
         return if (result) {
             RemoveNetworkResult.Success.True

@@ -31,7 +31,6 @@ import com.isupatches.android.wisefy.core.constants.MIN_FREQUENCY_5GHZ
  * @property isSecure A convenience property to check if the access point has any of the [SecurityCapability] values
  * listed based on its [rawValue]
  *
- * @see ScanResult
  * @see SecurityCapability
  *
  * @author Patches Barrett
@@ -45,21 +44,22 @@ data class AccessPointData(
     val rssi: Int = rawValue.level,
     val is5gHz: Boolean = frequency in MIN_FREQUENCY_5GHZ + 1 until MAX_FREQUENCY_5GHZ,
     val isSecure: Boolean = SecurityCapability.ALL.any { rawValue.capabilities.contains(it.stringValue) }
-) {
+)
 
-    /**
-     * A function to check if the given access point has a certain [SecurityCapability] based on its [rawValue].
-     *
-     * @param securityCapability The given [SecurityCapability] to check the access point for
-     *
-     * @see SecurityCapability
-     *
-     * @return Boolean - True if the access point contains the [SecurityCapability], otherwise false
-     *
-     * @author Patches Barrett
-     * @since 12/2022, version 5.0.0
-     */
-    fun containSecurityCapability(securityCapability: SecurityCapability): Boolean {
-        return rawValue.capabilities.contains(securityCapability.stringValue)
-    }
+/**
+ * An extension function to check if the given access point has a certain [SecurityCapability] based on its rawValue.
+ *
+ * @receiver [AccessPointData]
+ *
+ * @param securityCapability The given [SecurityCapability] to check the access point for
+ *
+ * @see SecurityCapability
+ *
+ * @return Boolean - True if the access point contains the [SecurityCapability], otherwise false
+ *
+ * @author Patches Barrett
+ * @since 12/2022, version 5.0.0
+ */
+fun AccessPointData.containSecurityCapability(securityCapability: SecurityCapability): Boolean {
+    return rawValue.capabilities.contains(securityCapability.stringValue)
 }

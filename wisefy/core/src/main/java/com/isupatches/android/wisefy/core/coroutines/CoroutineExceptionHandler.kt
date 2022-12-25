@@ -35,6 +35,6 @@ import kotlinx.coroutines.CoroutineExceptionHandler
  */
 fun createBaseCoroutineExceptionHandler(callbacks: BaseWisefyCallbacks?): CoroutineExceptionHandler {
     return CoroutineExceptionHandler { _, throwable ->
-        callbacks?.onWisefyAsyncFailure(WisefyException(message = null, throwable = throwable))
+        callbacks?.onWisefyAsyncFailure(WisefyException(message = "Internal Wisefy error", throwable = throwable))
     }
 }

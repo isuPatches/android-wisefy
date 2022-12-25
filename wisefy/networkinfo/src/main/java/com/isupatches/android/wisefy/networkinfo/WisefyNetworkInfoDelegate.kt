@@ -41,15 +41,15 @@ import kotlinx.coroutines.withContext
  * An internal Wisefy delegate for getting information about a network, the device's current network,
  * and the device's IP through the Android OS.
  *
- * @property coroutineDispatcherProvider The instance of the coroutine dispatcher provider to use
- * @property scope The coroutine scope to use
- * @property networkConnectionMutex The mutex for all read/write operations involving connecting, disconnecting, and
- * getting the device's current network and connection status
  * @param connectivityManager The ConnectivityManager instance to use
  * @param logger The [WisefyLogger] instance to use
  * @param sdkUtil The [SdkUtil] instance to use
  * @param wifiManager The WifiManager instance to use
  * @param networkConnectionStatusProvider The on-demand way to retrieve the current network connection status
+ * @property coroutineDispatcherProvider The instance of the coroutine dispatcher provider to use
+ * @property scope The coroutine scope to use
+ * @property networkConnectionMutex The mutex for all read/write operations involving connecting, disconnecting, and
+ * getting the device's current network and connection status
  * @property adapter The adapter instance to use for getting the device's current network and connection status
  * (determined based on the Android OS level)
  *
@@ -65,14 +65,14 @@ import kotlinx.coroutines.withContext
  * @since 12/2022, version 5.0.0
  */
 class WisefyNetworkInfoDelegate(
-    private val coroutineDispatcherProvider: CoroutineDispatcherProvider,
-    private val scope: CoroutineScope,
-    private val networkConnectionMutex: Mutex,
     connectivityManager: ConnectivityManager,
     logger: WisefyLogger,
     sdkUtil: SdkUtil,
     wifiManager: WifiManager,
     networkConnectionStatusProvider: suspend () -> NetworkConnectionStatus?,
+    private val coroutineDispatcherProvider: CoroutineDispatcherProvider,
+    private val scope: CoroutineScope,
+    private val networkConnectionMutex: Mutex,
     private val adapter: NetworkInfoApi = DefaultNetworkInfoAdapter(
         connectivityManager = connectivityManager,
         wifiManager = wifiManager,

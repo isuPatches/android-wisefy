@@ -37,10 +37,10 @@ import kotlinx.coroutines.runBlocking
  * A default adapter for getting information about a network, the device's current network, and the device's IP.
  *
  * @param connectivityManager The ConnectivityManager instance to use
- * @property wifiManager The WifiManager instance to use
  * @param sdkUtil The [SdkUtil] instance to use
  * @param logger The [WisefyLogger] instance to use
  * @param networkConnectionStatusProvider The on-demand way to retrieve the current network connection status
+ * @property wifiManager The WifiManager instance to use
  * @property api The OS level API instance to use
  *
  * @see DefaultNetworkInfoApi
@@ -55,10 +55,10 @@ import kotlinx.coroutines.runBlocking
  */
 internal class DefaultNetworkInfoAdapter(
     connectivityManager: ConnectivityManager,
-    private val wifiManager: WifiManager,
     sdkUtil: SdkUtil,
     logger: WisefyLogger,
     networkConnectionStatusProvider: suspend () -> NetworkConnectionStatus?,
+    private val wifiManager: WifiManager,
     private val api: DefaultNetworkInfoApi = DefaultNetworkInfoApiImpl(
         wifiManager = wifiManager,
         connectivityManager = connectivityManager,
@@ -70,6 +70,7 @@ internal class DefaultNetworkInfoAdapter(
 
     override fun getCurrentNetwork(query: GetCurrentNetworkQuery): GetCurrentNetworkResult {
         val currentNetwork = api.getCurrentNetwork()
+        @Suppress("Deprecation")
         return GetCurrentNetworkResult(
             value = NetworkData(
                 network = currentNetwork,

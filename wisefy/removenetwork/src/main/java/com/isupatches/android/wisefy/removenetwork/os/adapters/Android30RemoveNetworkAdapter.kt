@@ -53,8 +53,8 @@ internal class Android30RemoveNetworkAdapter(
     @RequiresPermission(CHANGE_WIFI_STATE)
     override fun removeNetwork(request: RemoveNetworkRequest): RemoveNetworkResult {
         val result = when (request) {
-            is RemoveNetworkRequest.SSID -> api.removeNetworkBySSID(request.regex)
-            is RemoveNetworkRequest.BSSID -> api.removeNetworkByBSSID(request.regex)
+            is RemoveNetworkRequest.SSID -> api.removeNetworkBySSID(request.ssid)
+            is RemoveNetworkRequest.BSSID -> api.removeNetworkByBSSID(request.bssid)
         }
         return if (result == STATUS_NETWORK_SUGGESTIONS_SUCCESS) {
             RemoveNetworkResult.Success.ResultCode(result)

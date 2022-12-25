@@ -15,7 +15,6 @@
  */
 package com.isupatches.android.wisefy.savednetworks.entities
 
-import android.net.wifi.WifiConfiguration
 import android.net.wifi.WifiNetworkSuggestion
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -38,7 +37,8 @@ sealed class SavedNetworkData {
      * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
-    data class Configuration(val rawValue: WifiConfiguration) : SavedNetworkData()
+    @Suppress("Deprecation")
+    data class Configuration(val rawValue: android.net.wifi.WifiConfiguration) : SavedNetworkData()
 
     /**
      * A data representation of a saved network suggestion starting at Android Q.

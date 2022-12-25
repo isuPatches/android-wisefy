@@ -70,15 +70,25 @@ internal fun RemoveNetworkScreenDialogContent(
                 title = R.string.wisefy_async_error,
                 body = R.string.wisefy_async_error_descriptions_args,
                 currentDialogState.exception.message ?: "",
+                currentDialogState.exception.cause?.message ?: "",
                 onClose = {
                     viewModel.onDialogClosed()
                 }
             )
         }
-        is RemoveNetworkDialogState.InputError -> {
+        is RemoveNetworkDialogState.InputError.SSID -> {
             WisefySampleNoticeDialog(
                 title = R.string.input_error,
-                body = R.string.network_input_invalid,
+                body = R.string.ssid_input_invalid,
+                onClose = {
+                    viewModel.onDialogClosed()
+                }
+            )
+        }
+        is RemoveNetworkDialogState.InputError.BSSID -> {
+            WisefySampleNoticeDialog(
+                title = R.string.input_error,
+                body = R.string.bssid_input_invalid,
                 onClose = {
                     viewModel.onDialogClosed()
                 }
@@ -120,7 +130,8 @@ private fun RemoveNetworkScreenDialogContentDarkPreview(
 private class RemoveNetworkDialogStatePreviewParameterProvider : PreviewParameterProvider<RemoveNetworkDialogState> {
     override val values: Sequence<RemoveNetworkDialogState> = sequenceOf(
         RemoveNetworkDialogState.Failure.WisefyAsync(WisefyException("", null)),
-        RemoveNetworkDialogState.InputError,
+        RemoveNetworkDialogState.InputError.SSID,
+        RemoveNetworkDialogState.InputError.BSSID,
         RemoveNetworkDialogState.RemoveNetwork.Failure(RemoveNetworkResult.Failure.False),
         RemoveNetworkDialogState.RemoveNetwork.PermissionsError,
         RemoveNetworkDialogState.RemoveNetwork.Success(RemoveNetworkResult.Success.True)

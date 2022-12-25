@@ -44,13 +44,13 @@ import kotlinx.coroutines.withContext
 /**
  * An internal Wisefy delegate for enabling, disabling, and checking the state of wifi.
  *
- * @property coroutineDispatcherProvider The [CoroutineDispatcherProvider] instance to use
- * @property scope The coroutine scope to use
- * @property wifiMutex The mutex for all read/write operations involving wifi
  * @param assertions The [WisefyAssertions] instance to use
  * @param logger The [WisefyLogger] instance to use
  * @param sdkUtil The [SdkUtil] instance to use
  * @param wifiManager The WifiManager instance to use
+ * @property coroutineDispatcherProvider The [CoroutineDispatcherProvider] instance to use
+ * @property scope The coroutine scope to use
+ * @property wifiMutex The mutex for all read/write operations involving wifi
  * @property adapter The adapter instance to use for wifi operations (determined based on the Android OS level)
  *
  * @see Android29WifiAdapter
@@ -65,13 +65,13 @@ import kotlinx.coroutines.withContext
  * @since 12/2022, version 5.0.0
  */
 class WisefyWifiDelegate(
-    private val coroutineDispatcherProvider: CoroutineDispatcherProvider,
-    private val scope: CoroutineScope,
-    private val wifiMutex: Mutex,
     assertions: WisefyAssertions,
     logger: WisefyLogger,
     sdkUtil: SdkUtil,
     wifiManager: WifiManager,
+    private val coroutineDispatcherProvider: CoroutineDispatcherProvider,
+    private val scope: CoroutineScope,
+    private val wifiMutex: Mutex,
     private val adapter: WifiApi = if (sdkUtil.isAtLeastQ()) {
         Android29WifiAdapter(wifiManager, logger, assertions)
     } else {

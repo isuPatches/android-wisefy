@@ -17,7 +17,6 @@ package com.isupatches.android.wisefy.savednetworks.os.apis
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.ACCESS_WIFI_STATE
-import android.net.wifi.WifiConfiguration
 import androidx.annotation.RequiresPermission
 
 /**
@@ -36,8 +35,9 @@ internal interface DefaultSavedNetworkApi {
      * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
+    @Suppress("Deprecation")
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    fun getSavedNetworks(): List<WifiConfiguration>
+    fun getSavedNetworks(): List<android.net.wifi.WifiConfiguration>
 
     /**
      * A default internal API that is used to search for saved networks by SSID through the Android OS.
@@ -49,8 +49,9 @@ internal interface DefaultSavedNetworkApi {
      * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
+    @Suppress("Deprecation")
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    fun searchForSavedNetworksBySSID(regexForSSID: String): List<WifiConfiguration>
+    fun searchForSavedNetworksBySSID(regexForSSID: String): List<android.net.wifi.WifiConfiguration>
 
     /**
      * A default internal API that is used to search for saved networks by BSSID through the Android OS.
@@ -62,6 +63,7 @@ internal interface DefaultSavedNetworkApi {
      * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
+    @Suppress("Deprecation")
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    fun searchForSavedNetworksByBSSID(regexForBSSID: String): List<WifiConfiguration>
+    fun searchForSavedNetworksByBSSID(regexForBSSID: String): List<android.net.wifi.WifiConfiguration>
 }

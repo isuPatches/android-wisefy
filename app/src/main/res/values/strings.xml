@@ -22,7 +22,7 @@
 
     <string name="wisefy_async_error">Wisefy Async Error</string>
     <string name="wisefy_async_error_descriptions_args">
-        An async error occurred with Wisefy. Exception message: %s
+        An async error occurred with Wisefy.\n\nMessage: %1$s\n\nCause: %2$s
     </string>
 
     <string name="access_points_args">Access points: %s</string>
@@ -35,14 +35,16 @@
     <string name="permission_error">Permission Error</string>
 
     <!-- Input Errors -->
-    <string name="network_input_empty">Please enter in a network</string>
-    <string name="network_input_not_valid_unicode">Input for network was not valid unicode</string>
-    <string name="network_input_too_short">Input for network must be at least 2 characters</string>
-    <string name="network_input_too_long">Input for network must be 32 characters or under</string>
-    <string name="network_input_invalid_characters">Input for network must not contain ? \" $ [ \\ ] or + </string>
-    <string name="network_input_invalid_start_characters">Input for network must not start with ! # or ;</string>
-    <string name="network_input_leading_or_trailing_spaces">Input for network must not container leading or trailing spaces</string>
-    <string name="network_input_invalid">Invalid network input</string>
+    <string name="ssid_input_empty">Please enter in an SSID</string>
+    <string name="ssid_input_not_valid_unicode">Input for SSID was not valid unicode</string>
+    <string name="ssid_input_too_short">Input for SSID must be at least 2 characters</string>
+    <string name="ssid_input_too_long">Input for SSID must be 32 characters or under</string>
+    <string name="ssid_input_invalid_characters">Input for SSID must not contain ? \" $ [ \\ ] or + </string>
+    <string name="ssid_input_invalid_start_characters">Input for SSID must not start with ! # or ;</string>
+    <string name="ssid_input_leading_or_trailing_spaces">
+        Input for SSID must not contain leading or trailing spaces
+    </string>
+    <string name="ssid_input_invalid">Invalid SSID input</string>
 
     <string name="passphrase_input_empty">Please enter in a passphrase</string>
     <string name="passphrase_input_not_valid_ascii">Input for passphrase was not valid ASCII</string>

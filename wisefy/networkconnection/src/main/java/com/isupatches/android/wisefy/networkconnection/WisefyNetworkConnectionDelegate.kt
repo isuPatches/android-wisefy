@@ -51,16 +51,16 @@ import kotlinx.coroutines.withContext
 /**
  * An internal Wisefy delegate for getting and searching for nearby access points through the Android OS.
  *
- * @property coroutineDispatcherProvider The instance of the coroutine dispatcher provider to use
- * @property scope The coroutine scope to use
- * @property networkConnectionMutex The mutex for all read/write operations involving connecting, disconnecting, and
- * getting the device's current network and connection status
  * @param assertions The [WisefyAssertions] instance to use
  * @param connectivityManager The ConnectivityManager instance to use
  * @param logger The [WisefyLogger] instance to use
  * @param sdkUtil The [SdkUtil] instance to use
  * @param wifiManager The WifiManager instance to use
  * @param networkConnectionStatusProvider The on-demand way to retrieve the current network connection status
+ * @property coroutineDispatcherProvider The instance of the coroutine dispatcher provider to use
+ * @property scope The coroutine scope to use
+ * @property networkConnectionMutex The mutex for all read/write operations involving connecting, disconnecting, and
+ * getting the device's current network and connection status
  * @property adapter The adapter instance to use for connecting, disconnecting, and changing networks
  * (determined based on the Android OS level)
  *
@@ -77,15 +77,15 @@ import kotlinx.coroutines.withContext
  * @since 12/2022, version 5.0.0
  */
 class WisefyNetworkConnectionDelegate(
-    private val coroutineDispatcherProvider: CoroutineDispatcherProvider,
-    private val scope: CoroutineScope,
-    private val networkConnectionMutex: Mutex,
     assertions: WisefyAssertions,
     connectivityManager: ConnectivityManager,
     logger: WisefyLogger,
     sdkUtil: SdkUtil,
     wifiManager: WifiManager,
     networkConnectionStatusProvider: suspend () -> NetworkConnectionStatus?,
+    private val coroutineDispatcherProvider: CoroutineDispatcherProvider,
+    private val scope: CoroutineScope,
+    private val networkConnectionMutex: Mutex,
     private val adapter: NetworkConnectionApi = if (sdkUtil.isAtLeastQ()) {
         Android29NetworkConnectionAdapter(
             logger,
@@ -96,9 +96,9 @@ class WisefyNetworkConnectionDelegate(
             connectivityManager,
             wifiManager,
             logger,
-            assertions,
             sdkUtil,
-            networkConnectionStatusProvider
+            networkConnectionStatusProvider,
+            assertions
         )
     }
 ) : NetworkConnectionDelegate {
@@ -130,7 +130,7 @@ class WisefyNetworkConnectionDelegate(
     @Deprecated(DeprecationMessages.NetworkConnection.CONNECT_TO_NETWORK)
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE, ACCESS_NETWORK_STATE, CHANGE_NETWORK_STATE])
     override fun connectToNetwork(request: ConnectToNetworkRequest): ConnectToNetworkResult {
-        @Suppress("DEPRECATION")
+        @Suppress("Deprecation")
         return adapter.connectToNetwork(request)
     }
 
@@ -139,7 +139,7 @@ class WisefyNetworkConnectionDelegate(
     override fun connectToNetwork(request: ConnectToNetworkRequest, callbacks: ConnectToNetworkCallbacks?) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
             networkConnectionMutex.withLock {
-                @Suppress("DEPRECATION")
+                @Suppress("Deprecation")
                 val result = adapter.connectToNetwork(request)
                 withContext(coroutineDispatcherProvider.main) {
                     when (result) {
@@ -155,7 +155,7 @@ class WisefyNetworkConnectionDelegate(
     override fun disconnectFromCurrentNetwork(
         request: DisconnectFromCurrentNetworkRequest
     ): DisconnectFromCurrentNetworkResult {
-        @Suppress("DEPRECATION")
+        @Suppress("Deprecation")
         return adapter.disconnectFromCurrentNetwork(request)
     }
 
@@ -166,7 +166,7 @@ class WisefyNetworkConnectionDelegate(
     ) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
             networkConnectionMutex.withLock {
-                @Suppress("DEPRECATION")
+                @Suppress("Deprecation")
                 val result = adapter.disconnectFromCurrentNetwork(request)
                 withContext(coroutineDispatcherProvider.main) {
                     when (result) {

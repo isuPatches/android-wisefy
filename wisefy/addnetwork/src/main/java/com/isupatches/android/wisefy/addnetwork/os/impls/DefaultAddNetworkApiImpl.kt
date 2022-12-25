@@ -13,12 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@file:Suppress("DEPRECATION")
-
 package com.isupatches.android.wisefy.addnetwork.os.impls
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
-import android.net.wifi.WifiConfiguration
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.addnetwork.os.apis.DefaultAddNetworkApi
@@ -53,8 +50,9 @@ internal class DefaultAddNetworkApiImpl(
         return addNetworkConfiguration(configuration = createWPA2NetworkConfiguration(ssid, passphrase, bssid))
     }
 
+    @Suppress("Deprecation")
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    private fun addNetworkConfiguration(configuration: WifiConfiguration): Int {
+    private fun addNetworkConfiguration(configuration: android.net.wifi.WifiConfiguration): Int {
         val result = wifiManager.addNetwork(configuration)
         logger.d(LOG_TAG, "Add network.  Result: $result, configuration: $configuration")
         return result

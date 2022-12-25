@@ -40,14 +40,14 @@ import kotlinx.coroutines.withContext
 /**
  * An internal Wisefy delegate for removing a network through the Android OS.
  *
- * @property coroutineDispatcherProvider The instance of the coroutine dispatcher provider to use
- * @property scope The coroutine scope to use
- * @property savedNetworkMutex A mutex shared with add/remove network to ensure synchronization between saved network
- *  reads and writes
  * @param assertions The [WisefyAssertions] instance to use
  * @param logger The [WisefyLogger] instance to use
  * @param sdkUtil The [SdkUtil] instance to use
  * @param wifiManager The WifiManager instance to use
+ * @property coroutineDispatcherProvider The instance of the coroutine dispatcher provider to use
+ * @property scope The coroutine scope to use
+ * @property savedNetworkMutex A mutex shared with add/remove network to ensure synchronization between saved network
+ *  reads and writes
  * @property adapter The adapter instance to use for removing a network (determined based on the Android OS level)
  *
  * @see CoroutineDispatcherProvider
@@ -59,13 +59,13 @@ import kotlinx.coroutines.withContext
  * @since 12/2022, version 5.0.0
  */
 class WisefyRemoveNetworkDelegate(
-    private val coroutineDispatcherProvider: CoroutineDispatcherProvider,
-    private val scope: CoroutineScope,
-    private val savedNetworkMutex: Mutex,
     assertions: WisefyAssertions,
     logger: WisefyLogger,
     sdkUtil: SdkUtil,
     wifiManager: WifiManager,
+    private val coroutineDispatcherProvider: CoroutineDispatcherProvider,
+    private val scope: CoroutineScope,
+    private val savedNetworkMutex: Mutex,
     private val adapter: RemoveNetworkApi = when {
         sdkUtil.isAtLeastR() -> Android30RemoveNetworkAdapter(logger, wifiManager)
         sdkUtil.isAtLeastQ() -> Android29RemoveNetworkAdapter(assertions)

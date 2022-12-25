@@ -25,4 +25,4 @@ package com.isupatches.android.wisefy.core.exceptions
  * @author Patches Barrett
  * @since 12/2022, version 5.0.0
  */
-class WisefyException(message: String?, throwable: Throwable?) : Throwable(message, throwable)
+class WisefyException(message: String, throwable: Throwable?) : Throwable(message, throwable)

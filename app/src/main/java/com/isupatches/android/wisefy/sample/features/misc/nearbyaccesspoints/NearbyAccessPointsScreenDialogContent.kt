@@ -50,6 +50,7 @@ internal fun NearbyAccessPointsScreenDialogContent(
                     title = R.string.wisefy_async_error,
                     body = R.string.wisefy_async_error_descriptions_args,
                     currentDialogState.exception.message ?: "",
+                    currentDialogState.exception.cause?.message ?: "",
                     onClose = {
                         viewModel.onDialogClosed()
                     }

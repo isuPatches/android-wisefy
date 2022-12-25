@@ -26,24 +26,30 @@ sealed class RemoveNetworkRequest {
     /**
      * A data representation to remove a network by SSID.
      *
-     * @property regex The regex to use when finding the network by SSID
+     * *NOTE*
+     * - The request will only remove the first network whose SSID matches
+     *
+     * @property ssid The SSID value of the network to remove
      *
      * @see RemoveNetworkRequest
      *
      * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
-    data class SSID(val regex: String) : RemoveNetworkRequest()
+    data class SSID(val ssid: String) : RemoveNetworkRequest()
 
     /**
      * A data representation to remove a network by BSSID.
      *
-     * @property regex The regex to use when finding the network by BSSID
+     * *NOTE*
+     * - The request will only remove the first network whose SSID matches
+     *
+     * @property bssid The BSSID value of the network to remove
      *
      * @see RemoveNetworkRequest
      *
      * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
-    data class BSSID(val regex: String) : RemoveNetworkRequest()
+    data class BSSID(val bssid: String) : RemoveNetworkRequest()
 }

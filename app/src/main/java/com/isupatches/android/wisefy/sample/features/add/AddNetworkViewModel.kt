@@ -31,6 +31,7 @@ import com.isupatches.android.wisefy.sample.entities.NetworkType
 import com.isupatches.android.wisefy.sample.scaffolding.BaseViewModel
 import com.isupatches.android.wisefy.sample.scaffolding.BaseViewModelFactory
 import com.isupatches.android.wisefy.sample.util.BSSIDInputError
+import com.isupatches.android.wisefy.sample.util.ErrorMessages
 import com.isupatches.android.wisefy.sample.util.PassphraseInputError
 import com.isupatches.android.wisefy.sample.util.SSIDInputError
 import com.isupatches.android.wisefy.sample.util.SdkUtil
@@ -158,7 +159,7 @@ internal class DefaultAddNetworkViewModel(
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
     override suspend fun addNetwork() {
-        if (!isInputValid()) {
+        if (isInputInvalid()) {
             return
         }
         _uiState.value = uiState.value.copy(
@@ -187,7 +188,11 @@ internal class DefaultAddNetworkViewModel(
                         bssid = uiState.value.inputState.bssidInput
                     )
                 } else {
-                    error("")
+                    /*
+                     * The UI not displaying the WPA3 option on pre-Android Q / SDK 29 devices
+                     * will prevent us from getting here.
+                     */
+                    error(ErrorMessages.AddNetwork.WPA3_NETWORK_ADD_ON_PRE_ANDROID_Q_DEVICE)
                 }
             }
         }
@@ -210,36 +215,35 @@ internal class DefaultAddNetworkViewModel(
         }
     }
 
-    private fun isInputValid(): Boolean {
-        if (uiState.value.inputState.ssidInputValidityState !is AddNetworkSSIDInputValidityState.Valid) {
+    private fun isInputInvalid(): Boolean {
+        val currentInputState = uiState.value.inputState
+        if (currentInputState.ssidInputValidityState !is AddNetworkSSIDInputValidityState.Valid) {
             _uiState.value = uiState.value.copy(
                 loadingState = AddNetworkLoadingState(isLoading = false),
                 dialogState = AddNetworkDialogState.InputError.SSID
             )
-            return false
+            return true
         }
-        if (uiState.value.inputState.bssidInputValidityState !is AddNetworkBSSIDInputValidityState.Valid) {
+        if (currentInputState.bssidInputValidityState !is AddNetworkBSSIDInputValidityState.Valid) {
             _uiState.value = uiState.value.copy(
                 loadingState = AddNetworkLoadingState(isLoading = false),
                 dialogState = AddNetworkDialogState.InputError.BSSID
             )
-            return false
+            return true
         }
         return when (uiState.value.networkType) {
             NetworkType.WPA2, NetworkType.WPA3 -> {
-                if (uiState.value.inputState.passphraseInputValidityState !is
-                    AddNetworkPassphraseInputValidityState.Valid
-                ) {
+                if (currentInputState.passphraseInputValidityState !is AddNetworkPassphraseInputValidityState.Valid) {
                     _uiState.value = uiState.value.copy(
                         loadingState = AddNetworkLoadingState(isLoading = false),
                         dialogState = AddNetworkDialogState.InputError.Passphrase
                     )
-                    false
-                } else {
                     true
+                } else {
+                    false
                 }
             }
-            NetworkType.OPEN -> true
+            NetworkType.OPEN -> false
         }
     }
 

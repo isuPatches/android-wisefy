@@ -36,10 +36,13 @@ internal data class SearchLoadingState(val isLoading: Boolean)
 internal sealed class SearchDialogState {
     object None : SearchDialogState()
 
-    object InputError : SearchDialogState()
+    sealed class InputError : SearchDialogState() {
+        object SSID : InputError()
+        object BSSID : InputError()
+    }
 
     sealed class Failure : SearchDialogState() {
-        data class WisefyAsync(val throwable: Throwable) : Failure()
+        data class WisefyAsync(val exception: Throwable) : Failure()
     }
 
     sealed class SearchForAccessPoint : SearchDialogState() {

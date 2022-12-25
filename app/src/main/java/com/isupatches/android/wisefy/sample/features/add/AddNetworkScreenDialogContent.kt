@@ -88,6 +88,7 @@ internal fun AddNetworkScreenDialogContent(
             WisefySampleNoticeDialog(
                 title = R.string.wisefy_async_error,
                 body = R.string.wisefy_async_error_descriptions_args,
+                currentDialogState.exception.message ?: "",
                 currentDialogState.exception.cause?.message ?: "",
                 onClose = {
                     viewModel.onDialogClosed()
@@ -97,7 +98,7 @@ internal fun AddNetworkScreenDialogContent(
         is AddNetworkDialogState.InputError.SSID -> {
             WisefySampleNoticeDialog(
                 title = R.string.input_error,
-                body = R.string.network_input_invalid,
+                body = R.string.ssid_input_invalid,
                 onClose = {
                     viewModel.onDialogClosed()
                 }
@@ -115,7 +116,7 @@ internal fun AddNetworkScreenDialogContent(
         is AddNetworkDialogState.InputError.BSSID -> {
             WisefySampleNoticeDialog(
                 title = R.string.input_error,
-                body = R.string.network_input_invalid,
+                body = R.string.bssid_input_invalid,
                 onClose = {
                     viewModel.onDialogClosed()
                 }

@@ -17,7 +17,6 @@ package com.isupatches.android.wisefy.savednetworks.os.impls
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.ACCESS_WIFI_STATE
-import android.net.wifi.WifiConfiguration
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.core.hasBSSIDMatchingRegex
@@ -42,20 +41,23 @@ internal class DefaultSavedNetworkApiImpl(
     private val logger: WisefyLogger
 ) : DefaultSavedNetworkApi {
 
+    @Suppress("Deprecation")
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun getSavedNetworks(): List<WifiConfiguration> {
+    override fun getSavedNetworks(): List<android.net.wifi.WifiConfiguration> {
         val savedNetworkConfigurations = wifiManager.configuredNetworks
         logger.d(LOG_TAG, "Saved network configurations: $savedNetworkConfigurations")
         return savedNetworkConfigurations
     }
 
+    @Suppress("Deprecation")
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun searchForSavedNetworksBySSID(regexForSSID: String): List<WifiConfiguration> {
+    override fun searchForSavedNetworksBySSID(regexForSSID: String): List<android.net.wifi.WifiConfiguration> {
         return getSavedNetworks().filter { it.hasSSIDMatchingRegex(regexForSSID) }
     }
 
+    @Suppress("Deprecation")
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun searchForSavedNetworksByBSSID(regexForBSSID: String): List<WifiConfiguration> {
+    override fun searchForSavedNetworksByBSSID(regexForBSSID: String): List<android.net.wifi.WifiConfiguration> {
         return getSavedNetworks().filter { it.hasBSSIDMatchingRegex(regexForBSSID) }
     }
 

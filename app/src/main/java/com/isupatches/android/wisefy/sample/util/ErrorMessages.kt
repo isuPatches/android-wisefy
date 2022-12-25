@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Patches Barrett
+ * Copyright 2022 Patches Klinefelter
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,6 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.wisefy.accesspoints
+package com.isupatches.android.wisefy.sample.util
 
-internal class WisefyAccessPointsDelegateTest
+internal object ErrorMessages {
+
+    object AddNetwork {
+        const val WPA3_NETWORK_ADD_ON_PRE_ANDROID_Q_DEVICE = "Adding a WPA3 network is not supported until Android Q" +
+            " / SDK 29"
+    }
+}

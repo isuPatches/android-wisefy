@@ -43,7 +43,10 @@ internal sealed class RemoveNetworkDialogState {
         object PermissionsError : RemoveNetwork()
     }
 
-    object InputError : RemoveNetworkDialogState()
+    sealed class InputError : RemoveNetworkDialogState() {
+        object SSID : InputError()
+        object BSSID : InputError()
+    }
 }
 
 internal data class RemoveNetworkInputState(

@@ -108,7 +108,7 @@ internal class DefaultSignalViewModel(
             dialogState = SignalDialogState.None
         )
 
-        if (!isCalculateSignalLevelInputValid()) {
+        if (isCalculateSignalLevelInputInvalid()) {
             return
         }
 
@@ -156,7 +156,7 @@ internal class DefaultSignalViewModel(
             dialogState = SignalDialogState.None
         )
 
-        if (!isCompareSignalLevelInputValid()) {
+        if (isCompareSignalLevelInputInvalid()) {
             return
         }
 
@@ -211,39 +211,36 @@ internal class DefaultSignalViewModel(
         )
     }
 
-    private fun isCalculateSignalLevelInputValid(): Boolean {
-        if (uiState.value.inputState.calculateSignalLevelInputState.validityState !is
-            SignalInputValidityState.CalculateSignalLevel.Valid
-        ) {
+    private fun isCalculateSignalLevelInputInvalid(): Boolean {
+        val currentCalculateSignalInputState = uiState.value.inputState.calculateSignalLevelInputState
+        if (currentCalculateSignalInputState.validityState !is SignalInputValidityState.CalculateSignalLevel.Valid) {
             _uiState.value = uiState.value.copy(
                 loadingState = SignalLoadingState(isLoading = false),
                 dialogState = SignalDialogState.InputError.CalculateSignalLevel
             )
-            return false
+            return true
         }
-        return true
+        return false
     }
 
-    private fun isCompareSignalLevelInputValid(): Boolean {
-        if (uiState.value.inputState.compareSignalLevelInputState.rssi1InputState.validityState !is
-            SignalInputValidityState.CompareSignalLevel.Valid
-        ) {
+    private fun isCompareSignalLevelInputInvalid(): Boolean {
+        val currentRSSI1InputState = uiState.value.inputState.compareSignalLevelInputState.rssi1InputState
+        if (currentRSSI1InputState.validityState !is SignalInputValidityState.CompareSignalLevel.Valid) {
             _uiState.value = uiState.value.copy(
                 loadingState = SignalLoadingState(isLoading = false),
                 dialogState = SignalDialogState.InputError.CompareSignalLevel.RSSI1
             )
-            return false
+            return true
         }
-        if (uiState.value.inputState.compareSignalLevelInputState.rssi2InputState.validityState !is
-            SignalInputValidityState.CompareSignalLevel.Valid
-        ) {
+        val currentRSSI2InputState = uiState.value.inputState.compareSignalLevelInputState.rssi1InputState
+        if (currentRSSI2InputState.validityState !is SignalInputValidityState.CompareSignalLevel.Valid) {
             _uiState.value = uiState.value.copy(
                 loadingState = SignalLoadingState(isLoading = false),
                 dialogState = SignalDialogState.InputError.CompareSignalLevel.RSSI2
             )
-            return false
+            return true
         }
-        return true
+        return false
     }
 
     private fun validateCalculateSignalLevelInputValidity(rssiLevel: String) {

@@ -25,6 +25,7 @@ import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
 import com.isupatches.android.wisefy.accesspoints.entities.GetAccessPointsQuery
 import com.isupatches.android.wisefy.accesspoints.entities.GetAccessPointsResult
 import com.isupatches.android.wisefy.accesspoints.entities.SecurityCapability
+import com.isupatches.android.wisefy.accesspoints.entities.containSecurityCapability
 import com.isupatches.android.wisefy.core.exceptions.WisefyException
 import com.isupatches.android.wisefy.ktx.isNetworkSavedAsync
 import com.isupatches.android.wisefy.sample.scaffolding.BaseViewModel
