@@ -68,10 +68,6 @@ class WisefyRemoveNetworkDelegate(
     }
 ) : RemoveNetworkDelegate {
 
-    companion object {
-        private const val LOG_TAG = "WisefyRemoveNetworkDelegate"
-    }
-
     init {
         logger.d(LOG_TAG, "WisefyRemoveNetworkDelegate adapter is: ${adapter::class.java.simpleName}")
     }
@@ -94,5 +90,9 @@ class WisefyRemoveNetworkDelegate(
                 }
             }
         }
+    }
+
+    companion object {
+        private const val LOG_TAG = "WisefyRemoveNetworkDelegate"
     }
 }

@@ -41,20 +41,28 @@ import kotlinx.coroutines.withContext
  * An internal Wisefy delegate for getting information about a network, the device's current network,
  * and the device's IP through the Android OS.
  *
- * @param coroutineDispatcherProvider The instance of the coroutine dispatcher provider to use
- * @param scope The coroutine scope to use
- * @param networkConnectionMutex
+ * @property coroutineDispatcherProvider The instance of the coroutine dispatcher provider to use
+ * @property scope The coroutine scope to use
+ * @property networkConnectionMutex The mutex for all read/write operations involving connecting, disconnecting, and
+ * getting the device's current network and connection status
  * @param connectivityManager The ConnectivityManager instance to use
  * @param logger The [WisefyLogger] instance to use
  * @param sdkUtil The [SdkUtil] instance to use
  * @param wifiManager The WifiManager instance to use
+ * @param networkConnectionStatusProvider The on-demand way to retrieve the current network connection status
+ * @property adapter The adapter instance to use for getting the device's current network and connection status
+ * (determined based on the Android OS level)
  *
  * @see CoroutineDispatcherProvider
+ * @see DefaultNetworkInfoAdapter
+ * @see NetworkInfoApi
+ * @see NetworkConnectionStatus
  * @see NetworkInfoDelegate
+ * @see SdkUtil
  * @see WisefyLogger
  *
  * @author Patches Barrett
- * @since 03/2022
+ * @since 12/2022, version 5.0.0
  */
 class WisefyNetworkInfoDelegate(
     private val coroutineDispatcherProvider: CoroutineDispatcherProvider,

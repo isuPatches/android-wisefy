@@ -42,10 +42,6 @@ internal class Android30RemoveNetworkApiImpl(
     private val logger: WisefyLogger
 ) : Android30RemoveNetworkApi {
 
-    companion object {
-        private const val LOG_TAG = "Android30RemoveNetworkApiImpl"
-    }
-
     @RequiresPermission(CHANGE_WIFI_STATE)
     override fun removeNetworkBySSID(regexForSSID: String): Int {
         val networkToRemove = wifiManager.networkSuggestions.firstOrNull { it.hasSSIDMatchingRegex(regexForSSID) }
@@ -62,5 +58,9 @@ internal class Android30RemoveNetworkApiImpl(
         val result = networkSuggestion?.let { wifiManager.removeNetworkSuggestions(listOf(it)) } ?: -1
         logger.d(LOG_TAG, "Removing network suggestion.  Result: $result, networkSuggestion: $networkSuggestion")
         return result
+    }
+
+    companion object {
+        private const val LOG_TAG = "Android30RemoveNetworkApiImpl"
     }
 }

@@ -34,16 +34,21 @@ import java.net.InetAddress
 import java.net.UnknownHostException
 
 /**
- * A default implementation for getting information about a network, the device's current network, and the device's IP.
+ * A default implementation for getting information about the device's current network and connection status.
  *
- * @param connectivityManager The ConnectivityManager instance to use
- * @param networkConnectionStatusProvider The on-demand way to retrieve the current network connection status
+ * @property wifiManager The WifiManager instance to use
+ * @property connectivityManager The ConnectivityManager instance to use
+ * @property sdkUtil The [SdkUtil] instance to use
+ * @property logger The [WisefyLogger] instance to use
+ * @property networkConnectionStatusProvider The on-demand way to retrieve the current network connection status
  *
  * @see DefaultNetworkInfoApi
+ * @see NetworkConnectionStatus
+ * @see SdkUtil
  * @see WisefyLogger
  *
  * @author Patches Barrett
- * @since 03/2022
+ * @since 12/2022, version 5.0.0
  */
 internal class DefaultNetworkInfoApiImpl(
     private val wifiManager: WifiManager,

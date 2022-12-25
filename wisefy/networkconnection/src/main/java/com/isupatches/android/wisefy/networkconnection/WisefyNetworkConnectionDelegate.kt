@@ -53,7 +53,8 @@ import kotlinx.coroutines.withContext
  *
  * @property coroutineDispatcherProvider The instance of the coroutine dispatcher provider to use
  * @property scope The coroutine scope to use
- * @property networkConnectionMutex
+ * @property networkConnectionMutex The mutex for all read/write operations involving connecting, disconnecting, and
+ * getting the device's current network and connection status
  * @param assertions The [WisefyAssertions] instance to use
  * @param connectivityManager The ConnectivityManager instance to use
  * @param logger The [WisefyLogger] instance to use

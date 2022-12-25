@@ -40,10 +40,6 @@ internal class DefaultRemoveNetworkApiImpl(
     private val logger: WisefyLogger
 ) : DefaultRemoveNetworkApi {
 
-    companion object {
-        private const val LOG_TAG = "DefaultRemoveNetworkApiImpl"
-    }
-
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun removeNetworkBySSID(regexForSSID: String): Boolean {
         val networkToRemove = wifiManager.configuredNetworks.firstOrNull { it.hasSSIDMatchingRegex(regexForSSID) }
@@ -60,5 +56,9 @@ internal class DefaultRemoveNetworkApiImpl(
         val result = wifiConfiguration?.let { wifiManager.removeNetwork(it.networkId) } ?: false
         logger.d(LOG_TAG, "Removing network suggestion.  Result: $result, wifiConfiguration: $wifiConfiguration")
         return result
+    }
+
+    companion object {
+        private const val LOG_TAG = "DefaultRemoveNetworkApiImpl"
     }
 }

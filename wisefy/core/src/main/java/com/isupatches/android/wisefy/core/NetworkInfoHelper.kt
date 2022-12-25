@@ -28,7 +28,7 @@ import com.isupatches.android.wisefy.core.constants.QUOTE
  * @since 12/2022, version 5.0.0
  */
 val WifiInfo.ssidWithoutQuotes: String
-    get() = ssid.replace(QUOTE, "")
+    get() = ssid?.replace(QUOTE, "") ?: ""
 
 /**
  * A convenience property to expose the BSSID of a [WifiInfo] taking into account any SDK level considerations and
@@ -40,4 +40,4 @@ val WifiInfo.ssidWithoutQuotes: String
  * @since 12/2022, version 5.0.0
  */
 val WifiInfo.bssidWithoutQuotes: String
-    get() = bssid.replace(QUOTE, "")
+    get() = bssid?.replace(QUOTE, "") ?: ""

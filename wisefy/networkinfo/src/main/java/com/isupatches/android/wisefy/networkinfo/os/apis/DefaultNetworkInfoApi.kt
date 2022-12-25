@@ -22,21 +22,20 @@ import android.net.NetworkCapabilities
 import androidx.annotation.RequiresPermission
 
 /**
- * A default internal API for getting information about a network, the device's current network, and the device's IP
- * through the Android OS.
+ * A default internal API for getting information about the device's current network and connection status.
  *
  * @author Patches Barrett
- * @since 03/2022
+ * @since 12/2022, version 5.0.0
  */
 internal interface DefaultNetworkInfoApi {
 
     /**
      * An internal API that is used to get the device's current network from the Android OS.
      *
-     * @return WifiInfo or null - The current network or null if the device is not connected to one
+     * @return Network or null - The current network or null if the device is not connected to one
      *
      * @author Patches Barrett
-     * @since 03/2022
+     * @since 12/2022, version 5.0.0
      */
     @RequiresPermission(ACCESS_NETWORK_STATE)
     fun getCurrentNetwork(): Network?
@@ -49,7 +48,7 @@ internal interface DefaultNetworkInfoApi {
      * @return NetworkCapabilities or null - The network capabilities from the the Android OS (can be null)
      *
      * @author Patches Barrett
-     * @since 03/2022
+     * @since 12/2022, version 5.0.0
      */
     @RequiresPermission(ACCESS_NETWORK_STATE)
     fun getNetworkCapabilities(network: Network): NetworkCapabilities?
@@ -62,17 +61,42 @@ internal interface DefaultNetworkInfoApi {
      * @return NetworkCapabilities or null - The link properties from the the Android OS (can be null)
      *
      * @author Patches Barrett
-     * @since 03/2022
+     * @since 12/2022, version 5.0.0
      */
     @RequiresPermission(ACCESS_NETWORK_STATE)
     fun getLinkProperties(network: Network): LinkProperties?
 
+    /**
+     * An internal API that is used to get the SSID of the current network the device is connected to.
+     *
+     * @return String or null - The SSID of the network the device is connected to (or null if not connected to one)
+     *
+     * @author Patches Barrett
+     * @since 12/2022, version 5.0.0
+     */
     @RequiresPermission(ACCESS_NETWORK_STATE)
     fun getSSIDOfTheNetworkTheDeviceIsConnectedTo(): String?
 
+    /**
+     * An internal API that is used to get the BSSID of the current network the device is connected to.
+     *
+     * @return String or null - The BSSID of the network the device is connected to (or null if not connected to one)
+     *
+     * @author Patches Barrett
+     * @since 12/2022, version 5.0.0
+     */
     @RequiresPermission(ACCESS_NETWORK_STATE)
     fun getBSSIDOfTheNetworkTheDeviceIsConnectedTo(): String?
 
+    /**
+     * An internal API that is used to get the IP address of the device from the network it is currently connected to.
+     *
+     * @return String or null - The IP of the device from the network the device is connected to (or null if not
+     * connected to one)
+     *
+     * @author Patches Barrett
+     * @since 12/2022, version 5.0.0
+     */
     @RequiresPermission(ACCESS_NETWORK_STATE)
     fun getIP(): String?
 
@@ -83,7 +107,7 @@ internal interface DefaultNetworkInfoApi {
      * mobile network, otherwise false
      *
      * @author Patches Barrett
-     * @since 03/2022
+     * @since 12/2022, version 5.0.0
      */
     suspend fun isDeviceConnected(): Boolean
 
@@ -93,14 +117,30 @@ internal interface DefaultNetworkInfoApi {
      * @return Boolean - Whether the network is roaming. True if roaming, otherwise false
      *
      * @author Patches Barrett
-     * @since 03/2022
+     * @since 12/2022, version 5.0.0
      */
     @RequiresPermission(ACCESS_NETWORK_STATE)
     fun isDeviceRoaming(): Boolean
 
+    /**
+     * An internal API that is used to check if the device is currently connected to a mobile network.
+     *
+     * @return Boolean - True if the device is connected to mobile network, otherwise false
+     *
+     * @author Patches Barrett
+     * @since 12/2022, version 5.0.0
+     */
     @RequiresPermission(ACCESS_NETWORK_STATE)
     fun isTransportTypeMobile(): Boolean
 
+    /**
+     * An internal API that is used to check if the device is currently connected to a wifi network.
+     *
+     * @return Boolean - True if the device is connected to wifi network, otherwise false
+     *
+     * @author Patches Barrett
+     * @since 12/2022, version 5.0.0
+     */
     @RequiresPermission(ACCESS_NETWORK_STATE)
     fun isTransportTypeWifi(): Boolean
 }
