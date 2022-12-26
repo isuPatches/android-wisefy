@@ -10,6 +10,12 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Write Wisefy release keystore
+          command: echo "$WISEFY_RELEASE_KEYSTORE" | base64 --decode > /keystores/wisefy-release.jks
+      - run:
+          name: Write Wisefy sample release keystore
+          command: echo "$WISEFY_SAMPLE_RELEASE_KEYSTORE" | base64 --decode > /keystores/wisefy-sample-release.jks
+      - run:
           name: Run lint
           command: ./gradlew lintDebug
       - run:
@@ -27,6 +33,12 @@ jobs:
       name: android/android-machine
     steps:
       - checkout
+      - run:
+          name: Write Wisefy release keystore
+          command: echo "$WISEFY_RELEASE_KEYSTORE" | base64 --decode > /keystores/wisefy-release.jks
+      - run:
+          name: Write Wisefy sample release keystore
+          command: echo "$WISEFY_SAMPLE_RELEASE_KEYSTORE" | base64 --decode > /keystores/wisefy-sample-release.jks
       - run:
           name: Assemble debug build
           command: ./gradlew assembleDebug

@@ -11,6 +11,8 @@ A Wifi configuration and util library built in Kotlin for Android.
 
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-WiseFy-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/6011) [![Android Weekly](https://img.shields.io/badge/Android%20Weekly-%23230-blue.svg)](http://androidweekly.net/issues/issue-230)
 
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/isuPatches/android-wisefy/tree/develop.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/isuPatches/android-wisefy/tree/develop)
+
 - [Installation](#installation)
 - [KTX Artifact](#ktx-artifact)
 - [5.0 Rewrite](#50-rewrite)
