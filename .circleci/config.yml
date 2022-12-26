@@ -65,21 +65,21 @@ jobs:
       - write-keystore-files
       - import-gpg-key
       - publish-to-maven-local
-      - run:
-          name: Run lint
-          command: ./gradlew lintDebug
-      - run:
-          name: Run Kotlinter
-          command: ./gradlew lintKotlin
-      - run:
-          name: Run detekt
-          command: ./gradlew detekt
-      - run:
-          name: Run CPD
-          command: ./gradlew cpdCheck
-      - run:
-          name: Assemble debug build
-          command: ./gradlew assembleDebug
+#      - run:
+#          name: Run lint
+#          command: ./gradlew lintDebug
+#      - run:
+#          name: Run Kotlinter
+#          command: ./gradlew lintKotlin
+#      - run:
+#          name: Run detekt
+#          command: ./gradlew detekt
+#      - run:
+#          name: Run CPD
+#          command: ./gradlew cpdCheck
+#      - run:
+#          name: Assemble debug build
+#          command: ./gradlew assembleDebug
       - run:
           name: Assemble release build
           command: ./gradlew assembleRelease

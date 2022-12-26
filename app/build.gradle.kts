@@ -40,8 +40,8 @@ android {
 
     signingConfigs {
         create("release") {
-            storeFile = file(System.getenv("WISEFY_SAMPLE_RELEASE_KEYSTORE_LOCATION") ?:
-                keystoreProperties.getProperty("app.release.keystore_location"))
+            storeFile = File("$rootDir${System.getenv("WISEFY_SAMPLE_RELEASE_KEYSTORE_LOCATION") ?: 
+                keystoreProperties["wisefy.release.keystore_location"].toString()}")
             keyAlias = System.getenv("WISEFY_SAMPLE_RELEASE_KEY_ALIAS") ?:
                 keystoreProperties.getProperty("app.release.key_alias")
             storePassword = System.getenv("WISEFY_SAMPLE_RELEASE_PASSWORD") ?:

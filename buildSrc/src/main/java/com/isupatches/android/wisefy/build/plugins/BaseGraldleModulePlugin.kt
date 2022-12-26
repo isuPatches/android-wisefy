@@ -64,7 +64,7 @@ class BaseGradleModulePlugin : Plugin<Project> {
 
             signingConfigs {
                 create("release${target.name.capitalize(Locale.ROOT)}") {
-                    storeFile = File(System.getenv("WISEFY_RELEASE_KEYSTORE_LOCATION") ?: keystoreProperties["wisefy.release.keystore_location"].toString())
+                    storeFile = File("${target.rootDir}${System.getenv("WISEFY_RELEASE_KEYSTORE_LOCATION") ?: keystoreProperties["wisefy.release.keystore_location"].toString()}")
                     keyAlias = System.getenv("WISEFY_RELEASE_KEY_ALIAS") ?: keystoreProperties["wisefy.release.key_alias"].toString()
                     storePassword = System.getenv("WISEFY_RELEASE_PASSWORD") ?: keystoreProperties["wisefy.release.password"].toString()
                     keyPassword = System.getenv("WISEFY_RELEASE_PASSWORD") ?: keystoreProperties["wisefy.release.password"].toString()
