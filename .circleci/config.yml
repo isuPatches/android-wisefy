@@ -3,12 +3,68 @@ version: 2.1
 orbs:
   android: circleci/android@1.0.3
 
+commands:
+    write-keystore-files:
+      steps:
+        - run:
+            name: Write Wisefy release keystore
+            command: echo "$WISEFY_RELEASE_KEYSTORE" | base64 --decode > keystores/wisefy-release.jks
+        - run:
+            name: Write Wisefy sample release keystore
+            command: echo "$WISEFY_SAMPLE_RELEASE_KEYSTORE" | base64 --decode > keystores/wisefy-sample-release.jks
+    import-gpg-key:
+      steps:
+        - run:
+            name: Write Wisefy GPG Key
+            command: echo -e $GPG_KEY > wisefy-gpg-key.asc
+        - run:
+            name: Import GPG Key
+            command: gpg --import --no-tty --batch --yes wisefy-gpg-key.asc
+    publish-to-maven-local:
+      steps:
+        - run:
+            name: Publish wisefy:core to Maven Local
+            command: ./gradlew wisefy:core:publishToMavenLocal
+        - run:
+            name: Pulblish wisefy:accesspoints to Maven Local
+            command: ./gradlew wisefy:accesspoints:publishToMavenLocal
+        - run:
+            name: Pulblish wisefy:addnetwork to Maven Local
+            command: ./gradlew wisefy:addnetwork:publishToMavenLocal
+        - run:
+            name: Pulblish wisefy:networkconnection to Maven Local
+            command: ./gradlew wisefy:networkconnection:publishToMavenLocal
+        - run:
+            name: Pulblish wisefy:networkinfo to Maven Local
+            command: ./gradlew wisefy:networkinfo:publishToMavenLocal
+        - run:
+            name: Pulblish wisefy:removenetwork to Maven Local
+            command: ./gradlew wisefy:removenetwork:publishToMavenLocal
+        - run:
+            name: Pulblish wisefy:savednetworks to Maven Local
+            command: ./gradlew wisefy:savednetworks:publishToMavenLocal
+        - run:
+            name: Pulblish wisefy:signal to Maven Local
+            command: ./gradlew wisefy:signal:publishToMavenLocal
+        - run:
+            name: Pulblish wisefy:wifi to Maven Local
+            command: ./gradlew wisefy:wifi:publishToMavenLocal
+        - run:
+            name: Pulblish wisefy to Maven Local
+            command: ./gradlew wisefy:publishToMavenLocal
+        - run:
+            name: Pulblish wisefy:ktx to Maven Local
+            command: ./gradlew wisefy:ktx:publishToMavenLocal
+
 jobs:
-  static-analysis:
+  build-and-test:
     executor:
       name: android/android-machine
     steps:
       - checkout
+      - write-keystore-files
+      - import-gpg-key
+      - publish-to-maven-local
       - run:
           name: Run lint
           command: ./gradlew lintDebug
@@ -21,21 +77,14 @@ jobs:
       - run:
           name: Run CPD
           command: ./gradlew cpdCheck
-
-  build:
-    executor:
-      name: android/android-machine
-    steps:
-      - checkout
       - run:
-        name: Assemble debug build
+          name: Assemble debug build
           command: ./gradlew assembleDebug
       - run:
           name: Assemble release build
           command: ./gradlew assembleRelease
 
 workflows:
-  ci:
+  wisefy-ci-cd:
     jobs:
-      - static-analysis
-      - build
+      - build-and-test

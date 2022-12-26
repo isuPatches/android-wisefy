@@ -4,19 +4,12 @@ import com.isupatches.android.wisefy.build.Versions
 import com.isupatches.android.wisefy.build.compose
 import com.isupatches.android.wisefy.build.dagger
 import com.isupatches.android.wisefy.build.navigation
-import java.util.*
 
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
-}
-
-val keystoreProperties: Properties = Properties()
-val keystoreFile: File = rootProject.file("keystore.properties")
-if (keystoreFile.exists()) {
-    keystoreFile.inputStream().use { keystoreProperties.load(it) }
 }
 
 android {
@@ -39,25 +32,19 @@ android {
     }
 
     signingConfigs {
-        getByName("debug") {
-            storeFile = file(keystoreProperties.getProperty("app.debug.keystore_location"))
-            keyAlias = keystoreProperties.getProperty("app.debug.key_alias")
-            storePassword = System.getenv("APP_DEBUG_PASSWORD") ?: keystoreProperties.getProperty("app.debug.password")
-            keyPassword = System.getenv("APP_DEBUG_PASSWORD") ?: keystoreProperties.getProperty("app.debug.password")
-        }
-
         create("release") {
-            storeFile = file(keystoreProperties.getProperty("app.release.keystore_location"))
-            keyAlias = keystoreProperties.getProperty("app.release.key_alias")
-            storePassword = keystoreProperties.getProperty("app.release.password")
-            keyPassword = keystoreProperties.getProperty("app.release.password")
+            storeFile = File("$rootDir/keystores/wisefy-sample-release.jks")
+            keyAlias = System.getenv("WISEFY_SAMPLE_RELEASE_KEY_ALIAS")
+            storePassword = System.getenv("WISEFY_SAMPLE_RELEASE_PASSWORD")
+            keyPassword = System.getenv("WISEFY_SAMPLE_RELEASE_PASSWORD")
         }
     }
 
     buildTypes {
         debug {
             applicationIdSuffix = ".debug"
-            isTestCoverageEnabled = true
+            enableUnitTestCoverage = true
+            enableAndroidTestCoverage = true
             isMinifyEnabled = false
             isShrinkResources = false
             proguardFiles(
@@ -65,11 +52,11 @@ android {
                 "$rootDir/proguard/r8-app-debug.pro"
             )
             testProguardFile(file("$rootDir/proguard/r8-app-test.pro"))
-            signingConfig = signingConfigs.getByName("debug")
         }
 
         release {
-            isTestCoverageEnabled = false
+            enableUnitTestCoverage = false
+            enableAndroidTestCoverage = false
             isMinifyEnabled = false
             isShrinkResources = false
             proguardFiles(

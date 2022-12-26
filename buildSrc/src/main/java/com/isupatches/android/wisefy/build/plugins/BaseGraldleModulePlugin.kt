@@ -21,9 +21,7 @@ import com.isupatches.android.wisefy.build.Dependencies
 import com.isupatches.android.wisefy.build.DependencyConstants.IMPLEMENTATION
 import com.isupatches.android.wisefy.build.Versions
 import java.io.File
-import java.io.FileInputStream
 import java.util.Locale
-import java.util.Properties
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -44,12 +42,6 @@ class BaseGradleModulePlugin : Plugin<Project> {
 
         target.configure<LibraryExtension> {
 
-            val keystorePropertiesFile = target.file("../keystore.properties")
-            val keystoreProperties = Properties()
-            if (keystorePropertiesFile.exists()) {
-                keystoreProperties.load(FileInputStream(keystorePropertiesFile))
-            }
-
             compileSdk = BuildVersions.COMPILE_SDK
             buildToolsVersion = BuildVersions.BUILD_TOOLS
 
@@ -63,18 +55,11 @@ class BaseGradleModulePlugin : Plugin<Project> {
             }
 
             signingConfigs {
-                create("debug${target.name.capitalize(Locale.ROOT)}") {
-                    storeFile = File(System.getenv("WISEFY_DEBUG_KEYSTORE_LOCATION") ?: keystoreProperties["wisefy.debug.keystore_location"].toString())
-                    storePassword = System.getenv("WISEFY_DEBUG_PASSWORD") ?: keystoreProperties["wisefy.debug.password"].toString()
-                    keyPassword = System.getenv("WISEFY_DEBUG_PASSWORD") ?: keystoreProperties["wisefy.debug.password"].toString()
-                    keyAlias = System.getenv("WISEFY_DEBUG_KEY_ALIAS") ?: keystoreProperties["wisefy.debug.key_alias"].toString()
-                }
-
                 create("release${target.name.capitalize(Locale.ROOT)}") {
-                    storeFile = File(System.getenv("WISEFY_RELEASE_KEYSTORE_LOCATION") ?: keystoreProperties["wisefy.release.keystore_location"].toString())
-                    storePassword = System.getenv("WISEFY_RELEASE_PASSWORD") ?: keystoreProperties["wisefy.release.password"].toString()
-                    keyPassword = System.getenv("WISEFY_RELEASE_PASSWORD") ?: keystoreProperties["wisefy.release.password"].toString()
-                    keyAlias = System.getenv("WISEFY_RELEASE_KEY_ALIAS") ?: keystoreProperties["wisefy.release.key_alias"].toString()
+                    storeFile = File("${target.rootDir}/keystores/wisefy-release.jks")
+                    keyAlias = System.getenv("WISEFY_RELEASE_KEY_ALIAS")
+                    storePassword = System.getenv("WISEFY_RELEASE_PASSWORD")
+                    keyPassword = System.getenv("WISEFY_RELEASE_PASSWORD")
                 }
             }
 
@@ -90,7 +75,6 @@ class BaseGradleModulePlugin : Plugin<Project> {
                     )
                     testProguardFile("${target.rootDir}/proguard/r8-lib-test.pro")
                     consumerProguardFile("${target.rootDir}/proguard/r8-lib-consumer.pro")
-                    signingConfig = signingConfigs.getByName("debug${target.name.capitalize(Locale.ROOT)}")
                 }
 
                 release {

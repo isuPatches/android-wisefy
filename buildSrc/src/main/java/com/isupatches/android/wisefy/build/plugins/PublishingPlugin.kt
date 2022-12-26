@@ -16,6 +16,7 @@
 package com.isupatches.android.wisefy.build.plugins
 
 import com.android.build.gradle.LibraryExtension
+import com.isupatches.android.wisefy.build.PublishingConstants
 import java.io.File
 import java.net.URI
 import java.util.Properties
@@ -74,7 +75,9 @@ class PublishingPlugin : Plugin<Project> {
             publishing {
                 singleVariant("debug") {
                     withSourcesJar()
-                    withJavadocJar()
+                    if (System.getenv("GENERATE_DOCS_FOR_DEBUG_PUBLICATIONS") != null) {
+                        withJavadocJar()
+                    }
                 }
 
                 singleVariant("release") {
@@ -88,7 +91,7 @@ class PublishingPlugin : Plugin<Project> {
             configure<PublishingExtension> {
                 publications {
                     create<MavenPublication>("debug") {
-                        groupId = com.isupatches.android.wisefy.build.PublishingConstants.GROUP_ID
+                        groupId = PublishingConstants.GROUP_ID
                         artifactId = project.name
                         version = project.version.toString()
 
@@ -120,7 +123,7 @@ class PublishingPlugin : Plugin<Project> {
                     }
 
                     create<MavenPublication>("release") {
-                        groupId = com.isupatches.android.wisefy.build.PublishingConstants.GROUP_ID
+                        groupId = PublishingConstants.GROUP_ID
                         artifactId = project.name
                         version = project.version.toString()
 

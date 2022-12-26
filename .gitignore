@@ -9,3 +9,4 @@
 /.idea/libraries/*
 /.idea/codestyles/*
 keystore.properties
+*.jks
