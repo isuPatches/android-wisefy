@@ -6,8 +6,8 @@ orbs:
 commands:
     write-keystore-files:
       steps:
-         - run:
-             name: Write Wisefy release keystore
+        - run:
+            name: Write Wisefy release keystore
             command: echo "$WISEFY_RELEASE_KEYSTORE" | base64 --decode > keystores/wisefy-release.jks
         - run:
             name: Write Wisefy sample release keystore
