@@ -12,6 +12,17 @@ commands:
         - run:
             name: Write Wisefy sample release keystore
             command: echo "$WISEFY_SAMPLE_RELEASE_KEYSTORE" | base64 --decode > keystores/wisefy-sample-release.jks
+    import-gpg-key:
+      steps:
+        - run:
+            name: Write Wisefy GPG Key
+            command: echo -e "$GPG_KEY" > wisefy-gpg-key.asc
+        - run:
+            name: Import GPG Key
+            command: gpg --import wisefy-gpg-key.asc
+        - run:
+            name: Decrpyt secrets
+            command: gpg --no-tty --batch --passphrase "$GPG_PASSPHRASE" --pinentry-mode loopback --output secrets.env --decrypt wisefy-gpg-key.asc
     publish-to-maven-local:
       steps:
         - run:
@@ -49,12 +60,13 @@ commands:
             command: ./gradlew wisefy:ktx:publishToMavenLocal
 
 jobs:
-  static-analysis:
+  build-and-test:
     executor:
       name: android/android-machine
     steps:
       - checkout
       - write-keystore-files
+      - import-gpg-key
       - publish-to-maven-local
       - run:
           name: Run lint
@@ -68,20 +80,14 @@ jobs:
       - run:
           name: Run CPD
           command: ./gradlew cpdCheck
-
-  build:
-    executor:
-      name: android/android-machine
-    steps:
-      - checkout
-      - write-keystore-files
-      - publish-to-maven-local
       - run:
           name: Assemble debug build
           command: ./gradlew assembleDebug
+      - run:
+          name: Assemble release build
+          command: ./gradlew assembleRelease
 
 workflows:
   wisefy-ci-cd:
     jobs:
-      - static-analysis
-      - build
+      - build-and-test

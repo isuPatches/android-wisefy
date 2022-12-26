@@ -75,7 +75,6 @@ class PublishingPlugin : Plugin<Project> {
             publishing {
                 singleVariant("debug") {
                     withSourcesJar()
-                    withJavadocJar()
                 }
 
                 singleVariant("release") {
@@ -179,9 +178,7 @@ class PublishingPlugin : Plugin<Project> {
                         System.getenv("SIGNING_KEY") ?: localProperties["signing.key"].toString(),
                         System.getenv("SIGNING_PASSWORD") ?: localProperties["signing.password"].toString(),
                     )
-                    if (System.getenv("IS_CIRCLE_CI") == null) {
-                        sign(publications)
-                    }
+                    sign(publications)
                 }
             }
         }
