@@ -16,5 +16,5 @@
 package com.isupatches.android.wisefy.build
 
 object PublishingConstants {
-    const val GROUP_ID = "com.isupatches.android.wisefy"
+    const val GROUP_ID: String = "com.isupatches.android.wisefy"
 }

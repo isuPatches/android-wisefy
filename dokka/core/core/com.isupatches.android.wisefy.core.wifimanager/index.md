@@ -1,0 +1,11 @@
+//[core](../../index.md)/[com.isupatches.android.wisefy.core.wifimanager](index.md)
+
+# Package com.isupatches.android.wisefy.core.wifimanager
+
+## Functions
+
+| Name | Summary |
+|---|---|
+| [createOpenNetworkSuggestion](create-open-network-suggestion.md) | [androidJvm]<br>@[RequiresApi](https://developer.android.com/reference/kotlin/androidx/annotation/RequiresApi.html)(value = 29)<br>fun [createOpenNetworkSuggestion](create-open-network-suggestion.md)(ssid: [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html), bssid: [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)?): [WifiNetworkSuggestion](https://developer.android.com/reference/kotlin/android/net/wifi/WifiNetworkSuggestion.html)<br>A function that will create the network configuration for a WPA2 network. |
+| [createWPA2NetworkSuggestion](create-w-p-a2-network-suggestion.md) | [androidJvm]<br>@[RequiresApi](https://developer.android.com/reference/kotlin/androidx/annotation/RequiresApi.html)(value = 29)<br>fun [createWPA2NetworkSuggestion](create-w-p-a2-network-suggestion.md)(ssid: [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html), passphrase: [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html), bssid: [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)?): [WifiNetworkSuggestion](https://developer.android.com/reference/kotlin/android/net/wifi/WifiNetworkSuggestion.html)<br>A function that will create the network configuration for a WPA2 network. |
+| [createWPA3NetworkSuggestion](create-w-p-a3-network-suggestion.md) | [androidJvm]<br>@[RequiresApi](https://developer.android.com/reference/kotlin/androidx/annotation/RequiresApi.html)(value = 29)<br>fun [createWPA3NetworkSuggestion](create-w-p-a3-network-suggestion.md)(ssid: [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html), passphrase: [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html), bssid: [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)?): [WifiNetworkSuggestion](https://developer.android.com/reference/kotlin/android/net/wifi/WifiNetworkSuggestion.html)<br>A function that will create the network configuration for a WPA2 network. |

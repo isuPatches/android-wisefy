@@ -39,7 +39,6 @@ object Versions {
     const val DETEKT: String = "1.21.0"
     const val DEXCOUNT: String = "3.1.0"
     const val KOTLINTER_PLUGIN: String = "3.12.0"
-    const val KTLINT: String = "0.47.1"
 
     // Documentation
     const val DOKKA: String = "1.7.10"
