@@ -16,7 +16,7 @@ commands:
       steps:
         - run:
             name: Write Wisefy GPG Key
-            command: echo $GPG_KEY | base64 --decode > wisefy-gpg-key.asc
+            command: echo $GPG_KEY > wisefy-gpg-key.asc
         - run:
             name: Import GPG Key
             command: gpg --import --no-tty --batch --yes wisefy-gpg-key.asc
