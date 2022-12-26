@@ -1,0 +1,30 @@
+#!/bin/zsh
+echo "*******************************"
+echo   "Running git pre-commit hook"
+echo "*******************************"
+
+echo "Running lintKotlin"
+if ! lintKotlinStatus=$(./gradlew lintKotlin --parallel --max-workers=4); then
+  echo "lintKotlin must pass before commit!"
+  exit "$lintKotlinStatus"
+fi
+
+echo "Running detekt"
+if ! detektStatus=$(./gradlew detekt --parallel --max-workers=4); then
+  echo "detekt must pass before commit!"
+  exit "$detektStatus"
+fi
+
+echo "Running lintDebug"
+if ! lintDebugStatus=$(./gradlew lintDebug --parallel --max-workers=4); then
+  echo "lintDebug must pass before commit!"
+  exit "$lintDebugStatus"
+fi
+
+echo "Running cpdCheck"
+if ! cpdCheckStatus=$(./gradlew cpdCheck --parallel --max-workers=4); then
+  echo "cpdCheck must pass before commit!"
+  exit "$cpdCheckStatus"
+fi
+
+echo "'Hard work pays off if you’re patient enough to see it through.' — Michael Chandler"
