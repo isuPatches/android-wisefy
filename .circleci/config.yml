@@ -10,7 +10,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Run lint
+          name: Run lint 
           command: |
             ./gradlew lintDebug
       - run:
