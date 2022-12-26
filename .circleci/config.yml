@@ -4,14 +4,14 @@ orbs:
   android: circleci/android@1.0.3
 
 commands:
-  write-keystore-files:
-    steps:
-      - run:
-          name: Write Wisefy release keystore
-          command: echo "$WISEFY_RELEASE_KEYSTORE" | base64 --decode > keystores/wisefy-release.jks
-      - run:
-          name: Write Wisefy sample release keystore
-          command: echo "$WISEFY_SAMPLE_RELEASE_KEYSTORE" | base64 --decode > keystores/wisefy-sample-release.jks
+    write-keystore-files:
+      steps:
+         - run:
+             name: Write Wisefy release keystore
+            command: echo "$WISEFY_RELEASE_KEYSTORE" | base64 --decode > keystores/wisefy-release.jks
+        - run:
+            name: Write Wisefy sample release keystore
+            command: echo "$WISEFY_SAMPLE_RELEASE_KEYSTORE" | base64 --decode > keystores/wisefy-sample-release.jks
     publish-to-maven-local:
       steps:
         - run:
