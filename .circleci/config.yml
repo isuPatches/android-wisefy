@@ -20,6 +20,9 @@ commands:
         - run:
             name: Import GPG Key
             command: gpg --import --no-tty --batch --yes wisefy-gpg-key.asc
+        - run:
+            name: Decrypt secrets
+            command: gpg --no-tty --batch --passphrase "$GPG_PASSPHRASE" --decrypt wisefy-gpg-key.asc
     publish-to-maven-local:
       steps:
         - run:
