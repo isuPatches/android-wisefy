@@ -20,9 +20,6 @@ commands:
         - run:
             name: Import GPG Key
             command: gpg --import --no-tty --batch --yes wisefy-gpg-key.asc
-        - run:
-            name: Sanity check key
-            command: gpg --list-secret-keys --keyid-format=short
     publish-to-maven-local:
       steps:
         - run:

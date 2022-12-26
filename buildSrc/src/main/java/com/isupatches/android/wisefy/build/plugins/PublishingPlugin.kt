@@ -178,7 +178,7 @@ class PublishingPlugin : Plugin<Project> {
                 configure<SigningExtension> {
                     useInMemoryPgpKeys(
                         System.getenv("SIGNING_KEY_ID") ?: localProperties["signing.keyId"].toString(),
-                        System.getenv("SIGNING_KEY") ?: localProperties["signing.key"].toString(),
+                        System.getenv("GPG_KEY") ?: localProperties["signing.key"].toString(),
                         System.getenv("SIGNING_PASSWORD") ?: localProperties["signing.password"].toString(),
                     )
                     sign(publications)
