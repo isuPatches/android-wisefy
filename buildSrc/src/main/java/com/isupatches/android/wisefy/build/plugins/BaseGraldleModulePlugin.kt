@@ -63,13 +63,6 @@ class BaseGradleModulePlugin : Plugin<Project> {
             }
 
             signingConfigs {
-                create("debug${target.name.capitalize(Locale.ROOT)}") {
-                    storeFile = File(System.getenv("WISEFY_DEBUG_KEYSTORE_LOCATION") ?: keystoreProperties["wisefy.debug.keystore_location"].toString())
-                    storePassword = System.getenv("WISEFY_DEBUG_PASSWORD") ?: keystoreProperties["wisefy.debug.password"].toString()
-                    keyPassword = System.getenv("WISEFY_DEBUG_PASSWORD") ?: keystoreProperties["wisefy.debug.password"].toString()
-                    keyAlias = System.getenv("WISEFY_DEBUG_KEY_ALIAS") ?: keystoreProperties["wisefy.debug.key_alias"].toString()
-                }
-
                 create("release${target.name.capitalize(Locale.ROOT)}") {
                     storeFile = File(System.getenv("WISEFY_RELEASE_KEYSTORE_LOCATION") ?: keystoreProperties["wisefy.release.keystore_location"].toString())
                     storePassword = System.getenv("WISEFY_RELEASE_PASSWORD") ?: keystoreProperties["wisefy.release.password"].toString()
@@ -90,7 +83,6 @@ class BaseGradleModulePlugin : Plugin<Project> {
                     )
                     testProguardFile("${target.rootDir}/proguard/r8-lib-test.pro")
                     consumerProguardFile("${target.rootDir}/proguard/r8-lib-consumer.pro")
-                    signingConfig = signingConfigs.getByName("debug${target.name.capitalize(Locale.ROOT)}")
                 }
 
                 release {

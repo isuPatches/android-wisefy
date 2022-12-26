@@ -39,13 +39,6 @@ android {
     }
 
     signingConfigs {
-        getByName("debug") {
-            storeFile = file(keystoreProperties.getProperty("app.debug.keystore_location"))
-            keyAlias = keystoreProperties.getProperty("app.debug.key_alias")
-            storePassword = System.getenv("APP_DEBUG_PASSWORD") ?: keystoreProperties.getProperty("app.debug.password")
-            keyPassword = System.getenv("APP_DEBUG_PASSWORD") ?: keystoreProperties.getProperty("app.debug.password")
-        }
-
         create("release") {
             storeFile = file(keystoreProperties.getProperty("app.release.keystore_location"))
             keyAlias = keystoreProperties.getProperty("app.release.key_alias")
@@ -57,7 +50,8 @@ android {
     buildTypes {
         debug {
             applicationIdSuffix = ".debug"
-            isTestCoverageEnabled = true
+            enableUnitTestCoverage = true
+            enableAndroidTestCoverage = true
             isMinifyEnabled = false
             isShrinkResources = false
             proguardFiles(
@@ -65,11 +59,11 @@ android {
                 "$rootDir/proguard/r8-app-debug.pro"
             )
             testProguardFile(file("$rootDir/proguard/r8-app-test.pro"))
-            signingConfig = signingConfigs.getByName("debug")
         }
 
         release {
-            isTestCoverageEnabled = false
+            enableUnitTestCoverage = false
+            enableAndroidTestCoverage = false
             isMinifyEnabled = false
             isShrinkResources = false
             proguardFiles(

@@ -35,7 +35,7 @@ jobs:
           command: ./gradlew assembleRelease
 
 workflows:
-  ci:
+  wisefy-ci-cd:
     jobs:
       - static-analysis
       - build
