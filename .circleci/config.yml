@@ -16,10 +16,7 @@ commands:
     steps:
       - run:
           name: Import GPG key
-          command: echo -e "$GPG_KEY" | gpg --import
-      - run:
-          name: Decrpyt secrets
-          command: gpg --no-tty --batch --passphrase "$SIGNING_PASSWORD" --pinentry-mode loopback --output secrets.env --decrypt secrets.env.gpg
+          command: echo $GPG_KEY | base64 --decode | gpg --import --no-tty --batch --yes
   publish-to-maven-local:
       steps:
         - run:
