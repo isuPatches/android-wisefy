@@ -41,7 +41,6 @@ import com.isupatches.android.wisefy.sample.R
 import com.isupatches.android.wisefy.sample.ui.primitives.WisefySampleSizes
 import com.isupatches.android.wisefy.sample.ui.theme.WisefySampleTheme
 
-
 @Composable
 internal fun HomeScreen() {
     WisefySampleTheme {

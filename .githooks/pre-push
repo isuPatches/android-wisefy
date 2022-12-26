@@ -1,0 +1,10 @@
+#!/bin/zsh
+echo "*******************************"
+echo   "Running git pre-push hook"
+echo "*******************************"
+
+# todo@patches Consider building and running unit tests here
+
+# todo@patches Consider building test APK for instrumentation here
+
+echo "'Do the hard jobs first. The easy jobs will take care of themselves.' — Dale Carnegie "
