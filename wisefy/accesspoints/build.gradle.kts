@@ -11,7 +11,7 @@ plugins {
 }
 
 group = PublishingConstants.GROUP_ID
-version = BuildVersions.MODULE_VERSION_NAME
+version = BuildVersions.WISEFY_ACCESS_POINTS_VERSION
 
 android {
     namespace = "com.isupatches.android.wisefy.accesspoints"

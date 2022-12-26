@@ -3,6 +3,7 @@ import com.isupatches.android.wisefy.build.Dependencies
 import com.isupatches.android.wisefy.build.Versions
 import com.isupatches.android.wisefy.build.compose
 import com.isupatches.android.wisefy.build.dagger
+import com.isupatches.android.wisefy.build.gitCommitHash
 import com.isupatches.android.wisefy.build.navigation
 
 plugins {
@@ -25,10 +26,24 @@ android {
         minSdk = BuildVersions.MIN_SDK
         targetSdk = BuildVersions.TARGET_SDK
 
-        versionCode = BuildVersions.MODULE_VERSION_CODE
-        versionName = BuildVersions.MODULE_VERSION_NAME
+        versionCode = BuildVersions.Sample.VERSION_CODE
+        versionName = BuildVersions.Sample.VERSION_NAME
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "GIT_HASH", "\"${gitCommitHash()}\"")
+
+        buildConfigField("String", "WISEFY_CORE_VERSION","\"${BuildVersions.WISEFY_CORE_VERSION}\"")
+        buildConfigField("String", "WISEFY_ACCESS_POINTS_VERSION","\"${BuildVersions.WISEFY_ACCESS_POINTS_VERSION}\"")
+        buildConfigField("String", "WISEFY_ADD_NETWORK_VERSION","\"${BuildVersions.WISEFY_ADD_NETWORK_VERSION}\"")
+        buildConfigField("String", "WISEFY_NETWORK_CONNECTION_VERSION","\"${BuildVersions.WISEFY_NETWORK_CONNECTION_VERSION}\"")
+        buildConfigField("String", "WISEFY_NETWORK_INFO_VERSION","\"${BuildVersions.WISEFY_NETWORK_INFO_VERSION}\"")
+        buildConfigField("String", "WISEFY_REMOVE_NETWORK_VERSION","\"${BuildVersions.WISEFY_REMOVE_NETWORK_VERSION}\"")
+        buildConfigField("String", "WISEFY_SAVED_NETWORKS_VERSION","\"${BuildVersions.WISEFY_SAVED_NETWORKS_VERSION}\"")
+        buildConfigField("String", "WISEFY_SIGNAL_VERSION","\"${BuildVersions.WISEFY_SIGNAL_VERSION}\"")
+        buildConfigField("String", "WISEFY_WIFI_VERSION","\"${BuildVersions.WISEFY_WIFI_VERSION}\"")
+        buildConfigField("String", "WISEFY_VERSION", "\"${BuildVersions.WISEFY_VERSION}\"")
+        buildConfigField("String", "WISEFY_KTX_VERSION", "\"${BuildVersions.WISEFY_KTX_VERSION}\"")
     }
 
     signingConfigs {

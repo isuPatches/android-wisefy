@@ -60,4 +60,18 @@
     <string name="show_password">Show password</string>
 
     <string name="rssi_input_invalid">Invalid RSSI input</string>
+
+    <string name="author_and_version_args">Patches Barrett - v%1$s build %2$s-%3$s</string>
+
+    <string name="core_version_args">wisefy:core:%s</string>
+    <string name="accesspoints_version_args">wisefy:accesspoints:%s</string>
+    <string name="addnetwork_version_args">wisefy:addnetwork:%s</string>
+    <string name="networkconnection_version_args">wisefy:networkconnection:%s</string>
+    <string name="networkinfo_version_args">wisefy:networkinfo:%s</string>
+    <string name="removenetwork_version_args">wisefy:removenetwork:%s</string>
+    <string name="savednetworks_version_args">wisefy:savednetworks:%s</string>
+    <string name="signal_version_args">wisefy:signal:%s</string>
+    <string name="wifi_version_args">wisefy:wifi:%s</string>
+    <string name="wisefy_version_args">wisefy:%s</string>
+    <string name="wisefy_ktx_version_args">wisefy:ktx:%s</string>
 </resources>

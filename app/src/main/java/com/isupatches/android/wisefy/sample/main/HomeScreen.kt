@@ -20,6 +20,9 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -33,9 +36,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import com.isupatches.android.wisefy.sample.BuildConfig
 import com.isupatches.android.wisefy.sample.R
 import com.isupatches.android.wisefy.sample.ui.primitives.WisefySampleSizes
 import com.isupatches.android.wisefy.sample.ui.theme.WisefySampleTheme
+
 
 @Composable
 internal fun HomeScreen() {
@@ -46,7 +51,6 @@ internal fun HomeScreen() {
                 .verticalScroll(rememberScrollState())
                 .padding(
                     top = WisefySampleSizes.WisefySampleTopMargin,
-                    bottom = WisefySampleSizes.WisefySampleBottomMargin,
                     start = WisefySampleSizes.WisefySampleHorizontalMargins,
                     end = WisefySampleSizes.WisefySampleHorizontalMargins
                 )
@@ -75,6 +79,209 @@ internal fun HomeScreen() {
                     Text(
                         text = stringResource(R.string.wisefy_sample_description),
                         style = MaterialTheme.typography.subtitle1,
+                        textAlign = TextAlign.Center,
+                        color = MaterialTheme.colors.onBackground
+                    )
+                }
+            }
+            Row(
+                modifier =
+                Modifier.padding(
+                    top = WisefySampleSizes.XLarge,
+                    start = WisefySampleSizes.Large,
+                    end = WisefySampleSizes.Large
+                )
+            ) {
+                Text(
+                    text = stringResource(R.string.core_version_args, BuildConfig.WISEFY_CORE_VERSION),
+                    style = MaterialTheme.typography.body2,
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colors.onBackground
+                )
+            }
+            Row(
+                Modifier
+                    .padding(
+                        top = WisefySampleSizes.Small,
+                        start = WisefySampleSizes.Large,
+                        end = WisefySampleSizes.Large
+                    )
+            ) {
+                Text(
+                    text = stringResource(R.string.accesspoints_version_args, BuildConfig.WISEFY_ACCESS_POINTS_VERSION),
+                    style = MaterialTheme.typography.body2,
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colors.onBackground
+                )
+            }
+            Row(
+                Modifier
+                    .padding(
+                        top = WisefySampleSizes.Small,
+                        start = WisefySampleSizes.Large,
+                        end = WisefySampleSizes.Large
+                    )
+            ) {
+                Text(
+                    text = stringResource(R.string.addnetwork_version_args, BuildConfig.WISEFY_ADD_NETWORK_VERSION),
+                    style = MaterialTheme.typography.body2,
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colors.onBackground
+                )
+            }
+            Row(
+                Modifier
+                    .padding(
+                        top = WisefySampleSizes.Small,
+                        start = WisefySampleSizes.Large,
+                        end = WisefySampleSizes.Large
+                    )
+            ) {
+                Text(
+                    text = stringResource(
+                        R.string.networkconnection_version_args,
+                        BuildConfig.WISEFY_NETWORK_CONNECTION_VERSION
+                    ),
+                    style = MaterialTheme.typography.body2,
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colors.onBackground
+                )
+            }
+            Row(
+                Modifier
+                    .padding(
+                        top = WisefySampleSizes.Small,
+                        start = WisefySampleSizes.Large,
+                        end = WisefySampleSizes.Large
+                    )
+            ) {
+                Text(
+                    text = stringResource(R.string.networkinfo_version_args, BuildConfig.WISEFY_NETWORK_INFO_VERSION),
+                    style = MaterialTheme.typography.body2,
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colors.onBackground
+                )
+            }
+            Row(
+                Modifier
+                    .padding(
+                        top = WisefySampleSizes.Small,
+                        start = WisefySampleSizes.Large,
+                        end = WisefySampleSizes.Large
+                    )
+            ) {
+                Text(
+                    text = stringResource(
+                        R.string.removenetwork_version_args,
+                        BuildConfig.WISEFY_REMOVE_NETWORK_VERSION
+                    ),
+                    style = MaterialTheme.typography.body2,
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colors.onBackground
+                )
+            }
+            Row(
+                Modifier
+                    .padding(
+                        top = WisefySampleSizes.Small,
+                        start = WisefySampleSizes.Large,
+                        end = WisefySampleSizes.Large
+                    )
+            ) {
+                Text(
+                    text = stringResource(
+                        R.string.savednetworks_version_args,
+                        BuildConfig.WISEFY_SAVED_NETWORKS_VERSION
+                    ),
+                    style = MaterialTheme.typography.body2,
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colors.onBackground
+                )
+            }
+            Row(
+                Modifier
+                    .padding(
+                        top = WisefySampleSizes.Small,
+                        start = WisefySampleSizes.Large,
+                        end = WisefySampleSizes.Large
+                    )
+            ) {
+                Text(
+                    text = stringResource(R.string.signal_version_args, BuildConfig.WISEFY_SIGNAL_VERSION),
+                    style = MaterialTheme.typography.body2,
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colors.onBackground
+                )
+            }
+            Row(
+                Modifier
+                    .padding(
+                        top = WisefySampleSizes.Small,
+                        start = WisefySampleSizes.Large,
+                        end = WisefySampleSizes.Large
+                    )
+            ) {
+                Text(
+                    text = stringResource(R.string.wifi_version_args, BuildConfig.WISEFY_WIFI_VERSION),
+                    style = MaterialTheme.typography.body2,
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colors.onBackground
+                )
+            }
+            Row(
+                Modifier
+                    .padding(
+                        top = WisefySampleSizes.Small,
+                        start = WisefySampleSizes.Large,
+                        end = WisefySampleSizes.Large
+                    )
+            ) {
+                Text(
+                    text = stringResource(R.string.wisefy_version_args, BuildConfig.WISEFY_VERSION),
+                    style = MaterialTheme.typography.body2,
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colors.onBackground
+                )
+            }
+            Row(
+                modifier = Modifier
+                    .padding(
+                        bottom = WisefySampleSizes.XLarge,
+                        top = WisefySampleSizes.Small,
+                        start = WisefySampleSizes.Large,
+                        end = WisefySampleSizes.Large
+                    )
+            ) {
+                Text(
+                    text = stringResource(R.string.wisefy_ktx_version_args, BuildConfig.WISEFY_KTX_VERSION),
+                    style = MaterialTheme.typography.body2,
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colors.onBackground
+                )
+            }
+            Row(Modifier.weight(1f)) {
+                Spacer(modifier = Modifier.fillMaxSize())
+            }
+            Row {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(
+                            top = WisefySampleSizes.Large,
+                            start = WisefySampleSizes.Medium,
+                            bottom = WisefySampleSizes.Large,
+                            end = WisefySampleSizes.Medium
+                        ),
+                    contentAlignment = Alignment.BottomCenter
+                ) {
+                    Text(
+                        text = stringResource(
+                            R.string.author_and_version_args,
+                            BuildConfig.VERSION_NAME,
+                            BuildConfig.VERSION_CODE,
+                            BuildConfig.GIT_HASH
+                        ),
+                        style = MaterialTheme.typography.caption,
                         textAlign = TextAlign.Center,
                         color = MaterialTheme.colors.onBackground
                     )

@@ -22,6 +22,20 @@ object BuildVersions {
     const val TARGET_SDK: Int = 33
     const val MIN_SDK: Int = 23
 
-    const val MODULE_VERSION_CODE: Int = 18
-    const val MODULE_VERSION_NAME: String = "5.0.0"
+    object Sample {
+        const val VERSION_CODE: Int = 18
+        const val VERSION_NAME: String = "5.0.0"
+    }
+
+    const val WISEFY_CORE_VERSION: String = "5.0.0"
+    const val WISEFY_ACCESS_POINTS_VERSION: String = "5.0.0"
+    const val WISEFY_ADD_NETWORK_VERSION: String = "5.0.0"
+    const val WISEFY_NETWORK_CONNECTION_VERSION: String = "5.0.0"
+    const val WISEFY_NETWORK_INFO_VERSION: String = "5.0.0"
+    const val WISEFY_REMOVE_NETWORK_VERSION: String = "5.0.0"
+    const val WISEFY_SAVED_NETWORKS_VERSION: String = "5.0.0"
+    const val WISEFY_SIGNAL_VERSION: String = "5.0.0"
+    const val WISEFY_WIFI_VERSION: String = "5.0.0"
+    const val WISEFY_VERSION: String = "5.0.0"
+    const val WISEFY_KTX_VERSION: String = "5.0.0"
 }
