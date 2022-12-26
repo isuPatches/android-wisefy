@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="change_network" type="id"/>
+    <item name="disable_wifi" type="id"/>
+    <item name="enable_wifi" type="id"/>
+    <item name="get_current_network" type="id"/>
+    <item name="get_nearby_access_points" type="id" />
+    <item name="get_network_connection_status" type="id" />
+    <item name="get_saved_networks" type="id" />
+    <item name="is_wifi_enabled" type="id" />
+    <item name="signal_functions" type="id" />
+</resources>

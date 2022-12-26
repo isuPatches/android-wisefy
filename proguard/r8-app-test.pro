@@ -1,0 +1,1 @@
+-include r8-app-debug.pro

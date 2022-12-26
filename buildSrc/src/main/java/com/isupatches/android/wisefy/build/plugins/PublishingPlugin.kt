@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Patches Klinefelter
+ * Copyright 2022 Patches Barrett
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,9 @@
 package com.isupatches.android.wisefy.build.plugins
 
 import com.android.build.gradle.LibraryExtension
+import java.io.File
+import java.net.URI
+import java.util.Properties
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaBasePlugin
@@ -27,12 +30,9 @@ import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.get
 import org.gradle.plugins.signing.SigningExtension
-import java.io.File
-import java.net.URI
-import java.util.Properties
 
 private const val DEVELOPER_ID = "isuPatches"
-private const val DEVELOPER_NAME = "Patches Klinefelter"
+private const val DEVELOPER_NAME = "Patches Barrett"
 private const val DEVELOPER_EMAIL = "isuPatches@yahoo.com"
 
 private const val LIBRARY_CONNECTION = "https://github.com/isuPatches/android-wisefy.git"
@@ -58,10 +58,10 @@ class PublishingPlugin : Plugin<Project> {
 
         target.configure<LibraryExtension> {
 
-            target.tasks.create<Jar>("kdocJar") {
+            target.tasks.create<Jar>("javadocJar") {
                 group = JavaBasePlugin.DOCUMENTATION_GROUP
                 description = "Assembles Kotlin docs with Dokka"
-                archiveClassifier.set("kdoc")
+                archiveClassifier.set("javadoc")
                 from(target.tasks.getByName("dokkaGfm"))
                 dependsOn(target.tasks.getByName("dokkaGfm"))
             }
@@ -69,6 +69,18 @@ class PublishingPlugin : Plugin<Project> {
             target.tasks.create<Jar>("sourcesJar") {
                 archiveClassifier.set("sources")
                 from(sourceSets.getByName("main").java.srcDirs)
+            }
+
+            publishing {
+                singleVariant("debug") {
+                    withSourcesJar()
+                    withJavadocJar()
+                }
+
+                singleVariant("release") {
+                    withSourcesJar()
+                    withJavadocJar()
+                }
             }
         }
 
@@ -81,9 +93,6 @@ class PublishingPlugin : Plugin<Project> {
                         version = project.version.toString()
 
                         from(project.components["debug"])
-
-                        artifact(tasks["sourcesJar"])
-                        artifact(tasks["kdocJar"])
 
                         pom {
                             name.set(LIBRARY_NAME)
@@ -116,9 +125,6 @@ class PublishingPlugin : Plugin<Project> {
                         version = project.version.toString()
 
                         from(project.components["release"])
-
-                        artifact(tasks["sourcesJar"])
-                        artifact(tasks["kdocJar"])
 
                         pom {
                             name.set(LIBRARY_NAME)
@@ -174,7 +180,6 @@ class PublishingPlugin : Plugin<Project> {
                     )
                     sign(publications)
                 }
-
             }
         }
     }

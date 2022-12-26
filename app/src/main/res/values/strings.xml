@@ -5,20 +5,25 @@
     <!-- Main Screen -->
     <string name="wisefy">Wisefy</string>
     <string name="wisefy_sample_description">
-        Explore the various uses for Wisefy by poking around this sample app based on MVP architecture.
+        Explore the various uses for Wisefy by poking around this sample app powered by HILT, Jetpack Compose,
+        and the Jetpack Navigation component.
     </string>
 
     <!-- Shared -->
-    <string name="network_password">Network Password</string>
+    <string name="network_passphrase">Network Passphrase</string>
     <string name="network_name">Network Name</string>
 
     <string name="no">No</string>
     <string name="yes">Yes</string>
     <string name="ok">OK</string>
-    <string name="info">Info</string>
+
+    <string name="ssid">SSID</string>
+    <string name="bssid">BSSID</string>
 
     <string name="wisefy_async_error">Wisefy Async Error</string>
-    <string name="wisefy_async_error_descriptions_args">An async error occurred with Wisefy.  Exception message: %s</string>
+    <string name="wisefy_async_error_descriptions_args">
+        An async error occurred with Wisefy.\n\nMessage: %1$s\n\nCause: %2$s
+    </string>
 
     <string name="access_points_args">Access points: %s</string>
     <string name="no_access_points_found">No access points found</string>
@@ -28,10 +33,31 @@
 
     <!-- Permissions -->
     <string name="permission_error">Permission Error</string>
-    <string name="permission_error_unhandled_request_code_args">
-        Unhandled permission requested.  Request code: %d
-    </string>
-    <string name="android_q_wifi_message">Starting with Android Q, applications are not allowed to enable or disable Wi-Fi</string>
-    <string name="android_q_notice">Android Q Notice</string>
 
+    <!-- Input Errors -->
+    <string name="ssid_input_empty">Please enter in an SSID</string>
+    <string name="ssid_input_not_valid_unicode">Input for SSID was not valid unicode</string>
+    <string name="ssid_input_too_short">Input for SSID must be at least 2 characters</string>
+    <string name="ssid_input_too_long">Input for SSID must be 32 characters or under</string>
+    <string name="ssid_input_invalid_characters">Input for SSID must not contain ? \" $ [ \\ ] or + </string>
+    <string name="ssid_input_invalid_start_characters">Input for SSID must not start with ! # or ;</string>
+    <string name="ssid_input_leading_or_trailing_spaces">
+        Input for SSID must not contain leading or trailing spaces
+    </string>
+    <string name="ssid_input_invalid">Invalid SSID input</string>
+
+    <string name="passphrase_input_empty">Please enter in a passphrase</string>
+    <string name="passphrase_input_not_valid_ascii">Input for passphrase was not valid ASCII</string>
+    <string name="passphrase_input_too_short">Input for passphrase must be at least 8 characters</string>
+    <string name="passphrase_input_too_long">Input for passphrase must be 63 characters or under</string>
+    <string name="passphrase_input_invalid">Invalid passphrase input</string>
+
+    <string name="bssid_input_invalid">Invalid BSSID input</string>
+    <string name="bssid_input_empty">Please enter in a BSSID</string>
+    <string name="bssid_input_improper_format">Input for bssid was not in a valid MAC address format</string>
+
+    <string name="hide_password">Hide password</string>
+    <string name="show_password">Show password</string>
+
+    <string name="rssi_input_invalid">Invalid RSSI input</string>
 </resources>

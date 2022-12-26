@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Patches Klinefelter
+ * Copyright 2022 Patches Barrett
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,18 +20,33 @@ object Dependencies {
     object AndroidX {
         const val ANNOTATION: String = "androidx.annotation:annotation:${Versions.ANDROIDX_ANNOTATION}"
         const val APPCOMPAT: String = "androidx.appcompat:appcompat:${Versions.ANDROIDX_APPCOMPAT}"
-        const val CONSTRAINT_LAYOUT: String = "androidx.constraintlayout:constraintlayout:" +
-            Versions.ANDROIDX_CONSTRAINT_LAYOUT
+
+        object Activity {
+            const val COMPOSE: String = "androidx.activity:activity-compose:${Versions.ANDROIDX_ACTIVITY}"
+        }
+
+        object Compose {
+            const val ANIMATION: String = "androidx.compose.animation:animation:${Versions.ANDROIDX_COMPOSE}"
+            const val MATERIAL: String = "androidx.compose.material:material:${Versions.ANDROIDX_COMPOSE}"
+            const val MATERIAL_ICONS_EXTENDED: String = "androidx.compose.material:material-icons-extended:${Versions.ANDROIDX_COMPOSE}"
+            const val UI: String = "androidx.compose.ui:ui:${Versions.ANDROIDX_COMPOSE}"
+            const val UI_TOOLING: String = "androidx.compose.ui:ui-tooling:${Versions.ANDROIDX_COMPOSE}"
+            const val UI_TOOLING_PREVIEW: String = "androidx.compose.ui:ui-tooling-preview:${Versions.ANDROIDX_COMPOSE}"
+        }
+
         const val CORE_KTX: String = "androidx.core:core-ktx:${Versions.ANDROIDX_CORE_KTX}"
 
+        const val DATA_STORE: String = "androidx.datastore:datastore-preferences:${Versions.ANDROIDX_DATA_STORE}"
+
         object Lifecycle {
-            const val RUNTIME: String = "androidx.lifecycle:lifecycle-runtime:${Versions.ANDROIDX_LIFECYCLE}"
-            const val COMPILER: String = "androidx.lifecycle:lifecycle-compiler:${Versions.ANDROIDX_LIFECYCLE}"
+            val VIEW_MODEL_COMPOSE: String = "androidx.lifecycle:lifecycle-viewmodel-compose:" +
+                "${Versions.ANDROIDX_LIFECYCLE}"
         }
 
         object Navigation {
-            const val FRAGMENT = "androidx.navigation:navigation-fragment:${Versions.ANDROIDX_NAVIGATION}"
-            const val UI ="androidx.navigation:navigation-ui:${Versions.ANDROIDX_NAVIGATION}"
+            const val COMPOSE: String = "androidx.navigation:navigation-compose:${Versions.ANDROIDX_NAVIGATION}"
+            const val FRAGMENT: String = "androidx.navigation:navigation-fragment:${Versions.ANDROIDX_NAVIGATION}"
+            const val UI: String = "androidx.navigation:navigation-ui:${Versions.ANDROIDX_NAVIGATION}"
         }
     }
 
@@ -40,16 +55,10 @@ object Dependencies {
         const val COROUTINES: String = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.COROUTINES}"
     }
 
-    object Google {
-        const val MATERIAL: String = "com.google.android.material:material:${Versions.GOOGLE_MATERIAL}"
-    }
-
     object Dagger {
-        const val CORE = "com.google.dagger:dagger:${Versions.DAGGER}"
-        const val COMPILER = "com.google.dagger:dagger-compiler:${Versions.DAGGER}"
-        const val ANDROID_SUPPORT = "com.google.dagger:dagger-android-support:${Versions.DAGGER}"
-        const val ANDROID_PROCESSOR = "com.google.dagger:dagger-android-processor:${Versions.DAGGER}"
+        const val CORE: String = "com.google.dagger:dagger:${Versions.DAGGER}"
+        const val COMPILER: String = "com.google.dagger:dagger-compiler:${Versions.DAGGER}"
+        const val HILT_ANDROID: String = "com.google.dagger:hilt-android:${Versions.DAGGER}"
+        const val HILT_COMPILER: String = "com.google.dagger:hilt-compiler:${Versions.DAGGER}"
     }
-
-    const val VIEWGLU = "com.isupatches.android:viewglu:${Versions.VIEWGLU_VERSION}"
 }

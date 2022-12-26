@@ -4,7 +4,7 @@ import de.aaschmid.gradle.plugins.cpd.CpdPlugin
 
 buildscript {
     repositories {
-        mavenCentral()
+        maven(url = "https://plugins.gradle.org/m2/")
     }
 
     dependencies {

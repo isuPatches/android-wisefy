@@ -1,0 +1,41 @@
+version: 2.1
+
+orbs:
+  android: circleci/android@1.0.3
+
+jobs:
+  static-analysis:
+    executor:
+      name: android/android-machine
+    steps:
+      - checkout
+      - run:
+          name: Run lint
+          command: ./gradlew lintDebug
+      - run:
+          name: Run Kotlinter
+          command: ./gradlew lintKotlin
+      - run:
+          name: Run detekt
+          command: ./gradlew detekt
+      - run:
+          name: Run CPD
+          command: ./gradlew cpdCheck
+
+  build:
+    executor:
+      name: android/android-machine
+    steps:
+      - checkout
+      - run:
+        name: Assemble debug build
+          command: ./gradlew assembleDebug
+      - run:
+          name: Assemble release build
+          command: ./gradlew assembleRelease
+
+workflows:
+  ci:
+    jobs:
+      - static-analysis
+      - build

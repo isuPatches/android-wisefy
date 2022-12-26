@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Patches Klinefelter
+ * Copyright 2022 Patches Barrett
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,65 +19,72 @@ import com.isupatches.android.wisefy.accesspoints.AccessPointsApi
 import com.isupatches.android.wisefy.accesspoints.AccessPointsApiAsync
 import com.isupatches.android.wisefy.addnetwork.AddNetworkApi
 import com.isupatches.android.wisefy.addnetwork.AddNetworkApiAsync
-import com.isupatches.android.wisefy.frequency.FrequencyApi
-import com.isupatches.android.wisefy.frequency.FrequencyApiAsync
 import com.isupatches.android.wisefy.networkconnection.NetworkConnectionApi
 import com.isupatches.android.wisefy.networkconnection.NetworkConnectionApiAsync
-import com.isupatches.android.wisefy.networkconnectionstatus.NetworkConnectionStatusApi
 import com.isupatches.android.wisefy.networkinfo.NetworkInfoApi
 import com.isupatches.android.wisefy.networkinfo.NetworkInfoApiAsync
 import com.isupatches.android.wisefy.removenetwork.RemoveNetworkApi
 import com.isupatches.android.wisefy.removenetwork.RemoveNetworkApiAsync
 import com.isupatches.android.wisefy.savednetworks.SavedNetworkApi
 import com.isupatches.android.wisefy.savednetworks.SavedNetworkApiAsync
-import com.isupatches.android.wisefy.security.SecurityApi
 import com.isupatches.android.wisefy.signal.SignalApi
 import com.isupatches.android.wisefy.wifi.WifiApi
 import com.isupatches.android.wisefy.wifi.WifiApiAsync
 
 /**
- * The culmination of APIs that create WiseFy's public interface.
+ * The culmination of APIs that create Wisefy's public interface.
  *
  * @see AccessPointsApi
  * @see AccessPointsApiAsync
  * @see AddNetworkApi
  * @see AddNetworkApiAsync
- * @see FrequencyApi
- * @see FrequencyApiAsync
  * @see NetworkConnectionApi
  * @see NetworkConnectionApiAsync
- * @see NetworkConnectionStatusApi
  * @see NetworkInfoApi
  * @see NetworkInfoApiAsync
  * @see RemoveNetworkApi
  * @see RemoveNetworkApiAsync
  * @see SavedNetworkApi
  * @see SavedNetworkApiAsync
- * @see SecurityApi
  * @see SignalApi
  * @see WifiApi
  * @see WifiApiAsync
  *
- * @author Patches Klinefelter
- * @since 07/2021
+ * @author Patches Barrett
+ * @since 12/2022, version 5.0.0
  */
 interface WisefyApi :
     AccessPointsApi,
     AccessPointsApiAsync,
     AddNetworkApi,
     AddNetworkApiAsync,
-    FrequencyApi,
-    FrequencyApiAsync,
     NetworkConnectionApi,
     NetworkConnectionApiAsync,
-    NetworkConnectionStatusApi,
     NetworkInfoApi,
     NetworkInfoApiAsync,
     RemoveNetworkApi,
     RemoveNetworkApiAsync,
     SavedNetworkApi,
     SavedNetworkApiAsync,
-    SecurityApi,
     SignalApi,
     WifiApi,
-    WifiApiAsync
+    WifiApiAsync {
+
+    /**
+     * The initialization function for Wisefy.  This is recommended to be called in the `onCreate` of the activity for
+     * the application.
+     *
+     * @author Patches Barrett
+     * @since 12/2022, version 5.0.0
+     */
+    fun init()
+
+    /**
+     * The cleanup function for Wisefy.  This is recommended to be called in the `onDestroy` of the activity for the
+     * application.
+     *
+     * @author Patches Barrett
+     * @since 12/2022, version 5.0.0
+     */
+    fun dump()
+}

@@ -2,46 +2,51 @@
 <resources>
 
     <!-- Actions -->
+    <string name="change_network">Change Network</string>
     <string name="disable_wifi">Disable Wifi</string>
     <string name="enabled_wifi">Enabled Wifi</string>
     <string name="get_current_network">Get Current Network</string>
-    <string name="get_current_network_info">Get Current Network Info</string>
-    <string name="get_frequency">Get Frequency</string>
-    <string name="get_ip">Get IP</string>
     <string name="get_nearby_access_points">Get Nearby Access Points</string>
+    <string name="get_network_connection_status">Get Network Connection Status</string>
     <string name="get_saved_networks">Get Saved Networks</string>
+    <string name="is_wifi_enabled">Is Wifi Enabled</string>
+    <string name="signal_functions">Signal Functions</string>
 
     <!-- Results -->
-    <string name="add_wpa3_android_q_notice">WPA3 networks are not supported until Android Q</string>
+    <string name="success_changing_network_args">Success changing network. Result: %s</string>
+    <string name="failure_changing_network_args">Failure changing network. Result: %s</string>
 
-    <string name="wisefy_action_result">WiseFy Action Result</string>
+    <string name="success_disabling_wifi_args">Success disabling wifi. Result: %s</string>
+    <string name="failure_disabling_wifi_args">Failure disabling wifi. Result: %s</string>
 
-    <string name="wifi_disabled">Wifi disabled!</string>
-    <string name="failure_disabling_wifi">Failure disabling wifi</string>
-
-    <string name="wifi_enabled">Wifi enabled!</string>
-    <string name="failure_enabling_wifi">Failure enabling wifi</string>
+    <string name="success_enabling_wifi_args">Success enabling wifi. Result: %s</string>
+    <string name="failure_enabling_wifi_args">Failure enabling wifi. Result: %s</string>
 
     <string name="current_network_args">Current network: %s</string>
     <string name="no_current_network">No current network</string>
 
-    <string name="current_network_info_args">Current network info: %s</string>
-    <string name="no_current_network_info">No current network info</string>
+    <string name="wifi_is_enabled">Wifi is enabled</string>
+    <string name="wifi_is_disabled">Wifi is disabled</string>
 
-    <string name="frequency_args">Frequency: %d</string>
-    <string name="failure_retrieving_frequency">Failure retrieving frequency</string>
-
-    <string name="ip_args">IP: %s</string>
-    <string name="failure_retrieving_ip">Failure retrieving IP</string>
+    <string name="access_point_header_args">%1$s / %2$s</string>
+    <string name="access_point_raw_value_args">%s</string>
+    <string name="access_point_is_saved_by_ssid_args">Saved by SSID: %b</string>
+    <string name="access_point_is_saved_by_bssid_args">Saved by BSSID: %b</string>
+    <string name="access_point_security_capabilities_args">Security capabilities: %s</string>
 
     <!-- Permissions -->
-    <string name="permission_error_get_frequency">
-        Permissions for getting the frequency of the device\'s current network are denied
-    </string>
-    <string name="permission_error_get_ip">Permissions for getting the device\'s IP are denied</string>
+    <string name="permission_error_disable_wifi">Permissions for disabling wifi are denied</string>
+    <string name="permission_error_enable_wifi">Permissions for enabling wifi are denied</string>
+    <string name="permission_error_get_current_network">Permissions for getting the current network are denied</string>
     <string name="permission_error_get_nearby_access_points">
         Permissions for getting nearby access points are denied
     </string>
+    <string name="permission_error_get_network_connection_status">
+        Permissions for getting network connection status are denied
+    </string>
     <string name="permission_error_get_saved_networks">Permissions for getting saved networks are denied</string>
+    <string name="permission_error_is_wifi_enabled">Permissions for checking if wifi is enabled are denied</string>
 
+    <!-- Other -->
+    <string name="change_network_called_pre_android_q">Change network cannot be called on pre-Android Q devices</string>
 </resources>

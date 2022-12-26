@@ -1,11 +1,11 @@
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
-import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.dokka.Platform.jvm
+import org.jetbrains.dokka.gradle.DokkaMultiModuleTask
+import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 buildscript {
-
     repositories {
         google()
         mavenCentral()
@@ -16,6 +16,7 @@ buildscript {
         val versions = com.isupatches.android.wisefy.build.Versions
         classpath("com.android.tools.build:gradle:${versions.AGP}")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.KOTLIN}")
+        classpath("com.google.dagger:hilt-android-gradle-plugin:${versions.DAGGER}")
 
         /**
          * Ideally this would be migrated out of the project level build.gradle.kts to the [DocumentationPlugin],
@@ -27,9 +28,10 @@ buildscript {
 
 allprojects {
     repositories {
+        mavenLocal()
         google()
         mavenCentral()
-        maven("https://oss.sonatype.org/content/repositories/snapshots")
+        maven(url = "https://oss.sonatype.org/content/repositories/snapshots")
     }
 
     tasks.withType(Test::class).configureEach {
@@ -57,7 +59,12 @@ allprojects {
 
     tasks {
         withType<KotlinCompile> {
-            kotlinOptions.jvmTarget = "11"
+            kotlinOptions {
+                jvmTarget = "11"
+                allWarningsAsErrors = true
+                // https://issuetracker.google.com/issues/217593040
+                freeCompilerArgs = freeCompilerArgs + "-Xjvm-default=all"
+            }
         }
 
         withType<JavaCompile> {
@@ -82,7 +89,7 @@ subprojects {
      * but currently the buildSrc directory cannot see [DokkaTask] or [jvm] and unsure why.
      */
     tasks.withType<DokkaTask>().configureEach {
-        outputDirectory.set(rootProject.projectDir.resolve("documentation"))
+        outputDirectory.set(project.projectDir.resolve("dokka"))
         moduleName.set(project.name)
         suppressObviousFunctions.set(false)
         dokkaSourceSets {
@@ -93,12 +100,18 @@ subprojects {
                 reportUndocumented.set(true)
                 skipEmptyPackages.set(false)
                 platform.set(jvm)
-                jdkVersion.set(8)
+                jdkVersion.set(11)
                 noStdlibLink.set(false)
                 noJdkLink.set(false)
                 noAndroidSdkLink.set(false)
             }
         }
+    }
+
+    tasks.withType<DokkaMultiModuleTask>().configureEach {
+        outputDirectory.set(rootProject.projectDir.resolve("dokka"))
+        moduleName.set(project.name)
+        suppressObviousFunctions.set(false)
     }
 
     configurations.all {

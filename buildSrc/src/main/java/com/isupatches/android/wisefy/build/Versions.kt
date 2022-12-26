@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Patches Klinefelter
+ * Copyright 2022 Patches Barrett
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,40 +15,34 @@
  */
 package com.isupatches.android.wisefy.build
 
-@Suppress("StringLiteralDuplication")
 object Versions {
     // Core tooling
-    const val AGP: String = "7.0.4"
-    const val KOTLIN: String = "1.5.21"
-    const val COROUTINES: String = "1.5.1"
+    const val AGP: String = "7.3.0"
+    const val KOTLIN: String = "1.7.10"
+    const val COROUTINES: String = "1.6.4"
 
     // AndroidX
-    const val ANDROIDX_ANNOTATION: String = "1.2.0"
-    const val ANDROIDX_APPCOMPAT: String = "1.3.0"
-    const val ANDROIDX_CONSTRAINT_LAYOUT: String = "2.0.4"
-    const val ANDROIDX_CORE_KTX = "1.6.0"
-    const val ANDROIDX_LIFECYCLE: String = "2.3.1"
-    const val ANDROIDX_NAVIGATION: String = "2.3.5"
-
-    // Google
-    const val GOOGLE_MATERIAL: String = "1.4.0"
+    const val ANDROIDX_ACTIVITY: String = "1.6.1"
+    const val ANDROIDX_ANNOTATION: String = "1.5.0"
+    const val ANDROIDX_APPCOMPAT: String = "1.5.1"
+    const val ANDROIDX_COMPOSE: String = "1.3.0"
+    const val ANDROIDX_CORE_KTX: String = "1.9.0"
+    const val ANDROIDX_DATA_STORE: String = "1.0.0"
+    const val ANDROIDX_LIFECYCLE: String = "2.5.1"
+    const val ANDROIDX_NAVIGATION: String = "2.5.3"
 
     // Dependency Injection
-    const val DAGGER = "2.38.1"
-
-    // isuPatches
-    const val VIEWGLU_VERSION = "1.1.0"
+    const val DAGGER: String = "2.44.1"
 
     // Static Analysis
-    const val CPD: String = "3.2"
-    const val DETEKT: String = "1.17.1"
-    const val DEXCOUNT: String = "2.1.0-RC01"
-    const val KTLINT_PLUGIN: String = "10.1.0"
-    const val KTLINT: String = "0.41.0"
+    const val CPD: String = "3.3"
+    const val DETEKT: String = "1.21.0"
+    const val DEXCOUNT: String = "3.1.0"
+    const val KOTLINTER_PLUGIN: String = "3.12.0"
 
     // Documentation
-    const val DOKKA: String = "1.5.0"
+    const val DOKKA: String = "1.7.10"
 
     // Code Coverage
-    const val JACOCO: String = "0.8.3"
+    const val JACOCO: String = "0.8.8"
 }

@@ -1,14 +1,16 @@
 import com.isupatches.android.wisefy.build.BuildVersions
 import com.isupatches.android.wisefy.build.Dependencies
 import com.isupatches.android.wisefy.build.Versions
+import com.isupatches.android.wisefy.build.compose
 import com.isupatches.android.wisefy.build.dagger
 import com.isupatches.android.wisefy.build.navigation
-import java.util.Properties
+import java.util.*
 
 plugins {
     id("com.android.application")
-    id("kotlin-android")
+    id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
+    id("dagger.hilt.android.plugin")
 }
 
 val keystoreProperties: Properties = Properties()
@@ -18,7 +20,10 @@ if (keystoreFile.exists()) {
 }
 
 android {
-    compileSdkVersion(BuildVersions.COMPILE_SDK)
+    namespace = "com.isupatches.android.wisefy.sample"
+    testNamespace = "com.isupatches.android.wisefy.sample.test"
+
+    compileSdk = BuildVersions.COMPILE_SDK
     buildToolsVersion = BuildVersions.BUILD_TOOLS
 
     defaultConfig {
@@ -55,22 +60,28 @@ android {
             isTestCoverageEnabled = true
             isMinifyEnabled = false
             isShrinkResources = false
-            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules-debug.pro")
-            testProguardFile(file("proguard-rules-test.pro"))
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "$rootDir/proguard/r8-app-debug.pro"
+            )
+            testProguardFile(file("$rootDir/proguard/r8-app-test.pro"))
             signingConfig = signingConfigs.getByName("debug")
         }
 
         release {
             isTestCoverageEnabled = false
-            isMinifyEnabled = true
-            isShrinkResources = true
-            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules-release.pro")
+            isMinifyEnabled = false
+            isShrinkResources = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "$rootDir/proguard/r8-app-release.pro"
+            )
             signingConfig = signingConfigs.getByName("release")
         }
     }
 
     buildFeatures {
-        viewBinding = true
+        compose = true
     }
 
     testCoverage {
@@ -78,37 +89,62 @@ android {
     }
 
     lint {
-        isCheckAllWarnings = true
-        isShowAll = true
-        isExplainIssues = true
-        isAbortOnError = true
-        isWarningsAsErrors = true
-        disable("UnusedIds", "ConvertToWebp")
+        checkAllWarnings = true
+        showAll = true
+        explainIssues = true
+        abortOnError = true
+        warningsAsErrors = true
+        disable += "UnusedIds"
+        disable += "ConvertToWebp"
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+
+    kotlinOptions {
+        jvmTarget = "11"
+    }
+
+    afterEvaluate {
+        configurations.getByName("releaseRuntimeClasspath") {
+            resolutionStrategy.activateDependencyLocking()
+        }
+        configurations.getByName("debugRuntimeClasspath") {
+            resolutionStrategy.activateDependencyLocking()
+        }
+    }
+
+    dependencyLocking {
+        lockMode.set(LockMode.STRICT)
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = Versions.ANDROIDX_COMPOSE
     }
 }
 
 dependencies {
     /*
-     * Toggle these to test release binary vs. source code
+     * This should be uncommented to run sample app directly against source code
      */
-    implementation(project(":wisefy"))
-//    implementation("com.isupatches.android:wisefy:5.0.0-RC2") {
-//        isChanging = true
-//    }
+//    implementation(project(":wisefy:ktx"))
 
-    implementation(Dependencies.VIEWGLU)
+    /*
+     * This should be uncommented to run sample app directly against release versions of wisefy / wisefy-ktx
+     */
+    implementation("com.isupatches.android.wisefy:ktx:5.0.0")
 
     // AndroidX
+    compose()
     implementation(Dependencies.AndroidX.APPCOMPAT)
-    implementation(Dependencies.AndroidX.CONSTRAINT_LAYOUT)
     implementation(Dependencies.AndroidX.CORE_KTX)
+    implementation(Dependencies.AndroidX.DATA_STORE)
     navigation()
 
     // Koltin
     implementation(Dependencies.Kotlin.STD_LIB)
-
-    // Google
-    implementation(Dependencies.Google.MATERIAL)
 
     // Dependency Injection
     dagger()

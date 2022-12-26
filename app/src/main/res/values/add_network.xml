@@ -10,10 +10,10 @@
     <string name="wpa3">WPA3</string>
 
     <!-- Results -->
-    <string name="add_network_result">Add Network Result</string>
+    <string name="input_error">Input Error</string>
 
-    <string name="succeeded_adding_network_args">Succeeded adding network. Result: %s</string>
-    <string name="failed_adding_network_args">Failure adding network. Result: %s</string>
+    <string name="success_adding_network_args">Success adding network. Result: %s</string>
+    <string name="failure_adding_network_args">Failure adding network. Result: %s</string>
 
     <!-- Permissions -->
     <string name="permission_error_add_open_network">Permissions for adding an open network are denied</string>

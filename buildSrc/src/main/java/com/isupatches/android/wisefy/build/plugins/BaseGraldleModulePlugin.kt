@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 Patches Klinefelter
+ * Copyright 2022 Patches Barrett
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,16 +20,17 @@ import com.isupatches.android.wisefy.build.BuildVersions
 import com.isupatches.android.wisefy.build.Dependencies
 import com.isupatches.android.wisefy.build.DependencyConstants.IMPLEMENTATION
 import com.isupatches.android.wisefy.build.Versions
-import org.gradle.api.JavaVersion
-import org.gradle.api.Plugin
-import org.gradle.api.Project
-import org.gradle.kotlin.dsl.apply
-import org.gradle.kotlin.dsl.configure
-import org.gradle.kotlin.dsl.dependencies
 import java.io.File
 import java.io.FileInputStream
 import java.util.Locale
 import java.util.Properties
+import org.gradle.api.JavaVersion
+import org.gradle.api.Plugin
+import org.gradle.api.Project
+import org.gradle.api.artifacts.dsl.LockMode
+import org.gradle.kotlin.dsl.apply
+import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.dependencies
 
 class BaseGradleModulePlugin : Plugin<Project> {
 
@@ -80,19 +81,27 @@ class BaseGradleModulePlugin : Plugin<Project> {
             buildTypes {
                 debug {
                     // Test coverage needs to be disabled to release -SNAPSHOT builds
-                    isTestCoverageEnabled = true
+                    enableUnitTestCoverage = true
+                    enableAndroidTestCoverage = true
                     isMinifyEnabled = false
-                    proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
-                    testProguardFile("proguard-rules-test.pro")
-                    consumerProguardFile("consumer-rules.pro")
+                    proguardFiles(
+                        getDefaultProguardFile("proguard-android-optimize.txt"),
+                        "${target.rootDir}/proguard/r8-lib-debug.pro"
+                    )
+                    testProguardFile("${target.rootDir}/proguard/r8-lib-test.pro")
+                    consumerProguardFile("${target.rootDir}/proguard/r8-lib-consumer.pro")
                     signingConfig = signingConfigs.getByName("debug${target.name.capitalize(Locale.ROOT)}")
                 }
 
                 release {
-                    isTestCoverageEnabled = false
-                    isMinifyEnabled = true
-                    proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
-                    consumerProguardFile("consumer-rules.pro")
+                    enableUnitTestCoverage = false
+                    enableAndroidTestCoverage = false
+                    isMinifyEnabled = false
+                    proguardFiles(
+                        getDefaultProguardFile("proguard-android-optimize.txt"),
+                        "${target.rootDir}/proguard/r8-lib-release.pro"
+                    )
+                    consumerProguardFile("${target.rootDir}/proguard/r8-lib-consumer.pro")
                     signingConfig = signingConfigs.getByName("release${target.name.capitalize(Locale.ROOT)}")
                 }
             }
@@ -102,12 +111,12 @@ class BaseGradleModulePlugin : Plugin<Project> {
             }
 
             lint {
-                isCheckAllWarnings = true
-                isShowAll = true
-                isExplainIssues = true
-                isAbortOnError = true
-                isWarningsAsErrors = true
-                disable("UnusedIds")
+                checkAllWarnings = true
+                showAll = true
+                explainIssues = true
+                abortOnError = true
+                warningsAsErrors = true
+                disable += "UnusedIds"
             }
 
             testOptions {
@@ -117,10 +126,29 @@ class BaseGradleModulePlugin : Plugin<Project> {
             testCoverage {
                 jacocoVersion = Versions.JACOCO
             }
+
+            compileOptions {
+                sourceCompatibility = JavaVersion.VERSION_11
+                targetCompatibility = JavaVersion.VERSION_11
+            }
+        }
+
+        target.afterEvaluate {
+            configurations.getByName("releaseRuntimeClasspath") {
+                resolutionStrategy.activateDependencyLocking()
+            }
+            configurations.getByName("debugRuntimeClasspath") {
+                resolutionStrategy.activateDependencyLocking()
+            }
+        }
+
+        target.dependencyLocking {
+            lockMode.set(LockMode.STRICT)
         }
 
         target.dependencies {
             add(IMPLEMENTATION, Dependencies.AndroidX.ANNOTATION)
+            add(IMPLEMENTATION, Dependencies.AndroidX.APPCOMPAT)
             add(IMPLEMENTATION, Dependencies.Kotlin.STD_LIB)
         }
     }

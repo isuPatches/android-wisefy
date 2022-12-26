@@ -1,30 +1,21 @@
-import org.jlleitschuh.gradle.ktlint.KtlintExtension
-import org.jlleitschuh.gradle.ktlint.KtlintPlugin
-import org.jlleitschuh.gradle.ktlint.reporter.ReporterType.CHECKSTYLE
-import org.jlleitschuh.gradle.ktlint.reporter.ReporterType.PLAIN
+import org.jmailen.gradle.kotlinter.KotlinterPlugin
 
 buildscript {
     repositories {
-        mavenCentral()
-        maven("https://plugins.gradle.org/m2/")
+        maven(url = "https://plugins.gradle.org/m2/")
     }
 
     dependencies {
         val versions = com.isupatches.android.wisefy.build.Versions
-        classpath("org.jlleitschuh.gradle:ktlint-gradle:${versions.KTLINT_PLUGIN}")
+        classpath("org.jmailen.gradle:kotlinter-gradle:${versions.KOTLINTER_PLUGIN}")
     }
 }
 
-plugins.apply(KtlintPlugin::class)
+plugins.apply(KotlinterPlugin::class)
 
-configure<KtlintExtension> {
-    version.set(com.isupatches.android.wisefy.build.Versions.KTLINT)
-    debug.set(false)
-    verbose.set(true)
-    android.set(true)
-    reporters {
-        reporter(PLAIN)
-        reporter(CHECKSTYLE)
-    }
-    ignoreFailures.set(false)
-}
+//configure<KotlinterExtension> {
+//    ignoreFailures = false
+//    reporters = arrayOf("checkstyle", "plain")
+//    experimentalRules = false
+//    disabledRules = emptyArray()
+//}

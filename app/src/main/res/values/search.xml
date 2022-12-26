@@ -6,7 +6,6 @@
 
     <string name="search_for">Search for…</string>
     <string name="access_point">Access Point</string>
-    <string name="ssid">SSID</string>
     <string name="saved_network">Saved Network</string>
 
     <string name="return_full_list_label">Return full list of results?</string>
@@ -15,8 +14,12 @@
     </string>
 
     <string name="filter_duplicates">Filter Duplicates</string>
+    <string name="ssid_type">SSID Type</string>
 
-    <string name="timeout_after_x_seconds_args_html">Timeout after <![CDATA[<b>%d</b>]]> seconds</string>
+    <plurals name="timeout_after_x_seconds_args_html">
+        <item quantity="one">Timeout after %d second</item>
+        <item quantity="other">Timeout after %d seconds</item>
+    </plurals>
 
     <!-- Results -->
     <string name="search_result">Search Result</string>
@@ -32,6 +35,8 @@
 
     <string name="saved_network_args">Saved network: %s</string>
     <string name="saved_network_not_found">Saved network not found</string>
+
+    <string name="network_connection_status_args">Network connection status: %s</string>
 
     <!-- Permissions -->
     <string name="permission_error_search_for_saved_network">

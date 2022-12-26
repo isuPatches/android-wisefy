@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Actions -->
+    <string name="calculate_signal_level">Calculate Signal Level</string>
+    <string name="compare_signal_level">Compare Signal Level</string>
+
+    <!-- Labels -->
+    <string name="rssi_value">RSSI Value</string>
+    <string name="rssi1_value">RSSI 1 Value</string>
+    <string name="rssi2_value">RSSI 2 Value</string>
+
+    <!-- Results -->
+    <string name="failure_calculating_signal_level_args">Failure calculating signal level. Result: %s</string>
+    <string name="success_calculating_signal_level_args">Success calculating signal level. Result: %s</string>
+    <string name="success_comparing_signal_level_args">Success comparing signal level. Result: %s</string>
+
+    <!-- Input Errors -->
+    <string name="rssi_input_invalid_int">Invalid RSSI input (not an Int)</string>
+    <string name="rssi_input_empty">Please enter in an RSSI</string>
+</resources>
