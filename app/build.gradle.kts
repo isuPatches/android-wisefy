@@ -4,7 +4,7 @@ import com.isupatches.android.wisefy.build.Versions
 import com.isupatches.android.wisefy.build.compose
 import com.isupatches.android.wisefy.build.dagger
 import com.isupatches.android.wisefy.build.navigation
-import java.util.*
+import java.util.Properties
 
 plugins {
     id("com.android.application")
