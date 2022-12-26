@@ -11,7 +11,7 @@ plugins {
 }
 
 group = GROUP_ID
-version = BuildVersions.MODULE_VERSION_NAME
+version = BuildVersions.WISEFY_VERSION
 
 android {
     namespace = "com.isupatches.android.wisefy"

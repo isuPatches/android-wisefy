@@ -44,7 +44,7 @@ internal class DefaultSavedNetworkApiImpl(
     @Suppress("Deprecation")
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     override fun getSavedNetworks(): List<android.net.wifi.WifiConfiguration> {
-        val savedNetworkConfigurations = wifiManager.configuredNetworks
+        val savedNetworkConfigurations = wifiManager.configuredNetworks ?: emptyList()
         logger.d(LOG_TAG, "Saved network configurations: $savedNetworkConfigurations")
         return savedNetworkConfigurations
     }

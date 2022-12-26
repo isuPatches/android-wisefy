@@ -11,7 +11,7 @@ plugins {
 }
 
 group = PublishingConstants.GROUP_ID
-version = BuildVersions.MODULE_VERSION_NAME
+version = BuildVersions.WISEFY_SAVED_NETWORKS_VERSION
 
 android {
     namespace = "com.isupatches.android.wisefy.savednetworks"

@@ -59,13 +59,13 @@ internal fun WisefySampleBottomNavigation(navController: NavController) {
                 },
                 label = {
                     Text(
-                        text = stringResource(item.stringResId),
+                        text = "",
                         style = WisefySampleTypography.caption
                     )
                 },
                 selectedContentColor = MaterialTheme.colors.onPrimary,
                 unselectedContentColor = MaterialTheme.colors.onPrimary.copy(UNSELECTED_NAVIGATION_ITEM_ALPHA),
-                alwaysShowLabel = true,
+                alwaysShowLabel = false,
                 selected = currentRoute == item.route,
                 onClick = {
                     navController.navigate(item.route) {
