@@ -10,21 +10,17 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Run lint 
-          command: |
-            ./gradlew lintDebug
+          name: Run lint
+          command: ./gradlew lintDebug
       - run:
           name: Run Kotlinter
-          command: |
-            ./gradlew lintKotlin
+          command: ./gradlew lintKotlin
       - run:
           name: Run detekt
-          command: |
-            ./gradlew detekt
+          command: ./gradlew detekt
       - run:
           name: Run CPD
-          command: |
-            ./gradlew cpdCheck
+          command: ./gradlew cpdCheck
 
   build:
     executor:
@@ -33,12 +29,10 @@ jobs:
       - checkout
       - run:
         name: Assemble debug build
-          command: |
-            ./gradlew assembleDebug
+          command: ./gradlew assembleDebug
       - run:
           name: Assemble release build
-          command: |
-            ./gradlew assembleRelease
+          command: ./gradlew assembleRelease
 
 workflows:
   ci:
