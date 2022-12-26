@@ -12,6 +12,14 @@ commands:
       - run:
           name: Write Wisefy sample release keystore
           command: echo "$WISEFY_SAMPLE_RELEASE_KEYSTORE" | base64 --decode > keystores/wisefy-sample-release.jks
+  import-gpg-key:
+    steps:
+      - run:
+          name: Import GPG key
+          command: echo -e "$GPG_KEY" | gpg --import
+      - run:
+          name: Decrpyt secrets
+          command: gpg --no-tty --batch --passphrase "$SIGNING_PASSWORD" --pinentry-mode loopback --output secrets.env --decrypt secrets.env.gpg
   publish-to-maven-local:
       steps:
         - run:
@@ -55,6 +63,7 @@ jobs:
     steps:
       - checkout
       - write-keystore-files
+      - import-gpg-key
       - publish-to-maven-local
       - run:
           name: Run lint
@@ -75,6 +84,7 @@ jobs:
     steps:
       - checkout
       - write-keystore-files
+      - import-gpg-key
       - publish-to-maven-local
       - run:
           name: Assemble debug build
