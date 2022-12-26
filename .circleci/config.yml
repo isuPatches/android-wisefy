@@ -19,7 +19,7 @@ commands:
             command: echo -e "$GPG_KEY" > wisefy-gpg-key.asc
         - run:
             name: Import GPG Key
-            command: gpg --no-tty --import wisefy-gpg-key.asc
+            command: gpg --passphrase "$SIGNING_PASSWORD" --import wisefy-gpg-key.asc
         - run:
             name: Decrpyt secrets
             command: gpg --no-tty --batch --passphrase "$SIGNING_PASSWORD" --pinentry-mode loopback --output secrets.env --decrypt wisefy-gpg-key.asc
