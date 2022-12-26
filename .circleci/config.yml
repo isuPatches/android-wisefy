@@ -28,7 +28,7 @@ jobs:
     steps:
       - checkout
       - run:
-        name: Assemble debug build
+          name: Assemble debug build
           command: ./gradlew assembleDebug
       - run:
           name: Assemble release build
