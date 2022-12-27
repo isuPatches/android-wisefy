@@ -26,6 +26,7 @@ internal data class SearchUIState(
     val inputState: SearchInputState,
     val searchType: SearchType,
     val ssidType: SSIDType,
+    val useRegexForSearch: Boolean,
     val returnFullList: Boolean,
     val filterDuplicates: Boolean,
     val timeoutInSeconds: Int?

@@ -8,6 +8,8 @@
     <string name="access_point">Access Point</string>
     <string name="saved_network">Saved Network</string>
 
+    <string name="use_regex_for_search">Use regex for search?</string>
+
     <string name="return_full_list_label">Return full list of results?</string>
     <string name="return_full_list_description">
         This option will return a list of results instead of an individual item when enabled.

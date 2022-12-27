@@ -75,7 +75,7 @@ class PublishingPlugin : Plugin<Project> {
             publishing {
                 singleVariant("debug") {
                     withSourcesJar()
-                    if (System.getenv("GENERATE_DOCS_FOR_DEBUG_PUBLICATIONS") != null) {
+                    if (System.getenv("GENERATE_DOCS_FOR_DEBUG_PUBLICATIONS").toBoolean()) {
                         withJavadocJar()
                     }
                 }

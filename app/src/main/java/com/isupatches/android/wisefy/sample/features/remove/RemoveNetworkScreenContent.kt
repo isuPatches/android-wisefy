@@ -51,6 +51,7 @@ internal fun RemoveNetworkScreenContent(viewModel: RemoveNetworkViewModel) {
         rememberLauncherForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result ->
             if (result.all { it.value }) {
                 scope.launch {
+                    @Suppress("MissingPermission")
                     viewModel.removeNetwork()
                 }
             } else {
@@ -101,7 +102,7 @@ private fun RemoveNetworkInputRows(
             onTextChange = { newText ->
                 viewModel.onInputChanged(newText)
             },
-            labelResId = R.string.regex_for_network,
+            labelResId = R.string.ssid_or_bssid_of_network,
             error = when (currentInputState.networkInputValidityState) {
                 is RemoveNetworkInputValidityState.SSID.Invalid.Empty -> {
                     WisefySampleEditTextError(R.string.ssid_input_empty)

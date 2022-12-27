@@ -120,6 +120,7 @@ internal fun MiscScreenContent(
             rememberLauncherForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result ->
                 if (result.all { it.value }) {
                     scope.launch {
+                        @Suppress("MissingPermission")
                         viewModel.getSavedNetworks()
                     }
                 } else {

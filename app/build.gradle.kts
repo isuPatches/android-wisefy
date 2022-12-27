@@ -60,8 +60,8 @@ android {
             applicationIdSuffix = ".debug"
             enableUnitTestCoverage = true
             enableAndroidTestCoverage = true
-            isMinifyEnabled = false
-            isShrinkResources = false
+            isMinifyEnabled = System.getenv("MINIFY_DEBUG_BUILDS").toBoolean()
+            isShrinkResources = System.getenv("MINIFY_DEBUG_BUILDS").toBoolean()
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "$rootDir/proguard/r8-app-debug.pro"
@@ -72,8 +72,8 @@ android {
         release {
             enableUnitTestCoverage = false
             enableAndroidTestCoverage = false
-            isMinifyEnabled = false
-            isShrinkResources = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "$rootDir/proguard/r8-app-release.pro"
@@ -123,7 +123,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = Versions.ANDROIDX_COMPOSE
+        kotlinCompilerExtensionVersion = Versions.ANDROIDX_COMPOSE_COMPILER
     }
 }
 

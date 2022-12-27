@@ -26,12 +26,12 @@ object Dependencies {
         }
 
         object Compose {
-            const val ANIMATION: String = "androidx.compose.animation:animation:${Versions.ANDROIDX_COMPOSE}"
-            const val MATERIAL: String = "androidx.compose.material:material:${Versions.ANDROIDX_COMPOSE}"
-            const val MATERIAL_ICONS_EXTENDED: String = "androidx.compose.material:material-icons-extended:${Versions.ANDROIDX_COMPOSE}"
-            const val UI: String = "androidx.compose.ui:ui:${Versions.ANDROIDX_COMPOSE}"
-            const val UI_TOOLING: String = "androidx.compose.ui:ui-tooling:${Versions.ANDROIDX_COMPOSE}"
-            const val UI_TOOLING_PREVIEW: String = "androidx.compose.ui:ui-tooling-preview:${Versions.ANDROIDX_COMPOSE}"
+            const val ANIMATION: String = "androidx.compose.animation:animation:${Versions.ANDROIDX_COMPOSE_ANIMATION}"
+            const val MATERIAL: String = "androidx.compose.material:material:${Versions.ANDROIDX_COMPOSE_MATERIAL}"
+            const val MATERIAL_ICONS_EXTENDED: String = "androidx.compose.material:material-icons-extended:${Versions.ANDROIDX_COMPOSE_MATERIAL}"
+            const val UI: String = "androidx.compose.ui:ui:${Versions.ANDROIDX_COMPOSE_UI}"
+            const val UI_TOOLING: String = "androidx.compose.ui:ui-tooling:${Versions.ANDROIDX_COMPOSE_UI}"
+            const val UI_TOOLING_PREVIEW: String = "androidx.compose.ui:ui-tooling-preview:${Versions.ANDROIDX_COMPOSE_UI}"
         }
 
         const val CORE_KTX: String = "androidx.core:core-ktx:${Versions.ANDROIDX_CORE_KTX}"

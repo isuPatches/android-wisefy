@@ -69,6 +69,7 @@ internal fun SearchScreenContent(viewModel: SearchViewModel) {
         rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
                 scope.launch {
+                    @Suppress("MissingPermission")
                     viewModel.searchForAccessPoint()
                 }
             } else {
@@ -81,6 +82,7 @@ internal fun SearchScreenContent(viewModel: SearchViewModel) {
         rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
                 scope.launch {
+                    @Suppress("MissingPermission")
                     viewModel.searchForAccessPoints()
                 }
             } else {
@@ -93,6 +95,7 @@ internal fun SearchScreenContent(viewModel: SearchViewModel) {
         rememberLauncherForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result ->
             if (result.all { it.value }) {
                 scope.launch {
+                    @Suppress("MissingPermission")
                     viewModel.searchForSavedNetwork()
                 }
             } else {
@@ -105,6 +108,7 @@ internal fun SearchScreenContent(viewModel: SearchViewModel) {
         rememberLauncherForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { result ->
             if (result.all { it.value }) {
                 scope.launch {
+                    @Suppress("MissingPermission")
                     viewModel.searchForSavedNetworks()
                 }
             } else {
@@ -117,6 +121,7 @@ internal fun SearchScreenContent(viewModel: SearchViewModel) {
         rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
                 scope.launch {
+                    @Suppress("MissingPermission")
                     viewModel.searchForSSID()
                 }
             } else {
@@ -129,6 +134,7 @@ internal fun SearchScreenContent(viewModel: SearchViewModel) {
         rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
                 scope.launch {
+                    @Suppress("MissingPermission")
                     viewModel.searchForSSIDs()
                 }
             } else {
@@ -193,6 +199,12 @@ internal fun SearchScreenContent(viewModel: SearchViewModel) {
             WisefySampleSSIDTypeSelectionRows(
                 ssidType = { viewModel.uiState.value.ssidType },
                 onSSIDTypeChanged = { ssidType -> viewModel.onSSIDTypeChanged(ssidType) }
+            )
+            SearchScreenUseRegexForSearchInputRows(
+                useRegexForSearch = { viewModel.uiState.value.useRegexForSearch },
+                onUseRegexForSearchChanged = { useRegexForSearch ->
+                    viewModel.onUseRegexForSearchChanged(useRegexForSearch)
+                }
             )
             SearchScreenReturnFullListInputRows(
                 returnFullList = { viewModel.uiState.value.returnFullList },
@@ -295,6 +307,43 @@ private fun SearchScreenSearchTypeInputRows(
             onClick = { viewModel.onSearchTypeSelected(SearchType.SAVED_NETWORK) }
         )
         WisefySampleBodyLabel(stringResId = R.string.saved_network)
+    }
+}
+
+@Composable
+internal fun SearchScreenUseRegexForSearchInputRows(
+    useRegexForSearch: () -> Boolean,
+    onUseRegexForSearchChanged: (Boolean) -> Unit
+) {
+    WisefySampleTheme {
+        Column {
+            val currentValue = useRegexForSearch()
+            Row {
+                WisefySampleSubHeaderLabel(
+                    modifier = Modifier.padding(top = WisefySampleSizes.Large),
+                    stringResId = R.string.use_regex_for_search
+                )
+            }
+            Row(
+                modifier = Modifier.padding(top = WisefySampleSizes.Medium),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                WisefySampleRadioButton(
+                    isSelected = currentValue,
+                    onClick = {
+                        onUseRegexForSearchChanged(true)
+                    }
+                )
+                WisefySampleBodyLabel(stringResId = R.string.yes)
+                WisefySampleRadioButton(
+                    isSelected = !currentValue,
+                    onClick = {
+                        onUseRegexForSearchChanged(false)
+                    }
+                )
+                WisefySampleBodyLabel(stringResId = R.string.no)
+            }
+        }
     }
 }
 
