@@ -20,18 +20,30 @@ body:
     validations:
       required: false
   - type: textarea
-    id: what-happened
+    id: repro
     attributes:
-      label: Steps to reproduce
-      description: Also tell us, what did you expect to happen?
-      placeholder: Tell us what you see!
-      value: "1. Create Wisefy instance 
-            2. Call '...' method with '...' as params (please include if it's the synchronous, asynchronous, or ktx API)
-            3. Witness unexpected behavior
-            
-            Expected behavior: ...:
-            
-            Actual behavior: ..."
+      label: Reproduction steps
+      description: "Please provide steps to reproduce the bug."
+      value: |
+        1.
+        2.
+        3.
+        ...
+      render: bash
+    validations:
+      required: true
+  - type: input
+    id: expected-result
+    attributes:
+      label: Expected Result
+      description: Please describe the result expected by following the above reproduction steps
+    validations:
+      required: true
+  - type: input
+    id: actuual-result
+    attributes:
+      label: Actual Result
+      description: Please describe what actually happened while following the above reproduction steps
     validations:
       required: true
   - type: dropdown
@@ -86,7 +98,7 @@ body:
       description: What make and manufacturer is the device the problem was seen on?
       placeholder: ex. Samsung Galaxy S22, Google Pixel 4a, etc.
     validations:
-      required: false
+      required: true
   - type: textarea
     id: logs
     attributes:
