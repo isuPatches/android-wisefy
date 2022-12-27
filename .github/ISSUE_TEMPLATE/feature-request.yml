@@ -1,0 +1,63 @@
+name: Feature Request
+description: Suggest an idea for this project
+title: "[Feature Request]: "
+labels: ["TODO", "Enhancement", "From User", "Requires Discussion", "Status - Not Started"]
+assignees:
+  - isuPatches
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for creating an issue to improve this library! Please check [the current issues](https://github.com/isuPatches/android-wisefy/issues) to make sure that the improvement isn't already being worked on.
+  - type: input
+    id: contact
+    attributes:
+      label: Contact Details
+      description: How can we get in touch with you if we need more info?
+      placeholder: ex. email@example.com
+    validations:
+      required: false
+  - type: textarea
+    id: repro
+    attributes:
+      label: Reproduction steps
+      description: "Please provide steps to reproduce the bug."
+      value: |
+        1.
+        2.
+        3.
+        ...
+      render: bash
+    validations:
+      required: true
+  - type: input
+    id: expected-result
+    attributes:
+      label: Expected Result
+      description: Please describe the result expected by following the above reproduction steps
+    validations:
+      required: true
+  - type: input
+    id: actuual-result
+    attributes:
+      label: Actual Result
+      description: Please describe what actually happened while following the above reproduction steps
+    validations:
+      required: true
+  - type: input
+    id: phone-details
+    attributes:
+      label: Phone Details
+      description: What make and manufacturer is the device the problem was seen on?
+      placeholder: ex. Samsung Galaxy S22, Google Pixel 4a, etc.
+    validations:
+      required: true
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Please add any additional insight or use-cases for context.
+  - type: markdown
+    attributes:
+      value: |
+        Images are also welcome.  Please attach them to the explanation for the feature request.
