@@ -10,7 +10,7 @@ body:
       value: |
         Thank you for creating an issue to improve this library! Please check  [the current issues](https://github.com/isuPatches/android-wisefy/issues) to make sure that the improvement isn't already being worked on.
         
-        It will be _EXTREMELY_ helpful if you also take a look at the [sample app](/app) to see how it behaves and if you can reproduce there.
+        It will be _EXTREMELY_ helpful if you also take a look at the [sample app](/app) to see how it behaves and if you can reproduce there as well.
   - type: input
     id: contact
     attributes:
@@ -46,6 +46,14 @@ body:
       description: Please describe what actually happened while following the above reproduction steps
     validations:
       required: true
+  - type: checkboxes
+    id: reproducible-with-sample-app
+    attributes:
+      label: Reproducible In Sample
+      description: Is the bug reproducible within the sample app provided in the repo?
+      options:
+        - label: Yes
+          required: true
   - type: dropdown
     id: version
     attributes:
@@ -103,5 +111,13 @@ body:
     id: logs
     attributes:
       label: Relevant log output
-      description: Please copy and paste any relevant log output from Wisefy. Logs can be enabled by setting `logging(true)` on the Wisefy.Brains instance. The copied logs will be automatically formatted into code, so no need for backticks.
+      description: Please copy and paste any relevant log output from Wisefy. The copied logs will be automatically formatted into code, so no need for backticks.
       render: shell
+  - type: checkboxes
+    id: phone-rooted
+    attributes:
+      label: Rooted Phone
+      description: Is the device rooted?
+      options:
+        - label: Yes
+          required: true
