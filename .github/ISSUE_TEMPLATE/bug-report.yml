@@ -46,14 +46,14 @@ body:
       description: Please describe what actually happened while following the above reproduction steps
     validations:
       required: true
-#  - type: checkboxes
-#    id: reproducible-with-sample-app
-#    attributes:
-#      label: Reproducible In Sample
-#      description: Is the bug reproducible within the sample app provided in the repo?
-#      options:
-#        - label: Yes
-#          required: true
+  - type: checkboxes
+    id: reproducible-with-sample-app
+    attributes:
+      label: Reproducible In Sample
+      description: Is the bug reproducible within the sample app provided in the repo?
+      options:
+        - label: "Yes"
+          required: true
   - type: dropdown
     id: version
     attributes:
@@ -113,14 +113,14 @@ body:
       label: Relevant log output
       description: Please copy and paste any relevant log output from Wisefy. The copied logs will be automatically formatted into code, so no need for backticks.
       render: shell
-#  - type: checkboxes
-#    id: phone-rooted
-#    attributes:
-#      label: Rooted Phone
-#      description: Is the device rooted?
-#      options:
-#        - label: Yes
-#          required: true
+  - type: checkboxes
+    id: phone-rooted
+    attributes:
+      label: Rooted Phone
+      description: Is the device rooted?
+      options:
+        - label: "Yes"
+          required: true
   - type: markdown
     attributes:
       value: |
