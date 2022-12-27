@@ -22,10 +22,7 @@ body:
     attributes:
       label: What happened?
       description: Also tell us, what did you expect to happen?
-      placeholder: "Steps to reproduce the behavior:
-                      1. Create Wisefy instance 
-                      2. Call '...' method with '...' as params (please include if it's the synchronous, asynchronous, or ktx API)
-                      3. Witness unexpected behavior"
+      placeholder: Tell us what you see!
       value: "A bug happened!"
     validations:
       required: true
@@ -33,33 +30,50 @@ body:
     id: version
     attributes:
       label: Version
-      description: What version of our software are you running?
+      description: What version of Wisefy were you using?
       options:
-        - 1.0.2 (Default)
-        - 1.0.3 (Edge)
+        - 5.0.0-RC2 (Edge)
+        - 5.0.0-RC1
+        - 4.0.0 (Default)
+        - 3.0.1
+        - 3.0.0
+        - 2.1.0-BETA1
+        - 2.0.1
+        - 2.0.0
+        - 2.0.0-BETA1
+        - 1.0.10
+        - 1.0.9
+        - 1.0.8
+        - 1.0.7
+        - 1.0.6
+        - 1.0.5
+        - 1.0.4
+        - 1.0.3
+        - 1.0.2
+        - 1.0.1
+        - 1.0.0
     validations:
       required: true
   - type: dropdown
     id: browsers
     attributes:
-      label: What browsers are you seeing the problem on?
+      label: What Android OS are you seeing the problem on?
       multiple: true
       options:
-        - Firefox
-        - Chrome
-        - Safari
-        - Microsoft Edge
+        - Android 6-6.0.1 / Marshmallow / SDK 23
+        - Android 7 / Nougat / SDK 24
+        - Android 7.1-7.1.2 / Nougat / SDK 25
+        - Android 8 / Oreo / SDK 26
+        - Android 8.1 / Oreo / SDK 27
+        - Android 9 / Pie / SDK 28
+        - Android 10 / Tart / SDK 29
+        - Android 11 / Red Velvet Cake / SDK 30
+        - Android 12 / Snow Cone / SDK 31
+        - Android 12L / Snow Cone V2 / SDK 32
+        - Android 13 / Tiramisu / SDK 33
   - type: textarea
     id: logs
     attributes:
       label: Relevant log output
-      description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
+      description: Please copy and paste any relevant log output from Wisefy. Logs can be enabled by setting `logging(true)` on the Wisefy.Brains isntance. The copied logs will be automatically formatted into code, so no need for backticks.
       render: shell
-  - type: checkboxes
-    id: terms
-    attributes:
-      label: Code of Conduct
-      description: By submitting this issue, you agree to follow our [Code of Conduct](https://example.com)
-      options:
-        - label: I agree to follow this project's Code of Conduct
-          required: true
