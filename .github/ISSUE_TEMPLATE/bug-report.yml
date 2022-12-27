@@ -8,7 +8,12 @@ body:
   - type: markdown
     attributes:
       value: |
-        Thank you for creating an issue to improve this library! Please check Please check [the current issues](https://github.com/isuPatches/android-wisefy/issues) to make sure that the improvement isn't already being worked on.
+        Thank you for creating an issue to improve this library! Please check 
+        [the current issues](https://github.com/isuPatches/android-wisefy/issues) to make sure that the improvement 
+        isn't already being worked on.
+        
+        It will be _EXTREMELY_ helpful if you also take a look at the [sample app](/app) to see how it behaves and if 
+        you can reproduce there.
   - type: input
     id: contact
     attributes:
