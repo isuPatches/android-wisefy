@@ -40,7 +40,7 @@ body:
     validations:
       required: true
   - type: input
-    id: actuual-result
+    id: actual-result
     attributes:
       label: Actual Result
       description: Please describe what actually happened while following the above reproduction steps

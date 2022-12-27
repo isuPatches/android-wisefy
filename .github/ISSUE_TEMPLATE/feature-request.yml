@@ -17,39 +17,25 @@ body:
       placeholder: ex. email@example.com
     validations:
       required: false
-  - type: textarea
-    id: repro
+  - type: input
+    id: description
     attributes:
-      label: Reproduction steps
-      description: "Please provide steps to reproduce the bug."
+      label: Description
+      description: Please describe the feature request with a high level overview. These could be user stories as well like 'As a developer I want ___ so that  ___'
+    validations:
+      required:
+        true
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance Criteria
+      description: "Describe in more detail the request.  (f.e. - a method is added to the library, - the method when called does ___, etc.)"
       value: |
-        1.
-        2.
-        3.
+        - 
+        -
+        -
         ...
       render: bash
-    validations:
-      required: true
-  - type: input
-    id: expected-result
-    attributes:
-      label: Expected Result
-      description: Please describe the result expected by following the above reproduction steps
-    validations:
-      required: true
-  - type: input
-    id: actuual-result
-    attributes:
-      label: Actual Result
-      description: Please describe what actually happened while following the above reproduction steps
-    validations:
-      required: true
-  - type: input
-    id: phone-details
-    attributes:
-      label: Phone Details
-      description: What make and manufacturer is the device the problem was seen on?
-      placeholder: ex. Samsung Galaxy S22, Google Pixel 4a, etc.
     validations:
       required: true
   - type: textarea
