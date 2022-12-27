@@ -1,0 +1,127 @@
+name: Bug Report
+description: Create a report to help us improve
+title: "[Bug]: "
+labels: ["Bug", "From User", "Needs Investigation", "Status - In Triage"]
+assignees:
+  - isuPatches
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for creating an issue to improve this library! Please check  [the current issues](https://github.com/isuPatches/android-wisefy/issues) to make sure that the improvement isn't already being worked on.
+        
+        It will be _EXTREMELY_ helpful if you also take a look at the [sample app](/app) to see how it behaves and if you can reproduce there as well.
+  - type: input
+    id: contact
+    attributes:
+      label: Contact Details
+      description: How can we get in touch with you if we need more info?
+      placeholder: ex. email@example.com
+    validations:
+      required: false
+  - type: textarea
+    id: repro
+    attributes:
+      label: Reproduction steps
+      description: "Please provide steps to reproduce the bug."
+      value: |
+        1.
+        2.
+        3.
+        ...
+      render: bash
+    validations:
+      required: true
+  - type: input
+    id: expected-result
+    attributes:
+      label: Expected Result
+      description: Please describe the result expected by following the above reproduction steps
+    validations:
+      required: true
+  - type: input
+    id: actual-result
+    attributes:
+      label: Actual Result
+      description: Please describe what actually happened while following the above reproduction steps
+    validations:
+      required: true
+  - type: checkboxes
+    id: reproducible-with-sample-app
+    attributes:
+      label: Reproducible In Sample
+      description: Is the bug reproducible within the sample app provided in the repo?
+      options:
+        - label: "Yes"
+          required: true
+  - type: dropdown
+    id: version
+    attributes:
+      label: Version
+      description: What version of Wisefy were you using?
+      options:
+        - 5.0.0-RC2 (Edge)
+        - 5.0.0-RC1
+        - 4.0.0 (Default)
+        - 3.0.1
+        - 3.0.0
+        - 2.1.0-BETA1
+        - 2.0.1
+        - 2.0.0
+        - 2.0.0-BETA1
+        - 1.0.10
+        - 1.0.9
+        - 1.0.8
+        - 1.0.7
+        - 1.0.6
+        - 1.0.5
+        - 1.0.4
+        - 1.0.3
+        - 1.0.2
+        - 1.0.1
+        - 1.0.0
+    validations:
+      required: true
+  - type: dropdown
+    id: browsers
+    attributes:
+      label: What Android OS are you seeing the problem on?
+      multiple: true
+      options:
+        - Android 6-6.0.1 / Marshmallow / SDK 23
+        - Android 7 / Nougat / SDK 24
+        - Android 7.1-7.1.2 / Nougat / SDK 25
+        - Android 8 / Oreo / SDK 26
+        - Android 8.1 / Oreo / SDK 27
+        - Android 9 / Pie / SDK 28
+        - Android 10 / Tart / SDK 29
+        - Android 11 / Red Velvet Cake / SDK 30
+        - Android 12 / Snow Cone / SDK 31
+        - Android 12L / Snow Cone V2 / SDK 32
+        - Android 13 / Tiramisu / SDK 33
+  - type: input
+    id: phone-details
+    attributes:
+      label: Phone Details
+      description: What make and manufacturer is the device the problem was seen on?
+      placeholder: ex. Samsung Galaxy S22, Google Pixel 4a, etc.
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log output
+      description: Please copy and paste any relevant log output from Wisefy. The copied logs will be automatically formatted into code, so no need for backticks.
+      render: shell
+  - type: checkboxes
+    id: phone-rooted
+    attributes:
+      label: Rooted Phone
+      description: Is the device rooted?
+      options:
+        - label: "Yes"
+          required: true
+  - type: markdown
+    attributes:
+      value: |
+        Screenshots are also welcome.  Please attach them to the bug report.

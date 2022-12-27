@@ -1,0 +1,18 @@
+name:  Question
+description: Ask a question about the library
+title: "[Question]: "
+labels: ["Question", "From User"]
+assignees:
+  - isuPatches
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for being curious about this library! Please check [the closed issues](https://github.com/isuPatches/android-wisefy/issues) and the [FAQ](/documentation/FAQ.md) to make sure that your question hasn't already been answered.
+        
+        Based on the outcome of this, documentation and the FAQ may be updated for future developers so that their life is made easier.
+  - type: textarea
+    id: question
+    attributes:
+      label: What's on your mind?
+      description: Please ask away
