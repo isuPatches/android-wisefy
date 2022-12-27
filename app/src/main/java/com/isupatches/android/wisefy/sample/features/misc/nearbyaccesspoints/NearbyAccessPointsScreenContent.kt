@@ -29,6 +29,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
@@ -44,21 +45,37 @@ internal fun NearbyAccessPointsScreenContent(
     accessPoints: () -> List<AccessPointUIData>
 ) {
     WisefySampleTheme {
-        val listState = rememberLazyListState()
-        LazyColumn(
-            state = listState,
-            verticalArrangement = Arrangement.spacedBy(WisefySampleSizes.Large),
-            contentPadding = PaddingValues(
-                top = WisefySampleSizes.WisefySampleTopMargin,
-                bottom = WisefySampleSizes.WisefySampleBottomMargin,
-                start = WisefySampleSizes.WisefySampleHorizontalMargins,
-                end = WisefySampleSizes.WisefySampleHorizontalMargins
-            )
-        ) {
-            items(accessPoints()) { accessPoint ->
-                @OptIn(ExperimentalFoundationApi::class)
-                Row(modifier = Modifier.animateItemPlacement()) {
-                    AccessPointRow(accessPoint = accessPoint)
+        val accessPointsValue = accessPoints()
+        if (accessPointsValue.isNotEmpty()) {
+            val listState = rememberLazyListState()
+            LazyColumn(
+                state = listState,
+                verticalArrangement = Arrangement.spacedBy(WisefySampleSizes.Large),
+                contentPadding = PaddingValues(
+                    top = WisefySampleSizes.WisefySampleTopMargin,
+                    bottom = WisefySampleSizes.WisefySampleBottomMargin,
+                    start = WisefySampleSizes.WisefySampleHorizontalMargins,
+                    end = WisefySampleSizes.WisefySampleHorizontalMargins
+                )
+            ) {
+                items(accessPointsValue) { accessPoint ->
+                    @OptIn(ExperimentalFoundationApi::class)
+                    Row(modifier = Modifier.animateItemPlacement()) {
+                        AccessPointRow(accessPoint = accessPoint)
+                    }
+                }
+            }
+        } else {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Row(
+                    modifier = Modifier.padding(
+                        top = WisefySampleSizes.WisefySampleTopMargin,
+                        bottom = WisefySampleSizes.WisefySampleBottomMargin,
+                        start = WisefySampleSizes.WisefySampleHorizontalMargins,
+                        end = WisefySampleSizes.WisefySampleHorizontalMargins
+                    )
+                ) {
+                    WisefySampleBodyLabel(stringResId = R.string.no_access_points_found)
                 }
             }
         }

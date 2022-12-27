@@ -505,10 +505,18 @@ internal class DefaultSearchViewModel(
         val validityState = if (uiState.value.useRegexForSearch) {
             when (ssidType) {
                 SSIDType.SSID -> {
-                    SearchInputValidityState.SSID.Valid
+                    if (input.isBlank()) {
+                        SearchInputValidityState.SSID.Invalid.Empty
+                    } else {
+                        SearchInputValidityState.SSID.Valid
+                    }
                 }
                 SSIDType.BSSID -> {
-                    SearchInputValidityState.BSSID.Valid
+                    if (input.isBlank()) {
+                        SearchInputValidityState.BSSID.Invalid.Empty
+                    } else {
+                        SearchInputValidityState.BSSID.Valid
+                    }
                 }
             }
         } else {
