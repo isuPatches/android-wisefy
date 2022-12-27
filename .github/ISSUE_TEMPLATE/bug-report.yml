@@ -121,3 +121,7 @@ body:
       options:
         - label: Yes
           required: true
+  - type: markdown
+    attributes:
+      value: |
+        Screenshots are also welcome.  Please attach them to the bug report.
