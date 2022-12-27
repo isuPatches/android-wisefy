@@ -8,12 +8,9 @@ body:
   - type: markdown
     attributes:
       value: |
-        Thank you for creating an issue to improve this library! Please check 
-        [the current issues](https://github.com/isuPatches/android-wisefy/issues) to make sure that the improvement 
-        isn't already being worked on.
+        Thank you for creating an issue to improve this library! Please check  [the current issues](https://github.com/isuPatches/android-wisefy/issues) to make sure that the improvement isn't already being worked on.
         
-        It will be _EXTREMELY_ helpful if you also take a look at the [sample app](/app) to see how it behaves and if 
-        you can reproduce there.
+        It will be _EXTREMELY_ helpful if you also take a look at the [sample app](/app) to see how it behaves and if you can reproduce there.
   - type: input
     id: contact
     attributes:
@@ -25,10 +22,16 @@ body:
   - type: textarea
     id: what-happened
     attributes:
-      label: What happened?
+      label: Steps to reproduce
       description: Also tell us, what did you expect to happen?
       placeholder: Tell us what you see!
-      value: "A bug happened!"
+      value: "1. Create Wisefy instance 
+            2. Call '...' method with '...' as params (please include if it's the synchronous, asynchronous, or ktx API)
+            3. Witness unexpected behavior
+            
+            Expected behavior: ...:
+            
+            Actual behavior: ..."
     validations:
       required: true
   - type: dropdown
@@ -76,9 +79,17 @@ body:
         - Android 12 / Snow Cone / SDK 31
         - Android 12L / Snow Cone V2 / SDK 32
         - Android 13 / Tiramisu / SDK 33
+  - type: input
+    id: phone-details
+    attributes:
+      label: Phone Details
+      description: What make and manufacturer is the device the problem was seen on?
+      placeholder: ex. Samsung Galaxy S22, Google Pixel 4a, etc.
+    validations:
+      required: false
   - type: textarea
     id: logs
     attributes:
       label: Relevant log output
-      description: Please copy and paste any relevant log output from Wisefy. Logs can be enabled by setting `logging(true)` on the Wisefy.Brains isntance. The copied logs will be automatically formatted into code, so no need for backticks.
+      description: Please copy and paste any relevant log output from Wisefy. Logs can be enabled by setting `logging(true)` on the Wisefy.Brains instance. The copied logs will be automatically formatted into code, so no need for backticks.
       render: shell
