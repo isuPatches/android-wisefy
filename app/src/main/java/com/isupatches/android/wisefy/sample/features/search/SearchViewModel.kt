@@ -74,6 +74,7 @@ internal abstract class SearchViewModel : BaseViewModel() {
     abstract fun onSearchNetworkInputChanged(input: String)
 
     abstract fun onSearchTypeSelected(searchType: SearchType)
+    abstract fun onUseRegexForSearchChanged(useRegexForSearch: Boolean)
     abstract fun onReturnFullListChanged(enabled: Boolean)
     abstract fun onFilterDuplicatesChanged(enabled: Boolean)
     abstract fun onSSIDTypeChanged(ssidType: SSIDType)
@@ -99,6 +100,7 @@ internal class DefaultSearchViewModel(
             ),
             searchType = SearchType.ACCESS_POINT,
             ssidType = SSIDType.SSID,
+            useRegexForSearch = false,
             returnFullList = true,
             filterDuplicates = true,
             timeoutInSeconds = null
@@ -127,6 +129,14 @@ internal class DefaultSearchViewModel(
                 .collectLatest { ssidType ->
                     _uiState.value = uiState.value.copy(ssidType = ssidType)
                     validateInput(uiState.value.inputState.input, ssidType)
+                }
+        }
+
+        viewModelScope.launch {
+            searchStore.shouldUseRegexForSearch()
+                .collectLatest { useRegexForSearch ->
+                    _uiState.value = uiState.value.copy(useRegexForSearch = useRegexForSearch)
+                    validateInput(uiState.value.inputState.input, uiState.value.ssidType)
                 }
         }
 
@@ -328,6 +338,12 @@ internal class DefaultSearchViewModel(
         }
     }
 
+    override fun onUseRegexForSearchChanged(useRegexForSearch: Boolean) {
+        viewModelScope.launch {
+            searchStore.setUseRegexForSearch(useRegexForSearch)
+        }
+    }
+
     override fun onReturnFullListChanged(enabled: Boolean) {
         viewModelScope.launch {
             searchStore.setReturnFullList(enabled)
@@ -486,30 +502,49 @@ internal class DefaultSearchViewModel(
     }
 
     private fun validateInput(input: String, ssidType: SSIDType) {
-        val validityState = when (ssidType) {
-            SSIDType.SSID -> {
-                when (input.validateSSID()) {
-                    SSIDInputError.EMPTY -> SearchInputValidityState.SSID.Invalid.Empty
-                    SSIDInputError.TOO_SHORT -> SearchInputValidityState.SSID.Invalid.TooShort
-                    SSIDInputError.TOO_LONG -> SearchInputValidityState.SSID.Invalid.TooLong
-                    SSIDInputError.INVALID_CHARACTERS -> {
-                        SearchInputValidityState.SSID.Invalid.InvalidCharacters
+        val validityState = if (uiState.value.useRegexForSearch) {
+            when (ssidType) {
+                SSIDType.SSID -> {
+                    if (input.isBlank()) {
+                        SearchInputValidityState.SSID.Invalid.Empty
+                    } else {
+                        SearchInputValidityState.SSID.Valid
                     }
-                    SSIDInputError.INVALID_START_CHARACTERS -> {
-                        SearchInputValidityState.SSID.Invalid.InvalidStartCharacters
+                }
+                SSIDType.BSSID -> {
+                    if (input.isBlank()) {
+                        SearchInputValidityState.BSSID.Invalid.Empty
+                    } else {
+                        SearchInputValidityState.BSSID.Valid
                     }
-                    SSIDInputError.LEADING_OR_TRAILING_SPACES -> {
-                        SearchInputValidityState.SSID.Invalid.LeadingOrTrailingSpaces
-                    }
-                    SSIDInputError.NOT_VALID_UNICODE -> SearchInputValidityState.SSID.Invalid.InvalidUnicode
-                    SSIDInputError.NONE -> SearchInputValidityState.SSID.Valid
                 }
             }
-            SSIDType.BSSID -> {
-                when (input.validateBSSID()) {
-                    BSSIDInputError.EMPTY -> SearchInputValidityState.BSSID.Invalid.Empty
-                    BSSIDInputError.INVALID -> SearchInputValidityState.BSSID.Invalid.ImproperFormat
-                    BSSIDInputError.NONE -> SearchInputValidityState.BSSID.Valid
+        } else {
+            when (ssidType) {
+                SSIDType.SSID -> {
+                    when (input.validateSSID()) {
+                        SSIDInputError.EMPTY -> SearchInputValidityState.SSID.Invalid.Empty
+                        SSIDInputError.TOO_SHORT -> SearchInputValidityState.SSID.Invalid.TooShort
+                        SSIDInputError.TOO_LONG -> SearchInputValidityState.SSID.Invalid.TooLong
+                        SSIDInputError.INVALID_CHARACTERS -> {
+                            SearchInputValidityState.SSID.Invalid.InvalidCharacters
+                        }
+                        SSIDInputError.INVALID_START_CHARACTERS -> {
+                            SearchInputValidityState.SSID.Invalid.InvalidStartCharacters
+                        }
+                        SSIDInputError.LEADING_OR_TRAILING_SPACES -> {
+                            SearchInputValidityState.SSID.Invalid.LeadingOrTrailingSpaces
+                        }
+                        SSIDInputError.NOT_VALID_UNICODE -> SearchInputValidityState.SSID.Invalid.InvalidUnicode
+                        SSIDInputError.NONE -> SearchInputValidityState.SSID.Valid
+                    }
+                }
+                SSIDType.BSSID -> {
+                    when (input.validateBSSID()) {
+                        BSSIDInputError.EMPTY -> SearchInputValidityState.BSSID.Invalid.Empty
+                        BSSIDInputError.INVALID -> SearchInputValidityState.BSSID.Invalid.ImproperFormat
+                        BSSIDInputError.NONE -> SearchInputValidityState.BSSID.Valid
+                    }
                 }
             }
         }

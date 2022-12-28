@@ -17,15 +17,18 @@ package com.isupatches.android.wisefy.build
 
 object Versions {
     // Core tooling
-    const val AGP: String = "7.3.0"
-    const val KOTLIN: String = "1.7.10"
+    const val AGP: String = "7.3.1"
+    const val KOTLIN: String = "1.7.20"
     const val COROUTINES: String = "1.6.4"
 
     // AndroidX
     const val ANDROIDX_ACTIVITY: String = "1.6.1"
     const val ANDROIDX_ANNOTATION: String = "1.5.0"
     const val ANDROIDX_APPCOMPAT: String = "1.5.1"
-    const val ANDROIDX_COMPOSE: String = "1.3.0"
+    const val ANDROIDX_COMPOSE_ANIMATION: String = "1.3.2"
+    const val ANDROIDX_COMPOSE_COMPILER: String = "1.3.2"
+    const val ANDROIDX_COMPOSE_MATERIAL: String = "1.3.1"
+    const val ANDROIDX_COMPOSE_UI: String = "1.3.2"
     const val ANDROIDX_CORE_KTX: String = "1.9.0"
     const val ANDROIDX_DATA_STORE: String = "1.0.0"
     const val ANDROIDX_LIFECYCLE: String = "2.5.1"
@@ -41,7 +44,7 @@ object Versions {
     const val KOTLINTER_PLUGIN: String = "3.12.0"
 
     // Documentation
-    const val DOKKA: String = "1.7.10"
+    const val DOKKA: String = "1.7.20"
 
     // Code Coverage
     const val JACOCO: String = "0.8.8"

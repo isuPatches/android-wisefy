@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="ssid_or_bssid_of_network">SSID or BSSID of network to remove…</string>
+
     <!-- Actions -->
     <string name="remove_network">Remove Network</string>
 

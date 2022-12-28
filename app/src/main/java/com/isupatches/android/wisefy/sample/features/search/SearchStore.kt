@@ -31,6 +31,7 @@ import kotlinx.coroutines.flow.map
 private const val PREF_LAST_USED_NETWORK_INPUT = "last_used_network_input"
 private const val PREF_SEARCH_TYPE = "search_type"
 private const val PREF_SSID_TYPE = "ssid_type"
+private const val PREF_USE_REGEX_FOR_SEARCH = "use_regex_for_search"
 private const val PREF_RETURN_FULL_LIST = "return_full_list"
 private const val PREF_FILTER_DUPLICATES = "filter_duplicates"
 private const val PREF_TIMEOUT = "timeout"
@@ -41,6 +42,7 @@ internal interface SearchStore {
     fun getLastUsedNetworkInput(): Flow<String>
     fun getSearchType(): Flow<SearchType>
     fun getSSIDType(): Flow<SSIDType>
+    fun shouldUseRegexForSearch(): Flow<Boolean>
     fun shouldReturnFullList(): Flow<Boolean>
     fun shouldFilterDuplicates(): Flow<Boolean>
     fun getTimeout(): Flow<Int>
@@ -48,6 +50,7 @@ internal interface SearchStore {
     suspend fun setLastUsedNetworkInput(lastUsedNetworkInput: String)
     suspend fun setSearchType(searchType: SearchType)
     suspend fun setSSIDType(ssidType: SSIDType)
+    suspend fun setUseRegexForSearch(useRegexForSearch: Boolean)
     suspend fun setReturnFullList(returnFullList: Boolean)
     suspend fun setFilterDuplicates(filterDuplicates: Boolean)
     suspend fun setTimeout(timeout: Int)
@@ -62,6 +65,7 @@ internal class DefaultSearchStore(
     private val lastUsedNetworkInputKey = stringPreferencesKey(PREF_LAST_USED_NETWORK_INPUT)
     private val searchTypeKey = intPreferencesKey(PREF_SEARCH_TYPE)
     private val ssidTypeKey = intPreferencesKey(PREF_SSID_TYPE)
+    private val useRegexForSearchKey = booleanPreferencesKey(PREF_USE_REGEX_FOR_SEARCH)
     private val returnFullListKey = booleanPreferencesKey(PREF_RETURN_FULL_LIST)
     private val filterDuplicatesKey = booleanPreferencesKey(PREF_FILTER_DUPLICATES)
     private val timeoutKey = intPreferencesKey(PREF_TIMEOUT)
@@ -116,6 +120,22 @@ internal class DefaultSearchStore(
     override suspend fun setSSIDType(ssidType: SSIDType) {
         context.searchDataStore.edit { preferences ->
             preferences[ssidTypeKey] = ssidType.intVal
+        }
+    }
+
+    /*
+     * Use regex for search
+     */
+
+    override fun shouldUseRegexForSearch(): Flow<Boolean> {
+        return context.searchDataStore.data.map { preferences ->
+            preferences[useRegexForSearchKey] ?: false
+        }
+    }
+
+    override suspend fun setUseRegexForSearch(useRegexForSearch: Boolean) {
+        context.searchDataStore.edit { preferences ->
+            preferences[useRegexForSearchKey] = useRegexForSearch
         }
     }
 
