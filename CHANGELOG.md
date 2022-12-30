@@ -2,8 +2,8 @@
 
 ### Features
 
-* feat: issue178 - Automate CHANGELOG.md creation  
-  [8b49a1b2720c344e060c0027e12a938e487fadfc](https://github.com/isuPatches/android-wisefy/commit/8b49a1b2720c344e060c0027e12a938e487fadfc)  
+* feat(all): issue178 - Automate CHANGELOG.md creation  
+  [fe2d417b87c02b09d188b185a27307d8c9abc2ca](https://github.com/isuPatches/android-wisefy/commit/fe2d417b87c02b09d188b185a27307d8c9abc2ca)  
   isuPatches | 2022-12-29 23:01:57 -0500
 * feat(all): issue161 - Add version details to sample app  
   [86c410f5ef9467ad87b929bb831efc433c8124f4](https://github.com/isuPatches/android-wisefy/commit/86c410f5ef9467ad87b929bb831efc433c8124f4)  
