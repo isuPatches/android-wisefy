@@ -60,7 +60,8 @@ body:
       label: Version
       description: What version of Wisefy were you using?
       options:
-        - 5.0.0-RC2 (Edge)
+        - 5.0.0-RC3 (Edge)
+        - 5.0.0-RC2
         - 5.0.0-RC1
         - 4.0.0 (Default)
         - 3.0.1

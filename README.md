@@ -156,10 +156,10 @@ Package structure for each section is as follows:
 
 ### Deprecations
 
-- disableWifi() and disableWifi(callbacks: DisableWifiCallbacks?)
-- disconnectFromCurrentNetwork() and disconnectFromCurrentNetwork(callbacks: DisconnectFromCurrentNetworkCallbacks?)
-- enableWifi() and enableWifi(callbacks: EnableWifiCallbacks?)
-- calculateBars(rssiLevel: Int, targetNumberOfBars: Int)
+- `fun connectToNetwork(request: ConnectToNetworkRequest): ConnectToNetworkResult` 
+- `fun connectToNetwork(request: ConnectToNetworkRequest, callbacks: ConnectToNetworkCallbacks?)`
+- `fun disconnectFromCurrentNetwork(request: DisconnectFromCurrentNetworkRequest): DisconnectFromCurrentNetworkResult`
+- `fun disconnectFromCurrentNetwork(request: DisconnectFromCurrentNetworkRequest, callbacks: DisconnectFromCurrentNetworkCallbacks?)`
 
 ### Known Android Q Problems
 

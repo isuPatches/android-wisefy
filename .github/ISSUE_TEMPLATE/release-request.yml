@@ -1,0 +1,26 @@
+name:  Release Request
+description: Request a release for part of the library
+title: "[Release]: "
+labels: ["Release", "From User"]
+assignees:
+  - isuPatches
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for helping to distribute this library! Please check [the current issues](https://github.com/isuPatches/android-wisefy/issues) and the [releases](https://github.com/isuPatches/android-wisefy/releases) to make sure the version you want hasn't already been released.
+        
+        I may have questions, but I should be able to take it from here, thanks!.
+  - type: input
+    id: contact
+    attributes:
+      label: Contact Details
+      description: How can we get in touch with you if we need more info?
+      placeholder: ex. email@example.com
+    validations:
+      required: false
+  - type: textarea
+    id: question
+    attributes:
+      label: What artifacts should or have been released?
+      description: Please let me know what parts of wisefy (f.e. core, addnetwork, etc) that should or have been released so I can finish the process for MavenCentral.  Please include version numbers.
