@@ -17,8 +17,8 @@
 
 ### Releases
 
-* release(wisefy:core): Release wisefy:core RC-03  
-  [9527e7ea0c181b8132f00b4c58fe9d5f4284ac8c](https://github.com/isuPatches/android-wisefy/commit/9527e7ea0c181b8132f00b4c58fe9d5f4284ac8c)  
+* release(all): Release RC-03  
+  [84beec58e9af458e25d089b13783f0485ec550ea](https://github.com/isuPatches/android-wisefy/commit/84beec58e9af458e25d089b13783f0485ec550ea)  
   isuPatches | 2022-12-30 14:58:58 -0500
 
 ### Chores
