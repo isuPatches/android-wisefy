@@ -11,6 +11,14 @@ body:
         Thank you for being curious about this library! Please check [the closed issues](https://github.com/isuPatches/android-wisefy/issues) and the [FAQ](/documentation/FAQ.md) to make sure that your question hasn't already been answered.
         
         Based on the outcome of this, documentation and the FAQ may be updated for future developers so that their life is made easier.
+  - type: input
+    id: contact
+    attributes:
+      label: Contact Details
+      description: How can we get in touch with you if we need more info?
+      placeholder: ex. email@example.com
+    validations:
+      required: false
   - type: textarea
     id: question
     attributes:
