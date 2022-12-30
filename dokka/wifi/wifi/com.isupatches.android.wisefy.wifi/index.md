@@ -1,6 +1,6 @@
 //[wifi](../../index.md)/[com.isupatches.android.wisefy.wifi](index.md)
 
-# Package com.isupatches.android.wisefy.wifi
+# Package-level declarations
 
 ## Types
 

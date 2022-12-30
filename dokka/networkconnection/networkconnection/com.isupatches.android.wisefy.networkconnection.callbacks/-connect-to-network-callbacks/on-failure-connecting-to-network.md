@@ -15,15 +15,15 @@ Patches Barrett
 
 12/2022, version 5.0.0
 
-## See also
+#### See also
 
 androidJvm
 
-| | |
-|---|---|
-| [com.isupatches.android.wisefy.networkconnection.entities.ConnectToNetworkResult.Failure](../../com.isupatches.android.wisefy.networkconnection.entities/-connect-to-network-result/-failure/index.md) |  |
+| |
+|---|
+| [ConnectToNetworkResult.Failure](../../com.isupatches.android.wisefy.networkconnection.entities/-connect-to-network-result/-failure/index.md) |
 
-## Parameters
+#### Parameters
 
 androidJvm
 

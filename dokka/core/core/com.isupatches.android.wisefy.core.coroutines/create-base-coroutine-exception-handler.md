@@ -17,16 +17,16 @@ Patches Barrett
 
 12/2022, version 5.0.0
 
-## See also
+#### See also
 
 androidJvm
 
-| | |
-|---|---|
-| [com.isupatches.android.wisefy.core.base.BaseWisefyCallbacks](../com.isupatches.android.wisefy.core.base/-base-wisefy-callbacks/index.md) |  |
-| [com.isupatches.android.wisefy.core.exceptions.WisefyException](../com.isupatches.android.wisefy.core.exceptions/-wisefy-exception/index.md) |  |
+| |
+|---|
+| [BaseWisefyCallbacks](../com.isupatches.android.wisefy.core.base/-base-wisefy-callbacks/index.md) |
+| [WisefyException](../com.isupatches.android.wisefy.core.exceptions/-wisefy-exception/index.md) |
 
-## Parameters
+#### Parameters
 
 androidJvm
 

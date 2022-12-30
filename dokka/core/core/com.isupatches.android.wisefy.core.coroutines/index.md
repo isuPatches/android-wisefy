@@ -1,6 +1,6 @@
 //[core](../../index.md)/[com.isupatches.android.wisefy.core.coroutines](index.md)
 
-# Package com.isupatches.android.wisefy.core.coroutines
+# Package-level declarations
 
 ## Types
 

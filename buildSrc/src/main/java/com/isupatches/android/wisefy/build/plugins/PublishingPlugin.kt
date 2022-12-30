@@ -38,7 +38,7 @@ private const val DEVELOPER_EMAIL = "isuPatches@yahoo.com"
 
 private const val LIBRARY_CONNECTION = "https://github.com/isuPatches/android-wisefy.git"
 private const val LIBRARY_DESCRIPTION = "Wrapper around WifiManager and ConnectivityManager for Android."
-private const val LIBRARY_NAME = "WiseFy"
+private const val LIBRARY_NAME = "Wisefy"
 private const val LIBRARY_URL = "https://github.com/isuPatches/android-wisefy"
 
 private const val LICENSE_NAME = "The Apache License, Version 2.0"

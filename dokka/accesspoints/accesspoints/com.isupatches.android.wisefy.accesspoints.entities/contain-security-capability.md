@@ -23,15 +23,15 @@ Patches Barrett
 
 12/2022, version 5.0.0
 
-## See also
+#### See also
 
 androidJvm
 
-| | |
-|---|---|
-| [com.isupatches.android.wisefy.accesspoints.entities.SecurityCapability](-security-capability/index.md) |  |
+| |
+|---|
+| [SecurityCapability](-security-capability/index.md) |
 
-## Parameters
+#### Parameters
 
 androidJvm
 

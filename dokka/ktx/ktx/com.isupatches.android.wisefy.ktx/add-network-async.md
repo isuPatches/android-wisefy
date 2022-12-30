@@ -31,16 +31,16 @@ Patches Barrett
 
 12/2022, version 5.0.0
 
-## See also
+#### See also
 
 androidJvm
 
-| | |
-|---|---|
-| [com.isupatches.android.wisefy.addnetwork.entities.AddNetworkRequest](../../../addnetwork/addnetwork/com.isupatches.android.wisefy.addnetwork.entities/-add-network-request/index.md) |  |
-| [com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult](../../../addnetwork/addnetwork/com.isupatches.android.wisefy.addnetwork.entities/-add-network-result/index.md) |  |
+| |
+|---|
+| [AddNetworkRequest](../../../addnetwork/addnetwork/com.isupatches.android.wisefy.addnetwork.entities/-add-network-request/index.md) |
+| [AddNetworkResult](../../../addnetwork/addnetwork/com.isupatches.android.wisefy.addnetwork.entities/-add-network-result/index.md) |
 
-## Parameters
+#### Parameters
 
 androidJvm
 
@@ -48,8 +48,8 @@ androidJvm
 |---|---|
 | request | The details of the request to add a network |
 
-## Throws
+#### Throws
 
-| | |
-|---|---|
-| [com.isupatches.android.wisefy.core.exceptions.WisefyException](../../../core/core/com.isupatches.android.wisefy.core.exceptions/-wisefy-exception/index.md) |  |
+| |
+|---|
+| [WisefyException](../../../core/core/com.isupatches.android.wisefy.core.exceptions/-wisefy-exception/index.md) |

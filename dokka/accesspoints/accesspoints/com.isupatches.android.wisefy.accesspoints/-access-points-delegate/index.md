@@ -15,14 +15,14 @@ Patches Barrett
 
 12/2022, version 5.0.0
 
-## See also
+#### See also
 
 androidJvm
 
-| | |
-|---|---|
-| [com.isupatches.android.wisefy.accesspoints.AccessPointsApi](../-access-points-api/index.md) |  |
-| [com.isupatches.android.wisefy.accesspoints.AccessPointsApiAsync](../-access-points-api-async/index.md) |  |
+| |
+|---|
+| [AccessPointsApi](../-access-points-api/index.md) |
+| [AccessPointsApiAsync](../-access-points-api-async/index.md) |
 
 ## Functions
 

@@ -9,7 +9,7 @@ fun [WisefySignalDelegate](-wisefy-signal-delegate.md)(assertions: [WisefyAssert
         DefaultSignalAdapter(logger, assertions)
     })
 
-## Parameters
+#### Parameters
 
 androidJvm
 

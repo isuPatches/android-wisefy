@@ -1,6 +1,6 @@
 //[ktx](../../index.md)/[com.isupatches.android.wisefy.ktx](index.md)
 
-# Package com.isupatches.android.wisefy.ktx
+# Package-level declarations
 
 ## Functions
 

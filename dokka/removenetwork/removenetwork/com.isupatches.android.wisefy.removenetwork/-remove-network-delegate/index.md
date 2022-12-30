@@ -15,14 +15,14 @@ Patches Barrett
 
 12/2022, version 5.0.0
 
-## See also
+#### See also
 
 androidJvm
 
-| | |
-|---|---|
-| [com.isupatches.android.wisefy.removenetwork.RemoveNetworkApi](../-remove-network-api/index.md) |  |
-| [com.isupatches.android.wisefy.removenetwork.RemoveNetworkApiAsync](../-remove-network-api-async/index.md) |  |
+| |
+|---|
+| [RemoveNetworkApi](../-remove-network-api/index.md) |
+| [RemoveNetworkApiAsync](../-remove-network-api-async/index.md) |
 
 ## Functions
 

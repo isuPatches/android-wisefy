@@ -1,6 +1,6 @@
 //[networkconnection](../../index.md)/[com.isupatches.android.wisefy.networkconnection.callbacks](index.md)
 
-# Package com.isupatches.android.wisefy.networkconnection.callbacks
+# Package-level declarations
 
 ## Types
 

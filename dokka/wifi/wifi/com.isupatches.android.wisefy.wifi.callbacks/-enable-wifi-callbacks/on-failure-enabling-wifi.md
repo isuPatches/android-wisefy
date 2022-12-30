@@ -15,15 +15,15 @@ Patches Barrett
 
 12/2022, version 5.0.0
 
-## See also
+#### See also
 
 androidJvm
 
-| | |
-|---|---|
-| [com.isupatches.android.wisefy.wifi.entities.EnableWifiResult.Failure](../../com.isupatches.android.wisefy.wifi.entities/-enable-wifi-result/-failure/index.md) |  |
+| |
+|---|
+| [EnableWifiResult.Failure](../../com.isupatches.android.wisefy.wifi.entities/-enable-wifi-result/-failure/index.md) |
 
-## Parameters
+#### Parameters
 
 androidJvm
 

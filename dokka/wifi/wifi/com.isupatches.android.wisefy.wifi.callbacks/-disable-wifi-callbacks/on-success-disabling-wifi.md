@@ -15,15 +15,15 @@ Patches Barrett
 
 12/2022, version 5.0.0
 
-## See also
+#### See also
 
 androidJvm
 
-| | |
-|---|---|
-| [com.isupatches.android.wisefy.wifi.entities.DisableWifiResult.Success](../../com.isupatches.android.wisefy.wifi.entities/-disable-wifi-result/-success/index.md) |  |
+| |
+|---|
+| [DisableWifiResult.Success](../../com.isupatches.android.wisefy.wifi.entities/-disable-wifi-result/-success/index.md) |
 
-## Parameters
+#### Parameters
 
 androidJvm
 

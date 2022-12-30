@@ -1,6 +1,6 @@
 //[core](../../index.md)/[com.isupatches.android.wisefy.core.logging](index.md)
 
-# Package com.isupatches.android.wisefy.core.logging
+# Package-level declarations
 
 ## Types
 

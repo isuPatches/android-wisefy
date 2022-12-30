@@ -1,6 +1,6 @@
 //[accesspoints](../../index.md)/[com.isupatches.android.wisefy.accesspoints.callbacks](index.md)
 
-# Package com.isupatches.android.wisefy.accesspoints.callbacks
+# Package-level declarations
 
 ## Types
 

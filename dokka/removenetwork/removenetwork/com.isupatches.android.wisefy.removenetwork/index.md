@@ -1,6 +1,6 @@
 //[removenetwork](../../index.md)/[com.isupatches.android.wisefy.removenetwork](index.md)
 
-# Package com.isupatches.android.wisefy.removenetwork
+# Package-level declarations
 
 ## Types
 

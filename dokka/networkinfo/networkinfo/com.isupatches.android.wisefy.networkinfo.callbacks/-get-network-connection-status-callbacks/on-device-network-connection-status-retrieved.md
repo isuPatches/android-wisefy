@@ -15,15 +15,15 @@ Patches Barrett
 
 12/2022, version 5.0.0
 
-## See also
+#### See also
 
 androidJvm
 
-| | |
-|---|---|
-| [com.isupatches.android.wisefy.networkinfo.entities.NetworkConnectionStatusData](../../com.isupatches.android.wisefy.networkinfo.entities/-network-connection-status-data/index.md) |  |
+| |
+|---|
+| [NetworkConnectionStatusData](../../com.isupatches.android.wisefy.networkinfo.entities/-network-connection-status-data/index.md) |
 
-## Parameters
+#### Parameters
 
 androidJvm
 

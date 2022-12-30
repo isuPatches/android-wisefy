@@ -1,6 +1,6 @@
 //[savednetworks](../../index.md)/[com.isupatches.android.wisefy.savednetworks.entities](index.md)
 
-# Package com.isupatches.android.wisefy.savednetworks.entities
+# Package-level declarations
 
 ## Types
 

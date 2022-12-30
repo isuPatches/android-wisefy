@@ -15,14 +15,14 @@ Patches Barrett
 
 12/2022, version 5.0.0
 
-## See also
+#### See also
 
 androidJvm
 
-| | |
-|---|---|
-| [com.isupatches.android.wisefy.networkinfo.NetworkInfoApi](../-network-info-api/index.md) |  |
-| [com.isupatches.android.wisefy.networkinfo.NetworkInfoApiAsync](../-network-info-api-async/index.md) |  |
+| |
+|---|
+| [NetworkInfoApi](../-network-info-api/index.md) |
+| [NetworkInfoApiAsync](../-network-info-api-async/index.md) |
 
 ## Functions
 

@@ -15,14 +15,14 @@ Patches Barrett
 
 12/2022, version 5.0.0
 
-## See also
+#### See also
 
 androidJvm
 
-| | |
-|---|---|
-| [com.isupatches.android.wisefy.addnetwork.AddNetworkApi](../-add-network-api/index.md) |  |
-| [com.isupatches.android.wisefy.addnetwork.AddNetworkApiAsync](../-add-network-api-async/index.md) |  |
+| |
+|---|
+| [AddNetworkApi](../-add-network-api/index.md) |
+| [AddNetworkApiAsync](../-add-network-api-async/index.md) |
 
 ## Functions
 

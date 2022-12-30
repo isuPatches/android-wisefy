@@ -19,7 +19,7 @@ fun [WisefyNetworkConnectionDelegate](-wisefy-network-connection-delegate.md)(as
         )
     })
 
-## Parameters
+#### Parameters
 
 androidJvm
 

@@ -31,16 +31,16 @@ Patches Barrett
 
 12/2022, version 5.0.0
 
-## See also
+#### See also
 
 androidJvm
 
-| | |
-|---|---|
-| [com.isupatches.android.wisefy.savednetworks.entities.GetSavedNetworksQuery](../../../savednetworks/savednetworks/com.isupatches.android.wisefy.savednetworks.entities/-get-saved-networks-query/index.md) |  |
-| [com.isupatches.android.wisefy.savednetworks.entities.GetSavedNetworksResult](../../../savednetworks/savednetworks/com.isupatches.android.wisefy.savednetworks.entities/-get-saved-networks-result/index.md) |  |
+| |
+|---|
+| [GetSavedNetworksQuery](../../../savednetworks/savednetworks/com.isupatches.android.wisefy.savednetworks.entities/-get-saved-networks-query/index.md) |
+| [GetSavedNetworksResult](../../../savednetworks/savednetworks/com.isupatches.android.wisefy.savednetworks.entities/-get-saved-networks-result/index.md) |
 
-## Parameters
+#### Parameters
 
 androidJvm
 
@@ -48,8 +48,8 @@ androidJvm
 |---|---|
 | query | The details of the query to get all saved networks on the device |
 
-## Throws
+#### Throws
 
-| | |
-|---|---|
-| [com.isupatches.android.wisefy.core.exceptions.WisefyException](../../../core/core/com.isupatches.android.wisefy.core.exceptions/-wisefy-exception/index.md) |  |
+| |
+|---|
+| [WisefyException](../../../core/core/com.isupatches.android.wisefy.core.exceptions/-wisefy-exception/index.md) |

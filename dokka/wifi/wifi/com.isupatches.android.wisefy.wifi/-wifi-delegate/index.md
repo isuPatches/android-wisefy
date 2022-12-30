@@ -15,14 +15,14 @@ Patches Barrett
 
 12/2022, version 5.0.0
 
-## See also
+#### See also
 
 androidJvm
 
-| | |
-|---|---|
-| [com.isupatches.android.wisefy.wifi.WifiApi](../-wifi-api/index.md) |  |
-| [com.isupatches.android.wisefy.wifi.WifiApiAsync](../-wifi-api-async/index.md) |  |
+| |
+|---|
+| [WifiApi](../-wifi-api/index.md) |
+| [WifiApiAsync](../-wifi-api-async/index.md) |
 
 ## Functions
 

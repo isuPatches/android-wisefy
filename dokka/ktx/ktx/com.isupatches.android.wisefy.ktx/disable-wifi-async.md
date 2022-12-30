@@ -33,16 +33,16 @@ Patches Barrett
 
 12/2022, version 5.0.0
 
-## See also
+#### See also
 
 androidJvm
 
-| | |
-|---|---|
-| [com.isupatches.android.wisefy.wifi.entities.DisableWifiRequest](../../../wifi/wifi/com.isupatches.android.wisefy.wifi.entities/-disable-wifi-request/index.md) |  |
-| [com.isupatches.android.wisefy.wifi.entities.DisableWifiResult](../../../wifi/wifi/com.isupatches.android.wisefy.wifi.entities/-disable-wifi-result/index.md) |  |
+| |
+|---|
+| [DisableWifiRequest](../../../wifi/wifi/com.isupatches.android.wisefy.wifi.entities/-disable-wifi-request/index.md) |
+| [DisableWifiResult](../../../wifi/wifi/com.isupatches.android.wisefy.wifi.entities/-disable-wifi-result/index.md) |
 
-## Parameters
+#### Parameters
 
 androidJvm
 
@@ -50,8 +50,8 @@ androidJvm
 |---|---|
 | request | The details of the request to disable wifi |
 
-## Throws
+#### Throws
 
-| | |
-|---|---|
-| [com.isupatches.android.wisefy.core.exceptions.WisefyException](../../../core/core/com.isupatches.android.wisefy.core.exceptions/-wisefy-exception/index.md) |  |
+| |
+|---|
+| [WisefyException](../../../core/core/com.isupatches.android.wisefy.core.exceptions/-wisefy-exception/index.md) |

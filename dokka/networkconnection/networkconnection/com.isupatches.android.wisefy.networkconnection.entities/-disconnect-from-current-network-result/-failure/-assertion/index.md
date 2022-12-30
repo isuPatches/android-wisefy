@@ -17,13 +17,13 @@ Patches Barrett
 
 12/2022, version 5.0.0
 
-## See also
+#### See also
 
 androidJvm
 
-| | |
-|---|---|
-| [com.isupatches.android.wisefy.networkconnection.entities.DisconnectFromCurrentNetworkResult.Failure](../index.md) |  |
+| |
+|---|
+| [DisconnectFromCurrentNetworkResult.Failure](../index.md) |
 
 ## Constructors
 

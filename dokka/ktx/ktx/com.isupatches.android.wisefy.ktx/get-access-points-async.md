@@ -26,16 +26,16 @@ Patches Barrett
 
 12/2022, version 5.0.0
 
-## See also
+#### See also
 
 androidJvm
 
-| | |
-|---|---|
-| [com.isupatches.android.wisefy.accesspoints.entities.GetAccessPointsQuery](../../../accesspoints/accesspoints/com.isupatches.android.wisefy.accesspoints.entities/-get-access-points-query/index.md) |  |
-| [com.isupatches.android.wisefy.accesspoints.entities.GetAccessPointsResult](../../../accesspoints/accesspoints/com.isupatches.android.wisefy.accesspoints.entities/-get-access-points-result/index.md) |  |
+| |
+|---|
+| [GetAccessPointsQuery](../../../accesspoints/accesspoints/com.isupatches.android.wisefy.accesspoints.entities/-get-access-points-query/index.md) |
+| [GetAccessPointsResult](../../../accesspoints/accesspoints/com.isupatches.android.wisefy.accesspoints.entities/-get-access-points-result/index.md) |
 
-## Parameters
+#### Parameters
 
 androidJvm
 
@@ -43,8 +43,8 @@ androidJvm
 |---|---|
 | query | The details of the query to get all nearby access points |
 
-## Throws
+#### Throws
 
-| | |
-|---|---|
-| [com.isupatches.android.wisefy.core.exceptions.WisefyException](../../../core/core/com.isupatches.android.wisefy.core.exceptions/-wisefy-exception/index.md) |  |
+| |
+|---|
+| [WisefyException](../../../core/core/com.isupatches.android.wisefy.core.exceptions/-wisefy-exception/index.md) |

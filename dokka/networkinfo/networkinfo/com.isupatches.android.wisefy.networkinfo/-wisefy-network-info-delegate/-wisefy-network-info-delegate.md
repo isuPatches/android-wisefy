@@ -11,7 +11,7 @@ fun [WisefyNetworkInfoDelegate](-wisefy-network-info-delegate.md)(connectivityMa
         networkConnectionStatusProvider = networkConnectionStatusProvider
     ))
 
-## Parameters
+#### Parameters
 
 androidJvm
 

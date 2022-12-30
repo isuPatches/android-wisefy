@@ -31,16 +31,16 @@ Patches Barrett
 
 12/2022, version 5.0.0
 
-## See also
+#### See also
 
 androidJvm
 
-| | |
-|---|---|
-| [com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkQuery](../../../networkinfo/networkinfo/com.isupatches.android.wisefy.networkinfo.entities/-get-current-network-query/index.md) |  |
-| [com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkResult](../../../networkinfo/networkinfo/com.isupatches.android.wisefy.networkinfo.entities/-get-current-network-result/index.md) |  |
+| |
+|---|
+| [GetCurrentNetworkQuery](../../../networkinfo/networkinfo/com.isupatches.android.wisefy.networkinfo.entities/-get-current-network-query/index.md) |
+| [GetCurrentNetworkResult](../../../networkinfo/networkinfo/com.isupatches.android.wisefy.networkinfo.entities/-get-current-network-result/index.md) |
 
-## Parameters
+#### Parameters
 
 androidJvm
 
@@ -48,8 +48,8 @@ androidJvm
 |---|---|
 | query | The details of the query to get the device's current network |
 
-## Throws
+#### Throws
 
-| | |
-|---|---|
-| [com.isupatches.android.wisefy.core.exceptions.WisefyException](../../../core/core/com.isupatches.android.wisefy.core.exceptions/-wisefy-exception/index.md) |  |
+| |
+|---|
+| [WisefyException](../../../core/core/com.isupatches.android.wisefy.core.exceptions/-wisefy-exception/index.md) |

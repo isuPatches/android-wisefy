@@ -31,16 +31,16 @@ Patches Barrett
 
 12/2022, version 5.0.0
 
-## See also
+#### See also
 
 androidJvm
 
-| | |
-|---|---|
-| [com.isupatches.android.wisefy.wifi.entities.IsWifiEnabledQuery](../../../wifi/wifi/com.isupatches.android.wisefy.wifi.entities/-is-wifi-enabled-query/index.md) |  |
-| [com.isupatches.android.wisefy.wifi.entities.IsWifiEnabledResult](../../../wifi/wifi/com.isupatches.android.wisefy.wifi.entities/-is-wifi-enabled-result/index.md) |  |
+| |
+|---|
+| [IsWifiEnabledQuery](../../../wifi/wifi/com.isupatches.android.wisefy.wifi.entities/-is-wifi-enabled-query/index.md) |
+| [IsWifiEnabledResult](../../../wifi/wifi/com.isupatches.android.wisefy.wifi.entities/-is-wifi-enabled-result/index.md) |
 
-## Parameters
+#### Parameters
 
 androidJvm
 
@@ -48,8 +48,8 @@ androidJvm
 |---|---|
 | query | The details of the query to check the current state of wifi |
 
-## Throws
+#### Throws
 
-| | |
-|---|---|
-| [com.isupatches.android.wisefy.core.exceptions.WisefyException](../../../core/core/com.isupatches.android.wisefy.core.exceptions/-wisefy-exception/index.md) |  |
+| |
+|---|
+| [WisefyException](../../../core/core/com.isupatches.android.wisefy.core.exceptions/-wisefy-exception/index.md) |

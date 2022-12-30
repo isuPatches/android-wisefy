@@ -1,6 +1,6 @@
 //[addnetwork](../../index.md)/[com.isupatches.android.wisefy.addnetwork.entities](index.md)
 
-# Package com.isupatches.android.wisefy.addnetwork.entities
+# Package-level declarations
 
 ## Types
 

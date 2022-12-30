@@ -9,7 +9,7 @@ fun [WisefySavedNetworkDelegate](-wisefy-saved-network-delegate.md)(assertions: 
         else -&gt; DefaultSavedNetworkAdapter(wifiManager, logger)
     })
 
-## Parameters
+#### Parameters
 
 androidJvm
 

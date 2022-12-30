@@ -9,7 +9,7 @@ fun [WisefyRemoveNetworkDelegate](-wisefy-remove-network-delegate.md)(assertions
         else -&gt; DefaultRemoveNetworkAdapter(logger, wifiManager)
     })
 
-## Parameters
+#### Parameters
 
 androidJvm
 

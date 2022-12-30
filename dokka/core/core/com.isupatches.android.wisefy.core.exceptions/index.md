@@ -1,6 +1,6 @@
 //[core](../../index.md)/[com.isupatches.android.wisefy.core.exceptions](index.md)
 
-# Package com.isupatches.android.wisefy.core.exceptions
+# Package-level declarations
 
 ## Types
 

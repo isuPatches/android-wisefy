@@ -31,16 +31,16 @@ Patches Barrett
 
 12/2022, version 5.0.0
 
-## See also
+#### See also
 
 androidJvm
 
-| | |
-|---|---|
-| [com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkRequest](../../../removenetwork/removenetwork/com.isupatches.android.wisefy.removenetwork.entities/-remove-network-request/index.md) |  |
-| [com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkResult](../../../removenetwork/removenetwork/com.isupatches.android.wisefy.removenetwork.entities/-remove-network-result/index.md) |  |
+| |
+|---|
+| [RemoveNetworkRequest](../../../removenetwork/removenetwork/com.isupatches.android.wisefy.removenetwork.entities/-remove-network-request/index.md) |
+| [RemoveNetworkResult](../../../removenetwork/removenetwork/com.isupatches.android.wisefy.removenetwork.entities/-remove-network-result/index.md) |
 
-## Parameters
+#### Parameters
 
 androidJvm
 
@@ -48,8 +48,8 @@ androidJvm
 |---|---|
 | request | The details of the request to remove a network |
 
-## Throws
+#### Throws
 
-| | |
-|---|---|
-| [com.isupatches.android.wisefy.core.exceptions.WisefyException](../../../core/core/com.isupatches.android.wisefy.core.exceptions/-wisefy-exception/index.md) |  |
+| |
+|---|
+| [WisefyException](../../../core/core/com.isupatches.android.wisefy.core.exceptions/-wisefy-exception/index.md) |

@@ -9,7 +9,7 @@ fun [WisefyAddNetworkDelegate](-wisefy-add-network-delegate.md)(assertions: [Wis
         else -&gt; DefaultAddNetworkAdapter(wifiManager, logger, assertions)
     })
 
-## Parameters
+#### Parameters
 
 androidJvm
 

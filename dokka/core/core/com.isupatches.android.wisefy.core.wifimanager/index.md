@@ -1,6 +1,6 @@
 //[core](../../index.md)/[com.isupatches.android.wisefy.core.wifimanager](index.md)
 
-# Package com.isupatches.android.wisefy.core.wifimanager
+# Package-level declarations
 
 ## Functions
 
