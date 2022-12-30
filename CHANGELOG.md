@@ -2,9 +2,9 @@
 
 ### Features
 
-* feat(all): issue178 - Automate CHANGELOG.md creation  
-  [fe2d417b87c02b09d188b185a27307d8c9abc2ca](https://github.com/isuPatches/android-wisefy/commit/fe2d417b87c02b09d188b185a27307d8c9abc2ca)  
-  isuPatches | 2022-12-29 23:01:57 -0500
+* feat(all): issue178 - Automate CHANGELOG.md creation (#181)  
+  [958d8aa2424c76b8a61568b12985c5b2be23c81b](https://github.com/isuPatches/android-wisefy/commit/958d8aa2424c76b8a61568b12985c5b2be23c81b)  
+  Patches | 2022-12-29 23:57:49 -0500
 * feat(all): issue161 - Add version details to sample app  
   [86c410f5ef9467ad87b929bb831efc433c8124f4](https://github.com/isuPatches/android-wisefy/commit/86c410f5ef9467ad87b929bb831efc433c8124f4)  
   isuPatches | 2022-12-26 15:48:17 -0500
@@ -15,7 +15,13 @@
   [2f1b6d0429116e3b77a479799bc8f1fcc3f85345](https://github.com/isuPatches/android-wisefy/commit/2f1b6d0429116e3b77a479799bc8f1fcc3f85345)  
   Patches | 2022-12-27 22:21:32 -0500
 
-### Other
+### Releases
+
+* release(wisefy:core): Release wisefy:core RC-03  
+  [9527e7ea0c181b8132f00b4c58fe9d5f4284ac8c](https://github.com/isuPatches/android-wisefy/commit/9527e7ea0c181b8132f00b4c58fe9d5f4284ac8c)  
+  isuPatches | 2022-12-30 14:58:58 -0500
+
+### Chores
 
 * chore: issue172 - Revamp issue and PR templates (#176)  
   [c8952373a743118365fb1b82c1fdb950d8a177b7](https://github.com/isuPatches/android-wisefy/commit/c8952373a743118365fb1b82c1fdb950d8a177b7)  
@@ -23,6 +29,9 @@
 * chore: issue162 - Enforce conventional commits and fix lintKotlin  
   [520443e05d06bfeff86043dc05ccdd0546c7ba09](https://github.com/isuPatches/android-wisefy/commit/520443e05d06bfeff86043dc05ccdd0546c7ba09)  
   isuPatches | 2022-12-26 17:22:25 -0500
+
+### Other
+
 * issue152 - Fix CI so it can be required (#169)  
   [831c378b1b17de57cc7b3b7cc83fdb0c779b0fa6](https://github.com/isuPatches/android-wisefy/commit/831c378b1b17de57cc7b3b7cc83fdb0c779b0fa6)  
   Patches | 2022-12-26 01:27:19 -0500

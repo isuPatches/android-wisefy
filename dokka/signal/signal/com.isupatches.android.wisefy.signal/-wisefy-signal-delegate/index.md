@@ -19,21 +19,21 @@ Patches Barrett
 
 12/2022, version 5.0.0
 
-## See also
+#### See also
 
 androidJvm
 
-| | |
-|---|---|
-| com.isupatches.android.wisefy.signal.os.adapters.Android30SignalAdapter |  |
-| com.isupatches.android.wisefy.signal.os.adapters.DefaultSignalAdapter |  |
-| [com.isupatches.android.wisefy.signal.SignalApi](../-signal-api/index.md) |  |
-| [com.isupatches.android.wisefy.signal.SignalDelegate](../-signal-delegate/index.md) |  |
-| [com.isupatches.android.wisefy.core.util.SdkUtil](../../../../core/core/com.isupatches.android.wisefy.core.util/-sdk-util/index.md) |  |
-| [com.isupatches.android.wisefy.core.assertions.WisefyAssertions](../../../../core/core/com.isupatches.android.wisefy.core.assertions/-wisefy-assertions/index.md) |  |
-| [com.isupatches.android.wisefy.core.logging.WisefyLogger](../../../../core/core/com.isupatches.android.wisefy.core.logging/-wisefy-logger/index.md) |  |
+| |
+|---|
+| Android30SignalAdapter |
+| DefaultSignalAdapter |
+| [SignalApi](../-signal-api/index.md) |
+| [SignalDelegate](../-signal-delegate/index.md) |
+| [SdkUtil](../../../../core/core/com.isupatches.android.wisefy.core.util/-sdk-util/index.md) |
+| [WisefyAssertions](../../../../core/core/com.isupatches.android.wisefy.core.assertions/-wisefy-assertions/index.md) |
+| [WisefyLogger](../../../../core/core/com.isupatches.android.wisefy.core.logging/-wisefy-logger/index.md) |
 
-## Parameters
+#### Parameters
 
 androidJvm
 

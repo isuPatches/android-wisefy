@@ -3,7 +3,15 @@
 # disconnectFromCurrentNetwork
 
 [androidJvm]\
-~~abstract~~ ~~fun~~ [~~disconnectFromCurrentNetwork~~](disconnect-from-current-network.md)~~(~~request: [DisconnectFromCurrentNetworkRequest](../../com.isupatches.android.wisefy.networkconnection.entities/-disconnect-from-current-network-request/index.md), callbacks: [DisconnectFromCurrentNetworkCallbacks](../../com.isupatches.android.wisefy.networkconnection.callbacks/-disconnect-from-current-network-callbacks/index.md)?~~)~~
+abstract fun [~~disconnectFromCurrentNetwork~~](disconnect-from-current-network.md)(request: [DisconnectFromCurrentNetworkRequest](../../com.isupatches.android.wisefy.networkconnection.entities/-disconnect-from-current-network-request/index.md), callbacks: [DisconnectFromCurrentNetworkCallbacks](../../com.isupatches.android.wisefy.networkconnection.callbacks/-disconnect-from-current-network-callbacks/index.md)?)
+
+---
+
+### Deprecated
+
+As of Android Q / SDK, applications cannot directly disconnect from the current network.
+
+---
 
 An asynchronous API to disconnect from the current network.
 
@@ -20,16 +28,16 @@ Patches Barrett
 
 12/2022, version 5.0.0
 
-## See also
+#### See also
 
 androidJvm
 
-| | |
-|---|---|
-| [com.isupatches.android.wisefy.networkconnection.entities.DisconnectFromCurrentNetworkRequest](../../com.isupatches.android.wisefy.networkconnection.entities/-disconnect-from-current-network-request/index.md) |  |
-| [com.isupatches.android.wisefy.networkconnection.callbacks.DisconnectFromCurrentNetworkCallbacks](../../com.isupatches.android.wisefy.networkconnection.callbacks/-disconnect-from-current-network-callbacks/index.md) |  |
+| |
+|---|
+| [DisconnectFromCurrentNetworkRequest](../../com.isupatches.android.wisefy.networkconnection.entities/-disconnect-from-current-network-request/index.md) |
+| [DisconnectFromCurrentNetworkCallbacks](../../com.isupatches.android.wisefy.networkconnection.callbacks/-disconnect-from-current-network-callbacks/index.md) |
 
-## Parameters
+#### Parameters
 
 androidJvm
 

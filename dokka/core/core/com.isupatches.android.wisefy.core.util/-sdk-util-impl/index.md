@@ -15,13 +15,13 @@ Patches Barrett
 
 12/2022, version 5.0.0
 
-## See also
+#### See also
 
 androidJvm
 
-| | |
-|---|---|
-| [com.isupatches.android.wisefy.core.util.SdkUtil](../-sdk-util/index.md) |  |
+| |
+|---|
+| [SdkUtil](../-sdk-util/index.md) |
 
 ## Constructors
 

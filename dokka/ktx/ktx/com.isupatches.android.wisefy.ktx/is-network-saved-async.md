@@ -31,16 +31,16 @@ Patches Barrett
 
 12/2022, version 5.0.0
 
-## See also
+#### See also
 
 androidJvm
 
-| | |
-|---|---|
-| [com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedQuery](../../../savednetworks/savednetworks/com.isupatches.android.wisefy.savednetworks.entities/-is-network-saved-query/index.md) |  |
-| [com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedResult](../../../savednetworks/savednetworks/com.isupatches.android.wisefy.savednetworks.entities/-is-network-saved-result/index.md) |  |
+| |
+|---|
+| [IsNetworkSavedQuery](../../../savednetworks/savednetworks/com.isupatches.android.wisefy.savednetworks.entities/-is-network-saved-query/index.md) |
+| [IsNetworkSavedResult](../../../savednetworks/savednetworks/com.isupatches.android.wisefy.savednetworks.entities/-is-network-saved-result/index.md) |
 
-## Parameters
+#### Parameters
 
 androidJvm
 
@@ -48,8 +48,8 @@ androidJvm
 |---|---|
 | query | The details of the request to check if a network is saved on a device |
 
-## Throws
+#### Throws
 
-| | |
-|---|---|
-| [com.isupatches.android.wisefy.core.exceptions.WisefyException](../../../core/core/com.isupatches.android.wisefy.core.exceptions/-wisefy-exception/index.md) |  |
+| |
+|---|
+| [WisefyException](../../../core/core/com.isupatches.android.wisefy.core.exceptions/-wisefy-exception/index.md) |

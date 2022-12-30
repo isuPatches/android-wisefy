@@ -20,15 +20,15 @@ Patches Barrett
 
 12/2022, version 5.0.0
 
-## See also
+#### See also
 
 androidJvm
 
-| | |
-|---|---|
-| [com.isupatches.android.wisefy.accesspoints.entities.AccessPointData](../../com.isupatches.android.wisefy.accesspoints.entities/-access-point-data/index.md) |  |
+| |
+|---|
+| [AccessPointData](../../com.isupatches.android.wisefy.accesspoints.entities/-access-point-data/index.md) |
 
-## Parameters
+#### Parameters
 
 androidJvm
 

@@ -20,13 +20,13 @@ Patches Barrett
 
 12/2022, version 5.0.0
 
-## See also
+#### See also
 
 androidJvm
 
-| | |
-|---|---|
-| [com.isupatches.android.wisefy.signal.SignalApi](../-signal-api/index.md) |  |
+| |
+|---|
+| [SignalApi](../-signal-api/index.md) |
 
 ## Functions
 

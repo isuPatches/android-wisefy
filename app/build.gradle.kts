@@ -136,7 +136,7 @@ dependencies {
     /*
      * This should be uncommented to run sample app directly against release versions of wisefy / wisefy-ktx
      */
-    implementation("com.isupatches.android.wisefy:ktx:5.0.0")
+    implementation("com.isupatches.android.wisefy:ktx:${BuildVersions.WISEFY_KTX_VERSION}")
 
     // AndroidX
     compose()

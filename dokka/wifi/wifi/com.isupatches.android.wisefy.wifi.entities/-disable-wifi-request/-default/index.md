@@ -15,10 +15,10 @@ Patches Barrett
 
 12/2022, version 5.0.0
 
-## See also
+#### See also
 
 androidJvm
 
-| | |
-|---|---|
-| [com.isupatches.android.wisefy.wifi.entities.DisableWifiRequest](../index.md) |  |
+| |
+|---|
+| [DisableWifiRequest](../index.md) |

@@ -24,22 +24,22 @@ Patches Barrett
 
 12/2022, version 5.0.0
 
-## See also
+#### See also
 
 androidJvm
 
-| | |
-|---|---|
-| com.isupatches.android.wisefy.savednetworks.os.adapters.Android29SavedNetworkAdapter |  |
-| com.isupatches.android.wisefy.savednetworks.os.adapters.Android30SavedNetworkAdapter |  |
-| [com.isupatches.android.wisefy.core.coroutines.CoroutineDispatcherProvider](../../../../core/core/com.isupatches.android.wisefy.core.coroutines/-coroutine-dispatcher-provider/index.md) |  |
-| com.isupatches.android.wisefy.savednetworks.os.adapters.DefaultSavedNetworkAdapter |  |
-| [com.isupatches.android.wisefy.core.assertions.WisefyAssertions](../../../../core/core/com.isupatches.android.wisefy.core.assertions/-wisefy-assertions/index.md) |  |
-| [com.isupatches.android.wisefy.core.logging.WisefyLogger](../../../../core/core/com.isupatches.android.wisefy.core.logging/-wisefy-logger/index.md) |  |
-| [com.isupatches.android.wisefy.savednetworks.SavedNetworkApi](../-saved-network-api/index.md) |  |
-| [com.isupatches.android.wisefy.core.util.SdkUtil](../../../../core/core/com.isupatches.android.wisefy.core.util/-sdk-util/index.md) |  |
+| |
+|---|
+| Android29SavedNetworkAdapter |
+| Android30SavedNetworkAdapter |
+| [CoroutineDispatcherProvider](../../../../core/core/com.isupatches.android.wisefy.core.coroutines/-coroutine-dispatcher-provider/index.md) |
+| DefaultSavedNetworkAdapter |
+| [WisefyAssertions](../../../../core/core/com.isupatches.android.wisefy.core.assertions/-wisefy-assertions/index.md) |
+| [WisefyLogger](../../../../core/core/com.isupatches.android.wisefy.core.logging/-wisefy-logger/index.md) |
+| [SavedNetworkApi](../-saved-network-api/index.md) |
+| [SdkUtil](../../../../core/core/com.isupatches.android.wisefy.core.util/-sdk-util/index.md) |
 
-## Parameters
+#### Parameters
 
 androidJvm
 

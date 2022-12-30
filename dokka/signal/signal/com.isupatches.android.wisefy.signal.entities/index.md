@@ -1,6 +1,6 @@
 //[signal](../../index.md)/[com.isupatches.android.wisefy.signal.entities](index.md)
 
-# Package com.isupatches.android.wisefy.signal.entities
+# Package-level declarations
 
 ## Types
 

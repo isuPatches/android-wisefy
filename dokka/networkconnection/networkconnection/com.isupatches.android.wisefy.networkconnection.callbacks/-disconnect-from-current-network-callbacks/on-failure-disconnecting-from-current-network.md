@@ -15,15 +15,15 @@ Patches Barrett
 
 12/2022, version 5.0.0
 
-## See also
+#### See also
 
 androidJvm
 
-| | |
-|---|---|
-| [com.isupatches.android.wisefy.networkconnection.entities.DisconnectFromCurrentNetworkResult.Failure](../../com.isupatches.android.wisefy.networkconnection.entities/-disconnect-from-current-network-result/-failure/index.md) |  |
+| |
+|---|
+| [DisconnectFromCurrentNetworkResult.Failure](../../com.isupatches.android.wisefy.networkconnection.entities/-disconnect-from-current-network-result/-failure/index.md) |
 
-## Parameters
+#### Parameters
 
 androidJvm
 

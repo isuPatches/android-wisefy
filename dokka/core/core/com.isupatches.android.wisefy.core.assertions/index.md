@@ -1,6 +1,6 @@
 //[core](../../index.md)/[com.isupatches.android.wisefy.core.assertions](index.md)
 
-# Package com.isupatches.android.wisefy.core.assertions
+# Package-level declarations
 
 ## Types
 

@@ -15,19 +15,19 @@ Patches Barrett
 
 12/2022, version 5.0.0
 
-## See also
+#### See also
 
 androidJvm
 
-| | |
-|---|---|
-| [com.isupatches.android.wisefy.accesspoints.AccessPointsApi](../-access-points-api/index.md) |  |
-| [com.isupatches.android.wisefy.accesspoints.AccessPointsDelegate](../-access-points-delegate/index.md) |  |
-| [com.isupatches.android.wisefy.core.coroutines.CoroutineDispatcherProvider](../../../../core/core/com.isupatches.android.wisefy.core.coroutines/-coroutine-dispatcher-provider/index.md) |  |
-| com.isupatches.android.wisefy.accesspoints.os.adapters.DefaultAccessPointsAdapter |  |
-| [com.isupatches.android.wisefy.core.logging.WisefyLogger](../../../../core/core/com.isupatches.android.wisefy.core.logging/-wisefy-logger/index.md) |  |
+| |
+|---|
+| [AccessPointsApi](../-access-points-api/index.md) |
+| [AccessPointsDelegate](../-access-points-delegate/index.md) |
+| [CoroutineDispatcherProvider](../../../../core/core/com.isupatches.android.wisefy.core.coroutines/-coroutine-dispatcher-provider/index.md) |
+| DefaultAccessPointsAdapter |
+| [WisefyLogger](../../../../core/core/com.isupatches.android.wisefy.core.logging/-wisefy-logger/index.md) |
 
-## Parameters
+#### Parameters
 
 androidJvm
 

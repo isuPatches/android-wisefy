@@ -15,13 +15,13 @@ Patches Barrett
 
 12/2022, version 5.0.0
 
-## See also
+#### See also
 
 androidJvm
 
-| | |
-|---|---|
-| [com.isupatches.android.wisefy.networkinfo.entities.NetworkData](../-network-data/index.md) |  |
+| |
+|---|
+| [NetworkData](../-network-data/index.md) |
 
 ## Constructors
 

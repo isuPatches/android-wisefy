@@ -7,8 +7,10 @@ writeCommitsBetweenTags()
   prettyLogFormat='* %s  newline  [%H](https://github.com/isuPatches/android-wisefy/commit/%H)  newline  %aN | %ai'
   featRegex='\* feat.*'
   fixRegex='\* fix.*'
+  releaseRegex='\* release.*'
+  choreRegex='\* chore.*'
 
-  featureCommitCount=$(git log "$1..$2" --pretty=format:"* %s" | grep -cE "$featRegex")
+  featureCommitCount=$(git log "$1..$2" --pretty=format:"* %s" | grep -c "$featRegex")
   if [ "$featureCommitCount" -ge 1 ]; then
     printf "### Features"
     printf "\n\n%s\n\n" "$(
@@ -30,10 +32,32 @@ writeCommitsBetweenTags()
     )"
   fi
 
-  otherCommitCount=$(git log "$1..$2" --pretty=format:"* %s" | grep -vcE "\* (feat|fix).*")
+  releasesCommitCount=$(git log "$1..$2" --pretty=format:"* %s" | grep -cE "$releaseRegex")
+  if [ "$releasesCommitCount" -ge 1 ]; then
+    printf "### Releases"
+    printf "\n\n%s\n\n" "$(
+      git log "$1..$2" --pretty=format:"$prettyLogFormat" |
+      grep -E "$releaseRegex" |
+      sed -r 's/newline/\n/g' |
+      sed "/release.*!:/s/^*/* **<< BREAKING >>** /"
+    )"
+  fi
+
+  choreCommitCount=$(git log "$1..$2" --pretty=format:"* %s" | grep -cE "$choreRegex")
+  if [ "$choreCommitCount" -ge 1 ]; then
+    printf "### Chores"
+    printf "\n\n%s\n\n" "$(
+      git log "$1..$2" --pretty=format:"$prettyLogFormat" |
+      grep -E "$choreRegex" |
+      sed -r 's/newline/\n/g' |
+      sed "/chore.*!:/s/^*/* **<< BREAKING >>** /"
+    )"
+  fi
+
+  otherCommitCount=$(git log "$1..$2" --pretty=format:"* %s" | grep -vcE "\* (feat|fix|release|chore).*")
   if [ "$otherCommitCount" -ge 1 ]; then
     printf "### Other"
-    printf "\n\n%s\n\n" "$(git log "$1..$2" --pretty=format:"$prettyLogFormat" | grep -vE "\* (feat|fix).*" | sed -r 's/newline/\n/g')"
+    printf "\n\n%s\n\n" "$(git log "$1..$2" --pretty=format:"$prettyLogFormat" | grep -vE "\* (release|feat|fix|release|chore).*" | sed -r 's/newline/\n/g')"
   fi
 }
 

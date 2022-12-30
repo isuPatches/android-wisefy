@@ -15,15 +15,15 @@ Patches Barrett
 
 12/2022, version 5.0.0
 
-## See also
+#### See also
 
 androidJvm
 
-| | |
-|---|---|
-| [com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult.Success](../../com.isupatches.android.wisefy.addnetwork.entities/-add-network-result/-success/index.md) |  |
+| |
+|---|
+| [AddNetworkResult.Success](../../com.isupatches.android.wisefy.addnetwork.entities/-add-network-result/-success/index.md) |
 
-## Parameters
+#### Parameters
 
 androidJvm
 

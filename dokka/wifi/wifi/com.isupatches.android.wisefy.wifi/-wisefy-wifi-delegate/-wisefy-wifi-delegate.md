@@ -9,7 +9,7 @@ fun [WisefyWifiDelegate](-wisefy-wifi-delegate.md)(assertions: [WisefyAssertions
         DefaultWifiAdapter(wifiManager, logger, assertions)
     })
 
-## Parameters
+#### Parameters
 
 androidJvm
 

@@ -19,23 +19,23 @@ Patches Barrett
 
 12/2022, version 5.0.0
 
-## See also
+#### See also
 
 androidJvm
 
-| | |
-|---|---|
-| [com.isupatches.android.wisefy.addnetwork.AddNetworkApi](../-add-network-api/index.md) |  |
-| [com.isupatches.android.wisefy.addnetwork.AddNetworkDelegate](../-add-network-delegate/index.md) |  |
-| com.isupatches.android.wisefy.addnetwork.os.adapters.Android30AddNetworkAdapter |  |
-| com.isupatches.android.wisefy.addnetwork.os.adapters.Android29AddNetworkAdapter |  |
-| [com.isupatches.android.wisefy.core.coroutines.CoroutineDispatcherProvider](../../../../core/core/com.isupatches.android.wisefy.core.coroutines/-coroutine-dispatcher-provider/index.md) |  |
-| com.isupatches.android.wisefy.addnetwork.os.adapters.DefaultAddNetworkAdapter |  |
-| [com.isupatches.android.wisefy.core.util.SdkUtil](../../../../core/core/com.isupatches.android.wisefy.core.util/-sdk-util/index.md) |  |
-| [com.isupatches.android.wisefy.core.assertions.WisefyAssertions](../../../../core/core/com.isupatches.android.wisefy.core.assertions/-wisefy-assertions/index.md) |  |
-| [com.isupatches.android.wisefy.core.logging.WisefyLogger](../../../../core/core/com.isupatches.android.wisefy.core.logging/-wisefy-logger/index.md) |  |
+| |
+|---|
+| [AddNetworkApi](../-add-network-api/index.md) |
+| [AddNetworkDelegate](../-add-network-delegate/index.md) |
+| Android30AddNetworkAdapter |
+| Android29AddNetworkAdapter |
+| [CoroutineDispatcherProvider](../../../../core/core/com.isupatches.android.wisefy.core.coroutines/-coroutine-dispatcher-provider/index.md) |
+| DefaultAddNetworkAdapter |
+| [SdkUtil](../../../../core/core/com.isupatches.android.wisefy.core.util/-sdk-util/index.md) |
+| [WisefyAssertions](../../../../core/core/com.isupatches.android.wisefy.core.assertions/-wisefy-assertions/index.md) |
+| [WisefyLogger](../../../../core/core/com.isupatches.android.wisefy.core.logging/-wisefy-logger/index.md) |
 
-## Parameters
+#### Parameters
 
 androidJvm
 

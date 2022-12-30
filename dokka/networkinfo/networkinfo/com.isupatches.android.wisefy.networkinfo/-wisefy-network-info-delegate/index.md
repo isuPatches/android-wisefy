@@ -21,21 +21,21 @@ Patches Barrett
 
 12/2022, version 5.0.0
 
-## See also
+#### See also
 
 androidJvm
 
-| | |
-|---|---|
-| [com.isupatches.android.wisefy.core.coroutines.CoroutineDispatcherProvider](../../../../core/core/com.isupatches.android.wisefy.core.coroutines/-coroutine-dispatcher-provider/index.md) |  |
-| com.isupatches.android.wisefy.networkinfo.os.adapters.DefaultNetworkInfoAdapter |  |
-| [com.isupatches.android.wisefy.networkinfo.NetworkInfoApi](../-network-info-api/index.md) |  |
-| [com.isupatches.android.wisefy.core.entities.NetworkConnectionStatus](../../../../core/core/com.isupatches.android.wisefy.core.entities/-network-connection-status/index.md) |  |
-| [com.isupatches.android.wisefy.networkinfo.NetworkInfoDelegate](../-network-info-delegate/index.md) |  |
-| [com.isupatches.android.wisefy.core.util.SdkUtil](../../../../core/core/com.isupatches.android.wisefy.core.util/-sdk-util/index.md) |  |
-| [com.isupatches.android.wisefy.core.logging.WisefyLogger](../../../../core/core/com.isupatches.android.wisefy.core.logging/-wisefy-logger/index.md) |  |
+| |
+|---|
+| [CoroutineDispatcherProvider](../../../../core/core/com.isupatches.android.wisefy.core.coroutines/-coroutine-dispatcher-provider/index.md) |
+| DefaultNetworkInfoAdapter |
+| [NetworkInfoApi](../-network-info-api/index.md) |
+| [NetworkConnectionStatus](../../../../core/core/com.isupatches.android.wisefy.core.entities/-network-connection-status/index.md) |
+| [NetworkInfoDelegate](../-network-info-delegate/index.md) |
+| [SdkUtil](../../../../core/core/com.isupatches.android.wisefy.core.util/-sdk-util/index.md) |
+| [WisefyLogger](../../../../core/core/com.isupatches.android.wisefy.core.logging/-wisefy-logger/index.md) |
 
-## Parameters
+#### Parameters
 
 androidJvm
 

@@ -24,13 +24,13 @@ Patches Barrett
 
 12/2022, version 5.0.0
 
-## See also
+#### See also
 
 androidJvm
 
-| | |
-|---|---|
-| [com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult.Failure](../index.md) |  |
+| |
+|---|
+| [AddNetworkResult.Failure](../index.md) |
 
 ## Constructors
 
