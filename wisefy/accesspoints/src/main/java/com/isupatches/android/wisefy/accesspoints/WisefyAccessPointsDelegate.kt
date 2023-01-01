@@ -69,14 +69,13 @@ class WisefyAccessPointsDelegate(
         query: GetAccessPointsQuery,
         callbacks: GetAccessPointsCallbacks?
     ) {
+        callbacks ?: return
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
             val result = adapter.getAccessPoints(query)
             withContext(coroutineDispatcherProvider.main) {
                 when (result) {
-                    is GetAccessPointsResult.Empty -> callbacks?.onNoNearbyAccessPoints()
-                    is GetAccessPointsResult.AccessPoints -> {
-                        callbacks?.onNearbyAccessPointsRetrieved(result.value)
-                    }
+                    is GetAccessPointsResult.Empty -> callbacks.onNoNearbyAccessPoints()
+                    is GetAccessPointsResult.AccessPoints -> callbacks.onNearbyAccessPointsRetrieved(result.value)
                 }
             }
         }

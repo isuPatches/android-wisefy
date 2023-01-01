@@ -32,7 +32,9 @@
     <string name="access_point_raw_value_args">%s</string>
     <string name="access_point_is_saved_by_ssid_args">Saved by SSID: %b</string>
     <string name="access_point_is_saved_by_bssid_args">Saved by BSSID: %b</string>
-    <string name="access_point_security_capabilities_args">Security capabilities: %s</string>
+    <string name="access_point_authentication_algorithms_args">Authentication Algorithms: %s</string>
+    <string name="access_point_key_management_algorithms_args">Key Management Algorithms: %s</string>
+    <string name="access_point_pairwise_ciphers_args">Pairwise Ciphers: %s</string>
 
     <!-- Permissions -->
     <string name="permission_error_disable_wifi">Permissions for disabling wifi are denied</string>

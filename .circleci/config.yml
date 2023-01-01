@@ -62,6 +62,11 @@ jobs:
       name: android/android-machine
     steps:
       - checkout
+      - restore_cache:
+          key: jars-{{ checksum "build.gradle.kts" }}-{{ checksum  "app/build.gradle.kts" }}-{{ checksum  "wisefy/build.gradle.kts" }}
+      - run:
+          name: Download Dependencies
+          command: ./gradlew androidDependencies
       - write-keystore-files
       - import-gpg-key
       - publish-to-maven-local
@@ -83,6 +88,18 @@ jobs:
       - run:
           name: Assemble release build
           command: ./gradlew assembleRelease
+      - run:
+          name: Run unit tests with coverage
+          command: ./gradlew jacocoDebugUnitTest
+      - store_test_results:
+          path: wisefy/accesspoints/build/test-results/testDebugUnitTest
+      - store_artifacts:
+          path: wisefy/accesspoints/build/reports/jacoco/jacocoDebugUnitTest/html
+          destination: wisefy/accesspoints/unitTestCoverageReport
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: jars-{{ checksum "build.gradle.kts" }}-{{ checksum  "app/build.gradle.kts" }}-{{ checksum  "wisefy/build.gradle.kts" }}
 
 workflows:
   wisefy-ci-cd:

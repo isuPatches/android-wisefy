@@ -134,7 +134,7 @@ dependencies {
 //    implementation(project(":wisefy:ktx"))
 
     /*
-     * This should be uncommented to run sample app directly against release versions of wisefy / wisefy-ktx
+     * This should be uncommented to run sample app directly against release versions of wisefy-ktx
      */
     implementation("com.isupatches.android.wisefy:ktx:${BuildVersions.WISEFY_KTX_VERSION}")
 

@@ -33,7 +33,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
-import com.isupatches.android.wisefy.accesspoints.entities.SecurityCapability
+import com.isupatches.android.wisefy.core.constants.MAX_FREQUENCY_5_GHZ
+import com.isupatches.android.wisefy.core.entities.AuthenticationAlgorithm
+import com.isupatches.android.wisefy.core.entities.KeyManagementAlgorithm
+import com.isupatches.android.wisefy.core.entities.PairwiseCipher
 import com.isupatches.android.wisefy.sample.R
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleBodyLabel
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleSubHeaderLabel
@@ -110,9 +113,23 @@ private fun AccessPointRow(accessPoint: AccessPointUIData) {
             }
             Row {
                 WisefySampleBodyLabel(
-                    stringResId = R.string.access_point_security_capabilities_args,
+                    stringResId = R.string.access_point_authentication_algorithms_args,
                     modifier = Modifier.padding(top = WisefySampleSizes.Medium),
-                    accessPoint.securityCapabilities
+                    accessPoint.authenticationAlgorithms
+                )
+            }
+            Row {
+                WisefySampleBodyLabel(
+                    stringResId = R.string.access_point_key_management_algorithms_args,
+                    modifier = Modifier.padding(top = WisefySampleSizes.Medium),
+                    accessPoint.keyManagementAlgorithms
+                )
+            }
+            Row {
+                WisefySampleBodyLabel(
+                    stringResId = R.string.access_point_pairwise_ciphers_args,
+                    modifier = Modifier.padding(top = WisefySampleSizes.Medium),
+                    accessPoint.pairwiseCiphers
                 )
             }
             Row {
@@ -145,9 +162,13 @@ private fun NearbyAccessPointsScreenContentLightPreview() {
                     ),
                     isSavedBySSID = false,
                     isSavedByBSSID = false,
-                    securityCapabilities = SecurityCapability.ALL.associateWith {
+                    authenticationAlgorithms = AuthenticationAlgorithm.ALL.associateWith {
                         false
-                    }
+                    },
+                    keyManagementAlgorithms = KeyManagementAlgorithm.ALL.associateWith {
+                        false
+                    },
+                    pairwiseCiphers = PairwiseCipher.ALL.associateWith { false }
                 )
             )
         }
@@ -169,13 +190,17 @@ private fun NearbyAccessPointsScreenContentDarkPreview() {
                         },
                         ssid = "",
                         bssid = "",
-                        frequency = 4900
+                        frequency = MAX_FREQUENCY_5_GHZ
                     ),
                     isSavedBySSID = false,
                     isSavedByBSSID = false,
-                    securityCapabilities = SecurityCapability.ALL.associateWith {
+                    authenticationAlgorithms = AuthenticationAlgorithm.ALL.associateWith {
                         false
-                    }
+                    },
+                    keyManagementAlgorithms = KeyManagementAlgorithm.ALL.associateWith {
+                        false
+                    },
+                    pairwiseCiphers = PairwiseCipher.ALL.associateWith { false }
                 )
             )
         }

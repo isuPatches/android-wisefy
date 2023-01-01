@@ -40,7 +40,7 @@ afterEvaluate {
             classDirectories.setFrom(getClassDirectoriesTree(excludes))
             sourceDirectories.setFrom(getSourceDirectoriesTree())
             executionData.setFrom(
-                fileTree("${project.buildDir}/jacoco") {
+                fileTree("${project.buildDir}/outputs/unit_test_code_coverage") {
                     include("**/*.exec")
                 }
             )
@@ -57,7 +57,7 @@ afterEvaluate {
             classDirectories.setFrom(getClassDirectoriesTree(excludes))
             sourceDirectories.setFrom(getSourceDirectoriesTree())
             executionData.setFrom(
-                fileTree("${project.buildDir}/jacoco") {
+                fileTree("${project.buildDir}/outputs/unit_test_code_coverage") {
                     include("**/*.exec")
                 }
             )
@@ -112,7 +112,7 @@ afterEvaluate {
             classDirectories.setFrom(getClassDirectoriesTree(excludes))
             sourceDirectories.setFrom(getSourceDirectoriesTree())
             executionData.setFrom(
-                fileTree("${project.buildDir}/jacoco") {
+                fileTree("${project.buildDir}/outputs/unit_test_code_coverage") {
                     include("**/*.exec")
                 },
                 fileTree("${project.buildDir}/outputs/code_coverage/") {
@@ -132,7 +132,7 @@ afterEvaluate {
             classDirectories.setFrom(getClassDirectoriesTree(excludes))
             sourceDirectories.setFrom(getSourceDirectoriesTree())
             executionData.setFrom(
-                fileTree("${project.buildDir}/jacoco") {
+                fileTree("${project.buildDir}/outputs/unit_test_code_coverage") {
                     include("**/*.exec")
                 },
                 fileTree("${project.buildDir}/outputs/code_coverage/") {
