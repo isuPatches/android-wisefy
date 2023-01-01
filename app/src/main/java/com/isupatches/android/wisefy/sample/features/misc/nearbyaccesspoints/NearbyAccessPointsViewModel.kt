@@ -24,8 +24,12 @@ import com.isupatches.android.wisefy.WisefyApi
 import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
 import com.isupatches.android.wisefy.accesspoints.entities.GetAccessPointsQuery
 import com.isupatches.android.wisefy.accesspoints.entities.GetAccessPointsResult
-import com.isupatches.android.wisefy.accesspoints.entities.SecurityCapability
-import com.isupatches.android.wisefy.accesspoints.entities.containSecurityCapability
+import com.isupatches.android.wisefy.accesspoints.entities.supportsAuthenticationAlgorithm
+import com.isupatches.android.wisefy.accesspoints.entities.supportsKeyManagementAlgorithm
+import com.isupatches.android.wisefy.accesspoints.entities.supportsPairwiseCipher
+import com.isupatches.android.wisefy.core.entities.AuthenticationAlgorithm
+import com.isupatches.android.wisefy.core.entities.KeyManagementAlgorithm
+import com.isupatches.android.wisefy.core.entities.PairwiseCipher
 import com.isupatches.android.wisefy.core.exceptions.WisefyException
 import com.isupatches.android.wisefy.ktx.isNetworkSavedAsync
 import com.isupatches.android.wisefy.sample.scaffolding.BaseViewModel
@@ -90,16 +94,28 @@ internal class DefaultNearbyAccessPointsViewModel(
                             IsNetworkSavedResult.True -> true
                             IsNetworkSavedResult.False -> false
                         }
-                        val securityCapabilityMap = mutableMapOf<SecurityCapability, Boolean>()
-                        SecurityCapability.ALL.forEach { securityCapability ->
-                            securityCapabilityMap[securityCapability] =
-                                accessPoint.containSecurityCapability(securityCapability)
+                        val authenticationAlgorithmMap = mutableMapOf<AuthenticationAlgorithm, Boolean>()
+                        AuthenticationAlgorithm.ALL.forEach { authenticationAlgorithm ->
+                            authenticationAlgorithmMap[authenticationAlgorithm] =
+                                accessPoint.supportsAuthenticationAlgorithm(authenticationAlgorithm)
+                        }
+                        val keyManagementAlgorithmMap = mutableMapOf<KeyManagementAlgorithm, Boolean>()
+                        KeyManagementAlgorithm.ALL.forEach { keyManagementAlgorithm ->
+                            keyManagementAlgorithmMap[keyManagementAlgorithm] =
+                                accessPoint.supportsKeyManagementAlgorithm(keyManagementAlgorithm)
+                        }
+                        val pairwiseCipherMap = mutableMapOf<PairwiseCipher, Boolean>()
+                        PairwiseCipher.ALL.forEach { pairwiseCipher ->
+                            pairwiseCipherMap[pairwiseCipher] =
+                                accessPoint.supportsPairwiseCipher(pairwiseCipher)
                         }
                         AccessPointUIData(
                             accessPoint = accessPoint,
                             isSavedBySSID = isSavedBySSID,
                             isSavedByBSSID = isSavedByBSSID,
-                            securityCapabilities = securityCapabilityMap
+                            authenticationAlgorithms = authenticationAlgorithmMap,
+                            keyManagementAlgorithms = keyManagementAlgorithmMap,
+                            pairwiseCiphers = pairwiseCipherMap
                         )
                     }
                     _uiState.value = NearbyAccessPointsUIState(
@@ -144,5 +160,7 @@ internal data class AccessPointUIData(
     val accessPoint: AccessPointData,
     val isSavedBySSID: Boolean,
     val isSavedByBSSID: Boolean,
-    val securityCapabilities: Map<SecurityCapability, Boolean>
+    val authenticationAlgorithms: Map<AuthenticationAlgorithm, Boolean>,
+    val keyManagementAlgorithms: Map<KeyManagementAlgorithm, Boolean>,
+    val pairwiseCiphers: Map<PairwiseCipher, Boolean>
 )

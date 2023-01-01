@@ -57,11 +57,7 @@ internal class DefaultAccessPointsApiImpl(
             removeEntriesWithLowerSignalStrength(accessPoints = allAccessPoints)
         } else {
             allAccessPoints.map { scanResult ->
-                AccessPointData(
-                    rawValue = scanResult,
-                    ssid = scanResult.ssidWithoutQuotes,
-                    bssid = scanResult.bssidWithoutQuotes
-                )
+                AccessPointData(rawValue = scanResult)
             }
         }
     }
@@ -107,7 +103,7 @@ internal class DefaultAccessPointsApiImpl(
             removeEntriesWithLowerSignalStrength(allAccessPoints.filter(matcher))
         } else {
             allAccessPoints.filter(matcher).map {
-                AccessPointData(rawValue = it, ssid = it.ssidWithoutQuotes, bssid = it.bssidWithoutQuotes)
+                AccessPointData(rawValue = it)
             }
         }
     }
@@ -145,11 +141,7 @@ internal class DefaultAccessPointsApiImpl(
                     )
                 }
             } else {
-                val accessPointData = AccessPointData(
-                    rawValue = accessPoint,
-                    ssid = accessPoint.ssidWithoutQuotes,
-                    bssid = accessPoint.bssidWithoutQuotes
-                )
+                val accessPointData = AccessPointData(rawValue = accessPoint)
                 logger.d(LOG_TAG, "Found new network. $accessPointData")
                 accessPointsToReturn[accessPoint.ssidWithoutQuotes] = accessPointData
             }

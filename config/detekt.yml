@@ -252,6 +252,7 @@ exceptions:
       - 'NumberFormatException'
       - 'ParseException'
     allowedExceptionNameRegex: '_|(ignore|expected).*'
+    excludes: [ '**/test/**', '**/androidTest/**']
   ThrowingExceptionFromFinally:
     active: true
   ThrowingExceptionInMain:
@@ -316,6 +317,7 @@ naming:
   FunctionMaxLength:
     active: true
     maximumFunctionNameLength: 50
+    excludes: [ '**/test/**', '**/androidTest/**']
   FunctionMinLength:
     active: true
     minimumFunctionNameLength: 1

@@ -42,7 +42,7 @@ import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkRequest
 import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
 import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
 import com.isupatches.android.wisefy.core.constants.DeprecationMessages
-import com.isupatches.android.wisefy.core.coroutines.CoroutineDispatcherProvider
+import com.isupatches.android.wisefy.core.coroutines.DefaultCoroutineDispatcherProvider
 import com.isupatches.android.wisefy.core.logging.DefaultWisefyLogger
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.core.util.SdkUtilImpl
@@ -191,7 +191,7 @@ class Wisefy private constructor(
             wifiManager = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
 
             val sdkUtil = SdkUtilImpl()
-            val coroutineDispatcherProvider = CoroutineDispatcherProvider()
+            val coroutineDispatcherProvider = DefaultCoroutineDispatcherProvider()
             wisefyScope = CoroutineScope(SupervisorJob() + coroutineDispatcherProvider.io)
             val assertions = WisefyAssertions(throwOnAssertions)
 

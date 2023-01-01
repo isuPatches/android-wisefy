@@ -13,36 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.android.wisefy.core.constants
+package com.isupatches.android.wisefy.testsupport
+
+import org.mockito.ArgumentMatchers.any
+import org.mockito.ArgumentMatchers.eq
 
 /**
- * A constant for the minimum frequency for a 2.4gHz network.
+ * A work around for Mockito `any()` crashing with an NPE.
+ *
+ * https://stackoverflow.com/questions/36272751/mockito-nullpointerexception-while-using-any
  *
  * @author Patches Barrett
  * @since 12/2022, version 5.0.0
  */
-const val MIN_FREQUENCY_2_4_GHZ: Int = 2400
+fun <T> anyNonNull(): T = any()
 
 /**
- * A constant for the maximum frequency for a 2.4gHz network.
+ * A work around for Mockito `eq()` crashing with an NPE.
+ *
+ * https://stackoverflow.com/questions/36272751/mockito-nullpointerexception-while-using-any
  *
  * @author Patches Barrett
  * @since 12/2022, version 5.0.0
  */
-const val MAX_FREQUENCY_2_4_GHZ: Int = 2500
-
-/**
- * A constant for the minimum frequency for a 5gHz network.
- *
- * @author Patches Barrett
- * @since 12/2022, version 5.0.0
- */
-const val MIN_FREQUENCY_5_GHZ: Int = 4900
-
-/**
- * A constant for the maximum frequency for a 5G network.
- *
- * @author Patches Barrett
- * @since 12/2022, version 5.0.0
- */
-const val MAX_FREQUENCY_5_GHZ: Int = 5900
+fun <T> eqNonNull(obj: T): T = eq(obj)

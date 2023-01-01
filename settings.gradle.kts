@@ -12,5 +12,6 @@ include(
     ":wisefy:savednetworks",
     ":wisefy:removenetwork",
     ":wisefy:signal",
-    ":wisefy:wifi"
+    ":wisefy:wifi",
+    ":testsupport"
 )

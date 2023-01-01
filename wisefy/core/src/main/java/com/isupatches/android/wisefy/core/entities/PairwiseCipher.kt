@@ -13,43 +13,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.android.wisefy.core.coroutines
-
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
+package com.isupatches.android.wisefy.core.entities
 
 /**
- * An API for references to various coroutines dispatchers (primarily used to swap them out in tests if needed).
+ * A set of supported key pairwise ciphers.
+ *
+ * @property stringValue The string value of the pairwise cipher
  *
  * @author Patches Barrett
  * @since 12/2022, version 5.0.0
  */
-interface CoroutineDispatcherProvider {
+enum class PairwiseCipher(val stringValue: String) {
 
     /**
-     * A reference to the I/O dispatcher for background operations.
+     * A representation of the TKIP pairwise cipher.
      *
      * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
-    val io: CoroutineDispatcher
+    TKIP("TKIP"),
 
     /**
-     * A reference to the main dispatcher for UI operations.
+     * A representation of the CCMP EAP pairwise cipher.
      *
      * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
-    val main: CoroutineDispatcher
-}
+    CCMP("CCMP");
 
-/**
- * An Default implementation for various coroutines dispatchers.
- *
- * @author Patches Barrett
- * @since 12/2022, version 5.0.0
- */
-class DefaultCoroutineDispatcherProvider : CoroutineDispatcherProvider {
-    override val io: CoroutineDispatcher = Dispatchers.IO
-    override val main: CoroutineDispatcher = Dispatchers.Main
+    companion object {
+        /**
+         * A list comprised of all of the representations of pairwise ciphers.
+         *
+         * @see PairwiseCipher
+         *
+         * @author Patches Barrett
+         * @since 12/2022, version 5.0.0
+         */
+        val ALL: List<PairwiseCipher> = values().asList()
+    }
 }

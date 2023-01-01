@@ -48,4 +48,13 @@ object Versions {
 
     // Code Coverage
     const val JACOCO: String = "0.8.8"
+
+    // Unit Tests
+    const val KOTLIN_TEST: String = "1.6.4"
+    const val JUNIT: String = "4.13.2"
+    const val MOCKITO: String = "4.11.0"
+
+    // Instrumentation Tests
+    const val ANDROIDX_TEST_RULES: String = "1.5.0"
+    const val ANDROIDX_TEST_RUNNER: String = "1.5.1"
 }
