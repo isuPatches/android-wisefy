@@ -328,9 +328,9 @@ internal class DefaultAccessPointsAdapterTest {
     }
 
     companion object {
-        private const val TEST_SSID = "test SSID"
-        private const val TEST_BSSID = "test:BSSID"
-        private val TEST_ACCESS_POINT = AccessPointData(
+        private const val TEST_SSID: String = "test SSID"
+        private const val TEST_BSSID: String = "test:BSSID"
+        private val TEST_ACCESS_POINT: AccessPointData = AccessPointData(
             rawValue = ScanResult().apply {
                 level = -66
                 capabilities = ""

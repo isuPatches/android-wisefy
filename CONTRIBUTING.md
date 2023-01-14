@@ -9,9 +9,9 @@
 
 I'd love to have your help, but please don't skimp on greatness!
 
-Please check the [Issues](https://github.com/isupatches/android-wisefy/issues) and the [Main Board](https://github.com/isuPatches/android-wisefy/projects/1) to make sure what you want is not already being worked on.
+Please check the [Issues](https://github.com/isupatches/android-wisefy/issues) to make sure what you want is not already being worked on.
 
-* Please create an issue and use the [Main Board](https://github.com/isuPatches/android-wisefy/projects/1) to denote its status
+* Please create an issue
     - Please tag the issue with the appropriate labels as well (i.e. status, bug, TODO, etc.)
     - Each issue should have clear details (i.e. steps to reproduce if it's a bug or acceptance criteria if a new feature)
 
@@ -43,7 +43,7 @@ This project strives to follow [conventional commits](https://www.conventionalco
 The basic format of a commit message is: (type)(optional scope)(breaking change indicator if needed): issue# - description
 
 Examples:
-- `feat(addnetowrk): issue25 - Add netowrk connection wizard`
+- `feat(addnetowrk): issue25 - Add network connection wizard`
 - `fix(core, removenetwork): issue54 - Foobared`
 - `feat(wisefy)!: issue999 - Breaking change of doom`
 

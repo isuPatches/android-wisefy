@@ -21,10 +21,17 @@ import com.isupatches.android.wisefy.Wisefy
 import com.isupatches.android.wisefy.WisefyApi
 import com.isupatches.android.wisefy.sample.logging.WisefySampleLogger
 
-internal fun createWisefy(context: Context): WisefyApi {
-    return Wisefy.Brains(
-        context = context,
-        throwOnAssertions = BuildConfig.DEBUG,
-        logger = WisefySampleLogger
-    ).getSmarts()
+internal object WisefyFactory {
+
+    private var wisefy: WisefyApi? = null
+
+    private fun createWisefy(context: Context): WisefyApi {
+        return Wisefy.Brains(
+            context = context,
+            throwOnAssertions = BuildConfig.DEBUG,
+            logger = WisefySampleLogger
+        ).getSmarts()
+    }
+
+    fun getInstance(context: Context) = wisefy ?: createWisefy(context)
 }

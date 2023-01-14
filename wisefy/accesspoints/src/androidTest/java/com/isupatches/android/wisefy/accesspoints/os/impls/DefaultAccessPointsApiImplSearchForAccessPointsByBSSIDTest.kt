@@ -40,17 +40,17 @@ internal class DefaultAccessPointsApiImplSearchForAccessPointsByBSSIDTest(
 
     private lateinit var apiImpl: DefaultAccessPointsApiImpl
 
-    private var annotationsClosable: AutoCloseable? = null
+    private var closable: AutoCloseable? = null
 
     @Before
     fun setUp() {
-        MockitoAnnotations.openMocks(this)
+        closable = MockitoAnnotations.openMocks(this)
         apiImpl = DefaultAccessPointsApiImpl(wifiManager = mockWifiManager, logger = DefaultWisefyLogger())
     }
 
     @After
     fun tearDown() {
-        annotationsClosable?.close()
+        closable?.close()
     }
 
     @Test
@@ -462,40 +462,40 @@ internal class DefaultAccessPointsApiImplSearchForAccessPointsByBSSIDTest(
             val expectedResultList: List<AccessPointData>
         )
 
-        private const val TEST_SSID_1 = "Test SSID 1"
-        private const val TEST_SSID_2 = "Test SSID 2"
-        private const val TEST_BSSID_1 = "Test:BSSID:1"
-        private const val TEST_BSSID_2 = "Test:BSSID:2"
-        private const val TEST_REGEX = "Test:BSSID:.*"
-        private const val TEST_RSSI_1 = -5
-        private const val TEST_RSSI_2 = -25
-        private const val TEST_RSSI_LOWER = -15
-        private const val TEST_RSSI_HIGHER = 15
-        private val TEST_SCAN_RESULT_1 = ScanResult().apply {
+        private const val TEST_SSID_1: String = "Test SSID 1"
+        private const val TEST_SSID_2: String = "Test SSID 2"
+        private const val TEST_BSSID_1: String = "Test:BSSID:1"
+        private const val TEST_BSSID_2: String = "Test:BSSID:2"
+        private const val TEST_REGEX: String = "Test:BSSID:.*"
+        private const val TEST_RSSI_1: Int = -5
+        private const val TEST_RSSI_2: Int = -25
+        private const val TEST_RSSI_LOWER: Int = -15
+        private const val TEST_RSSI_HIGHER: Int = 15
+        private val TEST_SCAN_RESULT_1: ScanResult = ScanResult().apply {
             @Suppress("Deprecation")
             SSID = TEST_SSID_1
             BSSID = TEST_BSSID_1
             level = TEST_RSSI_1
         }
-        private val TEST_SCAN_RESULT_2 = ScanResult().apply {
+        private val TEST_SCAN_RESULT_2: ScanResult = ScanResult().apply {
             @Suppress("Deprecation")
             SSID = TEST_SSID_2
             BSSID = TEST_BSSID_2
             level = TEST_RSSI_2
         }
-        private val TEST_SCAN_RESULT_SAME_SSID_LOWER_RSSI = ScanResult().apply {
+        private val TEST_SCAN_RESULT_SAME_SSID_LOWER_RSSI: ScanResult = ScanResult().apply {
             @Suppress("Deprecation")
             SSID = TEST_SSID_1
             BSSID = TEST_BSSID_1
             level = TEST_RSSI_LOWER
         }
-        private val TEST_SCAN_RESULT_SAME_SSID_SAME_RSSI = ScanResult().apply {
+        private val TEST_SCAN_RESULT_SAME_SSID_SAME_RSSI: ScanResult = ScanResult().apply {
             @Suppress("Deprecation")
             SSID = TEST_SSID_1
             BSSID = TEST_BSSID_1
             level = TEST_RSSI_1
         }
-        private val TEST_SCAN_RESULT_SAME_SSID_HIGHER_RSSI = ScanResult().apply {
+        private val TEST_SCAN_RESULT_SAME_SSID_HIGHER_RSSI: ScanResult = ScanResult().apply {
             @Suppress("Deprecation")
             SSID = TEST_SSID_1
             BSSID = TEST_BSSID_1
