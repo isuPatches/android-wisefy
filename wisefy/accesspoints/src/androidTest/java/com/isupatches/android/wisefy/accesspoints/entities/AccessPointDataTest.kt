@@ -27,13 +27,6 @@ import org.junit.Test
 
 internal class AccessPointDataTest {
 
-    companion object {
-        private const val TEST_SSID = "Test SSID"
-        private const val TEST_BSSID = "Test:BSSID"
-        private const val TEST_FREQUENCY = 24500
-        private const val TEST_RSSI = -65
-    }
-
     @Test
     fun assignsSSID_fromRawValue() {
         // Given
@@ -177,5 +170,12 @@ internal class AccessPointDataTest {
 
         // Expect
         assertTrue(accessPoint.isSecure)
+    }
+
+    companion object {
+        private const val TEST_SSID: String = "Test SSID"
+        private const val TEST_BSSID: String = "Test:BSSID"
+        private const val TEST_FREQUENCY: Int = 24500
+        private const val TEST_RSSI: Int = -65
     }
 }

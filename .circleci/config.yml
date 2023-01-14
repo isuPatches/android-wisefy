@@ -4,6 +4,13 @@ orbs:
   android: circleci/android@1.0.3
 
 commands:
+    setup-dependencies:
+      steps:
+        - restore_cache:
+            key: jars-{{ checksum "build.gradle.kts" }}-{{ checksum  "app/build.gradle.kts" }}-{{ checksum  "wisefy/build.gradle.kts" }}
+        - run:
+            name: Download Dependencies
+            command: ./gradlew androidDependencies
     write-keystore-files:
       steps:
         - run:
@@ -55,6 +62,55 @@ commands:
         - run:
             name: Pulblish wisefy:ktx to Maven Local
             command: ./gradlew wisefy:ktx:publishToMavenLocal
+    run-static-analysis:
+      steps:
+        - run:
+            name: Run lint
+            command: ./gradlew lintDebug
+        - run:
+            name: Run Kotlinter
+            command: ./gradlew lintKotlin
+        - run:
+            name: Run detekt
+            command: ./gradlew detekt
+        - run:
+            name: Run CPD
+            command: ./gradlew cpdCheck
+    build-debug-build:
+      steps:
+        - run:
+            name: Assemble debug build
+            command: ./gradlew assembleDebug
+    build-release-build:
+      steps:
+        - run:
+            name: Assemble release build
+            command: ./gradlew assembleRelease
+    run-unit-tests:
+      steps:
+        - run:
+            name: Run unit tests with coverage
+            command: ./gradlew jacocoDebugUnitTest
+    store-unit-test-results:
+      steps:
+        - store_test_results:
+            path: wisefy/accesspoints/build/test-results/testDebugUnitTest
+        - store_test_results:
+            path: wisefy/addnetwork/build/test-results/testDebugUnitTest
+    store-code-coverage-reports:
+      steps:
+        - store_artifacts:
+            path: wisefy/accesspoints/build/reports/jacoco/jacocoDebugUnitTest/html
+            destination: wisefy/accesspoints/unitTestCoverageReport
+        - store_artifacts:
+            path: wisefy/addnetwork/build/reports/jacoco/jacocoDebugUnitTest/html
+            destination: wisefy/addnetwork/unitTestCoverageReport
+    cache-dependencies:
+      steps:
+        - save_cache:
+            paths:
+              - ~/.gradle
+            key: jars-{{ checksum "build.gradle.kts" }}-{{ checksum  "app/build.gradle.kts" }}-{{ checksum  "wisefy/build.gradle.kts" }}
 
 jobs:
   build-and-test:
@@ -62,44 +118,17 @@ jobs:
       name: android/android-machine
     steps:
       - checkout
-      - restore_cache:
-          key: jars-{{ checksum "build.gradle.kts" }}-{{ checksum  "app/build.gradle.kts" }}-{{ checksum  "wisefy/build.gradle.kts" }}
-      - run:
-          name: Download Dependencies
-          command: ./gradlew androidDependencies
+      - setup-dependencies
       - write-keystore-files
       - import-gpg-key
       - publish-to-maven-local
-      - run:
-          name: Run lint
-          command: ./gradlew lintDebug
-      - run:
-          name: Run Kotlinter
-          command: ./gradlew lintKotlin
-      - run:
-          name: Run detekt
-          command: ./gradlew detekt
-      - run:
-          name: Run CPD
-          command: ./gradlew cpdCheck
-      - run:
-          name: Assemble debug build
-          command: ./gradlew assembleDebug
-      - run:
-          name: Assemble release build
-          command: ./gradlew assembleRelease
-      - run:
-          name: Run unit tests with coverage
-          command: ./gradlew jacocoDebugUnitTest
-      - store_test_results:
-          path: wisefy/accesspoints/build/test-results/testDebugUnitTest
-      - store_artifacts:
-          path: wisefy/accesspoints/build/reports/jacoco/jacocoDebugUnitTest/html
-          destination: wisefy/accesspoints/unitTestCoverageReport
-      - save_cache:
-          paths:
-            - ~/.gradle
-          key: jars-{{ checksum "build.gradle.kts" }}-{{ checksum  "app/build.gradle.kts" }}-{{ checksum  "wisefy/build.gradle.kts" }}
+      - run-static-analysis
+      - build-debug-build
+      - build-release-build
+      - run-unit-tests
+      - store-unit-test-results
+      - store-code-coverage-reports
+      - cache-dependencies
 
 workflows:
   wisefy-ci-cd:

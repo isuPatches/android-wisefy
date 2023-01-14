@@ -60,7 +60,7 @@ internal class WisefyAccessPointsDelegateTest {
     private lateinit var mockWifiManager: WifiManager
 
     @Mock
-    private lateinit var adapter: AccessPointsApi
+    private lateinit var mockAdapter: AccessPointsApi
 
     private lateinit var delegate: WisefyAccessPointsDelegate
 
@@ -76,7 +76,7 @@ internal class WisefyAccessPointsDelegateTest {
             wifiManager = mockWifiManager,
             coroutineDispatcherProvider = TestCoroutineDispatchProvider(),
             scope = testScope,
-            adapter = adapter
+            adapter = mockAdapter
         )
     }
 
@@ -89,7 +89,7 @@ internal class WisefyAccessPointsDelegateTest {
     fun getAccessPoints_sync_emptyList_filterDuplicates_true() {
         // Given
         val request = GetAccessPointsQuery.All()
-        given(adapter.getAccessPoints(request)).willReturn(GetAccessPointsResult.Empty)
+        given(mockAdapter.getAccessPoints(request)).willReturn(GetAccessPointsResult.Empty)
 
         // When
         val result = delegate.getAccessPoints(request)
@@ -102,7 +102,7 @@ internal class WisefyAccessPointsDelegateTest {
     fun getAccessPoints_sync_emptyList_filterDuplicates_false() {
         // Given
         val request = GetAccessPointsQuery.All(filterDuplicates = false)
-        given(adapter.getAccessPoints(request)).willReturn(GetAccessPointsResult.Empty)
+        given(mockAdapter.getAccessPoints(request)).willReturn(GetAccessPointsResult.Empty)
 
         // When
         val result = delegate.getAccessPoints(request)
@@ -116,7 +116,7 @@ internal class WisefyAccessPointsDelegateTest {
         // Given
         val request = GetAccessPointsQuery.All()
         val mockCallbacks = mock(GetAccessPointsCallbacks::class.java)
-        given(adapter.getAccessPoints(request)).willReturn(GetAccessPointsResult.Empty)
+        given(mockAdapter.getAccessPoints(request)).willReturn(GetAccessPointsResult.Empty)
 
         // When
         delegate.getAccessPoints(request, mockCallbacks)
@@ -133,7 +133,7 @@ internal class WisefyAccessPointsDelegateTest {
         // Given
         val request = GetAccessPointsQuery.All(filterDuplicates = false)
         val mockCallbacks = mock(GetAccessPointsCallbacks::class.java)
-        given(adapter.getAccessPoints(request)).willReturn(GetAccessPointsResult.Empty)
+        given(mockAdapter.getAccessPoints(request)).willReturn(GetAccessPointsResult.Empty)
 
         // When
         delegate.getAccessPoints(request, mockCallbacks)
@@ -149,7 +149,7 @@ internal class WisefyAccessPointsDelegateTest {
     fun getAccessPoints_sync_withList_filterDuplicates_true() {
         // Given
         val request = GetAccessPointsQuery.All()
-        given(adapter.getAccessPoints(request)).willReturn(
+        given(mockAdapter.getAccessPoints(request)).willReturn(
             GetAccessPointsResult.AccessPoints(listOf(TEST_ACCESS_POINT))
         )
 
@@ -166,7 +166,7 @@ internal class WisefyAccessPointsDelegateTest {
     fun getAccessPoints_sync_withList_filterDuplicates_false() {
         // Given
         val request = GetAccessPointsQuery.All(filterDuplicates = false)
-        given(adapter.getAccessPoints(request)).willReturn(
+        given(mockAdapter.getAccessPoints(request)).willReturn(
             GetAccessPointsResult.AccessPoints(listOf(TEST_ACCESS_POINT))
         )
 
@@ -184,7 +184,7 @@ internal class WisefyAccessPointsDelegateTest {
         // Given
         val request = GetAccessPointsQuery.All()
         val mockCallbacks = mock(GetAccessPointsCallbacks::class.java)
-        given(adapter.getAccessPoints(request)).willReturn(
+        given(mockAdapter.getAccessPoints(request)).willReturn(
             GetAccessPointsResult.AccessPoints(listOf(TEST_ACCESS_POINT))
         )
 
@@ -203,7 +203,7 @@ internal class WisefyAccessPointsDelegateTest {
         // Given
         val request = GetAccessPointsQuery.All(filterDuplicates = false)
         val mockCallbacks = mock(GetAccessPointsCallbacks::class.java)
-        given(adapter.getAccessPoints(request)).willReturn(
+        given(mockAdapter.getAccessPoints(request)).willReturn(
             GetAccessPointsResult.AccessPoints(listOf(TEST_ACCESS_POINT))
         )
 
@@ -237,7 +237,7 @@ internal class WisefyAccessPointsDelegateTest {
         val request = GetAccessPointsQuery.All()
         val testException = WisefyException("Test exception", null)
         val mockCallbacks = mock(GetAccessPointsCallbacks::class.java)
-        lenient().`when`(adapter.getAccessPoints(request)).thenAnswer { throw testException }
+        lenient().`when`(mockAdapter.getAccessPoints(request)).thenAnswer { throw testException }
 
         testScope.launch(createBaseCoroutineExceptionHandler(mockCallbacks)) {
             delegate.getAccessPoints(request, mockCallbacks)
@@ -252,9 +252,9 @@ internal class WisefyAccessPointsDelegateTest {
     }
 
     companion object {
-        private const val TEST_SSID = "test SSID"
-        private const val TEST_BSSID = "test:BSSID"
-        private val TEST_ACCESS_POINT = AccessPointData(
+        private const val TEST_SSID: String = "test SSID"
+        private const val TEST_BSSID: String = "test:BSSID"
+        private val TEST_ACCESS_POINT: AccessPointData = AccessPointData(
             rawValue = ScanResult().apply {
                 level = -66
                 capabilities = ""

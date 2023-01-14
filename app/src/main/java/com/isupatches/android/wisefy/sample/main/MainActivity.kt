@@ -72,10 +72,10 @@ internal fun MainScreenLayout(wisefy: WisefyApi, sdkUtil: SdkUtil) {
         },
         bottomBar = {
             val showBottomNav = when (currentRoute(navController = navController)) {
-                WisefySampleNavGraph.Main.Add.route -> true
-                WisefySampleNavGraph.Main.Remove.route -> true
-                WisefySampleNavGraph.Main.Home.route -> true
-                WisefySampleNavGraph.Main.Misc.route -> true
+                WisefySampleNavGraph.Main.Add.route,
+                WisefySampleNavGraph.Main.Remove.route,
+                WisefySampleNavGraph.Main.Home.route,
+                WisefySampleNavGraph.Main.Misc.route,
                 WisefySampleNavGraph.Main.Search.route -> true
                 else -> false
             }

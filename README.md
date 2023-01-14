@@ -33,7 +33,7 @@ A Wifi configuration and util library built in Kotlin for Android.
 There is a new package for 5.0.  Please use:
 
 ```kotlin
-implementation("com.isupatches.android:wisefy:5.0.0-RC3")
+implementation("com.isupatches.android.wisefy:wisefy:5.0.0-RC3")
 ```
 
 This will include all of the Wisefy sub-artifacts through `api` dependencies.
@@ -69,7 +69,7 @@ Here are the descriptions of what functionality each artifact provides:
 There is a new artifact for 5.0 that provides Kotlin extension functions.  Please use:
 
 ```kotlin
-implementation("com.isupatches.android:wisefy-ktx:<LATEST VERSION>")
+implementation("com.isupatches.android.wisefy:ktx:<LATEST VERSION>")
 ```
 
 if you want to try it out. All functions in this package have the suffix `Async` and are `suspend` functions.
