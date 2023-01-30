@@ -1,6 +1,7 @@
 import com.isupatches.android.wisefy.build.BuildVersions
 import com.isupatches.android.wisefy.build.Dependencies
 import com.isupatches.android.wisefy.build.PublishingConstants
+import com.isupatches.android.wisefy.build.TestDependencies
 
 plugins {
     id("com.android.library")
@@ -23,4 +24,19 @@ dependencies {
 
     // Kotlin
     implementation(Dependencies.Kotlin.COROUTINES)
+
+    // Unit Tests
+    testImplementation(project(":testsupport"))
+    testImplementation(TestDependencies.JUNIT)
+    testImplementation(TestDependencies.Mockito.CORE)
+    testImplementation(TestDependencies.Kotlin.Coroutines.TEST)
+
+    // Instrumentation Tests
+    androidTestImplementation(project(":testsupport"))
+    androidTestImplementation(TestDependencies.JUNIT)
+    androidTestImplementation(TestDependencies.AndroidX.Test.RULES)
+    androidTestImplementation(TestDependencies.AndroidX.Test.RUNNER)
+    androidTestImplementation(TestDependencies.Mockito.CORE)
+    androidTestImplementation(TestDependencies.Mockito.ANDROID)
+    androidTestImplementation(TestDependencies.Kotlin.Coroutines.TEST)
 }

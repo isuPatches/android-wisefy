@@ -17,6 +17,7 @@ package com.isupatches.android.wisefy.addnetwork.os.impls
 
 import android.net.wifi.WifiManager
 import android.os.Build
+import com.isupatches.android.wisefy.addnetwork.os.apis.Android30AddNetworkApi
 import com.isupatches.android.wisefy.core.logging.DefaultWisefyLogger
 import com.isupatches.android.wisefy.testsupport.anyNonNull
 import org.junit.After
@@ -40,14 +41,14 @@ internal class Android30AddNetworkApiImplTest(
     @Mock
     private lateinit var mockWifiManager: WifiManager
 
-    private lateinit var apiImpl: Android30AddNetworkApiImpl
+    private lateinit var api: Android30AddNetworkApi
 
     private var closable: AutoCloseable? = null
 
     @Before
     fun setUp() {
         closable = MockitoAnnotations.openMocks(this)
-        apiImpl = Android30AddNetworkApiImpl(wifiManager = mockWifiManager, logger = DefaultWisefyLogger())
+        api = Android30AddNetworkApiImpl(wifiManager = mockWifiManager, logger = DefaultWisefyLogger())
     }
 
     @After
@@ -67,12 +68,12 @@ internal class Android30AddNetworkApiImplTest(
 
         // Then
         val result = when (params) {
-            is AddNetworkParams.Open -> apiImpl.addOpenNetwork(ssid = params.ssid, bssid = params.bssid)
+            is AddNetworkParams.Open -> api.addOpenNetwork(ssid = params.ssid, bssid = params.bssid)
             is AddNetworkParams.WPA2 -> {
-                apiImpl.addWPA2Network(ssid = params.ssid, passphrase = params.passphrase, bssid = params.bssid)
+                api.addWPA2Network(ssid = params.ssid, passphrase = params.passphrase, bssid = params.bssid)
             }
             is AddNetworkParams.WPA3 -> {
-                apiImpl.addWPA3Network(ssid = params.ssid, passphrase = params.passphrase, bssid = params.bssid)
+                api.addWPA3Network(ssid = params.ssid, passphrase = params.passphrase, bssid = params.bssid)
             }
         }
 

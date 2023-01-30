@@ -42,7 +42,7 @@ internal class Android30AddNetworkAdapterTest(
     private lateinit var mockWifiManager: WifiManager
 
     @Mock
-    private lateinit var mockAndroid30AddNetworkApi: Android30AddNetworkApi
+    private lateinit var mockApi: Android30AddNetworkApi
 
     private lateinit var adapter: Android30AddNetworkAdapter
 
@@ -55,7 +55,7 @@ internal class Android30AddNetworkAdapterTest(
             wifiManager = mockWifiManager,
             logger = DefaultWisefyLogger(),
             assertions = WisefyAssertions(false),
-            api = mockAndroid30AddNetworkApi
+            api = mockApi
         )
     }
 
@@ -68,40 +68,40 @@ internal class Android30AddNetworkAdapterTest(
     fun test() {
         // Given
         given(
-            mockAndroid30AddNetworkApi.addOpenNetwork(
+            mockApi.addOpenNetwork(
                 anyString(),
                 isNull()
             )
         ).willReturn(params.addNetworkResultCode)
         given(
-            mockAndroid30AddNetworkApi.addOpenNetwork(
+            mockApi.addOpenNetwork(
                 anyString(),
                 anyString()
             )
         ).willReturn(params.addNetworkResultCode)
         given(
-            mockAndroid30AddNetworkApi.addWPA2Network(
+            mockApi.addWPA2Network(
                 anyString(),
                 anyString(),
                 isNull()
             )
         ).willReturn(params.addNetworkResultCode)
         given(
-            mockAndroid30AddNetworkApi.addWPA2Network(
+            mockApi.addWPA2Network(
                 anyString(),
                 anyString(),
                 anyString()
             )
         ).willReturn(params.addNetworkResultCode)
         given(
-            mockAndroid30AddNetworkApi.addWPA3Network(
+            mockApi.addWPA3Network(
                 anyString(),
                 anyString(),
                 isNull()
             )
         ).willReturn(params.addNetworkResultCode)
         given(
-            mockAndroid30AddNetworkApi.addWPA3Network(
+            mockApi.addWPA3Network(
                 anyString(),
                 anyString(),
                 anyString()

@@ -44,7 +44,7 @@ internal class DefaultAddNetworkAdapterTest(
     private lateinit var mockWifiManager: WifiManager
 
     @Mock
-    private lateinit var mockDefaultAddNetworkApi: DefaultAddNetworkApi
+    private lateinit var mockApi: DefaultAddNetworkApi
 
     private lateinit var adapter: DefaultAddNetworkAdapter
 
@@ -57,7 +57,7 @@ internal class DefaultAddNetworkAdapterTest(
             wifiManager = mockWifiManager,
             logger = DefaultWisefyLogger(),
             assertions = WisefyAssertions(false),
-            api = mockDefaultAddNetworkApi
+            api = mockApi
         )
     }
 
@@ -71,26 +71,26 @@ internal class DefaultAddNetworkAdapterTest(
         // Given
         params.addNetworkResultCode?.let { addNetworkResultCode ->
             given(
-                mockDefaultAddNetworkApi.addOpenNetwork(
+                mockApi.addOpenNetwork(
                     anyString(),
                     isNull()
                 )
             ).willReturn(addNetworkResultCode)
             given(
-                mockDefaultAddNetworkApi.addOpenNetwork(
+                mockApi.addOpenNetwork(
                     anyString(),
                     anyString()
                 )
             ).willReturn(addNetworkResultCode)
             given(
-                mockDefaultAddNetworkApi.addWPA2Network(
+                mockApi.addWPA2Network(
                     anyString(),
                     anyString(),
                     isNull()
                 )
             ).willReturn(addNetworkResultCode)
             given(
-                mockDefaultAddNetworkApi.addWPA2Network(
+                mockApi.addWPA2Network(
                     anyString(),
                     anyString(),
                     anyString()
