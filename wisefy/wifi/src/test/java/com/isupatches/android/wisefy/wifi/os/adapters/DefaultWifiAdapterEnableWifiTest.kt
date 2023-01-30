@@ -22,7 +22,7 @@ import com.isupatches.android.wisefy.core.constants.AssertionMessages
 import com.isupatches.android.wisefy.core.logging.DefaultWisefyLogger
 import com.isupatches.android.wisefy.wifi.entities.EnableWifiRequest
 import com.isupatches.android.wisefy.wifi.entities.EnableWifiResult
-import com.isupatches.android.wisefy.wifi.os.impls.DefaultWifiApiImpl
+import com.isupatches.android.wisefy.wifi.os.apis.DefaultWifiApi
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -44,6 +44,9 @@ internal class DefaultWifiAdapterEnableWifiTest(
     @Mock
     private lateinit var mockWifiManager: WifiManager
 
+    @Mock
+    private lateinit var mockApi: DefaultWifiApi
+
     private lateinit var adapter: DefaultWifiAdapter
 
     private var closable: AutoCloseable? = null
@@ -51,12 +54,11 @@ internal class DefaultWifiAdapterEnableWifiTest(
     @Before
     fun setUp() {
         closable = MockitoAnnotations.openMocks(this)
-        val logger = DefaultWisefyLogger()
         adapter = DefaultWifiAdapter(
             wifiManager = mockWifiManager,
-            logger = logger,
+            logger = DefaultWisefyLogger(),
             assertions = WisefyAssertions(throwOnAssertions = false),
-            api = DefaultWifiApiImpl(wifiManager = mockWifiManager, logger = logger)
+            api = mockApi
         )
     }
 
@@ -69,18 +71,16 @@ internal class DefaultWifiAdapterEnableWifiTest(
     fun test() {
         // Given
         params.enableWifiResult?.let {
-            @Suppress("Deprecation")
-            given(mockWifiManager.setWifiEnabled(true)).willReturn(it)
+            given(mockApi.enableWifi()).willReturn(it)
         }
 
-        // Then
+        // When
         val result = adapter.enableWifi(params.request)
 
-        // When
+        // Then
         assertEquals(params.expectedResult, result)
         params.enableWifiResult?.let {
-            @Suppress("Deprecation", "UsePropertyAccessSyntax")
-            verify(mockWifiManager, times(1)).setWifiEnabled(true)
+            verify(mockApi, times(1)).enableWifi()
         }
     }
 

@@ -20,9 +20,10 @@ import android.net.wifi.WifiManager
 import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
 import com.isupatches.android.wisefy.core.constants.AssertionMessages
 import com.isupatches.android.wisefy.core.logging.DefaultWisefyLogger
+import com.isupatches.android.wisefy.testsupport.anyNonNull
 import com.isupatches.android.wisefy.wifi.entities.EnableWifiRequest
 import com.isupatches.android.wisefy.wifi.entities.EnableWifiResult
-import com.isupatches.android.wisefy.wifi.os.impls.Android29WifiApiImpl
+import com.isupatches.android.wisefy.wifi.os.apis.Android29WifiApi
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -31,6 +32,8 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 import org.mockito.Mock
 import org.mockito.Mockito.mock
+import org.mockito.Mockito.times
+import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations
 
 @RunWith(Parameterized::class)
@@ -41,6 +44,9 @@ internal class Android29WifiAdapterEnableWifiTest(
     @Mock
     private lateinit var mockWifiManager: WifiManager
 
+    @Mock
+    private lateinit var mockApi: Android29WifiApi
+
     private lateinit var adapter: Android29WifiAdapter
 
     private var closable: AutoCloseable? = null
@@ -48,12 +54,11 @@ internal class Android29WifiAdapterEnableWifiTest(
     @Before
     fun setUp() {
         closable = MockitoAnnotations.openMocks(this)
-        val logger = DefaultWisefyLogger()
         adapter = Android29WifiAdapter(
             wifiManager = mockWifiManager,
-            logger = logger,
+            logger = DefaultWisefyLogger(),
             assertions = WisefyAssertions(throwOnAssertions = false),
-            api = Android29WifiApiImpl(wifiManager = mockWifiManager, logger = logger)
+            api = mockApi
         )
     }
 
@@ -69,6 +74,9 @@ internal class Android29WifiAdapterEnableWifiTest(
 
         // Expect
         assertEquals(params.expectedResult, result)
+        if (params.expectedNumberOfApiCalls > 0) {
+            verify(mockApi, times(params.expectedNumberOfApiCalls)).openWifiSettings(anyNonNull())
+        }
     }
 
     companion object {
@@ -78,7 +86,8 @@ internal class Android29WifiAdapterEnableWifiTest(
             return listOf(
                 EnableWifiParams(
                     request = EnableWifiRequest.Android29OrAbove(mock(Context::class.java)),
-                    expectedResult = EnableWifiResult.Success.WifiSettingScreenOpened
+                    expectedResult = EnableWifiResult.Success.WifiSettingScreenOpened,
+                    expectedNumberOfApiCalls = 1
                 ),
                 EnableWifiParams(
                     request = EnableWifiRequest.Default,
@@ -89,6 +98,10 @@ internal class Android29WifiAdapterEnableWifiTest(
             )
         }
 
-        data class EnableWifiParams(val request: EnableWifiRequest, val expectedResult: EnableWifiResult)
+        data class EnableWifiParams(
+            val request: EnableWifiRequest,
+            val expectedResult: EnableWifiResult,
+            val expectedNumberOfApiCalls: Int = 0
+        )
     }
 }

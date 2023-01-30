@@ -22,16 +22,18 @@ import com.isupatches.android.wisefy.core.constants.AssertionMessages
 import com.isupatches.android.wisefy.core.logging.DefaultWisefyLogger
 import com.isupatches.android.wisefy.wifi.entities.DisableWifiRequest
 import com.isupatches.android.wisefy.wifi.entities.DisableWifiResult
-import com.isupatches.android.wisefy.wifi.os.impls.DefaultWifiApiImpl
+import com.isupatches.android.wisefy.wifi.os.apis.DefaultWifiApi
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import org.mockito.BDDMockito
 import org.mockito.BDDMockito.given
 import org.mockito.BDDMockito.times
 import org.mockito.Mock
+import org.mockito.Mockito
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations
@@ -44,6 +46,9 @@ internal class DefaultWifiAdapterDisableWifiTest(
     @Mock
     private lateinit var mockWifiManager: WifiManager
 
+    @Mock
+    private lateinit var mockApi: DefaultWifiApi
+
     private lateinit var adapter: DefaultWifiAdapter
 
     private var closable: AutoCloseable? = null
@@ -51,12 +56,11 @@ internal class DefaultWifiAdapterDisableWifiTest(
     @Before
     fun setUp() {
         closable = MockitoAnnotations.openMocks(this)
-        val logger = DefaultWisefyLogger()
         adapter = DefaultWifiAdapter(
             wifiManager = mockWifiManager,
-            logger = logger,
+            logger = DefaultWisefyLogger(),
             assertions = WisefyAssertions(throwOnAssertions = false),
-            api = DefaultWifiApiImpl(wifiManager = mockWifiManager, logger = logger)
+            api = mockApi
         )
     }
 
@@ -69,8 +73,7 @@ internal class DefaultWifiAdapterDisableWifiTest(
     fun test() {
         // Given
         params.disableWifiResult?.let {
-            @Suppress("Deprecation")
-            given(mockWifiManager.setWifiEnabled(false)).willReturn(it)
+            given(mockApi.disableWifi()).willReturn(it)
         }
 
         // Then
@@ -79,9 +82,9 @@ internal class DefaultWifiAdapterDisableWifiTest(
         // When
         assertEquals(params.expectedResult, result)
         params.disableWifiResult?.let {
-            @Suppress("Deprecation", "UsePropertyAccessSyntax")
-            verify(mockWifiManager, times(1)).setWifiEnabled(false)
+            verify(mockApi, times(1)).disableWifi()
         }
+
     }
 
     companion object {

@@ -20,7 +20,7 @@ import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
 import com.isupatches.android.wisefy.core.logging.DefaultWisefyLogger
 import com.isupatches.android.wisefy.wifi.entities.IsWifiEnabledQuery
 import com.isupatches.android.wisefy.wifi.entities.IsWifiEnabledResult
-import com.isupatches.android.wisefy.wifi.os.impls.Android29WifiApiImpl
+import com.isupatches.android.wisefy.wifi.os.apis.Android29WifiApi
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -41,6 +41,9 @@ internal class Android29WifiAdapterIsWifiEnabledTest(
     @Mock
     private lateinit var mockWifiManager: WifiManager
 
+    @Mock
+    private lateinit var mockApi: Android29WifiApi
+
     private lateinit var adapter: Android29WifiAdapter
 
     private var closable: AutoCloseable? = null
@@ -48,12 +51,11 @@ internal class Android29WifiAdapterIsWifiEnabledTest(
     @Before
     fun setUp() {
         closable = MockitoAnnotations.openMocks(this)
-        val logger = DefaultWisefyLogger()
         adapter = Android29WifiAdapter(
             wifiManager = mockWifiManager,
-            logger = logger,
+            logger = DefaultWisefyLogger(),
             assertions = WisefyAssertions(throwOnAssertions = false),
-            api = Android29WifiApiImpl(wifiManager = mockWifiManager, logger = logger)
+            api = mockApi
         )
     }
 
@@ -65,15 +67,14 @@ internal class Android29WifiAdapterIsWifiEnabledTest(
     @Test
     fun test() {
         // Given
-        @Suppress("Deprecation")
-        given(mockWifiManager.isWifiEnabled).willReturn(params.isWifiEnabledResult)
-
-        // Then
-        val result = adapter.isWifiEnabled()
+        given(mockApi.isWifiEnabled()).willReturn(params.isWifiEnabledResult)
 
         // When
+        val result = adapter.isWifiEnabled()
+
+        // Then
         assertEquals(params.expectedResult, result)
-        verify(mockWifiManager, times(1)).isWifiEnabled
+        verify(mockApi, times(1)).isWifiEnabled()
     }
 
     companion object {
@@ -96,7 +97,7 @@ internal class Android29WifiAdapterIsWifiEnabledTest(
 
         data class IsWifiEnabledParams(
             val query: IsWifiEnabledQuery,
-            val isWifiEnabledResult: Boolean? = null,
+            val isWifiEnabledResult: Boolean,
             val expectedResult: IsWifiEnabledResult
         )
     }

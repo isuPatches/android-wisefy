@@ -15,4 +15,4 @@
  */
 package com.isupatches.android.wisefy.wifi.os.impls
 
-internal class Android29WifiImplTest
+internal class DefaultWifiApiImplIsWifiEnabledTest

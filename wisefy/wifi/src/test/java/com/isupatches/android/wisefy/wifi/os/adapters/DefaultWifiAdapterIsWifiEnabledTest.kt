@@ -20,7 +20,7 @@ import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
 import com.isupatches.android.wisefy.core.logging.DefaultWisefyLogger
 import com.isupatches.android.wisefy.wifi.entities.IsWifiEnabledQuery
 import com.isupatches.android.wisefy.wifi.entities.IsWifiEnabledResult
-import com.isupatches.android.wisefy.wifi.os.impls.DefaultWifiApiImpl
+import com.isupatches.android.wisefy.wifi.os.apis.DefaultWifiApi
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -41,6 +41,9 @@ internal class DefaultWifiAdapterIsWifiEnabledTest(
     @Mock
     private lateinit var mockWifiManager: WifiManager
 
+    @Mock
+    private lateinit var mockApi: DefaultWifiApi
+
     private lateinit var adapter: DefaultWifiAdapter
 
     private var closable: AutoCloseable? = null
@@ -48,12 +51,11 @@ internal class DefaultWifiAdapterIsWifiEnabledTest(
     @Before
     fun setUp() {
         closable = MockitoAnnotations.openMocks(this)
-        val logger = DefaultWisefyLogger()
         adapter = DefaultWifiAdapter(
             wifiManager = mockWifiManager,
-            logger = logger,
+            logger = DefaultWisefyLogger(),
             assertions = WisefyAssertions(throwOnAssertions = false),
-            api = DefaultWifiApiImpl(wifiManager = mockWifiManager, logger = logger)
+            api = mockApi
         )
     }
 
@@ -65,15 +67,14 @@ internal class DefaultWifiAdapterIsWifiEnabledTest(
     @Test
     fun test() {
         // Given
-        @Suppress("Deprecation")
-        given(mockWifiManager.isWifiEnabled).willReturn(params.isWifiEnabledResult)
+        given(mockApi.isWifiEnabled()).willReturn(params.isWifiEnabledResult)
 
         // Then
         val result = adapter.isWifiEnabled()
 
         // When
         assertEquals(params.expectedResult, result)
-        verify(mockWifiManager, times(1)).isWifiEnabled
+        verify(mockApi, times(1)).isWifiEnabled()
     }
 
     companion object {
