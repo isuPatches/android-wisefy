@@ -88,7 +88,7 @@ internal class WisefyAddNetworkDelegateAddNetworkAsyncTest(
     }
 
     @Test
-    fun addNetwork() = runTest {
+    fun test() = runTest {
         // Given
         given(mockAdapter.addNetwork(params.request)).willReturn(params.result)
 
@@ -130,7 +130,7 @@ internal class WisefyAddNetworkDelegateAddNetworkAsyncTest(
 
         @JvmStatic
         @Parameterized.Parameters(name = "{index}: {0}")
-        fun params(): List<AddNetworkParams> {
+        fun paramValues(): List<AddNetworkParams> {
             return listOf(
                 AddNetworkParams(
                     request = AddNetworkRequest.Open(ssid = TEST_SSID, bssid = null),

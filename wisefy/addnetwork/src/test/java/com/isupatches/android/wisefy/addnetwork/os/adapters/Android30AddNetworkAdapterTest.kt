@@ -65,7 +65,7 @@ internal class Android30AddNetworkAdapterTest(
     }
 
     @Test
-    fun addNetwork() {
+    fun test() {
         // Given
         given(
             mockAndroid30AddNetworkApi.addOpenNetwork(
@@ -125,7 +125,7 @@ internal class Android30AddNetworkAdapterTest(
 
         @JvmStatic
         @Parameterized.Parameters(name = "{index}: {0}")
-        fun params(): List<AddNetworkParams> {
+        fun paramValues(): List<AddNetworkParams> {
             return listOf(
                 AddNetworkParams(
                     request = AddNetworkRequest.Open(ssid = TEST_SSID, bssid = null),

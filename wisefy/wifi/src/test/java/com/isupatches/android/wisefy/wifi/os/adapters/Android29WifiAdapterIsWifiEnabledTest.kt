@@ -13,18 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.android.wisefy.wifi
+package com.isupatches.android.wisefy.wifi.os.adapters
 
 import android.net.wifi.WifiManager
 import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
 import com.isupatches.android.wisefy.core.logging.DefaultWisefyLogger
-import com.isupatches.android.wisefy.core.util.SdkUtilImpl
-import com.isupatches.android.wisefy.testsupport.TestCoroutineDispatchProvider
 import com.isupatches.android.wisefy.wifi.entities.IsWifiEnabledQuery
 import com.isupatches.android.wisefy.wifi.entities.IsWifiEnabledResult
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.test.TestScope
+import com.isupatches.android.wisefy.wifi.os.impls.Android29WifiApiImpl
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -32,39 +28,32 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 import org.mockito.BDDMockito.given
+import org.mockito.BDDMockito.times
 import org.mockito.Mock
-import org.mockito.Mockito.times
 import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations
 
-@OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(Parameterized::class)
-internal class WisefyWifiDelegateIsWifiEnabledSyncTest(
+internal class Android29WifiAdapterIsWifiEnabledTest(
     private val params: IsWifiEnabledParams
 ) {
 
     @Mock
     private lateinit var mockWifiManager: WifiManager
 
-    @Mock
-    private lateinit var mockAdapter: WifiApi
-
-    private lateinit var delegate: WisefyWifiDelegate
+    private lateinit var adapter: Android29WifiAdapter
 
     private var closable: AutoCloseable? = null
 
     @Before
     fun setUp() {
         closable = MockitoAnnotations.openMocks(this)
-        delegate = WisefyWifiDelegate(
+        val logger = DefaultWisefyLogger()
+        adapter = Android29WifiAdapter(
             wifiManager = mockWifiManager,
-            logger = DefaultWisefyLogger(),
-            assertions = WisefyAssertions(false),
-            sdkUtil = SdkUtilImpl(),
-            coroutineDispatcherProvider = TestCoroutineDispatchProvider(),
-            scope = TestScope(),
-            wifiMutex = Mutex(),
-            adapter = mockAdapter
+            logger = logger,
+            assertions = WisefyAssertions(throwOnAssertions = false),
+            api = Android29WifiApiImpl(wifiManager = mockWifiManager, logger = logger)
         )
     }
 
@@ -76,14 +65,15 @@ internal class WisefyWifiDelegateIsWifiEnabledSyncTest(
     @Test
     fun test() {
         // Given
-        given(mockAdapter.isWifiEnabled(params.query)).willReturn(params.result)
+        @Suppress("Deprecation")
+        given(mockWifiManager.isWifiEnabled).willReturn(params.isWifiEnabledResult)
 
         // Then
-        val result = delegate.isWifiEnabled(params.query)
+        val result = adapter.isWifiEnabled()
 
         // When
-        verify(mockAdapter, times(1)).isWifiEnabled(params.query)
-        assertEquals(params.result, result)
+        assertEquals(params.expectedResult, result)
+        verify(mockWifiManager, times(1)).isWifiEnabled
     }
 
     companion object {
@@ -93,18 +83,21 @@ internal class WisefyWifiDelegateIsWifiEnabledSyncTest(
             return listOf(
                 IsWifiEnabledParams(
                     query = IsWifiEnabledQuery(),
-                    result = IsWifiEnabledResult.True
+                    isWifiEnabledResult = true,
+                    expectedResult = IsWifiEnabledResult.True
                 ),
                 IsWifiEnabledParams(
                     query = IsWifiEnabledQuery(),
-                    result = IsWifiEnabledResult.False
+                    isWifiEnabledResult = false,
+                    expectedResult = IsWifiEnabledResult.False
                 )
             )
         }
 
         data class IsWifiEnabledParams(
             val query: IsWifiEnabledQuery,
-            val result: IsWifiEnabledResult
+            val isWifiEnabledResult: Boolean? = null,
+            val expectedResult: IsWifiEnabledResult
         )
     }
 }

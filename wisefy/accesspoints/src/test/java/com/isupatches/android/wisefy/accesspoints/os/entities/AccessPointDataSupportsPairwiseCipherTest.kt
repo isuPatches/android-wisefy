@@ -31,7 +31,7 @@ internal class AccessPointDataSupportsPairwiseCipherTest(
 ) {
 
     @Test
-    fun supportsPairwiseCipher() {
+    fun test() {
         // Given
         val accessPoint = AccessPointData(
             rawValue = ScanResult().apply {
@@ -49,7 +49,7 @@ internal class AccessPointDataSupportsPairwiseCipherTest(
     companion object {
         @JvmStatic
         @Parameters(name = "{index}: {0}")
-        fun params(): List<SupportsPairwiseCipherParams> {
+        fun paramValues(): List<SupportsPairwiseCipherParams> {
             return listOf(
                 SupportsPairwiseCipherParams(
                     capabilities = "",

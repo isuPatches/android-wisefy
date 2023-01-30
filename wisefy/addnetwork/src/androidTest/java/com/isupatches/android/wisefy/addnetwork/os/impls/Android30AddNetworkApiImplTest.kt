@@ -56,7 +56,7 @@ internal class Android30AddNetworkApiImplTest(
     }
 
     @Test
-    fun addNetwork() {
+    fun test() {
         assumeTrue(
             "Can only run on API Level ${Build.VERSION_CODES.Q} or newer",
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
@@ -84,7 +84,7 @@ internal class Android30AddNetworkApiImplTest(
     companion object {
         @JvmStatic
         @Parameterized.Parameters(name = "{index}: {0}")
-        fun foundAddNetworkParamValues(): List<AddNetworkParams> {
+        fun paramValues(): List<AddNetworkParams> {
             return listOf(
                 AddNetworkParams.Open(
                     ssid = TEST_SSID,

@@ -87,7 +87,7 @@ internal class WisefyWifiDelegateIsWifiEnabledAsyncTest(
     }
 
     @Test
-    fun isWifiEnabled() = runTest {
+    fun test() = runTest {
         // Given
         given(mockAdapter.isWifiEnabled(params.query)).willReturn(params.result)
 
@@ -118,7 +118,7 @@ internal class WisefyWifiDelegateIsWifiEnabledAsyncTest(
     companion object {
         @JvmStatic
         @Parameterized.Parameters(name = "{index}: {0}")
-        fun params(): List<IsWifiEnabledParams> {
+        fun paramValues(): List<IsWifiEnabledParams> {
             return listOf(
                 IsWifiEnabledParams(
                     query = IsWifiEnabledQuery(),

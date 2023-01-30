@@ -13,19 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.android.wisefy.wifi
+package com.isupatches.android.wisefy.wifi.os.adapters
 
 import android.content.Context
 import android.net.wifi.WifiManager
 import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
+import com.isupatches.android.wisefy.core.constants.AssertionMessages
 import com.isupatches.android.wisefy.core.logging.DefaultWisefyLogger
-import com.isupatches.android.wisefy.core.util.SdkUtilImpl
-import com.isupatches.android.wisefy.testsupport.TestCoroutineDispatchProvider
 import com.isupatches.android.wisefy.wifi.entities.EnableWifiRequest
 import com.isupatches.android.wisefy.wifi.entities.EnableWifiResult
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.test.TestScope
+import com.isupatches.android.wisefy.wifi.os.impls.DefaultWifiApiImpl
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -33,40 +30,33 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 import org.mockito.BDDMockito.given
+import org.mockito.BDDMockito.times
 import org.mockito.Mock
 import org.mockito.Mockito
-import org.mockito.Mockito.times
 import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations
 
-@OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(Parameterized::class)
-internal class WisefyWifiDelegateEnableWifiSyncTest(
+internal class DefaultWifiAdapterEnableWifiTest(
     private val params: EnableWifiParams
 ) {
 
     @Mock
     private lateinit var mockWifiManager: WifiManager
 
-    @Mock
-    private lateinit var mockAdapter: WifiApi
-
-    private lateinit var delegate: WisefyWifiDelegate
+    private lateinit var adapter: DefaultWifiAdapter
 
     private var closable: AutoCloseable? = null
 
     @Before
     fun setUp() {
         closable = MockitoAnnotations.openMocks(this)
-        delegate = WisefyWifiDelegate(
+        val logger = DefaultWisefyLogger()
+        adapter = DefaultWifiAdapter(
             wifiManager = mockWifiManager,
-            logger = DefaultWisefyLogger(),
-            assertions = WisefyAssertions(false),
-            sdkUtil = SdkUtilImpl(),
-            coroutineDispatcherProvider = TestCoroutineDispatchProvider(),
-            scope = TestScope(),
-            wifiMutex = Mutex(),
-            adapter = mockAdapter
+            logger = logger,
+            assertions = WisefyAssertions(throwOnAssertions = false),
+            api = DefaultWifiApiImpl(wifiManager = mockWifiManager, logger = logger)
         )
     }
 
@@ -78,14 +68,20 @@ internal class WisefyWifiDelegateEnableWifiSyncTest(
     @Test
     fun test() {
         // Given
-        given(mockAdapter.enableWifi(params.request)).willReturn(params.result)
+        params.enableWifiResult?.let {
+            @Suppress("Deprecation")
+            given(mockWifiManager.setWifiEnabled(true)).willReturn(it)
+        }
 
         // Then
-        val result = delegate.enableWifi(params.request)
+        val result = adapter.enableWifi(params.request)
 
         // When
-        verify(mockAdapter, times(1)).enableWifi(params.request)
-        assertEquals(params.result, result)
+        assertEquals(params.expectedResult, result)
+        params.enableWifiResult?.let {
+            @Suppress("Deprecation", "UsePropertyAccessSyntax")
+            verify(mockWifiManager, times(1)).setWifiEnabled(true)
+        }
     }
 
     companion object {
@@ -95,42 +91,27 @@ internal class WisefyWifiDelegateEnableWifiSyncTest(
             return listOf(
                 EnableWifiParams(
                     request = EnableWifiRequest.Default,
-                    result = EnableWifiResult.Success.Enabled
+                    enableWifiResult = true,
+                    expectedResult = EnableWifiResult.Success.Enabled
                 ),
                 EnableWifiParams(
                     request = EnableWifiRequest.Default,
-                    result = EnableWifiResult.Success.WifiSettingScreenOpened
-                ),
-                EnableWifiParams(
-                    request = EnableWifiRequest.Default,
-                    result = EnableWifiResult.Failure.UnableToEnable
-                ),
-                EnableWifiParams(
-                    request = EnableWifiRequest.Default,
-                    result = EnableWifiResult.Failure.Assertion("Test")
+                    enableWifiResult = false,
+                    expectedResult = EnableWifiResult.Failure.UnableToEnable
                 ),
                 EnableWifiParams(
                     request = EnableWifiRequest.Android29OrAbove(Mockito.mock(Context::class.java)),
-                    result = EnableWifiResult.Success.Enabled
-                ),
-                EnableWifiParams(
-                    request = EnableWifiRequest.Android29OrAbove(Mockito.mock(Context::class.java)),
-                    result = EnableWifiResult.Success.WifiSettingScreenOpened
-                ),
-                EnableWifiParams(
-                    request = EnableWifiRequest.Android29OrAbove(Mockito.mock(Context::class.java)),
-                    result = EnableWifiResult.Failure.UnableToEnable
-                ),
-                EnableWifiParams(
-                    request = EnableWifiRequest.Android29OrAbove(Mockito.mock(Context::class.java)),
-                    result = EnableWifiResult.Failure.Assertion("Test")
+                    expectedResult = EnableWifiResult.Failure.Assertion(
+                        AssertionMessages.Wifi.ANDROID_29_REQUEST_USED_ON_PRE_ANDROID_29
+                    )
                 )
             )
         }
 
         data class EnableWifiParams(
             val request: EnableWifiRequest,
-            val result: EnableWifiResult
+            val enableWifiResult: Boolean? = null,
+            val expectedResult: EnableWifiResult
         )
     }
 }

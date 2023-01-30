@@ -67,7 +67,7 @@ internal class DefaultAddNetworkAdapterTest(
     }
 
     @Test
-    fun addNetwork() {
+    fun test() {
         // Given
         params.addNetworkResultCode?.let { addNetworkResultCode ->
             given(
@@ -115,7 +115,7 @@ internal class DefaultAddNetworkAdapterTest(
 
         @JvmStatic
         @Parameters(name = "{index}: {0}")
-        fun params(): List<AddNetworkParams> {
+        fun paramValues(): List<AddNetworkParams> {
             return listOf(
                 AddNetworkParams(
                     request = AddNetworkRequest.Open(ssid = TEST_SSID, bssid = null),

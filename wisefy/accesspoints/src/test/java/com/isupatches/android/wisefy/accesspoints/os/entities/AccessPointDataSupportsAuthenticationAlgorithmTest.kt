@@ -31,7 +31,7 @@ internal class AccessPointDataSupportsAuthenticationAlgorithmTest(
 ) {
 
     @Test
-    fun supportsAuthenticationAlgorithm() {
+    fun test() {
         // Given
         val accessPoint = AccessPointData(
             rawValue = ScanResult().apply {
@@ -49,7 +49,7 @@ internal class AccessPointDataSupportsAuthenticationAlgorithmTest(
     companion object {
         @JvmStatic
         @Parameters(name = "{index}: {0}")
-        fun params(): List<SupportsAuthenticationAlgorithmParams> {
+        fun paramValues(): List<SupportsAuthenticationAlgorithmParams> {
             return listOf(
                 SupportsAuthenticationAlgorithmParams(
                     capabilities = "",

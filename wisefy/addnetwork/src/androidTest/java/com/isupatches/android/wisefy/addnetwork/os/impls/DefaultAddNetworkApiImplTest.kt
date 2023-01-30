@@ -56,9 +56,9 @@ internal class DefaultAddNetworkApiImplTest(
     }
 
     @Test
-    fun addNetwork() {
+    fun test() {
         // Given
-        @Suppress("DEPRECATION")
+        @Suppress("Deprecation")
         given(mockWifiManager.addNetwork(any(android.net.wifi.WifiConfiguration::class.java))).willReturn(
             params.expectedResult
         )
@@ -73,14 +73,14 @@ internal class DefaultAddNetworkApiImplTest(
 
         // When
         assertEquals(params.expectedResult, result)
-        @Suppress("DEPRECATION")
+        @Suppress("Deprecation")
         verify(mockWifiManager, times(1)).addNetwork(anyNonNull())
     }
 
     companion object {
         @JvmStatic
         @Parameters(name = "{index}: {0}")
-        fun foundAddNetworkParamValues(): List<AddNetworkParams> {
+        fun paramValues(): List<AddNetworkParams> {
             return listOf(
                 AddNetworkParams.Open(
                     ssid = TEST_SSID,

@@ -89,7 +89,7 @@ internal class WisefyWifiDelegateEnableWifiAsyncTest(
     }
 
     @Test
-    fun enableWifi() = runTest {
+    fun test() = runTest {
         // Given
         given(mockAdapter.enableWifi(params.request)).willReturn(params.result)
 
@@ -124,7 +124,7 @@ internal class WisefyWifiDelegateEnableWifiAsyncTest(
     companion object {
         @JvmStatic
         @Parameterized.Parameters(name = "{index}: {0}")
-        fun params(): List<EnableWifiParams> {
+        fun paramValues(): List<EnableWifiParams> {
             return listOf(
                 EnableWifiParams(
                     request = EnableWifiRequest.Default,

@@ -31,7 +31,7 @@ internal class AccessPointDataSupportsKeyManagementAlgorithmTest(
 ) {
 
     @Test
-    fun supportsKeyManagementAlgorithm() {
+    fun test() {
         // Given
         val accessPoint = AccessPointData(
             rawValue = ScanResult().apply {
@@ -49,7 +49,7 @@ internal class AccessPointDataSupportsKeyManagementAlgorithmTest(
     companion object {
         @JvmStatic
         @Parameters(name = "{index}: {0}")
-        fun params(): List<SupportsKeyManagementAlgorithmParams> {
+        fun paramValues(): List<SupportsKeyManagementAlgorithmParams> {
             return listOf(
                 SupportsKeyManagementAlgorithmParams(
                     capabilities = "",

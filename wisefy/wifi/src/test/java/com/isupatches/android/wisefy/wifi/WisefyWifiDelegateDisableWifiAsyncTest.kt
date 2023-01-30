@@ -89,7 +89,7 @@ internal class WisefyWifiDelegateDisableWifiAsyncTest(
     }
 
     @Test
-    fun disableWifi() = runTest {
+    fun test() = runTest {
         // Given
         given(mockAdapter.disableWifi(params.request)).willReturn(params.result)
 
@@ -124,7 +124,7 @@ internal class WisefyWifiDelegateDisableWifiAsyncTest(
     companion object {
         @JvmStatic
         @Parameterized.Parameters(name = "{index}: {0}")
-        fun params(): List<DisableWifiParams> {
+        fun paramValues(): List<DisableWifiParams> {
             return listOf(
                 DisableWifiParams(
                     request = DisableWifiRequest.Default,
