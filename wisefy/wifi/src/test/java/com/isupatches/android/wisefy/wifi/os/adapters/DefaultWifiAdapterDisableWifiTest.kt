@@ -29,11 +29,9 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
-import org.mockito.BDDMockito
 import org.mockito.BDDMockito.given
 import org.mockito.BDDMockito.times
 import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations
@@ -84,7 +82,6 @@ internal class DefaultWifiAdapterDisableWifiTest(
         params.disableWifiResult?.let {
             verify(mockApi, times(1)).disableWifi()
         }
-
     }
 
     companion object {

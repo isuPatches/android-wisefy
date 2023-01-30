@@ -15,4 +15,72 @@
  */
 package com.isupatches.android.wisefy.wifi.os.impls
 
-internal class DefaultWifiApiImplDisableWifiTest
+import android.net.wifi.WifiManager
+import androidx.test.espresso.intent.Intents
+import com.isupatches.android.wisefy.core.logging.DefaultWisefyLogger
+import com.isupatches.android.wisefy.wifi.os.apis.DefaultWifiApi
+import org.junit.After
+import org.junit.Assert.assertEquals
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.Parameterized
+import org.mockito.BDDMockito.given
+import org.mockito.Mock
+import org.mockito.Mockito.times
+import org.mockito.Mockito.verify
+import org.mockito.MockitoAnnotations
+
+@RunWith(Parameterized::class)
+internal class DefaultWifiApiImplDisableWifiTest(
+    private val params: DisableWifiParams
+) {
+
+    @Mock
+    private lateinit var mockWifiManager: WifiManager
+
+    private lateinit var api: DefaultWifiApi
+
+    private var closable: AutoCloseable? = null
+
+    @Before
+    fun setUp() {
+        Intents.init()
+        closable = MockitoAnnotations.openMocks(this)
+        api = DefaultWifiApiImpl(wifiManager = mockWifiManager, logger = DefaultWisefyLogger())
+    }
+
+    @After
+    fun tearDown() {
+        Intents.release()
+        closable?.close()
+    }
+
+    @Test
+    fun test() {
+        // Given
+        @Suppress("Deprecation")
+        given(mockWifiManager.setWifiEnabled(false)).willReturn(params.disableWifiResult)
+
+        // When
+        val result = api.disableWifi()
+
+        // Then
+        @Suppress("Deprecation", "UsePropertyAccessSyntax")
+        verify(mockWifiManager, times(1)).setWifiEnabled(false)
+        assertEquals(params.disableWifiResult, result)
+    }
+
+    companion object {
+        @JvmStatic
+        @Parameterized.Parameters(name = "{index}: {0}")
+        fun paramValues(): List<DisableWifiParams> {
+            return listOf(
+                DisableWifiParams(disableWifiResult = true),
+                DisableWifiParams(disableWifiResult = false)
+            )
+        }
+
+        data class DisableWifiParams(val disableWifiResult: Boolean)
+    }
+}

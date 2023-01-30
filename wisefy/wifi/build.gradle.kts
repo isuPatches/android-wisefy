@@ -34,8 +34,10 @@ dependencies {
     // Instrumentation Tests
     androidTestImplementation(project(":testsupport"))
     androidTestImplementation(TestDependencies.JUNIT)
-    androidTestImplementation(TestDependencies.AndroidX.TEST_RUNNER)
-    androidTestImplementation(TestDependencies.AndroidX.TEST_RULES)
+    androidTestImplementation(TestDependencies.AndroidX.Test.Espresso.CORE)
+    androidTestImplementation(TestDependencies.AndroidX.Test.Espresso.INTENTS)
+    androidTestImplementation(TestDependencies.AndroidX.Test.RULES)
+    androidTestImplementation(TestDependencies.AndroidX.Test.RUNNER)
     androidTestImplementation(TestDependencies.Mockito.CORE)
     androidTestImplementation(TestDependencies.Mockito.ANDROID)
     androidTestImplementation(TestDependencies.Kotlin.Coroutines.TEST)

@@ -31,7 +31,15 @@ object TestDependencies {
     }
 
     object AndroidX {
-        const val TEST_RUNNER: String = "androidx.test:runner:${Versions.ANDROIDX_TEST_RUNNER}"
-        const val TEST_RULES: String = "androidx.test:rules:${Versions.ANDROIDX_TEST_RULES}"
+        object Test {
+            const val RUNNER: String = "androidx.test:runner:${Versions.ANDROIDX_TEST_RUNNER}"
+            const val RULES: String = "androidx.test:rules:${Versions.ANDROIDX_TEST_RULES}"
+
+            object Espresso {
+                const val CORE: String = "androidx.test.espresso:espresso-core:${Versions.ANDROIDX_TEST_ESPRESSO}"
+                const val INTENTS: String = "androidx.test.espresso:espresso-intents:${Versions.ANDROIDX_TEST_ESPRESSO}"
+
+            }
+        }
     }
 }
