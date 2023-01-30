@@ -20,6 +20,7 @@ import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
 import com.isupatches.android.wisefy.core.logging.DefaultWisefyLogger
 import com.isupatches.android.wisefy.core.util.SdkUtilImpl
 import com.isupatches.android.wisefy.testsupport.TestCoroutineDispatchProvider
+import com.isupatches.android.wisefy.testsupport.anyNonNull
 import com.isupatches.android.wisefy.wifi.callbacks.IsWifiEnabledCallbacks
 import com.isupatches.android.wisefy.wifi.entities.IsWifiEnabledQuery
 import com.isupatches.android.wisefy.wifi.entities.IsWifiEnabledResult
@@ -89,14 +90,26 @@ internal class WisefyWifiDelegateIsWifiEnabledAsyncTest(
     @Test
     fun test() = runTest {
         // Given
-        given(mockAdapter.isWifiEnabled(params.query)).willReturn(params.result)
+        if (params.query != null) {
+            given(mockAdapter.isWifiEnabled(params.query)).willReturn(params.result)
+        } else {
+            given(mockAdapter.isWifiEnabled(anyNonNull())).willReturn(params.result)
+        }
 
         // Then
-        delegate.isWifiEnabled(params.query, params.mockCallbacks)
+        if (params.query != null) {
+            delegate.isWifiEnabled(params.query, params.mockCallbacks)
+        } else {
+            delegate.isWifiEnabled(callbacks = params.mockCallbacks)
+        }
         advanceUntilIdle()
 
         // When
-        verify(mockAdapter, times(1)).isWifiEnabled(params.query)
+        if (params.query != null) {
+            verify(mockAdapter, times(1)).isWifiEnabled(params.query)
+        } else {
+            verify(mockAdapter, times(1)).isWifiEnabled(anyNonNull())
+        }
         when {
             params.mockCallbacks != null && params.expectedWifiDisabledCallbacks > 0 -> {
                 verify(params.mockCallbacks, times(params.expectedWifiDisabledCallbacks)).onWifiIsDisabled()
@@ -141,12 +154,30 @@ internal class WisefyWifiDelegateIsWifiEnabledAsyncTest(
                     query = IsWifiEnabledQuery(),
                     result = IsWifiEnabledResult.False,
                     mockCallbacks = null
+                ),
+                IsWifiEnabledParams(
+                    result = IsWifiEnabledResult.True,
+                    mockCallbacks = mock(IsWifiEnabledCallbacks::class.java),
+                    expectedWifiEnabledCallbacks = 1
+                ),
+                IsWifiEnabledParams(
+                    result = IsWifiEnabledResult.False,
+                    mockCallbacks = mock(IsWifiEnabledCallbacks::class.java),
+                    expectedWifiDisabledCallbacks = 1
+                ),
+                IsWifiEnabledParams(
+                    result = IsWifiEnabledResult.True,
+                    mockCallbacks = null
+                ),
+                IsWifiEnabledParams(
+                    result = IsWifiEnabledResult.False,
+                    mockCallbacks = null
                 )
             )
         }
 
         data class IsWifiEnabledParams(
-            val query: IsWifiEnabledQuery,
+            val query: IsWifiEnabledQuery? = null,
             val result: IsWifiEnabledResult,
             val mockCallbacks: IsWifiEnabledCallbacks?,
             val expectedWifiEnabledCallbacks: Int = 0,

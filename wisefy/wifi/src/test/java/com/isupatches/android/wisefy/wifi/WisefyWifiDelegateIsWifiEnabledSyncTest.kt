@@ -20,6 +20,7 @@ import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
 import com.isupatches.android.wisefy.core.logging.DefaultWisefyLogger
 import com.isupatches.android.wisefy.core.util.SdkUtilImpl
 import com.isupatches.android.wisefy.testsupport.TestCoroutineDispatchProvider
+import com.isupatches.android.wisefy.testsupport.anyNonNull
 import com.isupatches.android.wisefy.wifi.entities.IsWifiEnabledQuery
 import com.isupatches.android.wisefy.wifi.entities.IsWifiEnabledResult
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -76,13 +77,25 @@ internal class WisefyWifiDelegateIsWifiEnabledSyncTest(
     @Test
     fun test() {
         // Given
-        given(mockAdapter.isWifiEnabled(params.query)).willReturn(params.result)
+        if (params.query != null) {
+            given(mockAdapter.isWifiEnabled(params.query)).willReturn(params.result)
+        } else {
+            given(mockAdapter.isWifiEnabled(anyNonNull())).willReturn(params.result)
+        }
 
         // Then
-        val result = delegate.isWifiEnabled(params.query)
+        val result = if (params.query != null) {
+            delegate.isWifiEnabled(params.query)
+        } else {
+            delegate.isWifiEnabled()
+        }
 
         // When
-        verify(mockAdapter, times(1)).isWifiEnabled(params.query)
+        if (params.query != null) {
+            verify(mockAdapter, times(1)).isWifiEnabled(params.query)
+        } else {
+            verify(mockAdapter, times(1)).isWifiEnabled(anyNonNull())
+        }
         assertEquals(params.result, result)
     }
 
@@ -98,12 +111,18 @@ internal class WisefyWifiDelegateIsWifiEnabledSyncTest(
                 IsWifiEnabledParams(
                     query = IsWifiEnabledQuery(),
                     result = IsWifiEnabledResult.False
+                ),
+                IsWifiEnabledParams(
+                    result = IsWifiEnabledResult.True
+                ),
+                IsWifiEnabledParams(
+                    result = IsWifiEnabledResult.False
                 )
             )
         }
 
         data class IsWifiEnabledParams(
-            val query: IsWifiEnabledQuery,
+            val query: IsWifiEnabledQuery? = null,
             val result: IsWifiEnabledResult
         )
     }
