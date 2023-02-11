@@ -56,8 +56,8 @@ data class AccessPointData(
     val bssid: String = rawValue.bssidWithoutQuotes,
     val frequency: Int = rawValue.frequency,
     val rssi: Int = rawValue.level,
-    val is2gHz: Boolean = frequency in MIN_FREQUENCY_2_4_GHZ + 1 until MAX_FREQUENCY_2_4_GHZ,
-    val is5gHz: Boolean = frequency in MIN_FREQUENCY_5_GHZ + 1 until MAX_FREQUENCY_5_GHZ,
+    val is2gHz: Boolean = frequency in MIN_FREQUENCY_2_4_GHZ until MAX_FREQUENCY_2_4_GHZ,
+    val is5gHz: Boolean = frequency in MIN_FREQUENCY_5_GHZ until MAX_FREQUENCY_5_GHZ,
     val isSecure: Boolean = AuthenticationAlgorithm.ALL.any { rawValue.supportsAuthenticationAlgorithm(it) }
 )
 
