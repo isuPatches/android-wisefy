@@ -13,11 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.android.wisefy.accesspoints.os.entities
+package com.isupatches.android.wisefy.accesspoints.entities
 
 import android.net.wifi.ScanResult
-import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
-import com.isupatches.android.wisefy.accesspoints.entities.supportsPairwiseCipher
 import com.isupatches.android.wisefy.core.entities.PairwiseCipher
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -31,7 +29,7 @@ internal class AccessPointDataSupportsPairwiseCipherTest(
 ) {
 
     @Test
-    fun supportsPairwiseCipher() {
+    fun test() {
         // Given
         val accessPoint = AccessPointData(
             rawValue = ScanResult().apply {
@@ -49,7 +47,7 @@ internal class AccessPointDataSupportsPairwiseCipherTest(
     companion object {
         @JvmStatic
         @Parameters(name = "{index}: {0}")
-        fun params(): List<SupportsPairwiseCipherParams> {
+        fun paramValues(): List<SupportsPairwiseCipherParams> {
             return listOf(
                 SupportsPairwiseCipherParams(
                     capabilities = "",

@@ -16,6 +16,7 @@
 package com.isupatches.android.wisefy.addnetwork.os.impls
 
 import android.net.wifi.WifiManager
+import com.isupatches.android.wisefy.addnetwork.os.apis.DefaultAddNetworkApi
 import com.isupatches.android.wisefy.core.logging.DefaultWisefyLogger
 import com.isupatches.android.wisefy.testsupport.anyNonNull
 import org.junit.After
@@ -40,14 +41,14 @@ internal class DefaultAddNetworkApiImplTest(
     @Mock
     private lateinit var mockWifiManager: WifiManager
 
-    private lateinit var apiImpl: DefaultAddNetworkApiImpl
+    private lateinit var api: DefaultAddNetworkApi
 
     private var closable: AutoCloseable? = null
 
     @Before
     fun setUp() {
         closable = MockitoAnnotations.openMocks(this)
-        apiImpl = DefaultAddNetworkApiImpl(wifiManager = mockWifiManager, logger = DefaultWisefyLogger())
+        api = DefaultAddNetworkApiImpl(wifiManager = mockWifiManager, logger = DefaultWisefyLogger())
     }
 
     @After
@@ -56,31 +57,31 @@ internal class DefaultAddNetworkApiImplTest(
     }
 
     @Test
-    fun addNetwork() {
+    fun test() {
         // Given
-        @Suppress("DEPRECATION")
+        @Suppress("Deprecation")
         given(mockWifiManager.addNetwork(any(android.net.wifi.WifiConfiguration::class.java))).willReturn(
             params.expectedResult
         )
 
         // Then
         val result = when (params) {
-            is AddNetworkParams.Open -> apiImpl.addOpenNetwork(ssid = params.ssid, bssid = params.bssid)
+            is AddNetworkParams.Open -> api.addOpenNetwork(ssid = params.ssid, bssid = params.bssid)
             is AddNetworkParams.WPA2 -> {
-                apiImpl.addWPA2Network(ssid = params.ssid, passphrase = params.passphrase, bssid = params.bssid)
+                api.addWPA2Network(ssid = params.ssid, passphrase = params.passphrase, bssid = params.bssid)
             }
         }
 
         // When
         assertEquals(params.expectedResult, result)
-        @Suppress("DEPRECATION")
+        @Suppress("Deprecation")
         verify(mockWifiManager, times(1)).addNetwork(anyNonNull())
     }
 
     companion object {
         @JvmStatic
         @Parameters(name = "{index}: {0}")
-        fun foundAddNetworkParamValues(): List<AddNetworkParams> {
+        fun paramValues(): List<AddNetworkParams> {
             return listOf(
                 AddNetworkParams.Open(
                     ssid = TEST_SSID,

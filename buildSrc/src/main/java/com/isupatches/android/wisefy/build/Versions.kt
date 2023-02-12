@@ -55,6 +55,7 @@ object Versions {
     const val MOCKITO: String = "4.11.0"
 
     // Instrumentation Tests
+    const val ANDROIDX_TEST_ESPRESSO: String = "3.4.0"
     const val ANDROIDX_TEST_RULES: String = "1.5.0"
     const val ANDROIDX_TEST_RUNNER: String = "1.5.1"
 }

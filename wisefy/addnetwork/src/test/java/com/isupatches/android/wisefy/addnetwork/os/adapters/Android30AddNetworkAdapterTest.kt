@@ -42,7 +42,7 @@ internal class Android30AddNetworkAdapterTest(
     private lateinit var mockWifiManager: WifiManager
 
     @Mock
-    private lateinit var mockAndroid30AddNetworkApi: Android30AddNetworkApi
+    private lateinit var mockApi: Android30AddNetworkApi
 
     private lateinit var adapter: Android30AddNetworkAdapter
 
@@ -55,7 +55,7 @@ internal class Android30AddNetworkAdapterTest(
             wifiManager = mockWifiManager,
             logger = DefaultWisefyLogger(),
             assertions = WisefyAssertions(false),
-            api = mockAndroid30AddNetworkApi
+            api = mockApi
         )
     }
 
@@ -65,43 +65,43 @@ internal class Android30AddNetworkAdapterTest(
     }
 
     @Test
-    fun addNetwork() {
+    fun test() {
         // Given
         given(
-            mockAndroid30AddNetworkApi.addOpenNetwork(
+            mockApi.addOpenNetwork(
                 anyString(),
                 isNull()
             )
         ).willReturn(params.addNetworkResultCode)
         given(
-            mockAndroid30AddNetworkApi.addOpenNetwork(
+            mockApi.addOpenNetwork(
                 anyString(),
                 anyString()
             )
         ).willReturn(params.addNetworkResultCode)
         given(
-            mockAndroid30AddNetworkApi.addWPA2Network(
+            mockApi.addWPA2Network(
                 anyString(),
                 anyString(),
                 isNull()
             )
         ).willReturn(params.addNetworkResultCode)
         given(
-            mockAndroid30AddNetworkApi.addWPA2Network(
+            mockApi.addWPA2Network(
                 anyString(),
                 anyString(),
                 anyString()
             )
         ).willReturn(params.addNetworkResultCode)
         given(
-            mockAndroid30AddNetworkApi.addWPA3Network(
+            mockApi.addWPA3Network(
                 anyString(),
                 anyString(),
                 isNull()
             )
         ).willReturn(params.addNetworkResultCode)
         given(
-            mockAndroid30AddNetworkApi.addWPA3Network(
+            mockApi.addWPA3Network(
                 anyString(),
                 anyString(),
                 anyString()
@@ -125,7 +125,7 @@ internal class Android30AddNetworkAdapterTest(
 
         @JvmStatic
         @Parameterized.Parameters(name = "{index}: {0}")
-        fun params(): List<AddNetworkParams> {
+        fun paramValues(): List<AddNetworkParams> {
             return listOf(
                 AddNetworkParams(
                     request = AddNetworkRequest.Open(ssid = TEST_SSID, bssid = null),

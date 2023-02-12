@@ -22,13 +22,9 @@ import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
 import com.isupatches.android.wisefy.core.logging.DefaultWisefyLogger
 import com.isupatches.android.wisefy.core.util.SdkUtilImpl
 import com.isupatches.android.wisefy.testsupport.TestCoroutineDispatchProvider
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestScope
-import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -57,20 +53,16 @@ internal class WisefyAddNetworkDelegateAddNetworkSyncTest(
 
     private var closable: AutoCloseable? = null
 
-    private lateinit var testScope: TestScope
-
     @Before
     fun setUp() {
-        Dispatchers.setMain(StandardTestDispatcher())
         closable = MockitoAnnotations.openMocks(this)
-        testScope = TestScope()
         delegate = WisefyAddNetworkDelegate(
             wifiManager = mockWifiManager,
             logger = DefaultWisefyLogger(),
             assertions = WisefyAssertions(false),
             sdkUtil = SdkUtilImpl(),
             coroutineDispatcherProvider = TestCoroutineDispatchProvider(),
-            scope = testScope,
+            scope = TestScope(),
             savedNetworkMutex = Mutex(),
             adapter = mockAdapter
         )
@@ -78,12 +70,11 @@ internal class WisefyAddNetworkDelegateAddNetworkSyncTest(
 
     @After
     fun tearDown() {
-        Dispatchers.resetMain()
         closable?.close()
     }
 
     @Test
-    fun addNetwork() {
+    fun test() {
         // Given
         given(mockAdapter.addNetwork(params.request)).willReturn(params.result)
 
@@ -105,7 +96,7 @@ internal class WisefyAddNetworkDelegateAddNetworkSyncTest(
 
         @JvmStatic
         @Parameterized.Parameters(name = "{index}: {0}")
-        fun params(): List<AddNetworkParams> {
+        fun paramValues(): List<AddNetworkParams> {
             return listOf(
                 AddNetworkParams(
                     request = AddNetworkRequest.Open(ssid = TEST_SSID, bssid = null),

@@ -13,11 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.android.wisefy.accesspoints.os.entities
+package com.isupatches.android.wisefy.accesspoints.entities
 
 import android.net.wifi.ScanResult
-import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
-import com.isupatches.android.wisefy.accesspoints.entities.supportsAuthenticationAlgorithm
 import com.isupatches.android.wisefy.core.entities.AuthenticationAlgorithm
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -31,7 +29,7 @@ internal class AccessPointDataSupportsAuthenticationAlgorithmTest(
 ) {
 
     @Test
-    fun supportsAuthenticationAlgorithm() {
+    fun test() {
         // Given
         val accessPoint = AccessPointData(
             rawValue = ScanResult().apply {
@@ -49,7 +47,7 @@ internal class AccessPointDataSupportsAuthenticationAlgorithmTest(
     companion object {
         @JvmStatic
         @Parameters(name = "{index}: {0}")
-        fun params(): List<SupportsAuthenticationAlgorithmParams> {
+        fun paramValues(): List<SupportsAuthenticationAlgorithmParams> {
             return listOf(
                 SupportsAuthenticationAlgorithmParams(
                     capabilities = "",

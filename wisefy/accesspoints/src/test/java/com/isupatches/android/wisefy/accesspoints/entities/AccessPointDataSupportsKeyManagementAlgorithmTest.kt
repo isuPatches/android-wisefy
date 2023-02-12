@@ -13,11 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.isupatches.android.wisefy.accesspoints.os.entities
+package com.isupatches.android.wisefy.accesspoints.entities
 
 import android.net.wifi.ScanResult
-import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
-import com.isupatches.android.wisefy.accesspoints.entities.supportsKeyManagementAlgorithm
 import com.isupatches.android.wisefy.core.entities.KeyManagementAlgorithm
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -31,7 +29,7 @@ internal class AccessPointDataSupportsKeyManagementAlgorithmTest(
 ) {
 
     @Test
-    fun supportsKeyManagementAlgorithm() {
+    fun test() {
         // Given
         val accessPoint = AccessPointData(
             rawValue = ScanResult().apply {
@@ -49,7 +47,7 @@ internal class AccessPointDataSupportsKeyManagementAlgorithmTest(
     companion object {
         @JvmStatic
         @Parameters(name = "{index}: {0}")
-        fun params(): List<SupportsKeyManagementAlgorithmParams> {
+        fun paramValues(): List<SupportsKeyManagementAlgorithmParams> {
             return listOf(
                 SupportsKeyManagementAlgorithmParams(
                     capabilities = "",

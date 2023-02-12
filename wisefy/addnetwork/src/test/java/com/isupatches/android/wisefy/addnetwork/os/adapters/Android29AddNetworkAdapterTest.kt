@@ -49,7 +49,7 @@ internal class Android29AddNetworkAdapterTest(
     }
 
     @Test
-    fun addNetwork() {
+    fun test() {
         // Given
         val result = adapter.addNetwork(params.request)
 
@@ -64,7 +64,7 @@ internal class Android29AddNetworkAdapterTest(
 
         @JvmStatic
         @Parameters(name = "{index}: {0}")
-        fun params(): List<AddNetworkParams> {
+        fun paramValues(): List<AddNetworkParams> {
             return listOf(
                 AddNetworkParams(
                     request = AddNetworkRequest.Open(ssid = TEST_SSID, bssid = null),

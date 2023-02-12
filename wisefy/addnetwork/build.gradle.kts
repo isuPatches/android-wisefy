@@ -1,6 +1,7 @@
 import com.isupatches.android.wisefy.build.BuildVersions
 import com.isupatches.android.wisefy.build.Dependencies
 import com.isupatches.android.wisefy.build.PublishingConstants
+import com.isupatches.android.wisefy.build.TestDependencies
 
 plugins {
     id("com.android.library")
@@ -26,16 +27,16 @@ dependencies {
 
     // Unit Tests
     testImplementation(project(":testsupport"))
-    testImplementation(com.isupatches.android.wisefy.build.TestDependencies.JUNIT)
-    testImplementation(com.isupatches.android.wisefy.build.TestDependencies.Mockito.CORE)
-    testImplementation(com.isupatches.android.wisefy.build.TestDependencies.Kotlin.Coroutines.TEST)
+    testImplementation(TestDependencies.JUNIT)
+    testImplementation(TestDependencies.Mockito.CORE)
+    testImplementation(TestDependencies.Kotlin.Coroutines.TEST)
 
     // Instrumentation Tests
     androidTestImplementation(project(":testsupport"))
-    androidTestImplementation(com.isupatches.android.wisefy.build.TestDependencies.JUNIT)
-    androidTestImplementation(com.isupatches.android.wisefy.build.TestDependencies.AndroidX.TEST_RUNNER)
-    androidTestImplementation(com.isupatches.android.wisefy.build.TestDependencies.AndroidX.TEST_RULES)
-    androidTestImplementation(com.isupatches.android.wisefy.build.TestDependencies.Mockito.CORE)
-    androidTestImplementation(com.isupatches.android.wisefy.build.TestDependencies.Mockito.ANDROID)
-    androidTestImplementation(com.isupatches.android.wisefy.build.TestDependencies.Kotlin.Coroutines.TEST)
+    androidTestImplementation(TestDependencies.JUNIT)
+    androidTestImplementation(TestDependencies.AndroidX.Test.RULES)
+    androidTestImplementation(TestDependencies.AndroidX.Test.RUNNER)
+    androidTestImplementation(TestDependencies.Mockito.CORE)
+    androidTestImplementation(TestDependencies.Mockito.ANDROID)
+    androidTestImplementation(TestDependencies.Kotlin.Coroutines.TEST)
 }
