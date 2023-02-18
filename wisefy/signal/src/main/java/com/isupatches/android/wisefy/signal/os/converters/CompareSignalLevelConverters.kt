@@ -33,6 +33,6 @@ internal fun Int.toCompareSignalLevelResult(): CompareSignalLevelResult {
     return when {
         this > 0 -> CompareSignalLevelResult.Success.FirstRSSIValueIsStronger(this)
         this < 0 -> CompareSignalLevelResult.Success.FirstRSSIValueIsWeaker(this)
-        else -> CompareSignalLevelResult.Success.RSSIValuesAreEqual(0)
+        else -> CompareSignalLevelResult.Success.RSSIValuesAreEqual
     }
 }

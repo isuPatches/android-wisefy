@@ -37,7 +37,7 @@ internal interface DefaultSignalApi {
      * @since 12/2022, version 5.0.0
      */
     @Deprecated(DeprecationMessages.Signal.CALCULATE_BARS)
-    fun calculateSignalLevel(rssiLevel: Int, targetNumberOfBars: Int): Int
+    fun calculateSignalLevel(rssi: Int, desiredNumberOfBars: Int): Int
 
     /**
      * A default API to compare the RSSI levels of two networks.

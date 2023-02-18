@@ -53,7 +53,7 @@ internal class DefaultSignalAdapter(
         return when (request) {
             is CalculateSignalLevelRequest.BelowAndroid30 -> {
                 @Suppress("Deprecation")
-                val result = api.calculateSignalLevel(request.rssiLevel, request.numLevels)
+                val result = api.calculateSignalLevel(request.rssi, request.desiredNumberOfBars)
                 CalculateSignalLevelResult.Success(value = result)
             }
             is CalculateSignalLevelRequest.Android30AndAbove -> {

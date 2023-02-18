@@ -58,7 +58,7 @@ internal class Android30SignalAdapter(
     override fun calculateSignalLevel(request: CalculateSignalLevelRequest): CalculateSignalLevelResult {
         return when (request) {
             is CalculateSignalLevelRequest.Android30AndAbove -> {
-                val result = api.calculateSignalLevel(request.rssiLevel)
+                val result = api.calculateSignalLevel(request.rssi)
                 CalculateSignalLevelResult.Success(value = result)
             }
             is CalculateSignalLevelRequest.BelowAndroid30 -> {

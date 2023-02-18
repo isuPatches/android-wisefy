@@ -31,21 +31,21 @@ sealed class CalculateSignalLevelRequest {
      * A data representation of a request on pre-Android 30 devices to calculate the number of signal bars based on the
      * RSSI level of a network and the desired amount of bars.
      *
-     * @property rssiLevel The RSSI level of the network
-     * @property numLevels The desired number of signal strength bars
+     * @property rssi The RSSI level of the network
+     * @property desiredNumberOfBars The desired number of signal strength bars
      *
      * @see CalculateSignalLevelRequest
      *
      * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
-    data class BelowAndroid30(val rssiLevel: Int, val numLevels: Int) : CalculateSignalLevelRequest()
+    data class BelowAndroid30(val rssi: Int, val desiredNumberOfBars: Int) : CalculateSignalLevelRequest()
 
     /**
      * A data representation of a request on Android 30 or higher devices to calculate the number of signal strength
      * bars based on the RSSI level of a network.
      *
-     * @property rssiLevel The RSSI level of the network
+     * @property rssi The RSSI level of the network
      *
      * @see CalculateSignalLevelRequest
      *
@@ -53,5 +53,5 @@ sealed class CalculateSignalLevelRequest {
      * @since 12/2022, version 5.0.0
      */
     @RequiresApi(Build.VERSION_CODES.R)
-    data class Android30AndAbove(val rssiLevel: Int) : CalculateSignalLevelRequest()
+    data class Android30AndAbove(val rssi: Int) : CalculateSignalLevelRequest()
 }
