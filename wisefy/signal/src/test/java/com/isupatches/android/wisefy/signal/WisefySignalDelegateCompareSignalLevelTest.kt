@@ -89,25 +89,16 @@ internal class WisefySignalDelegateCompareSignalLevelTest(
         fun paramValues(): List<CompareSignalLevelParams> {
             return listOf(
                 CompareSignalLevelParams(
-                    request = CompareSignalLevelRequest(
-                        rssi1 = TEST_RSSI1,
-                        rssi2 = TEST_RSSI2,
-                    ),
+                    request = CompareSignalLevelRequest(rssi1 = TEST_RSSI1, rssi2 = TEST_RSSI2),
                     result = CompareSignalLevelResult.Success.RSSIValuesAreEqual
                 ),
                 CompareSignalLevelParams(
-                    request = CompareSignalLevelRequest(
-                        rssi1 = TEST_RSSI1,
-                        rssi2 = TEST_RSSI2,
-                    ),
+                    request = CompareSignalLevelRequest(rssi1 = TEST_RSSI1, rssi2 = TEST_RSSI2),
                     result = CompareSignalLevelResult.Success.FirstRSSIValueIsWeaker(value = TEST_VALUE)
 
                 ),
                 CompareSignalLevelParams(
-                    request = CompareSignalLevelRequest(
-                        rssi1 = TEST_RSSI1,
-                        rssi2 = TEST_RSSI2,
-                    ),
+                    request = CompareSignalLevelRequest(rssi1 = TEST_RSSI1, rssi2 = TEST_RSSI2),
                     result = CompareSignalLevelResult.Success.FirstRSSIValueIsStronger(value = TEST_VALUE)
                 )
             )

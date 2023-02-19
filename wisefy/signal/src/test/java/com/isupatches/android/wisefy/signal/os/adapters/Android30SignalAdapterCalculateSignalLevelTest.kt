@@ -95,7 +95,7 @@ internal class Android30SignalAdapterCalculateSignalLevelTest(
                 CalculateSignalLevelParams(
                     request = CalculateSignalLevelRequest.BelowAndroid30(
                         rssi = TEST_RSSI1,
-                        desiredNumberOfBars = TEST_DESIRED_NUMBER_OF_BARS,
+                        desiredNumberOfBars = TEST_DESIRED_NUMBER_OF_BARS
                     ),
                     expectedResult = CalculateSignalLevelResult.Failure.Assertion(
                         message = AssertionMessages.Signal.INCORRECT_CALCULATE_BARS_USED_ANDROID_R_OR_HIGHER

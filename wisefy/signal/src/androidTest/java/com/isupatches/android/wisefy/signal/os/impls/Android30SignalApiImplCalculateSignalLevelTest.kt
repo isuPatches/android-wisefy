@@ -22,7 +22,6 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.isupatches.android.wisefy.core.logging.DefaultWisefyLogger
 import com.isupatches.android.wisefy.signal.os.apis.Android30SignalApi
 import org.junit.Assert.assertEquals
-import org.junit.Assume
 import org.junit.Assume.assumeTrue
 import org.junit.Before
 import org.junit.Test

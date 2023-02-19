@@ -91,14 +91,14 @@ internal class WisefySignalDelegateCalculateSignalLevelTest(
                 CalculateSignalLevelParams(
                     request = CalculateSignalLevelRequest.BelowAndroid30(
                         rssi = TEST_RSSI1,
-                        desiredNumberOfBars = TEST_DESIRED_NUMBER_OF_BARS,
+                        desiredNumberOfBars = TEST_DESIRED_NUMBER_OF_BARS
                     ),
                     result = CalculateSignalLevelResult.Success(value = TEST_VALUE)
                 ),
                 CalculateSignalLevelParams(
                     request = CalculateSignalLevelRequest.BelowAndroid30(
                         rssi = TEST_RSSI1,
-                        desiredNumberOfBars = TEST_DESIRED_NUMBER_OF_BARS,
+                        desiredNumberOfBars = TEST_DESIRED_NUMBER_OF_BARS
                     ),
                     result = CalculateSignalLevelResult.Failure.Assertion(message = "Test")
                 ),

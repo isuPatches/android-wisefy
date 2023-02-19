@@ -92,7 +92,7 @@ internal class DefaultSignalAdapterCalculateSignalLevelTest(
                 CalculateSignalLevelParams(
                     request = CalculateSignalLevelRequest.BelowAndroid30(
                         rssi = TEST_RSSI1,
-                        desiredNumberOfBars = TEST_DESIRED_NUMBER_OF_BARS,
+                        desiredNumberOfBars = TEST_DESIRED_NUMBER_OF_BARS
                     ),
                     apiResult = TEST_VALUE,
                     expectedResult = CalculateSignalLevelResult.Success(value = TEST_VALUE)

@@ -28,8 +28,8 @@ internal interface DefaultSignalApi {
     /**
      * A default API to calculate the bars of signal strength given the network's RSSI.
      *
-     * @param rssiLevel The RSSI level of the network
-     * @param targetNumberOfBars The desired number of signal strength bars
+     * @param rssi The RSSI level of the network
+     * @param desiredNumberOfBars The desired number of signal strength bars
      *
      * @return Int - The number of signal strength bars for the network given RSSI level and a desired number of bars.
      *
