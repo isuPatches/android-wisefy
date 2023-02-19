@@ -146,7 +146,7 @@ private class SignalScreenDialogStatePreviewParameterProvider : PreviewParameter
         SignalDialogState.Failure.WisefyAsync(WisefyException("", null)),
         SignalDialogState.CalculateSignalLevel.Success(CalculateSignalLevelResult.Success(0)),
         SignalDialogState.CalculateSignalLevel.Failure(CalculateSignalLevelResult.Failure.Assertion("")),
-        SignalDialogState.CompareSignalLevel.Success(CompareSignalLevelResult.Success.RSSIValuesAreEqual(0)),
+        SignalDialogState.CompareSignalLevel.Success(CompareSignalLevelResult.Success.RSSIValuesAreEqual),
         SignalDialogState.InputError.CalculateSignalLevel,
         SignalDialogState.InputError.CompareSignalLevel.RSSI1,
         SignalDialogState.InputError.CompareSignalLevel.RSSI2
