@@ -39,9 +39,9 @@ internal class DefaultSignalApiImpl(
         message = DeprecationMessages.Signal.CALCULATE_BARS,
         replaceWith = ReplaceWith("this.calculateBars(rssiLevel)")
     )
-    override fun calculateSignalLevel(rssiLevel: Int, targetNumberOfBars: Int): Int {
+    override fun calculateSignalLevel(rssi: Int, desiredNumberOfBars: Int): Int {
         @Suppress("Deprecation")
-        val result = WifiManager.calculateSignalLevel(rssiLevel, targetNumberOfBars)
+        val result = WifiManager.calculateSignalLevel(rssi, desiredNumberOfBars)
         logger.d(LOG_TAG, "Result from calculateSignalLevel: $result")
         return result
     }

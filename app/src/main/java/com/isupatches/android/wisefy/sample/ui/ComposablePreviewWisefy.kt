@@ -88,7 +88,7 @@ internal class ComposablePreviewWisefy : WisefyApi {
     }
 
     override fun compareSignalLevel(request: CompareSignalLevelRequest): CompareSignalLevelResult {
-        return CompareSignalLevelResult.Success.RSSIValuesAreEqual(value = 0)
+        return CompareSignalLevelResult.Success.RSSIValuesAreEqual
     }
 
     @RequiresApi(Build.VERSION_CODES.Q)

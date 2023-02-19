@@ -45,7 +45,7 @@ internal abstract class SignalViewModel : BaseViewModel() {
     abstract fun onDialogClosed()
 }
 
-private const val TARGET_NUMBER_OF_SIGNAL_LEVELS = 4
+private const val DESIRED_NUMBER_OF_BARS = 4
 
 internal class DefaultSignalViewModel(
     context: Context,
@@ -114,12 +114,9 @@ internal class DefaultSignalViewModel(
 
         val rssiLevel = uiState.value.inputState.calculateSignalLevelInputState.rssiLevelInput.toInt()
         val request = if (sdkUtil.isAtLeastR()) {
-            CalculateSignalLevelRequest.Android30AndAbove(rssiLevel = rssiLevel)
+            CalculateSignalLevelRequest.Android30AndAbove(rssi = rssiLevel)
         } else {
-            CalculateSignalLevelRequest.BelowAndroid30(
-                rssiLevel = rssiLevel,
-                numLevels = TARGET_NUMBER_OF_SIGNAL_LEVELS
-            )
+            CalculateSignalLevelRequest.BelowAndroid30(rssi = rssiLevel, desiredNumberOfBars = DESIRED_NUMBER_OF_BARS)
         }
         val result = try {
             wisefy.calculateSignalLevel(request)

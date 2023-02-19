@@ -30,14 +30,14 @@ sealed class CompareSignalLevelResult {
      * *Notes*
      * See https://developer.android.com/reference/android/net/wifi/WifiManager#compareSignalLevel(int,%20int)
      *
-     * @property value The result of the comparison. This will be less than 0 if first RSSI value is weaker than the
+     * The result of the comparison. This will be less than 0 if first RSSI value is weaker than the
      * second RSSI, 0 if the two have the same strength, and greater than zero if the first RSSI is stronger than the
      * second RSSI value.
      *
      * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
-    sealed class Success(open val value: Int) : CompareSignalLevelResult() {
+    sealed class Success : CompareSignalLevelResult() {
 
         /**
          * A representation of when the first network has an RSSI value that is weaker than the second network's RSSI.
@@ -49,19 +49,17 @@ sealed class CompareSignalLevelResult {
          * @author Patches Barrett
          * @since 12/2022, version 5.0.0
          */
-        data class FirstRSSIValueIsWeaker(override val value: Int) : Success(value)
+        data class FirstRSSIValueIsWeaker(val value: Int) : Success()
 
         /**
          * A representation of when the first network has an RSSI value that is equal to the second network's RSSI.
-         *
-         * @property value The difference between the first and second networks RSSI value (always 0)
          *
          * @see Success
          *
          * @author Patches Barrett
          * @since 12/2022, version 5.0.0
          */
-        data class RSSIValuesAreEqual(override val value: Int) : Success(value)
+        object RSSIValuesAreEqual : Success()
 
         /**
          * A representation of when the first network has an RSSI value that is stronger than the second network's RSSI.
@@ -73,6 +71,6 @@ sealed class CompareSignalLevelResult {
          * @author Patches Barrett
          * @since 12/2022, version 5.0.0
          */
-        data class FirstRSSIValueIsStronger(override val value: Int) : Success(value)
+        data class FirstRSSIValueIsStronger(val value: Int) : Success()
     }
 }

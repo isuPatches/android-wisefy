@@ -30,14 +30,14 @@ internal interface Android30SignalApi {
     /**
      * An Android 30 or higher API to calculate the bars of signal strength given the network's RSSI.
      *
-     * @param rssiLevel The RSSI level of the network
+     * @param rssi The RSSI level of the network
      *
      * @return Int - The number of signal strength bars for the network given RSSI level.
      *
      * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
-    fun calculateSignalLevel(rssiLevel: Int): Int
+    fun calculateSignalLevel(rssi: Int): Int
 
     /**
      * An Android 30 or higher API to compare the RSSI levels of two networks.

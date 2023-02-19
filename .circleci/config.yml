@@ -98,7 +98,11 @@ commands:
         - store_test_results:
             path: wisefy/addnetwork/build/test-results/testDebugUnitTest
         - store_test_results:
+            path: wisefy/networkinfo/build/test-results/testDebugUnitTest
+        - store_test_results:
             path: wisefy/removenetwork/build/test-results/testDebugUnitTest
+        - store_test_results:
+            path: wisefy/signal/build/test-results/testDebugUnitTest
         - store_test_results:
             path: wisefy/wifi/build/test-results/testDebugUnitTest
     store-code-coverage-reports:
@@ -110,8 +114,14 @@ commands:
             path: wisefy/addnetwork/build/reports/jacoco/jacocoDebugUnitTest/html
             destination: wisefy/addnetwork/unitTestCoverageReport
         - store_artifacts:
+            path: wisefy/networkinfo/build/reports/jacoco/jacocoDebugUnitTest/html
+            destination: wisefy/networkinfo/unitTestCoverageReport
+        - store_artifacts:
             path: wisefy/removenetwork/build/reports/jacoco/jacocoDebugUnitTest/html
             destination: wisefy/removenetwork/unitTestCoverageReport
+        - store_artifacts:
+            path: wisefy/signal/build/reports/jacoco/jacocoDebugUnitTest/html
+            destination: wisefy/signal/unitTestCoverageReport
         - store_artifacts:
             path: wisefy/wifi/build/reports/jacoco/jacocoDebugUnitTest/html
             destination: wisefy/wifi/unitTestCoverageReport

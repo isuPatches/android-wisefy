@@ -39,8 +39,8 @@ internal class Android30SignalApiImpl(
     private val logger: WisefyLogger
 ) : Android30SignalApi {
 
-    override fun calculateSignalLevel(rssiLevel: Int): Int {
-        val result = wifiManager.calculateSignalLevel(rssiLevel)
+    override fun calculateSignalLevel(rssi: Int): Int {
+        val result = wifiManager.calculateSignalLevel(rssi)
         logger.d(LOG_TAG, "Result from calculateSignalLevel: $result")
         return result
     }
