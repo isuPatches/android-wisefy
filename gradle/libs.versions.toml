@@ -1,0 +1,76 @@
+[versions]
+build-tools-version = "34.0.0"
+sdk-compile = "33"
+sdk-target = "33"
+sdk-min = "23"
+
+android-gradleplugin = "8.5.0"
+
+androidx-compose-material = "1.3.1"
+androidx-compose-ui = "1.3.2"
+androidx-navigation-version = "2.5.3"
+
+google-dagger-version = "2.44.1"
+
+jacoco-version = "0.8.8"
+
+kotlin-compiler-version = "1.3.2"
+kotlin-version = "1.7.20"
+
+[libraries]
+android-gradleplugin = { module = "com.android.tools.build:gradle", version.ref = "android-gradleplugin" }
+
+androidx-annotation = "androidx.annotation:annotation:1.5.0"
+androidx-appcompat = "androidx.appcompat:appcompat:1.5.1"
+androidx-activity-compose = "androidx.activity:activity-compose:1.6.1"
+androidx-compose-animation = "androidx.compose.animation:animation:1.3.2"
+androidx-compose-material = { module = "androidx.compose.material:material", version.ref = "androidx-compose-material" }
+androidx-compose-materialiconsextended = { module = "androidx.compose.material:material-icons-extended", version.ref = "androidx-compose-material" }
+androidx-compose-ui = { module = "androidx.compose.ui:ui", version.ref = "androidx-compose-ui" }
+androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "androidx-compose-ui" }
+androidx-compose-ui-toolingpreview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "androidx-compose-ui" }
+androidx-corektx = "androidx.core:core-ktx:1.9.0"
+androidx-datastore-preferences = "androidx.datastore:datastore-preferences:1.0.0"
+androidx-lifecycle-viewmodelcompose = "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1"
+androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "androidx-navigation-version" }
+androidx-navigation-fragment = { module = "androidx.navigation:navigation-fragment", version.ref = "androidx-navigation-version" }
+androidx-navitation-ui = { module = "androidx.navigation:navigation-ui", version.ref = "androidx-navigation-version" }
+
+jetbrains-dokka-plugin = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "kotlin-version" }
+jetbrains-kotlin-gradleplugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin-version" }
+jetbrains-kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin-version" }
+jetbrains-kotlinx-coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
+
+google-dagger-android = { module = "com.google.dagger:dagger", version.ref ="google-dagger-version" }
+google-dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref ="google-dagger-version" }
+google-dagger-hilt-android = { module = "com.google.dagger:hilt-android", version.ref ="google-dagger-version" }
+google-dagger-hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref ="google-dagger-version" }
+
+isupatches-wisefy-ktx = "com.isupatches.android.wisefy:ktx:5.0.0-RC3"
+
+[bundles]
+androidx-compose-ui = ['androidx-compose-ui', 'androidx-compose-ui-tooling', 'androidx-compose-ui-toolingpreview']
+androidx-compose-material = ['androidx-compose-material', 'androidx-compose-materialiconsextended']
+androidx-navigation = ['androidx-navigation-compose', 'androidx-navigation-fragment', 'androidx-navitation-ui']
+
+google-dagger = ["google-dagger-android", "google-dagger-hilt-android"]
+google-dagger-compiler = ["google-dagger-compiler", "google-dagger-hilt-compiler"]
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "android-gradleplugin" }
+android-library = { id = "com.android.library", version.ref = "android-gradleplugin" }
+
+jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin-version" }
+google-dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "google-dagger-version"}
+
+java-platform = { id = "java-platform" }
+
+jetbrains-dokka = { id = "org.jetbrains.dokka", version = "1.7.20" }
+
+cpd = { id = "de.aaschmid.cpd", version = "3.3" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version = "1.21.0" }
+dexcount = { id = "com.getkeepsafe.dexcount", version = "3.1.0" }
+kotlinter = { id = "org.jmailen.kotlinter", version = "3.12.0" }
+
+wisefy-android-library = { id = "wisefy-android-library" }
+wisefy-android-publish = { id = "wisefy-android-publish" }

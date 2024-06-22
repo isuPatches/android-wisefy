@@ -1,39 +1,38 @@
+import com.getkeepsafe.dexcount.DexMethodCountPlugin
+import de.aaschmid.gradle.plugins.cpd.Cpd
+import de.aaschmid.gradle.plugins.cpd.CpdExtension
+import de.aaschmid.gradle.plugins.cpd.CpdPlugin
+import io.gitlab.arturbosch.detekt.DetektPlugin
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.jetbrains.dokka.Platform.jvm
 import org.jetbrains.dokka.gradle.DokkaMultiModuleTask
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jmailen.gradle.kotlinter.KotlinterPlugin
 
-buildscript {
-    repositories {
-        google()
-        mavenCentral()
-        maven(url = "https://plugins.gradle.org/m2/")
-    }
+plugins {
+    // Android
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.android.library) apply false
 
-    dependencies {
-        val versions = com.isupatches.android.wisefy.build.Versions
-        classpath("com.android.tools.build:gradle:${versions.AGP}")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.KOTLIN}")
-        classpath("com.google.dagger:hilt-android-gradle-plugin:${versions.DAGGER}")
+    // Kotlin
+    alias(libs.plugins.jetbrains.kotlin.android) apply false
 
-        /**
-         * Ideally this would be migrated out of the project level build.gradle.kts to the [DocumentationPlugin],
-         * but currently the buildSrc directory cannot see [DokkaTask] or [jvm] and unsure why.
-         */
-        classpath("org.jetbrains.dokka:dokka-gradle-plugin:${versions.DOKKA}")
-    }
+    // Build
+    alias(libs.plugins.google.dagger.hilt.android) apply false
+
+    // Static Analysis
+    alias(libs.plugins.cpd) apply false
+    alias(libs.plugins.detekt) apply false
+    alias(libs.plugins.dexcount) apply false
+    alias(libs.plugins.kotlinter) apply false
+
+    // Documentation
+    alias(libs.plugins.jetbrains.dokka) apply false
 }
 
 allprojects {
-    repositories {
-        mavenLocal()
-        google()
-        mavenCentral()
-        maven(url = "https://oss.sonatype.org/content/repositories/snapshots")
-    }
-
     tasks.withType(Test::class).configureEach {
         /*
         * Run tests in parallel (https://docs.gradle.org/nightly/userguide/performance.html).
@@ -60,7 +59,7 @@ allprojects {
     tasks {
         withType<KotlinCompile> {
             kotlinOptions {
-                jvmTarget = "11"
+                jvmTarget = "17"
                 allWarningsAsErrors = true
                 // https://issuetracker.google.com/issues/217593040
                 freeCompilerArgs = freeCompilerArgs + "-Xjvm-default=all"
@@ -68,18 +67,42 @@ allprojects {
         }
 
         withType<JavaCompile> {
-            sourceCompatibility = "${JavaVersion.VERSION_11}"
-            targetCompatibility = "${JavaVersion.VERSION_11}"
+            sourceCompatibility = "${JavaVersion.VERSION_17}"
+            targetCompatibility = "${JavaVersion.VERSION_17}"
         }
     }
 }
 
 subprojects {
     // Static Analysis
-    apply(from = "${rootProject.projectDir}/gradle/cpd.gradle.kts")
-    apply(from = "${rootProject.projectDir}/gradle/detekt.gradle.kts")
-    apply(from = "${rootProject.projectDir}/gradle/dexcount.gradle.kts")
-    apply(from = "${rootProject.projectDir}/gradle/ktlint.gradle.kts")
+    @Suppress("UnstableApiUsage")
+    plugins.apply(CpdPlugin::class)
+    configure<CpdExtension> {
+        language = "kotlin"
+        group = "reporting"
+        isIgnoreFailures = false
+        minimumTokenCount = 75
+    }
+    tasks.withType<Cpd>().configureEach {
+        source = fileTree("$projectDir/src/main/java")
+        reports {
+            text.required.set(false)
+            xml.required.set(true)
+        }
+        exclude(
+            "**/*Delegate.kt",
+            "**/*Api.kt"
+        )
+    }
+
+    plugins.apply(DetektPlugin::class)
+    configure<io.gitlab.arturbosch.detekt.extensions.DetektExtension> {
+        config.setFrom(files("${project.rootDir}/config/detekt.yml"))
+    }
+
+    plugins.apply(DexMethodCountPlugin::class)
+
+    plugins.apply(KotlinterPlugin::class)
 
     // Code coverage
     apply(from = "${rootProject.projectDir}/gradle/jacoco.gradle.kts")

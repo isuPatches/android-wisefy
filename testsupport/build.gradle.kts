@@ -1,9 +1,5 @@
-import com.isupatches.android.wisefy.build.TestDependencies
-
 plugins {
-    id("com.android.library")
-    id("com.isupatches.android.wisefy.build.plugins.BaseGradleModulePlugin")
-    id("kotlin-android")
+    id(libs.plugins.wisefy.android.library.get().pluginId)
 }
 
 android {
@@ -13,6 +9,6 @@ android {
 dependencies {
     implementation(project(":wisefy:core"))
 
-    implementation(TestDependencies.Mockito.CORE)
-    implementation(TestDependencies.Kotlin.Coroutines.TEST)
+    implementation(testLibs.mockito.core)
+    implementation(testLibs.kotlin.coroutines.test)
 }

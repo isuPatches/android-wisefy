@@ -1,0 +1,20 @@
+[versions]
+androidx-espresso-version = "3.4.0"
+mockito-version = "4.11.0"
+
+[libraries]
+androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "androidx-espresso-version" }
+androidx-espresso-intents = { module = "androidx.test.espresso:espresso-intents", version.ref = "androidx-espresso-version" }
+androidx-test-runner = "androidx.test:runner:1.5.1"
+androidx-test-rules = "androidx.test:rules:1.5.0"
+
+junit = "junit:junit:4.13.2"
+
+kotlin-coroutines-test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
+
+mockito-android = { module = "org.mockito:mockito-android", version.ref = "mockito-version" }
+mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito-version" }
+
+[bundles]
+
+[plugins]

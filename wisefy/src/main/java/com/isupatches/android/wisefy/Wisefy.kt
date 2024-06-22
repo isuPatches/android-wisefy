@@ -192,7 +192,7 @@ class Wisefy private constructor(
 
             val sdkUtil = SdkUtilImpl()
             val coroutineDispatcherProvider = DefaultCoroutineDispatcherProvider()
-            wisefyScope = CoroutineScope(SupervisorJob() + coroutineDispatcherProvider.io)
+            wisefyScope = CoroutineScope(coroutineDispatcherProvider.io)
             val assertions = WisefyAssertions(throwOnAssertions)
 
             /*

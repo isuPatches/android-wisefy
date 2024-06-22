@@ -1,21 +1,13 @@
-import com.isupatches.android.wisefy.build.BuildVersions
-import com.isupatches.android.wisefy.build.Dependencies
-import com.isupatches.android.wisefy.build.PublishingConstants.GROUP_ID
-
 plugins {
-    id("com.android.library")
-    id("com.isupatches.android.wisefy.build.plugins.BaseGradleModulePlugin")
-    id("com.isupatches.android.wisefy.build.plugins.DocumentationPlugin")
-    id("com.isupatches.android.wisefy.build.plugins.PublishingPlugin")
-    id("kotlin-android")
+    id(libs.plugins.wisefy.android.library.get().pluginId)
+    id(libs.plugins.wisefy.android.publish.get().pluginId)
 }
 
-group = GROUP_ID
-version = BuildVersions.WISEFY_VERSION
+group = project.properties["groupId"] ?: error("Group ID is a required gradle property")
+version = project.properties["version"] ?: error("Version is a required gradle property")
 
 android {
     namespace = "com.isupatches.android.wisefy"
-    testNamespace = "com.isupatches.android.wisefy.test"
 }
 
 dependencies {
@@ -41,15 +33,20 @@ dependencies {
     /*
      * These should be uncommented to build wisefy / wisefy-ktx directly from source code
      */
-//    api(project(":wisefy:accesspoints"))
-//    api(project(":wisefy:addnetwork"))
-//    api(project(":wisefy:core"))
-//    api(project(":wisefy:networkconnection"))
-//    api(project(":wisefy:networkinfo"))
-//    api(project(":wisefy:removenetwork"))
-//    api(project(":wisefy:savednetworks"))
-//    api(project(":wisefy:signal"))
-//    api(project(":wisefy:wifi"))
+    implementation(project(":wisefy:accesspoints"))
+    implementation(project(":wisefy:addnetwork"))
+    implementation(project(":wisefy:core"))
+    implementation(project(":wisefy:networkconnection"))
+    implementation(project(":wisefy:networkinfo"))
+    implementation(project(":wisefy:removenetwork"))
+    implementation(project(":wisefy:savednetworks"))
+    implementation(project(":wisefy:signal"))
+    implementation(project(":wisefy:wifi"))
 
-    implementation(Dependencies.Kotlin.COROUTINES)
+    // AndroidX
+    implementation(libs.androidx.annotation)
+
+    // Kotlin
+    implementation(libs.jetbrains.kotlin.stdlib)
+    implementation(libs.jetbrains.kotlinx.coroutines)
 }

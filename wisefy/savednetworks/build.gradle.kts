@@ -1,26 +1,22 @@
-import com.isupatches.android.wisefy.build.BuildVersions
-import com.isupatches.android.wisefy.build.Dependencies
-import com.isupatches.android.wisefy.build.PublishingConstants
-
 plugins {
-    id("com.android.library")
-    id("com.isupatches.android.wisefy.build.plugins.BaseGradleModulePlugin")
-    id("com.isupatches.android.wisefy.build.plugins.DocumentationPlugin")
-    id("com.isupatches.android.wisefy.build.plugins.PublishingPlugin")
-    id("kotlin-android")
+    id(libs.plugins.wisefy.android.library.get().pluginId)
+    id(libs.plugins.wisefy.android.publish.get().pluginId)
 }
 
-group = PublishingConstants.GROUP_ID
-version = BuildVersions.WISEFY_SAVED_NETWORKS_VERSION
+group = project.properties["groupId"] ?: error("Group ID is a required gradle property")
+version = project.properties["version"] ?: error("Version is a required gradle property")
 
 android {
     namespace = "com.isupatches.android.wisefy.savednetworks"
-    testNamespace = "com.isupatches.android.wisefy.savednetworks.test"
 }
 
 dependencies {
     implementation(project(":wisefy:core"))
 
+    // AndroidX
+    implementation(libs.androidx.annotation)
+
     // Kotlin
-    implementation(Dependencies.Kotlin.COROUTINES)
+    implementation(libs.jetbrains.kotlin.stdlib)
+    implementation(libs.jetbrains.kotlinx.coroutines)
 }

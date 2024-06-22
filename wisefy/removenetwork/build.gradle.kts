@@ -1,42 +1,37 @@
-import com.isupatches.android.wisefy.build.BuildVersions
-import com.isupatches.android.wisefy.build.Dependencies
-import com.isupatches.android.wisefy.build.PublishingConstants
-import com.isupatches.android.wisefy.build.TestDependencies
-
 plugins {
-    id("com.android.library")
-    id("com.isupatches.android.wisefy.build.plugins.BaseGradleModulePlugin")
-    id("com.isupatches.android.wisefy.build.plugins.DocumentationPlugin")
-    id("com.isupatches.android.wisefy.build.plugins.PublishingPlugin")
-    id("kotlin-android")
+    id(libs.plugins.wisefy.android.library.get().pluginId)
+    id(libs.plugins.wisefy.android.publish.get().pluginId)
 }
 
-group = PublishingConstants.GROUP_ID
-version = BuildVersions.WISEFY_REMOVE_NETWORK_VERSION
+group = project.properties["groupId"] ?: error("Group ID is a required gradle property")
+version = project.properties["version"] ?: error("Version is a required gradle property")
 
 android {
     namespace = "com.isupatches.android.wisefy.removenetwork"
-    testNamespace = "com.isupatches.android.wisefy.removenetwork.test"
 }
 
 dependencies {
     implementation(project(":wisefy:core"))
 
+    // AndroidX
+    implementation(libs.androidx.annotation)
+
     // Kotlin
-    implementation(Dependencies.Kotlin.COROUTINES)
+    implementation(libs.jetbrains.kotlin.stdlib)
+    implementation(libs.jetbrains.kotlinx.coroutines)
 
     // Unit Tests
     testImplementation(project(":testsupport"))
-    testImplementation(TestDependencies.JUNIT)
-    testImplementation(TestDependencies.Mockito.CORE)
-    testImplementation(TestDependencies.Kotlin.Coroutines.TEST)
+    testImplementation(testLibs.junit)
+    testImplementation(testLibs.mockito.core)
+    testImplementation(testLibs.kotlin.coroutines.test)
 
     // Instrumentation Tests
     androidTestImplementation(project(":testsupport"))
-    androidTestImplementation(TestDependencies.JUNIT)
-    androidTestImplementation(TestDependencies.AndroidX.Test.RULES)
-    androidTestImplementation(TestDependencies.AndroidX.Test.RUNNER)
-    androidTestImplementation(TestDependencies.Mockito.CORE)
-    androidTestImplementation(TestDependencies.Mockito.ANDROID)
-    androidTestImplementation(TestDependencies.Kotlin.Coroutines.TEST)
+    androidTestImplementation(testLibs.junit)
+    androidTestImplementation(testLibs.androidx.test.rules)
+    androidTestImplementation(testLibs.androidx.test.runner)
+    androidTestImplementation(testLibs.mockito.core)
+    androidTestImplementation(testLibs.mockito.android)
+    androidTestImplementation(testLibs.kotlin.coroutines.test)
 }
