@@ -35,7 +35,7 @@ import org.mockito.MockitoAnnotations
 
 @RunWith(Parameterized::class)
 internal class Android30AddNetworkAdapterTest(
-    private val params: AddNetworkParams
+    private val params: AddNetworkParams,
 ) {
 
     @Mock
@@ -55,7 +55,7 @@ internal class Android30AddNetworkAdapterTest(
             wifiManager = mockWifiManager,
             logger = DefaultWisefyLogger(),
             assertions = WisefyAssertions(false),
-            api = mockApi
+            api = mockApi,
         )
     }
 
@@ -70,42 +70,42 @@ internal class Android30AddNetworkAdapterTest(
         given(
             mockApi.addOpenNetwork(
                 anyString(),
-                isNull()
-            )
+                isNull(),
+            ),
         ).willReturn(params.addNetworkResultCode)
         given(
             mockApi.addOpenNetwork(
                 anyString(),
-                anyString()
-            )
+                anyString(),
+            ),
         ).willReturn(params.addNetworkResultCode)
         given(
             mockApi.addWPA2Network(
                 anyString(),
                 anyString(),
-                isNull()
-            )
+                isNull(),
+            ),
         ).willReturn(params.addNetworkResultCode)
         given(
             mockApi.addWPA2Network(
                 anyString(),
                 anyString(),
-                anyString()
-            )
+                anyString(),
+            ),
         ).willReturn(params.addNetworkResultCode)
         given(
             mockApi.addWPA3Network(
                 anyString(),
                 anyString(),
-                isNull()
-            )
+                isNull(),
+            ),
         ).willReturn(params.addNetworkResultCode)
         given(
             mockApi.addWPA3Network(
                 anyString(),
                 anyString(),
-                anyString()
-            )
+                anyString(),
+            ),
         ).willReturn(params.addNetworkResultCode)
 
         // Then
@@ -130,94 +130,94 @@ internal class Android30AddNetworkAdapterTest(
                 AddNetworkParams(
                     request = AddNetworkRequest.Open(ssid = TEST_SSID, bssid = null),
                     addNetworkResultCode = ADD_NETWORK_SUCCESS_RESULT_CODE,
-                    expectedResult = AddNetworkResult.Success.ResultCode(ADD_NETWORK_SUCCESS_RESULT_CODE)
+                    expectedResult = AddNetworkResult.Success.ResultCode(ADD_NETWORK_SUCCESS_RESULT_CODE),
                 ),
                 AddNetworkParams(
                     request = AddNetworkRequest.Open(ssid = TEST_SSID, bssid = TEST_BSSID),
                     addNetworkResultCode = ADD_NETWORK_SUCCESS_RESULT_CODE,
-                    expectedResult = AddNetworkResult.Success.ResultCode(ADD_NETWORK_SUCCESS_RESULT_CODE)
+                    expectedResult = AddNetworkResult.Success.ResultCode(ADD_NETWORK_SUCCESS_RESULT_CODE),
                 ),
                 AddNetworkParams(
                     request = AddNetworkRequest.Open(ssid = TEST_SSID, bssid = null),
                     addNetworkResultCode = ADD_NETWORK_FAILURE_RESULT_CODE,
-                    expectedResult = AddNetworkResult.Failure.ResultCode(ADD_NETWORK_FAILURE_RESULT_CODE)
+                    expectedResult = AddNetworkResult.Failure.ResultCode(ADD_NETWORK_FAILURE_RESULT_CODE),
                 ),
                 AddNetworkParams(
                     request = AddNetworkRequest.Open(ssid = TEST_SSID, bssid = TEST_BSSID),
                     addNetworkResultCode = ADD_NETWORK_FAILURE_RESULT_CODE,
-                    expectedResult = AddNetworkResult.Failure.ResultCode(ADD_NETWORK_FAILURE_RESULT_CODE)
+                    expectedResult = AddNetworkResult.Failure.ResultCode(ADD_NETWORK_FAILURE_RESULT_CODE),
                 ),
                 AddNetworkParams(
                     request = AddNetworkRequest.WPA2(ssid = TEST_SSID, passphrase = TEST_PASSPHRASE, bssid = null),
                     addNetworkResultCode = ADD_NETWORK_SUCCESS_RESULT_CODE,
-                    expectedResult = AddNetworkResult.Success.ResultCode(ADD_NETWORK_SUCCESS_RESULT_CODE)
+                    expectedResult = AddNetworkResult.Success.ResultCode(ADD_NETWORK_SUCCESS_RESULT_CODE),
                 ),
                 AddNetworkParams(
                     request = AddNetworkRequest.WPA2(
                         ssid = TEST_SSID,
                         passphrase = TEST_PASSPHRASE,
-                        bssid = TEST_BSSID
+                        bssid = TEST_BSSID,
                     ),
                     addNetworkResultCode = ADD_NETWORK_SUCCESS_RESULT_CODE,
-                    expectedResult = AddNetworkResult.Success.ResultCode(ADD_NETWORK_SUCCESS_RESULT_CODE)
+                    expectedResult = AddNetworkResult.Success.ResultCode(ADD_NETWORK_SUCCESS_RESULT_CODE),
                 ),
                 AddNetworkParams(
                     request = AddNetworkRequest.WPA2(
                         ssid = TEST_SSID,
                         passphrase = TEST_PASSPHRASE,
-                        bssid = null
+                        bssid = null,
                     ),
                     addNetworkResultCode = ADD_NETWORK_FAILURE_RESULT_CODE,
-                    expectedResult = AddNetworkResult.Failure.ResultCode(ADD_NETWORK_FAILURE_RESULT_CODE)
+                    expectedResult = AddNetworkResult.Failure.ResultCode(ADD_NETWORK_FAILURE_RESULT_CODE),
                 ),
                 AddNetworkParams(
                     request = AddNetworkRequest.WPA2(
                         ssid = TEST_SSID,
                         passphrase = TEST_PASSPHRASE,
-                        bssid = TEST_BSSID
+                        bssid = TEST_BSSID,
                     ),
                     addNetworkResultCode = ADD_NETWORK_FAILURE_RESULT_CODE,
-                    expectedResult = AddNetworkResult.Failure.ResultCode(ADD_NETWORK_FAILURE_RESULT_CODE)
+                    expectedResult = AddNetworkResult.Failure.ResultCode(ADD_NETWORK_FAILURE_RESULT_CODE),
                 ),
                 AddNetworkParams(
                     request = AddNetworkRequest.WPA3(ssid = TEST_SSID, passphrase = TEST_PASSPHRASE, bssid = null),
                     addNetworkResultCode = ADD_NETWORK_SUCCESS_RESULT_CODE,
-                    expectedResult = AddNetworkResult.Success.ResultCode(ADD_NETWORK_SUCCESS_RESULT_CODE)
+                    expectedResult = AddNetworkResult.Success.ResultCode(ADD_NETWORK_SUCCESS_RESULT_CODE),
                 ),
                 AddNetworkParams(
                     request = AddNetworkRequest.WPA3(
                         ssid = TEST_SSID,
                         passphrase = TEST_PASSPHRASE,
-                        bssid = TEST_BSSID
+                        bssid = TEST_BSSID,
                     ),
                     addNetworkResultCode = ADD_NETWORK_SUCCESS_RESULT_CODE,
-                    expectedResult = AddNetworkResult.Success.ResultCode(ADD_NETWORK_SUCCESS_RESULT_CODE)
+                    expectedResult = AddNetworkResult.Success.ResultCode(ADD_NETWORK_SUCCESS_RESULT_CODE),
                 ),
                 AddNetworkParams(
                     request = AddNetworkRequest.WPA3(
                         ssid = TEST_SSID,
                         passphrase = TEST_PASSPHRASE,
-                        bssid = null
+                        bssid = null,
                     ),
                     addNetworkResultCode = ADD_NETWORK_FAILURE_RESULT_CODE,
-                    expectedResult = AddNetworkResult.Failure.ResultCode(ADD_NETWORK_FAILURE_RESULT_CODE)
+                    expectedResult = AddNetworkResult.Failure.ResultCode(ADD_NETWORK_FAILURE_RESULT_CODE),
                 ),
                 AddNetworkParams(
                     request = AddNetworkRequest.WPA3(
                         ssid = TEST_SSID,
                         passphrase = TEST_PASSPHRASE,
-                        bssid = TEST_BSSID
+                        bssid = TEST_BSSID,
                     ),
                     addNetworkResultCode = ADD_NETWORK_FAILURE_RESULT_CODE,
-                    expectedResult = AddNetworkResult.Failure.ResultCode(ADD_NETWORK_FAILURE_RESULT_CODE)
-                )
+                    expectedResult = AddNetworkResult.Failure.ResultCode(ADD_NETWORK_FAILURE_RESULT_CODE),
+                ),
             )
         }
 
         data class AddNetworkParams(
             val request: AddNetworkRequest,
             val addNetworkResultCode: Int,
-            val expectedResult: AddNetworkResult
+            val expectedResult: AddNetworkResult,
         )
     }
 }

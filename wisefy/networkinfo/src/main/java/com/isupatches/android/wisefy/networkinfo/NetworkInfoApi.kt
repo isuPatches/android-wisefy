@@ -44,9 +44,7 @@ interface NetworkInfoApi {
      * @since 12/2022, version 5.0.0
      */
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    fun getCurrentNetwork(
-        query: GetCurrentNetworkQuery = GetCurrentNetworkQuery()
-    ): GetCurrentNetworkResult
+    fun getCurrentNetwork(query: GetCurrentNetworkQuery = GetCurrentNetworkQuery()): GetCurrentNetworkResult
 
     /**
      * A synchronous API to get the device's current network connection status.
@@ -63,6 +61,6 @@ interface NetworkInfoApi {
      */
     @RequiresPermission(ACCESS_NETWORK_STATE)
     fun getNetworkConnectionStatus(
-        query: GetNetworkConnectionStatusQuery = GetNetworkConnectionStatusQuery()
+        query: GetNetworkConnectionStatusQuery = GetNetworkConnectionStatusQuery(),
     ): GetNetworkConnectionStatusResult
 }

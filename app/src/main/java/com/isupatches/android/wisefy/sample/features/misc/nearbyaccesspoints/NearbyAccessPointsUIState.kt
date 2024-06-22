@@ -20,21 +20,21 @@ import com.isupatches.android.wisefy.core.exceptions.WisefyException
 internal data class NearbyAccessPointsUIState(
     val loadingState: NearbyAccessPointsLoadingState,
     val dialogState: NearbyAccessPointsDialogState,
-    val accessPointUIData: List<AccessPointUIData>
+    val accessPointUIData: List<AccessPointUIData>,
 )
 
 internal data class NearbyAccessPointsLoadingState(
-    val isLoading: Boolean = false
+    val isLoading: Boolean = false,
 )
 
 internal sealed class NearbyAccessPointsDialogState {
-    object None : NearbyAccessPointsDialogState()
+    data object None : NearbyAccessPointsDialogState()
 
     sealed class Failure : NearbyAccessPointsDialogState() {
         data class WisefyAsync(val exception: WisefyException) : Failure()
     }
 
     sealed class GetNearbyAccessPoints : NearbyAccessPointsDialogState() {
-        object PermissionsError : GetNearbyAccessPoints()
+        data object PermissionsError : GetNearbyAccessPoints()
     }
 }

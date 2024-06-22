@@ -63,7 +63,8 @@ enum class AuthenticationAlgorithm(val stringValue: String) {
      * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
-    IEEE8021X("IEEE8021X");
+    IEEE8021X("IEEE8021X"),
+    ;
 
     companion object {
         /**

@@ -49,7 +49,7 @@ import org.mockito.MockitoAnnotations
 @OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(Parameterized::class)
 internal class WisefyAddNetworkDelegateAddNetworkAsyncTest(
-    private val params: AddNetworkParams
+    private val params: AddNetworkParams,
 ) {
 
     @Mock
@@ -77,7 +77,7 @@ internal class WisefyAddNetworkDelegateAddNetworkAsyncTest(
             coroutineDispatcherProvider = TestCoroutineDispatchProvider(),
             scope = testScope,
             savedNetworkMutex = Mutex(),
-            adapter = mockAdapter
+            adapter = mockAdapter,
         )
     }
 
@@ -101,7 +101,7 @@ internal class WisefyAddNetworkDelegateAddNetworkAsyncTest(
         when {
             params.mockCallbacks != null && params.expectedFailureCallbacks > 0 -> {
                 verify(params.mockCallbacks, times(params.expectedFailureCallbacks)).onFailureAddingNetwork(
-                    params.result as AddNetworkResult.Failure
+                    params.result as AddNetworkResult.Failure,
                 )
             }
             params.mockCallbacks != null -> {
@@ -111,7 +111,7 @@ internal class WisefyAddNetworkDelegateAddNetworkAsyncTest(
         when {
             params.mockCallbacks != null && params.expectedSuccessCallbacks > 0 -> {
                 verify(params.mockCallbacks, times(params.expectedSuccessCallbacks)).onSuccessAddingNetwork(
-                    params.result as AddNetworkResult.Success
+                    params.result as AddNetworkResult.Success,
                 )
             }
             params.mockCallbacks != null -> {
@@ -136,144 +136,144 @@ internal class WisefyAddNetworkDelegateAddNetworkAsyncTest(
                     request = AddNetworkRequest.Open(ssid = TEST_SSID, bssid = null),
                     result = AddNetworkResult.Success.ResultCode(ADD_NETWORK_SUCCESS_RESULT_CODE),
                     mockCallbacks = mock(AddNetworkCallbacks::class.java),
-                    expectedSuccessCallbacks = 1
+                    expectedSuccessCallbacks = 1,
                 ),
                 AddNetworkParams(
                     request = AddNetworkRequest.Open(ssid = TEST_SSID, bssid = TEST_BSSID),
                     result = AddNetworkResult.Success.ResultCode(ADD_NETWORK_SUCCESS_RESULT_CODE),
                     mockCallbacks = mock(AddNetworkCallbacks::class.java),
-                    expectedSuccessCallbacks = 1
+                    expectedSuccessCallbacks = 1,
                 ),
                 AddNetworkParams(
                     request = AddNetworkRequest.Open(ssid = TEST_SSID, bssid = TEST_BSSID),
                     result = AddNetworkResult.Success.ResultCode(ADD_NETWORK_SUCCESS_RESULT_CODE),
-                    mockCallbacks = null
+                    mockCallbacks = null,
                 ),
                 AddNetworkParams(
                     request = AddNetworkRequest.Open(ssid = TEST_SSID, bssid = null),
                     result = AddNetworkResult.Failure.ResultCode(ADD_NETWORK_FAILURE_RESULT_CODE),
                     mockCallbacks = mock(AddNetworkCallbacks::class.java),
-                    expectedFailureCallbacks = 1
+                    expectedFailureCallbacks = 1,
                 ),
                 AddNetworkParams(
                     request = AddNetworkRequest.Open(ssid = TEST_SSID, bssid = TEST_BSSID),
                     result = AddNetworkResult.Failure.ResultCode(ADD_NETWORK_FAILURE_RESULT_CODE),
                     mockCallbacks = mock(AddNetworkCallbacks::class.java),
-                    expectedFailureCallbacks = 1
+                    expectedFailureCallbacks = 1,
                 ),
                 AddNetworkParams(
                     request = AddNetworkRequest.Open(ssid = TEST_SSID, bssid = TEST_BSSID),
                     result = AddNetworkResult.Failure.ResultCode(ADD_NETWORK_FAILURE_RESULT_CODE),
-                    mockCallbacks = null
+                    mockCallbacks = null,
                 ),
                 AddNetworkParams(
                     request = AddNetworkRequest.WPA2(ssid = TEST_SSID, passphrase = TEST_PASSPHRASE, bssid = null),
                     result = AddNetworkResult.Success.ResultCode(ADD_NETWORK_SUCCESS_RESULT_CODE),
                     mockCallbacks = mock(AddNetworkCallbacks::class.java),
-                    expectedSuccessCallbacks = 1
+                    expectedSuccessCallbacks = 1,
                 ),
                 AddNetworkParams(
                     request = AddNetworkRequest.WPA2(
                         ssid = TEST_SSID,
                         passphrase = TEST_PASSPHRASE,
-                        bssid = TEST_BSSID
+                        bssid = TEST_BSSID,
                     ),
                     result = AddNetworkResult.Success.ResultCode(ADD_NETWORK_SUCCESS_RESULT_CODE),
                     mockCallbacks = mock(AddNetworkCallbacks::class.java),
-                    expectedSuccessCallbacks = 1
+                    expectedSuccessCallbacks = 1,
                 ),
                 AddNetworkParams(
                     request = AddNetworkRequest.WPA2(
                         ssid = TEST_SSID,
                         passphrase = TEST_PASSPHRASE,
-                        bssid = TEST_BSSID
+                        bssid = TEST_BSSID,
                     ),
                     result = AddNetworkResult.Success.ResultCode(ADD_NETWORK_SUCCESS_RESULT_CODE),
-                    mockCallbacks = null
+                    mockCallbacks = null,
                 ),
                 AddNetworkParams(
                     request = AddNetworkRequest.WPA2(
                         ssid = TEST_SSID,
                         passphrase = TEST_PASSPHRASE,
-                        bssid = null
+                        bssid = null,
                     ),
                     result = AddNetworkResult.Failure.ResultCode(ADD_NETWORK_FAILURE_RESULT_CODE),
                     mockCallbacks = mock(AddNetworkCallbacks::class.java),
-                    expectedFailureCallbacks = 1
+                    expectedFailureCallbacks = 1,
                 ),
                 AddNetworkParams(
                     request = AddNetworkRequest.WPA2(
                         ssid = TEST_SSID,
                         passphrase = TEST_PASSPHRASE,
-                        bssid = TEST_BSSID
+                        bssid = TEST_BSSID,
                     ),
                     result = AddNetworkResult.Failure.ResultCode(ADD_NETWORK_FAILURE_RESULT_CODE),
                     mockCallbacks = mock(AddNetworkCallbacks::class.java),
-                    expectedFailureCallbacks = 1
+                    expectedFailureCallbacks = 1,
                 ),
                 AddNetworkParams(
                     request = AddNetworkRequest.WPA2(
                         ssid = TEST_SSID,
                         passphrase = TEST_PASSPHRASE,
-                        bssid = TEST_BSSID
+                        bssid = TEST_BSSID,
                     ),
                     result = AddNetworkResult.Failure.ResultCode(ADD_NETWORK_FAILURE_RESULT_CODE),
-                    mockCallbacks = null
+                    mockCallbacks = null,
                 ),
                 AddNetworkParams(
                     request = AddNetworkRequest.WPA3(ssid = TEST_SSID, passphrase = TEST_PASSPHRASE, bssid = null),
                     result = AddNetworkResult.Success.ResultCode(ADD_NETWORK_SUCCESS_RESULT_CODE),
                     mockCallbacks = mock(AddNetworkCallbacks::class.java),
-                    expectedSuccessCallbacks = 1
+                    expectedSuccessCallbacks = 1,
                 ),
                 AddNetworkParams(
                     request = AddNetworkRequest.WPA3(
                         ssid = TEST_SSID,
                         passphrase = TEST_PASSPHRASE,
-                        bssid = TEST_BSSID
+                        bssid = TEST_BSSID,
                     ),
                     result = AddNetworkResult.Success.ResultCode(ADD_NETWORK_SUCCESS_RESULT_CODE),
                     mockCallbacks = mock(AddNetworkCallbacks::class.java),
-                    expectedSuccessCallbacks = 1
+                    expectedSuccessCallbacks = 1,
                 ),
                 AddNetworkParams(
                     request = AddNetworkRequest.WPA3(
                         ssid = TEST_SSID,
                         passphrase = TEST_PASSPHRASE,
-                        bssid = TEST_BSSID
+                        bssid = TEST_BSSID,
                     ),
                     result = AddNetworkResult.Success.ResultCode(ADD_NETWORK_SUCCESS_RESULT_CODE),
-                    mockCallbacks = null
+                    mockCallbacks = null,
                 ),
                 AddNetworkParams(
                     request = AddNetworkRequest.WPA3(
                         ssid = TEST_SSID,
                         passphrase = TEST_PASSPHRASE,
-                        bssid = null
+                        bssid = null,
                     ),
                     result = AddNetworkResult.Failure.ResultCode(ADD_NETWORK_FAILURE_RESULT_CODE),
                     mockCallbacks = mock(AddNetworkCallbacks::class.java),
-                    expectedFailureCallbacks = 1
+                    expectedFailureCallbacks = 1,
                 ),
                 AddNetworkParams(
                     request = AddNetworkRequest.WPA3(
                         ssid = TEST_SSID,
                         passphrase = TEST_PASSPHRASE,
-                        bssid = TEST_BSSID
+                        bssid = TEST_BSSID,
                     ),
                     result = AddNetworkResult.Failure.ResultCode(ADD_NETWORK_FAILURE_RESULT_CODE),
                     mockCallbacks = mock(AddNetworkCallbacks::class.java),
-                    expectedFailureCallbacks = 1
+                    expectedFailureCallbacks = 1,
                 ),
                 AddNetworkParams(
                     request = AddNetworkRequest.WPA3(
                         ssid = TEST_SSID,
                         passphrase = TEST_PASSPHRASE,
-                        bssid = TEST_BSSID
+                        bssid = TEST_BSSID,
                     ),
                     result = AddNetworkResult.Failure.ResultCode(ADD_NETWORK_FAILURE_RESULT_CODE),
-                    mockCallbacks = null
-                )
+                    mockCallbacks = null,
+                ),
             )
         }
 
@@ -282,7 +282,7 @@ internal class WisefyAddNetworkDelegateAddNetworkAsyncTest(
             val result: AddNetworkResult,
             val mockCallbacks: AddNetworkCallbacks?,
             val expectedFailureCallbacks: Int = 0,
-            val expectedSuccessCallbacks: Int = 0
+            val expectedSuccessCallbacks: Int = 0,
         )
     }
 }

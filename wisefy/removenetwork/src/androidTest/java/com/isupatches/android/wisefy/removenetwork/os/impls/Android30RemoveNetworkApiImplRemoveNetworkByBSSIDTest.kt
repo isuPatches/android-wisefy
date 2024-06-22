@@ -37,7 +37,7 @@ import org.mockito.MockitoAnnotations
 
 @RunWith(Parameterized::class)
 internal class Android30RemoveNetworkApiImplRemoveNetworkByBSSIDTest(
-    private val params: RemoveNetworkParams
+    private val params: RemoveNetworkParams,
 ) {
 
     @Mock
@@ -62,7 +62,7 @@ internal class Android30RemoveNetworkApiImplRemoveNetworkByBSSIDTest(
     fun test() {
         assumeTrue(
             "Can only run on API Level ${Build.VERSION_CODES.R} or newer",
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.R,
         )
 
         // Given
@@ -90,10 +90,10 @@ internal class Android30RemoveNetworkApiImplRemoveNetworkByBSSIDTest(
                             .setSsid(TEST_SSID)
                             .setBssid(MacAddress.fromString(TEST_BSSID1))
                             .setIsAppInteractionRequired(true)
-                            .build()
+                            .build(),
                     ),
                     expectedResult = REMOVE_NETWORK_SUCCESS_RESULT_CODE,
-                    expectedRemoveRequest = 1
+                    expectedRemoveRequest = 1,
                 ),
                 RemoveNetworkParams(
                     bssid = TEST_BSSID1,
@@ -102,16 +102,16 @@ internal class Android30RemoveNetworkApiImplRemoveNetworkByBSSIDTest(
                             .setSsid(TEST_SSID)
                             .setBssid(MacAddress.fromString(TEST_BSSID1))
                             .setIsAppInteractionRequired(true)
-                            .build()
+                            .build(),
                     ),
                     expectedResult = REMOVE_NETWORK_FAILURE_RESULT_CODE,
-                    expectedRemoveRequest = 1
+                    expectedRemoveRequest = 1,
                 ),
                 RemoveNetworkParams(
                     bssid = TEST_BSSID1,
                     networks = emptyList(),
                     expectedResult = REMOVE_NETWORK_FAILURE_RESULT_CODE,
-                    expectedRemoveRequest = 0
+                    expectedRemoveRequest = 0,
                 ),
                 RemoveNetworkParams(
                     bssid = TEST_BSSID1,
@@ -120,10 +120,10 @@ internal class Android30RemoveNetworkApiImplRemoveNetworkByBSSIDTest(
                             .setSsid(TEST_SSID)
                             .setBssid(MacAddress.fromString(TEST_BSSID2))
                             .setIsAppInteractionRequired(true)
-                            .build()
+                            .build(),
                     ),
                     expectedResult = REMOVE_NETWORK_FAILURE_RESULT_CODE,
-                    expectedRemoveRequest = 0
+                    expectedRemoveRequest = 0,
                 ),
                 RemoveNetworkParams(
                     bssid = TEST_BSSID2,
@@ -132,10 +132,10 @@ internal class Android30RemoveNetworkApiImplRemoveNetworkByBSSIDTest(
                             .setSsid(TEST_SSID)
                             .setBssid(MacAddress.fromString(TEST_BSSID1))
                             .setIsAppInteractionRequired(true)
-                            .build()
+                            .build(),
                     ),
                     expectedResult = REMOVE_NETWORK_FAILURE_RESULT_CODE,
-                    expectedRemoveRequest = 0
+                    expectedRemoveRequest = 0,
                 ),
                 RemoveNetworkParams(
                     bssid = TEST_BSSID2,
@@ -149,10 +149,10 @@ internal class Android30RemoveNetworkApiImplRemoveNetworkByBSSIDTest(
                             .setSsid(TEST_SSID)
                             .setBssid(MacAddress.fromString(TEST_BSSID3))
                             .setIsAppInteractionRequired(true)
-                            .build()
+                            .build(),
                     ),
                     expectedResult = REMOVE_NETWORK_FAILURE_RESULT_CODE,
-                    expectedRemoveRequest = 0
+                    expectedRemoveRequest = 0,
                 ),
                 RemoveNetworkParams(
                     bssid = TEST_BSSID1,
@@ -166,10 +166,10 @@ internal class Android30RemoveNetworkApiImplRemoveNetworkByBSSIDTest(
                             .setSsid(TEST_SSID)
                             .setBssid(MacAddress.fromString(TEST_BSSID3))
                             .setIsAppInteractionRequired(true)
-                            .build()
+                            .build(),
                     ),
                     expectedResult = REMOVE_NETWORK_FAILURE_RESULT_CODE,
-                    expectedRemoveRequest = 0
+                    expectedRemoveRequest = 0,
                 ),
                 RemoveNetworkParams(
                     bssid = TEST_BSSID1,
@@ -183,11 +183,11 @@ internal class Android30RemoveNetworkApiImplRemoveNetworkByBSSIDTest(
                             .setSsid(TEST_SSID)
                             .setBssid(MacAddress.fromString(TEST_BSSID2))
                             .setIsAppInteractionRequired(true)
-                            .build()
+                            .build(),
                     ),
                     expectedResult = REMOVE_NETWORK_SUCCESS_RESULT_CODE,
-                    expectedRemoveRequest = 1
-                )
+                    expectedRemoveRequest = 1,
+                ),
             )
         }
 
@@ -195,7 +195,7 @@ internal class Android30RemoveNetworkApiImplRemoveNetworkByBSSIDTest(
             val bssid: String,
             val networks: List<WifiNetworkSuggestion>,
             val expectedResult: Int,
-            val expectedRemoveRequest: Int
+            val expectedRemoveRequest: Int,
         )
 
         private const val REMOVE_NETWORK_FAILURE_RESULT_CODE: Int = -1

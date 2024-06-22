@@ -53,7 +53,7 @@ import kotlin.coroutines.suspendCoroutine
 @RequiresPermission(ACCESS_NETWORK_STATE)
 @Throws(WisefyException::class)
 suspend fun WisefyApi.getCurrentNetworkAsync(
-    query: GetCurrentNetworkQuery = GetCurrentNetworkQuery()
+    query: GetCurrentNetworkQuery = GetCurrentNetworkQuery(),
 ): GetCurrentNetworkResult = suspendCoroutine { continuation ->
     getCurrentNetwork(
         query = query,
@@ -65,7 +65,7 @@ suspend fun WisefyApi.getCurrentNetworkAsync(
             override fun onWisefyAsyncFailure(exception: WisefyException) {
                 continuation.resumeWith(Result.failure(exception))
             }
-        }
+        },
     )
 }
 
@@ -93,13 +93,13 @@ suspend fun WisefyApi.getCurrentNetworkAsync(
 @Throws(WisefyException::class)
 @RequiresPermission(ACCESS_NETWORK_STATE)
 suspend fun WisefyApi.getNetworkConnectionStatusAsync(
-    query: GetNetworkConnectionStatusQuery = GetNetworkConnectionStatusQuery()
+    query: GetNetworkConnectionStatusQuery = GetNetworkConnectionStatusQuery(),
 ): GetNetworkConnectionStatusResult = suspendCoroutine { continuation ->
     getNetworkConnectionStatus(
         query = query,
         callbacks = object : GetNetworkConnectionStatusCallbacks {
             override fun onDeviceNetworkConnectionStatusRetrieved(
-                networkConnectionStatus: NetworkConnectionStatusData
+                networkConnectionStatus: NetworkConnectionStatusData,
             ) {
                 continuation.resumeWith(Result.success(GetNetworkConnectionStatusResult(networkConnectionStatus)))
             }
@@ -107,6 +107,6 @@ suspend fun WisefyApi.getNetworkConnectionStatusAsync(
             override fun onWisefyAsyncFailure(exception: WisefyException) {
                 continuation.resumeWith(Result.failure(exception))
             }
-        }
+        },
     )
 }

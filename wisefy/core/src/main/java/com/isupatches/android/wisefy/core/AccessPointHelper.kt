@@ -111,8 +111,10 @@ fun ScanResult.supportsAuthenticationAlgorithm(authenticationAlgorithm: Authenti
             if (authenticationAlgorithm == AuthenticationAlgorithm.WPA_EAP) {
                 it.substringBefore("]").startsWith(authenticationAlgorithm.stringValue)
             } else {
-                !wpaEnterpriseCapability && it.substringBefore("]").split("-")
-                    .getOrNull(AUTHENTICATION_ALGORITHM_INDEX) == authenticationAlgorithm.stringValue
+                !wpaEnterpriseCapability &&
+                    it.substringBefore("]")
+                        .split("-")
+                        .getOrNull(AUTHENTICATION_ALGORITHM_INDEX) == authenticationAlgorithm.stringValue
             }
         }
 }

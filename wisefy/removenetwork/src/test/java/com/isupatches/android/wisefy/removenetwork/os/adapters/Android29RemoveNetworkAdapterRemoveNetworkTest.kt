@@ -29,7 +29,7 @@ import org.mockito.MockitoAnnotations
 
 @RunWith(Parameterized::class)
 internal class Android29RemoveNetworkAdapterRemoveNetworkTest(
-    private val params: RemoveNetworkParams
+    private val params: RemoveNetworkParams,
 ) {
 
     private lateinit var adapter: Android29RemoveNetworkAdapter
@@ -67,21 +67,21 @@ internal class Android29RemoveNetworkAdapterRemoveNetworkTest(
                 RemoveNetworkParams(
                     request = RemoveNetworkRequest.SSID(ssid = TEST_SSID),
                     expectedResult = RemoveNetworkResult.Failure.Assertion(
-                        AssertionMessages.AndroidQ.SAVED_NETWORK_FUNCTIONALITY_UNAVAILABLE_ANDROID_Q
-                    )
+                        AssertionMessages.AndroidQ.SAVED_NETWORK_FUNCTIONALITY_UNAVAILABLE_ANDROID_Q,
+                    ),
                 ),
                 RemoveNetworkParams(
                     request = RemoveNetworkRequest.BSSID(bssid = TEST_BSSID),
                     expectedResult = RemoveNetworkResult.Failure.Assertion(
-                        AssertionMessages.AndroidQ.SAVED_NETWORK_FUNCTIONALITY_UNAVAILABLE_ANDROID_Q
-                    )
-                )
+                        AssertionMessages.AndroidQ.SAVED_NETWORK_FUNCTIONALITY_UNAVAILABLE_ANDROID_Q,
+                    ),
+                ),
             )
         }
 
         data class RemoveNetworkParams(
             val request: RemoveNetworkRequest,
-            val expectedResult: RemoveNetworkResult
+            val expectedResult: RemoveNetworkResult,
         )
     }
 }

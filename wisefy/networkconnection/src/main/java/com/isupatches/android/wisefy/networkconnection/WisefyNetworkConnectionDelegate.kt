@@ -56,11 +56,11 @@ import kotlinx.coroutines.withContext
  * @param sdkUtil The [SdkUtil] instance to use
  * @param wifiManager The WifiManager instance to use
  * @param networkConnectionStatusProvider The on-demand way to retrieve the current network connection status
- * @property coroutineDispatcherProvider The instance of the coroutine dispatcher provider to use
- * @property scope The coroutine scope to use
- * @property networkConnectionMutex The mutex for all read/write operations involving connecting, disconnecting, and
+ * @param coroutineDispatcherProvider The instance of the coroutine dispatcher provider to use
+ * @param scope The coroutine scope to use
+ * @param networkConnectionMutex The mutex for all read/write operations involving connecting, disconnecting, and
  * getting the device's current network and connection status
- * @property adapter The adapter instance to use for connecting, disconnecting, and changing networks
+ * @param adapter The adapter instance to use for connecting, disconnecting, and changing networks
  * (determined based on the Android OS level)
  *
  * @see Android29NetworkConnectionAdapter
@@ -88,7 +88,7 @@ class WisefyNetworkConnectionDelegate(
     private val adapter: NetworkConnectionApi = if (sdkUtil.isAtLeastQ()) {
         Android29NetworkConnectionAdapter(
             logger,
-            assertions
+            assertions,
         )
     } else {
         DefaultNetworkConnectionAdapter(
@@ -97,9 +97,9 @@ class WisefyNetworkConnectionDelegate(
             logger,
             sdkUtil,
             networkConnectionStatusProvider,
-            assertions
+            assertions,
         )
-    }
+    },
 ) : NetworkConnectionDelegate {
 
     init {
@@ -152,7 +152,7 @@ class WisefyNetworkConnectionDelegate(
 
     @Deprecated(DeprecationMessages.NetworkConnection.DISCONNECT_FROM_CURRENT_NETWORK)
     override fun disconnectFromCurrentNetwork(
-        request: DisconnectFromCurrentNetworkRequest
+        request: DisconnectFromCurrentNetworkRequest,
     ): DisconnectFromCurrentNetworkResult {
         @Suppress("Deprecation")
         return adapter.disconnectFromCurrentNetwork(request)
@@ -161,7 +161,7 @@ class WisefyNetworkConnectionDelegate(
     @Deprecated(DeprecationMessages.NetworkConnection.DISCONNECT_FROM_CURRENT_NETWORK)
     override fun disconnectFromCurrentNetwork(
         request: DisconnectFromCurrentNetworkRequest,
-        callbacks: DisconnectFromCurrentNetworkCallbacks?
+        callbacks: DisconnectFromCurrentNetworkCallbacks?,
     ) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
             networkConnectionMutex.withLock {

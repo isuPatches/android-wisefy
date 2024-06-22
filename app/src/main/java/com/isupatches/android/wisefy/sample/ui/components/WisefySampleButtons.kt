@@ -32,10 +32,7 @@ import com.isupatches.android.wisefy.sample.ui.primitives.WisefySampleSizes
 import com.isupatches.android.wisefy.sample.ui.theme.WisefySampleTheme
 
 @Composable
-internal fun WisefyPrimaryButton(
-    @StringRes stringResId: Int,
-    onClick: () -> Unit
-) {
+internal fun WisefyPrimaryButton(@StringRes stringResId: Int, onClick: () -> Unit) {
     WisefySampleTheme {
         Button(
             modifier = Modifier.fillMaxWidth(),
@@ -47,15 +44,15 @@ internal fun WisefyPrimaryButton(
                         top = WisefySampleSizes.Medium,
                         bottom = WisefySampleSizes.Medium,
                         start = WisefySampleSizes.Large,
-                        end = WisefySampleSizes.Large
+                        end = WisefySampleSizes.Large,
                     ),
-                    color = MaterialTheme.colors.onPrimary
+                    color = MaterialTheme.colors.onPrimary,
                 )
             },
             colors = WisefySamplePrimaryButtonColors(),
             onClick = {
                 onClick()
-            }
+            },
         )
     }
 }

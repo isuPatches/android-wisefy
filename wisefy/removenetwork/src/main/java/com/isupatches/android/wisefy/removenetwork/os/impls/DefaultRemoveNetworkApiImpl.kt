@@ -27,8 +27,8 @@ import com.isupatches.android.wisefy.removenetwork.os.apis.DefaultRemoveNetworkA
 /**
  * A default implementation for removing a network.
  *
- * @property wifiManager The WifiManager instance to use
- * @property logger The [WisefyLogger] instnace to use
+ * @param wifiManager The WifiManager instance to use
+ * @param logger The [WisefyLogger] instnace to use
  *
  * @see DefaultRemoveNetworkApi
  * @see WisefyLogger
@@ -38,7 +38,7 @@ import com.isupatches.android.wisefy.removenetwork.os.apis.DefaultRemoveNetworkA
  */
 internal class DefaultRemoveNetworkApiImpl(
     private val wifiManager: WifiManager,
-    private val logger: WisefyLogger
+    private val logger: WisefyLogger,
 ) : DefaultRemoveNetworkApi {
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])

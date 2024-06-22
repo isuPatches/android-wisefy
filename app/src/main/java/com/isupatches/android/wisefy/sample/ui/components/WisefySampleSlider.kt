@@ -31,7 +31,7 @@ internal fun WisefySampleSlider(
     startPosition: () -> Float?,
     valueRange: ClosedFloatingPointRange<Float>,
     onValueChange: (Float) -> Unit,
-    onValueChangeFinished: (Float) -> Unit
+    onValueChangeFinished: (Float) -> Unit,
 ) {
     WisefySampleTheme {
         var sliderPosition by remember { mutableStateOf(startPosition() ?: 0f) }
@@ -45,7 +45,7 @@ internal fun WisefySampleSlider(
             onValueChangeFinished = {
                 onValueChangeFinished(sliderPosition)
             },
-            colors = WisefySliderColors()
+            colors = WisefySliderColors(),
         )
     }
 }
@@ -68,7 +68,7 @@ private fun WisefySampleSliderLightPreview() {
             }
         },
         onValueChange = { },
-        onValueChangeFinished = { }
+        onValueChangeFinished = { },
     )
 }
 
@@ -87,6 +87,6 @@ private fun WisefySampleSliderDarkPreview() {
             }
         },
         onValueChange = { },
-        onValueChangeFinished = { }
+        onValueChangeFinished = { },
     )
 }

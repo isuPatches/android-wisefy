@@ -46,11 +46,11 @@ import kotlinx.coroutines.withContext
  * @param sdkUtil The [SdkUtil] instance to use
  * @param wifiManager The WifiManager instance to use
  * @param networkConnectionStatusProvider The on-demand way to retrieve the current network connection status
- * @property coroutineDispatcherProvider The instance of the coroutine dispatcher provider to use
- * @property scope The coroutine scope to use
- * @property networkConnectionMutex The mutex for all read/write operations involving connecting, disconnecting, and
+ * @param coroutineDispatcherProvider The instance of the coroutine dispatcher provider to use
+ * @param scope The coroutine scope to use
+ * @param networkConnectionMutex The mutex for all read/write operations involving connecting, disconnecting, and
  * getting the device's current network and connection status
- * @property adapter The adapter instance to use for getting the device's current network and connection status
+ * @param adapter The adapter instance to use for getting the device's current network and connection status
  * (determined based on the Android OS level)
  *
  * @see CoroutineDispatcherProvider
@@ -78,8 +78,8 @@ class WisefyNetworkInfoDelegate(
         wifiManager = wifiManager,
         sdkUtil = sdkUtil,
         logger = logger,
-        networkConnectionStatusProvider = networkConnectionStatusProvider
-    )
+        networkConnectionStatusProvider = networkConnectionStatusProvider,
+    ),
 ) : NetworkInfoDelegate {
 
     init {
@@ -109,7 +109,7 @@ class WisefyNetworkInfoDelegate(
     @RequiresPermission(ACCESS_NETWORK_STATE)
     override fun getNetworkConnectionStatus(
         query: GetNetworkConnectionStatusQuery,
-        callbacks: GetNetworkConnectionStatusCallbacks?
+        callbacks: GetNetworkConnectionStatusCallbacks?,
     ) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
             val result = adapter.getNetworkConnectionStatus(query)

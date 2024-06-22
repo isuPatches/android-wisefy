@@ -36,11 +36,11 @@ import java.net.UnknownHostException
 /**
  * A default implementation for getting information about the device's current network and connection status.
  *
- * @property wifiManager The WifiManager instance to use
- * @property connectivityManager The ConnectivityManager instance to use
- * @property sdkUtil The [SdkUtil] instance to use
- * @property logger The [WisefyLogger] instance to use
- * @property networkConnectionStatusProvider The on-demand way to retrieve the current network connection status
+ * @param wifiManager The WifiManager instance to use
+ * @param connectivityManager The ConnectivityManager instance to use
+ * @param sdkUtil The [SdkUtil] instance to use
+ * @param logger The [WisefyLogger] instance to use
+ * @param networkConnectionStatusProvider The on-demand way to retrieve the current network connection status
  *
  * @see DefaultNetworkInfoApi
  * @see NetworkConnectionStatus
@@ -55,7 +55,7 @@ internal class DefaultNetworkInfoApiImpl(
     private val connectivityManager: ConnectivityManager,
     private val sdkUtil: SdkUtil,
     private val logger: WisefyLogger,
-    private val networkConnectionStatusProvider: suspend () -> NetworkConnectionStatus?
+    private val networkConnectionStatusProvider: suspend () -> NetworkConnectionStatus?,
 ) : DefaultNetworkInfoApi {
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
@@ -90,7 +90,7 @@ internal class DefaultNetworkInfoApiImpl(
         } else {
             @Suppress("Deprecation")
             InetAddress.getByAddress(
-                BigInteger.valueOf(wifiManager.connectionInfo.ipAddress.toLong()).toByteArray()
+                BigInteger.valueOf(wifiManager.connectionInfo.ipAddress.toLong()).toByteArray(),
             )
         }
         return try {
@@ -120,13 +120,13 @@ internal class DefaultNetworkInfoApiImpl(
 
     override fun isTransportTypeMobile(): Boolean {
         return doesNetworkHaveTransportTypeAndInternetCapability(
-            transportType = NetworkCapabilities.TRANSPORT_CELLULAR
+            transportType = NetworkCapabilities.TRANSPORT_CELLULAR,
         )
     }
 
     override fun isTransportTypeWifi(): Boolean {
         return doesNetworkHaveTransportTypeAndInternetCapability(
-            transportType = NetworkCapabilities.TRANSPORT_WIFI
+            transportType = NetworkCapabilities.TRANSPORT_WIFI,
         )
     }
 

@@ -36,7 +36,7 @@ internal class GetAccessPointsQueryTest {
         val query = GetAccessPointsQuery.BySSID(
             regex = TEST_SSID,
             timeoutInMillis = TEST_TIMEOUT,
-            filterDuplicates = false
+            filterDuplicates = false,
         )
 
         // Expect
@@ -51,7 +51,7 @@ internal class GetAccessPointsQueryTest {
         val query = GetAccessPointsQuery.ByBSSID(
             regex = TEST_BSSID,
             timeoutInMillis = TEST_TIMEOUT,
-            filterDuplicates = false
+            filterDuplicates = false,
         )
 
         // Expect

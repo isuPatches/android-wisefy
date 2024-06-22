@@ -24,7 +24,7 @@ import com.isupatches.android.wisefy.core.logging.WisefyLogger
 
 internal class WisefyNetworkCallbacks(
     private val logger: WisefyLogger,
-    private val onNetworkConnectionStatusUpdated: (NetworkConnectionStatus) -> Unit
+    private val onNetworkConnectionStatusUpdated: (NetworkConnectionStatus) -> Unit,
 ) : ConnectivityManager.NetworkCallback() {
 
     override fun onAvailable(network: Network) {
@@ -37,7 +37,7 @@ internal class WisefyNetworkCallbacks(
         super.onCapabilitiesChanged(network, networkCapabilities)
         logger.d(
             LOG_TAG,
-            "onCapabilitiesChanged, network: $network, networkCapabilities: $networkCapabilities"
+            "onCapabilitiesChanged, network: $network, networkCapabilities: $networkCapabilities",
         )
     }
 

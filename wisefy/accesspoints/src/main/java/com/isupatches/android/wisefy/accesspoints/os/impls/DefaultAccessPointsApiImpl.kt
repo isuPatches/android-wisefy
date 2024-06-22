@@ -32,8 +32,8 @@ import com.isupatches.android.wisefy.core.util.withTimeout
 /**
  * A default internal implementation for querying for access points through the Android OS.
  *
- * @property wifiManager The WifiManager instance to use
- * @property logger The [WisefyLogger] instance to use
+ * @param wifiManager The WifiManager instance to use
+ * @param logger The [WisefyLogger] instance to use
  *
  * @see DefaultAccessPointsApi
  * @see WisefyLogger
@@ -43,7 +43,7 @@ import com.isupatches.android.wisefy.core.util.withTimeout
  */
 internal class DefaultAccessPointsApiImpl(
     private val wifiManager: WifiManager,
-    private val logger: WisefyLogger
+    private val logger: WisefyLogger,
 ) : DefaultAccessPointsApi {
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
@@ -66,11 +66,11 @@ internal class DefaultAccessPointsApiImpl(
     override fun searchForAccessPointsBySSID(
         regex: String,
         timeoutInMillis: Int?,
-        filterDuplicates: Boolean
+        filterDuplicates: Boolean,
     ): List<AccessPointData> {
         return searchForMultipleAccessPoints(
             filterDuplicates = filterDuplicates,
-            timeoutInMillis = timeoutInMillis
+            timeoutInMillis = timeoutInMillis,
         ) { accessPoint ->
             accessPoint.hasSSIDMatchingRegex(regex)
         }
@@ -80,11 +80,11 @@ internal class DefaultAccessPointsApiImpl(
     override fun searchForAccessPointsByBSSID(
         regex: String,
         timeoutInMillis: Int?,
-        filterDuplicates: Boolean
+        filterDuplicates: Boolean,
     ): List<AccessPointData> {
         return searchForMultipleAccessPoints(
             filterDuplicates = filterDuplicates,
-            timeoutInMillis = timeoutInMillis
+            timeoutInMillis = timeoutInMillis,
         ) { accessPoint ->
             accessPoint.hasBSSIDMatchingRegex(regex)
         }
@@ -93,7 +93,7 @@ internal class DefaultAccessPointsApiImpl(
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     private fun filterAccessPoints(
         filterDuplicates: Boolean,
-        matcher: (ScanResult) -> Boolean
+        matcher: (ScanResult) -> Boolean,
     ): List<AccessPointData> {
         val allAccessPoints = getLastScanResults()
         if (allAccessPoints.isEmpty()) {
@@ -130,14 +130,14 @@ internal class DefaultAccessPointsApiImpl(
                     accessPoint.level,
                     previousAccessPoint.ssid,
                     previousAccessPoint.rssi,
-                    comparisonResult
+                    comparisonResult,
                 )
                 if (comparisonResult > 0) {
                     logger.d(LOG_TAG, "Found network with same SSID but higher RSSI, swapping")
                     accessPointsToReturn[accessPoint.ssidWithoutQuotes] = AccessPointData(
                         rawValue = accessPoint,
                         ssid = accessPoint.ssidWithoutQuotes,
-                        bssid = accessPoint.bssidWithoutQuotes
+                        bssid = accessPoint.bssidWithoutQuotes,
                     )
                 }
             } else {
@@ -153,7 +153,7 @@ internal class DefaultAccessPointsApiImpl(
     private fun searchForMultipleAccessPoints(
         filterDuplicates: Boolean,
         timeoutInMillis: Int?,
-        matcher: (ScanResult) -> Boolean
+        matcher: (ScanResult) -> Boolean,
     ): List<AccessPointData> {
         var filteredAccessPoints: List<AccessPointData> = emptyList()
         if (timeoutInMillis != null) {

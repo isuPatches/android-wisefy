@@ -34,9 +34,9 @@ import kotlinx.coroutines.withContext
  *
  * @param logger The [WisefyLogger] instance to use
  * @param wifiManager The WifiManager instance to use
- * @property coroutineDispatcherProvider The [CoroutineDispatcherProvider] instance to use
- * @property scope The coroutine scope to use
- * @property adapter The adapter instance to use for access point queries (determined based on the Android OS level)
+ * @param coroutineDispatcherProvider The [CoroutineDispatcherProvider] instance to use
+ * @param scope The coroutine scope to use
+ * @param adapter The adapter instance to use for access point queries (determined based on the Android OS level)
  *
  * @see AccessPointsApi
  * @see AccessPointsDelegate
@@ -52,7 +52,7 @@ class WisefyAccessPointsDelegate(
     wifiManager: WifiManager,
     private val coroutineDispatcherProvider: CoroutineDispatcherProvider,
     private val scope: CoroutineScope,
-    private val adapter: AccessPointsApi = DefaultAccessPointsAdapter(wifiManager, logger)
+    private val adapter: AccessPointsApi = DefaultAccessPointsAdapter(wifiManager, logger),
 ) : AccessPointsDelegate {
 
     init {
@@ -65,10 +65,7 @@ class WisefyAccessPointsDelegate(
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun getAccessPoints(
-        query: GetAccessPointsQuery,
-        callbacks: GetAccessPointsCallbacks?
-    ) {
+    override fun getAccessPoints(query: GetAccessPointsQuery, callbacks: GetAccessPointsCallbacks?) {
         callbacks ?: return
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
             val result = adapter.getAccessPoints(query)

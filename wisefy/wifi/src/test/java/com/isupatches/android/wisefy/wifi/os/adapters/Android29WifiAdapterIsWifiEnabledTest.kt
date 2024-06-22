@@ -35,7 +35,7 @@ import org.mockito.MockitoAnnotations
 
 @RunWith(Parameterized::class)
 internal class Android29WifiAdapterIsWifiEnabledTest(
-    private val params: IsWifiEnabledParams
+    private val params: IsWifiEnabledParams,
 ) {
 
     @Mock
@@ -55,7 +55,7 @@ internal class Android29WifiAdapterIsWifiEnabledTest(
             wifiManager = mockWifiManager,
             logger = DefaultWisefyLogger(),
             assertions = WisefyAssertions(throwOnAssertions = false),
-            api = mockApi
+            api = mockApi,
         )
     }
 
@@ -85,20 +85,20 @@ internal class Android29WifiAdapterIsWifiEnabledTest(
                 IsWifiEnabledParams(
                     query = IsWifiEnabledQuery(),
                     isWifiEnabledResult = true,
-                    expectedResult = IsWifiEnabledResult.True
+                    expectedResult = IsWifiEnabledResult.True,
                 ),
                 IsWifiEnabledParams(
                     query = IsWifiEnabledQuery(),
                     isWifiEnabledResult = false,
-                    expectedResult = IsWifiEnabledResult.False
-                )
+                    expectedResult = IsWifiEnabledResult.False,
+                ),
             )
         }
 
         data class IsWifiEnabledParams(
             val query: IsWifiEnabledQuery,
             val isWifiEnabledResult: Boolean,
-            val expectedResult: IsWifiEnabledResult
+            val expectedResult: IsWifiEnabledResult,
         )
     }
 }

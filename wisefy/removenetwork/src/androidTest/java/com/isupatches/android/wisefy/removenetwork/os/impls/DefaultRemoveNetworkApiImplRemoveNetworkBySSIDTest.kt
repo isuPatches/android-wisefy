@@ -33,7 +33,7 @@ import org.mockito.MockitoAnnotations
 
 @RunWith(Parameterized::class)
 internal class DefaultRemoveNetworkApiImplRemoveNetworkBySSIDTest(
-    private val params: RemoveNetworkParams
+    private val params: RemoveNetworkParams,
 ) {
 
     @Mock
@@ -84,10 +84,10 @@ internal class DefaultRemoveNetworkApiImplRemoveNetworkBySSIDTest(
                         @Suppress("Deprecation")
                         android.net.wifi.WifiConfiguration().apply {
                             SSID = TEST_SSID1
-                        }
+                        },
                     ),
                     expectedResult = true,
-                    expectedRemoveRequest = 1
+                    expectedRemoveRequest = 1,
                 ),
                 RemoveNetworkParams(
                     ssid = TEST_SSID1,
@@ -95,16 +95,16 @@ internal class DefaultRemoveNetworkApiImplRemoveNetworkBySSIDTest(
                         @Suppress("Deprecation")
                         android.net.wifi.WifiConfiguration().apply {
                             SSID = TEST_SSID1
-                        }
+                        },
                     ),
                     expectedResult = false,
-                    expectedRemoveRequest = 1
+                    expectedRemoveRequest = 1,
                 ),
                 RemoveNetworkParams(
                     ssid = TEST_SSID1,
                     networks = emptyList(),
                     expectedResult = false,
-                    expectedRemoveRequest = 0
+                    expectedRemoveRequest = 0,
                 ),
                 RemoveNetworkParams(
                     ssid = TEST_SSID1,
@@ -112,10 +112,10 @@ internal class DefaultRemoveNetworkApiImplRemoveNetworkBySSIDTest(
                         @Suppress("Deprecation")
                         android.net.wifi.WifiConfiguration().apply {
                             SSID = TEST_SSID2
-                        }
+                        },
                     ),
                     expectedResult = false,
-                    expectedRemoveRequest = 0
+                    expectedRemoveRequest = 0,
                 ),
                 RemoveNetworkParams(
                     ssid = TEST_SSID2,
@@ -123,10 +123,10 @@ internal class DefaultRemoveNetworkApiImplRemoveNetworkBySSIDTest(
                         @Suppress("Deprecation")
                         android.net.wifi.WifiConfiguration().apply {
                             SSID = TEST_SSID1
-                        }
+                        },
                     ),
                     expectedResult = false,
-                    expectedRemoveRequest = 0
+                    expectedRemoveRequest = 0,
                 ),
                 RemoveNetworkParams(
                     ssid = TEST_SSID2,
@@ -138,10 +138,10 @@ internal class DefaultRemoveNetworkApiImplRemoveNetworkBySSIDTest(
                         @Suppress("Deprecation")
                         android.net.wifi.WifiConfiguration().apply {
                             SSID = TEST_SSID3
-                        }
+                        },
                     ),
                     expectedResult = false,
-                    expectedRemoveRequest = 0
+                    expectedRemoveRequest = 0,
                 ),
                 RemoveNetworkParams(
                     ssid = TEST_SSID1,
@@ -153,10 +153,10 @@ internal class DefaultRemoveNetworkApiImplRemoveNetworkBySSIDTest(
                         @Suppress("Deprecation")
                         android.net.wifi.WifiConfiguration().apply {
                             SSID = TEST_SSID3
-                        }
+                        },
                     ),
                     expectedResult = false,
-                    expectedRemoveRequest = 0
+                    expectedRemoveRequest = 0,
                 ),
                 RemoveNetworkParams(
                     ssid = TEST_SSID1,
@@ -168,11 +168,11 @@ internal class DefaultRemoveNetworkApiImplRemoveNetworkBySSIDTest(
                         @Suppress("Deprecation")
                         android.net.wifi.WifiConfiguration().apply {
                             SSID = TEST_SSID2
-                        }
+                        },
                     ),
                     expectedResult = true,
-                    expectedRemoveRequest = 1
-                )
+                    expectedRemoveRequest = 1,
+                ),
             )
         }
 
@@ -181,7 +181,7 @@ internal class DefaultRemoveNetworkApiImplRemoveNetworkBySSIDTest(
             @Suppress("Deprecation")
             val networks: List<android.net.wifi.WifiConfiguration>,
             val expectedResult: Boolean,
-            val expectedRemoveRequest: Int
+            val expectedRemoveRequest: Int,
         )
 
         private const val TEST_SSID1: String = "Test SSID1"

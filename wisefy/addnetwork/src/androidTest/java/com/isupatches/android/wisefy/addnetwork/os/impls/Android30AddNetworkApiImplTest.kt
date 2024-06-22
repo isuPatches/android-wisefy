@@ -35,7 +35,7 @@ import org.mockito.MockitoAnnotations
 
 @RunWith(Parameterized::class)
 internal class Android30AddNetworkApiImplTest(
-    private val params: AddNetworkParams
+    private val params: AddNetworkParams,
 ) {
 
     @Mock
@@ -60,7 +60,7 @@ internal class Android30AddNetworkApiImplTest(
     fun test() {
         assumeTrue(
             "Can only run on API Level ${Build.VERSION_CODES.Q} or newer",
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q,
         )
 
         // Given
@@ -89,91 +89,91 @@ internal class Android30AddNetworkApiImplTest(
             return listOf(
                 AddNetworkParams.Open(
                     ssid = TEST_SSID,
-                    expectedResult = ADD_NETWORK_SUCCESS_RESULT_CODE
+                    expectedResult = ADD_NETWORK_SUCCESS_RESULT_CODE,
                 ),
                 AddNetworkParams.Open(
                     ssid = TEST_SSID,
                     bssid = TEST_BSSID,
-                    expectedResult = ADD_NETWORK_SUCCESS_RESULT_CODE
+                    expectedResult = ADD_NETWORK_SUCCESS_RESULT_CODE,
                 ),
                 AddNetworkParams.Open(
                     ssid = TEST_SSID,
-                    expectedResult = ADD_NETWORK_FAILURE_RESULT_CODE
+                    expectedResult = ADD_NETWORK_FAILURE_RESULT_CODE,
                 ),
                 AddNetworkParams.Open(
                     ssid = TEST_SSID,
                     bssid = TEST_BSSID,
-                    expectedResult = ADD_NETWORK_FAILURE_RESULT_CODE
+                    expectedResult = ADD_NETWORK_FAILURE_RESULT_CODE,
                 ),
                 AddNetworkParams.WPA2(
                     ssid = TEST_SSID,
                     passphrase = TEST_PASSPHRASE,
-                    expectedResult = ADD_NETWORK_SUCCESS_RESULT_CODE
-                ),
-                AddNetworkParams.WPA2(
-                    ssid = TEST_SSID,
-                    passphrase = TEST_PASSPHRASE,
-                    bssid = TEST_BSSID,
-                    expectedResult = ADD_NETWORK_SUCCESS_RESULT_CODE
-                ),
-                AddNetworkParams.WPA2(
-                    ssid = TEST_SSID,
-                    passphrase = TEST_PASSPHRASE,
-                    expectedResult = ADD_NETWORK_FAILURE_RESULT_CODE
+                    expectedResult = ADD_NETWORK_SUCCESS_RESULT_CODE,
                 ),
                 AddNetworkParams.WPA2(
                     ssid = TEST_SSID,
                     passphrase = TEST_PASSPHRASE,
                     bssid = TEST_BSSID,
-                    expectedResult = ADD_NETWORK_FAILURE_RESULT_CODE
+                    expectedResult = ADD_NETWORK_SUCCESS_RESULT_CODE,
+                ),
+                AddNetworkParams.WPA2(
+                    ssid = TEST_SSID,
+                    passphrase = TEST_PASSPHRASE,
+                    expectedResult = ADD_NETWORK_FAILURE_RESULT_CODE,
+                ),
+                AddNetworkParams.WPA2(
+                    ssid = TEST_SSID,
+                    passphrase = TEST_PASSPHRASE,
+                    bssid = TEST_BSSID,
+                    expectedResult = ADD_NETWORK_FAILURE_RESULT_CODE,
                 ),
                 AddNetworkParams.WPA3(
                     ssid = TEST_SSID,
                     passphrase = TEST_PASSPHRASE,
-                    expectedResult = ADD_NETWORK_SUCCESS_RESULT_CODE
+                    expectedResult = ADD_NETWORK_SUCCESS_RESULT_CODE,
                 ),
                 AddNetworkParams.WPA3(
                     ssid = TEST_SSID,
                     passphrase = TEST_PASSPHRASE,
                     bssid = TEST_BSSID,
-                    expectedResult = ADD_NETWORK_SUCCESS_RESULT_CODE
+                    expectedResult = ADD_NETWORK_SUCCESS_RESULT_CODE,
                 ),
                 AddNetworkParams.WPA3(
                     ssid = TEST_SSID,
                     passphrase = TEST_PASSPHRASE,
-                    expectedResult = ADD_NETWORK_FAILURE_RESULT_CODE
+                    expectedResult = ADD_NETWORK_FAILURE_RESULT_CODE,
                 ),
                 AddNetworkParams.WPA3(
                     ssid = TEST_SSID,
                     passphrase = TEST_PASSPHRASE,
                     bssid = TEST_BSSID,
-                    expectedResult = ADD_NETWORK_FAILURE_RESULT_CODE
-                )
+                    expectedResult = ADD_NETWORK_FAILURE_RESULT_CODE,
+                ),
             )
         }
 
         sealed class AddNetworkParams(
-            open val expectedResult: Int
+            open val expectedResult: Int,
         ) {
 
             data class Open(
                 val ssid: String,
                 val bssid: String? = null,
-                override val expectedResult: Int
+                override val expectedResult: Int,
             ) : AddNetworkParams(expectedResult)
 
             data class WPA2(
                 val ssid: String,
                 val passphrase: String,
                 val bssid: String? = null,
-                override val expectedResult: Int
+                override val expectedResult: Int,
             ) : AddNetworkParams(expectedResult)
 
             data class WPA3(
                 val ssid: String,
                 val passphrase: String,
                 val bssid: String? = null,
-                override val expectedResult: Int
+                override val expectedResult: Int,
             ) : AddNetworkParams(expectedResult)
         }
 

@@ -33,11 +33,11 @@ import com.isupatches.android.wisefy.networkconnection.os.apis.DefaultNetworkCon
 /**
  * A default implementation for connecting to or disconnecting from a network through the Android OS.
  *
- * @property connectivityManager The ConnectivityManager instance to use
- * @property wifiManager The WifiManager instance to use
- * @property logger The [WisefyLogger] instance to use
- * @property sdkUtil The [SdkUtil] instance to use
- * @property networkConnectionStatusProvider The on-demand way to retrieve the current network connection status
+ * @param connectivityManager The ConnectivityManager instance to use
+ * @param wifiManager The WifiManager instance to use
+ * @param logger The [WisefyLogger] instance to use
+ * @param sdkUtil The [SdkUtil] instance to use
+ * @param networkConnectionStatusProvider The on-demand way to retrieve the current network connection status
  *
  * @see DefaultNetworkConnectionApi
  * @see NetworkConnectionStatus
@@ -52,7 +52,7 @@ internal class DefaultNetworkConnectionApiImpl(
     private val wifiManager: WifiManager,
     private val logger: WisefyLogger,
     private val sdkUtil: SdkUtil,
-    private val networkConnectionStatusProvider: suspend () -> NetworkConnectionStatus?
+    private val networkConnectionStatusProvider: suspend () -> NetworkConnectionStatus?,
 ) : DefaultNetworkConnectionApi {
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE, ACCESS_NETWORK_STATE])
@@ -92,7 +92,7 @@ internal class DefaultNetworkConnectionApiImpl(
         logger.d(
             LOG_TAG,
             "Connecting to network with id: $networkId. disconnectResult: $disconnectResult, enableNetworkResult: " +
-                "$enableNetworkResult, reconnectResult: $reconnectResult"
+                "$enableNetworkResult, reconnectResult: $reconnectResult",
         )
     }
 
@@ -103,7 +103,8 @@ internal class DefaultNetworkConnectionApiImpl(
             NetworkConnectionStatus.LOSING,
             NetworkConnectionStatus.LOST,
             NetworkConnectionStatus.UNAVAILABLE,
-            null -> false
+            null,
+            -> false
         }
     }
 
@@ -124,7 +125,8 @@ internal class DefaultNetworkConnectionApiImpl(
             NetworkConnectionStatus.LOSING,
             NetworkConnectionStatus.LOST,
             NetworkConnectionStatus.UNAVAILABLE,
-            null -> false
+            null,
+            -> false
         }
     }
 

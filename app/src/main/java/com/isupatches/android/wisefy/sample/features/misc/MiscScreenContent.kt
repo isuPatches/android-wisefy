@@ -19,7 +19,6 @@ import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.ACCESS_NETWORK_STATE
 import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.Manifest.permission.CHANGE_WIFI_STATE
-import android.content.res.Configuration
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.StringRes
@@ -34,15 +33,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.compose.rememberNavController
 import com.isupatches.android.wisefy.sample.R
 import com.isupatches.android.wisefy.sample.logging.WisefySampleLogger
-import com.isupatches.android.wisefy.sample.ui.ComposablePreviewWisefy
 import com.isupatches.android.wisefy.sample.ui.components.WisefyPrimaryButton
 import com.isupatches.android.wisefy.sample.ui.primitives.WisefySampleSizes
 import com.isupatches.android.wisefy.sample.ui.theme.WisefySampleTheme
-import com.isupatches.android.wisefy.sample.util.DefaultSdkUtil
 import com.isupatches.android.wisefy.sample.util.SdkUtil
 import com.isupatches.android.wisefy.wifi.entities.DisableWifiRequest
 import com.isupatches.android.wisefy.wifi.entities.EnableWifiRequest
@@ -51,11 +46,7 @@ import kotlinx.coroutines.launch
 private const val LOG_TAG = "MiscScreenContent"
 
 @Composable
-internal fun MiscScreenContent(
-    viewModel: MiscViewModel,
-    sdkUtil: SdkUtil,
-    router: MiscScreenRouter
-) {
+internal fun MiscScreenContent(viewModel: MiscViewModel, sdkUtil: SdkUtil, router: MiscScreenRouter) {
     WisefySampleTheme {
         val scope = rememberCoroutineScope()
         val context = LocalContext.current
@@ -152,26 +143,38 @@ internal fun MiscScreenContent(
                         viewModel.onChangeNetworkPreAndroidQ()
                     }
                 }
+
                 MiscScreenOption.DISABLE_WIFI -> {
                     disableWifiPermissionsLauncher.launch(CHANGE_WIFI_STATE)
                 }
+
                 MiscScreenOption.ENABLE_WIFI -> {
                     enableWifiPermissionsLauncher.launch(CHANGE_WIFI_STATE)
                 }
+
                 MiscScreenOption.GET_CURRENT_NETWORK -> {
                     getCurrentNetworkPermissionsLauncher.launch(ACCESS_NETWORK_STATE)
                 }
-                MiscScreenOption.GET_NEARBY_ACCESS_POINTS -> router.openNearbyAccessPointsScreen()
+
+                MiscScreenOption.GET_NEARBY_ACCESS_POINTS -> {
+                    router.openNearbyAccessPointsScreen()
+                }
+
                 MiscScreenOption.GET_NETWORK_CONNECTION_STATUS -> {
                     getNetworkConnectionStatusPermissionsLauncher.launch(ACCESS_NETWORK_STATE)
                 }
+
                 MiscScreenOption.GET_SAVED_NETWORKS -> {
                     getSavedNetworksPermissionsLauncher.launch(arrayOf(ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE))
                 }
+
                 MiscScreenOption.IS_WIFI_ENABLED -> {
                     isWifiEnabledPermissionsLauncher.launch(ACCESS_WIFI_STATE)
                 }
-                MiscScreenOption.SIGNAL_FUNCTIONS -> router.openSignalScreen()
+
+                MiscScreenOption.SIGNAL_FUNCTIONS -> {
+                    router.openSignalScreen()
+                }
             }
         }
 
@@ -183,10 +186,10 @@ internal fun MiscScreenContent(
                 top = WisefySampleSizes.WisefySampleTopMargin,
                 bottom = WisefySampleSizes.WisefySampleBottomMargin,
                 start = WisefySampleSizes.WisefySampleHorizontalMargins,
-                end = WisefySampleSizes.WisefySampleHorizontalMargins
-            )
+                end = WisefySampleSizes.WisefySampleHorizontalMargins,
+            ),
         ) {
-            items(MiscScreenOption.values(), { it.id }) { option ->
+            items(MiscScreenOption.entries.toTypedArray(), { it.id }) { option ->
                 @OptIn(ExperimentalFoundationApi::class)
                 Row(modifier = Modifier.animateItemPlacement()) {
                     MiscScreenOptionRow(option = option, onClick = onMiscOptionClicked)
@@ -205,7 +208,7 @@ internal enum class MiscScreenOption(val id: Long, @StringRes val stringResId: I
     GET_NETWORK_CONNECTION_STATUS(R.id.get_network_connection_status.toLong(), R.string.get_network_connection_status),
     GET_SAVED_NETWORKS(R.id.get_saved_networks.toLong(), R.string.get_saved_networks),
     IS_WIFI_ENABLED(R.id.is_wifi_enabled.toLong(), R.string.is_wifi_enabled),
-    SIGNAL_FUNCTIONS(R.id.signal_functions.toLong(), R.string.signal_functions)
+    SIGNAL_FUNCTIONS(R.id.signal_functions.toLong(), R.string.signal_functions),
 }
 
 @Composable
@@ -214,36 +217,6 @@ private fun MiscScreenOptionRow(option: MiscScreenOption, onClick: (MiscScreenOp
         stringResId = option.stringResId,
         onClick = {
             onClick(option)
-        }
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-@Suppress("UnusedPrivateMember")
-private fun MiscScreenContentLightPreview() {
-    MiscScreenContent(
-        viewModel = DefaultMiscViewModel(
-            wisefy = ComposablePreviewWisefy()
-        ),
-        sdkUtil = DefaultSdkUtil(),
-        router = DefaultMiscScreenRouter(
-            navController = rememberNavController()
-        )
-    )
-}
-
-@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
-@Composable
-@Suppress("UnusedPrivateMember")
-private fun MiscScreenContentDarkPreview() {
-    MiscScreenContent(
-        viewModel = DefaultMiscViewModel(
-            wisefy = ComposablePreviewWisefy()
-        ),
-        sdkUtil = DefaultSdkUtil(),
-        router = DefaultMiscScreenRouter(
-            navController = rememberNavController()
-        )
+        },
     )
 }

@@ -30,8 +30,8 @@ import com.isupatches.android.wisefy.savednetworks.os.apis.Android30SavedNetwork
 /**
  * An internal Android 30 or higher implementation for getting and searching for saved networks through the Android OS.
  *
- * @property wifiManager The WifiManager instance to use
- * @property logger The [WisefyLogger] instance to use
+ * @param wifiManager The WifiManager instance to use
+ * @param logger The [WisefyLogger] instance to use
  *
  * @see Android30SavedNetworkApi
  * @see WisefyLogger
@@ -42,7 +42,7 @@ import com.isupatches.android.wisefy.savednetworks.os.apis.Android30SavedNetwork
 @RequiresApi(Build.VERSION_CODES.R)
 internal class Android30SavedNetworkApiImpl(
     private val wifiManager: WifiManager,
-    private val logger: WisefyLogger
+    private val logger: WisefyLogger,
 ) : Android30SavedNetworkApi {
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])

@@ -73,8 +73,8 @@ internal class Android29WifiApiImplOpenWifiSettingsTest {
         intended(
             allOf(
                 hasAction(Settings.ACTION_WIFI_SETTINGS),
-                hasFlag(Intent.FLAG_ACTIVITY_NEW_TASK)
-            )
+                hasFlag(Intent.FLAG_ACTIVITY_NEW_TASK),
+            ),
         )
     }
 }

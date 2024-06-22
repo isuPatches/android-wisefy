@@ -23,14 +23,14 @@ internal data class RemoveNetworkUIState(
     val loadingState: RemoveNetworkLoadingState,
     val dialogState: RemoveNetworkDialogState,
     val inputState: RemoveNetworkInputState,
-    val ssidType: SSIDType
+    val ssidType: SSIDType,
 )
 
 internal data class RemoveNetworkLoadingState(val isLoading: Boolean)
 
 internal sealed class RemoveNetworkDialogState {
 
-    object None : RemoveNetworkDialogState()
+    data object None : RemoveNetworkDialogState()
 
     sealed class Failure : RemoveNetworkDialogState() {
         data class WisefyAsync(val exception: WisefyException) : Failure()
@@ -40,42 +40,42 @@ internal sealed class RemoveNetworkDialogState {
         data class Failure(val result: RemoveNetworkResult.Failure) : RemoveNetwork()
         data class Success(val result: RemoveNetworkResult.Success) : RemoveNetwork()
 
-        object PermissionsError : RemoveNetwork()
+        data object PermissionsError : RemoveNetwork()
     }
 
     sealed class InputError : RemoveNetworkDialogState() {
-        object SSID : InputError()
-        object BSSID : InputError()
+        data object SSID : InputError()
+        data object BSSID : InputError()
     }
 }
 
 internal data class RemoveNetworkInputState(
     val networkInput: String,
-    val networkInputValidityState: RemoveNetworkInputValidityState
+    val networkInputValidityState: RemoveNetworkInputValidityState,
 )
 
 internal sealed class RemoveNetworkInputValidityState {
 
     sealed class SSID : RemoveNetworkInputValidityState() {
-        object Valid : SSID()
+        data object Valid : SSID()
 
         sealed class Invalid : SSID() {
-            object Empty : Invalid()
-            object TooShort : Invalid()
-            object TooLong : Invalid()
-            object InvalidCharacters : Invalid()
-            object InvalidStartCharacters : Invalid()
-            object LeadingOrTrailingSpaces : Invalid()
-            object InvalidUnicode : Invalid()
+            data object Empty : Invalid()
+            data object TooShort : Invalid()
+            data object TooLong : Invalid()
+            data object InvalidCharacters : Invalid()
+            data object InvalidStartCharacters : Invalid()
+            data object LeadingOrTrailingSpaces : Invalid()
+            data object InvalidUnicode : Invalid()
         }
     }
 
     sealed class BSSID : RemoveNetworkInputValidityState() {
-        object Valid : BSSID()
+        data object Valid : BSSID()
 
         sealed class Invalid : BSSID() {
-            object Empty : Invalid()
-            object ImproperFormat : Invalid()
+            data object Empty : Invalid()
+            data object ImproperFormat : Invalid()
         }
     }
 }

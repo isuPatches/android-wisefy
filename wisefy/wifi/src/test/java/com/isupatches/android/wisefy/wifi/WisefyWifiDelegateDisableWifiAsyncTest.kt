@@ -50,7 +50,7 @@ import org.mockito.MockitoAnnotations
 @OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(Parameterized::class)
 internal class WisefyWifiDelegateDisableWifiAsyncTest(
-    private val params: DisableWifiParams
+    private val params: DisableWifiParams,
 ) {
 
     @Mock
@@ -78,7 +78,7 @@ internal class WisefyWifiDelegateDisableWifiAsyncTest(
             coroutineDispatcherProvider = TestCoroutineDispatchProvider(),
             scope = testScope,
             wifiMutex = Mutex(),
-            adapter = mockAdapter
+            adapter = mockAdapter,
         )
     }
 
@@ -102,7 +102,7 @@ internal class WisefyWifiDelegateDisableWifiAsyncTest(
         when {
             params.mockCallbacks != null && params.expectedFailureCallbacks > 0 -> {
                 verify(params.mockCallbacks, times(params.expectedFailureCallbacks)).onFailureDisablingWifi(
-                    params.result as DisableWifiResult.Failure
+                    params.result as DisableWifiResult.Failure,
                 )
             }
             params.mockCallbacks != null -> {
@@ -112,7 +112,7 @@ internal class WisefyWifiDelegateDisableWifiAsyncTest(
         when {
             params.mockCallbacks != null && params.expectedSuccessCallbacks > 0 -> {
                 verify(params.mockCallbacks, times(params.expectedSuccessCallbacks)).onSuccessDisablingWifi(
-                    params.result as DisableWifiResult.Success
+                    params.result as DisableWifiResult.Success,
                 )
             }
             params.mockCallbacks != null -> {
@@ -130,90 +130,90 @@ internal class WisefyWifiDelegateDisableWifiAsyncTest(
                     request = DisableWifiRequest.Default,
                     result = DisableWifiResult.Success.Disabled,
                     mockCallbacks = mock(DisableWifiCallbacks::class.java),
-                    expectedSuccessCallbacks = 1
+                    expectedSuccessCallbacks = 1,
                 ),
                 DisableWifiParams(
                     request = DisableWifiRequest.Default,
                     result = DisableWifiResult.Success.WifiSettingScreenOpened,
                     mockCallbacks = mock(DisableWifiCallbacks::class.java),
-                    expectedSuccessCallbacks = 1
+                    expectedSuccessCallbacks = 1,
                 ),
                 DisableWifiParams(
                     request = DisableWifiRequest.Default,
                     result = DisableWifiResult.Success.Disabled,
-                    mockCallbacks = null
+                    mockCallbacks = null,
                 ),
                 DisableWifiParams(
                     request = DisableWifiRequest.Default,
                     result = DisableWifiResult.Success.WifiSettingScreenOpened,
-                    mockCallbacks = null
+                    mockCallbacks = null,
                 ),
                 DisableWifiParams(
                     request = DisableWifiRequest.Default,
                     result = DisableWifiResult.Failure.UnableToDisable,
                     mockCallbacks = mock(DisableWifiCallbacks::class.java),
-                    expectedFailureCallbacks = 1
+                    expectedFailureCallbacks = 1,
                 ),
                 DisableWifiParams(
                     request = DisableWifiRequest.Default,
                     result = DisableWifiResult.Failure.Assertion("Test"),
                     mockCallbacks = mock(DisableWifiCallbacks::class.java),
-                    expectedFailureCallbacks = 1
+                    expectedFailureCallbacks = 1,
                 ),
                 DisableWifiParams(
                     request = DisableWifiRequest.Default,
                     result = DisableWifiResult.Failure.UnableToDisable,
-                    mockCallbacks = null
+                    mockCallbacks = null,
                 ),
                 DisableWifiParams(
                     request = DisableWifiRequest.Default,
                     result = DisableWifiResult.Failure.Assertion("Test"),
-                    mockCallbacks = null
+                    mockCallbacks = null,
                 ),
                 DisableWifiParams(
                     request = DisableWifiRequest.Android29OrAbove(mock(Context::class.java)),
                     result = DisableWifiResult.Success.Disabled,
                     mockCallbacks = mock(DisableWifiCallbacks::class.java),
-                    expectedSuccessCallbacks = 1
+                    expectedSuccessCallbacks = 1,
                 ),
                 DisableWifiParams(
                     request = DisableWifiRequest.Android29OrAbove(mock(Context::class.java)),
                     result = DisableWifiResult.Success.WifiSettingScreenOpened,
                     mockCallbacks = mock(DisableWifiCallbacks::class.java),
-                    expectedSuccessCallbacks = 1
+                    expectedSuccessCallbacks = 1,
                 ),
                 DisableWifiParams(
                     request = DisableWifiRequest.Android29OrAbove(mock(Context::class.java)),
                     result = DisableWifiResult.Success.Disabled,
-                    mockCallbacks = null
+                    mockCallbacks = null,
                 ),
                 DisableWifiParams(
                     request = DisableWifiRequest.Android29OrAbove(mock(Context::class.java)),
                     result = DisableWifiResult.Success.WifiSettingScreenOpened,
-                    mockCallbacks = null
+                    mockCallbacks = null,
                 ),
                 DisableWifiParams(
                     request = DisableWifiRequest.Android29OrAbove(mock(Context::class.java)),
                     result = DisableWifiResult.Failure.UnableToDisable,
                     mockCallbacks = mock(DisableWifiCallbacks::class.java),
-                    expectedFailureCallbacks = 1
+                    expectedFailureCallbacks = 1,
                 ),
                 DisableWifiParams(
                     request = DisableWifiRequest.Android29OrAbove(mock(Context::class.java)),
                     result = DisableWifiResult.Failure.Assertion("Test"),
                     mockCallbacks = mock(DisableWifiCallbacks::class.java),
-                    expectedFailureCallbacks = 1
+                    expectedFailureCallbacks = 1,
                 ),
                 DisableWifiParams(
                     request = DisableWifiRequest.Android29OrAbove(mock(Context::class.java)),
                     result = DisableWifiResult.Failure.UnableToDisable,
-                    mockCallbacks = null
+                    mockCallbacks = null,
                 ),
                 DisableWifiParams(
                     request = DisableWifiRequest.Android29OrAbove(mock(Context::class.java)),
                     result = DisableWifiResult.Failure.Assertion("Test"),
-                    mockCallbacks = null
-                )
+                    mockCallbacks = null,
+                ),
             )
         }
 
@@ -222,7 +222,7 @@ internal class WisefyWifiDelegateDisableWifiAsyncTest(
             val result: DisableWifiResult,
             val mockCallbacks: DisableWifiCallbacks?,
             val expectedFailureCallbacks: Int = 0,
-            val expectedSuccessCallbacks: Int = 0
+            val expectedSuccessCallbacks: Int = 0,
         )
     }
 }

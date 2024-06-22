@@ -25,7 +25,7 @@ internal class AddNetworkRequestTest {
         // Given
         val request = AddNetworkRequest.Open(
             ssid = TEST_SSID,
-            bssid = TEST_BSSID
+            bssid = TEST_BSSID,
         )
 
         // Expect
@@ -39,7 +39,7 @@ internal class AddNetworkRequestTest {
         val request = AddNetworkRequest.WPA2(
             ssid = TEST_SSID,
             bssid = TEST_BSSID,
-            passphrase = TEST_PASSPHRASE
+            passphrase = TEST_PASSPHRASE,
         )
 
         // Expect
@@ -54,7 +54,7 @@ internal class AddNetworkRequestTest {
         val request = AddNetworkRequest.WPA3(
             ssid = TEST_SSID,
             bssid = TEST_BSSID,
-            passphrase = TEST_PASSPHRASE
+            passphrase = TEST_PASSPHRASE,
         )
 
         // Expect

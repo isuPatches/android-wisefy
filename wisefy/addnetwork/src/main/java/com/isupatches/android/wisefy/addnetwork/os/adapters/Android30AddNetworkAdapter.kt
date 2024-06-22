@@ -34,8 +34,8 @@ import com.isupatches.android.wisefy.core.logging.WisefyLogger
  *
  * @param wifiManager The WifiManager instance to use
  * @param logger The [WisefyLogger] instance to use
- * @property assertions The [WisefyAssertions] instance to use
- * @property api The OS level API instance to use
+ * @param assertions The [WisefyAssertions] instance to use
+ * @param api The OS level API instance to use
  *
  * @see AddNetworkApi
  * @see Android30AddNetworkApi
@@ -49,8 +49,9 @@ import com.isupatches.android.wisefy.core.logging.WisefyLogger
 internal class Android30AddNetworkAdapter(
     wifiManager: WifiManager,
     logger: WisefyLogger,
+    @Suppress("UnusedPrivateProperty")
     private val assertions: WisefyAssertions,
-    private val api: Android30AddNetworkApi = Android30AddNetworkApiImpl(wifiManager, logger)
+    private val api: Android30AddNetworkApi = Android30AddNetworkApiImpl(wifiManager, logger),
 ) : AddNetworkApi {
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])

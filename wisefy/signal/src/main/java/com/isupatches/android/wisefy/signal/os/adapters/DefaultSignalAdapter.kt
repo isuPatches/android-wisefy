@@ -31,8 +31,8 @@ import com.isupatches.android.wisefy.signal.os.impls.DefaultSignalApiImpl
  * A default adapter for functions related to the signal strength of networks.
  *
  * @param logger The [WisefyLogger] instance to use
- * @property assertions The [WisefyAssertions] instance to use
- * @property api The OS level API instance to use
+ * @param assertions The [WisefyAssertions] instance to use
+ * @param api The OS level API instance to use
  *
  * @see DefaultSignalApi
  * @see DefaultSignalApiImpl
@@ -46,7 +46,7 @@ import com.isupatches.android.wisefy.signal.os.impls.DefaultSignalApiImpl
 internal class DefaultSignalAdapter(
     logger: WisefyLogger,
     private val assertions: WisefyAssertions,
-    private val api: DefaultSignalApi = DefaultSignalApiImpl(logger)
+    private val api: DefaultSignalApi = DefaultSignalApiImpl(logger),
 ) : SignalApi {
 
     override fun calculateSignalLevel(request: CalculateSignalLevelRequest): CalculateSignalLevelResult {

@@ -30,7 +30,7 @@ import org.mockito.MockitoAnnotations
 
 @RunWith(Parameterized::class)
 internal class Android29AddNetworkAdapterTest(
-    private val params: AddNetworkParams
+    private val params: AddNetworkParams,
 ) {
 
     private lateinit var adapter: Android29AddNetworkAdapter
@@ -69,105 +69,105 @@ internal class Android29AddNetworkAdapterTest(
                 AddNetworkParams(
                     request = AddNetworkRequest.Open(ssid = TEST_SSID, bssid = null),
                     expectedResult = AddNetworkResult.Failure.Assertion(
-                        AssertionMessages.AndroidQ.SAVED_NETWORK_FUNCTIONALITY_UNAVAILABLE_ANDROID_Q
-                    )
+                        AssertionMessages.AndroidQ.SAVED_NETWORK_FUNCTIONALITY_UNAVAILABLE_ANDROID_Q,
+                    ),
                 ),
                 AddNetworkParams(
                     request = AddNetworkRequest.Open(ssid = TEST_SSID, bssid = TEST_BSSID),
                     expectedResult = AddNetworkResult.Failure.Assertion(
-                        AssertionMessages.AndroidQ.SAVED_NETWORK_FUNCTIONALITY_UNAVAILABLE_ANDROID_Q
-                    )
+                        AssertionMessages.AndroidQ.SAVED_NETWORK_FUNCTIONALITY_UNAVAILABLE_ANDROID_Q,
+                    ),
                 ),
                 AddNetworkParams(
                     request = AddNetworkRequest.Open(ssid = TEST_SSID, bssid = null),
                     expectedResult = AddNetworkResult.Failure.Assertion(
-                        AssertionMessages.AndroidQ.SAVED_NETWORK_FUNCTIONALITY_UNAVAILABLE_ANDROID_Q
-                    )
+                        AssertionMessages.AndroidQ.SAVED_NETWORK_FUNCTIONALITY_UNAVAILABLE_ANDROID_Q,
+                    ),
                 ),
                 AddNetworkParams(
                     request = AddNetworkRequest.Open(ssid = TEST_SSID, bssid = TEST_BSSID),
                     expectedResult = AddNetworkResult.Failure.Assertion(
-                        AssertionMessages.AndroidQ.SAVED_NETWORK_FUNCTIONALITY_UNAVAILABLE_ANDROID_Q
-                    )
+                        AssertionMessages.AndroidQ.SAVED_NETWORK_FUNCTIONALITY_UNAVAILABLE_ANDROID_Q,
+                    ),
                 ),
                 AddNetworkParams(
                     request = AddNetworkRequest.WPA2(ssid = TEST_SSID, passphrase = TEST_PASSPHRASE, bssid = null),
                     expectedResult = AddNetworkResult.Failure.Assertion(
-                        AssertionMessages.AndroidQ.SAVED_NETWORK_FUNCTIONALITY_UNAVAILABLE_ANDROID_Q
-                    )
+                        AssertionMessages.AndroidQ.SAVED_NETWORK_FUNCTIONALITY_UNAVAILABLE_ANDROID_Q,
+                    ),
                 ),
                 AddNetworkParams(
                     request = AddNetworkRequest.WPA2(
                         ssid = TEST_SSID,
                         passphrase = TEST_PASSPHRASE,
-                        bssid = TEST_BSSID
+                        bssid = TEST_BSSID,
                     ),
                     expectedResult = AddNetworkResult.Failure.Assertion(
-                        AssertionMessages.AndroidQ.SAVED_NETWORK_FUNCTIONALITY_UNAVAILABLE_ANDROID_Q
-                    )
+                        AssertionMessages.AndroidQ.SAVED_NETWORK_FUNCTIONALITY_UNAVAILABLE_ANDROID_Q,
+                    ),
                 ),
                 AddNetworkParams(
                     request = AddNetworkRequest.WPA2(
                         ssid = TEST_SSID,
                         passphrase = TEST_PASSPHRASE,
-                        bssid = null
+                        bssid = null,
                     ),
                     expectedResult = AddNetworkResult.Failure.Assertion(
-                        AssertionMessages.AndroidQ.SAVED_NETWORK_FUNCTIONALITY_UNAVAILABLE_ANDROID_Q
-                    )
+                        AssertionMessages.AndroidQ.SAVED_NETWORK_FUNCTIONALITY_UNAVAILABLE_ANDROID_Q,
+                    ),
                 ),
                 AddNetworkParams(
                     request = AddNetworkRequest.WPA2(
                         ssid = TEST_SSID,
                         passphrase = TEST_PASSPHRASE,
-                        bssid = TEST_BSSID
+                        bssid = TEST_BSSID,
                     ),
                     expectedResult = AddNetworkResult.Failure.Assertion(
-                        AssertionMessages.AndroidQ.SAVED_NETWORK_FUNCTIONALITY_UNAVAILABLE_ANDROID_Q
-                    )
+                        AssertionMessages.AndroidQ.SAVED_NETWORK_FUNCTIONALITY_UNAVAILABLE_ANDROID_Q,
+                    ),
                 ),
                 AddNetworkParams(
                     request = AddNetworkRequest.WPA3(ssid = TEST_SSID, passphrase = TEST_PASSPHRASE, bssid = null),
                     expectedResult = AddNetworkResult.Failure.Assertion(
-                        AssertionMessages.AndroidQ.SAVED_NETWORK_FUNCTIONALITY_UNAVAILABLE_ANDROID_Q
-                    )
+                        AssertionMessages.AndroidQ.SAVED_NETWORK_FUNCTIONALITY_UNAVAILABLE_ANDROID_Q,
+                    ),
                 ),
                 AddNetworkParams(
                     request = AddNetworkRequest.WPA3(
                         ssid = TEST_SSID,
                         passphrase = TEST_PASSPHRASE,
-                        bssid = TEST_BSSID
+                        bssid = TEST_BSSID,
                     ),
                     expectedResult = AddNetworkResult.Failure.Assertion(
-                        AssertionMessages.AndroidQ.SAVED_NETWORK_FUNCTIONALITY_UNAVAILABLE_ANDROID_Q
-                    )
+                        AssertionMessages.AndroidQ.SAVED_NETWORK_FUNCTIONALITY_UNAVAILABLE_ANDROID_Q,
+                    ),
                 ),
                 AddNetworkParams(
                     request = AddNetworkRequest.WPA3(
                         ssid = TEST_SSID,
                         passphrase = TEST_PASSPHRASE,
-                        bssid = null
+                        bssid = null,
                     ),
                     expectedResult = AddNetworkResult.Failure.Assertion(
-                        AssertionMessages.AndroidQ.SAVED_NETWORK_FUNCTIONALITY_UNAVAILABLE_ANDROID_Q
-                    )
+                        AssertionMessages.AndroidQ.SAVED_NETWORK_FUNCTIONALITY_UNAVAILABLE_ANDROID_Q,
+                    ),
                 ),
                 AddNetworkParams(
                     request = AddNetworkRequest.WPA3(
                         ssid = TEST_SSID,
                         passphrase = TEST_PASSPHRASE,
-                        bssid = TEST_BSSID
+                        bssid = TEST_BSSID,
                     ),
                     expectedResult = AddNetworkResult.Failure.Assertion(
-                        AssertionMessages.AndroidQ.SAVED_NETWORK_FUNCTIONALITY_UNAVAILABLE_ANDROID_Q
-                    )
-                )
+                        AssertionMessages.AndroidQ.SAVED_NETWORK_FUNCTIONALITY_UNAVAILABLE_ANDROID_Q,
+                    ),
+                ),
             )
         }
 
         data class AddNetworkParams(
             val request: AddNetworkRequest,
-            val expectedResult: AddNetworkResult
+            val expectedResult: AddNetworkResult,
         )
     }
 }

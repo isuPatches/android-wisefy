@@ -42,22 +42,22 @@ internal fun WisefySampleNoticeDialog(
     @StringRes title: Int,
     @StringRes body: Int,
     vararg bodyFormatArgs: Any,
-    onClose: () -> Unit
+    onClose: () -> Unit,
 ) {
     WisefySampleTheme {
         Dialog(onDismissRequest = onClose) {
             Box(modifier = Modifier.padding(top = WisefySampleSizes.XXLarge, bottom = WisefySampleSizes.XXLarge)) {
                 Surface(
                     shape = RoundedCornerShape(WisefySampleCornerRadii.Default),
-                    color = MaterialTheme.colors.surface
+                    color = MaterialTheme.colors.surface,
                 ) {
                     Column(
                         modifier = Modifier.padding(
                             top = WisefySampleSizes.Large,
                             bottom = WisefySampleSizes.XLarge,
                             start = WisefySampleSizes.WisefySampleHorizontalMargins,
-                            end = WisefySampleSizes.WisefySampleHorizontalMargins
-                        )
+                            end = WisefySampleSizes.WisefySampleHorizontalMargins,
+                        ),
                     ) {
                         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
                             WisefySampleDialogTitleLabel(stringResId = title)
@@ -66,12 +66,12 @@ internal fun WisefySampleNoticeDialog(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .verticalScroll(state = rememberScrollState())
-                                .weight(weight = 1f, fill = false)
+                                .weight(weight = 1f, fill = false),
                         ) {
                             WisefySampleDialogBodyLabel(
                                 stringResId = body,
                                 modifier = Modifier.padding(top = WisefySampleSizes.Large),
-                                formatArgs = bodyFormatArgs
+                                formatArgs = bodyFormatArgs,
                             )
                         }
                         Row(modifier = Modifier.fillMaxWidth().padding(top = WisefySampleSizes.XLarge)) {
@@ -91,7 +91,7 @@ private fun WisefySampleNoticeDialogLightPreview() {
     WisefySampleNoticeDialog(
         R.string.permission_error,
         R.string.permission_error_add_open_network,
-        onClose = { }
+        onClose = { },
     )
 }
 
@@ -102,6 +102,6 @@ private fun WisefySampleNoticeDialogDarkPreview() {
     WisefySampleNoticeDialog(
         R.string.permission_error,
         R.string.permission_error_add_open_network,
-        onClose = { }
+        onClose = { },
     )
 }

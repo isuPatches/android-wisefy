@@ -28,8 +28,8 @@ import com.isupatches.android.wisefy.wifi.os.apis.Android29WifiApi
  * An Android 29 or higher implementation for enabling, disabling, and checking the state of wifi through the
  * Android OS.
  *
- * @property wifiManager The WifiManager instance to use
- * @property logger The [WisefyLogger] instance to use
+ * @param wifiManager The WifiManager instance to use
+ * @param logger The [WisefyLogger] instance to use
  *
  * @see Android29WifiApi
  * @see WisefyLogger
@@ -39,7 +39,7 @@ import com.isupatches.android.wisefy.wifi.os.apis.Android29WifiApi
  */
 internal class Android29WifiApiImpl(
     private val wifiManager: WifiManager,
-    private val logger: WisefyLogger
+    private val logger: WisefyLogger,
 ) : Android29WifiApi {
 
     override fun openWifiSettings(context: Context) {

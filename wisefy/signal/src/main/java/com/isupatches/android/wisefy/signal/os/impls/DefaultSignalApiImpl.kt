@@ -23,7 +23,7 @@ import com.isupatches.android.wisefy.signal.os.apis.DefaultSignalApi
 /**
  * A default implementation for signal strength functionality through the Android OS.
  *
- * @property logger The [WisefyLogger] instance to use
+ * @param logger The [WisefyLogger] instance to use
  *
  * @see DefaultSignalApi
  * @see WisefyLogger
@@ -32,12 +32,12 @@ import com.isupatches.android.wisefy.signal.os.apis.DefaultSignalApi
  * @since 12/2022, version 5.0.0
  */
 internal class DefaultSignalApiImpl(
-    private val logger: WisefyLogger
+    private val logger: WisefyLogger,
 ) : DefaultSignalApi {
 
     @Deprecated(
         message = DeprecationMessages.Signal.CALCULATE_BARS,
-        replaceWith = ReplaceWith("this.calculateBars(rssiLevel)")
+        replaceWith = ReplaceWith("this.calculateBars(rssiLevel)"),
     )
     override fun calculateSignalLevel(rssiLevel: Int, targetNumberOfBars: Int): Int {
         @Suppress("Deprecation")

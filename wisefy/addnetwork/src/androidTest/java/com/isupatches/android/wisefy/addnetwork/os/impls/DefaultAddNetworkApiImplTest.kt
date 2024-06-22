@@ -35,7 +35,7 @@ import org.mockito.MockitoAnnotations
 
 @RunWith(Parameterized::class)
 internal class DefaultAddNetworkApiImplTest(
-    private val params: AddNetworkParams
+    private val params: AddNetworkParams,
 ) {
 
     @Mock
@@ -61,7 +61,7 @@ internal class DefaultAddNetworkApiImplTest(
         // Given
         @Suppress("Deprecation")
         given(mockWifiManager.addNetwork(any(android.net.wifi.WifiConfiguration::class.java))).willReturn(
-            params.expectedResult
+            params.expectedResult,
         )
 
         // Then
@@ -85,62 +85,62 @@ internal class DefaultAddNetworkApiImplTest(
             return listOf(
                 AddNetworkParams.Open(
                     ssid = TEST_SSID,
-                    expectedResult = ADD_NETWORK_SUCCESS_RESULT_CODE
+                    expectedResult = ADD_NETWORK_SUCCESS_RESULT_CODE,
                 ),
                 AddNetworkParams.Open(
                     ssid = TEST_SSID,
                     bssid = TEST_BSSID,
-                    expectedResult = ADD_NETWORK_SUCCESS_RESULT_CODE
+                    expectedResult = ADD_NETWORK_SUCCESS_RESULT_CODE,
                 ),
                 AddNetworkParams.Open(
                     ssid = TEST_SSID,
-                    expectedResult = ADD_NETWORK_FAILURE_RESULT_CODE
+                    expectedResult = ADD_NETWORK_FAILURE_RESULT_CODE,
                 ),
                 AddNetworkParams.Open(
                     ssid = TEST_SSID,
                     bssid = TEST_BSSID,
-                    expectedResult = ADD_NETWORK_FAILURE_RESULT_CODE
+                    expectedResult = ADD_NETWORK_FAILURE_RESULT_CODE,
                 ),
                 AddNetworkParams.WPA2(
                     ssid = TEST_SSID,
                     passphrase = TEST_PASSPHRASE,
-                    expectedResult = ADD_NETWORK_SUCCESS_RESULT_CODE
-                ),
-                AddNetworkParams.WPA2(
-                    ssid = TEST_SSID,
-                    passphrase = TEST_PASSPHRASE,
-                    bssid = TEST_BSSID,
-                    expectedResult = ADD_NETWORK_SUCCESS_RESULT_CODE
-                ),
-                AddNetworkParams.WPA2(
-                    ssid = TEST_SSID,
-                    passphrase = TEST_PASSPHRASE,
-                    expectedResult = ADD_NETWORK_FAILURE_RESULT_CODE
+                    expectedResult = ADD_NETWORK_SUCCESS_RESULT_CODE,
                 ),
                 AddNetworkParams.WPA2(
                     ssid = TEST_SSID,
                     passphrase = TEST_PASSPHRASE,
                     bssid = TEST_BSSID,
-                    expectedResult = ADD_NETWORK_FAILURE_RESULT_CODE
-                )
+                    expectedResult = ADD_NETWORK_SUCCESS_RESULT_CODE,
+                ),
+                AddNetworkParams.WPA2(
+                    ssid = TEST_SSID,
+                    passphrase = TEST_PASSPHRASE,
+                    expectedResult = ADD_NETWORK_FAILURE_RESULT_CODE,
+                ),
+                AddNetworkParams.WPA2(
+                    ssid = TEST_SSID,
+                    passphrase = TEST_PASSPHRASE,
+                    bssid = TEST_BSSID,
+                    expectedResult = ADD_NETWORK_FAILURE_RESULT_CODE,
+                ),
             )
         }
 
         sealed class AddNetworkParams(
-            open val expectedResult: Int
+            open val expectedResult: Int,
         ) {
 
             data class Open(
                 val ssid: String,
                 val bssid: String? = null,
-                override val expectedResult: Int
+                override val expectedResult: Int,
             ) : AddNetworkParams(expectedResult)
 
             data class WPA2(
                 val ssid: String,
                 val passphrase: String,
                 val bssid: String? = null,
-                override val expectedResult: Int
+                override val expectedResult: Int,
             ) : AddNetworkParams(expectedResult)
         }
 

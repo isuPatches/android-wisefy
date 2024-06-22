@@ -53,7 +53,7 @@ internal class DisableWifiResultTest {
     fun assignsValues_failure_assertion() {
         // Given
         val result = DisableWifiResult.Failure.Assertion(
-            AssertionMessages.Wifi.ANDROID_29_REQUEST_USED_ON_PRE_ANDROID_29
+            AssertionMessages.Wifi.ANDROID_29_REQUEST_USED_ON_PRE_ANDROID_29,
         )
 
         // Expect

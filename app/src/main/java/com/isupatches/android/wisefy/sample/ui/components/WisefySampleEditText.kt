@@ -53,7 +53,7 @@ internal fun WisefySampleEditText(
     @StringRes labelResId: Int,
     singleLine: Boolean = true,
     error: WisefySampleEditTextError? = null,
-    isPasswordField: Boolean = false
+    isPasswordField: Boolean = false,
 ) {
     WisefySampleTheme {
         val colors = WisefySampleTextFieldColors()
@@ -67,7 +67,7 @@ internal fun WisefySampleEditText(
                         Text(
                             text = stringResource(labelResId),
                             style = MaterialTheme.typography.body1,
-                            color = colors.placeholderColor(enabled = true).value
+                            color = colors.placeholderColor(enabled = true).value,
                         )
                     },
                     singleLine = singleLine,
@@ -102,7 +102,7 @@ internal fun WisefySampleEditText(
                                 Icon(imageVector = image, description)
                             }
                         }
-                    }
+                    },
                 )
             }
             WisefySampleEditTextErrorMessage(error)
@@ -115,7 +115,7 @@ internal fun WisefySampleNumericalEditText(
     text: String,
     onTextChange: (String) -> Unit,
     @StringRes labelResId: Int,
-    error: WisefySampleEditTextError? = null
+    error: WisefySampleEditTextError? = null,
 ) {
     WisefySampleTheme {
         val colors = WisefySampleTextFieldColors()
@@ -128,7 +128,7 @@ internal fun WisefySampleNumericalEditText(
                         Text(
                             text = stringResource(labelResId),
                             style = MaterialTheme.typography.body1,
-                            color = colors.placeholderColor(enabled = true).value
+                            color = colors.placeholderColor(enabled = true).value,
                         )
                     },
                     singleLine = true,
@@ -136,7 +136,7 @@ internal fun WisefySampleNumericalEditText(
                     colors = colors,
                     modifier = Modifier.fillMaxWidth(),
                     visualTransformation = VisualTransformation.None,
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 )
             }
             WisefySampleEditTextErrorMessage(error)
@@ -145,23 +145,21 @@ internal fun WisefySampleNumericalEditText(
 }
 
 @Composable
-internal fun WisefySampleEditTextErrorMessage(
-    error: WisefySampleEditTextError? = null
-) {
+internal fun WisefySampleEditTextErrorMessage(error: WisefySampleEditTextError? = null) {
     error?.let {
         Row(modifier = Modifier.padding(top = WisefySampleSizes.Medium, bottom = WisefySampleSizes.Medium)) {
             Text(
                 text = stringResource(it.errorMessageResId),
                 color = MaterialTheme.colors.error,
                 style = MaterialTheme.typography.caption,
-                modifier = Modifier.padding(start = WisefySampleSizes.Large)
+                modifier = Modifier.padding(start = WisefySampleSizes.Large),
             )
         }
     }
 }
 
 internal data class WisefySampleEditTextError(
-    @StringRes val errorMessageResId: Int
+    @StringRes val errorMessageResId: Int,
 )
 
 @Preview(showBackground = true)
@@ -169,7 +167,7 @@ internal data class WisefySampleEditTextError(
 @Suppress("UnusedPrivateMember")
 private fun WisefySampleEditTextLightPreview(
     @PreviewParameter(WisefySampleEditTextPreviewParameterProvider::class)
-    previewTriple: Triple<Boolean, Boolean, WisefySampleEditTextError?>
+    previewTriple: Triple<Boolean, Boolean, WisefySampleEditTextError?>,
 ) {
     WisefySampleEditText(
         text = "test text",
@@ -177,7 +175,7 @@ private fun WisefySampleEditTextLightPreview(
         labelResId = R.string.wisefy,
         isPasswordField = previewTriple.first,
         singleLine = previewTriple.second,
-        error = previewTriple.third
+        error = previewTriple.third,
     )
 }
 
@@ -186,7 +184,7 @@ private fun WisefySampleEditTextLightPreview(
 @Suppress("UnusedPrivateMember")
 private fun WisefySampleEditTextDarkPreview(
     @PreviewParameter(WisefySampleEditTextPreviewParameterProvider::class)
-    previewTriple: Triple<Boolean, Boolean, WisefySampleEditTextError?>
+    previewTriple: Triple<Boolean, Boolean, WisefySampleEditTextError?>,
 ) {
     WisefySampleEditText(
         text = "test text",
@@ -194,7 +192,7 @@ private fun WisefySampleEditTextDarkPreview(
         labelResId = R.string.wisefy,
         isPasswordField = previewTriple.first,
         singleLine = previewTriple.second,
-        error = previewTriple.third
+        error = previewTriple.third,
     )
 }
 
@@ -202,13 +200,13 @@ private fun WisefySampleEditTextDarkPreview(
 @Composable
 @Suppress("UnusedPrivateMember")
 private fun WisefySampleNumbericalEditTextLightPreview(
-    @PreviewParameter(WisefySampleNumericalEditTextPreviewParameterProvider::class) error: WisefySampleEditTextError?
+    @PreviewParameter(WisefySampleNumericalEditTextPreviewParameterProvider::class) error: WisefySampleEditTextError?,
 ) {
     WisefySampleNumericalEditText(
         text = "10",
         onTextChange = { },
         labelResId = R.string.wisefy,
-        error = error
+        error = error,
     )
 }
 
@@ -216,13 +214,13 @@ private fun WisefySampleNumbericalEditTextLightPreview(
 @Composable
 @Suppress("UnusedPrivateMember")
 private fun WisefySampleEditTextDarkPreview(
-    @PreviewParameter(WisefySampleNumericalEditTextPreviewParameterProvider::class) error: WisefySampleEditTextError?
+    @PreviewParameter(WisefySampleNumericalEditTextPreviewParameterProvider::class) error: WisefySampleEditTextError?,
 ) {
     WisefySampleNumericalEditText(
         text = "10",
         onTextChange = { },
         labelResId = R.string.wisefy,
-        error = error
+        error = error,
     )
 }
 
@@ -236,7 +234,7 @@ private class WisefySampleEditTextPreviewParameterProvider :
         Triple(false, false, null),
         Triple(false, false, WisefySampleEditTextError(R.string.input_error)),
         Triple(false, true, null),
-        Triple(false, true, WisefySampleEditTextError(R.string.input_error))
+        Triple(false, true, WisefySampleEditTextError(R.string.input_error)),
     )
 }
 
@@ -244,6 +242,6 @@ private class WisefySampleNumericalEditTextPreviewParameterProvider :
     PreviewParameterProvider<WisefySampleEditTextError?> {
     override val values: Sequence<WisefySampleEditTextError?> = sequenceOf(
         null,
-        WisefySampleEditTextError(R.string.input_error)
+        WisefySampleEditTextError(R.string.input_error),
     )
 }

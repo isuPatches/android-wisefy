@@ -30,7 +30,7 @@ import com.isupatches.android.wisefy.core.logging.WisefyLogger
  *
  * @param wifiManager The WifiManager instance to use
  * @param logger The [WisefyLogger] instance to use
- * @property api The OS level API instance to use
+ * @param api The OS level API instance to use
  *
  * @see AccessPointsApi
  * @see DefaultAccessPointsApi
@@ -43,7 +43,7 @@ import com.isupatches.android.wisefy.core.logging.WisefyLogger
 internal class DefaultAccessPointsAdapter(
     wifiManager: WifiManager,
     logger: WisefyLogger,
-    private val api: DefaultAccessPointsApi = DefaultAccessPointsApiImpl(wifiManager, logger)
+    private val api: DefaultAccessPointsApi = DefaultAccessPointsApiImpl(wifiManager, logger),
 ) : AccessPointsApi {
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
@@ -53,12 +53,13 @@ internal class DefaultAccessPointsAdapter(
             is GetAccessPointsQuery.BySSID -> api.searchForAccessPointsBySSID(
                 regex = query.regex,
                 timeoutInMillis = query.timeoutInMillis,
-                filterDuplicates = query.filterDuplicates
+                filterDuplicates = query.filterDuplicates,
             )
+
             is GetAccessPointsQuery.ByBSSID -> api.searchForAccessPointsByBSSID(
                 regex = query.regex,
                 timeoutInMillis = query.timeoutInMillis,
-                filterDuplicates = query.filterDuplicates
+                filterDuplicates = query.filterDuplicates,
             )
         }
         return if (accessPoints.isNotEmpty()) {

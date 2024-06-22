@@ -22,7 +22,6 @@ import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
 import com.isupatches.android.wisefy.core.logging.DefaultWisefyLogger
 import com.isupatches.android.wisefy.core.util.SdkUtilImpl
 import com.isupatches.android.wisefy.testsupport.TestCoroutineDispatchProvider
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.test.TestScope
 import org.junit.After
@@ -37,10 +36,9 @@ import org.mockito.BDDMockito.verify
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 
-@OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(Parameterized::class)
 internal class WisefyAddNetworkDelegateAddNetworkSyncTest(
-    private val params: AddNetworkParams
+    private val params: AddNetworkParams,
 ) {
 
     @Mock
@@ -64,7 +62,7 @@ internal class WisefyAddNetworkDelegateAddNetworkSyncTest(
             coroutineDispatcherProvider = TestCoroutineDispatchProvider(),
             scope = TestScope(),
             savedNetworkMutex = Mutex(),
-            adapter = mockAdapter
+            adapter = mockAdapter,
         )
     }
 
@@ -100,82 +98,82 @@ internal class WisefyAddNetworkDelegateAddNetworkSyncTest(
             return listOf(
                 AddNetworkParams(
                     request = AddNetworkRequest.Open(ssid = TEST_SSID, bssid = null),
-                    result = AddNetworkResult.Success.ResultCode(ADD_NETWORK_SUCCESS_RESULT_CODE)
+                    result = AddNetworkResult.Success.ResultCode(ADD_NETWORK_SUCCESS_RESULT_CODE),
                 ),
                 AddNetworkParams(
                     request = AddNetworkRequest.Open(ssid = TEST_SSID, bssid = TEST_BSSID),
-                    result = AddNetworkResult.Success.ResultCode(ADD_NETWORK_SUCCESS_RESULT_CODE)
+                    result = AddNetworkResult.Success.ResultCode(ADD_NETWORK_SUCCESS_RESULT_CODE),
                 ),
                 AddNetworkParams(
                     request = AddNetworkRequest.Open(ssid = TEST_SSID, bssid = null),
-                    result = AddNetworkResult.Failure.ResultCode(ADD_NETWORK_FAILURE_RESULT_CODE)
+                    result = AddNetworkResult.Failure.ResultCode(ADD_NETWORK_FAILURE_RESULT_CODE),
                 ),
                 AddNetworkParams(
                     request = AddNetworkRequest.Open(ssid = TEST_SSID, bssid = TEST_BSSID),
-                    result = AddNetworkResult.Failure.ResultCode(ADD_NETWORK_FAILURE_RESULT_CODE)
+                    result = AddNetworkResult.Failure.ResultCode(ADD_NETWORK_FAILURE_RESULT_CODE),
                 ),
                 AddNetworkParams(
                     request = AddNetworkRequest.WPA2(ssid = TEST_SSID, passphrase = TEST_PASSPHRASE, bssid = null),
-                    result = AddNetworkResult.Success.ResultCode(ADD_NETWORK_SUCCESS_RESULT_CODE)
+                    result = AddNetworkResult.Success.ResultCode(ADD_NETWORK_SUCCESS_RESULT_CODE),
                 ),
                 AddNetworkParams(
                     request = AddNetworkRequest.WPA2(
                         ssid = TEST_SSID,
                         passphrase = TEST_PASSPHRASE,
-                        bssid = TEST_BSSID
+                        bssid = TEST_BSSID,
                     ),
-                    result = AddNetworkResult.Success.ResultCode(ADD_NETWORK_SUCCESS_RESULT_CODE)
+                    result = AddNetworkResult.Success.ResultCode(ADD_NETWORK_SUCCESS_RESULT_CODE),
                 ),
                 AddNetworkParams(
                     request = AddNetworkRequest.WPA2(
                         ssid = TEST_SSID,
                         passphrase = TEST_PASSPHRASE,
-                        bssid = null
+                        bssid = null,
                     ),
-                    result = AddNetworkResult.Failure.ResultCode(ADD_NETWORK_FAILURE_RESULT_CODE)
+                    result = AddNetworkResult.Failure.ResultCode(ADD_NETWORK_FAILURE_RESULT_CODE),
                 ),
                 AddNetworkParams(
                     request = AddNetworkRequest.WPA2(
                         ssid = TEST_SSID,
                         passphrase = TEST_PASSPHRASE,
-                        bssid = TEST_BSSID
+                        bssid = TEST_BSSID,
                     ),
-                    result = AddNetworkResult.Failure.ResultCode(ADD_NETWORK_FAILURE_RESULT_CODE)
+                    result = AddNetworkResult.Failure.ResultCode(ADD_NETWORK_FAILURE_RESULT_CODE),
                 ),
                 AddNetworkParams(
                     request = AddNetworkRequest.WPA3(ssid = TEST_SSID, passphrase = TEST_PASSPHRASE, bssid = null),
-                    result = AddNetworkResult.Success.ResultCode(ADD_NETWORK_SUCCESS_RESULT_CODE)
+                    result = AddNetworkResult.Success.ResultCode(ADD_NETWORK_SUCCESS_RESULT_CODE),
                 ),
                 AddNetworkParams(
                     request = AddNetworkRequest.WPA3(
                         ssid = TEST_SSID,
                         passphrase = TEST_PASSPHRASE,
-                        bssid = TEST_BSSID
+                        bssid = TEST_BSSID,
                     ),
-                    result = AddNetworkResult.Success.ResultCode(ADD_NETWORK_SUCCESS_RESULT_CODE)
+                    result = AddNetworkResult.Success.ResultCode(ADD_NETWORK_SUCCESS_RESULT_CODE),
                 ),
                 AddNetworkParams(
                     request = AddNetworkRequest.WPA3(
                         ssid = TEST_SSID,
                         passphrase = TEST_PASSPHRASE,
-                        bssid = null
+                        bssid = null,
                     ),
-                    result = AddNetworkResult.Failure.ResultCode(ADD_NETWORK_FAILURE_RESULT_CODE)
+                    result = AddNetworkResult.Failure.ResultCode(ADD_NETWORK_FAILURE_RESULT_CODE),
                 ),
                 AddNetworkParams(
                     request = AddNetworkRequest.WPA3(
                         ssid = TEST_SSID,
                         passphrase = TEST_PASSPHRASE,
-                        bssid = TEST_BSSID
+                        bssid = TEST_BSSID,
                     ),
-                    result = AddNetworkResult.Failure.ResultCode(ADD_NETWORK_FAILURE_RESULT_CODE)
-                )
+                    result = AddNetworkResult.Failure.ResultCode(ADD_NETWORK_FAILURE_RESULT_CODE),
+                ),
             )
         }
 
         data class AddNetworkParams(
             val request: AddNetworkRequest,
-            val result: AddNetworkResult
+            val result: AddNetworkResult,
         )
     }
 }

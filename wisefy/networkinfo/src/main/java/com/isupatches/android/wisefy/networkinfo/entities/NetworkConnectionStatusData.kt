@@ -36,5 +36,5 @@ data class NetworkConnectionStatusData(
     val isRoaming: Boolean,
     val ssidOfNetworkConnectedTo: String?,
     val bssidOfNetworkConnectedTo: String?,
-    val ip: String?
+    val ip: String?,
 )

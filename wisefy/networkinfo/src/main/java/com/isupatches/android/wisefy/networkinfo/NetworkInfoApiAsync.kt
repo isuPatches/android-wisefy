@@ -49,7 +49,7 @@ interface NetworkInfoApiAsync {
     @RequiresPermission(ACCESS_NETWORK_STATE)
     fun getCurrentNetwork(
         query: GetCurrentNetworkQuery = GetCurrentNetworkQuery(),
-        callbacks: GetCurrentNetworkCallbacks?
+        callbacks: GetCurrentNetworkCallbacks?,
     )
 
     /**
@@ -71,6 +71,6 @@ interface NetworkInfoApiAsync {
     @RequiresPermission(ACCESS_NETWORK_STATE)
     fun getNetworkConnectionStatus(
         query: GetNetworkConnectionStatusQuery = GetNetworkConnectionStatusQuery(),
-        callbacks: GetNetworkConnectionStatusCallbacks?
+        callbacks: GetNetworkConnectionStatusCallbacks?,
     )
 }

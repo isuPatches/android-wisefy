@@ -15,50 +15,17 @@
  */
 package com.isupatches.android.wisefy.sample.features.add
 
-import android.content.res.Configuration
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.isupatches.android.wisefy.WisefyApi
-import com.isupatches.android.wisefy.sample.ui.ComposablePreviewWisefy
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleLoadingIndicator
-import com.isupatches.android.wisefy.sample.util.DefaultSdkUtil
 import com.isupatches.android.wisefy.sample.util.SdkUtil
 
 @Composable
 internal fun AddNetworkScreen(
-    wisefy: WisefyApi,
     sdkUtil: SdkUtil,
-    viewModel: AddNetworkViewModel = viewModel(
-        factory = AddNetworkViewModelFactory(
-            context = LocalContext.current.applicationContext,
-            wisefy = wisefy,
-            sdkUtil = sdkUtil
-        )
-    )
+    viewModel: AddNetworkViewModel = hiltViewModel<AddNetworkViewModelImpl>(),
 ) {
     WisefySampleLoadingIndicator(isLoading = { viewModel.uiState.value.loadingState.isLoading })
     AddNetworkScreenDialogContent(dialogState = { viewModel.uiState.value.dialogState }, viewModel = viewModel)
     AddNetworkScreenContent(viewModel = viewModel, sdkUtil = sdkUtil)
-}
-
-@Preview(showBackground = true)
-@Composable
-@Suppress("UnusedPrivateMember")
-private fun AddNetworkScreenLightPreview() {
-    AddNetworkScreen(
-        wisefy = ComposablePreviewWisefy(),
-        sdkUtil = DefaultSdkUtil()
-    )
-}
-
-@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
-@Composable
-@Suppress("UnusedPrivateMember")
-private fun AddNetworkScreenDarkPreview() {
-    AddNetworkScreen(
-        wisefy = ComposablePreviewWisefy(),
-        sdkUtil = DefaultSdkUtil()
-    )
 }

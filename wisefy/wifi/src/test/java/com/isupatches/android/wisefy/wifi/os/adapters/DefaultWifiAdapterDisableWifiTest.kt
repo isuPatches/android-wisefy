@@ -38,7 +38,7 @@ import org.mockito.MockitoAnnotations
 
 @RunWith(Parameterized::class)
 internal class DefaultWifiAdapterDisableWifiTest(
-    private val params: DisableWifiParams
+    private val params: DisableWifiParams,
 ) {
 
     @Mock
@@ -58,7 +58,7 @@ internal class DefaultWifiAdapterDisableWifiTest(
             wifiManager = mockWifiManager,
             logger = DefaultWisefyLogger(),
             assertions = WisefyAssertions(throwOnAssertions = false),
-            api = mockApi
+            api = mockApi,
         )
     }
 
@@ -92,26 +92,26 @@ internal class DefaultWifiAdapterDisableWifiTest(
                 DisableWifiParams(
                     request = DisableWifiRequest.Default,
                     disableWifiResult = true,
-                    expectedResult = DisableWifiResult.Success.Disabled
+                    expectedResult = DisableWifiResult.Success.Disabled,
                 ),
                 DisableWifiParams(
                     request = DisableWifiRequest.Default,
                     disableWifiResult = false,
-                    expectedResult = DisableWifiResult.Failure.UnableToDisable
+                    expectedResult = DisableWifiResult.Failure.UnableToDisable,
                 ),
                 DisableWifiParams(
                     request = DisableWifiRequest.Android29OrAbove(mock(Context::class.java)),
                     expectedResult = DisableWifiResult.Failure.Assertion(
-                        AssertionMessages.Wifi.ANDROID_29_REQUEST_USED_ON_PRE_ANDROID_29
-                    )
-                )
+                        AssertionMessages.Wifi.ANDROID_29_REQUEST_USED_ON_PRE_ANDROID_29,
+                    ),
+                ),
             )
         }
 
         data class DisableWifiParams(
             val request: DisableWifiRequest,
             val disableWifiResult: Boolean? = null,
-            val expectedResult: DisableWifiResult
+            val expectedResult: DisableWifiResult,
         )
     }
 }

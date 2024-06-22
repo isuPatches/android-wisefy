@@ -32,9 +32,7 @@ import org.mockito.MockitoAnnotations
 import org.junit.Assert.assertEquals as assertEquals1
 
 @RunWith(Parameterized::class)
-internal class DefaultRemoveNetworkAdapterRemoveNetworkTest(
-    private val params: RemoveNetworkParams
-) {
+internal class DefaultRemoveNetworkAdapterRemoveNetworkTest(private val params: RemoveNetworkParams) {
 
     @Mock
     private lateinit var mockWifiManager: WifiManager
@@ -52,7 +50,7 @@ internal class DefaultRemoveNetworkAdapterRemoveNetworkTest(
         adapter = DefaultRemoveNetworkAdapter(
             wifiManager = mockWifiManager,
             logger = DefaultWisefyLogger(),
-            api = mockApi
+            api = mockApi,
         )
     }
 
@@ -85,30 +83,30 @@ internal class DefaultRemoveNetworkAdapterRemoveNetworkTest(
                 RemoveNetworkParams(
                     request = RemoveNetworkRequest.SSID(ssid = TEST_SSID),
                     removeNetworkResult = true,
-                    expectedResult = RemoveNetworkResult.Success.True
+                    expectedResult = RemoveNetworkResult.Success.True,
                 ),
                 RemoveNetworkParams(
                     request = RemoveNetworkRequest.BSSID(bssid = TEST_BSSID),
                     removeNetworkResult = true,
-                    expectedResult = RemoveNetworkResult.Success.True
+                    expectedResult = RemoveNetworkResult.Success.True,
                 ),
                 RemoveNetworkParams(
                     request = RemoveNetworkRequest.SSID(ssid = TEST_SSID),
                     removeNetworkResult = false,
-                    expectedResult = RemoveNetworkResult.Failure.False
+                    expectedResult = RemoveNetworkResult.Failure.False,
                 ),
                 RemoveNetworkParams(
                     request = RemoveNetworkRequest.BSSID(bssid = TEST_BSSID),
                     removeNetworkResult = false,
-                    expectedResult = RemoveNetworkResult.Failure.False
-                )
+                    expectedResult = RemoveNetworkResult.Failure.False,
+                ),
             )
         }
 
         data class RemoveNetworkParams(
             val request: RemoveNetworkRequest,
             val removeNetworkResult: Boolean,
-            val expectedResult: RemoveNetworkResult
+            val expectedResult: RemoveNetworkResult,
         )
     }
 }

@@ -27,9 +27,18 @@ private const val MAX_PASSPHRASE_LENGTH = 63
 internal fun String.validateSSID(): SSIDInputError {
     val unicodeEncoder = StandardCharsets.UTF_8.newEncoder()
     return when {
-        isBlank() -> SSIDInputError.EMPTY
-        length < MIN_SSID_LENGTH -> SSIDInputError.TOO_SHORT
-        length > MAX_SSID_LENGTH -> SSIDInputError.TOO_LONG
+        isBlank() -> {
+            SSIDInputError.EMPTY
+        }
+
+        length < MIN_SSID_LENGTH -> {
+            SSIDInputError.TOO_SHORT
+        }
+
+        length > MAX_SSID_LENGTH -> {
+            SSIDInputError.TOO_LONG
+        }
+
         contains("?") ||
             contains("\"") ||
             contains("$") ||
@@ -39,17 +48,25 @@ internal fun String.validateSSID(): SSIDInputError {
             contains("+") -> {
             SSIDInputError.INVALID_CHARACTERS
         }
+
         startsWith("!") ||
             startsWith("#") ||
             startsWith(";") -> {
             SSIDInputError.INVALID_START_CHARACTERS
         }
+
         trimStart() != this ||
             trimEnd() != this -> {
             SSIDInputError.LEADING_OR_TRAILING_SPACES
         }
-        !unicodeEncoder.canEncode(this) -> SSIDInputError.NOT_VALID_UNICODE
-        else -> SSIDInputError.NONE
+
+        !unicodeEncoder.canEncode(this) -> {
+            SSIDInputError.NOT_VALID_UNICODE
+        }
+
+        else -> {
+            SSIDInputError.NONE
+        }
     }
 }
 
@@ -78,18 +95,18 @@ internal enum class SSIDInputError {
     INVALID_CHARACTERS,
     INVALID_START_CHARACTERS,
     LEADING_OR_TRAILING_SPACES,
-    NOT_VALID_UNICODE
+    NOT_VALID_UNICODE,
 }
 
 internal enum class PassphraseInputError {
     NONE,
     TOO_SHORT,
     TOO_LONG,
-    NOT_VALID_ASCII
+    NOT_VALID_ASCII,
 }
 
 internal enum class BSSIDInputError {
     NONE,
     EMPTY,
-    INVALID
+    INVALID,
 }

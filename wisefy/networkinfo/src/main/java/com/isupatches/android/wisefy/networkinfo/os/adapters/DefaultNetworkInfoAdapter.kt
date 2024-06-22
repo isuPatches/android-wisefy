@@ -40,8 +40,8 @@ import kotlinx.coroutines.runBlocking
  * @param sdkUtil The [SdkUtil] instance to use
  * @param logger The [WisefyLogger] instance to use
  * @param networkConnectionStatusProvider The on-demand way to retrieve the current network connection status
- * @property wifiManager The WifiManager instance to use
- * @property api The OS level API instance to use
+ * @param wifiManager The WifiManager instance to use
+ * @param api The OS level API instance to use
  *
  * @see DefaultNetworkInfoApi
  * @see DefaultNetworkInfoApiImpl
@@ -64,8 +64,8 @@ internal class DefaultNetworkInfoAdapter(
         connectivityManager = connectivityManager,
         sdkUtil = sdkUtil,
         logger = logger,
-        networkConnectionStatusProvider = networkConnectionStatusProvider
-    )
+        networkConnectionStatusProvider = networkConnectionStatusProvider,
+    ),
 ) : NetworkInfoApi {
 
     override fun getCurrentNetwork(query: GetCurrentNetworkQuery): GetCurrentNetworkResult {
@@ -76,8 +76,8 @@ internal class DefaultNetworkInfoAdapter(
                 network = currentNetwork,
                 connectionInfo = wifiManager.connectionInfo,
                 capabilities = currentNetwork?.let { api.getNetworkCapabilities(it) },
-                linkProperties = currentNetwork?.let { api.getLinkProperties(it) }
-            )
+                linkProperties = currentNetwork?.let { api.getLinkProperties(it) },
+            ),
         )
     }
 
@@ -92,8 +92,8 @@ internal class DefaultNetworkInfoAdapter(
                 isRoaming = api.isDeviceRoaming(),
                 ssidOfNetworkConnectedTo = api.getSSIDOfTheNetworkTheDeviceIsConnectedTo(),
                 bssidOfNetworkConnectedTo = api.getBSSIDOfTheNetworkTheDeviceIsConnectedTo(),
-                ip = api.getIP()
-            )
+                ip = api.getIP(),
+            ),
         )
     }
 }

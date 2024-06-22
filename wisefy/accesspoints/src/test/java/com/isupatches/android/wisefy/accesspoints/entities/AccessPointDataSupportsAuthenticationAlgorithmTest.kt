@@ -25,7 +25,7 @@ import org.junit.runners.Parameterized.Parameters
 
 @RunWith(Parameterized::class)
 internal class AccessPointDataSupportsAuthenticationAlgorithmTest(
-    private val params: SupportsAuthenticationAlgorithmParams
+    private val params: SupportsAuthenticationAlgorithmParams,
 ) {
 
     @Test
@@ -34,7 +34,7 @@ internal class AccessPointDataSupportsAuthenticationAlgorithmTest(
         val accessPoint = AccessPointData(
             rawValue = ScanResult().apply {
                 capabilities = params.capabilities
-            }
+            },
         )
 
         // Then
@@ -52,210 +52,210 @@ internal class AccessPointDataSupportsAuthenticationAlgorithmTest(
                 SupportsAuthenticationAlgorithmParams(
                     capabilities = "",
                     authenticationAlgorithm = AuthenticationAlgorithm.WEP,
-                    expectedResult = false
+                    expectedResult = false,
                 ),
                 SupportsAuthenticationAlgorithmParams(
                     capabilities = "",
                     authenticationAlgorithm = AuthenticationAlgorithm.WPA,
-                    expectedResult = false
+                    expectedResult = false,
                 ),
                 SupportsAuthenticationAlgorithmParams(
                     capabilities = "",
                     authenticationAlgorithm = AuthenticationAlgorithm.WPA2,
-                    expectedResult = false
+                    expectedResult = false,
                 ),
                 SupportsAuthenticationAlgorithmParams(
                     capabilities = "",
                     authenticationAlgorithm = AuthenticationAlgorithm.WPA_EAP,
-                    expectedResult = false
+                    expectedResult = false,
                 ),
                 SupportsAuthenticationAlgorithmParams(
                     capabilities = "",
                     authenticationAlgorithm = AuthenticationAlgorithm.IEEE8021X,
-                    expectedResult = false
+                    expectedResult = false,
                 ),
                 SupportsAuthenticationAlgorithmParams(
                     capabilities = "WEP",
                     authenticationAlgorithm = AuthenticationAlgorithm.WEP,
-                    expectedResult = true
+                    expectedResult = true,
                 ),
                 SupportsAuthenticationAlgorithmParams(
                     capabilities = "WEP",
                     authenticationAlgorithm = AuthenticationAlgorithm.WPA,
-                    expectedResult = false
+                    expectedResult = false,
                 ),
                 SupportsAuthenticationAlgorithmParams(
                     capabilities = "WEP",
                     authenticationAlgorithm = AuthenticationAlgorithm.WPA2,
-                    expectedResult = false
+                    expectedResult = false,
                 ),
                 SupportsAuthenticationAlgorithmParams(
                     capabilities = "WEP",
                     authenticationAlgorithm = AuthenticationAlgorithm.WPA_EAP,
-                    expectedResult = false
+                    expectedResult = false,
                 ),
                 SupportsAuthenticationAlgorithmParams(
                     capabilities = "WEP",
                     authenticationAlgorithm = AuthenticationAlgorithm.IEEE8021X,
-                    expectedResult = false
+                    expectedResult = false,
                 ),
                 SupportsAuthenticationAlgorithmParams(
                     capabilities = "WPA",
                     authenticationAlgorithm = AuthenticationAlgorithm.WEP,
-                    expectedResult = false
+                    expectedResult = false,
                 ),
                 SupportsAuthenticationAlgorithmParams(
                     capabilities = "WPA",
                     authenticationAlgorithm = AuthenticationAlgorithm.WPA,
-                    expectedResult = true
+                    expectedResult = true,
                 ),
                 SupportsAuthenticationAlgorithmParams(
                     capabilities = "WPA",
                     authenticationAlgorithm = AuthenticationAlgorithm.WPA2,
-                    expectedResult = false
+                    expectedResult = false,
                 ),
                 SupportsAuthenticationAlgorithmParams(
                     capabilities = "WPA",
                     authenticationAlgorithm = AuthenticationAlgorithm.WPA_EAP,
-                    expectedResult = false
+                    expectedResult = false,
                 ),
                 SupportsAuthenticationAlgorithmParams(
                     capabilities = "WPA",
                     authenticationAlgorithm = AuthenticationAlgorithm.IEEE8021X,
-                    expectedResult = false
+                    expectedResult = false,
                 ),
                 SupportsAuthenticationAlgorithmParams(
                     capabilities = "WPA2",
                     authenticationAlgorithm = AuthenticationAlgorithm.WEP,
-                    expectedResult = false
+                    expectedResult = false,
                 ),
                 SupportsAuthenticationAlgorithmParams(
                     capabilities = "WPA2",
                     authenticationAlgorithm = AuthenticationAlgorithm.WPA,
-                    expectedResult = false
+                    expectedResult = false,
                 ),
                 SupportsAuthenticationAlgorithmParams(
                     capabilities = "WPA2",
                     authenticationAlgorithm = AuthenticationAlgorithm.WPA2,
-                    expectedResult = true
+                    expectedResult = true,
                 ),
                 SupportsAuthenticationAlgorithmParams(
                     capabilities = "WPA2",
                     authenticationAlgorithm = AuthenticationAlgorithm.WPA_EAP,
-                    expectedResult = false
+                    expectedResult = false,
                 ),
                 SupportsAuthenticationAlgorithmParams(
                     capabilities = "WPA2",
                     authenticationAlgorithm = AuthenticationAlgorithm.IEEE8021X,
-                    expectedResult = false
+                    expectedResult = false,
                 ),
                 SupportsAuthenticationAlgorithmParams(
                     capabilities = "WPA-EAP",
                     authenticationAlgorithm = AuthenticationAlgorithm.WEP,
-                    expectedResult = false
+                    expectedResult = false,
                 ),
                 SupportsAuthenticationAlgorithmParams(
                     capabilities = "WPA-EAP",
                     authenticationAlgorithm = AuthenticationAlgorithm.WPA,
-                    expectedResult = false
+                    expectedResult = false,
                 ),
                 SupportsAuthenticationAlgorithmParams(
                     capabilities = "WPA-EAP",
                     authenticationAlgorithm = AuthenticationAlgorithm.WPA2,
-                    expectedResult = false
+                    expectedResult = false,
                 ),
                 SupportsAuthenticationAlgorithmParams(
                     capabilities = "WPA-EAP",
                     authenticationAlgorithm = AuthenticationAlgorithm.WPA_EAP,
-                    expectedResult = true
+                    expectedResult = true,
                 ),
                 SupportsAuthenticationAlgorithmParams(
                     capabilities = "WPA-EAP",
                     authenticationAlgorithm = AuthenticationAlgorithm.IEEE8021X,
-                    expectedResult = false
+                    expectedResult = false,
                 ),
                 SupportsAuthenticationAlgorithmParams(
                     capabilities = "IEEE8021X",
                     authenticationAlgorithm = AuthenticationAlgorithm.WEP,
-                    expectedResult = false
+                    expectedResult = false,
                 ),
                 SupportsAuthenticationAlgorithmParams(
                     capabilities = "IEEE8021X",
                     authenticationAlgorithm = AuthenticationAlgorithm.WPA,
-                    expectedResult = false
+                    expectedResult = false,
                 ),
                 SupportsAuthenticationAlgorithmParams(
                     capabilities = "IEEE8021X",
                     authenticationAlgorithm = AuthenticationAlgorithm.WPA2,
-                    expectedResult = false
+                    expectedResult = false,
                 ),
                 SupportsAuthenticationAlgorithmParams(
                     capabilities = "IEEE8021X",
                     authenticationAlgorithm = AuthenticationAlgorithm.WPA_EAP,
-                    expectedResult = false
+                    expectedResult = false,
                 ),
                 SupportsAuthenticationAlgorithmParams(
                     capabilities = "IEEE8021X",
                     authenticationAlgorithm = AuthenticationAlgorithm.IEEE8021X,
-                    expectedResult = true
+                    expectedResult = true,
                 ),
                 SupportsAuthenticationAlgorithmParams(
                     capabilities = "[WPA2-PSK-CCMP]",
                     authenticationAlgorithm = AuthenticationAlgorithm.WEP,
-                    expectedResult = false
+                    expectedResult = false,
                 ),
                 SupportsAuthenticationAlgorithmParams(
                     capabilities = "[WPA2-PSK-CCMP]",
                     authenticationAlgorithm = AuthenticationAlgorithm.WPA,
-                    expectedResult = false
+                    expectedResult = false,
                 ),
                 SupportsAuthenticationAlgorithmParams(
                     capabilities = "[WPA2-PSK-CCMP]",
                     authenticationAlgorithm = AuthenticationAlgorithm.WPA2,
-                    expectedResult = true
+                    expectedResult = true,
                 ),
                 SupportsAuthenticationAlgorithmParams(
                     capabilities = "[WPA2-PSK-CCMP]",
                     authenticationAlgorithm = AuthenticationAlgorithm.WPA_EAP,
-                    expectedResult = false
+                    expectedResult = false,
                 ),
                 SupportsAuthenticationAlgorithmParams(
                     capabilities = "[WPA2-PSK-CCMP]",
                     authenticationAlgorithm = AuthenticationAlgorithm.IEEE8021X,
-                    expectedResult = false
+                    expectedResult = false,
                 ),
                 SupportsAuthenticationAlgorithmParams(
                     capabilities = "[WPA2-PSK-CCMP][WPA-PSK-CCMP]",
                     authenticationAlgorithm = AuthenticationAlgorithm.WEP,
-                    expectedResult = false
+                    expectedResult = false,
                 ),
                 SupportsAuthenticationAlgorithmParams(
                     capabilities = "[WPA2-PSK-CCMP][WPA-PSK-CCMP]",
                     authenticationAlgorithm = AuthenticationAlgorithm.WPA,
-                    expectedResult = true
+                    expectedResult = true,
                 ),
                 SupportsAuthenticationAlgorithmParams(
                     capabilities = "[WPA2-PSK-CCMP][WPA-PSK-CCMP]",
                     authenticationAlgorithm = AuthenticationAlgorithm.WPA2,
-                    expectedResult = true
+                    expectedResult = true,
                 ),
                 SupportsAuthenticationAlgorithmParams(
                     capabilities = "[WPA2-PSK-CCMP][WPA-PSK-CCMP]",
                     authenticationAlgorithm = AuthenticationAlgorithm.WPA_EAP,
-                    expectedResult = false
+                    expectedResult = false,
                 ),
                 SupportsAuthenticationAlgorithmParams(
                     capabilities = "[WPA2-PSK-CCMP][WPA-PSK-CCMP]",
                     authenticationAlgorithm = AuthenticationAlgorithm.IEEE8021X,
-                    expectedResult = false
-                )
+                    expectedResult = false,
+                ),
             )
         }
 
         data class SupportsAuthenticationAlgorithmParams(
             val capabilities: String,
             val authenticationAlgorithm: AuthenticationAlgorithm,
-            val expectedResult: Boolean
+            val expectedResult: Boolean,
         )
     }
 }

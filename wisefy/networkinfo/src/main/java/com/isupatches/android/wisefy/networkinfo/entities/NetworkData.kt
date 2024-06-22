@@ -35,5 +35,5 @@ data class NetworkData(
     val network: Network?,
     val connectionInfo: WifiInfo?,
     val capabilities: NetworkCapabilities?,
-    val linkProperties: LinkProperties?
+    val linkProperties: LinkProperties?,
 )

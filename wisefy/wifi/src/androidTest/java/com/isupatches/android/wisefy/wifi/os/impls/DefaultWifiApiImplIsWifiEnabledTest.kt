@@ -33,7 +33,7 @@ import org.mockito.MockitoAnnotations
 
 @RunWith(Parameterized::class)
 internal class DefaultWifiApiImplIsWifiEnabledTest(
-    private val params: IsWifiEnabledParams
+    private val params: IsWifiEnabledParams,
 ) {
 
     @Mock
@@ -75,7 +75,7 @@ internal class DefaultWifiApiImplIsWifiEnabledTest(
         fun paramValues(): List<IsWifiEnabledParams> {
             return listOf(
                 IsWifiEnabledParams(isWifiEnabledResult = true),
-                IsWifiEnabledParams(isWifiEnabledResult = false)
+                IsWifiEnabledParams(isWifiEnabledResult = false),
             )
         }
 

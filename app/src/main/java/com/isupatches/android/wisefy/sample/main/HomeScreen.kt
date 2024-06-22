@@ -51,15 +51,15 @@ internal fun HomeScreen() {
                 .padding(
                     top = WisefySampleSizes.WisefySampleTopMargin,
                     start = WisefySampleSizes.WisefySampleHorizontalMargins,
-                    end = WisefySampleSizes.WisefySampleHorizontalMargins
-                )
+                    end = WisefySampleSizes.WisefySampleHorizontalMargins,
+                ),
         ) {
             Row {
                 Box {
                     Image(
                         painter = painterResource(id = R.drawable.ic_logo),
                         contentDescription = stringResource(R.string.content_description_logo),
-                        colorFilter = ColorFilter.tint(MaterialTheme.colors.primary)
+                        colorFilter = ColorFilter.tint(MaterialTheme.colors.primary),
                     )
                 }
             }
@@ -69,7 +69,7 @@ internal fun HomeScreen() {
                         text = stringResource(R.string.wisefy),
                         style = MaterialTheme.typography.h2,
                         textAlign = TextAlign.Center,
-                        color = MaterialTheme.colors.primary
+                        color = MaterialTheme.colors.primary,
                     )
                 }
             }
@@ -79,7 +79,7 @@ internal fun HomeScreen() {
                         text = stringResource(R.string.wisefy_sample_description),
                         style = MaterialTheme.typography.subtitle1,
                         textAlign = TextAlign.Center,
-                        color = MaterialTheme.colors.onBackground
+                        color = MaterialTheme.colors.onBackground,
                     )
                 }
             }
@@ -89,14 +89,14 @@ internal fun HomeScreen() {
                     top = WisefySampleSizes.XLarge,
                     start = WisefySampleSizes.Large,
                     bottom = WisefySampleSizes.XLarge,
-                    end = WisefySampleSizes.Large
-                )
+                    end = WisefySampleSizes.Large,
+                ),
             ) {
                 Text(
                     text = stringResource(R.string.core_version_args, BuildConfig.WISEFY_BOM_VERSION),
                     style = MaterialTheme.typography.body2,
                     textAlign = TextAlign.Center,
-                    color = MaterialTheme.colors.onBackground
+                    color = MaterialTheme.colors.onBackground,
                 )
             }
             Row(Modifier.weight(1f)) {
@@ -110,20 +110,20 @@ internal fun HomeScreen() {
                             top = WisefySampleSizes.Large,
                             start = WisefySampleSizes.Medium,
                             bottom = WisefySampleSizes.Large,
-                            end = WisefySampleSizes.Medium
+                            end = WisefySampleSizes.Medium,
                         ),
-                    contentAlignment = Alignment.BottomCenter
+                    contentAlignment = Alignment.BottomCenter,
                 ) {
                     Text(
                         text = stringResource(
                             R.string.author_and_version_args,
                             BuildConfig.VERSION_NAME,
                             BuildConfig.VERSION_CODE,
-                            BuildConfig.GIT_HASH
+                            BuildConfig.GIT_HASH,
                         ),
                         style = MaterialTheme.typography.caption,
                         textAlign = TextAlign.Center,
-                        color = MaterialTheme.colors.onBackground
+                        color = MaterialTheme.colors.onBackground,
                     )
                 }
             }

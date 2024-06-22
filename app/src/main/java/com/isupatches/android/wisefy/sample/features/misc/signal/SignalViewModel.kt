@@ -15,66 +15,66 @@
  */
 package com.isupatches.android.wisefy.sample.features.misc.signal
 
-import android.content.Context
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.isupatches.android.wisefy.WisefyApi
 import com.isupatches.android.wisefy.core.exceptions.WisefyException
-import com.isupatches.android.wisefy.sample.scaffolding.BaseViewModel
-import com.isupatches.android.wisefy.sample.scaffolding.BaseViewModelFactory
 import com.isupatches.android.wisefy.sample.util.SdkUtil
 import com.isupatches.android.wisefy.signal.entities.CalculateSignalLevelRequest
 import com.isupatches.android.wisefy.signal.entities.CalculateSignalLevelResult
 import com.isupatches.android.wisefy.signal.entities.CompareSignalLevelRequest
 import com.isupatches.android.wisefy.signal.entities.CompareSignalLevelResult
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-internal abstract class SignalViewModel : BaseViewModel() {
-    abstract val uiState: State<SignalUIState>
+internal interface SignalViewModel {
+    val uiState: State<SignalUIState>
 
-    abstract fun calculateSignalLevel()
+    fun calculateSignalLevel()
 
-    abstract fun compareSignalLevel()
+    fun compareSignalLevel()
 
-    abstract fun onCalculateSignalLevelInputChanged(input: String)
-    abstract fun onCompareSignalLevelRSSI1InputChanged(input: String)
-    abstract fun onCompareSignalLevelRSSI2InputChanged(input: String)
+    fun onCalculateSignalLevelInputChanged(input: String)
+    fun onCompareSignalLevelRSSI1InputChanged(input: String)
+    fun onCompareSignalLevelRSSI2InputChanged(input: String)
 
-    abstract fun onDialogClosed()
+    fun onDialogClosed()
 }
 
 private const val TARGET_NUMBER_OF_SIGNAL_LEVELS = 4
 
-internal class DefaultSignalViewModel(
-    context: Context,
+@HiltViewModel
+internal class SignalViewModelImpl @Inject constructor(
     private val wisefy: WisefyApi,
     private val sdkUtil: SdkUtil,
-    private val signalStore: SignalStore = DefaultSignalStore(context = context)
-) : SignalViewModel() {
+    private val signalStore: SignalStore,
+) : ViewModel(), SignalViewModel {
 
     private val _uiState = mutableStateOf(
         SignalUIState(
-            loadingState = SignalLoadingState(isLoading = false),
+            loadingState = SignalLoadingState(),
             dialogState = SignalDialogState.None,
             inputState = SignalInputState(
                 calculateSignalLevelInputState = CalculateSignalLevelInputState(
                     rssiLevelInput = "",
-                    validityState = SignalInputValidityState.CalculateSignalLevel.Invalid.Empty
+                    validityState = SignalInputValidityState.CalculateSignalLevel.Invalid.Empty,
                 ),
                 compareSignalLevelInputState = CompareSignalLevelInputState(
                     rssi1InputState = CompareSignalLevelRSSIInputState(
                         rssiLevelInput = "",
-                        validityState = SignalInputValidityState.CompareSignalLevel.Invalid.Empty
+                        validityState = SignalInputValidityState.CompareSignalLevel.Invalid.Empty,
                     ),
                     rssi2InputState = CompareSignalLevelRSSIInputState(
                         rssiLevelInput = "",
-                        validityState = SignalInputValidityState.CompareSignalLevel.Invalid.Empty
-                    )
-                )
-            )
-        )
+                        validityState = SignalInputValidityState.CompareSignalLevel.Invalid.Empty,
+                    ),
+                ),
+            ),
+        ),
     )
     override val uiState: State<SignalUIState>
         get() = _uiState
@@ -105,7 +105,7 @@ internal class DefaultSignalViewModel(
     override fun calculateSignalLevel() {
         _uiState.value = uiState.value.copy(
             loadingState = SignalLoadingState(isLoading = true),
-            dialogState = SignalDialogState.None
+            dialogState = SignalDialogState.None,
         )
 
         if (isCalculateSignalLevelInputInvalid()) {
@@ -118,15 +118,15 @@ internal class DefaultSignalViewModel(
         } else {
             CalculateSignalLevelRequest.BelowAndroid30(
                 rssiLevel = rssiLevel,
-                numLevels = TARGET_NUMBER_OF_SIGNAL_LEVELS
+                numLevels = TARGET_NUMBER_OF_SIGNAL_LEVELS,
             )
         }
         val result = try {
             wisefy.calculateSignalLevel(request)
         } catch (ex: WisefyException) {
             _uiState.value = uiState.value.copy(
-                loadingState = SignalLoadingState(isLoading = false),
-                dialogState = SignalDialogState.Failure.WisefyAsync(exception = ex)
+                loadingState = SignalLoadingState(),
+                dialogState = SignalDialogState.Failure.WisefyAsync(exception = ex),
             )
             null
         }
@@ -134,16 +134,18 @@ internal class DefaultSignalViewModel(
         when (result) {
             is CalculateSignalLevelResult.Failure -> {
                 _uiState.value = uiState.value.copy(
-                    loadingState = SignalLoadingState(isLoading = false),
-                    dialogState = SignalDialogState.CalculateSignalLevel.Failure(result)
+                    loadingState = SignalLoadingState(),
+                    dialogState = SignalDialogState.CalculateSignalLevel.Failure(result),
                 )
             }
+
             is CalculateSignalLevelResult.Success -> {
                 _uiState.value = uiState.value.copy(
-                    loadingState = SignalLoadingState(isLoading = false),
-                    dialogState = SignalDialogState.CalculateSignalLevel.Success(result)
+                    loadingState = SignalLoadingState(),
+                    dialogState = SignalDialogState.CalculateSignalLevel.Success(result),
                 )
             }
+
             null -> {
                 // Case handled above in the catch clause
             }
@@ -153,7 +155,7 @@ internal class DefaultSignalViewModel(
     override fun compareSignalLevel() {
         _uiState.value = uiState.value.copy(
             loadingState = SignalLoadingState(isLoading = true),
-            dialogState = SignalDialogState.None
+            dialogState = SignalDialogState.None,
         )
 
         if (isCompareSignalLevelInputInvalid()) {
@@ -167,8 +169,8 @@ internal class DefaultSignalViewModel(
             wisefy.compareSignalLevel(request)
         } catch (ex: WisefyException) {
             _uiState.value = uiState.value.copy(
-                loadingState = SignalLoadingState(isLoading = false),
-                dialogState = SignalDialogState.Failure.WisefyAsync(exception = ex)
+                loadingState = SignalLoadingState(),
+                dialogState = SignalDialogState.Failure.WisefyAsync(exception = ex),
             )
             null
         }
@@ -176,10 +178,11 @@ internal class DefaultSignalViewModel(
         when (result) {
             is CompareSignalLevelResult.Success -> {
                 _uiState.value = uiState.value.copy(
-                    loadingState = SignalLoadingState(isLoading = false),
-                    dialogState = SignalDialogState.CompareSignalLevel.Success(result)
+                    loadingState = SignalLoadingState(),
+                    dialogState = SignalDialogState.CompareSignalLevel.Success(result),
                 )
             }
+
             null -> {
                 // Case handled above in the catch clause
             }
@@ -206,8 +209,8 @@ internal class DefaultSignalViewModel(
 
     override fun onDialogClosed() {
         _uiState.value = uiState.value.copy(
-            loadingState = SignalLoadingState(isLoading = false),
-            dialogState = SignalDialogState.None
+            loadingState = SignalLoadingState(),
+            dialogState = SignalDialogState.None,
         )
     }
 
@@ -215,8 +218,8 @@ internal class DefaultSignalViewModel(
         val currentCalculateSignalInputState = uiState.value.inputState.calculateSignalLevelInputState
         if (currentCalculateSignalInputState.validityState !is SignalInputValidityState.CalculateSignalLevel.Valid) {
             _uiState.value = uiState.value.copy(
-                loadingState = SignalLoadingState(isLoading = false),
-                dialogState = SignalDialogState.InputError.CalculateSignalLevel
+                loadingState = SignalLoadingState(),
+                dialogState = SignalDialogState.InputError.CalculateSignalLevel,
             )
             return true
         }
@@ -227,16 +230,16 @@ internal class DefaultSignalViewModel(
         val currentRSSI1InputState = uiState.value.inputState.compareSignalLevelInputState.rssi1InputState
         if (currentRSSI1InputState.validityState !is SignalInputValidityState.CompareSignalLevel.Valid) {
             _uiState.value = uiState.value.copy(
-                loadingState = SignalLoadingState(isLoading = false),
-                dialogState = SignalDialogState.InputError.CompareSignalLevel.RSSI1
+                loadingState = SignalLoadingState(),
+                dialogState = SignalDialogState.InputError.CompareSignalLevel.RSSI1,
             )
             return true
         }
         val currentRSSI2InputState = uiState.value.inputState.compareSignalLevelInputState.rssi1InputState
         if (currentRSSI2InputState.validityState !is SignalInputValidityState.CompareSignalLevel.Valid) {
             _uiState.value = uiState.value.copy(
-                loadingState = SignalLoadingState(isLoading = false),
-                dialogState = SignalDialogState.InputError.CompareSignalLevel.RSSI2
+                loadingState = SignalLoadingState(),
+                dialogState = SignalDialogState.InputError.CompareSignalLevel.RSSI2,
             )
             return true
         }
@@ -253,9 +256,9 @@ internal class DefaultSignalViewModel(
             inputState = uiState.value.inputState.copy(
                 calculateSignalLevelInputState = CalculateSignalLevelInputState(
                     rssiLevelInput = rssiLevel,
-                    validityState = validityState
-                )
-            )
+                    validityState = validityState,
+                ),
+            ),
         )
     }
 
@@ -270,10 +273,10 @@ internal class DefaultSignalViewModel(
                 compareSignalLevelInputState = uiState.value.inputState.compareSignalLevelInputState.copy(
                     rssi1InputState = CompareSignalLevelRSSIInputState(
                         rssiLevelInput = rssi1,
-                        validityState = validityState
-                    )
-                )
-            )
+                        validityState = validityState,
+                    ),
+                ),
+            ),
         )
     }
 
@@ -288,19 +291,10 @@ internal class DefaultSignalViewModel(
                 compareSignalLevelInputState = uiState.value.inputState.compareSignalLevelInputState.copy(
                     rssi2InputState = CompareSignalLevelRSSIInputState(
                         rssiLevelInput = rssi2,
-                        validityState = validityState
-                    )
-                )
-            )
+                        validityState = validityState,
+                    ),
+                ),
+            ),
         )
     }
 }
-
-internal class SignalViewModelFactory(
-    context: Context,
-    sdkUtil: SdkUtil,
-    private val wisefy: WisefyApi
-) : BaseViewModelFactory<SignalViewModel>(
-    supportedClass = SignalViewModel::class,
-    vmProvider = { DefaultSignalViewModel(context, wisefy, sdkUtil) }
-)

@@ -29,7 +29,7 @@ internal object WisefyFactory {
         return Wisefy.Brains(
             context = context,
             throwOnAssertions = BuildConfig.DEBUG,
-            logger = WisefySampleLogger
+            logger = WisefySampleLogger,
         ).getSmarts()
     }
 

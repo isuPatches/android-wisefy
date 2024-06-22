@@ -96,6 +96,6 @@ interface NetworkConnectionApiAsync {
     @Deprecated(DeprecationMessages.NetworkConnection.DISCONNECT_FROM_CURRENT_NETWORK)
     fun disconnectFromCurrentNetwork(
         request: DisconnectFromCurrentNetworkRequest,
-        callbacks: DisconnectFromCurrentNetworkCallbacks?
+        callbacks: DisconnectFromCurrentNetworkCallbacks?,
     )
 }

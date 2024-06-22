@@ -29,17 +29,17 @@ internal data class SearchUIState(
     val useRegexForSearch: Boolean,
     val returnFullList: Boolean,
     val filterDuplicates: Boolean,
-    val timeoutInSeconds: Int?
+    val timeoutInSeconds: Int?,
 )
 
 internal data class SearchLoadingState(val isLoading: Boolean)
 
 internal sealed class SearchDialogState {
-    object None : SearchDialogState()
+    data object None : SearchDialogState()
 
     sealed class InputError : SearchDialogState() {
-        object SSID : InputError()
-        object BSSID : InputError()
+        data object SSID : InputError()
+        data object BSSID : InputError()
     }
 
     sealed class Failure : SearchDialogState() {
@@ -48,67 +48,67 @@ internal sealed class SearchDialogState {
 
     sealed class SearchForAccessPoint : SearchDialogState() {
         data class Success(val data: AccessPointData) : SearchForAccessPoint()
-        object NoAccessPointFound : SearchForAccessPoint()
-        object PermissionError : SearchForAccessPoint()
+        data object NoAccessPointFound : SearchForAccessPoint()
+        data object PermissionError : SearchForAccessPoint()
     }
 
     sealed class SearchForAccessPoints : SearchDialogState() {
         data class Success(val data: List<AccessPointData>) : SearchForAccessPoints()
-        object NoAccessPointsFound : SearchForAccessPoints()
-        object PermissionError : SearchForAccessPoints()
+        data object NoAccessPointsFound : SearchForAccessPoints()
+        data object PermissionError : SearchForAccessPoints()
     }
 
     sealed class SearchForSSID : SearchDialogState() {
         data class Success(val data: String) : SearchForSSID()
-        object NoSSIDFound : SearchForSSID()
-        object PermissionError : SearchForSSID()
+        data object NoSSIDFound : SearchForSSID()
+        data object PermissionError : SearchForSSID()
     }
 
     sealed class SearchForSSIDs : SearchDialogState() {
         data class Success(val data: List<String>) : SearchForSSIDs()
-        object NoSSIDsFound : SearchForSSIDs()
-        object PermissionError : SearchForSSIDs()
+        data object NoSSIDsFound : SearchForSSIDs()
+        data object PermissionError : SearchForSSIDs()
     }
 
     sealed class SearchForSavedNetwork : SearchDialogState() {
         data class Success(val data: SavedNetworkData) : SearchForSavedNetwork()
-        object NoSavedNetworkFound : SearchForSavedNetwork()
-        object PermissionError : SearchForSavedNetwork()
+        data object NoSavedNetworkFound : SearchForSavedNetwork()
+        data object PermissionError : SearchForSavedNetwork()
     }
 
     sealed class SearchForSavedNetworks : SearchDialogState() {
         data class Success(val data: List<SavedNetworkData>) : SearchForSavedNetworks()
-        object NoSavedNetworksFound : SearchForSavedNetworks()
-        object PermissionError : SearchForSavedNetworks()
+        data object NoSavedNetworksFound : SearchForSavedNetworks()
+        data object PermissionError : SearchForSavedNetworks()
     }
 }
 
 internal data class SearchInputState(
     val input: String,
-    val inputValidityState: SearchInputValidityState
+    val inputValidityState: SearchInputValidityState,
 )
 
 internal sealed class SearchInputValidityState {
     sealed class SSID : SearchInputValidityState() {
-        object Valid : SearchInputValidityState()
+        data object Valid : SearchInputValidityState()
 
         sealed class Invalid : SearchInputValidityState() {
-            object Empty : Invalid()
-            object TooShort : Invalid()
-            object TooLong : Invalid()
-            object InvalidCharacters : Invalid()
-            object InvalidStartCharacters : Invalid()
-            object LeadingOrTrailingSpaces : Invalid()
-            object InvalidUnicode : Invalid()
+            data object Empty : Invalid()
+            data object TooShort : Invalid()
+            data object TooLong : Invalid()
+            data object InvalidCharacters : Invalid()
+            data object InvalidStartCharacters : Invalid()
+            data object LeadingOrTrailingSpaces : Invalid()
+            data object InvalidUnicode : Invalid()
         }
     }
 
     sealed class BSSID : SearchInputValidityState() {
-        object Valid : BSSID()
+        data object Valid : BSSID()
 
         sealed class Invalid : BSSID() {
-            object Empty : Invalid()
-            object ImproperFormat : Invalid()
+            data object Empty : Invalid()
+            data object ImproperFormat : Invalid()
         }
     }
 }

@@ -23,8 +23,10 @@ import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.isupatches.android.wisefy.sample.entities.SSIDType
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
 private const val PREF_SSID_TYPE = "ssid_type"
 private const val PREF_LAST_USED_NETWORK_INPUT = "last_used_network_input"
@@ -40,11 +42,11 @@ internal interface RemoveNetworkStore {
 }
 
 private val Context.removeNetworkDataStore: DataStore<Preferences> by preferencesDataStore(
-    name = "removeNetworkDataStore"
+    name = "removeNetworkDataStore",
 )
 
-internal class DefaultRemoveNetworkStore(
-    private val context: Context
+internal class RemoveNetworkStoreUsingDataStore @Inject constructor(
+    @ApplicationContext private val context: Context,
 ) : RemoveNetworkStore {
 
     private val ssidTypeKey = intPreferencesKey(PREF_SSID_TYPE)

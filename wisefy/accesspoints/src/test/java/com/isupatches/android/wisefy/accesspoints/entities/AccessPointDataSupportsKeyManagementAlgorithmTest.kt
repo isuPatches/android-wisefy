@@ -25,7 +25,7 @@ import org.junit.runners.Parameterized.Parameters
 
 @RunWith(Parameterized::class)
 internal class AccessPointDataSupportsKeyManagementAlgorithmTest(
-    private val params: SupportsKeyManagementAlgorithmParams
+    private val params: SupportsKeyManagementAlgorithmParams,
 ) {
 
     @Test
@@ -34,7 +34,7 @@ internal class AccessPointDataSupportsKeyManagementAlgorithmTest(
         val accessPoint = AccessPointData(
             rawValue = ScanResult().apply {
                 capabilities = params.capabilities
-            }
+            },
         )
 
         // Then
@@ -52,70 +52,70 @@ internal class AccessPointDataSupportsKeyManagementAlgorithmTest(
                 SupportsKeyManagementAlgorithmParams(
                     capabilities = "",
                     keyManagementAlgorithm = KeyManagementAlgorithm.EAP,
-                    expectedResult = false
+                    expectedResult = false,
                 ),
                 SupportsKeyManagementAlgorithmParams(
                     capabilities = "",
                     keyManagementAlgorithm = KeyManagementAlgorithm.PSK,
-                    expectedResult = false
+                    expectedResult = false,
                 ),
                 SupportsKeyManagementAlgorithmParams(
                     capabilities = "EAP",
                     keyManagementAlgorithm = KeyManagementAlgorithm.EAP,
-                    expectedResult = false
+                    expectedResult = false,
                 ),
                 SupportsKeyManagementAlgorithmParams(
                     capabilities = "EAP",
                     keyManagementAlgorithm = KeyManagementAlgorithm.PSK,
-                    expectedResult = false
+                    expectedResult = false,
                 ),
                 SupportsKeyManagementAlgorithmParams(
                     capabilities = "PSK",
                     keyManagementAlgorithm = KeyManagementAlgorithm.EAP,
-                    expectedResult = false
+                    expectedResult = false,
                 ),
                 SupportsKeyManagementAlgorithmParams(
                     capabilities = "PSK",
                     keyManagementAlgorithm = KeyManagementAlgorithm.PSK,
-                    expectedResult = false
+                    expectedResult = false,
                 ),
                 SupportsKeyManagementAlgorithmParams(
                     capabilities = "[WPA2-PSK-CCMP]",
                     keyManagementAlgorithm = KeyManagementAlgorithm.EAP,
-                    expectedResult = false
+                    expectedResult = false,
                 ),
                 SupportsKeyManagementAlgorithmParams(
                     capabilities = "[WPA2-PSK-CCMP]",
                     keyManagementAlgorithm = KeyManagementAlgorithm.PSK,
-                    expectedResult = true
+                    expectedResult = true,
                 ),
                 SupportsKeyManagementAlgorithmParams(
                     capabilities = "[WPA2-EAP-CCMP]",
                     keyManagementAlgorithm = KeyManagementAlgorithm.EAP,
-                    expectedResult = true
+                    expectedResult = true,
                 ),
                 SupportsKeyManagementAlgorithmParams(
                     capabilities = "[WPA2-EAP-CCMP]",
                     keyManagementAlgorithm = KeyManagementAlgorithm.PSK,
-                    expectedResult = false
+                    expectedResult = false,
                 ),
                 SupportsKeyManagementAlgorithmParams(
                     capabilities = "[WPA2-EAP-CCMP][WPA-PSK-CCMP]",
                     keyManagementAlgorithm = KeyManagementAlgorithm.EAP,
-                    expectedResult = true
+                    expectedResult = true,
                 ),
                 SupportsKeyManagementAlgorithmParams(
                     capabilities = "[WPA2-EAP-CCMP][WPA-PSK-CCMP]",
                     keyManagementAlgorithm = KeyManagementAlgorithm.PSK,
-                    expectedResult = true
-                )
+                    expectedResult = true,
+                ),
             )
         }
 
         data class SupportsKeyManagementAlgorithmParams(
             val capabilities: String,
             val keyManagementAlgorithm: KeyManagementAlgorithm,
-            val expectedResult: Boolean
+            val expectedResult: Boolean,
         )
     }
 }

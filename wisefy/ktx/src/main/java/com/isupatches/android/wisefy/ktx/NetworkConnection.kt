@@ -63,6 +63,6 @@ suspend fun WisefyApi.changeNetworkAsync(request: ChangeNetworkRequest): ChangeN
                 override fun onWisefyAsyncFailure(exception: WisefyException) {
                     continuation.resumeWith(Result.failure(exception))
                 }
-            }
+            },
         )
     }

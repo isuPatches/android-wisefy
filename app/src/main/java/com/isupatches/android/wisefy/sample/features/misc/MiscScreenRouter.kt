@@ -24,7 +24,7 @@ internal interface MiscScreenRouter {
 }
 
 internal class DefaultMiscScreenRouter(
-    private val navController: NavHostController
+    private val navController: NavHostController,
 ) : MiscScreenRouter {
 
     override fun openNearbyAccessPointsScreen() {

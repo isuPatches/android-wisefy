@@ -24,7 +24,7 @@ package com.isupatches.android.wisefy.networkconnection.entities
  * @since 12/2022, version 5.0.0
  */
 sealed class ConnectToNetworkRequest(
-    open val timeoutInMillis: Int
+    open val timeoutInMillis: Int,
 ) {
 
     /**
@@ -40,7 +40,7 @@ sealed class ConnectToNetworkRequest(
      */
     data class SSID(
         val ssid: String,
-        override val timeoutInMillis: Int
+        override val timeoutInMillis: Int,
     ) : ConnectToNetworkRequest(timeoutInMillis)
 
     /**
@@ -56,6 +56,6 @@ sealed class ConnectToNetworkRequest(
      */
     data class BSSID(
         val bssid: String,
-        override val timeoutInMillis: Int
+        override val timeoutInMillis: Int,
     ) : ConnectToNetworkRequest(timeoutInMillis)
 }

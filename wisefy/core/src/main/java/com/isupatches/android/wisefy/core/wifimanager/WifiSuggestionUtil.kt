@@ -32,10 +32,7 @@ import androidx.annotation.RequiresApi
  * @since 12/2022, version 5.0.0
  */
 @RequiresApi(Build.VERSION_CODES.Q)
-fun createOpenNetworkSuggestion(
-    ssid: String,
-    bssid: String?
-): WifiNetworkSuggestion {
+fun createOpenNetworkSuggestion(ssid: String, bssid: String?): WifiNetworkSuggestion {
     val builder = WifiNetworkSuggestion.Builder()
         .setSsid(ssid)
         .setIsAppInteractionRequired(true) // Optional (Needs location permission)
@@ -58,11 +55,7 @@ fun createOpenNetworkSuggestion(
  * @since 12/2022, version 5.0.0
  */
 @RequiresApi(Build.VERSION_CODES.Q)
-fun createWPA2NetworkSuggestion(
-    ssid: String,
-    passphrase: String,
-    bssid: String?
-): WifiNetworkSuggestion {
+fun createWPA2NetworkSuggestion(ssid: String, passphrase: String, bssid: String?): WifiNetworkSuggestion {
     val builder = WifiNetworkSuggestion.Builder()
         .setSsid(ssid)
         .setWpa2Passphrase(passphrase)
@@ -86,11 +79,7 @@ fun createWPA2NetworkSuggestion(
  * @since 12/2022, version 5.0.0
  */
 @RequiresApi(Build.VERSION_CODES.Q)
-fun createWPA3NetworkSuggestion(
-    ssid: String,
-    passphrase: String,
-    bssid: String?
-): WifiNetworkSuggestion {
+fun createWPA3NetworkSuggestion(ssid: String, passphrase: String, bssid: String?): WifiNetworkSuggestion {
     val builder = WifiNetworkSuggestion.Builder()
         .setSsid(ssid)
         .setWpa3Passphrase(passphrase)

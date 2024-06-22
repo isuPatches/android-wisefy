@@ -86,7 +86,7 @@ internal class WisefySampleTextFieldColors : TextFieldColors {
     override fun indicatorColor(
         enabled: Boolean,
         isError: Boolean,
-        interactionSource: InteractionSource
+        interactionSource: InteractionSource,
     ): State<Color> {
         return object : State<Color> {
             override val value: Color = if (isError) {
@@ -104,8 +104,24 @@ internal class WisefySampleTextFieldColors : TextFieldColors {
         }
     }
 
+    @Deprecated(
+        "Use/implement overload with interactionSource parameter",
+        replaceWith = ReplaceWith("leadingIconColor(enabled, isError, interactionSource)"),
+        level = DeprecationLevel.WARNING,
+    )
     @Composable
     override fun leadingIconColor(enabled: Boolean, isError: Boolean): State<Color> {
+        return object : State<Color> {
+            override val value: Color = MaterialTheme.colors.primary
+        }
+    }
+
+    @Composable
+    override fun leadingIconColor(
+        enabled: Boolean,
+        isError: Boolean,
+        interactionSource: InteractionSource,
+    ): State<Color> {
         return object : State<Color> {
             override val value: Color = MaterialTheme.colors.primary
         }
@@ -129,8 +145,24 @@ internal class WisefySampleTextFieldColors : TextFieldColors {
         }
     }
 
+    @Deprecated(
+        "Use/implement overload with interactionSource parameter",
+        replaceWith = ReplaceWith("trailingIconColor(enabled, isError, interactionSource)"),
+        level = DeprecationLevel.WARNING,
+    )
     @Composable
     override fun trailingIconColor(enabled: Boolean, isError: Boolean): State<Color> {
+        return object : State<Color> {
+            override val value: Color = MaterialTheme.colors.primary
+        }
+    }
+
+    @Composable
+    override fun trailingIconColor(
+        enabled: Boolean,
+        isError: Boolean,
+        interactionSource: InteractionSource,
+    ): State<Color> {
         return object : State<Color> {
             override val value: Color = MaterialTheme.colors.primary
         }

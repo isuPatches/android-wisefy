@@ -44,11 +44,11 @@ import kotlinx.coroutines.withContext
  * @param logger The [WisefyLogger] instance to use
  * @param sdkUtil The [SdkUtil] instance to use
  * @param wifiManager The WifiManager instance to use
- * @property coroutineDispatcherProvider The instance of the coroutine dispatcher provider to use
- * @property scope The coroutine scope to use
- * @property savedNetworkMutex A mutex shared with add/remove network to ensure synchronization between saved network
+ * @param coroutineDispatcherProvider The instance of the coroutine dispatcher provider to use
+ * @param scope The coroutine scope to use
+ * @param savedNetworkMutex A mutex shared with add/remove network to ensure synchronization between saved network
  *  reads and writes
- * @property adapter The adapter instance to use for removing a network (determined based on the Android OS level)
+ * @param adapter The adapter instance to use for removing a network (determined based on the Android OS level)
  *
  * @see CoroutineDispatcherProvider
  * @see SdkUtil
@@ -70,7 +70,7 @@ class WisefyRemoveNetworkDelegate(
         sdkUtil.isAtLeastR() -> Android30RemoveNetworkAdapter(logger, wifiManager)
         sdkUtil.isAtLeastQ() -> Android29RemoveNetworkAdapter(assertions)
         else -> DefaultRemoveNetworkAdapter(logger, wifiManager)
-    }
+    },
 ) : RemoveNetworkDelegate {
 
     init {

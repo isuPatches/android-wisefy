@@ -44,9 +44,7 @@ import com.isupatches.android.wisefy.sample.ui.primitives.WisefySampleSizes
 import com.isupatches.android.wisefy.sample.ui.theme.WisefySampleTheme
 
 @Composable
-internal fun NearbyAccessPointsScreenContent(
-    accessPoints: () -> List<AccessPointUIData>
-) {
+internal fun NearbyAccessPointsScreenContent(accessPoints: () -> List<AccessPointUIData>) {
     WisefySampleTheme {
         val accessPointsValue = accessPoints()
         if (accessPointsValue.isNotEmpty()) {
@@ -58,8 +56,8 @@ internal fun NearbyAccessPointsScreenContent(
                     top = WisefySampleSizes.WisefySampleTopMargin,
                     bottom = WisefySampleSizes.WisefySampleBottomMargin,
                     start = WisefySampleSizes.WisefySampleHorizontalMargins,
-                    end = WisefySampleSizes.WisefySampleHorizontalMargins
-                )
+                    end = WisefySampleSizes.WisefySampleHorizontalMargins,
+                ),
             ) {
                 items(accessPointsValue) { accessPoint ->
                     @OptIn(ExperimentalFoundationApi::class)
@@ -75,8 +73,8 @@ internal fun NearbyAccessPointsScreenContent(
                         top = WisefySampleSizes.WisefySampleTopMargin,
                         bottom = WisefySampleSizes.WisefySampleBottomMargin,
                         start = WisefySampleSizes.WisefySampleHorizontalMargins,
-                        end = WisefySampleSizes.WisefySampleHorizontalMargins
-                    )
+                        end = WisefySampleSizes.WisefySampleHorizontalMargins,
+                    ),
                 ) {
                     WisefySampleBodyLabel(stringResId = R.string.no_access_points_found)
                 }
@@ -94,49 +92,49 @@ private fun AccessPointRow(accessPoint: AccessPointUIData) {
                     stringResId = R.string.access_point_header_args,
                     modifier = Modifier,
                     accessPoint.accessPoint.ssid,
-                    accessPoint.accessPoint.bssid
+                    accessPoint.accessPoint.bssid,
                 )
             }
             Row {
                 WisefySampleBodyLabel(
                     stringResId = R.string.access_point_is_saved_by_ssid_args,
                     modifier = Modifier.padding(top = WisefySampleSizes.Large),
-                    accessPoint.isSavedBySSID
+                    accessPoint.isSavedBySSID,
                 )
             }
             Row {
                 WisefySampleBodyLabel(
                     stringResId = R.string.access_point_is_saved_by_bssid_args,
                     modifier = Modifier.padding(top = WisefySampleSizes.Medium),
-                    accessPoint.isSavedByBSSID
+                    accessPoint.isSavedByBSSID,
                 )
             }
             Row {
                 WisefySampleBodyLabel(
                     stringResId = R.string.access_point_authentication_algorithms_args,
                     modifier = Modifier.padding(top = WisefySampleSizes.Medium),
-                    accessPoint.authenticationAlgorithms
+                    accessPoint.authenticationAlgorithms,
                 )
             }
             Row {
                 WisefySampleBodyLabel(
                     stringResId = R.string.access_point_key_management_algorithms_args,
                     modifier = Modifier.padding(top = WisefySampleSizes.Medium),
-                    accessPoint.keyManagementAlgorithms
+                    accessPoint.keyManagementAlgorithms,
                 )
             }
             Row {
                 WisefySampleBodyLabel(
                     stringResId = R.string.access_point_pairwise_ciphers_args,
                     modifier = Modifier.padding(top = WisefySampleSizes.Medium),
-                    accessPoint.pairwiseCiphers
+                    accessPoint.pairwiseCiphers,
                 )
             }
             Row {
                 WisefySampleBodyLabel(
                     stringResId = R.string.access_point_raw_value_args,
                     modifier = Modifier.padding(top = WisefySampleSizes.Medium),
-                    accessPoint.accessPoint
+                    accessPoint.accessPoint,
                 )
             }
         }
@@ -158,7 +156,7 @@ private fun NearbyAccessPointsScreenContentLightPreview() {
                         },
                         ssid = "",
                         bssid = "",
-                        frequency = 4900
+                        frequency = 4900,
                     ),
                     isSavedBySSID = false,
                     isSavedByBSSID = false,
@@ -168,10 +166,10 @@ private fun NearbyAccessPointsScreenContentLightPreview() {
                     keyManagementAlgorithms = KeyManagementAlgorithm.ALL.associateWith {
                         false
                     },
-                    pairwiseCiphers = PairwiseCipher.ALL.associateWith { false }
-                )
+                    pairwiseCiphers = PairwiseCipher.ALL.associateWith { false },
+                ),
             )
-        }
+        },
     )
 }
 
@@ -190,7 +188,7 @@ private fun NearbyAccessPointsScreenContentDarkPreview() {
                         },
                         ssid = "",
                         bssid = "",
-                        frequency = MAX_FREQUENCY_5_GHZ
+                        frequency = MAX_FREQUENCY_5_GHZ,
                     ),
                     isSavedBySSID = false,
                     isSavedByBSSID = false,
@@ -200,9 +198,9 @@ private fun NearbyAccessPointsScreenContentDarkPreview() {
                     keyManagementAlgorithms = KeyManagementAlgorithm.ALL.associateWith {
                         false
                     },
-                    pairwiseCiphers = PairwiseCipher.ALL.associateWith { false }
-                )
+                    pairwiseCiphers = PairwiseCipher.ALL.associateWith { false },
+                ),
             )
-        }
+        },
     )
 }

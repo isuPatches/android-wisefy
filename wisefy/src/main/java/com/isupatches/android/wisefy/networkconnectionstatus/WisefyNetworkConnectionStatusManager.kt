@@ -20,7 +20,7 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
 internal class WisefyNetworkConnectionStatusManager private constructor(
-    private val networkConnectionStatusMutex: Mutex
+    private val networkConnectionStatusMutex: Mutex,
 ) {
 
     private var networkConnectionStatus: NetworkConnectionStatus? = null

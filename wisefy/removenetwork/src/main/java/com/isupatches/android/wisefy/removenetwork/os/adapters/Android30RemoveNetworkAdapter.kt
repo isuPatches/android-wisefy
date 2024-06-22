@@ -32,8 +32,8 @@ import com.isupatches.android.wisefy.removenetwork.os.impls.Android30RemoveNetwo
  * An Android 30 or higher adapter for removing a network.
  *
  * @param logger The [WisefyLogger] instance to use
- * @property wifiManager The WifiManager instance to use
- * @property api The OS level API instance to use
+ * @param wifiManager The WifiManager instance to use
+ * @param api The OS level API instance to use
  *
  * @see Android30RemoveNetworkApi
  * @see Android30RemoveNetworkApiImpl
@@ -47,7 +47,7 @@ import com.isupatches.android.wisefy.removenetwork.os.impls.Android30RemoveNetwo
 internal class Android30RemoveNetworkAdapter(
     logger: WisefyLogger,
     private val wifiManager: WifiManager,
-    private val api: Android30RemoveNetworkApi = Android30RemoveNetworkApiImpl(wifiManager, logger)
+    private val api: Android30RemoveNetworkApi = Android30RemoveNetworkApiImpl(wifiManager, logger),
 ) : RemoveNetworkApi {
 
     @RequiresPermission(CHANGE_WIFI_STATE)

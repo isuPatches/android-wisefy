@@ -64,6 +64,6 @@ suspend fun WisefyApi.removeNetworkAsync(request: RemoveNetworkRequest): RemoveN
                 override fun onWisefyAsyncFailure(exception: WisefyException) {
                     continuation.resumeWith(Result.failure(exception))
                 }
-            }
+            },
         )
     }

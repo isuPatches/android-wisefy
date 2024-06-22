@@ -63,7 +63,7 @@ internal class RemoveNetworkResultTest {
     fun assignsValues_failure_assertion() {
         // Given
         val result = RemoveNetworkResult.Failure.Assertion(
-            AssertionMessages.AndroidQ.SAVED_NETWORK_FUNCTIONALITY_UNAVAILABLE_ANDROID_Q
+            AssertionMessages.AndroidQ.SAVED_NETWORK_FUNCTIONALITY_UNAVAILABLE_ANDROID_Q,
         )
 
         // Expect

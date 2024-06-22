@@ -49,7 +49,7 @@ interface SavedNetworkApiAsync {
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
     fun getSavedNetworks(
         query: GetSavedNetworksQuery = GetSavedNetworksQuery.All,
-        callbacks: GetSavedNetworksCallbacks?
+        callbacks: GetSavedNetworksCallbacks?,
     )
 
     /**

@@ -22,7 +22,6 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.isupatches.android.wisefy.WisefyApi
 import com.isupatches.android.wisefy.sample.features.add.AddNetworkScreen
 import com.isupatches.android.wisefy.sample.features.misc.MiscScreen
 import com.isupatches.android.wisefy.sample.features.misc.nearbyaccesspoints.NearbyAccessPointsScreen
@@ -33,37 +32,32 @@ import com.isupatches.android.wisefy.sample.main.HomeScreen
 import com.isupatches.android.wisefy.sample.util.SdkUtil
 
 @Composable
-internal fun WisefySampleNavHost(
-    navController: NavHostController,
-    wisefy: WisefyApi,
-    sdkUtil: SdkUtil,
-    padding: PaddingValues
-) {
+internal fun WisefySampleNavHost(navController: NavHostController, sdkUtil: SdkUtil, padding: PaddingValues) {
     NavHost(
         navController = navController,
         startDestination = WisefySampleNavGraph.Main.Home.route,
-        modifier = Modifier.padding(paddingValues = padding)
+        modifier = Modifier.padding(paddingValues = padding),
     ) {
         composable(WisefySampleNavGraph.Main.Add.route) {
-            AddNetworkScreen(wisefy = wisefy, sdkUtil = sdkUtil)
+            AddNetworkScreen(sdkUtil = sdkUtil)
         }
         composable(WisefySampleNavGraph.Main.Remove.route) {
-            RemoveNetworkScreen(wisefy = wisefy)
+            RemoveNetworkScreen()
         }
         composable(WisefySampleNavGraph.Main.Home.route) {
             HomeScreen()
         }
         composable(WisefySampleNavGraph.Main.Misc.route) {
-            MiscScreen(wisefy = wisefy, sdkUtil = sdkUtil, navController = navController)
+            MiscScreen(sdkUtil = sdkUtil, navController = navController)
         }
         composable(WisefySampleNavGraph.Main.Search.route) {
-            SearchScreen(wisefy = wisefy)
+            SearchScreen()
         }
         composable(WisefySampleNavGraph.Misc.Signal.route) {
-            SignalScreen(wisefy = wisefy, sdkUtil = sdkUtil)
+            SignalScreen()
         }
         composable(WisefySampleNavGraph.Misc.NearbyAccessPoints.route) {
-            NearbyAccessPointsScreen(wisefy = wisefy)
+            NearbyAccessPointsScreen()
         }
     }
 }

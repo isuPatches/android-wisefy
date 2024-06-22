@@ -21,8 +21,10 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
 private const val PREF_CALCULATE_SIGNAL_LEVEL_RSSI = "calculate_signal_level_rssi"
 private const val PREF_COMPARE_SIGNAL_LEVEL_RSSI_1 = "compare_signal_level_rssi_1"
@@ -43,11 +45,11 @@ internal interface SignalStore {
 }
 
 private val Context.signalDataStore: DataStore<Preferences> by preferencesDataStore(
-    name = "signalDataStore"
+    name = "signalDataStore",
 )
 
-internal class DefaultSignalStore(
-    private val context: Context
+internal class SignalStoreUsingDataStore @Inject constructor(
+    @ApplicationContext private val context: Context,
 ) : SignalStore {
 
     private val calculateSignalLevelRSSIKey = stringPreferencesKey(PREF_CALCULATE_SIGNAL_LEVEL_RSSI)

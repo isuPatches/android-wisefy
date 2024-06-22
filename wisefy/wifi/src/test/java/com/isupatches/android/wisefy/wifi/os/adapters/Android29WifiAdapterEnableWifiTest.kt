@@ -38,7 +38,7 @@ import org.mockito.MockitoAnnotations
 
 @RunWith(Parameterized::class)
 internal class Android29WifiAdapterEnableWifiTest(
-    private val params: EnableWifiParams
+    private val params: EnableWifiParams,
 ) {
 
     @Mock
@@ -58,7 +58,7 @@ internal class Android29WifiAdapterEnableWifiTest(
             wifiManager = mockWifiManager,
             logger = DefaultWisefyLogger(),
             assertions = WisefyAssertions(throwOnAssertions = false),
-            api = mockApi
+            api = mockApi,
         )
     }
 
@@ -87,21 +87,21 @@ internal class Android29WifiAdapterEnableWifiTest(
                 EnableWifiParams(
                     request = EnableWifiRequest.Android29OrAbove(mock(Context::class.java)),
                     expectedResult = EnableWifiResult.Success.WifiSettingScreenOpened,
-                    expectedNumberOfApiCalls = 1
+                    expectedNumberOfApiCalls = 1,
                 ),
                 EnableWifiParams(
                     request = EnableWifiRequest.Default,
                     expectedResult = EnableWifiResult.Failure.Assertion(
-                        AssertionMessages.Wifi.DEFAULT_REQUEST_USED_ANDROID_29_OR_HIGHER
-                    )
-                )
+                        AssertionMessages.Wifi.DEFAULT_REQUEST_USED_ANDROID_29_OR_HIGHER,
+                    ),
+                ),
             )
         }
 
         data class EnableWifiParams(
             val request: EnableWifiRequest,
             val expectedResult: EnableWifiResult,
-            val expectedNumberOfApiCalls: Int = 0
+            val expectedNumberOfApiCalls: Int = 0,
         )
     }
 }

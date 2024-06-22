@@ -52,26 +52,25 @@ import kotlin.coroutines.suspendCoroutine
 @Throws(WisefyException::class)
 @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
 suspend fun WisefyApi.getSavedNetworksAsync(
-    query: GetSavedNetworksQuery = GetSavedNetworksQuery.All
-): GetSavedNetworksResult =
-    suspendCoroutine { continuation ->
-        getSavedNetworks(
-            query = query,
-            callbacks = object : GetSavedNetworksCallbacks {
-                override fun onNoSavedNetworksFound() {
-                    continuation.resumeWith(Result.success(GetSavedNetworksResult.Empty))
-                }
-
-                override fun onSavedNetworksRetrieved(savedNetworks: List<SavedNetworkData>) {
-                    continuation.resumeWith(Result.success(GetSavedNetworksResult.SavedNetworks(savedNetworks)))
-                }
-
-                override fun onWisefyAsyncFailure(exception: WisefyException) {
-                    continuation.resumeWith(Result.failure(exception))
-                }
+    query: GetSavedNetworksQuery = GetSavedNetworksQuery.All,
+): GetSavedNetworksResult = suspendCoroutine { continuation ->
+    getSavedNetworks(
+        query = query,
+        callbacks = object : GetSavedNetworksCallbacks {
+            override fun onNoSavedNetworksFound() {
+                continuation.resumeWith(Result.success(GetSavedNetworksResult.Empty))
             }
-        )
-    }
+
+            override fun onSavedNetworksRetrieved(savedNetworks: List<SavedNetworkData>) {
+                continuation.resumeWith(Result.success(GetSavedNetworksResult.SavedNetworks(savedNetworks)))
+            }
+
+            override fun onWisefyAsyncFailure(exception: WisefyException) {
+                continuation.resumeWith(Result.failure(exception))
+            }
+        },
+    )
+}
 
 /**
  * A coroutine extension for checking if a network is saved on a device.
@@ -111,6 +110,6 @@ suspend fun WisefyApi.isNetworkSavedAsync(query: IsNetworkSavedQuery): IsNetwork
                 override fun onWisefyAsyncFailure(exception: WisefyException) {
                     continuation.resumeWith(Result.failure(exception))
                 }
-            }
+            },
         )
     }

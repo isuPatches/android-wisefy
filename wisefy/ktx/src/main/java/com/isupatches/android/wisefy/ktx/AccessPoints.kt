@@ -45,23 +45,22 @@ import kotlin.coroutines.suspendCoroutine
 @Throws(WisefyException::class)
 @RequiresPermission(ACCESS_FINE_LOCATION)
 suspend fun WisefyApi.getAccessPointsAsync(
-    query: GetAccessPointsQuery = GetAccessPointsQuery.All()
-): GetAccessPointsResult =
-    suspendCoroutine { continuation ->
-        getAccessPoints(
-            query = query,
-            callbacks = object : GetAccessPointsCallbacks {
-                override fun onNoNearbyAccessPoints() {
-                    continuation.resumeWith(Result.success(GetAccessPointsResult.Empty))
-                }
-
-                override fun onNearbyAccessPointsRetrieved(accessPoints: List<AccessPointData>) {
-                    continuation.resumeWith(Result.success(GetAccessPointsResult.AccessPoints(accessPoints)))
-                }
-
-                override fun onWisefyAsyncFailure(exception: WisefyException) {
-                    continuation.resumeWith(Result.failure(exception))
-                }
+    query: GetAccessPointsQuery = GetAccessPointsQuery.All(),
+): GetAccessPointsResult = suspendCoroutine { continuation ->
+    getAccessPoints(
+        query = query,
+        callbacks = object : GetAccessPointsCallbacks {
+            override fun onNoNearbyAccessPoints() {
+                continuation.resumeWith(Result.success(GetAccessPointsResult.Empty))
             }
-        )
-    }
+
+            override fun onNearbyAccessPointsRetrieved(accessPoints: List<AccessPointData>) {
+                continuation.resumeWith(Result.success(GetAccessPointsResult.AccessPoints(accessPoints)))
+            }
+
+            override fun onWisefyAsyncFailure(exception: WisefyException) {
+                continuation.resumeWith(Result.failure(exception))
+            }
+        },
+    )
+}

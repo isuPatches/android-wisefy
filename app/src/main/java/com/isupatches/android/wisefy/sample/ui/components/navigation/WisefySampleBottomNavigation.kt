@@ -41,11 +41,11 @@ internal fun WisefySampleBottomNavigation(navController: NavController) {
         WisefySampleBottomNavigationItem.Remove,
         WisefySampleBottomNavigationItem.Home,
         WisefySampleBottomNavigationItem.Misc,
-        WisefySampleBottomNavigationItem.Search
+        WisefySampleBottomNavigationItem.Search,
     )
     BottomNavigation(
         backgroundColor = MaterialTheme.colors.primary,
-        contentColor = MaterialTheme.colors.onPrimary
+        contentColor = MaterialTheme.colors.onPrimary,
     ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
@@ -54,13 +54,13 @@ internal fun WisefySampleBottomNavigation(navController: NavController) {
                 icon = {
                     Icon(
                         painter = painterResource(id = item.icon),
-                        contentDescription = stringResource(item.stringResId)
+                        contentDescription = stringResource(item.stringResId),
                     )
                 },
                 label = {
                     Text(
                         text = "",
-                        style = WisefySampleTypography.caption
+                        style = WisefySampleTypography.caption,
                     )
                 },
                 selectedContentColor = MaterialTheme.colors.onPrimary,
@@ -81,7 +81,7 @@ internal fun WisefySampleBottomNavigation(navController: NavController) {
                         // Restore state when re-selecting a previously selected item
                         restoreState = true
                     }
-                }
+                },
             )
         }
     }

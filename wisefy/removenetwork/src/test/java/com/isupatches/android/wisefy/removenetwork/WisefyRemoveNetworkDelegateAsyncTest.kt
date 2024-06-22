@@ -49,7 +49,7 @@ import org.mockito.MockitoAnnotations
 @OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(Parameterized::class)
 internal class WisefyRemoveNetworkDelegateAsyncTest(
-    private val params: RemoveNetworkParams
+    private val params: RemoveNetworkParams,
 ) {
 
     @Mock
@@ -77,7 +77,7 @@ internal class WisefyRemoveNetworkDelegateAsyncTest(
             coroutineDispatcherProvider = TestCoroutineDispatchProvider(),
             scope = testScope,
             savedNetworkMutex = Mutex(),
-            adapter = mockAdapter
+            adapter = mockAdapter,
         )
     }
 
@@ -101,7 +101,7 @@ internal class WisefyRemoveNetworkDelegateAsyncTest(
         when {
             params.mockCallbacks != null && params.expectedFailureCallbacks > 0 -> {
                 verify(params.mockCallbacks, times(params.expectedFailureCallbacks)).onFailureRemovingNetwork(
-                    params.result as RemoveNetworkResult.Failure
+                    params.result as RemoveNetworkResult.Failure,
                 )
             }
             params.mockCallbacks != null -> {
@@ -111,7 +111,7 @@ internal class WisefyRemoveNetworkDelegateAsyncTest(
         when {
             params.mockCallbacks != null && params.expectedSuccessCallbacks > 0 -> {
                 verify(params.mockCallbacks, times(params.expectedSuccessCallbacks)).onSuccessRemovingNetwork(
-                    params.result as RemoveNetworkResult.Success
+                    params.result as RemoveNetworkResult.Success,
                 )
             }
             params.mockCallbacks != null -> {
@@ -135,112 +135,112 @@ internal class WisefyRemoveNetworkDelegateAsyncTest(
                     request = RemoveNetworkRequest.SSID(ssid = TEST_SSID),
                     result = RemoveNetworkResult.Success.ResultCode(REMOVE_NETWORK_SUCCESS_RESULT_CODE),
                     mockCallbacks = mock(RemoveNetworkCallbacks::class.java),
-                    expectedSuccessCallbacks = 1
+                    expectedSuccessCallbacks = 1,
                 ),
                 RemoveNetworkParams(
                     request = RemoveNetworkRequest.BSSID(bssid = TEST_BSSID),
                     result = RemoveNetworkResult.Success.ResultCode(REMOVE_NETWORK_SUCCESS_RESULT_CODE),
                     mockCallbacks = mock(RemoveNetworkCallbacks::class.java),
-                    expectedSuccessCallbacks = 1
+                    expectedSuccessCallbacks = 1,
                 ),
                 RemoveNetworkParams(
                     request = RemoveNetworkRequest.SSID(ssid = TEST_SSID),
                     result = RemoveNetworkResult.Success.True,
                     mockCallbacks = mock(RemoveNetworkCallbacks::class.java),
-                    expectedSuccessCallbacks = 1
+                    expectedSuccessCallbacks = 1,
                 ),
                 RemoveNetworkParams(
                     request = RemoveNetworkRequest.BSSID(bssid = TEST_BSSID),
                     result = RemoveNetworkResult.Success.True,
                     mockCallbacks = mock(RemoveNetworkCallbacks::class.java),
-                    expectedSuccessCallbacks = 1
+                    expectedSuccessCallbacks = 1,
                 ),
                 RemoveNetworkParams(
                     request = RemoveNetworkRequest.SSID(ssid = TEST_SSID),
                     result = RemoveNetworkResult.Failure.ResultCode(REMOVE_NETWORK_FAILURE_RESULT_CODE),
                     mockCallbacks = mock(RemoveNetworkCallbacks::class.java),
-                    expectedFailureCallbacks = 1
+                    expectedFailureCallbacks = 1,
                 ),
                 RemoveNetworkParams(
                     request = RemoveNetworkRequest.BSSID(bssid = TEST_BSSID),
                     result = RemoveNetworkResult.Failure.ResultCode(REMOVE_NETWORK_FAILURE_RESULT_CODE),
                     mockCallbacks = mock(RemoveNetworkCallbacks::class.java),
-                    expectedFailureCallbacks = 1
+                    expectedFailureCallbacks = 1,
                 ),
                 RemoveNetworkParams(
                     request = RemoveNetworkRequest.SSID(ssid = TEST_SSID),
                     result = RemoveNetworkResult.Failure.False,
                     mockCallbacks = mock(RemoveNetworkCallbacks::class.java),
-                    expectedFailureCallbacks = 1
+                    expectedFailureCallbacks = 1,
                 ),
                 RemoveNetworkParams(
                     request = RemoveNetworkRequest.BSSID(bssid = TEST_BSSID),
                     result = RemoveNetworkResult.Failure.False,
                     mockCallbacks = mock(RemoveNetworkCallbacks::class.java),
-                    expectedFailureCallbacks = 1
+                    expectedFailureCallbacks = 1,
                 ),
                 RemoveNetworkParams(
                     request = RemoveNetworkRequest.SSID(ssid = TEST_SSID),
                     result = RemoveNetworkResult.Failure.Assertion(""),
                     mockCallbacks = mock(RemoveNetworkCallbacks::class.java),
-                    expectedFailureCallbacks = 1
+                    expectedFailureCallbacks = 1,
                 ),
                 RemoveNetworkParams(
                     request = RemoveNetworkRequest.BSSID(bssid = TEST_BSSID),
                     result = RemoveNetworkResult.Failure.Assertion(""),
                     mockCallbacks = mock(RemoveNetworkCallbacks::class.java),
-                    expectedFailureCallbacks = 1
+                    expectedFailureCallbacks = 1,
                 ),
                 RemoveNetworkParams(
                     request = RemoveNetworkRequest.SSID(ssid = TEST_SSID),
                     result = RemoveNetworkResult.Success.ResultCode(REMOVE_NETWORK_SUCCESS_RESULT_CODE),
-                    mockCallbacks = null
+                    mockCallbacks = null,
                 ),
                 RemoveNetworkParams(
                     request = RemoveNetworkRequest.BSSID(bssid = TEST_BSSID),
                     result = RemoveNetworkResult.Success.ResultCode(REMOVE_NETWORK_SUCCESS_RESULT_CODE),
-                    mockCallbacks = null
+                    mockCallbacks = null,
                 ),
                 RemoveNetworkParams(
                     request = RemoveNetworkRequest.SSID(ssid = TEST_SSID),
                     result = RemoveNetworkResult.Success.True,
-                    mockCallbacks = null
+                    mockCallbacks = null,
                 ),
                 RemoveNetworkParams(
                     request = RemoveNetworkRequest.BSSID(bssid = TEST_BSSID),
                     result = RemoveNetworkResult.Success.True,
-                    mockCallbacks = null
+                    mockCallbacks = null,
                 ),
                 RemoveNetworkParams(
                     request = RemoveNetworkRequest.SSID(ssid = TEST_SSID),
                     result = RemoveNetworkResult.Failure.ResultCode(REMOVE_NETWORK_FAILURE_RESULT_CODE),
-                    mockCallbacks = null
+                    mockCallbacks = null,
                 ),
                 RemoveNetworkParams(
                     request = RemoveNetworkRequest.BSSID(bssid = TEST_BSSID),
                     result = RemoveNetworkResult.Failure.ResultCode(REMOVE_NETWORK_FAILURE_RESULT_CODE),
-                    mockCallbacks = null
+                    mockCallbacks = null,
                 ),
                 RemoveNetworkParams(
                     request = RemoveNetworkRequest.SSID(ssid = TEST_SSID),
                     result = RemoveNetworkResult.Failure.False,
-                    mockCallbacks = null
+                    mockCallbacks = null,
                 ),
                 RemoveNetworkParams(
                     request = RemoveNetworkRequest.BSSID(bssid = TEST_BSSID),
                     result = RemoveNetworkResult.Failure.False,
-                    mockCallbacks = null
+                    mockCallbacks = null,
                 ),
                 RemoveNetworkParams(
                     request = RemoveNetworkRequest.SSID(ssid = TEST_SSID),
                     result = RemoveNetworkResult.Failure.Assertion(""),
-                    mockCallbacks = null
+                    mockCallbacks = null,
                 ),
                 RemoveNetworkParams(
                     request = RemoveNetworkRequest.BSSID(bssid = TEST_BSSID),
                     result = RemoveNetworkResult.Failure.Assertion(""),
-                    mockCallbacks = null
-                )
+                    mockCallbacks = null,
+                ),
             )
         }
 
@@ -249,7 +249,7 @@ internal class WisefyRemoveNetworkDelegateAsyncTest(
             val result: RemoveNetworkResult,
             val mockCallbacks: RemoveNetworkCallbacks?,
             val expectedFailureCallbacks: Int = 0,
-            val expectedSuccessCallbacks: Int = 0
+            val expectedSuccessCallbacks: Int = 0,
         )
     }
 }

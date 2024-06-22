@@ -33,8 +33,8 @@ import com.isupatches.android.wisefy.core.logging.WisefyLogger
  *
  * @param wifiManager The WifiManager instance to use
  * @param logger The [WisefyLogger] instance to use
- * @property assertions The [WisefyAssertions] instance to use
- * @property api The OS level API instance to use
+ * @param assertions The [WisefyAssertions] instance to use
+ * @param api The OS level API instance to use
  *
  * @see AddNetworkApi
  * @see DefaultAddNetworkApi
@@ -49,7 +49,7 @@ internal class DefaultAddNetworkAdapter(
     wifiManager: WifiManager,
     logger: WisefyLogger,
     private val assertions: WisefyAssertions,
-    private val api: DefaultAddNetworkApi = DefaultAddNetworkApiImpl(wifiManager, logger)
+    private val api: DefaultAddNetworkApi = DefaultAddNetworkApiImpl(wifiManager, logger),
 ) : AddNetworkApi {
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])

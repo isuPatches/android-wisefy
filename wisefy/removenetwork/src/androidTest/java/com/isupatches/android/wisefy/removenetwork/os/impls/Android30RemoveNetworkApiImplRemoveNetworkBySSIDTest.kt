@@ -36,7 +36,7 @@ import org.mockito.MockitoAnnotations
 
 @RunWith(Parameterized::class)
 internal class Android30RemoveNetworkApiImplRemoveNetworkBySSIDTest(
-    private val params: RemoveNetworkParams
+    private val params: RemoveNetworkParams,
 ) {
 
     @Mock
@@ -61,7 +61,7 @@ internal class Android30RemoveNetworkApiImplRemoveNetworkBySSIDTest(
     fun test() {
         assumeTrue(
             "Can only run on API Level ${Build.VERSION_CODES.R} or newer",
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.R,
         )
 
         // Given
@@ -88,10 +88,10 @@ internal class Android30RemoveNetworkApiImplRemoveNetworkBySSIDTest(
                         WifiNetworkSuggestion.Builder()
                             .setSsid(TEST_SSID1)
                             .setIsAppInteractionRequired(true)
-                            .build()
+                            .build(),
                     ),
                     expectedResult = REMOVE_NETWORK_SUCCESS_RESULT_CODE,
-                    expectedRemoveRequest = 1
+                    expectedRemoveRequest = 1,
                 ),
                 RemoveNetworkParams(
                     ssid = TEST_SSID1,
@@ -99,16 +99,16 @@ internal class Android30RemoveNetworkApiImplRemoveNetworkBySSIDTest(
                         WifiNetworkSuggestion.Builder()
                             .setSsid(TEST_SSID1)
                             .setIsAppInteractionRequired(true)
-                            .build()
+                            .build(),
                     ),
                     expectedResult = REMOVE_NETWORK_FAILURE_RESULT_CODE,
-                    expectedRemoveRequest = 1
+                    expectedRemoveRequest = 1,
                 ),
                 RemoveNetworkParams(
                     ssid = TEST_SSID1,
                     networks = emptyList(),
                     expectedResult = REMOVE_NETWORK_FAILURE_RESULT_CODE,
-                    expectedRemoveRequest = 0
+                    expectedRemoveRequest = 0,
                 ),
                 RemoveNetworkParams(
                     ssid = TEST_SSID1,
@@ -116,10 +116,10 @@ internal class Android30RemoveNetworkApiImplRemoveNetworkBySSIDTest(
                         WifiNetworkSuggestion.Builder()
                             .setSsid(TEST_SSID2)
                             .setIsAppInteractionRequired(true)
-                            .build()
+                            .build(),
                     ),
                     expectedResult = REMOVE_NETWORK_FAILURE_RESULT_CODE,
-                    expectedRemoveRequest = 0
+                    expectedRemoveRequest = 0,
                 ),
                 RemoveNetworkParams(
                     ssid = TEST_SSID2,
@@ -127,10 +127,10 @@ internal class Android30RemoveNetworkApiImplRemoveNetworkBySSIDTest(
                         WifiNetworkSuggestion.Builder()
                             .setSsid(TEST_SSID1)
                             .setIsAppInteractionRequired(true)
-                            .build()
+                            .build(),
                     ),
                     expectedResult = REMOVE_NETWORK_FAILURE_RESULT_CODE,
-                    expectedRemoveRequest = 0
+                    expectedRemoveRequest = 0,
                 ),
                 RemoveNetworkParams(
                     ssid = TEST_SSID2,
@@ -142,10 +142,10 @@ internal class Android30RemoveNetworkApiImplRemoveNetworkBySSIDTest(
                         WifiNetworkSuggestion.Builder()
                             .setSsid(TEST_SSID3)
                             .setIsAppInteractionRequired(true)
-                            .build()
+                            .build(),
                     ),
                     expectedResult = REMOVE_NETWORK_FAILURE_RESULT_CODE,
-                    expectedRemoveRequest = 0
+                    expectedRemoveRequest = 0,
                 ),
                 RemoveNetworkParams(
                     ssid = TEST_SSID1,
@@ -157,10 +157,10 @@ internal class Android30RemoveNetworkApiImplRemoveNetworkBySSIDTest(
                         WifiNetworkSuggestion.Builder()
                             .setSsid(TEST_SSID3)
                             .setIsAppInteractionRequired(true)
-                            .build()
+                            .build(),
                     ),
                     expectedResult = REMOVE_NETWORK_FAILURE_RESULT_CODE,
-                    expectedRemoveRequest = 0
+                    expectedRemoveRequest = 0,
                 ),
                 RemoveNetworkParams(
                     ssid = TEST_SSID1,
@@ -172,11 +172,11 @@ internal class Android30RemoveNetworkApiImplRemoveNetworkBySSIDTest(
                         WifiNetworkSuggestion.Builder()
                             .setSsid(TEST_SSID2)
                             .setIsAppInteractionRequired(true)
-                            .build()
+                            .build(),
                     ),
                     expectedResult = REMOVE_NETWORK_SUCCESS_RESULT_CODE,
-                    expectedRemoveRequest = 1
-                )
+                    expectedRemoveRequest = 1,
+                ),
             )
         }
 
@@ -184,7 +184,7 @@ internal class Android30RemoveNetworkApiImplRemoveNetworkBySSIDTest(
             val ssid: String,
             val networks: List<WifiNetworkSuggestion>,
             val expectedResult: Int,
-            val expectedRemoveRequest: Int
+            val expectedRemoveRequest: Int,
         )
 
         private const val REMOVE_NETWORK_FAILURE_RESULT_CODE: Int = -1

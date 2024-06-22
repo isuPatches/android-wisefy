@@ -1,25 +1,25 @@
 import java.io.ByteArrayOutputStream
 import java.io.OutputStream
-import java.util.Locale
 
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.google.dagger.hilt.android)
+    alias(libs.plugins.google.ksp)
     alias(libs.plugins.jetbrains.kotlin.android)
-    id("kotlin-kapt")
+    alias(libs.plugins.jetbrains.kotlin.plugin.compose)
 }
 
 android {
     namespace = "com.isupatches.android.wisefy.sample"
 
-    compileSdk = libs.versions.sdk.compile.get().toInt()
+    compileSdk = libs.versions.sdk.compile.version.get().toInt()
     buildToolsVersion = libs.versions.build.tools.version.get()
 
     defaultConfig {
         applicationId = "com.isupatches.android.wisefy.sample"
 
-        minSdk = libs.versions.sdk.min.get().toInt()
-        targetSdk = libs.versions.sdk.target.get().toInt()
+        minSdk = libs.versions.sdk.min.version.get().toInt()
+        targetSdk = libs.versions.sdk.target.version.get().toInt()
 
         versionCode = 18
         versionName = "5.0.0-RC3"
@@ -89,6 +89,12 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
+    kotlin {
+        compilerOptions {
+            allWarningsAsErrors = true
+        }
+    }
+
     kotlinOptions {
         jvmTarget = "17"
     }
@@ -114,7 +120,7 @@ android {
 /*
  * https://stackoverflow.com/questions/28498688/gradle-script-to-autoversion-and-include-the-commit-hash-in-android
  */
-fun Project.gitCommitHash(): String {
+private fun Project.gitCommitHash(): String {
     val stdout: OutputStream = ByteArrayOutputStream()
     exec {
         commandLine("git", "rev-parse", "--short", "HEAD")
@@ -127,45 +133,49 @@ dependencies {
     /*
      * This should be uncommented to run sample app directly against a published release
      */
-    implementation(platform("com.isupatches.android.wisefy:wisefy-bom:5.0.0-RC3"))
+    implementation(platform(libs.isupatches.wisefy.bom))
 
     /*
      * This should be uncommented to run sample app directly against the source BOM
      */
 //    implementation(platform(project(":wisefy:bom")))
 
-    implementation("com.isupatches.android.wisefy:accesspoints")
-    implementation("com.isupatches.android.wisefy:addnetwork")
-    implementation("com.isupatches.android.wisefy:wisefy")
-    implementation("com.isupatches.android.wisefy:core")
-    implementation("com.isupatches.android.wisefy:ktx")
-    implementation("com.isupatches.android.wisefy:networkconnection")
-    implementation("com.isupatches.android.wisefy:networkinfo")
-    implementation("com.isupatches.android.wisefy:removenetwork")
-    implementation("com.isupatches.android.wisefy:savednetworks")
-    implementation("com.isupatches.android.wisefy:signal")
-    implementation("com.isupatches.android.wisefy:wifi")
+    implementation(libs.isupatches.wisefy.accesspoints)
+    implementation(libs.isupatches.wisefy.addnetwork)
+    implementation(libs.isupatches.wisefy.core)
+    implementation(libs.isupatches.wisefy.ktx)
+    implementation(libs.isupatches.wisefy.networkconnection)
+    implementation(libs.isupatches.wisefy.networkinfo)
+    implementation(libs.isupatches.wisefy.removenetwork)
+    implementation(libs.isupatches.wisefy.savednetworks)
+    implementation(libs.isupatches.wisefy.signal)
+    implementation(libs.isupatches.wisefy.wifi)
+    implementation(libs.isupatches.wisefy.wisefy)
 
     // AndroidX
     implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.annotation)
+    implementation(libs.androidx.corektx)
+    implementation(libs.androidx.datastore.preferences)
+
+    implementation(libs.androidx.hilt.navigationcompose)
     implementation(libs.androidx.lifecycle.viewmodelcompose)
+
     implementation(libs.androidx.compose.animation)
     implementation(libs.bundles.androidx.compose.material)
     implementation(libs.bundles.androidx.compose.ui)
     debugImplementation(libs.androidx.compose.ui.tooling)
 
-    implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.annotation)
-    implementation(libs.androidx.corektx)
-    implementation(libs.androidx.datastore.preferences)
-    implementation(libs.bundles.androidx.navigation)
-
     // Koltin
     implementation(libs.jetbrains.kotlin.stdlib)
 
+    // Google
+    implementation(libs.google.android.material)
+
     // Dependency Injection
     implementation(libs.bundles.google.dagger)
-    kapt(libs.bundles.google.dagger.compiler)
+    ksp(libs.bundles.google.dagger.compiler)
 }
 
 private val bomLibDef = project.configurations.getByName("implementation").allDependencies.find {

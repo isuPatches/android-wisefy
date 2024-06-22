@@ -44,7 +44,7 @@ internal class AddNetworkResultTest {
     fun assignsValues_failure_assertion() {
         // Given
         val result = AddNetworkResult.Failure.Assertion(
-            AssertionMessages.AddNetwork.WPA3Network.USED_PRE_ANDROID_29
+            AssertionMessages.AddNetwork.WPA3Network.USED_PRE_ANDROID_29,
         )
 
         // Expect

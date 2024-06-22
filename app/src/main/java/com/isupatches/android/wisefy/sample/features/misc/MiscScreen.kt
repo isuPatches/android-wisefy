@@ -15,52 +15,23 @@
  */
 package com.isupatches.android.wisefy.sample.features.misc
 
-import android.content.res.Configuration
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
-import com.isupatches.android.wisefy.WisefyApi
-import com.isupatches.android.wisefy.sample.ui.ComposablePreviewWisefy
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleLoadingIndicator
-import com.isupatches.android.wisefy.sample.util.DefaultSdkUtil
 import com.isupatches.android.wisefy.sample.util.SdkUtil
 
 @Composable
 internal fun MiscScreen(
-    wisefy: WisefyApi,
     sdkUtil: SdkUtil,
     navController: NavHostController,
-    viewModel: MiscViewModel = viewModel(factory = MiscViewModelFactory(wisefy))
+    viewModel: MiscViewModel = hiltViewModel<MiscViewModelImpl>(),
 ) {
     WisefySampleLoadingIndicator(isLoading = { viewModel.uiState.value.loadingState.isLoading })
     MiscScreenDialogContent(dialogState = { viewModel.uiState.value.dialogState }, viewModel = viewModel)
     MiscScreenContent(
         viewModel = viewModel,
         sdkUtil = sdkUtil,
-        router = DefaultMiscScreenRouter(navController = navController)
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-@Suppress("UnusedPrivateMember")
-private fun MiscScreenLightPreview() {
-    MiscScreen(
-        wisefy = ComposablePreviewWisefy(),
-        navController = rememberNavController(),
-        sdkUtil = DefaultSdkUtil()
-    )
-}
-
-@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
-@Composable
-@Suppress("UnusedPrivateMember")
-private fun MiscScreenDarkPreview() {
-    MiscScreen(
-        wisefy = ComposablePreviewWisefy(),
-        navController = rememberNavController(),
-        sdkUtil = DefaultSdkUtil()
+        router = DefaultMiscScreenRouter(navController = navController),
     )
 }

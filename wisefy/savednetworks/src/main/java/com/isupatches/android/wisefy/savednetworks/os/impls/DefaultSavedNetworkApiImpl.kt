@@ -27,8 +27,8 @@ import com.isupatches.android.wisefy.savednetworks.os.apis.DefaultSavedNetworkAp
 /**
  * An internal default implementation for getting and searching for saved networks through the Android OS.
  *
- * @property wifiManager The WifiManager instance to use
- * @property logger The [WisefyLogger] instance to use
+ * @param wifiManager The WifiManager instance to use
+ * @param logger The [WisefyLogger] instance to use
  *
  * @see DefaultSavedNetworkApi
  * @see WisefyLogger
@@ -38,7 +38,7 @@ import com.isupatches.android.wisefy.savednetworks.os.apis.DefaultSavedNetworkAp
  */
 internal class DefaultSavedNetworkApiImpl(
     private val wifiManager: WifiManager,
-    private val logger: WisefyLogger
+    private val logger: WisefyLogger,
 ) : DefaultSavedNetworkApi {
 
     @Suppress("Deprecation")

@@ -20,6 +20,7 @@ import android.Manifest.permission.ACCESS_WIFI_STATE
 import androidx.annotation.RequiresPermission
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.ViewModel
 import com.isupatches.android.wisefy.WisefyApi
 import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
 import com.isupatches.android.wisefy.accesspoints.entities.GetAccessPointsQuery
@@ -32,32 +33,33 @@ import com.isupatches.android.wisefy.core.entities.KeyManagementAlgorithm
 import com.isupatches.android.wisefy.core.entities.PairwiseCipher
 import com.isupatches.android.wisefy.core.exceptions.WisefyException
 import com.isupatches.android.wisefy.ktx.isNetworkSavedAsync
-import com.isupatches.android.wisefy.sample.scaffolding.BaseViewModel
-import com.isupatches.android.wisefy.sample.scaffolding.BaseViewModelFactory
 import com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedQuery
 import com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedResult
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-internal abstract class NearbyAccessPointsViewModel : BaseViewModel() {
-    abstract val uiState: State<NearbyAccessPointsUIState>
+internal interface NearbyAccessPointsViewModel {
+    val uiState: State<NearbyAccessPointsUIState>
 
-    abstract fun onDialogClosed()
+    fun onDialogClosed()
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    abstract suspend fun getNearbyAccessPoints()
+    suspend fun getNearbyAccessPoints()
 
-    abstract fun onGetNearbyAccessPointsPermissionError()
+    fun onGetNearbyAccessPointsPermissionError()
 }
 
-internal class DefaultNearbyAccessPointsViewModel(
-    private val wisefy: WisefyApi
-) : NearbyAccessPointsViewModel() {
+@HiltViewModel
+internal class NearbyAccessPointsViewModelImpl @Inject constructor(
+    private val wisefy: WisefyApi,
+) : ViewModel(), NearbyAccessPointsViewModel {
 
     private val _uiState = mutableStateOf(
         NearbyAccessPointsUIState(
             loadingState = NearbyAccessPointsLoadingState(isLoading = false),
             dialogState = NearbyAccessPointsDialogState.None,
-            accessPointUIData = emptyList()
-        )
+            accessPointUIData = emptyList(),
+        ),
     )
 
     override val uiState: State<NearbyAccessPointsUIState>
@@ -67,7 +69,7 @@ internal class DefaultNearbyAccessPointsViewModel(
     override suspend fun getNearbyAccessPoints() {
         _uiState.value = _uiState.value.copy(
             loadingState = NearbyAccessPointsLoadingState(isLoading = true),
-            dialogState = NearbyAccessPointsDialogState.None
+            dialogState = NearbyAccessPointsDialogState.None,
         )
         try {
             when (val result = wisefy.getAccessPoints(GetAccessPointsQuery.All())) {
@@ -75,20 +77,21 @@ internal class DefaultNearbyAccessPointsViewModel(
                     _uiState.value = NearbyAccessPointsUIState(
                         loadingState = NearbyAccessPointsLoadingState(isLoading = false),
                         dialogState = NearbyAccessPointsDialogState.None,
-                        accessPointUIData = emptyList()
+                        accessPointUIData = emptyList(),
                     )
                 }
+
                 is GetAccessPointsResult.AccessPoints -> {
                     val accessPointUIData = result.value.map { accessPoint ->
                         val isSavedBySSIDResult = wisefy.isNetworkSavedAsync(
-                            query = IsNetworkSavedQuery.SSID(accessPoint.ssid)
+                            query = IsNetworkSavedQuery.SSID(accessPoint.ssid),
                         )
                         val isSavedBySSID = when (isSavedBySSIDResult) {
                             IsNetworkSavedResult.True -> true
                             IsNetworkSavedResult.False -> false
                         }
                         val isSavedByBSSIDResult = wisefy.isNetworkSavedAsync(
-                            query = IsNetworkSavedQuery.BSSID(accessPoint.bssid)
+                            query = IsNetworkSavedQuery.BSSID(accessPoint.bssid),
                         )
                         val isSavedByBSSID = when (isSavedByBSSIDResult) {
                             IsNetworkSavedResult.True -> true
@@ -115,13 +118,13 @@ internal class DefaultNearbyAccessPointsViewModel(
                             isSavedByBSSID = isSavedByBSSID,
                             authenticationAlgorithms = authenticationAlgorithmMap,
                             keyManagementAlgorithms = keyManagementAlgorithmMap,
-                            pairwiseCiphers = pairwiseCipherMap
+                            pairwiseCiphers = pairwiseCipherMap,
                         )
                     }
                     _uiState.value = NearbyAccessPointsUIState(
                         loadingState = NearbyAccessPointsLoadingState(isLoading = false),
                         dialogState = NearbyAccessPointsDialogState.None,
-                        accessPointUIData = accessPointUIData
+                        accessPointUIData = accessPointUIData,
                     )
                 }
             }
@@ -129,7 +132,7 @@ internal class DefaultNearbyAccessPointsViewModel(
             _uiState.value = NearbyAccessPointsUIState(
                 loadingState = NearbyAccessPointsLoadingState(isLoading = false),
                 dialogState = NearbyAccessPointsDialogState.Failure.WisefyAsync(exception = ex),
-                accessPointUIData = emptyList()
+                accessPointUIData = emptyList(),
             )
         }
     }
@@ -137,24 +140,17 @@ internal class DefaultNearbyAccessPointsViewModel(
     override fun onGetNearbyAccessPointsPermissionError() {
         _uiState.value = _uiState.value.copy(
             loadingState = NearbyAccessPointsLoadingState(isLoading = false),
-            dialogState = NearbyAccessPointsDialogState.GetNearbyAccessPoints.PermissionsError
+            dialogState = NearbyAccessPointsDialogState.GetNearbyAccessPoints.PermissionsError,
         )
     }
 
     override fun onDialogClosed() {
         _uiState.value = _uiState.value.copy(
             loadingState = NearbyAccessPointsLoadingState(isLoading = false),
-            dialogState = NearbyAccessPointsDialogState.None
+            dialogState = NearbyAccessPointsDialogState.None,
         )
     }
 }
-
-internal class NearbyAccessPointsViewModelFactory(
-    private val wisefy: WisefyApi
-) : BaseViewModelFactory<NearbyAccessPointsViewModel>(
-    supportedClass = NearbyAccessPointsViewModel::class,
-    vmProvider = { DefaultNearbyAccessPointsViewModel(wisefy) }
-)
 
 internal data class AccessPointUIData(
     val accessPoint: AccessPointData,
@@ -162,5 +158,5 @@ internal data class AccessPointUIData(
     val isSavedByBSSID: Boolean,
     val authenticationAlgorithms: Map<AuthenticationAlgorithm, Boolean>,
     val keyManagementAlgorithms: Map<KeyManagementAlgorithm, Boolean>,
-    val pairwiseCiphers: Map<PairwiseCipher, Boolean>
+    val pairwiseCiphers: Map<PairwiseCipher, Boolean>,
 )

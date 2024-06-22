@@ -32,7 +32,7 @@ import org.mockito.MockitoAnnotations
 
 @RunWith(Parameterized::class)
 internal class DefaultAccessPointsApiImplSearchForAccessPointsBySSIDTest(
-    private val params: SearchForAccessPointsBySSIDParams
+    private val params: SearchForAccessPointsBySSIDParams,
 ) {
 
     @Mock
@@ -62,7 +62,7 @@ internal class DefaultAccessPointsApiImplSearchForAccessPointsBySSIDTest(
         val result = apiImpl.searchForAccessPointsBySSID(
             filterDuplicates = params.filterDuplicates,
             regex = params.regex,
-            timeoutInMillis = params.timeoutInMillis
+            timeoutInMillis = params.timeoutInMillis,
         )
 
         // When
@@ -81,7 +81,7 @@ internal class DefaultAccessPointsApiImplSearchForAccessPointsBySSIDTest(
                     expectedResultSize = 0,
                     expectedResultList = emptyList(),
                     timeoutInMillis = null,
-                    regex = TEST_REGEX
+                    regex = TEST_REGEX,
                 ),
                 SearchForAccessPointsBySSIDParams(
                     foundAccessPoints = null,
@@ -89,7 +89,7 @@ internal class DefaultAccessPointsApiImplSearchForAccessPointsBySSIDTest(
                     expectedResultSize = 0,
                     expectedResultList = emptyList(),
                     timeoutInMillis = null,
-                    regex = TEST_REGEX
+                    regex = TEST_REGEX,
                 ),
                 SearchForAccessPointsBySSIDParams(
                     foundAccessPoints = null,
@@ -97,7 +97,7 @@ internal class DefaultAccessPointsApiImplSearchForAccessPointsBySSIDTest(
                     expectedResultSize = 0,
                     expectedResultList = emptyList(),
                     timeoutInMillis = 10,
-                    regex = TEST_REGEX
+                    regex = TEST_REGEX,
                 ),
                 SearchForAccessPointsBySSIDParams(
                     foundAccessPoints = null,
@@ -105,7 +105,7 @@ internal class DefaultAccessPointsApiImplSearchForAccessPointsBySSIDTest(
                     expectedResultSize = 0,
                     expectedResultList = emptyList(),
                     timeoutInMillis = 10,
-                    regex = TEST_REGEX
+                    regex = TEST_REGEX,
                 ),
                 SearchForAccessPointsBySSIDParams(
                     foundAccessPoints = null,
@@ -113,7 +113,7 @@ internal class DefaultAccessPointsApiImplSearchForAccessPointsBySSIDTest(
                     expectedResultSize = 0,
                     expectedResultList = emptyList(),
                     timeoutInMillis = 10,
-                    regex = TEST_SSID_1
+                    regex = TEST_SSID_1,
                 ),
                 SearchForAccessPointsBySSIDParams(
                     foundAccessPoints = null,
@@ -121,7 +121,7 @@ internal class DefaultAccessPointsApiImplSearchForAccessPointsBySSIDTest(
                     expectedResultSize = 0,
                     expectedResultList = emptyList(),
                     timeoutInMillis = 10,
-                    regex = TEST_SSID_1
+                    regex = TEST_SSID_1,
                 ),
                 SearchForAccessPointsBySSIDParams(
                     foundAccessPoints = emptyList(),
@@ -129,7 +129,7 @@ internal class DefaultAccessPointsApiImplSearchForAccessPointsBySSIDTest(
                     expectedResultSize = 0,
                     expectedResultList = emptyList(),
                     timeoutInMillis = null,
-                    regex = TEST_REGEX
+                    regex = TEST_REGEX,
                 ),
                 SearchForAccessPointsBySSIDParams(
                     foundAccessPoints = emptyList(),
@@ -137,7 +137,7 @@ internal class DefaultAccessPointsApiImplSearchForAccessPointsBySSIDTest(
                     expectedResultSize = 0,
                     expectedResultList = emptyList(),
                     timeoutInMillis = null,
-                    regex = TEST_REGEX
+                    regex = TEST_REGEX,
                 ),
                 SearchForAccessPointsBySSIDParams(
                     foundAccessPoints = emptyList(),
@@ -145,7 +145,7 @@ internal class DefaultAccessPointsApiImplSearchForAccessPointsBySSIDTest(
                     expectedResultSize = 0,
                     expectedResultList = emptyList(),
                     timeoutInMillis = 10,
-                    regex = TEST_REGEX
+                    regex = TEST_REGEX,
                 ),
                 SearchForAccessPointsBySSIDParams(
                     foundAccessPoints = emptyList(),
@@ -153,7 +153,7 @@ internal class DefaultAccessPointsApiImplSearchForAccessPointsBySSIDTest(
                     expectedResultSize = 0,
                     expectedResultList = emptyList(),
                     timeoutInMillis = 10,
-                    regex = TEST_REGEX
+                    regex = TEST_REGEX,
                 ),
                 SearchForAccessPointsBySSIDParams(
                     foundAccessPoints = emptyList(),
@@ -161,7 +161,7 @@ internal class DefaultAccessPointsApiImplSearchForAccessPointsBySSIDTest(
                     expectedResultSize = 0,
                     expectedResultList = emptyList(),
                     timeoutInMillis = 10,
-                    regex = TEST_SSID_1
+                    regex = TEST_SSID_1,
                 ),
                 SearchForAccessPointsBySSIDParams(
                     foundAccessPoints = emptyList(),
@@ -169,7 +169,7 @@ internal class DefaultAccessPointsApiImplSearchForAccessPointsBySSIDTest(
                     expectedResultSize = 0,
                     expectedResultList = emptyList(),
                     timeoutInMillis = 10,
-                    regex = TEST_SSID_1
+                    regex = TEST_SSID_1,
                 ),
                 SearchForAccessPointsBySSIDParams(
                     foundAccessPoints = listOf(TEST_SCAN_RESULT_1),
@@ -177,7 +177,7 @@ internal class DefaultAccessPointsApiImplSearchForAccessPointsBySSIDTest(
                     expectedResultSize = 1,
                     expectedResultList = listOf(AccessPointData(TEST_SCAN_RESULT_1)),
                     timeoutInMillis = null,
-                    regex = TEST_REGEX
+                    regex = TEST_REGEX,
                 ),
                 SearchForAccessPointsBySSIDParams(
                     foundAccessPoints = listOf(TEST_SCAN_RESULT_1),
@@ -185,7 +185,7 @@ internal class DefaultAccessPointsApiImplSearchForAccessPointsBySSIDTest(
                     expectedResultSize = 1,
                     expectedResultList = listOf(AccessPointData(TEST_SCAN_RESULT_1)),
                     timeoutInMillis = null,
-                    regex = TEST_REGEX
+                    regex = TEST_REGEX,
                 ),
                 SearchForAccessPointsBySSIDParams(
                     foundAccessPoints = listOf(TEST_SCAN_RESULT_1),
@@ -193,7 +193,7 @@ internal class DefaultAccessPointsApiImplSearchForAccessPointsBySSIDTest(
                     expectedResultSize = 1,
                     expectedResultList = listOf(AccessPointData(TEST_SCAN_RESULT_1)),
                     timeoutInMillis = 10,
-                    regex = TEST_REGEX
+                    regex = TEST_REGEX,
                 ),
                 SearchForAccessPointsBySSIDParams(
                     foundAccessPoints = listOf(TEST_SCAN_RESULT_1),
@@ -201,7 +201,7 @@ internal class DefaultAccessPointsApiImplSearchForAccessPointsBySSIDTest(
                     expectedResultSize = 1,
                     expectedResultList = listOf(AccessPointData(TEST_SCAN_RESULT_1)),
                     timeoutInMillis = 10,
-                    regex = TEST_REGEX
+                    regex = TEST_REGEX,
                 ),
                 SearchForAccessPointsBySSIDParams(
                     foundAccessPoints = listOf(TEST_SCAN_RESULT_1),
@@ -209,7 +209,7 @@ internal class DefaultAccessPointsApiImplSearchForAccessPointsBySSIDTest(
                     expectedResultSize = 1,
                     expectedResultList = listOf(AccessPointData(TEST_SCAN_RESULT_1)),
                     timeoutInMillis = 10,
-                    regex = TEST_SSID_1
+                    regex = TEST_SSID_1,
                 ),
                 SearchForAccessPointsBySSIDParams(
                     foundAccessPoints = listOf(TEST_SCAN_RESULT_1),
@@ -217,7 +217,7 @@ internal class DefaultAccessPointsApiImplSearchForAccessPointsBySSIDTest(
                     expectedResultSize = 1,
                     expectedResultList = listOf(AccessPointData(TEST_SCAN_RESULT_1)),
                     timeoutInMillis = 10,
-                    regex = TEST_SSID_1
+                    regex = TEST_SSID_1,
                 ),
                 SearchForAccessPointsBySSIDParams(
                     foundAccessPoints = listOf(TEST_SCAN_RESULT_1, TEST_SCAN_RESULT_2),
@@ -225,10 +225,10 @@ internal class DefaultAccessPointsApiImplSearchForAccessPointsBySSIDTest(
                     expectedResultSize = 2,
                     expectedResultList = listOf(
                         AccessPointData(TEST_SCAN_RESULT_1),
-                        AccessPointData(TEST_SCAN_RESULT_2)
+                        AccessPointData(TEST_SCAN_RESULT_2),
                     ),
                     timeoutInMillis = null,
-                    regex = TEST_REGEX
+                    regex = TEST_REGEX,
                 ),
                 SearchForAccessPointsBySSIDParams(
                     foundAccessPoints = listOf(TEST_SCAN_RESULT_1, TEST_SCAN_RESULT_2),
@@ -236,10 +236,10 @@ internal class DefaultAccessPointsApiImplSearchForAccessPointsBySSIDTest(
                     expectedResultSize = 2,
                     expectedResultList = listOf(
                         AccessPointData(TEST_SCAN_RESULT_1),
-                        AccessPointData(TEST_SCAN_RESULT_2)
+                        AccessPointData(TEST_SCAN_RESULT_2),
                     ),
                     timeoutInMillis = null,
-                    regex = TEST_REGEX
+                    regex = TEST_REGEX,
                 ),
                 SearchForAccessPointsBySSIDParams(
                     foundAccessPoints = listOf(TEST_SCAN_RESULT_1, TEST_SCAN_RESULT_2),
@@ -247,10 +247,10 @@ internal class DefaultAccessPointsApiImplSearchForAccessPointsBySSIDTest(
                     expectedResultSize = 2,
                     expectedResultList = listOf(
                         AccessPointData(TEST_SCAN_RESULT_1),
-                        AccessPointData(TEST_SCAN_RESULT_2)
+                        AccessPointData(TEST_SCAN_RESULT_2),
                     ),
                     timeoutInMillis = 10,
-                    regex = TEST_REGEX
+                    regex = TEST_REGEX,
                 ),
                 SearchForAccessPointsBySSIDParams(
                     foundAccessPoints = listOf(TEST_SCAN_RESULT_1, TEST_SCAN_RESULT_2),
@@ -258,10 +258,10 @@ internal class DefaultAccessPointsApiImplSearchForAccessPointsBySSIDTest(
                     expectedResultSize = 2,
                     expectedResultList = listOf(
                         AccessPointData(TEST_SCAN_RESULT_1),
-                        AccessPointData(TEST_SCAN_RESULT_2)
+                        AccessPointData(TEST_SCAN_RESULT_2),
                     ),
                     timeoutInMillis = 10,
-                    regex = TEST_REGEX
+                    regex = TEST_REGEX,
                 ),
                 SearchForAccessPointsBySSIDParams(
                     foundAccessPoints = listOf(TEST_SCAN_RESULT_1, TEST_SCAN_RESULT_2),
@@ -269,7 +269,7 @@ internal class DefaultAccessPointsApiImplSearchForAccessPointsBySSIDTest(
                     expectedResultSize = 1,
                     expectedResultList = listOf(AccessPointData(TEST_SCAN_RESULT_1)),
                     timeoutInMillis = 10,
-                    regex = TEST_SSID_1
+                    regex = TEST_SSID_1,
                 ),
                 SearchForAccessPointsBySSIDParams(
                     foundAccessPoints = listOf(TEST_SCAN_RESULT_1, TEST_SCAN_RESULT_2),
@@ -277,7 +277,7 @@ internal class DefaultAccessPointsApiImplSearchForAccessPointsBySSIDTest(
                     expectedResultSize = 1,
                     expectedResultList = listOf(AccessPointData(TEST_SCAN_RESULT_1)),
                     timeoutInMillis = 10,
-                    regex = TEST_SSID_1
+                    regex = TEST_SSID_1,
                 ),
                 SearchForAccessPointsBySSIDParams(
                     foundAccessPoints = listOf(TEST_SCAN_RESULT_1, TEST_SCAN_RESULT_SAME_SSID_LOWER_RSSI),
@@ -285,7 +285,7 @@ internal class DefaultAccessPointsApiImplSearchForAccessPointsBySSIDTest(
                     expectedResultSize = 1,
                     expectedResultList = listOf(AccessPointData(TEST_SCAN_RESULT_1)),
                     timeoutInMillis = null,
-                    regex = TEST_REGEX
+                    regex = TEST_REGEX,
                 ),
                 SearchForAccessPointsBySSIDParams(
                     foundAccessPoints = listOf(TEST_SCAN_RESULT_1, TEST_SCAN_RESULT_SAME_SSID_LOWER_RSSI),
@@ -293,10 +293,10 @@ internal class DefaultAccessPointsApiImplSearchForAccessPointsBySSIDTest(
                     expectedResultSize = 2,
                     expectedResultList = listOf(
                         AccessPointData(TEST_SCAN_RESULT_1),
-                        AccessPointData(TEST_SCAN_RESULT_SAME_SSID_LOWER_RSSI)
+                        AccessPointData(TEST_SCAN_RESULT_SAME_SSID_LOWER_RSSI),
                     ),
                     timeoutInMillis = null,
-                    regex = TEST_REGEX
+                    regex = TEST_REGEX,
                 ),
                 SearchForAccessPointsBySSIDParams(
                     foundAccessPoints = listOf(TEST_SCAN_RESULT_1, TEST_SCAN_RESULT_SAME_SSID_LOWER_RSSI),
@@ -304,7 +304,7 @@ internal class DefaultAccessPointsApiImplSearchForAccessPointsBySSIDTest(
                     expectedResultSize = 1,
                     expectedResultList = listOf(AccessPointData(TEST_SCAN_RESULT_1)),
                     timeoutInMillis = 10,
-                    regex = TEST_REGEX
+                    regex = TEST_REGEX,
                 ),
                 SearchForAccessPointsBySSIDParams(
                     foundAccessPoints = listOf(TEST_SCAN_RESULT_1, TEST_SCAN_RESULT_SAME_SSID_LOWER_RSSI),
@@ -312,10 +312,10 @@ internal class DefaultAccessPointsApiImplSearchForAccessPointsBySSIDTest(
                     expectedResultSize = 2,
                     expectedResultList = listOf(
                         AccessPointData(TEST_SCAN_RESULT_1),
-                        AccessPointData(TEST_SCAN_RESULT_SAME_SSID_LOWER_RSSI)
+                        AccessPointData(TEST_SCAN_RESULT_SAME_SSID_LOWER_RSSI),
                     ),
                     timeoutInMillis = 10,
-                    regex = TEST_REGEX
+                    regex = TEST_REGEX,
                 ),
                 SearchForAccessPointsBySSIDParams(
                     foundAccessPoints = listOf(TEST_SCAN_RESULT_1, TEST_SCAN_RESULT_SAME_SSID_LOWER_RSSI),
@@ -323,7 +323,7 @@ internal class DefaultAccessPointsApiImplSearchForAccessPointsBySSIDTest(
                     expectedResultSize = 1,
                     expectedResultList = listOf(AccessPointData(TEST_SCAN_RESULT_1)),
                     timeoutInMillis = 10,
-                    regex = TEST_SSID_1
+                    regex = TEST_SSID_1,
                 ),
                 SearchForAccessPointsBySSIDParams(
                     foundAccessPoints = listOf(TEST_SCAN_RESULT_1, TEST_SCAN_RESULT_SAME_SSID_LOWER_RSSI),
@@ -331,10 +331,10 @@ internal class DefaultAccessPointsApiImplSearchForAccessPointsBySSIDTest(
                     expectedResultSize = 2,
                     expectedResultList = listOf(
                         AccessPointData(TEST_SCAN_RESULT_1),
-                        AccessPointData(TEST_SCAN_RESULT_SAME_SSID_LOWER_RSSI)
+                        AccessPointData(TEST_SCAN_RESULT_SAME_SSID_LOWER_RSSI),
                     ),
                     timeoutInMillis = 10,
-                    regex = TEST_SSID_1
+                    regex = TEST_SSID_1,
                 ),
                 SearchForAccessPointsBySSIDParams(
                     foundAccessPoints = listOf(TEST_SCAN_RESULT_1, TEST_SCAN_RESULT_SAME_SSID_SAME_RSSI),
@@ -342,7 +342,7 @@ internal class DefaultAccessPointsApiImplSearchForAccessPointsBySSIDTest(
                     expectedResultSize = 1,
                     expectedResultList = listOf(AccessPointData(TEST_SCAN_RESULT_1)),
                     timeoutInMillis = null,
-                    regex = TEST_REGEX
+                    regex = TEST_REGEX,
                 ),
                 SearchForAccessPointsBySSIDParams(
                     foundAccessPoints = listOf(TEST_SCAN_RESULT_1, TEST_SCAN_RESULT_SAME_SSID_SAME_RSSI),
@@ -350,10 +350,10 @@ internal class DefaultAccessPointsApiImplSearchForAccessPointsBySSIDTest(
                     expectedResultSize = 2,
                     expectedResultList = listOf(
                         AccessPointData(TEST_SCAN_RESULT_1),
-                        AccessPointData(TEST_SCAN_RESULT_SAME_SSID_SAME_RSSI)
+                        AccessPointData(TEST_SCAN_RESULT_SAME_SSID_SAME_RSSI),
                     ),
                     timeoutInMillis = null,
-                    regex = TEST_REGEX
+                    regex = TEST_REGEX,
                 ),
                 SearchForAccessPointsBySSIDParams(
                     foundAccessPoints = listOf(TEST_SCAN_RESULT_1, TEST_SCAN_RESULT_SAME_SSID_SAME_RSSI),
@@ -361,7 +361,7 @@ internal class DefaultAccessPointsApiImplSearchForAccessPointsBySSIDTest(
                     expectedResultSize = 1,
                     expectedResultList = listOf(AccessPointData(TEST_SCAN_RESULT_1)),
                     timeoutInMillis = 10,
-                    regex = TEST_REGEX
+                    regex = TEST_REGEX,
                 ),
                 SearchForAccessPointsBySSIDParams(
                     foundAccessPoints = listOf(TEST_SCAN_RESULT_1, TEST_SCAN_RESULT_SAME_SSID_SAME_RSSI),
@@ -369,10 +369,10 @@ internal class DefaultAccessPointsApiImplSearchForAccessPointsBySSIDTest(
                     expectedResultSize = 2,
                     expectedResultList = listOf(
                         AccessPointData(TEST_SCAN_RESULT_1),
-                        AccessPointData(TEST_SCAN_RESULT_SAME_SSID_SAME_RSSI)
+                        AccessPointData(TEST_SCAN_RESULT_SAME_SSID_SAME_RSSI),
                     ),
                     timeoutInMillis = 10,
-                    regex = TEST_REGEX
+                    regex = TEST_REGEX,
                 ),
                 SearchForAccessPointsBySSIDParams(
                     foundAccessPoints = listOf(TEST_SCAN_RESULT_1, TEST_SCAN_RESULT_SAME_SSID_SAME_RSSI),
@@ -380,7 +380,7 @@ internal class DefaultAccessPointsApiImplSearchForAccessPointsBySSIDTest(
                     expectedResultSize = 1,
                     expectedResultList = listOf(AccessPointData(TEST_SCAN_RESULT_1)),
                     timeoutInMillis = 10,
-                    regex = TEST_SSID_1
+                    regex = TEST_SSID_1,
                 ),
                 SearchForAccessPointsBySSIDParams(
                     foundAccessPoints = listOf(TEST_SCAN_RESULT_1, TEST_SCAN_RESULT_SAME_SSID_SAME_RSSI),
@@ -388,10 +388,10 @@ internal class DefaultAccessPointsApiImplSearchForAccessPointsBySSIDTest(
                     expectedResultSize = 2,
                     expectedResultList = listOf(
                         AccessPointData(TEST_SCAN_RESULT_1),
-                        AccessPointData(TEST_SCAN_RESULT_SAME_SSID_SAME_RSSI)
+                        AccessPointData(TEST_SCAN_RESULT_SAME_SSID_SAME_RSSI),
                     ),
                     timeoutInMillis = 10,
-                    regex = TEST_SSID_1
+                    regex = TEST_SSID_1,
                 ),
                 SearchForAccessPointsBySSIDParams(
                     foundAccessPoints = listOf(TEST_SCAN_RESULT_1, TEST_SCAN_RESULT_SAME_SSID_HIGHER_RSSI),
@@ -399,7 +399,7 @@ internal class DefaultAccessPointsApiImplSearchForAccessPointsBySSIDTest(
                     expectedResultSize = 1,
                     expectedResultList = listOf(AccessPointData(TEST_SCAN_RESULT_SAME_SSID_HIGHER_RSSI)),
                     timeoutInMillis = null,
-                    regex = TEST_REGEX
+                    regex = TEST_REGEX,
                 ),
                 SearchForAccessPointsBySSIDParams(
                     foundAccessPoints = listOf(TEST_SCAN_RESULT_1, TEST_SCAN_RESULT_SAME_SSID_HIGHER_RSSI),
@@ -407,10 +407,10 @@ internal class DefaultAccessPointsApiImplSearchForAccessPointsBySSIDTest(
                     expectedResultSize = 2,
                     expectedResultList = listOf(
                         AccessPointData(TEST_SCAN_RESULT_1),
-                        AccessPointData(TEST_SCAN_RESULT_SAME_SSID_HIGHER_RSSI)
+                        AccessPointData(TEST_SCAN_RESULT_SAME_SSID_HIGHER_RSSI),
                     ),
                     timeoutInMillis = null,
-                    regex = TEST_REGEX
+                    regex = TEST_REGEX,
                 ),
                 SearchForAccessPointsBySSIDParams(
                     foundAccessPoints = listOf(TEST_SCAN_RESULT_1, TEST_SCAN_RESULT_SAME_SSID_HIGHER_RSSI),
@@ -418,7 +418,7 @@ internal class DefaultAccessPointsApiImplSearchForAccessPointsBySSIDTest(
                     expectedResultSize = 1,
                     expectedResultList = listOf(AccessPointData(TEST_SCAN_RESULT_SAME_SSID_HIGHER_RSSI)),
                     timeoutInMillis = 10,
-                    regex = TEST_REGEX
+                    regex = TEST_REGEX,
                 ),
                 SearchForAccessPointsBySSIDParams(
                     foundAccessPoints = listOf(TEST_SCAN_RESULT_1, TEST_SCAN_RESULT_SAME_SSID_HIGHER_RSSI),
@@ -426,10 +426,10 @@ internal class DefaultAccessPointsApiImplSearchForAccessPointsBySSIDTest(
                     expectedResultSize = 2,
                     expectedResultList = listOf(
                         AccessPointData(TEST_SCAN_RESULT_1),
-                        AccessPointData(TEST_SCAN_RESULT_SAME_SSID_HIGHER_RSSI)
+                        AccessPointData(TEST_SCAN_RESULT_SAME_SSID_HIGHER_RSSI),
                     ),
                     timeoutInMillis = 10,
-                    regex = TEST_REGEX
+                    regex = TEST_REGEX,
                 ),
                 SearchForAccessPointsBySSIDParams(
                     foundAccessPoints = listOf(TEST_SCAN_RESULT_1, TEST_SCAN_RESULT_SAME_SSID_HIGHER_RSSI),
@@ -437,7 +437,7 @@ internal class DefaultAccessPointsApiImplSearchForAccessPointsBySSIDTest(
                     expectedResultSize = 1,
                     expectedResultList = listOf(AccessPointData(TEST_SCAN_RESULT_SAME_SSID_HIGHER_RSSI)),
                     timeoutInMillis = 10,
-                    regex = TEST_SSID_1
+                    regex = TEST_SSID_1,
                 ),
                 SearchForAccessPointsBySSIDParams(
                     foundAccessPoints = listOf(TEST_SCAN_RESULT_1, TEST_SCAN_RESULT_SAME_SSID_HIGHER_RSSI),
@@ -445,11 +445,11 @@ internal class DefaultAccessPointsApiImplSearchForAccessPointsBySSIDTest(
                     expectedResultSize = 2,
                     expectedResultList = listOf(
                         AccessPointData(TEST_SCAN_RESULT_1),
-                        AccessPointData(TEST_SCAN_RESULT_SAME_SSID_HIGHER_RSSI)
+                        AccessPointData(TEST_SCAN_RESULT_SAME_SSID_HIGHER_RSSI),
                     ),
                     timeoutInMillis = 10,
-                    regex = TEST_SSID_1
-                )
+                    regex = TEST_SSID_1,
+                ),
             )
         }
 
@@ -459,7 +459,7 @@ internal class DefaultAccessPointsApiImplSearchForAccessPointsBySSIDTest(
             val regex: String,
             val timeoutInMillis: Int?,
             val expectedResultSize: Int,
-            val expectedResultList: List<AccessPointData>
+            val expectedResultList: List<AccessPointData>,
         )
 
         private const val TEST_SSID_1: String = "Test SSID 1"

@@ -17,10 +17,10 @@ package com.isupatches.android.wisefy.sample.features.search
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.ACCESS_WIFI_STATE
-import android.content.Context
 import androidx.annotation.RequiresPermission
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.isupatches.android.wisefy.WisefyApi
 import com.isupatches.android.wisefy.accesspoints.entities.GetAccessPointsQuery
@@ -30,65 +30,66 @@ import com.isupatches.android.wisefy.ktx.getAccessPointsAsync
 import com.isupatches.android.wisefy.ktx.getSavedNetworksAsync
 import com.isupatches.android.wisefy.sample.entities.SSIDType
 import com.isupatches.android.wisefy.sample.entities.SearchType
-import com.isupatches.android.wisefy.sample.scaffolding.BaseViewModel
-import com.isupatches.android.wisefy.sample.scaffolding.BaseViewModelFactory
 import com.isupatches.android.wisefy.sample.util.BSSIDInputError
 import com.isupatches.android.wisefy.sample.util.SSIDInputError
 import com.isupatches.android.wisefy.sample.util.validateBSSID
 import com.isupatches.android.wisefy.sample.util.validateSSID
 import com.isupatches.android.wisefy.savednetworks.entities.GetSavedNetworksQuery
 import com.isupatches.android.wisefy.savednetworks.entities.GetSavedNetworksResult
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 private const val SECONDS_TO_MILLIS = 1000
 
-internal abstract class SearchViewModel : BaseViewModel() {
-    abstract val uiState: State<SearchUIState>
+@Suppress("ComplexInterface")
+internal interface SearchViewModel {
+    val uiState: State<SearchUIState>
 
-    abstract fun onSearchForAccessPointPermissionError()
-    abstract fun onSearchForAccessPointsPermissionError()
-    abstract fun onSearchForSavedNetworkPermissionError()
-    abstract fun onSearchForSavedNetworksPermissionError()
-    abstract fun onSearchForSSIDPermissionError()
-    abstract fun onSearchForSSIDsPermissionError()
-
-    @RequiresPermission(ACCESS_FINE_LOCATION)
-    abstract suspend fun searchForAccessPoint()
+    fun onSearchForAccessPointPermissionError()
+    fun onSearchForAccessPointsPermissionError()
+    fun onSearchForSavedNetworkPermissionError()
+    fun onSearchForSavedNetworksPermissionError()
+    fun onSearchForSSIDPermissionError()
+    fun onSearchForSSIDsPermissionError()
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    abstract suspend fun searchForAccessPoints()
+    suspend fun searchForAccessPoint()
+
+    @RequiresPermission(ACCESS_FINE_LOCATION)
+    suspend fun searchForAccessPoints()
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    abstract suspend fun searchForSavedNetwork()
+    suspend fun searchForSavedNetwork()
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    abstract suspend fun searchForSavedNetworks()
+    suspend fun searchForSavedNetworks()
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    abstract suspend fun searchForSSID()
+    suspend fun searchForSSID()
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    abstract suspend fun searchForSSIDs()
+    suspend fun searchForSSIDs()
 
-    abstract fun onSearchNetworkInputChanged(input: String)
+    fun onSearchNetworkInputChanged(input: String)
 
-    abstract fun onSearchTypeSelected(searchType: SearchType)
-    abstract fun onUseRegexForSearchChanged(useRegexForSearch: Boolean)
-    abstract fun onReturnFullListChanged(enabled: Boolean)
-    abstract fun onFilterDuplicatesChanged(enabled: Boolean)
-    abstract fun onSSIDTypeChanged(ssidType: SSIDType)
+    fun onSearchTypeSelected(searchType: SearchType)
+    fun onUseRegexForSearchChanged(useRegexForSearch: Boolean)
+    fun onReturnFullListChanged(enabled: Boolean)
+    fun onFilterDuplicatesChanged(enabled: Boolean)
+    fun onSSIDTypeChanged(ssidType: SSIDType)
 
-    abstract fun onSearchTimeoutValueChangeFinished(timeoutInSeconds: Int)
+    fun onSearchTimeoutValueChangeFinished(timeoutInSeconds: Int)
 
-    abstract fun onDialogClosed()
+    fun onDialogClosed()
 }
 
-internal class DefaultSearchViewModel(
-    context: Context,
+@HiltViewModel
+internal class SearchViewModelImpl @Inject constructor(
     private val wisefy: WisefyApi,
-    private val searchStore: SearchStore = DefaultSearchStore(context = context)
-) : SearchViewModel() {
+    private val searchStore: SearchStore,
+) : ViewModel(), SearchViewModel {
 
     private val _uiState = mutableStateOf(
         SearchUIState(
@@ -96,15 +97,15 @@ internal class DefaultSearchViewModel(
             dialogState = SearchDialogState.None,
             inputState = SearchInputState(
                 input = "",
-                inputValidityState = SearchInputValidityState.SSID.Invalid.Empty
+                inputValidityState = SearchInputValidityState.SSID.Invalid.Empty,
             ),
             searchType = SearchType.ACCESS_POINT,
             ssidType = SSIDType.SSID,
             useRegexForSearch = false,
             returnFullList = true,
             filterDuplicates = true,
-            timeoutInSeconds = null
-        )
+            timeoutInSeconds = null,
+        ),
     )
     override val uiState: State<SearchUIState>
         get() = _uiState
@@ -172,15 +173,17 @@ internal class DefaultSearchViewModel(
             is GetAccessPointsResult.AccessPoints -> {
                 _uiState.value = uiState.value.copy(
                     loadingState = SearchLoadingState(isLoading = false),
-                    dialogState = SearchDialogState.SearchForAccessPoint.Success(result.value.first())
+                    dialogState = SearchDialogState.SearchForAccessPoint.Success(result.value.first()),
                 )
             }
+
             is GetAccessPointsResult.Empty -> {
                 _uiState.value = uiState.value.copy(
                     loadingState = SearchLoadingState(isLoading = false),
-                    dialogState = SearchDialogState.SearchForAccessPoint.NoAccessPointFound
+                    dialogState = SearchDialogState.SearchForAccessPoint.NoAccessPointFound,
                 )
             }
+
             null -> {
                 // Case handled above in the catch clause
             }
@@ -197,15 +200,17 @@ internal class DefaultSearchViewModel(
             is GetAccessPointsResult.AccessPoints -> {
                 _uiState.value = uiState.value.copy(
                     loadingState = SearchLoadingState(isLoading = false),
-                    dialogState = SearchDialogState.SearchForAccessPoints.Success(result.value)
+                    dialogState = SearchDialogState.SearchForAccessPoints.Success(result.value),
                 )
             }
+
             is GetAccessPointsResult.Empty -> {
                 _uiState.value = uiState.value.copy(
                     loadingState = SearchLoadingState(isLoading = false),
-                    dialogState = SearchDialogState.SearchForAccessPoints.NoAccessPointsFound
+                    dialogState = SearchDialogState.SearchForAccessPoints.NoAccessPointsFound,
                 )
             }
+
             null -> {
                 // Case handled above in the catch clause
             }
@@ -222,15 +227,17 @@ internal class DefaultSearchViewModel(
             is GetSavedNetworksResult.Empty -> {
                 _uiState.value = uiState.value.copy(
                     loadingState = SearchLoadingState(isLoading = false),
-                    dialogState = SearchDialogState.SearchForSavedNetwork.NoSavedNetworkFound
+                    dialogState = SearchDialogState.SearchForSavedNetwork.NoSavedNetworkFound,
                 )
             }
+
             is GetSavedNetworksResult.SavedNetworks -> {
                 _uiState.value = uiState.value.copy(
                     loadingState = SearchLoadingState(isLoading = false),
-                    dialogState = SearchDialogState.SearchForSavedNetwork.Success(result.value.first())
+                    dialogState = SearchDialogState.SearchForSavedNetwork.Success(result.value.first()),
                 )
             }
+
             null -> {
                 // Case handled above in the catch clause
             }
@@ -247,15 +254,17 @@ internal class DefaultSearchViewModel(
             is GetSavedNetworksResult.Empty -> {
                 _uiState.value = uiState.value.copy(
                     loadingState = SearchLoadingState(isLoading = false),
-                    dialogState = SearchDialogState.SearchForSavedNetworks.NoSavedNetworksFound
+                    dialogState = SearchDialogState.SearchForSavedNetworks.NoSavedNetworksFound,
                 )
             }
+
             is GetSavedNetworksResult.SavedNetworks -> {
                 _uiState.value = uiState.value.copy(
                     loadingState = SearchLoadingState(isLoading = false),
-                    dialogState = SearchDialogState.SearchForSavedNetworks.Success(result.value)
+                    dialogState = SearchDialogState.SearchForSavedNetworks.Success(result.value),
                 )
             }
+
             null -> {
                 // Case handled above in the catch clause
             }
@@ -276,15 +285,17 @@ internal class DefaultSearchViewModel(
                 }
                 _uiState.value = uiState.value.copy(
                     loadingState = SearchLoadingState(isLoading = false),
-                    dialogState = SearchDialogState.SearchForSSID.Success(ssid)
+                    dialogState = SearchDialogState.SearchForSSID.Success(ssid),
                 )
             }
+
             is GetAccessPointsResult.Empty -> {
                 _uiState.value = uiState.value.copy(
                     loadingState = SearchLoadingState(isLoading = false),
-                    dialogState = SearchDialogState.SearchForSSID.NoSSIDFound
+                    dialogState = SearchDialogState.SearchForSSID.NoSSIDFound,
                 )
             }
+
             null -> {
                 // Case handled above in the catch clause
             }
@@ -305,15 +316,17 @@ internal class DefaultSearchViewModel(
                 }
                 _uiState.value = uiState.value.copy(
                     loadingState = SearchLoadingState(isLoading = false),
-                    dialogState = SearchDialogState.SearchForSSIDs.Success(ssids)
+                    dialogState = SearchDialogState.SearchForSSIDs.Success(ssids),
                 )
             }
+
             is GetAccessPointsResult.Empty -> {
                 _uiState.value = uiState.value.copy(
                     loadingState = SearchLoadingState(isLoading = false),
-                    dialogState = SearchDialogState.SearchForSSIDs.NoSSIDsFound
+                    dialogState = SearchDialogState.SearchForSSIDs.NoSSIDsFound,
                 )
             }
+
             null -> {
                 // Case handled above in the catch clause
             }
@@ -366,49 +379,49 @@ internal class DefaultSearchViewModel(
     override fun onSearchForAccessPointPermissionError() {
         _uiState.value = uiState.value.copy(
             loadingState = SearchLoadingState(isLoading = false),
-            dialogState = SearchDialogState.SearchForAccessPoint.PermissionError
+            dialogState = SearchDialogState.SearchForAccessPoint.PermissionError,
         )
     }
 
     override fun onSearchForAccessPointsPermissionError() {
         _uiState.value = uiState.value.copy(
             loadingState = SearchLoadingState(isLoading = false),
-            dialogState = SearchDialogState.SearchForAccessPoints.PermissionError
+            dialogState = SearchDialogState.SearchForAccessPoints.PermissionError,
         )
     }
 
     override fun onSearchForSavedNetworkPermissionError() {
         _uiState.value = uiState.value.copy(
             loadingState = SearchLoadingState(isLoading = false),
-            dialogState = SearchDialogState.SearchForSavedNetwork.PermissionError
+            dialogState = SearchDialogState.SearchForSavedNetwork.PermissionError,
         )
     }
 
     override fun onSearchForSavedNetworksPermissionError() {
         _uiState.value = uiState.value.copy(
             loadingState = SearchLoadingState(isLoading = false),
-            dialogState = SearchDialogState.SearchForSavedNetworks.PermissionError
+            dialogState = SearchDialogState.SearchForSavedNetworks.PermissionError,
         )
     }
 
     override fun onSearchForSSIDPermissionError() {
         _uiState.value = uiState.value.copy(
             loadingState = SearchLoadingState(isLoading = false),
-            dialogState = SearchDialogState.SearchForSSID.PermissionError
+            dialogState = SearchDialogState.SearchForSSID.PermissionError,
         )
     }
 
     override fun onSearchForSSIDsPermissionError() {
         _uiState.value = uiState.value.copy(
             loadingState = SearchLoadingState(isLoading = false),
-            dialogState = SearchDialogState.SearchForSSIDs.PermissionError
+            dialogState = SearchDialogState.SearchForSSIDs.PermissionError,
         )
     }
 
     override fun onDialogClosed() {
         _uiState.value = uiState.value.copy(
             loadingState = SearchLoadingState(isLoading = false),
-            dialogState = SearchDialogState.None
+            dialogState = SearchDialogState.None,
         )
     }
 
@@ -419,7 +432,7 @@ internal class DefaultSearchViewModel(
         } catch (ex: WisefyException) {
             _uiState.value = uiState.value.copy(
                 loadingState = SearchLoadingState(isLoading = false),
-                dialogState = SearchDialogState.Failure.WisefyAsync(exception = ex)
+                dialogState = SearchDialogState.Failure.WisefyAsync(exception = ex),
             )
             null
         }
@@ -436,13 +449,14 @@ internal class DefaultSearchViewModel(
             SSIDType.SSID -> {
                 GetAccessPointsQuery.BySSID(
                     regex = networkInput.input,
-                    timeoutInMillis = timeoutInSeconds?.let { it * SECONDS_TO_MILLIS }
+                    timeoutInMillis = timeoutInSeconds?.let { it * SECONDS_TO_MILLIS },
                 )
             }
+
             SSIDType.BSSID -> {
                 GetAccessPointsQuery.ByBSSID(
                     regex = networkInput.input,
-                    timeoutInMillis = timeoutInSeconds?.let { it * SECONDS_TO_MILLIS }
+                    timeoutInMillis = timeoutInSeconds?.let { it * SECONDS_TO_MILLIS },
                 )
             }
         }
@@ -455,7 +469,7 @@ internal class DefaultSearchViewModel(
         } catch (ex: WisefyException) {
             _uiState.value = uiState.value.copy(
                 loadingState = SearchLoadingState(isLoading = false),
-                dialogState = SearchDialogState.Failure.WisefyAsync(exception = ex)
+                dialogState = SearchDialogState.Failure.WisefyAsync(exception = ex),
             )
             null
         }
@@ -476,16 +490,17 @@ internal class DefaultSearchViewModel(
                 if (currentInputState.inputValidityState != SearchInputValidityState.SSID.Valid) {
                     _uiState.value = uiState.value.copy(
                         loadingState = SearchLoadingState(isLoading = false),
-                        dialogState = SearchDialogState.InputError.SSID
+                        dialogState = SearchDialogState.InputError.SSID,
                     )
                     return true
                 }
             }
+
             SSIDType.BSSID -> {
                 if (currentInputState.inputValidityState != SearchInputValidityState.BSSID.Valid) {
                     _uiState.value = uiState.value.copy(
                         loadingState = SearchLoadingState(isLoading = false),
-                        dialogState = SearchDialogState.InputError.BSSID
+                        dialogState = SearchDialogState.InputError.BSSID,
                     )
                     return true
                 }
@@ -497,7 +512,7 @@ internal class DefaultSearchViewModel(
     private fun showProgress() {
         _uiState.value = uiState.value.copy(
             loadingState = SearchLoadingState(isLoading = true),
-            dialogState = SearchDialogState.None
+            dialogState = SearchDialogState.None,
         )
     }
 
@@ -511,6 +526,7 @@ internal class DefaultSearchViewModel(
                         SearchInputValidityState.SSID.Valid
                     }
                 }
+
                 SSIDType.BSSID -> {
                     if (input.isBlank()) {
                         SearchInputValidityState.BSSID.Invalid.Empty
@@ -523,22 +539,40 @@ internal class DefaultSearchViewModel(
             when (ssidType) {
                 SSIDType.SSID -> {
                     when (input.validateSSID()) {
-                        SSIDInputError.EMPTY -> SearchInputValidityState.SSID.Invalid.Empty
-                        SSIDInputError.TOO_SHORT -> SearchInputValidityState.SSID.Invalid.TooShort
-                        SSIDInputError.TOO_LONG -> SearchInputValidityState.SSID.Invalid.TooLong
+                        SSIDInputError.EMPTY -> {
+                            SearchInputValidityState.SSID.Invalid.Empty
+                        }
+
+                        SSIDInputError.TOO_SHORT -> {
+                            SearchInputValidityState.SSID.Invalid.TooShort
+                        }
+
+                        SSIDInputError.TOO_LONG -> {
+                            SearchInputValidityState.SSID.Invalid.TooLong
+                        }
+
                         SSIDInputError.INVALID_CHARACTERS -> {
                             SearchInputValidityState.SSID.Invalid.InvalidCharacters
                         }
+
                         SSIDInputError.INVALID_START_CHARACTERS -> {
                             SearchInputValidityState.SSID.Invalid.InvalidStartCharacters
                         }
+
                         SSIDInputError.LEADING_OR_TRAILING_SPACES -> {
                             SearchInputValidityState.SSID.Invalid.LeadingOrTrailingSpaces
                         }
-                        SSIDInputError.NOT_VALID_UNICODE -> SearchInputValidityState.SSID.Invalid.InvalidUnicode
-                        SSIDInputError.NONE -> SearchInputValidityState.SSID.Valid
+
+                        SSIDInputError.NOT_VALID_UNICODE -> {
+                            SearchInputValidityState.SSID.Invalid.InvalidUnicode
+                        }
+
+                        SSIDInputError.NONE -> {
+                            SearchInputValidityState.SSID.Valid
+                        }
                     }
                 }
+
                 SSIDType.BSSID -> {
                     when (input.validateBSSID()) {
                         BSSIDInputError.EMPTY -> SearchInputValidityState.BSSID.Invalid.Empty
@@ -551,16 +585,8 @@ internal class DefaultSearchViewModel(
         _uiState.value = uiState.value.copy(
             inputState = SearchInputState(
                 input = input,
-                inputValidityState = validityState
-            )
+                inputValidityState = validityState,
+            ),
         )
     }
 }
-
-internal class SearchViewModelFactory(
-    private val context: Context,
-    private val wisefy: WisefyApi
-) : BaseViewModelFactory<SearchViewModel>(
-    supportedClass = SearchViewModel::class,
-    vmProvider = { DefaultSearchViewModel(context, wisefy) }
-)

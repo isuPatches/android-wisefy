@@ -1,14 +1,12 @@
 # This is a Gradle generated file for dependency locking.
 # Manual edits can break the build and are not advised.
 # This file is expected to be part of source control.
-androidx.annotation:annotation:1.5.0=debugRuntimeClasspath,releaseRuntimeClasspath
-org.jetbrains.kotlin:kotlin-stdlib-common:1.7.20=debugRuntimeClasspath,releaseRuntimeClasspath
-org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.21=debugRuntimeClasspath,releaseRuntimeClasspath
-org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.21=debugRuntimeClasspath,releaseRuntimeClasspath
-org.jetbrains.kotlin:kotlin-stdlib:1.7.20=debugRuntimeClasspath,releaseRuntimeClasspath
-org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4=debugRuntimeClasspath,releaseRuntimeClasspath
-org.jetbrains.kotlinx:kotlinx-coroutines-bom:1.6.4=debugRuntimeClasspath,releaseRuntimeClasspath
-org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.6.4=debugRuntimeClasspath,releaseRuntimeClasspath
-org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4=debugRuntimeClasspath,releaseRuntimeClasspath
-org.jetbrains:annotations:13.0=debugRuntimeClasspath,releaseRuntimeClasspath
+androidx.annotation:annotation-jvm:1.8.0=debugRuntimeClasspath,releaseRuntimeClasspath
+androidx.annotation:annotation:1.8.0=debugRuntimeClasspath,releaseRuntimeClasspath
+org.jetbrains.kotlin:kotlin-stdlib:2.0.0=debugRuntimeClasspath,releaseRuntimeClasspath
+org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1=debugRuntimeClasspath,releaseRuntimeClasspath
+org.jetbrains.kotlinx:kotlinx-coroutines-bom:1.8.1=debugRuntimeClasspath,releaseRuntimeClasspath
+org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.8.1=debugRuntimeClasspath,releaseRuntimeClasspath
+org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1=debugRuntimeClasspath,releaseRuntimeClasspath
+org.jetbrains:annotations:23.0.0=debugRuntimeClasspath,releaseRuntimeClasspath
 empty=

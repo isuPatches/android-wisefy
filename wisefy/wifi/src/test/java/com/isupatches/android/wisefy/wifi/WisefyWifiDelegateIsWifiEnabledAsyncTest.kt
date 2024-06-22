@@ -49,7 +49,7 @@ import org.mockito.MockitoAnnotations
 @OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(Parameterized::class)
 internal class WisefyWifiDelegateIsWifiEnabledAsyncTest(
-    private val params: IsWifiEnabledParams
+    private val params: IsWifiEnabledParams,
 ) {
 
     @Mock
@@ -77,7 +77,7 @@ internal class WisefyWifiDelegateIsWifiEnabledAsyncTest(
             coroutineDispatcherProvider = TestCoroutineDispatchProvider(),
             scope = testScope,
             wifiMutex = Mutex(),
-            adapter = mockAdapter
+            adapter = mockAdapter,
         )
     }
 
@@ -137,42 +137,42 @@ internal class WisefyWifiDelegateIsWifiEnabledAsyncTest(
                     query = IsWifiEnabledQuery(),
                     result = IsWifiEnabledResult.True,
                     mockCallbacks = mock(IsWifiEnabledCallbacks::class.java),
-                    expectedWifiEnabledCallbacks = 1
+                    expectedWifiEnabledCallbacks = 1,
                 ),
                 IsWifiEnabledParams(
                     query = IsWifiEnabledQuery(),
                     result = IsWifiEnabledResult.False,
                     mockCallbacks = mock(IsWifiEnabledCallbacks::class.java),
-                    expectedWifiDisabledCallbacks = 1
+                    expectedWifiDisabledCallbacks = 1,
                 ),
                 IsWifiEnabledParams(
                     query = IsWifiEnabledQuery(),
                     result = IsWifiEnabledResult.True,
-                    mockCallbacks = null
+                    mockCallbacks = null,
                 ),
                 IsWifiEnabledParams(
                     query = IsWifiEnabledQuery(),
                     result = IsWifiEnabledResult.False,
-                    mockCallbacks = null
+                    mockCallbacks = null,
                 ),
                 IsWifiEnabledParams(
                     result = IsWifiEnabledResult.True,
                     mockCallbacks = mock(IsWifiEnabledCallbacks::class.java),
-                    expectedWifiEnabledCallbacks = 1
+                    expectedWifiEnabledCallbacks = 1,
                 ),
                 IsWifiEnabledParams(
                     result = IsWifiEnabledResult.False,
                     mockCallbacks = mock(IsWifiEnabledCallbacks::class.java),
-                    expectedWifiDisabledCallbacks = 1
+                    expectedWifiDisabledCallbacks = 1,
                 ),
                 IsWifiEnabledParams(
                     result = IsWifiEnabledResult.True,
-                    mockCallbacks = null
+                    mockCallbacks = null,
                 ),
                 IsWifiEnabledParams(
                     result = IsWifiEnabledResult.False,
-                    mockCallbacks = null
-                )
+                    mockCallbacks = null,
+                ),
             )
         }
 
@@ -181,7 +181,7 @@ internal class WisefyWifiDelegateIsWifiEnabledAsyncTest(
             val result: IsWifiEnabledResult,
             val mockCallbacks: IsWifiEnabledCallbacks?,
             val expectedWifiEnabledCallbacks: Int = 0,
-            val expectedWifiDisabledCallbacks: Int = 0
+            val expectedWifiDisabledCallbacks: Int = 0,
         )
     }
 }

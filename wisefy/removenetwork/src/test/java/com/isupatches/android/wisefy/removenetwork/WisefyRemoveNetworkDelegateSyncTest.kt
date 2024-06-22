@@ -43,9 +43,7 @@ import org.mockito.MockitoAnnotations
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(Parameterized::class)
-internal class WisefyRemoveNetworkDelegateSyncTest(
-    private val params: RemoveNetworkParams
-) {
+internal class WisefyRemoveNetworkDelegateSyncTest(private val params: RemoveNetworkParams) {
 
     @Mock
     private lateinit var mockWifiManager: WifiManager
@@ -72,7 +70,7 @@ internal class WisefyRemoveNetworkDelegateSyncTest(
             coroutineDispatcherProvider = TestCoroutineDispatchProvider(),
             scope = testScope,
             savedNetworkMutex = Mutex(),
-            adapter = mockAdapter
+            adapter = mockAdapter,
         )
     }
 
@@ -108,44 +106,44 @@ internal class WisefyRemoveNetworkDelegateSyncTest(
             return listOf(
                 RemoveNetworkParams(
                     request = RemoveNetworkRequest.SSID(ssid = TEST_SSID),
-                    result = RemoveNetworkResult.Success.ResultCode(REMOVE_NETWORK_SUCCESS_RESULT_CODE)
+                    result = RemoveNetworkResult.Success.ResultCode(REMOVE_NETWORK_SUCCESS_RESULT_CODE),
                 ),
                 RemoveNetworkParams(
                     request = RemoveNetworkRequest.BSSID(bssid = TEST_BSSID),
-                    result = RemoveNetworkResult.Success.ResultCode(REMOVE_NETWORK_SUCCESS_RESULT_CODE)
+                    result = RemoveNetworkResult.Success.ResultCode(REMOVE_NETWORK_SUCCESS_RESULT_CODE),
                 ),
                 RemoveNetworkParams(
                     request = RemoveNetworkRequest.SSID(ssid = TEST_SSID),
-                    result = RemoveNetworkResult.Success.True
+                    result = RemoveNetworkResult.Success.True,
                 ),
                 RemoveNetworkParams(
                     request = RemoveNetworkRequest.BSSID(bssid = TEST_BSSID),
-                    result = RemoveNetworkResult.Success.True
+                    result = RemoveNetworkResult.Success.True,
                 ),
                 RemoveNetworkParams(
                     request = RemoveNetworkRequest.SSID(ssid = TEST_SSID),
-                    result = RemoveNetworkResult.Failure.ResultCode(REMOVE_NETWORK_FAILURE_RESULT_CODE)
+                    result = RemoveNetworkResult.Failure.ResultCode(REMOVE_NETWORK_FAILURE_RESULT_CODE),
                 ),
                 RemoveNetworkParams(
                     request = RemoveNetworkRequest.BSSID(bssid = TEST_BSSID),
-                    result = RemoveNetworkResult.Failure.ResultCode(REMOVE_NETWORK_FAILURE_RESULT_CODE)
+                    result = RemoveNetworkResult.Failure.ResultCode(REMOVE_NETWORK_FAILURE_RESULT_CODE),
                 ),
                 RemoveNetworkParams(
                     request = RemoveNetworkRequest.SSID(ssid = TEST_SSID),
-                    result = RemoveNetworkResult.Failure.False
+                    result = RemoveNetworkResult.Failure.False,
                 ),
                 RemoveNetworkParams(
                     request = RemoveNetworkRequest.BSSID(bssid = TEST_BSSID),
-                    result = RemoveNetworkResult.Failure.False
+                    result = RemoveNetworkResult.Failure.False,
                 ),
                 RemoveNetworkParams(
                     request = RemoveNetworkRequest.SSID(ssid = TEST_SSID),
-                    result = RemoveNetworkResult.Failure.Assertion("")
+                    result = RemoveNetworkResult.Failure.Assertion(""),
                 ),
                 RemoveNetworkParams(
                     request = RemoveNetworkRequest.BSSID(bssid = TEST_BSSID),
-                    result = RemoveNetworkResult.Failure.Assertion("")
-                )
+                    result = RemoveNetworkResult.Failure.Assertion(""),
+                ),
             )
         }
 

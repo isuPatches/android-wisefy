@@ -49,11 +49,11 @@ import kotlinx.coroutines.withContext
  * @param logger The [WisefyLogger] instance to use
  * @param sdkUtil The [SdkUtil] instance to use
  * @param wifiManager The WifiManager instance to use
- * @property coroutineDispatcherProvider The CoroutineDispatcherProvider instance to use
- * @property scope The CoroutineScope to use
- * @property savedNetworkMutex A mutex shared with add/remove network to ensure synchronization between saved network
+ * @param coroutineDispatcherProvider The CoroutineDispatcherProvider instance to use
+ * @param scope The CoroutineScope to use
+ * @param savedNetworkMutex A mutex shared with add/remove network to ensure synchronization between saved network
  *  reads and writes
- * @property adapter The adapter instance to use for querying for saved networks and checking if a network is saved
+ * @param adapter The adapter instance to use for querying for saved networks and checking if a network is saved
  * (determined based on the Android OS level)
  *
  * @see Android29SavedNetworkAdapter
@@ -80,7 +80,7 @@ class WisefySavedNetworkDelegate(
         sdkUtil.isAtLeastR() -> Android30SavedNetworkAdapter(wifiManager, logger)
         sdkUtil.isAtLeastQ() -> Android29SavedNetworkAdapter(assertions)
         else -> DefaultSavedNetworkAdapter(wifiManager, logger)
-    }
+    },
 ) : SavedNetworkDelegate {
 
     init {
@@ -99,7 +99,10 @@ class WisefySavedNetworkDelegate(
                 val result = adapter.getSavedNetworks(query)
                 withContext(coroutineDispatcherProvider.main) {
                     when (result) {
-                        is GetSavedNetworksResult.Empty -> callbacks?.onNoSavedNetworksFound()
+                        is GetSavedNetworksResult.Empty -> {
+                            callbacks?.onNoSavedNetworksFound()
+                        }
+
                         is GetSavedNetworksResult.SavedNetworks -> {
                             callbacks?.onSavedNetworksRetrieved(result.value)
                         }

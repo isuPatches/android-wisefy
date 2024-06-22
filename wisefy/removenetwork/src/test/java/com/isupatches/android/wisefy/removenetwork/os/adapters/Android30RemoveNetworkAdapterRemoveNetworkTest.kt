@@ -32,9 +32,7 @@ import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 
 @RunWith(Parameterized::class)
-internal class Android30RemoveNetworkAdapterRemoveNetworkTest(
-    private val params: RemoveNetworkParams
-) {
+internal class Android30RemoveNetworkAdapterRemoveNetworkTest(private val params: RemoveNetworkParams) {
 
     @Mock
     private lateinit var mockWifiManager: WifiManager
@@ -52,7 +50,7 @@ internal class Android30RemoveNetworkAdapterRemoveNetworkTest(
         adapter = Android30RemoveNetworkAdapter(
             wifiManager = mockWifiManager,
             logger = DefaultWisefyLogger(),
-            api = mockApi
+            api = mockApi,
         )
     }
 
@@ -88,30 +86,30 @@ internal class Android30RemoveNetworkAdapterRemoveNetworkTest(
                 RemoveNetworkParams(
                     request = RemoveNetworkRequest.SSID(ssid = TEST_SSID),
                     removeNetworkResult = ADD_NETWORK_SUCCESS_RESULT_CODE,
-                    expectedResult = RemoveNetworkResult.Success.ResultCode(ADD_NETWORK_SUCCESS_RESULT_CODE)
+                    expectedResult = RemoveNetworkResult.Success.ResultCode(ADD_NETWORK_SUCCESS_RESULT_CODE),
                 ),
                 RemoveNetworkParams(
                     request = RemoveNetworkRequest.BSSID(bssid = TEST_BSSID),
                     removeNetworkResult = ADD_NETWORK_SUCCESS_RESULT_CODE,
-                    expectedResult = RemoveNetworkResult.Success.ResultCode(ADD_NETWORK_SUCCESS_RESULT_CODE)
+                    expectedResult = RemoveNetworkResult.Success.ResultCode(ADD_NETWORK_SUCCESS_RESULT_CODE),
                 ),
                 RemoveNetworkParams(
                     request = RemoveNetworkRequest.SSID(ssid = TEST_SSID),
                     removeNetworkResult = ADD_NETWORK_FAILURE_RESULT_CODE,
-                    expectedResult = RemoveNetworkResult.Failure.ResultCode(ADD_NETWORK_FAILURE_RESULT_CODE)
+                    expectedResult = RemoveNetworkResult.Failure.ResultCode(ADD_NETWORK_FAILURE_RESULT_CODE),
                 ),
                 RemoveNetworkParams(
                     request = RemoveNetworkRequest.BSSID(bssid = TEST_BSSID),
                     removeNetworkResult = ADD_NETWORK_FAILURE_RESULT_CODE,
-                    expectedResult = RemoveNetworkResult.Failure.ResultCode(ADD_NETWORK_FAILURE_RESULT_CODE)
-                )
+                    expectedResult = RemoveNetworkResult.Failure.ResultCode(ADD_NETWORK_FAILURE_RESULT_CODE),
+                ),
             )
         }
 
         data class RemoveNetworkParams(
             val request: RemoveNetworkRequest,
             val removeNetworkResult: Int,
-            val expectedResult: RemoveNetworkResult
+            val expectedResult: RemoveNetworkResult,
         )
     }
 }

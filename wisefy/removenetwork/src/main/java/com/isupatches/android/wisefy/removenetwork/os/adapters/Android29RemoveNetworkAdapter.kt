@@ -26,7 +26,7 @@ import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkResult
 /**
  * An Android 29 specific adapter for removing a network.
  *
- * @property assertions The [WisefyAssertions] instance to use
+ * @param assertions The [WisefyAssertions] instance to use
  *
  * @see RemoveNetworkApi
  * @see WisefyAssertions
@@ -36,7 +36,7 @@ import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkResult
  */
 @RequiresApi(Build.VERSION_CODES.Q)
 internal class Android29RemoveNetworkAdapter(
-    private val assertions: WisefyAssertions
+    private val assertions: WisefyAssertions,
 ) : RemoveNetworkApi {
 
     override fun removeNetwork(request: RemoveNetworkRequest): RemoveNetworkResult {

@@ -35,7 +35,7 @@ private val WisefySampleDarkColors = darkColors(
     surface = WisefySampleColorPalette.Gray9,
     onSurface = WisefySampleColorPalette.Gray2,
     error = WisefySampleColorPalette.ErrorDarkMode,
-    onError = WisefySampleColorPalette.Gray1
+    onError = WisefySampleColorPalette.Gray1,
 )
 private val WisefySampleLightColors = lightColors(
     primary = WisefySampleColorPalette.Primary,
@@ -49,17 +49,18 @@ private val WisefySampleLightColors = lightColors(
     surface = WisefySampleColorPalette.Gray3,
     onSurface = WisefySampleColorPalette.Gray9,
     error = WisefySampleColorPalette.Error,
-    onError = WisefySampleColorPalette.Gray1
+    onError = WisefySampleColorPalette.Gray1,
 )
 
 @Composable
-internal fun WisefySampleTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
-    content: @Composable () -> Unit
-) {
+internal fun WisefySampleTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
     MaterialTheme(
-        colors = if (darkTheme) WisefySampleDarkColors else WisefySampleLightColors,
+        colors = if (darkTheme) {
+            WisefySampleDarkColors
+        } else {
+            WisefySampleLightColors
+        },
         content = content,
-        typography = WisefySampleTypography
+        typography = WisefySampleTypography,
     )
 }

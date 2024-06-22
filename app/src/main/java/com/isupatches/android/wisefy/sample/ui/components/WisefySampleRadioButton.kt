@@ -22,10 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.isupatches.android.wisefy.sample.ui.theme.WisefySampleTheme
 
 @Composable
-internal fun WisefySampleRadioButton(
-    isSelected: Boolean,
-    onClick: () -> Unit
-) {
+internal fun WisefySampleRadioButton(isSelected: Boolean, onClick: () -> Unit) {
     WisefySampleTheme {
         RadioButton(selected = isSelected, onClick = onClick)
     }

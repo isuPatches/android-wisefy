@@ -29,35 +29,32 @@ import com.isupatches.android.wisefy.sample.ui.primitives.WisefySampleSizes
 import com.isupatches.android.wisefy.sample.ui.theme.WisefySampleTheme
 
 @Composable
-internal fun WisefySampleSSIDTypeSelectionRows(
-    ssidType: () -> SSIDType,
-    onSSIDTypeChanged: (SSIDType) -> Unit
-) {
+internal fun WisefySampleSSIDTypeSelectionRows(ssidType: () -> SSIDType, onSSIDTypeChanged: (SSIDType) -> Unit) {
     WisefySampleTheme {
         Column {
             val currentSSIDType = ssidType()
             Row {
                 WisefySampleSubHeaderLabel(
                     modifier = Modifier.padding(top = WisefySampleSizes.Large),
-                    stringResId = R.string.ssid_type
+                    stringResId = R.string.ssid_type,
                 )
             }
             Row(
                 modifier = Modifier.padding(top = WisefySampleSizes.Medium),
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 WisefySampleRadioButton(
                     isSelected = currentSSIDType == SSIDType.SSID,
                     onClick = {
                         onSSIDTypeChanged(SSIDType.SSID)
-                    }
+                    },
                 )
                 WisefySampleBodyLabel(stringResId = R.string.ssid)
                 WisefySampleRadioButton(
                     isSelected = currentSSIDType == SSIDType.BSSID,
                     onClick = {
                         onSSIDTypeChanged(SSIDType.BSSID)
-                    }
+                    },
                 )
                 WisefySampleBodyLabel(stringResId = R.string.bssid)
             }
@@ -71,7 +68,7 @@ internal fun WisefySampleSSIDTypeSelectionRows(
 private fun WisefySampleSSIDTypeSelectionRowsLightPreview() {
     WisefySampleSSIDTypeSelectionRows(
         onSSIDTypeChanged = { },
-        ssidType = { SSIDType.SSID }
+        ssidType = { SSIDType.SSID },
     )
 }
 
@@ -81,6 +78,6 @@ private fun WisefySampleSSIDTypeSelectionRowsLightPreview() {
 private fun WisefySampleSSIDTypeSelectionRowsDarkPreview() {
     WisefySampleSSIDTypeSelectionRows(
         onSSIDTypeChanged = { },
-        ssidType = { SSIDType.SSID }
+        ssidType = { SSIDType.SSID },
     )
 }

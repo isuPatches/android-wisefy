@@ -47,7 +47,7 @@ internal class DefaultAccessPointsAdapterTest {
         adapter = DefaultAccessPointsAdapter(
             wifiManager = mockWifiManager,
             logger = DefaultWisefyLogger(),
-            api = mockDefaultAccessPointsApi
+            api = mockDefaultAccessPointsApi,
         )
     }
 
@@ -203,7 +203,7 @@ internal class DefaultAccessPointsAdapterTest {
     fun getAccessPoints_withList_GetAccessPointsQuery_BySSID_withoutTimeout_filterDuplicates_true() {
         // Given
         given(mockDefaultAccessPointsApi.searchForAccessPointsBySSID(TEST_SSID, null, true)).willReturn(
-            listOf(TEST_ACCESS_POINT)
+            listOf(TEST_ACCESS_POINT),
         )
 
         // When
@@ -219,7 +219,7 @@ internal class DefaultAccessPointsAdapterTest {
     fun getAccessPoints_withList_GetAccessPointsQuery_BySSID_withoutTimeout_filterDuplicates_false() {
         // Given
         given(mockDefaultAccessPointsApi.searchForAccessPointsBySSID(TEST_SSID, null, false)).willReturn(
-            listOf(TEST_ACCESS_POINT)
+            listOf(TEST_ACCESS_POINT),
         )
 
         // When
@@ -235,7 +235,7 @@ internal class DefaultAccessPointsAdapterTest {
     fun getAccessPoints_withList_GetAccessPointsQuery_BySSID_withTimeout_filterDuplicates_true() {
         // Given
         given(mockDefaultAccessPointsApi.searchForAccessPointsBySSID(TEST_SSID, 5, true)).willReturn(
-            listOf(TEST_ACCESS_POINT)
+            listOf(TEST_ACCESS_POINT),
         )
 
         // When
@@ -251,7 +251,7 @@ internal class DefaultAccessPointsAdapterTest {
     fun getAccessPoints_withList_GetAccessPointsQuery_BySSID_withTimeout_filterDuplicates_false() {
         // Given
         given(mockDefaultAccessPointsApi.searchForAccessPointsByBSSID(TEST_BSSID, 5, false)).willReturn(
-            listOf(TEST_ACCESS_POINT)
+            listOf(TEST_ACCESS_POINT),
         )
 
         // When
@@ -267,7 +267,7 @@ internal class DefaultAccessPointsAdapterTest {
     fun getAccessPoints_withList_GetAccessPointsQuery_ByBSSID_withoutTimeout_filterDuplicates_true() {
         // Given
         given(mockDefaultAccessPointsApi.searchForAccessPointsByBSSID(TEST_BSSID, null, true)).willReturn(
-            listOf(TEST_ACCESS_POINT)
+            listOf(TEST_ACCESS_POINT),
         )
 
         // When
@@ -283,7 +283,7 @@ internal class DefaultAccessPointsAdapterTest {
     fun getAccessPoints_withList_GetAccessPointsQuery_ByBSSID_withoutTimeout_filterDuplicates_false() {
         // Given
         given(mockDefaultAccessPointsApi.searchForAccessPointsByBSSID(TEST_BSSID, null, false)).willReturn(
-            listOf(TEST_ACCESS_POINT)
+            listOf(TEST_ACCESS_POINT),
         )
 
         // When
@@ -299,7 +299,7 @@ internal class DefaultAccessPointsAdapterTest {
     fun getAccessPoints_withList_GetAccessPointsQuery_ByBSSID_withTimeout_filterDuplicates_true() {
         // Given
         given(mockDefaultAccessPointsApi.searchForAccessPointsByBSSID(TEST_BSSID, 5, true)).willReturn(
-            listOf(TEST_ACCESS_POINT)
+            listOf(TEST_ACCESS_POINT),
         )
 
         // When
@@ -315,7 +315,7 @@ internal class DefaultAccessPointsAdapterTest {
     fun getAccessPoints_withList_GetAccessPointsQuery_ByBSSID_withTimeout_filterDuplicates_false() {
         // Given
         given(mockDefaultAccessPointsApi.searchForAccessPointsByBSSID(TEST_BSSID, 5, false)).willReturn(
-            listOf(TEST_ACCESS_POINT)
+            listOf(TEST_ACCESS_POINT),
         )
 
         // When
@@ -336,7 +336,7 @@ internal class DefaultAccessPointsAdapterTest {
                 capabilities = ""
             },
             ssid = TEST_SSID,
-            bssid = TEST_BSSID
+            bssid = TEST_BSSID,
         )
     }
 }

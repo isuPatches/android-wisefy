@@ -18,7 +18,8 @@ package com.isupatches.android.wisefy.sample.entities
 internal enum class NetworkType(val intVal: Int) {
     OPEN(0),
     WPA2(1),
-    WPA3(2);
+    WPA3(2),
+    ;
 
     companion object {
 

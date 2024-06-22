@@ -33,7 +33,7 @@ import org.mockito.MockitoAnnotations
 
 @RunWith(Parameterized::class)
 internal class DefaultWifiApiImplDisableWifiTest(
-    private val params: DisableWifiParams
+    private val params: DisableWifiParams,
 ) {
 
     @Mock
@@ -77,7 +77,7 @@ internal class DefaultWifiApiImplDisableWifiTest(
         fun paramValues(): List<DisableWifiParams> {
             return listOf(
                 DisableWifiParams(disableWifiResult = true),
-                DisableWifiParams(disableWifiResult = false)
+                DisableWifiParams(disableWifiResult = false),
             )
         }
 

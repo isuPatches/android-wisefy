@@ -28,16 +28,13 @@ import com.isupatches.android.wisefy.sample.ui.primitives.WisefySampleTypography
 import com.isupatches.android.wisefy.sample.ui.theme.WisefySampleTheme
 
 @Composable
-internal fun WisefySampleDialogTitleLabel(
-    @StringRes stringResId: Int,
-    modifier: Modifier = Modifier
-) {
+internal fun WisefySampleDialogTitleLabel(@StringRes stringResId: Int, modifier: Modifier = Modifier) {
     WisefySampleTheme {
         Text(
             text = stringResource(stringResId),
             style = WisefySampleTypography.h5,
             color = MaterialTheme.colors.primary,
-            modifier = modifier
+            modifier = modifier,
         )
     }
 }
@@ -46,7 +43,7 @@ internal fun WisefySampleDialogTitleLabel(
 internal fun WisefySampleDialogBodyLabel(
     @StringRes stringResId: Int,
     modifier: Modifier = Modifier,
-    vararg formatArgs: Any
+    vararg formatArgs: Any,
 ) {
     WisefySampleTheme {
         val text = if (formatArgs.any()) {
@@ -58,7 +55,7 @@ internal fun WisefySampleDialogBodyLabel(
             text = text,
             style = WisefySampleTypography.body1,
             color = MaterialTheme.colors.onSurface,
-            modifier = modifier
+            modifier = modifier,
         )
     }
 }
@@ -67,7 +64,7 @@ internal fun WisefySampleDialogBodyLabel(
 internal fun WisefySampleBodyLabel(
     @StringRes stringResId: Int,
     modifier: Modifier = Modifier,
-    vararg formatArgs: Any
+    vararg formatArgs: Any,
 ) {
     WisefySampleTheme {
         val text = if (formatArgs.any()) {
@@ -79,7 +76,7 @@ internal fun WisefySampleBodyLabel(
             text = text,
             style = WisefySampleTypography.body1,
             color = MaterialTheme.colors.onBackground,
-            modifier = modifier
+            modifier = modifier,
         )
     }
 }
@@ -88,7 +85,7 @@ internal fun WisefySampleBodyLabel(
 internal fun WisefySampleSubHeaderLabel(
     @StringRes stringResId: Int,
     modifier: Modifier = Modifier,
-    vararg formatArgs: Any
+    vararg formatArgs: Any,
 ) {
     WisefySampleTheme {
         val text = if (formatArgs.any()) {
@@ -100,22 +97,19 @@ internal fun WisefySampleSubHeaderLabel(
             text = text,
             style = WisefySampleTypography.h6,
             color = MaterialTheme.colors.onBackground,
-            modifier = modifier
+            modifier = modifier,
         )
     }
 }
 
 @Composable
-internal fun WisefySampleCaptionLabel(
-    text: String,
-    modifier: Modifier = Modifier
-) {
+internal fun WisefySampleCaptionLabel(text: String, modifier: Modifier = Modifier) {
     WisefySampleTheme {
         Text(
             text = text,
             style = WisefySampleTypography.caption,
             color = MaterialTheme.colors.onBackground,
-            modifier = modifier
+            modifier = modifier,
         )
     }
 }

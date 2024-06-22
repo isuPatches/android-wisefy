@@ -51,7 +51,7 @@ internal class MainActivity : ComponentActivity() {
         setContent {
             WisefySampleTheme {
                 window?.statusBarColor = MaterialTheme.colors.primaryVariant.toArgb()
-                MainScreenLayout(wisefy, sdkUtil)
+                MainScreenLayout(sdkUtil)
             }
         }
     }
@@ -63,12 +63,12 @@ internal class MainActivity : ComponentActivity() {
 }
 
 @Composable
-internal fun MainScreenLayout(wisefy: WisefyApi, sdkUtil: SdkUtil) {
+internal fun MainScreenLayout(sdkUtil: SdkUtil) {
     val navController = rememberNavController()
     Scaffold(
         topBar = { WisefySampleToolbar() },
         content = { padding ->
-            WisefySampleNavHost(navController, wisefy, sdkUtil, padding)
+            WisefySampleNavHost(navController, sdkUtil, padding)
         },
         bottomBar = {
             val showBottomNav = when (currentRoute(navController = navController)) {
@@ -76,13 +76,15 @@ internal fun MainScreenLayout(wisefy: WisefyApi, sdkUtil: SdkUtil) {
                 WisefySampleNavGraph.Main.Remove.route,
                 WisefySampleNavGraph.Main.Home.route,
                 WisefySampleNavGraph.Main.Misc.route,
-                WisefySampleNavGraph.Main.Search.route -> true
+                WisefySampleNavGraph.Main.Search.route,
+                -> true
+
                 else -> false
             }
             if (showBottomNav) {
                 WisefySampleBottomNavigation(navController = navController)
             }
-        }
+        },
     )
 }
 

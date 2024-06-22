@@ -25,8 +25,8 @@ import com.isupatches.android.wisefy.wifi.os.apis.DefaultWifiApi
 /**
  * A default internal implementation for enabling, disabling, and checking the state of wifi through the Android OS.
  *
- * @property wifiManager The WifiManager instance to use
- * @property logger The [WisefyLogger] instance to use
+ * @param wifiManager The WifiManager instance to use
+ * @param logger The [WisefyLogger] instance to use
  *
  * @see DefaultWifiApi
  * @see WisefyLogger
@@ -36,7 +36,7 @@ import com.isupatches.android.wisefy.wifi.os.apis.DefaultWifiApi
  */
 internal class DefaultWifiApiImpl(
     private val wifiManager: WifiManager,
-    private val logger: WisefyLogger
+    private val logger: WisefyLogger,
 ) : DefaultWifiApi {
 
     @RequiresPermission(CHANGE_WIFI_STATE)

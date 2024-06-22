@@ -31,7 +31,7 @@ import com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedResult
 /**
  * An Android 29 specific adapter for adding networks.
  *
- * @property assertions The [WisefyAssertions] instance to use
+ * @param assertions The [WisefyAssertions] instance to use
  *
  * @see SavedNetworkApi
  * @see WisefyAssertions
@@ -41,7 +41,7 @@ import com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedResult
  */
 @RequiresApi(Build.VERSION_CODES.Q)
 internal class Android29SavedNetworkAdapter(
-    private val assertions: WisefyAssertions
+    private val assertions: WisefyAssertions,
 ) : SavedNetworkApi {
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])

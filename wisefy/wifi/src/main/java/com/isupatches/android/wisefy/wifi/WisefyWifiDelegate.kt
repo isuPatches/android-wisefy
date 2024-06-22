@@ -48,10 +48,10 @@ import kotlinx.coroutines.withContext
  * @param logger The [WisefyLogger] instance to use
  * @param sdkUtil The [SdkUtil] instance to use
  * @param wifiManager The WifiManager instance to use
- * @property coroutineDispatcherProvider The [CoroutineDispatcherProvider] instance to use
- * @property scope The coroutine scope to use
- * @property wifiMutex The mutex for all read/write operations involving wifi
- * @property adapter The adapter instance to use for wifi operations (determined based on the Android OS level)
+ * @param coroutineDispatcherProvider The [CoroutineDispatcherProvider] instance to use
+ * @param scope The coroutine scope to use
+ * @param wifiMutex The mutex for all read/write operations involving wifi
+ * @param adapter The adapter instance to use for wifi operations (determined based on the Android OS level)
  *
  * @see Android29WifiAdapter
  * @see CoroutineDispatcherProvider
@@ -76,7 +76,7 @@ class WisefyWifiDelegate(
         Android29WifiAdapter(wifiManager, logger, assertions)
     } else {
         DefaultWifiAdapter(wifiManager, logger, assertions)
-    }
+    },
 ) : WifiDelegate {
 
     init {

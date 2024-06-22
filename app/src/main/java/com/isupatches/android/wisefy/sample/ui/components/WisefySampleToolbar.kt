@@ -33,11 +33,11 @@ internal fun WisefySampleToolbar() {
                 Text(
                     text = stringResource(R.string.app_name),
                     color = MaterialTheme.colors.onPrimary,
-                    style = MaterialTheme.typography.h5
+                    style = MaterialTheme.typography.h5,
                 )
             },
             backgroundColor = MaterialTheme.colors.primary,
-            contentColor = MaterialTheme.colors.onPrimary
+            contentColor = MaterialTheme.colors.onPrimary,
         )
     }
 }

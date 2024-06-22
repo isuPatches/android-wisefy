@@ -25,7 +25,7 @@ import org.junit.runners.Parameterized.Parameters
 
 @RunWith(Parameterized::class)
 internal class AccessPointDataSupportsPairwiseCipherTest(
-    private val params: SupportsPairwiseCipherParams
+    private val params: SupportsPairwiseCipherParams,
 ) {
 
     @Test
@@ -34,7 +34,7 @@ internal class AccessPointDataSupportsPairwiseCipherTest(
         val accessPoint = AccessPointData(
             rawValue = ScanResult().apply {
                 capabilities = params.capabilities
-            }
+            },
         )
 
         // Then
@@ -52,70 +52,70 @@ internal class AccessPointDataSupportsPairwiseCipherTest(
                 SupportsPairwiseCipherParams(
                     capabilities = "",
                     pairwiseCipher = PairwiseCipher.CCMP,
-                    expectedResult = false
+                    expectedResult = false,
                 ),
                 SupportsPairwiseCipherParams(
                     capabilities = "",
                     pairwiseCipher = PairwiseCipher.TKIP,
-                    expectedResult = false
+                    expectedResult = false,
                 ),
                 SupportsPairwiseCipherParams(
                     capabilities = "CCMP",
                     pairwiseCipher = PairwiseCipher.CCMP,
-                    expectedResult = false
+                    expectedResult = false,
                 ),
                 SupportsPairwiseCipherParams(
                     capabilities = "CCMP",
                     pairwiseCipher = PairwiseCipher.TKIP,
-                    expectedResult = false
+                    expectedResult = false,
                 ),
                 SupportsPairwiseCipherParams(
                     capabilities = "TKIP",
                     pairwiseCipher = PairwiseCipher.CCMP,
-                    expectedResult = false
+                    expectedResult = false,
                 ),
                 SupportsPairwiseCipherParams(
                     capabilities = "TKIP",
                     pairwiseCipher = PairwiseCipher.TKIP,
-                    expectedResult = false
+                    expectedResult = false,
                 ),
                 SupportsPairwiseCipherParams(
                     capabilities = "[WPA2-PSK-CCMP]",
                     pairwiseCipher = PairwiseCipher.CCMP,
-                    expectedResult = true
+                    expectedResult = true,
                 ),
                 SupportsPairwiseCipherParams(
                     capabilities = "[WPA2-PSK-CCMP]",
                     pairwiseCipher = PairwiseCipher.TKIP,
-                    expectedResult = false
+                    expectedResult = false,
                 ),
                 SupportsPairwiseCipherParams(
                     capabilities = "[WPA2-PSK-TKIP]",
                     pairwiseCipher = PairwiseCipher.CCMP,
-                    expectedResult = false
+                    expectedResult = false,
                 ),
                 SupportsPairwiseCipherParams(
                     capabilities = "[WPA2-PSK-TKIP]",
                     pairwiseCipher = PairwiseCipher.TKIP,
-                    expectedResult = true
+                    expectedResult = true,
                 ),
                 SupportsPairwiseCipherParams(
                     capabilities = "[WPA2-EAP-CCMP][WPA-EAP-TKIP]",
                     pairwiseCipher = PairwiseCipher.CCMP,
-                    expectedResult = true
+                    expectedResult = true,
                 ),
                 SupportsPairwiseCipherParams(
                     capabilities = "[WPA2-EAP-CCMP][WPA-EAP-TKIP]",
                     pairwiseCipher = PairwiseCipher.TKIP,
-                    expectedResult = true
-                )
+                    expectedResult = true,
+                ),
             )
         }
 
         data class SupportsPairwiseCipherParams(
             val capabilities: String,
             val pairwiseCipher: PairwiseCipher,
-            val expectedResult: Boolean
+            val expectedResult: Boolean,
         )
     }
 }

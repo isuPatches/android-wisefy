@@ -35,8 +35,8 @@ import com.isupatches.android.wisefy.signal.os.impls.Android30SignalApiImpl
  *
  * @param wifiManager The WifiManager instance to use
  * @param logger The [WisefyLogger] instance to use
- * @property assertions The [WisefyAssertions] instance to use
- * @property api The OS level API instance to use
+ * @param assertions The [WisefyAssertions] instance to use
+ * @param api The OS level API instance to use
  *
  * @see Android30SignalApi
  * @see Android30SignalApiImpl
@@ -52,7 +52,7 @@ internal class Android30SignalAdapter(
     wifiManager: WifiManager,
     logger: WisefyLogger,
     private val assertions: WisefyAssertions,
-    private val api: Android30SignalApi = Android30SignalApiImpl(wifiManager, logger)
+    private val api: Android30SignalApi = Android30SignalApiImpl(wifiManager, logger),
 ) : SignalApi {
 
     override fun calculateSignalLevel(request: CalculateSignalLevelRequest): CalculateSignalLevelResult {

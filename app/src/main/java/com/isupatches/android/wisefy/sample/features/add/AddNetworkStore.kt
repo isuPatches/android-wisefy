@@ -23,8 +23,10 @@ import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.isupatches.android.wisefy.sample.entities.NetworkType
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
 private const val PREF_NETWORK_TYPE = "network_type"
 private const val PREF_LAST_USED_NETWORK_INPUT = "last_used_network_input"
@@ -47,8 +49,8 @@ internal interface AddNetworkStore {
 
 private val Context.addNetworkDataStore: DataStore<Preferences> by preferencesDataStore(name = "addNetworkDataStore")
 
-internal class DefaultAddNetworkStore(
-    private val context: Context
+internal class AddNetworkStoreUsingDataStore @Inject constructor(
+    @ApplicationContext private val context: Context,
 ) : AddNetworkStore {
 
     private val networkTypeKey = intPreferencesKey(PREF_NETWORK_TYPE)
@@ -79,8 +81,8 @@ internal class DefaultAddNetworkStore(
     }
 
     /*
-    * Last used network input
-    */
+     * Last used network input
+     */
 
     override fun getLastUsedNetworkInput(): Flow<String> {
         return context.addNetworkDataStore.data.map { preferences ->

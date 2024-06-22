@@ -31,9 +31,7 @@ import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 
 @RunWith(Parameterized::class)
-internal class DefaultAccessPointsApiImplGetNearbyAccessPointsTest(
-    private val params: GetNearbyAccessPointsParams
-) {
+internal class DefaultAccessPointsApiImplGetNearbyAccessPointsTest(private val params: GetNearbyAccessPointsParams) {
 
     @Mock
     private lateinit var mockWifiManager: WifiManager
@@ -75,37 +73,37 @@ internal class DefaultAccessPointsApiImplGetNearbyAccessPointsTest(
                     foundAccessPoints = null,
                     filterDuplicates = true,
                     expectedResultSize = 0,
-                    expectedResultList = emptyList()
+                    expectedResultList = emptyList(),
                 ),
                 GetNearbyAccessPointsParams(
                     foundAccessPoints = null,
                     filterDuplicates = false,
                     expectedResultSize = 0,
-                    expectedResultList = emptyList()
+                    expectedResultList = emptyList(),
                 ),
                 GetNearbyAccessPointsParams(
                     foundAccessPoints = emptyList(),
                     filterDuplicates = true,
                     expectedResultSize = 0,
-                    expectedResultList = emptyList()
+                    expectedResultList = emptyList(),
                 ),
                 GetNearbyAccessPointsParams(
                     foundAccessPoints = emptyList(),
                     filterDuplicates = false,
                     expectedResultSize = 0,
-                    expectedResultList = emptyList()
+                    expectedResultList = emptyList(),
                 ),
                 GetNearbyAccessPointsParams(
                     foundAccessPoints = listOf(TEST_SCAN_RESULT_1),
                     filterDuplicates = true,
                     expectedResultSize = 1,
-                    expectedResultList = listOf(AccessPointData(TEST_SCAN_RESULT_1))
+                    expectedResultList = listOf(AccessPointData(TEST_SCAN_RESULT_1)),
                 ),
                 GetNearbyAccessPointsParams(
                     foundAccessPoints = listOf(TEST_SCAN_RESULT_1),
                     filterDuplicates = false,
                     expectedResultSize = 1,
-                    expectedResultList = listOf(AccessPointData(TEST_SCAN_RESULT_1))
+                    expectedResultList = listOf(AccessPointData(TEST_SCAN_RESULT_1)),
                 ),
                 GetNearbyAccessPointsParams(
                     foundAccessPoints = listOf(TEST_SCAN_RESULT_1, TEST_SCAN_RESULT_2),
@@ -113,8 +111,8 @@ internal class DefaultAccessPointsApiImplGetNearbyAccessPointsTest(
                     expectedResultSize = 2,
                     expectedResultList = listOf(
                         AccessPointData(TEST_SCAN_RESULT_1),
-                        AccessPointData(TEST_SCAN_RESULT_2)
-                    )
+                        AccessPointData(TEST_SCAN_RESULT_2),
+                    ),
                 ),
                 GetNearbyAccessPointsParams(
                     foundAccessPoints = listOf(TEST_SCAN_RESULT_1, TEST_SCAN_RESULT_2),
@@ -122,14 +120,14 @@ internal class DefaultAccessPointsApiImplGetNearbyAccessPointsTest(
                     expectedResultSize = 2,
                     expectedResultList = listOf(
                         AccessPointData(TEST_SCAN_RESULT_1),
-                        AccessPointData(TEST_SCAN_RESULT_2)
-                    )
+                        AccessPointData(TEST_SCAN_RESULT_2),
+                    ),
                 ),
                 GetNearbyAccessPointsParams(
                     foundAccessPoints = listOf(TEST_SCAN_RESULT_1, TEST_SCAN_RESULT_SAME_SSID_LOWER_RSSI),
                     filterDuplicates = true,
                     expectedResultSize = 1,
-                    expectedResultList = listOf(AccessPointData(TEST_SCAN_RESULT_1))
+                    expectedResultList = listOf(AccessPointData(TEST_SCAN_RESULT_1)),
                 ),
                 GetNearbyAccessPointsParams(
                     foundAccessPoints = listOf(TEST_SCAN_RESULT_1, TEST_SCAN_RESULT_SAME_SSID_LOWER_RSSI),
@@ -137,14 +135,14 @@ internal class DefaultAccessPointsApiImplGetNearbyAccessPointsTest(
                     expectedResultSize = 2,
                     expectedResultList = listOf(
                         AccessPointData(TEST_SCAN_RESULT_1),
-                        AccessPointData(TEST_SCAN_RESULT_SAME_SSID_LOWER_RSSI)
-                    )
+                        AccessPointData(TEST_SCAN_RESULT_SAME_SSID_LOWER_RSSI),
+                    ),
                 ),
                 GetNearbyAccessPointsParams(
                     foundAccessPoints = listOf(TEST_SCAN_RESULT_1, TEST_SCAN_RESULT_SAME_SSID_SAME_RSSI),
                     filterDuplicates = true,
                     expectedResultSize = 1,
-                    expectedResultList = listOf(AccessPointData(TEST_SCAN_RESULT_1))
+                    expectedResultList = listOf(AccessPointData(TEST_SCAN_RESULT_1)),
                 ),
                 GetNearbyAccessPointsParams(
                     foundAccessPoints = listOf(TEST_SCAN_RESULT_1, TEST_SCAN_RESULT_SAME_SSID_SAME_RSSI),
@@ -152,14 +150,14 @@ internal class DefaultAccessPointsApiImplGetNearbyAccessPointsTest(
                     expectedResultSize = 2,
                     expectedResultList = listOf(
                         AccessPointData(TEST_SCAN_RESULT_1),
-                        AccessPointData(TEST_SCAN_RESULT_SAME_SSID_SAME_RSSI)
-                    )
+                        AccessPointData(TEST_SCAN_RESULT_SAME_SSID_SAME_RSSI),
+                    ),
                 ),
                 GetNearbyAccessPointsParams(
                     foundAccessPoints = listOf(TEST_SCAN_RESULT_1, TEST_SCAN_RESULT_SAME_SSID_HIGHER_RSSI),
                     filterDuplicates = true,
                     expectedResultSize = 1,
-                    expectedResultList = listOf(AccessPointData(TEST_SCAN_RESULT_SAME_SSID_HIGHER_RSSI))
+                    expectedResultList = listOf(AccessPointData(TEST_SCAN_RESULT_SAME_SSID_HIGHER_RSSI)),
                 ),
                 GetNearbyAccessPointsParams(
                     foundAccessPoints = listOf(TEST_SCAN_RESULT_1, TEST_SCAN_RESULT_SAME_SSID_HIGHER_RSSI),
@@ -167,9 +165,9 @@ internal class DefaultAccessPointsApiImplGetNearbyAccessPointsTest(
                     expectedResultSize = 2,
                     expectedResultList = listOf(
                         AccessPointData(TEST_SCAN_RESULT_1),
-                        AccessPointData(TEST_SCAN_RESULT_SAME_SSID_HIGHER_RSSI)
-                    )
-                )
+                        AccessPointData(TEST_SCAN_RESULT_SAME_SSID_HIGHER_RSSI),
+                    ),
+                ),
             )
         }
 
@@ -177,7 +175,7 @@ internal class DefaultAccessPointsApiImplGetNearbyAccessPointsTest(
             val foundAccessPoints: List<ScanResult>?,
             val filterDuplicates: Boolean,
             val expectedResultSize: Int,
-            val expectedResultList: List<AccessPointData>
+            val expectedResultList: List<AccessPointData>,
         )
 
         private const val TEST_SSID_1: String = "Test SSID 1"

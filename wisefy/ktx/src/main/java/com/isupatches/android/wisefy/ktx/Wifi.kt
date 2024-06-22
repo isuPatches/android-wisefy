@@ -70,7 +70,7 @@ suspend fun WisefyApi.disableWifiAsync(request: DisableWifiRequest): DisableWifi
                 override fun onWisefyAsyncFailure(exception: WisefyException) {
                     continuation.resumeWith(Result.failure(exception))
                 }
-            }
+            },
         )
     }
 
@@ -97,25 +97,24 @@ suspend fun WisefyApi.disableWifiAsync(request: DisableWifiRequest): DisableWifi
  */
 @Throws(WisefyException::class)
 @RequiresPermission(CHANGE_WIFI_STATE)
-suspend fun WisefyApi.enableWifiAsync(request: EnableWifiRequest): EnableWifiResult =
-    suspendCoroutine { continuation ->
-        enableWifi(
-            request = request,
-            callbacks = object : EnableWifiCallbacks {
-                override fun onSuccessEnablingWifi(result: EnableWifiResult.Success) {
-                    continuation.resumeWith(Result.success(result))
-                }
-
-                override fun onFailureEnablingWifi(result: EnableWifiResult.Failure) {
-                    continuation.resumeWith(Result.success(result))
-                }
-
-                override fun onWisefyAsyncFailure(exception: WisefyException) {
-                    continuation.resumeWith(Result.failure(exception))
-                }
+suspend fun WisefyApi.enableWifiAsync(request: EnableWifiRequest): EnableWifiResult = suspendCoroutine { continuation ->
+    enableWifi(
+        request = request,
+        callbacks = object : EnableWifiCallbacks {
+            override fun onSuccessEnablingWifi(result: EnableWifiResult.Success) {
+                continuation.resumeWith(Result.success(result))
             }
-        )
-    }
+
+            override fun onFailureEnablingWifi(result: EnableWifiResult.Failure) {
+                continuation.resumeWith(Result.success(result))
+            }
+
+            override fun onWisefyAsyncFailure(exception: WisefyException) {
+                continuation.resumeWith(Result.failure(exception))
+            }
+        },
+    )
+}
 
 /**
  * A coroutine extension for checking the current state of wifi.
@@ -155,6 +154,6 @@ suspend fun WisefyApi.isWifiEnabledAsync(query: IsWifiEnabledQuery = IsWifiEnabl
                 override fun onWisefyAsyncFailure(exception: WisefyException) {
                     continuation.resumeWith(Result.failure(exception))
                 }
-            }
+            },
         )
     }

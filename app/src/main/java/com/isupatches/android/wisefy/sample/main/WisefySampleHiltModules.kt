@@ -16,6 +16,14 @@
 package com.isupatches.android.wisefy.sample.main
 
 import android.content.Context
+import com.isupatches.android.wisefy.sample.features.add.AddNetworkStore
+import com.isupatches.android.wisefy.sample.features.add.AddNetworkStoreUsingDataStore
+import com.isupatches.android.wisefy.sample.features.misc.signal.SignalStore
+import com.isupatches.android.wisefy.sample.features.misc.signal.SignalStoreUsingDataStore
+import com.isupatches.android.wisefy.sample.features.remove.RemoveNetworkStore
+import com.isupatches.android.wisefy.sample.features.remove.RemoveNetworkStoreUsingDataStore
+import com.isupatches.android.wisefy.sample.features.search.SearchStore
+import com.isupatches.android.wisefy.sample.features.search.SearchStoreUsingDataStore
 import com.isupatches.android.wisefy.sample.util.DefaultSdkUtil
 import com.isupatches.android.wisefy.sample.util.SdkUtil
 import com.isupatches.android.wisefy.sample.util.WisefyFactory
@@ -23,13 +31,13 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 
 @Suppress("unused", "UnnecessaryAbstractClass")
 @Module
-@InstallIn(ActivityComponent::class)
-internal abstract class MainActivityModule {
+@InstallIn(SingletonComponent::class)
+internal abstract class WisefySampleSingletonModule {
 
     @Binds
     abstract fun bindSdkUtil(impl: DefaultSdkUtil): SdkUtil
@@ -38,4 +46,22 @@ internal abstract class MainActivityModule {
         @Provides
         fun provideWiseFy(@ApplicationContext app: Context) = WisefyFactory.getInstance(context = app)
     }
+}
+
+@Suppress("unused")
+@Module
+@InstallIn(SingletonComponent::class)
+internal interface WisefySampleViewModelModule {
+
+    @Binds
+    fun bindAddNetworkStore(impl: AddNetworkStoreUsingDataStore): AddNetworkStore
+
+    @Binds
+    fun bindRemoveNetworkStore(impl: RemoveNetworkStoreUsingDataStore): RemoveNetworkStore
+
+    @Binds
+    fun bindSearchStore(impl: SearchStoreUsingDataStore): SearchStore
+
+    @Binds
+    fun bindSignalStore(impl: SignalStoreUsingDataStore): SignalStore
 }

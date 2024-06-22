@@ -15,36 +15,32 @@
  */
 package com.isupatches.android.wisefy.sample.features.misc.nearbyaccesspoints
 
-import android.content.res.Configuration
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
-import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import com.isupatches.android.wisefy.core.exceptions.WisefyException
 import com.isupatches.android.wisefy.sample.R
-import com.isupatches.android.wisefy.sample.ui.ComposablePreviewWisefy
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleNoticeDialog
 import com.isupatches.android.wisefy.sample.ui.theme.WisefySampleTheme
 
 @Composable
 internal fun NearbyAccessPointsScreenDialogContent(
     dialogState: () -> NearbyAccessPointsDialogState,
-    viewModel: NearbyAccessPointsViewModel
+    viewModel: NearbyAccessPointsViewModel,
 ) {
     WisefySampleTheme {
         when (val currentDialogState = dialogState()) {
             is NearbyAccessPointsDialogState.None -> {
                 // No-op, no dialog
             }
+
             is NearbyAccessPointsDialogState.GetNearbyAccessPoints.PermissionsError -> {
                 WisefySampleNoticeDialog(
                     title = R.string.permission_error,
                     body = R.string.permission_error_get_nearby_access_points,
                     onClose = {
                         viewModel.onDialogClosed()
-                    }
+                    },
                 )
             }
+
             is NearbyAccessPointsDialogState.Failure.WisefyAsync -> {
                 WisefySampleNoticeDialog(
                     title = R.string.wisefy_async_error,
@@ -53,47 +49,9 @@ internal fun NearbyAccessPointsScreenDialogContent(
                     currentDialogState.exception.cause?.message ?: "",
                     onClose = {
                         viewModel.onDialogClosed()
-                    }
+                    },
                 )
             }
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-@Suppress("UnusedPrivateMember")
-private fun AddNetworkScreenDialogContentLightPreview(
-    @PreviewParameter(NearbyAccessPointsDialogStatePreviewParameterProvider::class)
-    dialogState: NearbyAccessPointsDialogState
-) {
-    NearbyAccessPointsScreenDialogContent(
-        viewModel = DefaultNearbyAccessPointsViewModel(
-            wisefy = ComposablePreviewWisefy()
-        ),
-        dialogState = { dialogState }
-    )
-}
-
-@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
-@Composable
-@Suppress("UnusedPrivateMember")
-private fun AddNetworkScreenDialogContentDarkPreview(
-    @PreviewParameter(NearbyAccessPointsDialogStatePreviewParameterProvider::class)
-    dialogState: NearbyAccessPointsDialogState
-) {
-    NearbyAccessPointsScreenDialogContent(
-        viewModel = DefaultNearbyAccessPointsViewModel(
-            wisefy = ComposablePreviewWisefy()
-        ),
-        dialogState = { dialogState }
-    )
-}
-
-private class NearbyAccessPointsDialogStatePreviewParameterProvider :
-    PreviewParameterProvider<NearbyAccessPointsDialogState> {
-    override val values: Sequence<NearbyAccessPointsDialogState> = sequenceOf(
-        NearbyAccessPointsDialogState.Failure.WisefyAsync(WisefyException("", null)),
-        NearbyAccessPointsDialogState.GetNearbyAccessPoints.PermissionsError
-    )
 }

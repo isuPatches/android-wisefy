@@ -10,8 +10,8 @@ android {
     // START HACK - https://github.com/gradle/gradle/issues/15383
     val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
     val buildToolsVersionFromLibs = libs.findVersion("build-tools-version").get().requiredVersion
-    val compileSdkFromLibs = libs.findVersion("sdk-compile").get().requiredVersion
-    val minSdkFromLibs = libs.findVersion("sdk-min").get().requiredVersion
+    val compileSdkFromLibs = libs.findVersion("sdk-compile-version").get().requiredVersion
+    val minSdkFromLibs = libs.findVersion("sdk-min-version").get().requiredVersion
     val jacocoVersionFromLibs = libs.findVersion("jacoco-version").get().requiredVersion
     // END HACK
 
@@ -86,6 +86,12 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    kotlin {
+        compilerOptions {
+            allWarningsAsErrors = true
+        }
     }
 
     afterEvaluate {

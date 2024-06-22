@@ -46,8 +46,8 @@ import kotlinx.coroutines.runBlocking
  * @param logger The [WisefyLogger] instance to use
  * @param sdkUtil The [SdkUtil] instance to use
  * @param networkConnectionStatusProvider The on-demand way to retrieve the current network connection status
- * @property assertions The [WisefyAssertions] instance to use
- * @property api The OS level API instance to use
+ * @param assertions The [WisefyAssertions] instance to use
+ * @param api The OS level API instance to use
  *
  * @see DefaultNetworkConnectionApi
  * @see DefaultNetworkConnectionApiImpl
@@ -69,8 +69,8 @@ internal class DefaultNetworkConnectionAdapter(
         wifiManager,
         logger,
         sdkUtil,
-        networkConnectionStatusProvider
-    )
+        networkConnectionStatusProvider,
+    ),
 ) : NetworkConnectionApi {
 
     override fun changeNetwork(request: ChangeNetworkRequest): ChangeNetworkResult {
@@ -97,7 +97,7 @@ internal class DefaultNetworkConnectionAdapter(
 
     @Deprecated(DeprecationMessages.NetworkConnection.DISCONNECT_FROM_CURRENT_NETWORK)
     override fun disconnectFromCurrentNetwork(
-        request: DisconnectFromCurrentNetworkRequest
+        request: DisconnectFromCurrentNetworkRequest,
     ): DisconnectFromCurrentNetworkResult {
         return if (api.disconnectFromCurrentNetwork()) {
             DisconnectFromCurrentNetworkResult.Success.True

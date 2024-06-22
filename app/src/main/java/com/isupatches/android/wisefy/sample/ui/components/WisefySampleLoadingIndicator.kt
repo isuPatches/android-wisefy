@@ -25,9 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.isupatches.android.wisefy.sample.ui.theme.WisefySampleTheme
 
 @Composable
-internal fun WisefySampleLoadingIndicator(
-    isLoading: () -> Boolean
-) {
+internal fun WisefySampleLoadingIndicator(isLoading: () -> Boolean) {
     WisefySampleTheme {
         if (isLoading()) {
             LinearProgressIndicator(color = MaterialTheme.colors.secondary, modifier = Modifier.fillMaxWidth())

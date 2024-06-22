@@ -54,7 +54,7 @@ sealed class GetAccessPointsQuery(open val filterDuplicates: Boolean) {
     data class BySSID(
         val regex: String,
         val timeoutInMillis: Int? = null,
-        override val filterDuplicates: Boolean = true
+        override val filterDuplicates: Boolean = true,
     ) : GetAccessPointsQuery(filterDuplicates)
 
     /**
@@ -73,6 +73,6 @@ sealed class GetAccessPointsQuery(open val filterDuplicates: Boolean) {
     data class ByBSSID(
         val regex: String,
         val timeoutInMillis: Int? = null,
-        override val filterDuplicates: Boolean = true
+        override val filterDuplicates: Boolean = true,
     ) : GetAccessPointsQuery(filterDuplicates)
 }

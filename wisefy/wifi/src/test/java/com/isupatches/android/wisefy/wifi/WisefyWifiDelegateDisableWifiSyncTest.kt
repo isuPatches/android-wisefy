@@ -23,7 +23,6 @@ import com.isupatches.android.wisefy.core.util.SdkUtilImpl
 import com.isupatches.android.wisefy.testsupport.TestCoroutineDispatchProvider
 import com.isupatches.android.wisefy.wifi.entities.DisableWifiRequest
 import com.isupatches.android.wisefy.wifi.entities.DisableWifiResult
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.test.TestScope
 import org.junit.After
@@ -39,10 +38,9 @@ import org.mockito.Mockito.times
 import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations
 
-@OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(Parameterized::class)
 internal class WisefyWifiDelegateDisableWifiSyncTest(
-    private val params: DisableWifiParams
+    private val params: DisableWifiParams,
 ) {
 
     @Mock
@@ -66,7 +64,7 @@ internal class WisefyWifiDelegateDisableWifiSyncTest(
             coroutineDispatcherProvider = TestCoroutineDispatchProvider(),
             scope = TestScope(),
             wifiMutex = Mutex(),
-            adapter = mockAdapter
+            adapter = mockAdapter,
         )
     }
 
@@ -95,42 +93,42 @@ internal class WisefyWifiDelegateDisableWifiSyncTest(
             return listOf(
                 DisableWifiParams(
                     request = DisableWifiRequest.Default,
-                    result = DisableWifiResult.Success.Disabled
+                    result = DisableWifiResult.Success.Disabled,
                 ),
                 DisableWifiParams(
                     request = DisableWifiRequest.Default,
-                    result = DisableWifiResult.Success.WifiSettingScreenOpened
+                    result = DisableWifiResult.Success.WifiSettingScreenOpened,
                 ),
                 DisableWifiParams(
                     request = DisableWifiRequest.Default,
-                    result = DisableWifiResult.Failure.UnableToDisable
+                    result = DisableWifiResult.Failure.UnableToDisable,
                 ),
                 DisableWifiParams(
                     request = DisableWifiRequest.Default,
-                    result = DisableWifiResult.Failure.Assertion("Test")
+                    result = DisableWifiResult.Failure.Assertion("Test"),
                 ),
                 DisableWifiParams(
                     request = DisableWifiRequest.Android29OrAbove(mock(Context::class.java)),
-                    result = DisableWifiResult.Success.Disabled
+                    result = DisableWifiResult.Success.Disabled,
                 ),
                 DisableWifiParams(
                     request = DisableWifiRequest.Android29OrAbove(mock(Context::class.java)),
-                    result = DisableWifiResult.Success.WifiSettingScreenOpened
+                    result = DisableWifiResult.Success.WifiSettingScreenOpened,
                 ),
                 DisableWifiParams(
                     request = DisableWifiRequest.Android29OrAbove(mock(Context::class.java)),
-                    result = DisableWifiResult.Failure.UnableToDisable
+                    result = DisableWifiResult.Failure.UnableToDisable,
                 ),
                 DisableWifiParams(
                     request = DisableWifiRequest.Android29OrAbove(mock(Context::class.java)),
-                    result = DisableWifiResult.Failure.Assertion("Test")
-                )
+                    result = DisableWifiResult.Failure.Assertion("Test"),
+                ),
             )
         }
 
         data class DisableWifiParams(
             val request: DisableWifiRequest,
-            val result: DisableWifiResult
+            val result: DisableWifiResult,
         )
     }
 }

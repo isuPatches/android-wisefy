@@ -43,10 +43,10 @@ import kotlinx.coroutines.withContext
  * @param logger The [WisefyLogger] instance to use
  * @param sdkUtil The [SdkUtil] instance to use
  * @param wifiManager The WifiManager instance to use
- * @property coroutineDispatcherProvider The [CoroutineDispatcherProvider] instance to use
- * @property scope The coroutine scope to use
- * @property savedNetworkMutex The mutex for all read/write operations involving saved networks
- * @property adapter The adapter instance to use for adding a network (determined based on the Android OS level)
+ * @param coroutineDispatcherProvider The [CoroutineDispatcherProvider] instance to use
+ * @param scope The coroutine scope to use
+ * @param savedNetworkMutex The mutex for all read/write operations involving saved networks
+ * @param adapter The adapter instance to use for adding a network (determined based on the Android OS level)
  *
  * @see AddNetworkApi
  * @see AddNetworkDelegate
@@ -73,7 +73,7 @@ class WisefyAddNetworkDelegate(
         sdkUtil.isAtLeastR() -> Android30AddNetworkAdapter(wifiManager, logger, assertions)
         sdkUtil.isAtLeastQ() -> Android29AddNetworkAdapter(assertions)
         else -> DefaultAddNetworkAdapter(wifiManager, logger, assertions)
-    }
+    },
 ) : AddNetworkDelegate {
 
     init {

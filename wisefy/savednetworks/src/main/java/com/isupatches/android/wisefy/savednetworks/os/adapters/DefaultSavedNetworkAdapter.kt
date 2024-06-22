@@ -34,7 +34,7 @@ import com.isupatches.android.wisefy.savednetworks.os.impls.DefaultSavedNetworkA
  *
  * @param wifiManager The WifiManager instance to use
  * @param logger The [WisefyLogger] instance to use
- * @property api The OS level API instance to use
+ * @param api The OS level API instance to use
  *
  * @see DefaultSavedNetworkApi
  * @see DefaultSavedNetworkApiImpl
@@ -47,7 +47,7 @@ import com.isupatches.android.wisefy.savednetworks.os.impls.DefaultSavedNetworkA
 internal class DefaultSavedNetworkAdapter(
     wifiManager: WifiManager,
     logger: WisefyLogger,
-    private val api: DefaultSavedNetworkApi = DefaultSavedNetworkApiImpl(wifiManager, logger)
+    private val api: DefaultSavedNetworkApi = DefaultSavedNetworkApiImpl(wifiManager, logger),
 ) : SavedNetworkApi {
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
@@ -61,7 +61,7 @@ internal class DefaultSavedNetworkAdapter(
             GetSavedNetworksResult.SavedNetworks(
                 value = savedNetworkConfigurations.map { networkSuggestion ->
                     SavedNetworkData.Configuration(networkSuggestion)
-                }
+                },
             )
         } else {
             GetSavedNetworksResult.Empty

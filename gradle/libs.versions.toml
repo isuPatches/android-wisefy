@@ -1,52 +1,68 @@
 [versions]
 build-tools-version = "34.0.0"
-sdk-compile = "33"
-sdk-target = "33"
-sdk-min = "23"
+sdk-compile-version = "34"
+sdk-target-version = "33"
+sdk-min-version = "23"
 
-android-gradleplugin = "8.5.0"
+android-gradleplugin-version = "8.5.0"
 
-androidx-compose-material = "1.3.1"
-androidx-compose-ui = "1.3.2"
-androidx-navigation-version = "2.5.3"
+androidx-compose-material-version = "1.6.8"
+androidx-compose-ui-version = "1.6.8"
+androidx-navigation-version = "2.7.7"
 
-google-dagger-version = "2.44.1"
+dokka-version = "1.9.20"
+
+google-dagger-version = "2.51.1"
 
 jacoco-version = "0.8.8"
 
 kotlin-compiler-version = "1.3.2"
-kotlin-version = "1.7.20"
+kotlin-version = "2.0.0"
 
 [libraries]
-android-gradleplugin = { module = "com.android.tools.build:gradle", version.ref = "android-gradleplugin" }
+android-gradleplugin = { module = "com.android.tools.build:gradle", version.ref = "android-gradleplugin-version" }
 
-androidx-annotation = "androidx.annotation:annotation:1.5.0"
-androidx-appcompat = "androidx.appcompat:appcompat:1.5.1"
-androidx-activity-compose = "androidx.activity:activity-compose:1.6.1"
-androidx-compose-animation = "androidx.compose.animation:animation:1.3.2"
-androidx-compose-material = { module = "androidx.compose.material:material", version.ref = "androidx-compose-material" }
-androidx-compose-materialiconsextended = { module = "androidx.compose.material:material-icons-extended", version.ref = "androidx-compose-material" }
-androidx-compose-ui = { module = "androidx.compose.ui:ui", version.ref = "androidx-compose-ui" }
-androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "androidx-compose-ui" }
-androidx-compose-ui-toolingpreview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "androidx-compose-ui" }
-androidx-corektx = "androidx.core:core-ktx:1.9.0"
-androidx-datastore-preferences = "androidx.datastore:datastore-preferences:1.0.0"
-androidx-lifecycle-viewmodelcompose = "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1"
+androidx-annotation = "androidx.annotation:annotation:1.8.0"
+androidx-appcompat = "androidx.appcompat:appcompat:1.7.0"
+androidx-activity-compose = "androidx.activity:activity-compose:1.9.0"
+androidx-compose-animation = "androidx.compose.animation:animation:1.6.8"
+androidx-compose-material = { module = "androidx.compose.material:material", version.ref = "androidx-compose-material-version" }
+androidx-compose-materialiconsextended = { module = "androidx.compose.material:material-icons-extended", version.ref = "androidx-compose-material-version" }
+androidx-compose-ui = { module = "androidx.compose.ui:ui", version.ref = "androidx-compose-ui-version" }
+androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "androidx-compose-ui-version" }
+androidx-compose-ui-toolingpreview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "androidx-compose-ui-version" }
+androidx-corektx = "androidx.core:core-ktx:1.13.1"
+androidx-datastore-preferences = "androidx.datastore:datastore-preferences:1.1.1"
+androidx-lifecycle-viewmodelcompose = "androidx.lifecycle:lifecycle-viewmodel-compose:2.8.2"
+androidx-hilt-navigationcompose = "androidx.hilt:hilt-navigation-compose:1.2.0"
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "androidx-navigation-version" }
 androidx-navigation-fragment = { module = "androidx.navigation:navigation-fragment", version.ref = "androidx-navigation-version" }
 androidx-navitation-ui = { module = "androidx.navigation:navigation-ui", version.ref = "androidx-navigation-version" }
 
-jetbrains-dokka-plugin = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "kotlin-version" }
+jetbrains-dokka-plugin = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokka-version" }
 jetbrains-kotlin-gradleplugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin-version" }
 jetbrains-kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin-version" }
-jetbrains-kotlinx-coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
+jetbrains-kotlinx-coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1"
 
 google-dagger-android = { module = "com.google.dagger:dagger", version.ref ="google-dagger-version" }
 google-dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref ="google-dagger-version" }
 google-dagger-hilt-android = { module = "com.google.dagger:hilt-android", version.ref ="google-dagger-version" }
 google-dagger-hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref ="google-dagger-version" }
 
-isupatches-wisefy-ktx = "com.isupatches.android.wisefy:ktx:5.0.0-RC3"
+google-android-material = "com.google.android.material:material:1.12.0"
+
+isupatches-wisefy-bom = "com.isupatches.android.wisefy:wisefy-bom:5.0.0-RC3"
+isupatches-wisefy-accesspoints = { module = "com.isupatches.android.wisefy:accesspoints" }
+isupatches-wisefy-addnetwork = { module = "com.isupatches.android.wisefy:addnetwork" }
+isupatches-wisefy-core = { module = "com.isupatches.android.wisefy:core" }
+isupatches-wisefy-ktx = { module = "com.isupatches.android.wisefy:ktx" }
+isupatches-wisefy-networkinfo = { module = "com.isupatches.android.wisefy:networkinfo" }
+isupatches-wisefy-networkconnection = { module = "com.isupatches.android.wisefy:networkconnection" }
+isupatches-wisefy-removenetwork = { module = "com.isupatches.android.wisefy:removenetwork" }
+isupatches-wisefy-savednetworks = { module = "com.isupatches.android.wisefy:savednetworks" }
+isupatches-wisefy-signal = { module = "com.isupatches.android.wisefy:signal" }
+isupatches-wisefy-wifi = { module = "com.isupatches.android.wisefy:wifi" }
+isupatches-wisefy-wisefy = { module = "com.isupatches.android.wisefy:wisefy" }
 
 [bundles]
 androidx-compose-ui = ['androidx-compose-ui', 'androidx-compose-ui-tooling', 'androidx-compose-ui-toolingpreview']
@@ -57,20 +73,22 @@ google-dagger = ["google-dagger-android", "google-dagger-hilt-android"]
 google-dagger-compiler = ["google-dagger-compiler", "google-dagger-hilt-compiler"]
 
 [plugins]
-android-application = { id = "com.android.application", version.ref = "android-gradleplugin" }
-android-library = { id = "com.android.library", version.ref = "android-gradleplugin" }
+android-application = { id = "com.android.application", version.ref = "android-gradleplugin-version" }
+android-library = { id = "com.android.library", version.ref = "android-gradleplugin-version" }
 
-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin-version" }
 google-dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "google-dagger-version"}
+google-ksp = { id = "com.google.devtools.ksp", version = "2.0.0-1.0.22" }
 
 java-platform = { id = "java-platform" }
 
-jetbrains-dokka = { id = "org.jetbrains.dokka", version = "1.7.20" }
+jetbrains-kotlin-plugin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin-version" }
+jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin-version" }
+jetbrains-dokka = { id = "org.jetbrains.dokka", version.ref = "dokka-version" }
 
-cpd = { id = "de.aaschmid.cpd", version = "3.3" }
-detekt = { id = "io.gitlab.arturbosch.detekt", version = "1.21.0" }
-dexcount = { id = "com.getkeepsafe.dexcount", version = "3.1.0" }
-kotlinter = { id = "org.jmailen.kotlinter", version = "3.12.0" }
+cpd = { id = "de.aaschmid.cpd", version = "3.4" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version = "1.23.6" }
+dexcount = { id = "com.getkeepsafe.dexcount", version = "4.0.0" }
+kotlinter = { id = "org.jmailen.kotlinter", version = "4.4.0" }
 
 wisefy-android-library = { id = "wisefy-android-library" }
 wisefy-android-publish = { id = "wisefy-android-publish" }

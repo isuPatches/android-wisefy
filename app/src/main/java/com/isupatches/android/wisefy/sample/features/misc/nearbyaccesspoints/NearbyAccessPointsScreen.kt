@@ -22,8 +22,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.isupatches.android.wisefy.WisefyApi
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.isupatches.android.wisefy.sample.logging.WisefySampleLogger
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleLoadingIndicator
 import kotlinx.coroutines.launch
@@ -32,8 +31,7 @@ private const val LOG_TAG = "NearbyAccessPointsScreen"
 
 @Composable
 internal fun NearbyAccessPointsScreen(
-    wisefy: WisefyApi,
-    viewModel: NearbyAccessPointsViewModel = viewModel(factory = NearbyAccessPointsViewModelFactory(wisefy))
+    viewModel: NearbyAccessPointsViewModel = hiltViewModel<NearbyAccessPointsViewModelImpl>(),
 ) {
     val scope = rememberCoroutineScope()
 

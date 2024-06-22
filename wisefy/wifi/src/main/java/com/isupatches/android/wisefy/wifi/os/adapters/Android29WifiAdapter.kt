@@ -38,8 +38,8 @@ import com.isupatches.android.wisefy.wifi.os.impls.Android29WifiApiImpl
  *
  * @param wifiManager The WifiManager instance to use
  * @param logger The [WisefyLogger] instance to use
- * @property assertions The [WisefyAssertions] instance to use
- * @property api The OS level API instance to use
+ * @param assertions The [WisefyAssertions] instance to use
+ * @param api The OS level API instance to use
  *
  * @see Android29WifiApi
  * @see Android29WifiApiImpl
@@ -55,7 +55,7 @@ internal class Android29WifiAdapter(
     wifiManager: WifiManager,
     logger: WisefyLogger,
     private val assertions: WisefyAssertions,
-    private val api: Android29WifiApi = Android29WifiApiImpl(wifiManager, logger)
+    private val api: Android29WifiApi = Android29WifiApiImpl(wifiManager, logger),
 ) : WifiApi {
 
     override fun disableWifi(request: DisableWifiRequest): DisableWifiResult {

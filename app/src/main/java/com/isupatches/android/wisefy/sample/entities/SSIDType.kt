@@ -17,7 +17,8 @@ package com.isupatches.android.wisefy.sample.entities
 
 internal enum class SSIDType(val intVal: Int) {
     SSID(0),
-    BSSID(1);
+    BSSID(1),
+    ;
 
     companion object {
 

@@ -22,23 +22,23 @@ import com.isupatches.android.wisefy.signal.entities.CompareSignalLevelResult
 internal data class SignalUIState(
     val loadingState: SignalLoadingState,
     val dialogState: SignalDialogState,
-    val inputState: SignalInputState
+    val inputState: SignalInputState,
 )
 
 internal data class SignalLoadingState(
-    val isLoading: Boolean = false
+    val isLoading: Boolean = false,
 )
 
 internal sealed class SignalDialogState {
-    object None : SignalDialogState()
+    data object None : SignalDialogState()
 
     sealed class InputError : SignalDialogState() {
 
-        object CalculateSignalLevel : InputError()
+        data object CalculateSignalLevel : InputError()
 
         sealed class CompareSignalLevel : InputError() {
-            object RSSI1 : CompareSignalLevel()
-            object RSSI2 : CompareSignalLevel()
+            data object RSSI1 : CompareSignalLevel()
+            data object RSSI2 : CompareSignalLevel()
         }
     }
 
@@ -58,22 +58,22 @@ internal sealed class SignalDialogState {
 
 internal data class SignalInputState(
     val calculateSignalLevelInputState: CalculateSignalLevelInputState,
-    val compareSignalLevelInputState: CompareSignalLevelInputState
+    val compareSignalLevelInputState: CompareSignalLevelInputState,
 )
 
 internal data class CalculateSignalLevelInputState(
     val rssiLevelInput: String,
-    val validityState: SignalInputValidityState.CalculateSignalLevel
+    val validityState: SignalInputValidityState.CalculateSignalLevel,
 )
 
 internal data class CompareSignalLevelInputState(
     val rssi1InputState: CompareSignalLevelRSSIInputState,
-    val rssi2InputState: CompareSignalLevelRSSIInputState
+    val rssi2InputState: CompareSignalLevelRSSIInputState,
 )
 
 internal data class CompareSignalLevelRSSIInputState(
     val rssiLevelInput: String,
-    val validityState: SignalInputValidityState.CompareSignalLevel
+    val validityState: SignalInputValidityState.CompareSignalLevel,
 )
 
 internal sealed class SignalInputValidityState {
@@ -88,11 +88,11 @@ internal sealed class SignalInputValidityState {
     }
 
     sealed class CompareSignalLevel : SignalInputValidityState() {
-        object Valid : CompareSignalLevel()
+        data object Valid : CompareSignalLevel()
 
         sealed class Invalid : CompareSignalLevel() {
-            object Empty : Invalid()
-            object NotAnInt : Invalid()
+            data object Empty : Invalid()
+            data object NotAnInt : Invalid()
         }
     }
 }

@@ -15,7 +15,6 @@
  */
 package com.isupatches.android.wisefy.sample.features.misc.signal
 
-import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -23,21 +22,15 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import com.isupatches.android.wisefy.sample.R
-import com.isupatches.android.wisefy.sample.ui.ComposablePreviewWisefy
 import com.isupatches.android.wisefy.sample.ui.components.WisefyPrimaryButton
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleEditTextError
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleNumericalEditText
 import com.isupatches.android.wisefy.sample.ui.primitives.WisefySampleSizes
 import com.isupatches.android.wisefy.sample.ui.theme.WisefySampleTheme
-import com.isupatches.android.wisefy.sample.util.DefaultSdkUtil
 
 @Composable
-internal fun SignalScreenContent(
-    viewModel: SignalViewModel
-) {
+internal fun SignalScreenContent(viewModel: SignalViewModel) {
     WisefySampleTheme {
         Column(
             modifier = Modifier
@@ -46,12 +39,12 @@ internal fun SignalScreenContent(
                     top = WisefySampleSizes.WisefySampleTopMargin,
                     bottom = WisefySampleSizes.WisefySampleBottomMargin,
                     start = WisefySampleSizes.WisefySampleHorizontalMargins,
-                    end = WisefySampleSizes.WisefySampleHorizontalMargins
-                )
+                    end = WisefySampleSizes.WisefySampleHorizontalMargins,
+                ),
         ) {
             SignalScreenCalculateSignalLevelInputRows(
                 inputState = { viewModel.uiState.value.inputState.calculateSignalLevelInputState },
-                viewModel = viewModel
+                viewModel = viewModel,
             )
             Row(modifier = Modifier.padding(top = WisefySampleSizes.Large, bottom = WisefySampleSizes.Large)) {
                 WisefyPrimaryButton(stringResId = R.string.calculate_signal_level) {
@@ -60,7 +53,7 @@ internal fun SignalScreenContent(
             }
             SignalScreenCompareSignalLevelInputRows(
                 inputState = { viewModel.uiState.value.inputState.compareSignalLevelInputState },
-                viewModel = viewModel
+                viewModel = viewModel,
             )
             Row(modifier = Modifier.padding(top = WisefySampleSizes.Large)) {
                 WisefyPrimaryButton(stringResId = R.string.compare_signal_level) {
@@ -74,7 +67,7 @@ internal fun SignalScreenContent(
 @Composable
 private fun SignalScreenCalculateSignalLevelInputRows(
     inputState: () -> CalculateSignalLevelInputState,
-    viewModel: SignalViewModel
+    viewModel: SignalViewModel,
 ) {
     val currentInputState = inputState()
     Row {
@@ -88,11 +81,15 @@ private fun SignalScreenCalculateSignalLevelInputRows(
                 is SignalInputValidityState.CalculateSignalLevel.Invalid.Empty -> {
                     WisefySampleEditTextError(R.string.rssi_input_empty)
                 }
+
                 is SignalInputValidityState.CalculateSignalLevel.Invalid.NotAnInt -> {
                     WisefySampleEditTextError(R.string.rssi_input_invalid_int)
                 }
-                is SignalInputValidityState.CalculateSignalLevel.Valid -> null
-            }
+
+                is SignalInputValidityState.CalculateSignalLevel.Valid -> {
+                    null
+                }
+            },
         )
     }
 }
@@ -100,7 +97,7 @@ private fun SignalScreenCalculateSignalLevelInputRows(
 @Composable
 private fun SignalScreenCompareSignalLevelInputRows(
     inputState: () -> CompareSignalLevelInputState,
-    viewModel: SignalViewModel
+    viewModel: SignalViewModel,
 ) {
     val currentInputState = inputState()
     Row {
@@ -114,11 +111,15 @@ private fun SignalScreenCompareSignalLevelInputRows(
                 is SignalInputValidityState.CompareSignalLevel.Invalid.Empty -> {
                     WisefySampleEditTextError(R.string.rssi_input_empty)
                 }
+
                 is SignalInputValidityState.CompareSignalLevel.Invalid.NotAnInt -> {
                     WisefySampleEditTextError(R.string.rssi_input_invalid_int)
                 }
-                is SignalInputValidityState.CompareSignalLevel.Valid -> null
-            }
+
+                is SignalInputValidityState.CompareSignalLevel.Valid -> {
+                    null
+                }
+            },
         )
     }
     Row {
@@ -132,37 +133,15 @@ private fun SignalScreenCompareSignalLevelInputRows(
                 is SignalInputValidityState.CompareSignalLevel.Invalid.Empty -> {
                     WisefySampleEditTextError(R.string.rssi_input_empty)
                 }
+
                 is SignalInputValidityState.CompareSignalLevel.Invalid.NotAnInt -> {
                     WisefySampleEditTextError(R.string.rssi_input_invalid_int)
                 }
-                is SignalInputValidityState.CompareSignalLevel.Valid -> null
-            }
+
+                is SignalInputValidityState.CompareSignalLevel.Valid -> {
+                    null
+                }
+            },
         )
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-@Suppress("UnusedPrivateMember")
-private fun SignalScreenContentLightPreview() {
-    SignalScreenContent(
-        viewModel = DefaultSignalViewModel(
-            context = LocalContext.current,
-            wisefy = ComposablePreviewWisefy(),
-            sdkUtil = DefaultSdkUtil()
-        )
-    )
-}
-
-@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
-@Composable
-@Suppress("UnusedPrivateMember")
-private fun SignalScreenContentDarkPreview() {
-    SignalScreenContent(
-        viewModel = DefaultSignalViewModel(
-            context = LocalContext.current,
-            wisefy = ComposablePreviewWisefy(),
-            sdkUtil = DefaultSdkUtil()
-        )
-    )
 }

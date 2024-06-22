@@ -60,7 +60,7 @@ internal interface DefaultAccessPointsApi {
     fun searchForAccessPointsBySSID(
         regex: String,
         timeoutInMillis: Int?,
-        filterDuplicates: Boolean
+        filterDuplicates: Boolean,
     ): List<AccessPointData>
 
     /**
@@ -81,6 +81,6 @@ internal interface DefaultAccessPointsApi {
     fun searchForAccessPointsByBSSID(
         regex: String,
         timeoutInMillis: Int?,
-        filterDuplicates: Boolean
+        filterDuplicates: Boolean,
     ): List<AccessPointData>
 }

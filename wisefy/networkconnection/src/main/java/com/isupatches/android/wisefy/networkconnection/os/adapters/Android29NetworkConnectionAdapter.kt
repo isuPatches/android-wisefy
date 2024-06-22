@@ -35,8 +35,8 @@ import com.isupatches.android.wisefy.networkconnection.os.impls.Android29Network
  * An Android 29 or higher adapter for connecting to or disconnecting from a network.
  *
  * @param logger The [WisefyLogger] instance to use
- * @property assertions The [WisefyAssertions] instance to use
- * @property api The OS level API instance to use
+ * @param assertions The [WisefyAssertions] instance to use
+ * @param api The OS level API instance to use
  *
  * @see Android29NetworkConnectionApi
  * @see Android29NetworkConnectionApiImpl
@@ -50,7 +50,7 @@ import com.isupatches.android.wisefy.networkconnection.os.impls.Android29Network
 internal class Android29NetworkConnectionAdapter(
     logger: WisefyLogger,
     private val assertions: WisefyAssertions,
-    private val api: Android29NetworkConnectionApi = Android29NetworkConnectionApiImpl(logger = logger)
+    private val api: Android29NetworkConnectionApi = Android29NetworkConnectionApiImpl(logger = logger),
 ) : NetworkConnectionApi {
 
     override fun changeNetwork(request: ChangeNetworkRequest): ChangeNetworkResult {
@@ -67,7 +67,7 @@ internal class Android29NetworkConnectionAdapter(
 
     @Deprecated(DeprecationMessages.NetworkConnection.DISCONNECT_FROM_CURRENT_NETWORK)
     override fun disconnectFromCurrentNetwork(
-        request: DisconnectFromCurrentNetworkRequest
+        request: DisconnectFromCurrentNetworkRequest,
     ): DisconnectFromCurrentNetworkResult {
         val message = AssertionMessages.NetworkConnection.DisconnectFromCurrentNetwork.USED_ANDROID_Q_OR_HIGHER
         assertions.fail(message)

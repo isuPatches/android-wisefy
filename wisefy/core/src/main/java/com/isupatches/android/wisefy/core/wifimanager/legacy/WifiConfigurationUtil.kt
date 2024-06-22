@@ -93,5 +93,5 @@ private fun convertSSIDForConfig(ssid: String): String = "%s%s%s".format(
     Locale.US,
     QUOTE,
     ssid,
-    QUOTE
+    QUOTE,
 )

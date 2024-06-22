@@ -22,36 +22,36 @@ import com.isupatches.android.wisefy.sample.R
 internal sealed class WisefySampleBottomNavigationItem(
     val route: String,
     @DrawableRes val icon: Int,
-    @StringRes val stringResId: Int
+    @StringRes val stringResId: Int,
 ) {
 
-    object Add : WisefySampleBottomNavigationItem(
+    data object Add : WisefySampleBottomNavigationItem(
         route = WisefySampleNavGraph.Main.Add.route,
         icon = R.drawable.ic_add_circle,
-        stringResId = R.string.add
+        stringResId = R.string.add,
     )
 
-    object Remove : WisefySampleBottomNavigationItem(
+    data object Remove : WisefySampleBottomNavigationItem(
         route = WisefySampleNavGraph.Main.Remove.route,
         icon = R.drawable.ic_remove_circle,
-        stringResId = R.string.remove
+        stringResId = R.string.remove,
     )
 
-    object Home : WisefySampleBottomNavigationItem(
+    data object Home : WisefySampleBottomNavigationItem(
         route = WisefySampleNavGraph.Main.Home.route,
         icon = R.drawable.ic_home,
-        stringResId = R.string.home
+        stringResId = R.string.home,
     )
 
-    object Misc : WisefySampleBottomNavigationItem(
+    data object Misc : WisefySampleBottomNavigationItem(
         route = WisefySampleNavGraph.Main.Misc.route,
         icon = R.drawable.ic_apps,
-        stringResId = R.string.misc
+        stringResId = R.string.misc,
     )
 
-    object Search : WisefySampleBottomNavigationItem(
+    data object Search : WisefySampleBottomNavigationItem(
         route = WisefySampleNavGraph.Main.Search.route,
         icon = R.drawable.ic_search,
-        stringResId = R.string.search
+        stringResId = R.string.search,
     )
 }
