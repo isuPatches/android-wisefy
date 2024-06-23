@@ -41,14 +41,12 @@ if (project is LibraryExtension) {
 
         publishing {
             singleVariant("debug") {
-                withSourcesJar()
                 if (System.getenv("GENERATE_DOCS_FOR_DEBUG_PUBLICATIONS").toBoolean()) {
                     withJavadocJar()
                 }
             }
 
             singleVariant("release") {
-                withSourcesJar()
                 withJavadocJar()
             }
         }
