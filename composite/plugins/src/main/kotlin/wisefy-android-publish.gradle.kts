@@ -1,18 +1,6 @@
 import com.android.build.gradle.LibraryExtension
 import java.net.URI
 
-//import com.isupatches.android.wisefy.build.plugins.DEVELOPER_EMAIL
-//import com.isupatches.android.wisefy.build.plugins.DEVELOPER_ID
-//import com.isupatches.android.wisefy.build.plugins.DEVELOPER_NAME
-//import com.isupatches.android.wisefy.build.plugins.GROUP_ID
-//import com.isupatches.android.wisefy.build.plugins.LIBRARY_CONNECTION
-//import com.isupatches.android.wisefy.build.plugins.LIBRARY_DESCRIPTION
-//import com.isupatches.android.wisefy.build.plugins.LIBRARY_NAME
-//import com.isupatches.android.wisefy.build.plugins.LIBRARY_URL
-//import com.isupatches.android.wisefy.build.plugins.LICENSE_NAME
-//import com.isupatches.android.wisefy.build.plugins.LICENSE_URL
-//import java.net.URI
-
 private val groupId = "com.isupatches.android.wisefy"
 
 private val developerId = "isuPatches"
@@ -155,8 +143,8 @@ afterEvaluate {
                         name = "Release"
                         url = URI("https://oss.sonatype.org/service/local/staging/deploy/maven2")
                         credentials {
-                            username = System.getProperty("SONATYPE_USERNAME") ?: providers.gradleProperty("SONATYPE_USERNAME").get()
-                            password = System.getProperty("SONATYPE_PASSWORD") ?: providers.gradleProperty("SONATYPE_PASSWORD").get()
+                            username = System.getenv("SONATYPE_USERNAME") ?: providers.gradleProperty("SONATYPE_USERNAME").get()
+                            password = System.getenv("SONATYPE_PASSWORD") ?: providers.gradleProperty("SONATYPE_PASSWORD").get()
                         }
                     }
 
@@ -164,8 +152,8 @@ afterEvaluate {
                         name = "Snapshot"
                         url = URI("https://oss.sonatype.org/content/repositories/snapshots")
                         credentials {
-                            username = System.getProperty("SONATYPE_USERNAME") ?: providers.gradleProperty("SONATYPE_USERNAME").get()
-                            password = System.getProperty("SONATYPE_PASSWORD") ?: providers.gradleProperty("SONATYPE_PASSWORD").get()
+                            username = System.getenv("SONATYPE_USERNAME") ?: providers.gradleProperty("SONATYPE_USERNAME").get()
+                            password = System.getenv("SONATYPE_PASSWORD") ?: providers.gradleProperty("SONATYPE_PASSWORD").get()
                         }
                     }
                 }
