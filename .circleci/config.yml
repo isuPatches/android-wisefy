@@ -31,10 +31,10 @@ commands:
       steps:
         - run:
             name: Sanity check GPG key id
-            command: echo $WISE_GPG_SIGNING_KEY_ID
+            command: echo $WISEFY_GPG_SIGNING_KEY_ID
         - run:
             name: Sanity check GPG key
-            command: echo $WISE_GPG_SIGNING_KEY
+            command: echo $WISEFY_GPG_SIGNING_KEY
         - run:
             name: Sanity check GPG key password
             command: echo $WISEFY_GPG_SIGNING_PASSWORD
