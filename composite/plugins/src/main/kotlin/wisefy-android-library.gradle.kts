@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.io.File
 import java.util.Locale
 
@@ -27,7 +28,7 @@ android {
     }
 
     signingConfigs {
-        create("release${name.capitalize(Locale.ROOT)}") {
+        create("release") {
             storeFile = File("${rootDir}/keystores/wisefy-release.jks")
             keyAlias = System.getenv("WISEFY_RELEASE_KEY_ALIAS")
             storePassword = System.getenv("WISEFY_RELEASE_PASSWORD")
@@ -58,7 +59,7 @@ android {
                 "${rootDir}/proguard/r8-lib-release.pro"
             )
             consumerProguardFile("${rootDir}/proguard/r8-lib-consumer.pro")
-            signingConfig = signingConfigs.getByName("release${project.name.capitalize(Locale.ROOT)}")
+            signingConfig = signingConfigs.getByName("release")
         }
     }
 
@@ -90,6 +91,7 @@ android {
 
     kotlin {
         compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_17)
             allWarningsAsErrors = true
         }
     }

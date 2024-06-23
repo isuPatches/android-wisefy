@@ -1,9 +1,11 @@
+import java.util.Locale
+
 plugins.apply(JacocoPlugin::class)
 
-fun getCoverageVariants() = listOf("debug")
-val buildTaskGroup = "verification"
+private fun getCoverageVariants() = listOf("debug")
+private val buildTaskGroup = "verification"
 
-val excludes = setOf(
+private val excludes = setOf(
     "**/R.class",
     "**/R\$*.class",
     "**/BuildConfig.*",
@@ -13,12 +15,12 @@ val excludes = setOf(
     "**/*\$Builder*"
 )
 
-fun getSourceDirectoriesTree() = files(
+private fun getSourceDirectoriesTree() = files(
     "src/main/java"
 )
 
-fun getClassDirectoriesTree(excludes: Set<String>): FileTree {
-    return fileTree("${project.buildDir}") {
+private fun getClassDirectoriesTree(buildDirectory: Directory, excludes: Set<String>): FileTree {
+    return fileTree("$buildDirectory") {
         include(
             "**/classes/**/main/**",
             "**/intermediates/classes/debug/**",
@@ -32,15 +34,25 @@ fun getClassDirectoriesTree(excludes: Set<String>): FileTree {
 
 afterEvaluate {
     getCoverageVariants().forEach { variant ->
-        tasks.create<JacocoReport>("jacoco${variant.capitalize()}UnitTest") {
+        val capitalizedVariant = variant.replaceFirstChar {
+            if (it.isLowerCase()) {
+                it.titlecase(Locale.getDefault())
+            } else {
+                it.toString()
+            }
+        }
+
+        val buildDirectory = project.layout.buildDirectory.get()
+
+        tasks.create<JacocoReport>("jacoco${capitalizedVariant}UnitTest") {
             group = buildTaskGroup
 
-            dependsOn("test${variant.capitalize()}UnitTest")
+            dependsOn("test${capitalizedVariant}UnitTest")
 
-            classDirectories.setFrom(getClassDirectoriesTree(excludes))
+            classDirectories.setFrom(getClassDirectoriesTree(buildDirectory, excludes))
             sourceDirectories.setFrom(getSourceDirectoriesTree())
             executionData.setFrom(
-                fileTree("${project.buildDir}/outputs/unit_test_code_coverage") {
+                fileTree("$buildDirectory/outputs/unit_test_code_coverage") {
                     include("**/*.exec")
                 }
             )
@@ -51,13 +63,13 @@ afterEvaluate {
             }
         }
 
-        tasks.create<JacocoReport>("jacoco${variant.capitalize()}UnitTestReport") {
+        tasks.create<JacocoReport>("jacoco${capitalizedVariant}UnitTestReport") {
             group = buildTaskGroup
 
-            classDirectories.setFrom(getClassDirectoriesTree(excludes))
+            classDirectories.setFrom(getClassDirectoriesTree(buildDirectory, excludes))
             sourceDirectories.setFrom(getSourceDirectoriesTree())
             executionData.setFrom(
-                fileTree("${project.buildDir}/outputs/unit_test_code_coverage") {
+                fileTree("$buildDirectory/outputs/unit_test_code_coverage") {
                     include("**/*.exec")
                 }
             )
@@ -68,15 +80,15 @@ afterEvaluate {
             }
         }
 
-        tasks.create<JacocoReport>("jacoco${variant.capitalize()}AndroidTest") {
+        tasks.create<JacocoReport>("jacoco${capitalizedVariant}AndroidTest") {
             group = buildTaskGroup
 
-            dependsOn("connected${variant.capitalize()}AndroidTest")
+            dependsOn("connected${capitalizedVariant}AndroidTest")
 
-            classDirectories.setFrom(getClassDirectoriesTree(excludes))
+            classDirectories.setFrom(getClassDirectoriesTree(buildDirectory, excludes))
             sourceDirectories.setFrom(getSourceDirectoriesTree())
             executionData.setFrom(
-                fileTree("${project.buildDir}/outputs/code_coverage/") {
+                fileTree("$buildDirectory/outputs/code_coverage/") {
                     include("**/*.ec")
                 }
             )
@@ -87,13 +99,13 @@ afterEvaluate {
             }
         }
 
-        tasks.create<JacocoReport>("jacoco${variant.capitalize()}AndroidTestReport") {
+        tasks.create<JacocoReport>("jacoco${capitalizedVariant}AndroidTestReport") {
             group = buildTaskGroup
 
-            classDirectories.setFrom(getClassDirectoriesTree(excludes))
+            classDirectories.setFrom(getClassDirectoriesTree(buildDirectory, excludes))
             sourceDirectories.setFrom(getSourceDirectoriesTree())
             executionData.setFrom(
-                fileTree("${project.buildDir}/outputs/code_coverage/") {
+                fileTree("$buildDirectory/outputs/code_coverage/") {
                     include("**/*.ec")
                 }
             )
@@ -104,18 +116,18 @@ afterEvaluate {
             }
         }
 
-        tasks.create<JacocoReport>("jacoco${variant.capitalize()}CombinedTest") {
+        tasks.create<JacocoReport>("jacoco${capitalizedVariant}CombinedTest") {
             group = buildTaskGroup
 
-            dependsOn("test${variant.capitalize()}UnitTest", "connected${variant.capitalize()}AndroidTest")
+            dependsOn("test${capitalizedVariant}UnitTest", "connected${capitalizedVariant}AndroidTest")
 
-            classDirectories.setFrom(getClassDirectoriesTree(excludes))
+            classDirectories.setFrom(getClassDirectoriesTree(buildDirectory, excludes))
             sourceDirectories.setFrom(getSourceDirectoriesTree())
             executionData.setFrom(
-                fileTree("${project.buildDir}/outputs/unit_test_code_coverage") {
+                fileTree("$buildDirectory/outputs/unit_test_code_coverage") {
                     include("**/*.exec")
                 },
-                fileTree("${project.buildDir}/outputs/code_coverage/") {
+                fileTree("$buildDirectory}/outputs/code_coverage/") {
                     include("**/*.ec")
                 }
             )
@@ -126,16 +138,16 @@ afterEvaluate {
             }
         }
 
-        tasks.create<JacocoReport>("jacoco${variant.capitalize()}CombinedTestReport") {
+        tasks.create<JacocoReport>("jacoco${capitalizedVariant}CombinedTestReport") {
             group = buildTaskGroup
 
-            classDirectories.setFrom(getClassDirectoriesTree(excludes))
+            classDirectories.setFrom(getClassDirectoriesTree(buildDirectory, excludes))
             sourceDirectories.setFrom(getSourceDirectoriesTree())
             executionData.setFrom(
-                fileTree("${project.buildDir}/outputs/unit_test_code_coverage") {
+                fileTree("$buildDirectory/outputs/unit_test_code_coverage") {
                     include("**/*.exec")
                 },
-                fileTree("${project.buildDir}/outputs/code_coverage/") {
+                fileTree("$buildDirectory/outputs/code_coverage/") {
                     include("**/*.ec")
                 }
             )
