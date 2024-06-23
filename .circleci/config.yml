@@ -30,6 +30,15 @@ commands:
     publish-to-maven-local:
       steps:
         - run:
+            name: Sanity check GPG key id
+            command: echo $WISE_GPG_SIGNING_KEY_ID
+        - run:
+            name: Sanity check GPG key
+            command: echo $WISE_GPG_SIGNING_KEY
+        - run:
+            name: Sanity check GPG key password
+            command: echo $WISEFY_GPG_SIGNING_PASSWORD
+        - run:
             name: Publish release artifacts to Maven Local
             command: ./gradlew publishReleasePublicationToMavenLocal
     run-static-analysis:
