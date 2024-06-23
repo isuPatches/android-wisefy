@@ -100,10 +100,10 @@ jobs:
       tag: default
     steps:
       - checkout
+      - publish-to-maven-local
       - setup-dependencies
       - write-keystore-files
       - import-gpg-key
-      - publish-to-maven-local
       - run-static-analysis
       - build-debug-build
       - build-release-build
