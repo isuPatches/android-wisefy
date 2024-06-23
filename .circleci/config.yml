@@ -22,6 +22,9 @@ commands:
     import-gpg-key:
       steps:
         - run:
+            name: Output Wisefy GPG Key
+            command: echo $WISEFY_GPG_SIGNING_KEY
+        - run:
             name: Write Wisefy GPG Key
             command: echo -e $WISEFY_GPG_SIGNING_KEY > wisefy-gpg-key.asc
         - run:
