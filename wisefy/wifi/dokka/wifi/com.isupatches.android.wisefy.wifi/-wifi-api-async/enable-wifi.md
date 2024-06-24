@@ -1,0 +1,42 @@
+//[wifi](../../../index.md)/[com.isupatches.android.wisefy.wifi](../index.md)/[WifiApiAsync](index.md)/[enableWifi](enable-wifi.md)
+
+# enableWifi
+
+[androidJvm]\
+
+@[RequiresPermission](https://developer.android.com/reference/kotlin/androidx/annotation/RequiresPermission.html)(value = &quot;android.permission.CHANGE_WIFI_STATE&quot;)
+
+abstract fun [enableWifi](enable-wifi.md)(request: [EnableWifiRequest](../../com.isupatches.android.wisefy.wifi.entities/-enable-wifi-request/index.md), callbacks: [EnableWifiCallbacks](../../com.isupatches.android.wisefy.wifi.callbacks/-enable-wifi-callbacks/index.md)?)
+
+An asynchronous API to enable Wifi.
+
+*NOTES*
+
+- 
+   Locked by the wifiMutex along with functions for disabling wifi and checking if wifi is enabled
+- 
+   Will open the wifi settings screen on Android Q / SDK 29 or higher
+
+#### Author
+
+Patches Barrett
+
+#### Since
+
+12/2022, version 5.0.0
+
+#### Parameters
+
+androidJvm
+
+| | |
+|---|---|
+| request | The details of the request to enable wifi |
+| callbacks | The callbacks for results when enabling wifi |
+
+#### See also
+
+| |
+|---|
+| [EnableWifiRequest](../../com.isupatches.android.wisefy.wifi.entities/-enable-wifi-request/index.md) |
+| [EnableWifiCallbacks](../../com.isupatches.android.wisefy.wifi.callbacks/-enable-wifi-callbacks/index.md) |

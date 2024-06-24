@@ -92,3 +92,4 @@ kotlinter = { id = "org.jmailen.kotlinter", version = "4.4.0" }
 
 wisefy-android-library = { id = "wisefy-android-library" }
 wisefy-android-publish = { id = "wisefy-android-publish" }
+wisefy-android-bom-publish = { id = "wisefy-android-bom-publish" }

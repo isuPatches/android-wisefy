@@ -1,0 +1,6 @@
+//[accesspoints](../../../index.md)/[com.isupatches.android.wisefy.accesspoints.entities](../index.md)/[AccessPointData](index.md)/[AccessPointData](-access-point-data.md)
+
+# AccessPointData
+
+[androidJvm]\
+constructor(rawValue: [ScanResult](https://developer.android.com/reference/kotlin/android/net/wifi/ScanResult.html), ssid: [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html) = rawValue.ssidWithoutQuotes, bssid: [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html) = rawValue.bssidWithoutQuotes, frequency: [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html) = rawValue.frequency, rssi: [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html) = rawValue.level, is2gHz: [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html) = frequency in MIN_FREQUENCY_2_4_GHZ until MAX_FREQUENCY_2_4_GHZ, is5gHz: [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html) = frequency in MIN_FREQUENCY_5_GHZ until MAX_FREQUENCY_5_GHZ, isSecure: [Boolean](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html) = AuthenticationAlgorithm.ALL.any { rawValue.supportsAuthenticationAlgorithm(it) })

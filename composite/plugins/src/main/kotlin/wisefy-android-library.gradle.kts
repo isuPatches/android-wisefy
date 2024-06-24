@@ -1,6 +1,5 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.io.File
-import java.util.Locale
 
 plugins {
     id("com.android.library")

@@ -1,0 +1,16 @@
+$dokka.format:gfm-v1
+$dokka.linkExtension:md
+$dokka.location:com.isupatches.android.wisefy.ktx////PointingToDeclaration/ktx/com.isupatches.android.wisefy.ktx/index.md
+$dokka.location:com.isupatches.android.wisefy.ktx//addNetworkAsync/com.isupatches.android.wisefy.WisefyApi#com.isupatches.android.wisefy.addnetwork.entities.AddNetworkRequest/PointingToDeclaration/ktx/com.isupatches.android.wisefy.ktx/add-network-async.md
+$dokka.location:com.isupatches.android.wisefy.ktx//changeNetworkAsync/com.isupatches.android.wisefy.WisefyApi#com.isupatches.android.wisefy.networkconnection.entities.ChangeNetworkRequest/PointingToDeclaration/ktx/com.isupatches.android.wisefy.ktx/change-network-async.md
+$dokka.location:com.isupatches.android.wisefy.ktx//disableWifiAsync/com.isupatches.android.wisefy.WisefyApi#com.isupatches.android.wisefy.wifi.entities.DisableWifiRequest/PointingToDeclaration/ktx/com.isupatches.android.wisefy.ktx/disable-wifi-async.md
+$dokka.location:com.isupatches.android.wisefy.ktx//enableWifiAsync/com.isupatches.android.wisefy.WisefyApi#com.isupatches.android.wisefy.wifi.entities.EnableWifiRequest/PointingToDeclaration/ktx/com.isupatches.android.wisefy.ktx/enable-wifi-async.md
+$dokka.location:com.isupatches.android.wisefy.ktx//getAccessPointsAsync/com.isupatches.android.wisefy.WisefyApi#com.isupatches.android.wisefy.accesspoints.entities.GetAccessPointsQuery/PointingToDeclaration/ktx/com.isupatches.android.wisefy.ktx/get-access-points-async.md
+$dokka.location:com.isupatches.android.wisefy.ktx//getCurrentNetworkAsync/com.isupatches.android.wisefy.WisefyApi#com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkQuery/PointingToDeclaration/ktx/com.isupatches.android.wisefy.ktx/get-current-network-async.md
+$dokka.location:com.isupatches.android.wisefy.ktx//getNetworkConnectionStatusAsync/com.isupatches.android.wisefy.WisefyApi#com.isupatches.android.wisefy.networkinfo.entities.GetNetworkConnectionStatusQuery/PointingToDeclaration/ktx/com.isupatches.android.wisefy.ktx/get-network-connection-status-async.md
+$dokka.location:com.isupatches.android.wisefy.ktx//getSavedNetworksAsync/com.isupatches.android.wisefy.WisefyApi#com.isupatches.android.wisefy.savednetworks.entities.GetSavedNetworksQuery/PointingToDeclaration/ktx/com.isupatches.android.wisefy.ktx/get-saved-networks-async.md
+$dokka.location:com.isupatches.android.wisefy.ktx//isNetworkSavedAsync/com.isupatches.android.wisefy.WisefyApi#com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedQuery/PointingToDeclaration/ktx/com.isupatches.android.wisefy.ktx/is-network-saved-async.md
+$dokka.location:com.isupatches.android.wisefy.ktx//isWifiEnabledAsync/com.isupatches.android.wisefy.WisefyApi#com.isupatches.android.wisefy.wifi.entities.IsWifiEnabledQuery/PointingToDeclaration/ktx/com.isupatches.android.wisefy.ktx/is-wifi-enabled-async.md
+$dokka.location:com.isupatches.android.wisefy.ktx//removeNetworkAsync/com.isupatches.android.wisefy.WisefyApi#com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkRequest/PointingToDeclaration/ktx/com.isupatches.android.wisefy.ktx/remove-network-async.md
+com.isupatches.android.wisefy.ktx
+
