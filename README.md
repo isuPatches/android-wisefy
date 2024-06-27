@@ -14,7 +14,6 @@ A Wifi configuration and util library built in Kotlin for Android.
 [![CircleCI](https://dl.circleci.com/status-badge/img/gh/isuPatches/android-wisefy/tree/develop.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/isuPatches/android-wisefy/tree/develop)
 
 - [Installation](#installation)
-- [KTX Artifact](#ktx-artifact)
 - [5.0 Rewrite](#50-rewrite)
   - [Highlights](#highlights)
   - [New Structure](#new-structure)
@@ -30,27 +29,35 @@ A Wifi configuration and util library built in Kotlin for Android.
 
 ## Installation
 
-There is a new package for 5.0.  Please use:
+For the 5.x versions of Wisefy, a new Bill of Materials (BOM for short) has been implemented.  This is similar to the Compose or Firebase BOMs where the platform is used but then it is possible to pick and choose the sub-dependencies to pull in.
+
+Adding the Wisefy BOM would look something like:
 
 ```kotlin
-implementation("com.isupatches.android.wisefy:wisefy:5.0.0-RC3")
+implementation(platform(libs.isupatches.wisefy.bom))
 ```
 
-This will include all of the Wisefy sub-artifacts through `api` dependencies.
+if using Gradle version catalogs, or:
 
-There are also new more modular artifacts published so that individual pieces of Wisefy can be imported directly:
+```kotlin
+implementation(platofrm("com.isupatches.android.wisefy:wisefy-bom:5.0.0-RC3"))
+```
 
-> `com.isupatches.android.wisefy:core:<LATEST VERSION>` will be a requirement for the other Wisefy artifacts.
+if used directly. Once the platform is installed, it is possible to import just the portions of the library desired.
 
-- `com.isupatches.android.wisefy:accesspoints:<LATEST VERSION>`
-- `com.isupatches.android.wisefy:addnetwork:<LATEST VERSION>`
-- `com.isupatches.android.wisefy:core:<LATEST VERSION>`
-- `com.isupatches.android.wisefy:networkconnection:<LATEST VERSION>`
-- `com.isupatches.android.wisefy:networkinfo:<LATEST VERSION>`
-- `com.isupatches.android.wisefy:removenetwork:<LATEST VERSION>`
-- `com.isupatches.android.wisefy:savednetworks:<LATEST VERSION>`
-- `com.isupatches.android.wisefy:signal:<LATEST VERSION>`
-- `com.isupatches.android.wisefy:wifi:<LATEST VERSION>`
+```kotlin
+implementation(libs.isupatches.wisefy.accesspoints)
+implementation(libs.isupatches.wisefy.addnetwork)
+implementation(libs.isupatches.wisefy.core)
+implementation(libs.isupatches.wisefy.ktx)
+implementation(libs.isupatches.wisefy.networkconnection)
+implementation(libs.isupatches.wisefy.networkinfo)
+implementation(libs.isupatches.wisefy.removenetwork)
+implementation(libs.isupatches.wisefy.savednetworks)
+implementation(libs.isupatches.wisefy.signal)
+implementation(libs.isupatches.wisefy.wifi)
+implementation(libs.isupatches.wisefy.wisefy)
+```
 
 Here are the descriptions of what functionality each artifact provides:
 
@@ -64,16 +71,6 @@ Here are the descriptions of what functionality each artifact provides:
 - `:signal` For calculating a signal level and comparing signal levels
 - `:wifi` For enabling and disabling Wifi
 
-## KTX Artifact
-
-There is a new artifact for 5.0 that provides Kotlin extension functions.  Please use:
-
-```kotlin
-implementation("com.isupatches.android.wisefy:ktx:<LATEST VERSION>")
-```
-
-if you want to try it out. All functions in this package have the suffix `Async` and are `suspend` functions.
-
 ## 5.0 Rewrite
 
 The 5.0 version of WiseFy works to rectify the problems that caused it to be overly challenging as a single developer 
@@ -85,8 +82,10 @@ I hope you enjoy the rewrite and please create an issue if you see anything odd 
 
 ### Highlights
 
-- Android Q, Android R, Android S, and Android T are now supported
-- Compiled with Java 11
+- Android 10 - 14 now supported (Q, R, S, Tiramisu and Upside Down Cake) are now supported
+- Compiled with Java 17
+- Updated to Kotlin 2.x and AGP 8.x
+- New Bill of Materials for packaging
 - Rewritten with extensibility and future Android OS's in-mind
     * Future versions of the Android OS will be easier to support with the new delegate/adapter system
     * Improved modularity where APIs for OS versions are contained in their own API / API implementation files

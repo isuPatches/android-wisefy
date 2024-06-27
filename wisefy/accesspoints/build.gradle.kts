@@ -35,4 +35,3 @@ dependencies {
     androidTestImplementation(testLibs.mockito.android)
     androidTestImplementation(testLibs.kotlin.coroutines.test)
 }
-

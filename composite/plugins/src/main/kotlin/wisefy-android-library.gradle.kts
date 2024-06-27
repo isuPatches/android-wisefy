@@ -1,4 +1,3 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.io.File
 
 plugins {
@@ -90,9 +89,9 @@ android {
 
     kotlin {
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_17)
             allWarningsAsErrors = true
         }
+        jvmToolchain(17)
     }
 
     afterEvaluate {
