@@ -33,7 +33,7 @@ sealed class DisableWifiRequest {
      * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
-    object Default : DisableWifiRequest()
+    data object Default : DisableWifiRequest()
 
     /**
      * A representation of a request to disable wifi on an Android Q / SDK 29 or higher device.

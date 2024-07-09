@@ -61,6 +61,7 @@ internal class Android30SignalAdapter(
                 val result = api.calculateSignalLevel(request.rssiLevel)
                 CalculateSignalLevelResult.Success(value = result)
             }
+
             is CalculateSignalLevelRequest.BelowAndroid30 -> {
                 val message = AssertionMessages.Signal.INCORRECT_CALCULATE_BARS_USED_ANDROID_R_OR_HIGHER
                 assertions.fail(message = message)

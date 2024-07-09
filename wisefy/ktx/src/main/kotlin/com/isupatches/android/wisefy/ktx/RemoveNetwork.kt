@@ -24,6 +24,7 @@ import com.isupatches.android.wisefy.core.exceptions.WisefyException
 import com.isupatches.android.wisefy.removenetwork.callbacks.RemoveNetworkCallbacks
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkRequest
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkResult
+import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.suspendCoroutine
 
 /**
@@ -49,7 +50,7 @@ import kotlin.coroutines.suspendCoroutine
 @Throws(WisefyException::class)
 @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE, CHANGE_WIFI_STATE])
 suspend fun WisefyApi.removeNetworkAsync(request: RemoveNetworkRequest): RemoveNetworkResult =
-    suspendCoroutine { continuation ->
+    suspendCancellableCoroutine { continuation ->
         removeNetwork(
             request = request,
             callbacks = object : RemoveNetworkCallbacks {

@@ -27,6 +27,7 @@ import com.isupatches.android.wisefy.networkinfo.entities.GetNetworkConnectionSt
 import com.isupatches.android.wisefy.networkinfo.entities.GetNetworkConnectionStatusResult
 import com.isupatches.android.wisefy.networkinfo.entities.NetworkConnectionStatusData
 import com.isupatches.android.wisefy.networkinfo.entities.NetworkData
+import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.suspendCoroutine
 
 /**
@@ -54,7 +55,7 @@ import kotlin.coroutines.suspendCoroutine
 @Throws(WisefyException::class)
 suspend fun WisefyApi.getCurrentNetworkAsync(
     query: GetCurrentNetworkQuery = GetCurrentNetworkQuery(),
-): GetCurrentNetworkResult = suspendCoroutine { continuation ->
+): GetCurrentNetworkResult = suspendCancellableCoroutine { continuation ->
     getCurrentNetwork(
         query = query,
         callbacks = object : GetCurrentNetworkCallbacks {
@@ -94,7 +95,7 @@ suspend fun WisefyApi.getCurrentNetworkAsync(
 @RequiresPermission(ACCESS_NETWORK_STATE)
 suspend fun WisefyApi.getNetworkConnectionStatusAsync(
     query: GetNetworkConnectionStatusQuery = GetNetworkConnectionStatusQuery(),
-): GetNetworkConnectionStatusResult = suspendCoroutine { continuation ->
+): GetNetworkConnectionStatusResult = suspendCancellableCoroutine { continuation ->
     getNetworkConnectionStatus(
         query = query,
         callbacks = object : GetNetworkConnectionStatusCallbacks {

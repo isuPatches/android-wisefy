@@ -1,12 +1,12 @@
 [versions]
-androidx-espresso-version = "3.5.1"
+androidx-espresso-version = "3.6.1"
 mockito-version = "5.12.0"
 
 [libraries]
 androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "androidx-espresso-version" }
 androidx-espresso-intents = { module = "androidx.test.espresso:espresso-intents", version.ref = "androidx-espresso-version" }
-androidx-test-runner = "androidx.test:runner:1.5.2"
-androidx-test-rules = "androidx.test:rules:1.5.0"
+androidx-test-runner = "androidx.test:runner:1.6.1"
+androidx-test-rules = "androidx.test:rules:1.6.1"
 
 junit = "junit:junit:4.13.2"
 

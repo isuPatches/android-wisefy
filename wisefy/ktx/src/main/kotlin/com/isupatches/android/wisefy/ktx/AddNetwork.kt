@@ -23,6 +23,7 @@ import com.isupatches.android.wisefy.addnetwork.callbacks.AddNetworkCallbacks
 import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkRequest
 import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
 import com.isupatches.android.wisefy.core.exceptions.WisefyException
+import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.suspendCoroutine
 
 /**
@@ -47,7 +48,9 @@ import kotlin.coroutines.suspendCoroutine
  */
 @Throws(WisefyException::class)
 @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-suspend fun WisefyApi.addNetworkAsync(request: AddNetworkRequest): AddNetworkResult = suspendCoroutine { continuation ->
+suspend fun WisefyApi.addNetworkAsync(
+    request: AddNetworkRequest,
+): AddNetworkResult = suspendCancellableCoroutine { continuation ->
     addNetwork(
         request = request,
         callbacks = object : AddNetworkCallbacks {

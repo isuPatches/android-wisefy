@@ -169,7 +169,6 @@ fun ScanResult.supportsPairwiseCipher(pairwiseCipher: PairwiseCipher): Boolean {
     return capabilities
         .split("[")
         .any {
-            println(it.substringBefore("]").split("-").getOrNull(PAIRWISE_CIPHER_INDEX))
             it.substringBefore("]")
                 .split("-")
                 .getOrNull(PAIRWISE_CIPHER_INDEX) == pairwiseCipher.stringValue

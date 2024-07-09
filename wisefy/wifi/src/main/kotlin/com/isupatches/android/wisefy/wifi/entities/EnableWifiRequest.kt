@@ -33,7 +33,7 @@ sealed class EnableWifiRequest {
      * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
-    object Default : EnableWifiRequest()
+    data object Default : EnableWifiRequest()
 
     /**
      * A representation of a request to enable wifi on an Android Q / SDK 29 or higher device.

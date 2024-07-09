@@ -41,7 +41,7 @@ sealed class EnableWifiResult {
          * @author Patches Barrett
          * @since 12/2022, version 5.0.0
          */
-        object Enabled : Success()
+        data object Enabled : Success()
 
         /**
          * A representation of when the wifi settings screen is opened on Android Q / SDK 29 or higher devices for
@@ -52,7 +52,7 @@ sealed class EnableWifiResult {
          * @author Patches Barrett
          * @since 12/2022, version 5.0.0
          */
-        object WifiSettingScreenOpened : Success()
+        data object WifiSettingScreenOpened : Success()
     }
 
     /**
@@ -73,7 +73,7 @@ sealed class EnableWifiResult {
          * @author Patches Barrett
          * @since 12/2022, version 5.0.0
          */
-        object UnableToEnable : Failure()
+        data object UnableToEnable : Failure()
 
         /**
          * A representation of a failure enabling wifi due to hitting an unexpected path causing an assertion.

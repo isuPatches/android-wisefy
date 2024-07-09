@@ -41,7 +41,7 @@ sealed class DisableWifiResult {
          * @author Patches Barrett
          * @since 12/2022, version 5.0.0
          */
-        object Disabled : Success()
+        data object Disabled : Success()
 
         /**
          * A representation of when the wifi settings screen is opened on Android Q / SDK 29 or higher devices for
@@ -52,7 +52,7 @@ sealed class DisableWifiResult {
          * @author Patches Barrett
          * @since 12/2022, version 5.0.0
          */
-        object WifiSettingScreenOpened : Success()
+        data object WifiSettingScreenOpened : Success()
     }
 
     /**
@@ -73,7 +73,7 @@ sealed class DisableWifiResult {
          * @author Patches Barrett
          * @since 12/2022, version 5.0.0
          */
-        object UnableToDisable : Failure()
+        data object UnableToDisable : Failure()
 
         /**
          * A representation of a failure disabling wifi due to hitting an unexpected path causing an assertion.

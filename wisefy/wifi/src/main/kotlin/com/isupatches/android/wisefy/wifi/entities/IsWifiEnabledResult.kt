@@ -31,7 +31,7 @@ sealed class IsWifiEnabledResult {
      * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
-    object True : IsWifiEnabledResult()
+    data object True : IsWifiEnabledResult()
 
     /**
      * A data representation for when wifi is disabled.
@@ -41,5 +41,5 @@ sealed class IsWifiEnabledResult {
      * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
-    object False : IsWifiEnabledResult()
+    data object False : IsWifiEnabledResult()
 }

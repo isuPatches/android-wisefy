@@ -61,7 +61,7 @@ sealed class RemoveNetworkResult {
          * @author Patches Barrett
          * @since 12/2022, version 5.0.0
          */
-        object True : Success()
+        data object True : Success()
     }
 
     /**
@@ -86,7 +86,7 @@ sealed class RemoveNetworkResult {
          * @author Patches Barrett
          * @since 12/2022, version 5.0.0
          */
-        object False : Failure()
+        data object False : Failure()
 
         /**
          * A data representation of a failure removing a network based on Android OS level returns.

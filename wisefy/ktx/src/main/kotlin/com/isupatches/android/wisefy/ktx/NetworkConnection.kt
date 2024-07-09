@@ -22,6 +22,7 @@ import com.isupatches.android.wisefy.core.exceptions.WisefyException
 import com.isupatches.android.wisefy.networkconnection.callbacks.ChangeNetworkCallbacks
 import com.isupatches.android.wisefy.networkconnection.entities.ChangeNetworkRequest
 import com.isupatches.android.wisefy.networkconnection.entities.ChangeNetworkResult
+import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.suspendCoroutine
 
 /**
@@ -48,7 +49,7 @@ import kotlin.coroutines.suspendCoroutine
 @RequiresApi(Build.VERSION_CODES.Q)
 @Throws(WisefyException::class)
 suspend fun WisefyApi.changeNetworkAsync(request: ChangeNetworkRequest): ChangeNetworkResult =
-    suspendCoroutine { continuation ->
+    suspendCancellableCoroutine { continuation ->
         changeNetwork(
             request = request,
             callbacks = object : ChangeNetworkCallbacks {

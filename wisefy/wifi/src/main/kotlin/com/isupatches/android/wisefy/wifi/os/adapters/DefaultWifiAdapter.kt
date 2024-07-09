@@ -59,8 +59,7 @@ internal class DefaultWifiAdapter(
     @RequiresPermission(CHANGE_WIFI_STATE)
     override fun disableWifi(request: DisableWifiRequest): DisableWifiResult {
         return if (request is DisableWifiRequest.Default) {
-            val result = api.disableWifi()
-            if (result) {
+            if (api.disableWifi()) {
                 DisableWifiResult.Success.Disabled
             } else {
                 DisableWifiResult.Failure.UnableToDisable
@@ -75,8 +74,7 @@ internal class DefaultWifiAdapter(
     @RequiresPermission(CHANGE_WIFI_STATE)
     override fun enableWifi(request: EnableWifiRequest): EnableWifiResult {
         return if (request is EnableWifiRequest.Default) {
-            val result = api.enableWifi()
-            if (result) {
+            if (api.enableWifi()) {
                 EnableWifiResult.Success.Enabled
             } else {
                 EnableWifiResult.Failure.UnableToEnable
@@ -90,8 +88,7 @@ internal class DefaultWifiAdapter(
 
     @RequiresPermission(ACCESS_WIFI_STATE)
     override fun isWifiEnabled(query: IsWifiEnabledQuery): IsWifiEnabledResult {
-        val result = api.isWifiEnabled()
-        return if (result) {
+        return if (api.isWifiEnabled()) {
             IsWifiEnabledResult.True
         } else {
             IsWifiEnabledResult.False

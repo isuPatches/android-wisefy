@@ -23,6 +23,7 @@ import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
 import com.isupatches.android.wisefy.accesspoints.entities.GetAccessPointsQuery
 import com.isupatches.android.wisefy.accesspoints.entities.GetAccessPointsResult
 import com.isupatches.android.wisefy.core.exceptions.WisefyException
+import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.suspendCoroutine
 
 /**
@@ -46,7 +47,7 @@ import kotlin.coroutines.suspendCoroutine
 @RequiresPermission(ACCESS_FINE_LOCATION)
 suspend fun WisefyApi.getAccessPointsAsync(
     query: GetAccessPointsQuery = GetAccessPointsQuery.All(),
-): GetAccessPointsResult = suspendCoroutine { continuation ->
+): GetAccessPointsResult = suspendCancellableCoroutine { continuation ->
     getAccessPoints(
         query = query,
         callbacks = object : GetAccessPointsCallbacks {

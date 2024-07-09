@@ -64,6 +64,7 @@ internal class Android29WifiAdapter(
                 api.openWifiSettings(request.context)
                 return DisableWifiResult.Success.WifiSettingScreenOpened
             }
+
             is DisableWifiRequest.Default -> {
                 val message = AssertionMessages.Wifi.DEFAULT_REQUEST_USED_ANDROID_29_OR_HIGHER
                 assertions.fail(message = message)
@@ -78,6 +79,7 @@ internal class Android29WifiAdapter(
                 api.openWifiSettings(request.context)
                 return EnableWifiResult.Success.WifiSettingScreenOpened
             }
+
             is EnableWifiRequest.Default -> {
                 val message = AssertionMessages.Wifi.DEFAULT_REQUEST_USED_ANDROID_29_OR_HIGHER
                 assertions.fail(message = message)

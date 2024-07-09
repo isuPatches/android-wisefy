@@ -27,6 +27,7 @@ import com.isupatches.android.wisefy.savednetworks.entities.GetSavedNetworksResu
 import com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedQuery
 import com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedResult
 import com.isupatches.android.wisefy.savednetworks.entities.SavedNetworkData
+import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.suspendCoroutine
 
 /**
@@ -53,7 +54,7 @@ import kotlin.coroutines.suspendCoroutine
 @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
 suspend fun WisefyApi.getSavedNetworksAsync(
     query: GetSavedNetworksQuery = GetSavedNetworksQuery.All,
-): GetSavedNetworksResult = suspendCoroutine { continuation ->
+): GetSavedNetworksResult = suspendCancellableCoroutine { continuation ->
     getSavedNetworks(
         query = query,
         callbacks = object : GetSavedNetworksCallbacks {
@@ -95,7 +96,7 @@ suspend fun WisefyApi.getSavedNetworksAsync(
 @Throws(WisefyException::class)
 @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
 suspend fun WisefyApi.isNetworkSavedAsync(query: IsNetworkSavedQuery): IsNetworkSavedResult =
-    suspendCoroutine { continuation ->
+    suspendCancellableCoroutine { continuation ->
         isNetworkSaved(
             query = query,
             callbacks = object : IsNetworkSavedCallbacks {

@@ -31,7 +31,7 @@ sealed class GetAccessPointsResult {
      * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
-    object Empty : GetAccessPointsResult()
+    data object Empty : GetAccessPointsResult()
 
     /**
      * A representation for when there are one or more access points matching the [GetAccessPointsQuery].

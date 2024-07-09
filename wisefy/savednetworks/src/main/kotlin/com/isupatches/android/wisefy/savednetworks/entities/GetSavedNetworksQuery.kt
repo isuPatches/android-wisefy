@@ -31,7 +31,7 @@ sealed class GetSavedNetworksQuery {
      * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
-    object All : GetSavedNetworksQuery()
+    data object All : GetSavedNetworksQuery()
 
     /**
      * A data representation of a query to get saved networks matching a given SSID.

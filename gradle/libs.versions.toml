@@ -1,7 +1,7 @@
 [versions]
 build-tools-version = "34.0.0"
 sdk-compile-version = "34"
-sdk-target-version = "33"
+sdk-target-version = "34"
 sdk-min-version = "23"
 
 android-gradleplugin-version = "8.5.0"
