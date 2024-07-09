@@ -22,22 +22,13 @@ commands:
     import-gpg-key:
       steps:
         - run:
-            name: Import Wisefy GPG Key
-            command: echo -e "$WISEFY_GPG_SIGNING_KEY" | gpg --import
+            name: Write Wisefy GPG Key
+            command: echo -e "$WISEFY_GPG_SIGNING_KEY" > wisefy-gpg-key.asc
         - run:
-            name: Decrypt Secrets
-            command: gpg --no-tty --batch --passphrase "$WISEFY_GPG_SIGNING_PASSWORD" --pinentry-mode loopback --output secrets.env --decrypt secrets.env.gpg
+            name: Import GPG Key
+            command: gpg --import --no-tty --batch --passphrase "$WISEFY_GPG_SIGNING_PASSWORD" --yes wisefy-gpg-key.asc
     publish-to-maven-local:
       steps:
-        - run:
-            name: Sanity check GPG key id
-            command: echo $WISEFY_GPG_SIGNING_KEY_ID
-        - run:
-            name: Sanity check GPG key
-            command: echo $WISEFY_GPG_SIGNING_KEY
-        - run:
-            name: Sanity check GPG key password
-            command: echo $WISEFY_GPG_SIGNING_PASSWORD
         - run:
             name: Publish release artifacts to Maven Local
             command: ./gradlew publishReleasePublicationToMavenLocal
