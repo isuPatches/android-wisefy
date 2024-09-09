@@ -24,7 +24,6 @@ import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkRequest
 import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
 import com.isupatches.android.wisefy.core.exceptions.WisefyException
 import kotlinx.coroutines.suspendCancellableCoroutine
-import kotlin.coroutines.suspendCoroutine
 
 /**
  * A coroutine extension for adding a network.
@@ -48,23 +47,22 @@ import kotlin.coroutines.suspendCoroutine
  */
 @Throws(WisefyException::class)
 @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-suspend fun WisefyApi.addNetworkAsync(
-    request: AddNetworkRequest,
-): AddNetworkResult = suspendCancellableCoroutine { continuation ->
-    addNetwork(
-        request = request,
-        callbacks = object : AddNetworkCallbacks {
-            override fun onSuccessAddingNetwork(result: AddNetworkResult.Success) {
-                continuation.resumeWith(Result.success(result))
-            }
+suspend fun WisefyApi.addNetworkAsync(request: AddNetworkRequest): AddNetworkResult =
+    suspendCancellableCoroutine { continuation ->
+        addNetwork(
+            request = request,
+            callbacks = object : AddNetworkCallbacks {
+                override fun onSuccessAddingNetwork(result: AddNetworkResult.Success) {
+                    continuation.resumeWith(Result.success(result))
+                }
 
-            override fun onFailureAddingNetwork(result: AddNetworkResult.Failure) {
-                continuation.resumeWith(Result.success(result))
-            }
+                override fun onFailureAddingNetwork(result: AddNetworkResult.Failure) {
+                    continuation.resumeWith(Result.success(result))
+                }
 
-            override fun onWisefyAsyncFailure(exception: WisefyException) {
-                continuation.resumeWith(Result.failure(exception))
-            }
-        },
-    )
-}
+                override fun onWisefyAsyncFailure(exception: WisefyException) {
+                    continuation.resumeWith(Result.failure(exception))
+                }
+            },
+        )
+    }

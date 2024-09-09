@@ -26,19 +26,28 @@ internal data class RemoveNetworkUIState(
     val ssidType: SSIDType,
 )
 
-internal data class RemoveNetworkLoadingState(val isLoading: Boolean)
+internal data class RemoveNetworkLoadingState(
+    val isLoading: Boolean,
+)
 
 internal sealed class RemoveNetworkDialogState {
 
     data object None : RemoveNetworkDialogState()
 
     sealed class Failure : RemoveNetworkDialogState() {
-        data class WisefyAsync(val exception: WisefyException) : Failure()
+        data class WisefyAsync(
+            val exception: WisefyException,
+        ) : Failure()
     }
 
     sealed class RemoveNetwork : RemoveNetworkDialogState() {
-        data class Failure(val result: RemoveNetworkResult.Failure) : RemoveNetwork()
-        data class Success(val result: RemoveNetworkResult.Success) : RemoveNetwork()
+        data class Failure(
+            val result: RemoveNetworkResult.Failure,
+        ) : RemoveNetwork()
+
+        data class Success(
+            val result: RemoveNetworkResult.Success,
+        ) : RemoveNetwork()
 
         data object PermissionsError : RemoveNetwork()
     }

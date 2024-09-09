@@ -35,7 +35,11 @@ interface WisefyLogger {
      * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
-    fun i(tag: String, message: String, vararg args: Any): Int
+    fun i(
+        tag: String,
+        message: String,
+        vararg args: Any,
+    ): Int
 
     /**
      * A function that logs a verbose message.
@@ -49,7 +53,11 @@ interface WisefyLogger {
      * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
-    fun v(tag: String, message: String, vararg args: Any): Int
+    fun v(
+        tag: String,
+        message: String,
+        vararg args: Any,
+    ): Int
 
     /**
      * A function that logs a debug message.
@@ -63,7 +71,11 @@ interface WisefyLogger {
      * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
-    fun d(tag: String, message: String, vararg args: Any): Int
+    fun d(
+        tag: String,
+        message: String,
+        vararg args: Any,
+    ): Int
 
     /**
      * A function that logs a warning message.
@@ -77,7 +89,11 @@ interface WisefyLogger {
      * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
-    fun w(tag: String, message: String, vararg args: Any): Int
+    fun w(
+        tag: String,
+        message: String,
+        vararg args: Any,
+    ): Int
 
     /**
      * A function that logs an error message.
@@ -91,7 +107,11 @@ interface WisefyLogger {
      * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
-    fun e(tag: String, message: String, vararg args: Any): Int
+    fun e(
+        tag: String,
+        message: String,
+        vararg args: Any,
+    ): Int
 
     /**
      * A function that logs an error message.
@@ -106,7 +126,12 @@ interface WisefyLogger {
      * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
-    fun e(tag: String, throwable: Throwable, message: String, vararg args: Any): Int
+    fun e(
+        tag: String,
+        throwable: Throwable,
+        message: String,
+        vararg args: Any,
+    ): Int
 
     /**
      * A function that logs a "what a terrible failure" message.
@@ -120,7 +145,11 @@ interface WisefyLogger {
      * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
-    fun wtf(tag: String, message: String, vararg args: Any): Int
+    fun wtf(
+        tag: String,
+        message: String,
+        vararg args: Any,
+    ): Int
 
     /**
      * A function that logs a "what a terrible failure" message.
@@ -135,5 +164,10 @@ interface WisefyLogger {
      * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
-    fun wtf(tag: String, throwable: Throwable, message: String, vararg args: Any): Int
+    fun wtf(
+        tag: String,
+        throwable: Throwable,
+        message: String,
+        vararg args: Any,
+    ): Int
 }

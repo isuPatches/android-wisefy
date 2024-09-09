@@ -79,6 +79,8 @@ internal class Android29WifiApiImplIsWifiEnabledTest(
             )
         }
 
-        data class IsWifiEnabledParams(val isWifiEnabledResult: Boolean)
+        data class IsWifiEnabledParams(
+            val isWifiEnabledResult: Boolean,
+        )
     }
 }

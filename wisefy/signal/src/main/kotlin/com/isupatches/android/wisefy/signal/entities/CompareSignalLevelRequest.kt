@@ -24,4 +24,7 @@ package com.isupatches.android.wisefy.signal.entities
  * @author Patches Barrett
  * @since 12/2022, version 5.0.0
  */
-data class CompareSignalLevelRequest(val rssi1: Int, val rssi2: Int)
+data class CompareSignalLevelRequest(
+    val rssi1: Int,
+    val rssi2: Int,
+)

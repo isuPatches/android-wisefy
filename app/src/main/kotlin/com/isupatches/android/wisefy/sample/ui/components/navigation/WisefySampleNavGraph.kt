@@ -15,18 +15,24 @@
  */
 package com.isupatches.android.wisefy.sample.ui.components.navigation
 
-internal sealed class WisefySampleNavGraph(open val route: String) {
+internal sealed class WisefySampleNavGraph(
+    open val route: String,
+) {
 
-    sealed class Main(override val route: String) : WisefySampleNavGraph(route) {
-        object Add : Main(route = "add")
-        object Remove : Main(route = "remove")
-        object Home : Main(route = "home")
-        object Misc : Main(route = "misc")
-        object Search : Main(route = "search")
+    sealed class Main(
+        override val route: String,
+    ) : WisefySampleNavGraph(route) {
+        data object Add : Main(route = "add")
+        data object Remove : Main(route = "remove")
+        data object Home : Main(route = "home")
+        data object Misc : Main(route = "misc")
+        data object Search : Main(route = "search")
     }
 
-    sealed class Misc(override val route: String) : WisefySampleNavGraph(route) {
-        object Signal : Misc(route = "signal")
-        object NearbyAccessPoints : Misc(route = "nearbyAccessPoints")
+    sealed class Misc(
+        override val route: String,
+    ) : WisefySampleNavGraph(route) {
+        data object Signal : Misc(route = "signal")
+        data object NearbyAccessPoints : Misc(route = "nearbyAccessPoints")
     }
 }

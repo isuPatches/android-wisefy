@@ -53,7 +53,10 @@ private val WisefySampleLightColors = lightColors(
 )
 
 @Composable
-internal fun WisefySampleTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
+internal fun WisefySampleTheme(
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    content: @Composable () -> Unit,
+) {
     MaterialTheme(
         colors = if (darkTheme) {
             WisefySampleDarkColors

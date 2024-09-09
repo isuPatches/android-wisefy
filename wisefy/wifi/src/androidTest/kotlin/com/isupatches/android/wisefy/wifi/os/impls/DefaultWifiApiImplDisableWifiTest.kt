@@ -81,6 +81,8 @@ internal class DefaultWifiApiImplDisableWifiTest(
             )
         }
 
-        data class DisableWifiParams(val disableWifiResult: Boolean)
+        data class DisableWifiParams(
+            val disableWifiResult: Boolean,
+        )
     }
 }

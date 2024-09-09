@@ -93,7 +93,10 @@ class WisefySavedNetworkDelegate(
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun getSavedNetworks(query: GetSavedNetworksQuery, callbacks: GetSavedNetworksCallbacks?) {
+    override fun getSavedNetworks(
+        query: GetSavedNetworksQuery,
+        callbacks: GetSavedNetworksCallbacks?,
+    ) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
             savedNetworkMutex.withLock {
                 val result = adapter.getSavedNetworks(query)
@@ -118,7 +121,10 @@ class WisefySavedNetworkDelegate(
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    override fun isNetworkSaved(query: IsNetworkSavedQuery, callbacks: IsNetworkSavedCallbacks?) {
+    override fun isNetworkSaved(
+        query: IsNetworkSavedQuery,
+        callbacks: IsNetworkSavedCallbacks?,
+    ) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
             savedNetworkMutex.withLock {
                 val result = adapter.isNetworkSaved(query)

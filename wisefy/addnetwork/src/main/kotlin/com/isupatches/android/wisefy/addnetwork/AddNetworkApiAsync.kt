@@ -42,5 +42,8 @@ interface AddNetworkApiAsync {
      * @since 12/2022, version 5.0.0
      */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-    fun addNetwork(request: AddNetworkRequest, callbacks: AddNetworkCallbacks?)
+    fun addNetwork(
+        request: AddNetworkRequest,
+        callbacks: AddNetworkCallbacks?,
+    )
 }

@@ -38,7 +38,9 @@ sealed class SavedNetworkData {
      * @since 12/2022, version 5.0.0
      */
     @Suppress("Deprecation")
-    data class Configuration(val rawValue: android.net.wifi.WifiConfiguration) : SavedNetworkData()
+    data class Configuration(
+        val rawValue: android.net.wifi.WifiConfiguration,
+    ) : SavedNetworkData()
 
     /**
      * A data representation of a saved network suggestion starting at Android Q.
@@ -51,5 +53,7 @@ sealed class SavedNetworkData {
      * @since 12/2022, version 5.0.0
      */
     @RequiresApi(Build.VERSION_CODES.Q)
-    data class Suggestion(val rawValue: WifiNetworkSuggestion) : SavedNetworkData()
+    data class Suggestion(
+        val rawValue: WifiNetworkSuggestion,
+    ) : SavedNetworkData()
 }

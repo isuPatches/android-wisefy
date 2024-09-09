@@ -24,7 +24,11 @@ private const val LOG_TAG = "WisefySample"
 
 internal object WisefySampleLogger : WisefyLogger {
 
-    override fun i(tag: String, message: String, vararg args: Any): Int {
+    override fun i(
+        tag: String,
+        message: String,
+        vararg args: Any,
+    ): Int {
         return if (BuildConfig.DEBUG) {
             return Log.i(LOG_TAG, createMessage(tag, message, *args))
         } else {
@@ -32,7 +36,11 @@ internal object WisefySampleLogger : WisefyLogger {
         }
     }
 
-    override fun v(tag: String, message: String, vararg args: Any): Int {
+    override fun v(
+        tag: String,
+        message: String,
+        vararg args: Any,
+    ): Int {
         return if (BuildConfig.DEBUG) {
             Log.v(LOG_TAG, createMessage(tag, message, *args))
         } else {
@@ -40,7 +48,11 @@ internal object WisefySampleLogger : WisefyLogger {
         }
     }
 
-    override fun d(tag: String, message: String, vararg args: Any): Int {
+    override fun d(
+        tag: String,
+        message: String,
+        vararg args: Any,
+    ): Int {
         return if (BuildConfig.DEBUG) {
             return Log.d(LOG_TAG, createMessage(tag, message, *args))
         } else {
@@ -48,7 +60,11 @@ internal object WisefySampleLogger : WisefyLogger {
         }
     }
 
-    override fun w(tag: String, message: String, vararg args: Any): Int {
+    override fun w(
+        tag: String,
+        message: String,
+        vararg args: Any,
+    ): Int {
         return if (BuildConfig.DEBUG) {
             return Log.w(LOG_TAG, createMessage(tag, message, *args))
         } else {
@@ -56,7 +72,11 @@ internal object WisefySampleLogger : WisefyLogger {
         }
     }
 
-    override fun e(tag: String, message: String, vararg args: Any): Int {
+    override fun e(
+        tag: String,
+        message: String,
+        vararg args: Any,
+    ): Int {
         return if (BuildConfig.DEBUG) {
             return Log.e(LOG_TAG, createMessage(tag, message, *args))
         } else {
@@ -64,7 +84,12 @@ internal object WisefySampleLogger : WisefyLogger {
         }
     }
 
-    override fun e(tag: String, throwable: Throwable, message: String, vararg args: Any): Int {
+    override fun e(
+        tag: String,
+        throwable: Throwable,
+        message: String,
+        vararg args: Any,
+    ): Int {
         return if (BuildConfig.DEBUG) {
             Log.e(LOG_TAG, createMessage(tag, message, *args), throwable)
         } else {
@@ -72,7 +97,11 @@ internal object WisefySampleLogger : WisefyLogger {
         }
     }
 
-    override fun wtf(tag: String, message: String, vararg args: Any): Int {
+    override fun wtf(
+        tag: String,
+        message: String,
+        vararg args: Any,
+    ): Int {
         return if (BuildConfig.DEBUG) {
             Log.wtf(LOG_TAG, createMessage(tag, message, *args))
         } else {
@@ -80,7 +109,12 @@ internal object WisefySampleLogger : WisefyLogger {
         }
     }
 
-    override fun wtf(tag: String, throwable: Throwable, message: String, vararg args: Any): Int {
+    override fun wtf(
+        tag: String,
+        throwable: Throwable,
+        message: String,
+        vararg args: Any,
+    ): Int {
         return if (BuildConfig.DEBUG) {
             Log.wtf(LOG_TAG, createMessage(tag, message, *args), throwable)
         } else {
@@ -92,7 +126,11 @@ internal object WisefySampleLogger : WisefyLogger {
      * Private Helpers
      */
 
-    private fun createMessage(tag: String, message: String, vararg args: Any): String {
+    private fun createMessage(
+        tag: String,
+        message: String,
+        vararg args: Any,
+    ): String {
         return "$tag - ${message.format(Locale.US, *args)}"
     }
 }

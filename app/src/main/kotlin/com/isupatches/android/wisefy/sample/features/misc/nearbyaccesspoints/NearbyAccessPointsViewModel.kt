@@ -52,11 +52,12 @@ internal interface NearbyAccessPointsViewModel {
 @HiltViewModel
 internal class NearbyAccessPointsViewModelImpl @Inject constructor(
     private val wisefy: WisefyApi,
-) : ViewModel(), NearbyAccessPointsViewModel {
+) : ViewModel(),
+    NearbyAccessPointsViewModel {
 
     private val _uiState = mutableStateOf(
         NearbyAccessPointsUIState(
-            loadingState = NearbyAccessPointsLoadingState(isLoading = false),
+            loadingState = NearbyAccessPointsLoadingState(),
             dialogState = NearbyAccessPointsDialogState.None,
             accessPointUIData = emptyList(),
         ),

@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.io.File
 
 plugins {
@@ -28,9 +29,9 @@ android {
     signingConfigs {
         create("release") {
             storeFile = File("${rootDir}/keystores/wisefy-release.jks")
-            keyAlias = System.getenv("WISEFY_RELEASE_KEY_ALIAS")
-            storePassword = System.getenv("WISEFY_RELEASE_PASSWORD")
-            keyPassword = System.getenv("WISEFY_RELEASE_PASSWORD")
+            keyAlias = properties["WISEFY_RELEASE_KEY_ALIAS"]?.toString() ?: System.getenv("WISEFY_RELEASE_KEY_ALIAS")
+            storePassword = properties["WISEFY_RELEASE_PASSWORD"]?.toString() ?: System.getenv("WISEFY_RELEASE_PASSWORD")
+            keyPassword = properties["WISEFY_RELEASE_PASSWORD"]?.toString() ?: System.getenv("WISEFY_RELEASE_PASSWORD")
         }
     }
 
@@ -83,15 +84,16 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 
     kotlin {
         compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_21)
             allWarningsAsErrors = true
         }
-        jvmToolchain(17)
+        jvmToolchain(21)
     }
 
     afterEvaluate {

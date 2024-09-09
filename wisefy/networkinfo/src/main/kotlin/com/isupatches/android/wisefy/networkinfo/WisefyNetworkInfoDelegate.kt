@@ -91,7 +91,10 @@ class WisefyNetworkInfoDelegate(
         return adapter.getCurrentNetwork(query)
     }
 
-    override fun getCurrentNetwork(query: GetCurrentNetworkQuery, callbacks: GetCurrentNetworkCallbacks?) {
+    override fun getCurrentNetwork(
+        query: GetCurrentNetworkQuery,
+        callbacks: GetCurrentNetworkCallbacks?,
+    ) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
             networkConnectionMutex.withLock {
                 val currentNetwork = adapter.getCurrentNetwork(query)

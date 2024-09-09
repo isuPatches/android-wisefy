@@ -43,7 +43,9 @@ sealed class GetSavedNetworksQuery {
      * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
-    data class BySSID(val regex: String) : GetSavedNetworksQuery()
+    data class BySSID(
+        val regex: String,
+    ) : GetSavedNetworksQuery()
 
     /**
      * A data representation of a query to get saved networks matching a given BSSID.
@@ -55,5 +57,7 @@ sealed class GetSavedNetworksQuery {
      * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
-    data class ByBSSID(val regex: String) : GetSavedNetworksQuery()
+    data class ByBSSID(
+        val regex: String,
+    ) : GetSavedNetworksQuery()
 }

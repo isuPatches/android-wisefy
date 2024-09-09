@@ -24,4 +24,6 @@ package com.isupatches.android.wisefy.savednetworks
  * @author Patches Barrett
  * @since 12/2022, version 5.0.0
  */
-interface SavedNetworkDelegate : SavedNetworkApi, SavedNetworkApiAsync
+interface SavedNetworkDelegate :
+    SavedNetworkApi,
+    SavedNetworkApiAsync

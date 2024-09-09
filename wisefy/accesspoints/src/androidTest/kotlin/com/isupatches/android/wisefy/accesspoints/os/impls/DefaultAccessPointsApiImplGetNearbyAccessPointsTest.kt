@@ -31,7 +31,9 @@ import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 
 @RunWith(Parameterized::class)
-internal class DefaultAccessPointsApiImplGetNearbyAccessPointsTest(private val params: GetNearbyAccessPointsParams) {
+internal class DefaultAccessPointsApiImplGetNearbyAccessPointsTest(
+    private val params: GetNearbyAccessPointsParams,
+) {
 
     @Mock
     private lateinit var mockWifiManager: WifiManager

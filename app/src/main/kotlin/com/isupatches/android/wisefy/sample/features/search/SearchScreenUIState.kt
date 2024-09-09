@@ -32,7 +32,9 @@ internal data class SearchUIState(
     val timeoutInSeconds: Int?,
 )
 
-internal data class SearchLoadingState(val isLoading: Boolean)
+internal data class SearchLoadingState(
+    val isLoading: Boolean,
+)
 
 internal sealed class SearchDialogState {
     data object None : SearchDialogState()
@@ -43,42 +45,68 @@ internal sealed class SearchDialogState {
     }
 
     sealed class Failure : SearchDialogState() {
-        data class WisefyAsync(val exception: Throwable) : Failure()
+        data class WisefyAsync(
+            val exception: Throwable,
+        ) : Failure()
     }
 
     sealed class SearchForAccessPoint : SearchDialogState() {
-        data class Success(val data: AccessPointData) : SearchForAccessPoint()
+        data class Success(
+            val data: AccessPointData,
+        ) : SearchForAccessPoint()
+
         data object NoAccessPointFound : SearchForAccessPoint()
+
         data object PermissionError : SearchForAccessPoint()
     }
 
     sealed class SearchForAccessPoints : SearchDialogState() {
-        data class Success(val data: List<AccessPointData>) : SearchForAccessPoints()
+        data class Success(
+            val data: List<AccessPointData>,
+        ) : SearchForAccessPoints()
+
         data object NoAccessPointsFound : SearchForAccessPoints()
+
         data object PermissionError : SearchForAccessPoints()
     }
 
     sealed class SearchForSSID : SearchDialogState() {
-        data class Success(val data: String) : SearchForSSID()
+        data class Success(
+            val data: String,
+        ) : SearchForSSID()
+
         data object NoSSIDFound : SearchForSSID()
+
         data object PermissionError : SearchForSSID()
     }
 
     sealed class SearchForSSIDs : SearchDialogState() {
-        data class Success(val data: List<String>) : SearchForSSIDs()
+        data class Success(
+            val data: List<String>,
+        ) : SearchForSSIDs()
+
         data object NoSSIDsFound : SearchForSSIDs()
+
         data object PermissionError : SearchForSSIDs()
     }
 
     sealed class SearchForSavedNetwork : SearchDialogState() {
-        data class Success(val data: SavedNetworkData) : SearchForSavedNetwork()
+        data class Success(
+            val data: SavedNetworkData,
+        ) : SearchForSavedNetwork()
+
         data object NoSavedNetworkFound : SearchForSavedNetwork()
+
         data object PermissionError : SearchForSavedNetwork()
     }
 
     sealed class SearchForSavedNetworks : SearchDialogState() {
-        data class Success(val data: List<SavedNetworkData>) : SearchForSavedNetworks()
+        data class Success(
+            val data: List<SavedNetworkData>,
+        ) : SearchForSavedNetworks()
+
         data object NoSavedNetworksFound : SearchForSavedNetworks()
+
         data object PermissionError : SearchForSavedNetworks()
     }
 }

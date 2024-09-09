@@ -30,7 +30,6 @@ import com.isupatches.android.wisefy.wifi.entities.EnableWifiResult
 import com.isupatches.android.wisefy.wifi.entities.IsWifiEnabledQuery
 import com.isupatches.android.wisefy.wifi.entities.IsWifiEnabledResult
 import kotlinx.coroutines.suspendCancellableCoroutine
-import kotlin.coroutines.suspendCoroutine
 
 /**
  * A coroutine extension for disabling wifi.
@@ -98,26 +97,25 @@ suspend fun WisefyApi.disableWifiAsync(request: DisableWifiRequest): DisableWifi
  */
 @Throws(WisefyException::class)
 @RequiresPermission(CHANGE_WIFI_STATE)
-suspend fun WisefyApi.enableWifiAsync(
-    request: EnableWifiRequest,
-): EnableWifiResult = suspendCancellableCoroutine { continuation ->
-    enableWifi(
-        request = request,
-        callbacks = object : EnableWifiCallbacks {
-            override fun onSuccessEnablingWifi(result: EnableWifiResult.Success) {
-                continuation.resumeWith(Result.success(result))
-            }
+suspend fun WisefyApi.enableWifiAsync(request: EnableWifiRequest): EnableWifiResult =
+    suspendCancellableCoroutine { continuation ->
+        enableWifi(
+            request = request,
+            callbacks = object : EnableWifiCallbacks {
+                override fun onSuccessEnablingWifi(result: EnableWifiResult.Success) {
+                    continuation.resumeWith(Result.success(result))
+                }
 
-            override fun onFailureEnablingWifi(result: EnableWifiResult.Failure) {
-                continuation.resumeWith(Result.success(result))
-            }
+                override fun onFailureEnablingWifi(result: EnableWifiResult.Failure) {
+                    continuation.resumeWith(Result.success(result))
+                }
 
-            override fun onWisefyAsyncFailure(exception: WisefyException) {
-                continuation.resumeWith(Result.failure(exception))
-            }
-        },
-    )
-}
+                override fun onWisefyAsyncFailure(exception: WisefyException) {
+                    continuation.resumeWith(Result.failure(exception))
+                }
+            },
+        )
+    }
 
 /**
  * A coroutine extension for checking the current state of wifi.

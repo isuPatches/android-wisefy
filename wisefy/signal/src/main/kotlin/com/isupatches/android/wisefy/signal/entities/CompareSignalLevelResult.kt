@@ -37,7 +37,9 @@ sealed class CompareSignalLevelResult {
      * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
-    sealed class Success(open val value: Int) : CompareSignalLevelResult() {
+    sealed class Success(
+        open val value: Int,
+    ) : CompareSignalLevelResult() {
 
         /**
          * A representation of when the first network has an RSSI value that is weaker than the second network's RSSI.
@@ -49,7 +51,9 @@ sealed class CompareSignalLevelResult {
          * @author Patches Barrett
          * @since 12/2022, version 5.0.0
          */
-        data class FirstRSSIValueIsWeaker(override val value: Int) : Success(value)
+        data class FirstRSSIValueIsWeaker(
+            override val value: Int,
+        ) : Success(value)
 
         /**
          * A representation of when the first network has an RSSI value that is equal to the second network's RSSI.
@@ -61,7 +65,9 @@ sealed class CompareSignalLevelResult {
          * @author Patches Barrett
          * @since 12/2022, version 5.0.0
          */
-        data class RSSIValuesAreEqual(override val value: Int) : Success(value)
+        data class RSSIValuesAreEqual(
+            override val value: Int,
+        ) : Success(value)
 
         /**
          * A representation of when the first network has an RSSI value that is stronger than the second network's RSSI.
@@ -73,6 +79,8 @@ sealed class CompareSignalLevelResult {
          * @author Patches Barrett
          * @since 12/2022, version 5.0.0
          */
-        data class FirstRSSIValueIsStronger(override val value: Int) : Success(value)
+        data class FirstRSSIValueIsStronger(
+            override val value: Int,
+        ) : Success(value)
     }
 }

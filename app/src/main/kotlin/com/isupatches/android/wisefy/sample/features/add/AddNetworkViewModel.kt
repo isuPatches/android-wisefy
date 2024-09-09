@@ -63,7 +63,8 @@ internal class AddNetworkViewModelImpl @Inject constructor(
     private val wisefy: WisefyApi,
     private val sdkUtil: SdkUtil,
     private val addNetworkStore: AddNetworkStore,
-) : ViewModel(), AddNetworkViewModel {
+) : ViewModel(),
+    AddNetworkViewModel {
 
     private val _uiState = mutableStateOf(
         AddNetworkUIState(

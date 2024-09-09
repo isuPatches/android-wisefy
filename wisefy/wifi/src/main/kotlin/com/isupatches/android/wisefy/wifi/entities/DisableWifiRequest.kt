@@ -46,5 +46,7 @@ sealed class DisableWifiRequest {
      * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
-    data class Android29OrAbove(val context: Context) : DisableWifiRequest()
+    data class Android29OrAbove(
+        val context: Context,
+    ) : DisableWifiRequest()
 }

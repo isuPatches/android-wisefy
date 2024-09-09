@@ -63,7 +63,10 @@ private fun WisefySampleSliderLightPreview() {
             override val start: Float = PREVIEW_START_VALUE
             override val endInclusive: Float = PREVIEW_END_VALUE
 
-            override fun lessThanOrEquals(a: Float, b: Float): Boolean {
+            override fun lessThanOrEquals(
+                a: Float,
+                b: Float,
+            ): Boolean {
                 return a <= b
             }
         },
@@ -82,7 +85,10 @@ private fun WisefySampleSliderDarkPreview() {
             override val start: Float = PREVIEW_START_VALUE
             override val endInclusive: Float = PREVIEW_END_VALUE
 
-            override fun lessThanOrEquals(a: Float, b: Float): Boolean {
+            override fun lessThanOrEquals(
+                a: Float,
+                b: Float,
+            ): Boolean {
                 return a <= b
             }
         },

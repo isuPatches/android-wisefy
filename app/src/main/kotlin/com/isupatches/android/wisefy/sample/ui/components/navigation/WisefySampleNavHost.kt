@@ -32,7 +32,11 @@ import com.isupatches.android.wisefy.sample.main.HomeScreen
 import com.isupatches.android.wisefy.sample.util.SdkUtil
 
 @Composable
-internal fun WisefySampleNavHost(navController: NavHostController, sdkUtil: SdkUtil, padding: PaddingValues) {
+internal fun WisefySampleNavHost(
+    navController: NavHostController,
+    sdkUtil: SdkUtil,
+    padding: PaddingValues,
+) {
     NavHost(
         navController = navController,
         startDestination = WisefySampleNavGraph.Main.Home.route,

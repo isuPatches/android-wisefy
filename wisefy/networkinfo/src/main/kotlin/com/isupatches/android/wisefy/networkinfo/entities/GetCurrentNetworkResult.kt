@@ -25,4 +25,6 @@ package com.isupatches.android.wisefy.networkinfo.entities
  * @author Patches Barrett
  * @since 12/2022, version 5.0.0
  */
-data class GetCurrentNetworkResult(val value: NetworkData)
+data class GetCurrentNetworkResult(
+    val value: NetworkData,
+)

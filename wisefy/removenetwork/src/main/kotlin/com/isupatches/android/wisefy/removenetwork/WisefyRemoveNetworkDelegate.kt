@@ -83,7 +83,10 @@ class WisefyRemoveNetworkDelegate(
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE, CHANGE_WIFI_STATE])
-    override fun removeNetwork(request: RemoveNetworkRequest, callbacks: RemoveNetworkCallbacks?) {
+    override fun removeNetwork(
+        request: RemoveNetworkRequest,
+        callbacks: RemoveNetworkCallbacks?,
+    ) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
             savedNetworkMutex.withLock {
                 val result = adapter.removeNetwork(request)

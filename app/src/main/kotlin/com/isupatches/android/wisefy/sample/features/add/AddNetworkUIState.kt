@@ -26,20 +26,28 @@ internal data class AddNetworkUIState(
     val networkType: NetworkType,
 )
 
-internal data class AddNetworkLoadingState(val isLoading: Boolean)
+internal data class AddNetworkLoadingState(
+    val isLoading: Boolean,
+)
 
 internal sealed class AddNetworkDialogState {
 
     data object None : AddNetworkDialogState()
 
     sealed class Failure : AddNetworkDialogState() {
-        data class WisefyAsync(val exception: WisefyException) : Failure()
+        data class WisefyAsync(
+            val exception: WisefyException,
+        ) : Failure()
     }
 
     sealed class AddNetwork : AddNetworkDialogState() {
-        data class Failure(val result: AddNetworkResult.Failure) : AddNetwork()
+        data class Failure(
+            val result: AddNetworkResult.Failure,
+        ) : AddNetwork()
 
-        data class Success(val result: AddNetworkResult.Success) : AddNetwork()
+        data class Success(
+            val result: AddNetworkResult.Success,
+        ) : AddNetwork()
 
         sealed class PermissionsError : AddNetwork() {
             data object AddOpenNetwork : PermissionsError()

@@ -36,7 +36,9 @@ sealed class RemoveNetworkRequest {
      * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
-    data class SSID(val ssid: String) : RemoveNetworkRequest()
+    data class SSID(
+        val ssid: String,
+    ) : RemoveNetworkRequest()
 
     /**
      * A data representation to remove a network by BSSID.
@@ -51,5 +53,7 @@ sealed class RemoveNetworkRequest {
      * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
-    data class BSSID(val bssid: String) : RemoveNetworkRequest()
+    data class BSSID(
+        val bssid: String,
+    ) : RemoveNetworkRequest()
 }

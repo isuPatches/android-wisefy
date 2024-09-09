@@ -87,7 +87,10 @@ internal fun RemoveNetworkScreenContent(viewModel: RemoveNetworkViewModel) {
 }
 
 @Composable
-private fun RemoveNetworkInputRows(inputState: () -> RemoveNetworkInputState, viewModel: RemoveNetworkViewModel) {
+private fun RemoveNetworkInputRows(
+    inputState: () -> RemoveNetworkInputState,
+    viewModel: RemoveNetworkViewModel,
+) {
     val currentInputState = inputState()
     Row {
         WisefySampleEditText(

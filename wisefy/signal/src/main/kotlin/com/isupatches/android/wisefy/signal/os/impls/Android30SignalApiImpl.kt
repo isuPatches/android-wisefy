@@ -45,7 +45,10 @@ internal class Android30SignalApiImpl(
         return result
     }
 
-    override fun compareSignalLevel(rssi1: Int, rssi2: Int): Int {
+    override fun compareSignalLevel(
+        rssi1: Int,
+        rssi2: Int,
+    ): Int {
         val result = WifiManager.compareSignalLevel(rssi1, rssi2)
         logger.d(LOG_TAG, "Result from compareSignalLevel: $result")
         return result

@@ -37,7 +37,10 @@ sealed class AddNetworkRequest {
      * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
-    data class Open(val ssid: String, val bssid: String? = null) : AddNetworkRequest()
+    data class Open(
+        val ssid: String,
+        val bssid: String? = null,
+    ) : AddNetworkRequest()
 
     /**
      * A representation of a request to add a WPA2 network.
@@ -51,7 +54,11 @@ sealed class AddNetworkRequest {
      * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
-    data class WPA2(val ssid: String, val passphrase: String, val bssid: String? = null) : AddNetworkRequest()
+    data class WPA2(
+        val ssid: String,
+        val passphrase: String,
+        val bssid: String? = null,
+    ) : AddNetworkRequest()
 
     /**
      * A representation of a request to add a WPA3 network.
@@ -66,5 +73,9 @@ sealed class AddNetworkRequest {
      * @since 12/2022, version 5.0.0
      */
     @RequiresApi(Build.VERSION_CODES.Q)
-    data class WPA3(val ssid: String, val passphrase: String, val bssid: String? = null) : AddNetworkRequest()
+    data class WPA3(
+        val ssid: String,
+        val passphrase: String,
+        val bssid: String? = null,
+    ) : AddNetworkRequest()
 }

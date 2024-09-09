@@ -90,7 +90,10 @@ class WisefyWifiDelegate(
     }
 
     @RequiresPermission(CHANGE_WIFI_STATE)
-    override fun disableWifi(request: DisableWifiRequest, callbacks: DisableWifiCallbacks?) {
+    override fun disableWifi(
+        request: DisableWifiRequest,
+        callbacks: DisableWifiCallbacks?,
+    ) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
             wifiMutex.withLock {
                 val result = adapter.disableWifi(request)
@@ -110,7 +113,10 @@ class WisefyWifiDelegate(
     }
 
     @RequiresPermission(CHANGE_WIFI_STATE)
-    override fun enableWifi(request: EnableWifiRequest, callbacks: EnableWifiCallbacks?) {
+    override fun enableWifi(
+        request: EnableWifiRequest,
+        callbacks: EnableWifiCallbacks?,
+    ) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
             wifiMutex.withLock {
                 val result = adapter.enableWifi(request)
@@ -130,7 +136,10 @@ class WisefyWifiDelegate(
     }
 
     @RequiresPermission(ACCESS_WIFI_STATE)
-    override fun isWifiEnabled(query: IsWifiEnabledQuery, callbacks: IsWifiEnabledCallbacks?) {
+    override fun isWifiEnabled(
+        query: IsWifiEnabledQuery,
+        callbacks: IsWifiEnabledCallbacks?,
+    ) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
             wifiMutex.withLock {
                 val result = adapter.isWifiEnabled(query)

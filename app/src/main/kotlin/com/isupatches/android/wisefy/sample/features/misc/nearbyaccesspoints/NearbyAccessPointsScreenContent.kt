@@ -19,7 +19,6 @@ import android.content.res.Configuration
 import android.net.wifi.ScanResult
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -60,8 +59,7 @@ internal fun NearbyAccessPointsScreenContent(accessPoints: () -> List<AccessPoin
                 ),
             ) {
                 items(accessPointsValue) { accessPoint ->
-                    @OptIn(ExperimentalFoundationApi::class)
-                    Row(modifier = Modifier.animateItemPlacement()) {
+                    Row(modifier = Modifier.animateItem()) {
                         AccessPointRow(accessPoint = accessPoint)
                     }
                 }

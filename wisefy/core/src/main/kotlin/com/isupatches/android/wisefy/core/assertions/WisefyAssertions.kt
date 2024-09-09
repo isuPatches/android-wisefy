@@ -27,7 +27,9 @@ package com.isupatches.android.wisefy.core.assertions
  * @author Patches Barrett
  * @since 12/2022, version 5.0.0
  */
-class WisefyAssertions(private val throwOnAssertions: Boolean) {
+class WisefyAssertions(
+    private val throwOnAssertions: Boolean,
+) {
 
     /**
      * An assertion function that will only throw if assertions are enabled.

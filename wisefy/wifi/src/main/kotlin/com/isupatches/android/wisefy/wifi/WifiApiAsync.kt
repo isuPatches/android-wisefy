@@ -50,7 +50,10 @@ interface WifiApiAsync {
      * @since 12/2022, version 5.0.0
      */
     @RequiresPermission(CHANGE_WIFI_STATE)
-    fun disableWifi(request: DisableWifiRequest, callbacks: DisableWifiCallbacks?)
+    fun disableWifi(
+        request: DisableWifiRequest,
+        callbacks: DisableWifiCallbacks?,
+    )
 
     /**
      * An asynchronous API to enable Wifi.
@@ -69,7 +72,10 @@ interface WifiApiAsync {
      * @since 12/2022, version 5.0.0
      */
     @RequiresPermission(CHANGE_WIFI_STATE)
-    fun enableWifi(request: EnableWifiRequest, callbacks: EnableWifiCallbacks?)
+    fun enableWifi(
+        request: EnableWifiRequest,
+        callbacks: EnableWifiCallbacks?,
+    )
 
     /**
      * An asynchronous API to check the current state of wifi (f.e. enabled or disabled).
@@ -87,5 +93,8 @@ interface WifiApiAsync {
      * @since 12/2022, version 5.0.0
      */
     @RequiresPermission(ACCESS_WIFI_STATE)
-    fun isWifiEnabled(query: IsWifiEnabledQuery = IsWifiEnabledQuery(), callbacks: IsWifiEnabledCallbacks?)
+    fun isWifiEnabled(
+        query: IsWifiEnabledQuery = IsWifiEnabledQuery(),
+        callbacks: IsWifiEnabledCallbacks?,
+    )
 }

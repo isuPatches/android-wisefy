@@ -37,7 +37,11 @@ class DefaultWisefyLogger : WisefyLogger {
      * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
-    override fun i(tag: String, message: String, vararg args: Any): Int = 0
+    override fun i(
+        tag: String,
+        message: String,
+        vararg args: Any,
+    ): Int = 0
 
     /**
      * A function that logs a verbose message.
@@ -51,7 +55,11 @@ class DefaultWisefyLogger : WisefyLogger {
      * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
-    override fun v(tag: String, message: String, vararg args: Any): Int = 0
+    override fun v(
+        tag: String,
+        message: String,
+        vararg args: Any,
+    ): Int = 0
 
     /**
      * A function that logs a debug message.
@@ -65,7 +73,11 @@ class DefaultWisefyLogger : WisefyLogger {
      * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
-    override fun d(tag: String, message: String, vararg args: Any): Int = 0
+    override fun d(
+        tag: String,
+        message: String,
+        vararg args: Any,
+    ): Int = 0
 
     /**
      * A function that logs a warning message.
@@ -79,7 +91,11 @@ class DefaultWisefyLogger : WisefyLogger {
      * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
-    override fun w(tag: String, message: String, vararg args: Any): Int = 0
+    override fun w(
+        tag: String,
+        message: String,
+        vararg args: Any,
+    ): Int = 0
 
     /**
      * A function that logs an error message.
@@ -93,7 +109,11 @@ class DefaultWisefyLogger : WisefyLogger {
      * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
-    override fun e(tag: String, message: String, vararg args: Any): Int = 0
+    override fun e(
+        tag: String,
+        message: String,
+        vararg args: Any,
+    ): Int = 0
 
     /**
      * A function that logs an error message.
@@ -108,7 +128,12 @@ class DefaultWisefyLogger : WisefyLogger {
      * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
-    override fun e(tag: String, throwable: Throwable, message: String, vararg args: Any): Int = 0
+    override fun e(
+        tag: String,
+        throwable: Throwable,
+        message: String,
+        vararg args: Any,
+    ): Int = 0
 
     /**
      * A function that logs a "what a terrible failure" message.
@@ -122,7 +147,11 @@ class DefaultWisefyLogger : WisefyLogger {
      * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
-    override fun wtf(tag: String, message: String, vararg args: Any): Int = 0
+    override fun wtf(
+        tag: String,
+        message: String,
+        vararg args: Any,
+    ): Int = 0
 
     /**
      * A function that logs a "what a terrible failure" message.
@@ -137,5 +166,10 @@ class DefaultWisefyLogger : WisefyLogger {
      * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
-    override fun wtf(tag: String, throwable: Throwable, message: String, vararg args: Any): Int = 0
+    override fun wtf(
+        tag: String,
+        throwable: Throwable,
+        message: String,
+        vararg args: Any,
+    ): Int = 0
 }

@@ -4,9 +4,7 @@
 /build
 .DS_Store
 
-/.idea/*.xml
-/.idea/caches/*
-/.idea/libraries/*
-/.idea/codestyles/*
+/.idea
+!.idea/codeStyles/*.xml
 keystore.properties
 *.jks

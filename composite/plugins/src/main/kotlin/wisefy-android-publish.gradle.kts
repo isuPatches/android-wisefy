@@ -40,9 +40,9 @@ configure<PublishingExtension> {
             url = URI("https://oss.sonatype.org/service/local/staging/deploy/maven2")
             credentials {
                 username =
-                    System.getenv("SONATYPE_USERNAME") ?: providers.gradleProperty("SONATYPE_USERNAME").get()
+                    properties["SONATYPE_USERNAME"]?.toString() ?: System.getenv("SONATYPE_USERNAME")
                 password =
-                    System.getenv("SONATYPE_PASSWORD") ?: providers.gradleProperty("SONATYPE_PASSWORD").get()
+                    properties["SONATYPE_PASSWORD"]?.toString() ?: System.getenv("SONATYPE_PASSWORD")
             }
         }
 
@@ -51,20 +51,19 @@ configure<PublishingExtension> {
             url = URI("https://oss.sonatype.org/content/repositories/snapshots")
             credentials {
                 username =
-                    System.getenv("SONATYPE_USERNAME") ?: providers.gradleProperty("SONATYPE_USERNAME").get()
+                    properties["SONATYPE_USERNAME"]?.toString() ?: System.getenv("SONATYPE_USERNAME")
                 password =
-                    System.getenv("SONATYPE_PASSWORD") ?: providers.gradleProperty("SONATYPE_PASSWORD").get()
+                    properties["SONATYPE_PASSWORD"]?.toString() ?: System.getenv("SONATYPE_PASSWORD")
             }
         }
     }
 
     // Configure signing
     configure<SigningExtension> {
-        useInMemoryPgpKeys(
-            System.getenv("WISEFY_GPG_SIGNING_KEY_ID") ?: providers.gradleProperty("WISEFY_GPG_SIGNING_KEY_ID").get(),
-            System.getenv("WISEFY_GPG_SIGNING_KEY") ?: providers.gradleProperty("WISEFY_GPG_SIGNING_KEY").get(),
-            System.getenv("WISEFY_GPG_SIGNING_PASSWORD") ?: providers.gradleProperty("WISEFY_GPG_SIGNING_PASSWORD").get(),
-        )
+        val signingKeyId = properties["WISEFY_GPG_SIGNING_KEY_ID"]?.toString() ?: System.getenv("WISEFY_GPG_SIGNING_KEY_ID")
+        val signingKey = properties["WISEFY_GPG_SIGNING_KEY"]?.toString() ?: System.getenv("WISEFY_GPG_SIGNING_KEY")
+        val signingKeyPassword = properties["WISEFY_GPG_SIGNING_PASSWORD"]?.toString() ?: System.getenv("WISEFY_GPG_SIGNING_PASSWORD")
+        useInMemoryPgpKeys(signingKeyId, signingKey, signingKeyPassword)
         sign(publications)
     }
 

@@ -22,7 +22,6 @@ import android.Manifest.permission.CHANGE_WIFI_STATE
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.StringRes
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -46,7 +45,11 @@ import kotlinx.coroutines.launch
 private const val LOG_TAG = "MiscScreenContent"
 
 @Composable
-internal fun MiscScreenContent(viewModel: MiscViewModel, sdkUtil: SdkUtil, router: MiscScreenRouter) {
+internal fun MiscScreenContent(
+    viewModel: MiscViewModel,
+    sdkUtil: SdkUtil,
+    router: MiscScreenRouter,
+) {
     WisefySampleTheme {
         val scope = rememberCoroutineScope()
         val context = LocalContext.current
@@ -190,8 +193,7 @@ internal fun MiscScreenContent(viewModel: MiscViewModel, sdkUtil: SdkUtil, route
             ),
         ) {
             items(MiscScreenOption.entries.toTypedArray(), { it.id }) { option ->
-                @OptIn(ExperimentalFoundationApi::class)
-                Row(modifier = Modifier.animateItemPlacement()) {
+                Row(modifier = Modifier.animateItem()) {
                     MiscScreenOptionRow(option = option, onClick = onMiscOptionClicked)
                 }
             }
@@ -199,7 +201,10 @@ internal fun MiscScreenContent(viewModel: MiscViewModel, sdkUtil: SdkUtil, route
     }
 }
 
-internal enum class MiscScreenOption(val id: Long, @StringRes val stringResId: Int) {
+internal enum class MiscScreenOption(
+    val id: Long,
+    @StringRes val stringResId: Int,
+) {
     CHANGE_NETWORK(R.id.change_network.toLong(), R.string.change_network),
     DISABLE_WIFI(R.id.disable_wifi.toLong(), R.string.disable_wifi),
     ENABLE_WIFI(R.id.enable_wifi.toLong(), R.string.enabled_wifi),
@@ -212,7 +217,10 @@ internal enum class MiscScreenOption(val id: Long, @StringRes val stringResId: I
 }
 
 @Composable
-private fun MiscScreenOptionRow(option: MiscScreenOption, onClick: (MiscScreenOption) -> Unit) {
+private fun MiscScreenOptionRow(
+    option: MiscScreenOption,
+    onClick: (MiscScreenOption) -> Unit,
+) {
     WisefyPrimaryButton(
         stringResId = option.stringResId,
         onClick = {

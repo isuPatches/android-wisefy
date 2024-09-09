@@ -43,16 +43,25 @@ internal sealed class SignalDialogState {
     }
 
     sealed class Failure : SignalDialogState() {
-        data class WisefyAsync(val exception: WisefyException) : Failure()
+        data class WisefyAsync(
+            val exception: WisefyException,
+        ) : Failure()
     }
 
     sealed class CalculateSignalLevel : SignalDialogState() {
-        data class Success(val result: CalculateSignalLevelResult.Success) : CalculateSignalLevel()
-        data class Failure(val result: CalculateSignalLevelResult.Failure) : CalculateSignalLevel()
+        data class Success(
+            val result: CalculateSignalLevelResult.Success,
+        ) : CalculateSignalLevel()
+
+        data class Failure(
+            val result: CalculateSignalLevelResult.Failure,
+        ) : CalculateSignalLevel()
     }
 
     sealed class CompareSignalLevel : SignalDialogState() {
-        data class Success(val result: CompareSignalLevelResult.Success) : CalculateSignalLevel()
+        data class Success(
+            val result: CompareSignalLevelResult.Success,
+        ) : CalculateSignalLevel()
     }
 }
 

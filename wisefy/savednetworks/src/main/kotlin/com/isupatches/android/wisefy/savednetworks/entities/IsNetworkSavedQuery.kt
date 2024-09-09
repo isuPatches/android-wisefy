@@ -33,7 +33,9 @@ sealed class IsNetworkSavedQuery {
      * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
-    data class SSID(val regex: String) : IsNetworkSavedQuery()
+    data class SSID(
+        val regex: String,
+    ) : IsNetworkSavedQuery()
 
     /**
      * A data representation to check if a network is saved by BSSID.
@@ -45,5 +47,7 @@ sealed class IsNetworkSavedQuery {
      * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
-    data class BSSID(val regex: String) : IsNetworkSavedQuery()
+    data class BSSID(
+        val regex: String,
+    ) : IsNetworkSavedQuery()
 }

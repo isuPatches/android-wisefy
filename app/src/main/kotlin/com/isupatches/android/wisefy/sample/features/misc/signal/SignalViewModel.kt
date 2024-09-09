@@ -52,7 +52,8 @@ internal class SignalViewModelImpl @Inject constructor(
     private val wisefy: WisefyApi,
     private val sdkUtil: SdkUtil,
     private val signalStore: SignalStore,
-) : ViewModel(), SignalViewModel {
+) : ViewModel(),
+    SignalViewModel {
 
     private val _uiState = mutableStateOf(
         SignalUIState(

@@ -45,7 +45,10 @@ import kotlinx.coroutines.launch
 private const val LOG_TAG = "AddNetworkScreenContent"
 
 @Composable
-internal fun AddNetworkScreenContent(viewModel: AddNetworkViewModel, sdkUtil: SdkUtil) {
+internal fun AddNetworkScreenContent(
+    viewModel: AddNetworkViewModel,
+    sdkUtil: SdkUtil,
+) {
     WisefySampleTheme {
         val scope = rememberCoroutineScope()
 

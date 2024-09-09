@@ -41,12 +41,19 @@ internal class DefaultAddNetworkApiImpl(
 ) : DefaultAddNetworkApi {
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun addOpenNetwork(ssid: String, bssid: String?): Int {
+    override fun addOpenNetwork(
+        ssid: String,
+        bssid: String?,
+    ): Int {
         return addNetworkConfiguration(configuration = createOpenNetworkConfiguration(ssid, bssid))
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun addWPA2Network(ssid: String, passphrase: String, bssid: String?): Int {
+    override fun addWPA2Network(
+        ssid: String,
+        passphrase: String,
+        bssid: String?,
+    ): Int {
         return addNetworkConfiguration(configuration = createWPA2NetworkConfiguration(ssid, passphrase, bssid))
     }
 

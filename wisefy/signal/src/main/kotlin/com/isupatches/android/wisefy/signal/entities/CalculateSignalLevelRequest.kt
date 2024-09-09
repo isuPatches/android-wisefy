@@ -39,7 +39,10 @@ sealed class CalculateSignalLevelRequest {
      * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
-    data class BelowAndroid30(val rssiLevel: Int, val numLevels: Int) : CalculateSignalLevelRequest()
+    data class BelowAndroid30(
+        val rssiLevel: Int,
+        val numLevels: Int,
+    ) : CalculateSignalLevelRequest()
 
     /**
      * A data representation of a request on Android 30 or higher devices to calculate the number of signal strength
@@ -53,5 +56,7 @@ sealed class CalculateSignalLevelRequest {
      * @since 12/2022, version 5.0.0
      */
     @RequiresApi(Build.VERSION_CODES.R)
-    data class Android30AndAbove(val rssiLevel: Int) : CalculateSignalLevelRequest()
+    data class Android30AndAbove(
+        val rssiLevel: Int,
+    ) : CalculateSignalLevelRequest()
 }

@@ -36,7 +36,10 @@ private const val BASE_DELAY_IN_MS = 1000L
  * @author Patches Barrett
  * @since 12/2022, version 5.0.0
  */
-fun withTimeout(timeoutInMillis: Int, block: () -> Boolean): Boolean {
+fun withTimeout(
+    timeoutInMillis: Int,
+    block: () -> Boolean,
+): Boolean {
     var currentTime: Long
     val endTime = System.currentTimeMillis() + timeoutInMillis
     do {
@@ -67,7 +70,10 @@ fun withTimeout(timeoutInMillis: Int, block: () -> Boolean): Boolean {
  * @author Patches Barrett
  * @since 12/2022, version 5.0.0
  */
-suspend fun withTimeoutAsync(timeoutInMillis: Int, block: suspend () -> Boolean): Boolean {
+suspend fun withTimeoutAsync(
+    timeoutInMillis: Int,
+    block: suspend () -> Boolean,
+): Boolean {
     var currentTime: Long
     val endTime = System.currentTimeMillis() + timeoutInMillis
     do {

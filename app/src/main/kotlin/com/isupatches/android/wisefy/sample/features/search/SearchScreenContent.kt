@@ -225,7 +225,10 @@ internal fun SearchScreenContent(viewModel: SearchViewModel) {
 }
 
 @Composable
-private fun SearchScreenNetworkInputRows(inputState: () -> SearchInputState, viewModel: SearchViewModel) {
+private fun SearchScreenNetworkInputRows(
+    inputState: () -> SearchInputState,
+    viewModel: SearchViewModel,
+) {
     val currentInputState = inputState()
     Row {
         WisefySampleEditText(
@@ -284,7 +287,10 @@ private fun SearchScreenNetworkInputRows(inputState: () -> SearchInputState, vie
 }
 
 @Composable
-private fun SearchScreenSearchTypeInputRows(searchType: () -> SearchType, viewModel: SearchViewModel) {
+private fun SearchScreenSearchTypeInputRows(
+    searchType: () -> SearchType,
+    viewModel: SearchViewModel,
+) {
     val currentSearchType = searchType()
     Row {
         WisefySampleSubHeaderLabel(
@@ -353,7 +359,10 @@ internal fun SearchScreenUseRegexForSearchInputRows(
 }
 
 @Composable
-private fun SearchScreenReturnFullListInputRows(returnFullList: () -> Boolean, viewModel: SearchViewModel) {
+private fun SearchScreenReturnFullListInputRows(
+    returnFullList: () -> Boolean,
+    viewModel: SearchViewModel,
+) {
     val currentReturnFullListValue = returnFullList()
     Row {
         WisefySampleSubHeaderLabel(
@@ -389,7 +398,10 @@ private fun SearchScreenReturnFullListInputRows(returnFullList: () -> Boolean, v
 }
 
 @Composable
-private fun SearchScreenFilterDuplicatesInputRows(filterDuplicates: () -> Boolean, viewModel: SearchViewModel) {
+private fun SearchScreenFilterDuplicatesInputRows(
+    filterDuplicates: () -> Boolean,
+    viewModel: SearchViewModel,
+) {
     val currentFilterDuplicatesValue = filterDuplicates()
     Row {
         WisefySampleSubHeaderLabel(
@@ -419,7 +431,10 @@ private fun SearchScreenFilterDuplicatesInputRows(filterDuplicates: () -> Boolea
 }
 
 @Composable
-private fun SearchScreenTimeoutInputRows(timeout: () -> Int, viewModel: SearchViewModel) {
+private fun SearchScreenTimeoutInputRows(
+    timeout: () -> Int,
+    viewModel: SearchViewModel,
+) {
     val searchTimeout = remember { mutableIntStateOf(timeout()) }
     Row(modifier = Modifier.padding(top = WisefySampleSizes.Medium)) {
         WisefySampleSlider(
@@ -428,7 +443,10 @@ private fun SearchScreenTimeoutInputRows(timeout: () -> Int, viewModel: SearchVi
                 override val start: Float = MIN_SEARCH_TIMEOUT
                 override val endInclusive: Float = MAX_SEARCH_TIMEOUT
 
-                override fun lessThanOrEquals(a: Float, b: Float): Boolean {
+                override fun lessThanOrEquals(
+                    a: Float,
+                    b: Float,
+                ): Boolean {
                     return a <= b
                 }
             },

@@ -55,7 +55,10 @@ interface NetworkConnectionApiAsync {
      * @since 12/2022, version 5.0.0
      */
     @RequiresApi(Build.VERSION_CODES.Q)
-    fun changeNetwork(request: ChangeNetworkRequest, callbacks: ChangeNetworkCallbacks?)
+    fun changeNetwork(
+        request: ChangeNetworkRequest,
+        callbacks: ChangeNetworkCallbacks?,
+    )
 
     /**
      * An asynchronous API to connect to a network.
@@ -75,7 +78,10 @@ interface NetworkConnectionApiAsync {
      */
     @Deprecated(DeprecationMessages.NetworkConnection.CONNECT_TO_NETWORK)
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE, ACCESS_NETWORK_STATE])
-    fun connectToNetwork(request: ConnectToNetworkRequest, callbacks: ConnectToNetworkCallbacks?)
+    fun connectToNetwork(
+        request: ConnectToNetworkRequest,
+        callbacks: ConnectToNetworkCallbacks?,
+    )
 
     /**
      * An asynchronous API to disconnect from the current network.

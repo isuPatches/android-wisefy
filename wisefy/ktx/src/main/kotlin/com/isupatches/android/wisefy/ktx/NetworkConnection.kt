@@ -23,7 +23,6 @@ import com.isupatches.android.wisefy.networkconnection.callbacks.ChangeNetworkCa
 import com.isupatches.android.wisefy.networkconnection.entities.ChangeNetworkRequest
 import com.isupatches.android.wisefy.networkconnection.entities.ChangeNetworkResult
 import kotlinx.coroutines.suspendCancellableCoroutine
-import kotlin.coroutines.suspendCoroutine
 
 /**
  * A coroutine extension for changing the current network.

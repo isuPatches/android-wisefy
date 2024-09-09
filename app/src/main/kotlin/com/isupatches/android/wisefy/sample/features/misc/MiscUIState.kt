@@ -37,41 +37,72 @@ internal sealed class MiscDialogState {
     data object None : MiscDialogState()
 
     sealed class Failure : MiscDialogState() {
-        data class WisefyAsync(val exception: WisefyException) : Failure()
+        data class WisefyAsync(
+            val exception: WisefyException,
+        ) : Failure()
     }
 
     sealed class ChangeNetwork : MiscDialogState() {
-        data class Success(val result: ChangeNetworkResult.Success) : ChangeNetwork()
-        data class Failure(val result: ChangeNetworkResult.Failure) : ChangeNetwork()
+        data class Success(
+            val result: ChangeNetworkResult.Success,
+        ) : ChangeNetwork()
+
+        data class Failure(
+            val result: ChangeNetworkResult.Failure,
+        ) : ChangeNetwork()
+
         data object PreAndroidQ : ChangeNetwork()
     }
 
     sealed class DisableWifi : MiscDialogState() {
-        data class Success(val result: DisableWifiResult.Success) : DisableWifi()
-        data class Failure(val result: DisableWifiResult.Failure) : DisableWifi()
+        data class Success(
+            val result: DisableWifiResult.Success,
+        ) : DisableWifi()
+
+        data class Failure(
+            val result: DisableWifiResult.Failure,
+        ) : DisableWifi()
+
         data object PermissionsError : DisableWifi()
     }
 
     sealed class EnableWifi : MiscDialogState() {
-        data class Success(val result: EnableWifiResult.Success) : EnableWifi()
-        data class Failure(val result: EnableWifiResult.Failure) : EnableWifi()
+        data class Success(
+            val result: EnableWifiResult.Success,
+        ) : EnableWifi()
+
+        data class Failure(
+            val result: EnableWifiResult.Failure,
+        ) : EnableWifi()
+
         data object PermissionsError : EnableWifi()
     }
 
     sealed class GetCurrentNetwork : MiscDialogState() {
-        data class Success(val network: NetworkData) : GetCurrentNetwork()
+        data class Success(
+            val network: NetworkData,
+        ) : GetCurrentNetwork()
+
         data object Failure : GetCurrentNetwork()
+
         data object PermissionsError : GetCurrentNetwork()
     }
 
     sealed class GetNetworkConnectionStatus : MiscDialogState() {
-        data class Success(val data: GetNetworkConnectionStatusResult) : GetNetworkConnectionStatus()
+        data class Success(
+            val data: GetNetworkConnectionStatusResult,
+        ) : GetNetworkConnectionStatus()
+
         data object PermissionsError : GetNetworkConnectionStatus()
     }
 
     sealed class GetSavedNetworks : MiscDialogState() {
-        data class Success(val savedNetworks: List<SavedNetworkData>) : GetSavedNetworks()
+        data class Success(
+            val savedNetworks: List<SavedNetworkData>,
+        ) : GetSavedNetworks()
+
         data object Failure : GetSavedNetworks()
+
         data object PermissionsError : GetSavedNetworks()
     }
 

@@ -89,7 +89,8 @@ internal interface SearchViewModel {
 internal class SearchViewModelImpl @Inject constructor(
     private val wisefy: WisefyApi,
     private val searchStore: SearchStore,
-) : ViewModel(), SearchViewModel {
+) : ViewModel(),
+    SearchViewModel {
 
     private val _uiState = mutableStateOf(
         SearchUIState(
@@ -516,7 +517,10 @@ internal class SearchViewModelImpl @Inject constructor(
         )
     }
 
-    private fun validateInput(input: String, ssidType: SSIDType) {
+    private fun validateInput(
+        input: String,
+        ssidType: SSIDType,
+    ) {
         val validityState = if (uiState.value.useRegexForSearch) {
             when (ssidType) {
                 SSIDType.SSID -> {

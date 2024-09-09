@@ -20,7 +20,10 @@ import com.isupatches.android.wisefy.sample.R
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleNoticeDialog
 
 @Composable
-internal fun AddNetworkScreenDialogContent(dialogState: () -> AddNetworkDialogState, viewModel: AddNetworkViewModel) {
+internal fun AddNetworkScreenDialogContent(
+    dialogState: () -> AddNetworkDialogState,
+    viewModel: AddNetworkViewModel,
+) {
     when (val currentDialogState = dialogState()) {
         is AddNetworkDialogState.None -> {
             // No-op, no dialog

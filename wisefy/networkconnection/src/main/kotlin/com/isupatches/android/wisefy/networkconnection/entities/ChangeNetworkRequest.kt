@@ -25,4 +25,6 @@ import android.content.Context
  * @author Patches Barrett
  * @since 12/2022, version 5.0.0
  */
-data class ChangeNetworkRequest(val context: Context)
+data class ChangeNetworkRequest(
+    val context: Context,
+)

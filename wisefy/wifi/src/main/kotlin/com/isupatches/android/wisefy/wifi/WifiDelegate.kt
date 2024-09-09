@@ -24,4 +24,6 @@ package com.isupatches.android.wisefy.wifi
  * @author Patches Barrett
  * @since 12/2022, version 5.0.0
  */
-interface WifiDelegate : WifiApi, WifiApiAsync
+interface WifiDelegate :
+    WifiApi,
+    WifiApiAsync

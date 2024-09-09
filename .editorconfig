@@ -1,14 +1,16 @@
 [*.{kt,kts}]
 max_line_length = 120
 
-ij_continuation_indent_size = 4
-ij_kotlin_imports_layout=*,java.**,javax.**,kotlin.**,^ # default IntelliJ IDEA style, same as alphabetical, but with "java", "javax", "kotlin" and alias imports in the end of the imports list
 ij_kotlin_allow_trailing_comma=true
 ij_kotlin_allow_trailing_comma_on_call_site=true
+ij_kotlin_imports_layout=*,java.**,javax.**,kotlin.**,^ # default IntelliJ IDEA style, same as alphabetical, but with "java", "javax", "kotlin" and alias imports in the end of the imports list
 
 ktlint_experimental=disabled
-ktlint_code_style = android_studio
-ktlint_spacing-between-function-name-and-opening-parenthesis=disabled
+ktlint_code_style=android_studio
+
+ktlint_class_signature_rule_force_multiline_when_parameter_count_greater_or_equal_than=1
+
 ktlint_function_naming_ignore_when_annotated_with=Composable
-ktlint_standard_function-expression-body = disabled
-ktlint_standard_class-signature = disabled
+ktlint_function_signature_rule_force_multiline_when_parameter_count_greater_or_equal_than=2
+
+ktlint_standard_function-expression-body=disabled

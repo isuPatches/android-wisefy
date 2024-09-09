@@ -58,11 +58,11 @@ internal interface SearchStore {
     suspend fun setTimeout(timeout: Int)
 }
 
-private val Context.searchDataStore: DataStore<Preferences> by preferencesDataStore(name = "searchDataStore")
-
 internal class SearchStoreUsingDataStore @Inject constructor(
     @ApplicationContext private val context: Context,
 ) : SearchStore {
+
+    private val Context.searchDataStore: DataStore<Preferences> by preferencesDataStore(name = "searchDataStore")
 
     private val lastUsedNetworkInputKey = stringPreferencesKey(PREF_LAST_USED_NETWORK_INPUT)
     private val searchTypeKey = intPreferencesKey(PREF_SEARCH_TYPE)

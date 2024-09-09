@@ -23,7 +23,9 @@ package com.isupatches.android.wisefy.accesspoints.entities
  * @author Patches Barrett
  * @since 12/2022, version 5.0.0
  */
-sealed class GetAccessPointsQuery(open val filterDuplicates: Boolean) {
+sealed class GetAccessPointsQuery(
+    open val filterDuplicates: Boolean,
+) {
 
     /**
      * A representation of a query to get all nearby access points.
@@ -36,7 +38,9 @@ sealed class GetAccessPointsQuery(open val filterDuplicates: Boolean) {
      * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
-    data class All(override val filterDuplicates: Boolean = true) : GetAccessPointsQuery(filterDuplicates)
+    data class All(
+        override val filterDuplicates: Boolean = true,
+    ) : GetAccessPointsQuery(filterDuplicates)
 
     /**
      * A representation of a query to get access points filtered by a regex for their SSID.

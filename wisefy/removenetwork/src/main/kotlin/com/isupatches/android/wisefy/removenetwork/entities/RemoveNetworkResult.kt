@@ -47,7 +47,9 @@ sealed class RemoveNetworkResult {
          * @author Patches Barrett
          * @since 12/2022, version 5.0.0
          */
-        data class ResultCode(val value: Int) : Success()
+        data class ResultCode(
+            val value: Int,
+        ) : Success()
 
         /**
          * A data representation of a success removing a network on older Android OS levels.
@@ -102,7 +104,9 @@ sealed class RemoveNetworkResult {
          * @author Patches Barrett
          * @since 12/2022, version 5.0.0
          */
-        data class ResultCode(val value: Int) : Failure()
+        data class ResultCode(
+            val value: Int,
+        ) : Failure()
 
         /**
          * A representation of a failure removing a network due to hitting an unexpected path causing an assertion.
@@ -116,6 +120,8 @@ sealed class RemoveNetworkResult {
          * @author Patches Barrett
          * @since 12/2022, version 5.0.0
          */
-        data class Assertion(val message: String) : Failure()
+        data class Assertion(
+            val message: String,
+        ) : Failure()
     }
 }

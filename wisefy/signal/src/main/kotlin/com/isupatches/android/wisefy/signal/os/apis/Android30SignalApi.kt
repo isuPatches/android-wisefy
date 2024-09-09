@@ -54,5 +54,8 @@ internal interface Android30SignalApi {
      * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
-    fun compareSignalLevel(rssi1: Int, rssi2: Int): Int
+    fun compareSignalLevel(
+        rssi1: Int,
+        rssi2: Int,
+    ): Int
 }

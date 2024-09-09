@@ -56,7 +56,8 @@ internal interface RemoveNetworkViewModel {
 internal class RemoveNetworkViewModelImpl @Inject constructor(
     private val wisefy: WisefyApi,
     private val removeNetworkStore: RemoveNetworkStore,
-) : ViewModel(), RemoveNetworkViewModel {
+) : ViewModel(),
+    RemoveNetworkViewModel {
 
     private val _uiState = mutableStateOf(
         RemoveNetworkUIState(
@@ -178,7 +179,10 @@ internal class RemoveNetworkViewModelImpl @Inject constructor(
         )
     }
 
-    private fun validateInput(ssidType: SSIDType, input: String) {
+    private fun validateInput(
+        ssidType: SSIDType,
+        input: String,
+    ) {
         val validityState = when (ssidType) {
             SSIDType.SSID -> {
                 when (input.validateSSID()) {

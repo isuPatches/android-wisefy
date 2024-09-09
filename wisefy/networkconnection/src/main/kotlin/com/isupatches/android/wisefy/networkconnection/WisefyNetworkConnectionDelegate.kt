@@ -112,7 +112,10 @@ class WisefyNetworkConnectionDelegate(
     }
 
     @RequiresApi(Build.VERSION_CODES.Q)
-    override fun changeNetwork(request: ChangeNetworkRequest, callbacks: ChangeNetworkCallbacks?) {
+    override fun changeNetwork(
+        request: ChangeNetworkRequest,
+        callbacks: ChangeNetworkCallbacks?,
+    ) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
             networkConnectionMutex.withLock {
                 val result = adapter.changeNetwork(request)
@@ -135,7 +138,10 @@ class WisefyNetworkConnectionDelegate(
 
     @Deprecated(DeprecationMessages.NetworkConnection.CONNECT_TO_NETWORK)
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE, ACCESS_NETWORK_STATE])
-    override fun connectToNetwork(request: ConnectToNetworkRequest, callbacks: ConnectToNetworkCallbacks?) {
+    override fun connectToNetwork(
+        request: ConnectToNetworkRequest,
+        callbacks: ConnectToNetworkCallbacks?,
+    ) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
             networkConnectionMutex.withLock {
                 @Suppress("Deprecation")

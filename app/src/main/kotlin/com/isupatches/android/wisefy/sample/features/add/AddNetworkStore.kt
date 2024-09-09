@@ -47,11 +47,13 @@ internal interface AddNetworkStore {
     suspend fun setLastUsedNetworkBSSIDInput(lastUsedNetworkBSSIDInput: String)
 }
 
-private val Context.addNetworkDataStore: DataStore<Preferences> by preferencesDataStore(name = "addNetworkDataStore")
-
 internal class AddNetworkStoreUsingDataStore @Inject constructor(
     @ApplicationContext private val context: Context,
 ) : AddNetworkStore {
+
+    private val Context.addNetworkDataStore: DataStore<Preferences> by preferencesDataStore(
+        name = "addNetworkDataStore",
+    )
 
     private val networkTypeKey = intPreferencesKey(PREF_NETWORK_TYPE)
     private val lastUsedNetworkInputKey = stringPreferencesKey(PREF_LAST_USED_NETWORK_INPUT)

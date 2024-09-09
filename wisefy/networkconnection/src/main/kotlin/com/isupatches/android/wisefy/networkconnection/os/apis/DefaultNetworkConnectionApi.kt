@@ -40,7 +40,10 @@ internal interface DefaultNetworkConnectionApi {
      * @since 12/2022, version 5.0.0
      */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE, ACCESS_NETWORK_STATE])
-    suspend fun connectToNetworkBySSID(ssid: String, timeoutInMillis: Int): Boolean?
+    suspend fun connectToNetworkBySSID(
+        ssid: String,
+        timeoutInMillis: Int,
+    ): Boolean?
 
     /**
      * A default internal API to connect to a network through the Android OS.
@@ -54,7 +57,10 @@ internal interface DefaultNetworkConnectionApi {
      * @since 12/2022, version 5.0.0
      */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE, ACCESS_NETWORK_STATE])
-    suspend fun connectToNetworkByBSSID(bssid: String, timeoutInMillis: Int): Boolean?
+    suspend fun connectToNetworkByBSSID(
+        bssid: String,
+        timeoutInMillis: Int,
+    ): Boolean?
 
     /**
      * A default internal API to disconnect from the current network through the Android OS.

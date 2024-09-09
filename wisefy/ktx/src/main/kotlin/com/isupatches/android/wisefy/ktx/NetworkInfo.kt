@@ -28,7 +28,6 @@ import com.isupatches.android.wisefy.networkinfo.entities.GetNetworkConnectionSt
 import com.isupatches.android.wisefy.networkinfo.entities.NetworkConnectionStatusData
 import com.isupatches.android.wisefy.networkinfo.entities.NetworkData
 import kotlinx.coroutines.suspendCancellableCoroutine
-import kotlin.coroutines.suspendCoroutine
 
 /**
  * A coroutine extension for getting the device's current network.

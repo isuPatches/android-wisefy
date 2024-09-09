@@ -45,5 +45,7 @@ sealed class GetSavedNetworksResult {
      * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
-    data class SavedNetworks(val value: List<SavedNetworkData>) : GetSavedNetworksResult()
+    data class SavedNetworks(
+        val value: List<SavedNetworkData>,
+    ) : GetSavedNetworksResult()
 }

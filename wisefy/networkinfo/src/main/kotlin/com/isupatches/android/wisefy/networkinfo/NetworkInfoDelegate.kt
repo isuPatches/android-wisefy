@@ -25,4 +25,6 @@ package com.isupatches.android.wisefy.networkinfo
  * @author Patches Barrett
  * @since 12/2022, version 5.0.0
  */
-interface NetworkInfoDelegate : NetworkInfoApi, NetworkInfoApiAsync
+interface NetworkInfoDelegate :
+    NetworkInfoApi,
+    NetworkInfoApiAsync

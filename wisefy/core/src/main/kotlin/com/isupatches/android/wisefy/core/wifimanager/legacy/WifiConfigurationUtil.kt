@@ -32,7 +32,10 @@ import java.util.Locale
  * @author Patches Barrett
  * @since 12/2022, version 5.0.0
  */
-fun createOpenNetworkConfiguration(ssid: String, bssid: String?): WifiConfiguration {
+fun createOpenNetworkConfiguration(
+    ssid: String,
+    bssid: String?,
+): WifiConfiguration {
     return WifiConfiguration().apply {
         SSID = convertSSIDForConfig(ssid)
         if (!bssid.isNullOrBlank()) {
@@ -67,7 +70,11 @@ fun createOpenNetworkConfiguration(ssid: String, bssid: String?): WifiConfigurat
  * @author Patches Barrett
  * @since 12/2022, version 5.0.0
  */
-fun createWPA2NetworkConfiguration(ssid: String, passphrase: String, bssid: String?): WifiConfiguration {
+fun createWPA2NetworkConfiguration(
+    ssid: String,
+    passphrase: String,
+    bssid: String?,
+): WifiConfiguration {
     return WifiConfiguration().apply {
         SSID = convertSSIDForConfig(ssid)
         if (!bssid.isNullOrBlank()) {

@@ -28,7 +28,10 @@ import com.isupatches.android.wisefy.sample.ui.primitives.WisefySampleTypography
 import com.isupatches.android.wisefy.sample.ui.theme.WisefySampleTheme
 
 @Composable
-internal fun WisefySampleDialogTitleLabel(@StringRes stringResId: Int, modifier: Modifier = Modifier) {
+internal fun WisefySampleDialogTitleLabel(
+    @StringRes stringResId: Int,
+    modifier: Modifier = Modifier,
+) {
     WisefySampleTheme {
         Text(
             text = stringResource(stringResId),
@@ -103,7 +106,10 @@ internal fun WisefySampleSubHeaderLabel(
 }
 
 @Composable
-internal fun WisefySampleCaptionLabel(text: String, modifier: Modifier = Modifier) {
+internal fun WisefySampleCaptionLabel(
+    text: String,
+    modifier: Modifier = Modifier,
+) {
     WisefySampleTheme {
         Text(
             text = text,

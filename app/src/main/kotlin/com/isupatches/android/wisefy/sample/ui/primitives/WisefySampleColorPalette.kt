@@ -98,7 +98,11 @@ internal class WisefySampleTextFieldColors : TextFieldColors {
     }
 
     @Composable
-    override fun labelColor(enabled: Boolean, error: Boolean, interactionSource: InteractionSource): State<Color> {
+    override fun labelColor(
+        enabled: Boolean,
+        error: Boolean,
+        interactionSource: InteractionSource,
+    ): State<Color> {
         return object : State<Color> {
             override val value: Color = MaterialTheme.colors.background
         }
@@ -110,7 +114,10 @@ internal class WisefySampleTextFieldColors : TextFieldColors {
         level = DeprecationLevel.WARNING,
     )
     @Composable
-    override fun leadingIconColor(enabled: Boolean, isError: Boolean): State<Color> {
+    override fun leadingIconColor(
+        enabled: Boolean,
+        isError: Boolean,
+    ): State<Color> {
         return object : State<Color> {
             override val value: Color = MaterialTheme.colors.primary
         }
@@ -151,7 +158,10 @@ internal class WisefySampleTextFieldColors : TextFieldColors {
         level = DeprecationLevel.WARNING,
     )
     @Composable
-    override fun trailingIconColor(enabled: Boolean, isError: Boolean): State<Color> {
+    override fun trailingIconColor(
+        enabled: Boolean,
+        isError: Boolean,
+    ): State<Color> {
         return object : State<Color> {
             override val value: Color = MaterialTheme.colors.primary
         }
@@ -179,14 +189,20 @@ internal class WisefySliderColors : SliderColors {
     }
 
     @Composable
-    override fun tickColor(enabled: Boolean, active: Boolean): State<Color> {
+    override fun tickColor(
+        enabled: Boolean,
+        active: Boolean,
+    ): State<Color> {
         return object : State<Color> {
             override val value: Color = MaterialTheme.colors.primaryVariant
         }
     }
 
     @Composable
-    override fun trackColor(enabled: Boolean, active: Boolean): State<Color> {
+    override fun trackColor(
+        enabled: Boolean,
+        active: Boolean,
+    ): State<Color> {
         return object : State<Color> {
             override val value: Color = if (active) {
                 MaterialTheme.colors.primary

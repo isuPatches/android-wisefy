@@ -35,7 +35,10 @@ internal interface DefaultAddNetworkApi {
      * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
-    fun addOpenNetwork(ssid: String, bssid: String?): Int
+    fun addOpenNetwork(
+        ssid: String,
+        bssid: String?,
+    ): Int
 
     /**
      * A default API to add a WPA2 network.
@@ -50,5 +53,9 @@ internal interface DefaultAddNetworkApi {
      * @author Patches Barrett
      * @since 12/2022, version 5.0.0
      */
-    fun addWPA2Network(ssid: String, passphrase: String, bssid: String?): Int
+    fun addWPA2Network(
+        ssid: String,
+        passphrase: String,
+        bssid: String?,
+    ): Int
 }

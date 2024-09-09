@@ -1,19 +1,18 @@
 [versions]
 androidx-espresso-version = "3.6.1"
-mockito-version = "5.12.0"
 
 [libraries]
 androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "androidx-espresso-version" }
 androidx-espresso-intents = { module = "androidx.test.espresso:espresso-intents", version.ref = "androidx-espresso-version" }
-androidx-test-runner = "androidx.test:runner:1.6.1"
+androidx-test-runner = "androidx.test:runner:1.6.2"
 androidx-test-rules = "androidx.test:rules:1.6.1"
 
 junit = "junit:junit:4.13.2"
 
 kotlin-coroutines-test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.1"
 
-mockito-android = { module = "org.mockito:mockito-android", version.ref = "mockito-version" }
-mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito-version" }
+mockito-android = "org.mockito:mockito-android:5.13.0"
+mockito-core = "org.mockito:mockito-core:5.13.0"
 
 [bundles]
 

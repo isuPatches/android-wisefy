@@ -68,5 +68,8 @@ interface SavedNetworkApiAsync {
      * @since 12/2022, version 5.0.0
      */
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
-    fun isNetworkSaved(query: IsNetworkSavedQuery, callbacks: IsNetworkSavedCallbacks?)
+    fun isNetworkSaved(
+        query: IsNetworkSavedQuery,
+        callbacks: IsNetworkSavedCallbacks?,
+    )
 }

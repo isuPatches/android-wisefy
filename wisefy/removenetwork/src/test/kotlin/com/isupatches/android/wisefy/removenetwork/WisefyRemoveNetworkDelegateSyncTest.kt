@@ -43,7 +43,9 @@ import org.mockito.MockitoAnnotations
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(Parameterized::class)
-internal class WisefyRemoveNetworkDelegateSyncTest(private val params: RemoveNetworkParams) {
+internal class WisefyRemoveNetworkDelegateSyncTest(
+    private val params: RemoveNetworkParams,
+) {
 
     @Mock
     private lateinit var mockWifiManager: WifiManager
@@ -147,6 +149,9 @@ internal class WisefyRemoveNetworkDelegateSyncTest(private val params: RemoveNet
             )
         }
 
-        data class RemoveNetworkParams(val request: RemoveNetworkRequest, val result: RemoveNetworkResult)
+        data class RemoveNetworkParams(
+            val request: RemoveNetworkRequest,
+            val result: RemoveNetworkResult,
+        )
     }
 }

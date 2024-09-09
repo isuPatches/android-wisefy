@@ -81,6 +81,8 @@ internal class DefaultWifiApiImplEnableWifiTest(
             )
         }
 
-        data class EnableWifiParams(val enableWifiResult: Boolean)
+        data class EnableWifiParams(
+            val enableWifiResult: Boolean,
+        )
     }
 }

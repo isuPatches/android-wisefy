@@ -29,7 +29,10 @@ import com.isupatches.android.wisefy.sample.ui.primitives.WisefySampleSizes
 import com.isupatches.android.wisefy.sample.ui.theme.WisefySampleTheme
 
 @Composable
-internal fun WisefySampleSSIDTypeSelectionRows(ssidType: () -> SSIDType, onSSIDTypeChanged: (SSIDType) -> Unit) {
+internal fun WisefySampleSSIDTypeSelectionRows(
+    ssidType: () -> SSIDType,
+    onSSIDTypeChanged: (SSIDType) -> Unit,
+) {
     WisefySampleTheme {
         Column {
             val currentSSIDType = ssidType()

@@ -32,7 +32,9 @@ import org.mockito.MockitoAnnotations
 import org.junit.Assert.assertEquals as assertEquals1
 
 @RunWith(Parameterized::class)
-internal class DefaultRemoveNetworkAdapterRemoveNetworkTest(private val params: RemoveNetworkParams) {
+internal class DefaultRemoveNetworkAdapterRemoveNetworkTest(
+    private val params: RemoveNetworkParams,
+) {
 
     @Mock
     private lateinit var mockWifiManager: WifiManager

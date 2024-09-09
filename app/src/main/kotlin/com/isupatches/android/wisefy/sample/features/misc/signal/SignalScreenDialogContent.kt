@@ -20,7 +20,10 @@ import com.isupatches.android.wisefy.sample.R
 import com.isupatches.android.wisefy.sample.ui.components.WisefySampleNoticeDialog
 
 @Composable
-internal fun SignalScreenDialogContent(dialogState: () -> SignalDialogState, viewModel: SignalViewModel) {
+internal fun SignalScreenDialogContent(
+    dialogState: () -> SignalDialogState,
+    viewModel: SignalViewModel,
+) {
     when (val currentDialogState = dialogState()) {
         is SignalDialogState.None -> {
             // No-op, no dialog

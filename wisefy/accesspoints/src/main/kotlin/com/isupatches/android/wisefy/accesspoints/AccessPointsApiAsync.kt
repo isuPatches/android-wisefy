@@ -41,5 +41,8 @@ interface AccessPointsApiAsync {
      * @since 12/2022, version 5.0.0
      */
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    fun getAccessPoints(query: GetAccessPointsQuery, callbacks: GetAccessPointsCallbacks?)
+    fun getAccessPoints(
+        query: GetAccessPointsQuery,
+        callbacks: GetAccessPointsCallbacks?,
+    )
 }

@@ -7,7 +7,7 @@ A Wifi configuration and util library built in Kotlin for Android.
 > Developed by Patches 04/24/2016 - present  
 > Logo/icon created by mansya (2018)  
 > 
-> Supports Android SDK levels 23-33
+> Supports Android SDK levels 23-34
 
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-WiseFy-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/6011) [![Android Weekly](https://img.shields.io/badge/Android%20Weekly-%23230-blue.svg)](http://androidweekly.net/issues/issue-230)
 
@@ -83,7 +83,7 @@ I hope you enjoy the rewrite and please create an issue if you see anything odd 
 ### Highlights
 
 - Android 10 - 14 now supported (Q, R, S, Tiramisu and Upside Down Cake) are now supported
-- Compiled with Java 17
+- Compiled with Java 21
 - Updated to Kotlin 2.x and AGP 8.x
 - New Bill of Materials for packaging
 - Rewritten with extensibility and future Android OS's in-mind
@@ -188,7 +188,7 @@ You may find a list of frequently asked questions [here](/documentation/FAQ.md).
 Want to help? Have an idea for a cool feature or want to fix a bug for the community? See 
 [CONTRIBUTING](CONTRIBUTING.md) for how you can make impactful changes for Wisefy.
 
-## License ##
+## License
 Copyright 2022 Patches Barrett
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in

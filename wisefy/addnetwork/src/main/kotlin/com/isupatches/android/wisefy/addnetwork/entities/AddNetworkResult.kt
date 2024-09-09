@@ -53,7 +53,9 @@ sealed class AddNetworkResult {
          * @author Patches Barrett
          * @since 12/2022, version 5.0.0
          */
-        data class ResultCode(val value: Int) : Success()
+        data class ResultCode(
+            val value: Int,
+        ) : Success()
     }
 
     /**
@@ -86,7 +88,9 @@ sealed class AddNetworkResult {
          * @author Patches Barrett
          * @since 12/2022, version 5.0.0
          */
-        data class ResultCode(val value: Int) : Failure()
+        data class ResultCode(
+            val value: Int,
+        ) : Failure()
 
         /**
          * A representation of a failure to add a network due to hitting an unexpected path causing an assertion.
@@ -100,6 +104,8 @@ sealed class AddNetworkResult {
          * @author Patches Barrett
          * @since 12/2022, version 5.0.0
          */
-        data class Assertion(val message: String) : Failure()
+        data class Assertion(
+            val message: String,
+        ) : Failure()
     }
 }

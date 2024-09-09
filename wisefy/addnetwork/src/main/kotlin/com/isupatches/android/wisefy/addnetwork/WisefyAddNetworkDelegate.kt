@@ -86,7 +86,10 @@ class WisefyAddNetworkDelegate(
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
-    override fun addNetwork(request: AddNetworkRequest, callbacks: AddNetworkCallbacks?) {
+    override fun addNetwork(
+        request: AddNetworkRequest,
+        callbacks: AddNetworkCallbacks?,
+    ) {
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
             savedNetworkMutex.withLock {
                 val result = adapter.addNetwork(request)

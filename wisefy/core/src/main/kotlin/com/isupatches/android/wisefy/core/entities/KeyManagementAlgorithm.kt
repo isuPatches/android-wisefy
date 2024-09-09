@@ -23,7 +23,9 @@ package com.isupatches.android.wisefy.core.entities
  * @author Patches Barrett
  * @since 12/2022, version 5.0.0
  */
-enum class KeyManagementAlgorithm(val stringValue: String) {
+enum class KeyManagementAlgorithm(
+    val stringValue: String,
+) {
 
     /**
      * A representation of the EAP key management algorithm.

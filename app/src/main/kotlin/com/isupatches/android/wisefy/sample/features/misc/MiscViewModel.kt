@@ -86,11 +86,12 @@ internal interface MiscViewModel {
 @HiltViewModel
 internal class MiscViewModelImpl @Inject constructor(
     private val wisefy: WisefyApi,
-) : ViewModel(), MiscViewModel {
+) : ViewModel(),
+    MiscViewModel {
 
     private val _uiState = mutableStateOf(
         MiscUIState(
-            loadingState = MiscLoadingState(isLoading = false),
+            loadingState = MiscLoadingState(),
             dialogState = MiscDialogState.None,
         ),
     )

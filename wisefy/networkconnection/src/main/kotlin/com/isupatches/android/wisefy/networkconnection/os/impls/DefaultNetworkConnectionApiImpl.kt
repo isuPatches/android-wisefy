@@ -56,7 +56,10 @@ internal class DefaultNetworkConnectionApiImpl(
 ) : DefaultNetworkConnectionApi {
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE, ACCESS_NETWORK_STATE])
-    override suspend fun connectToNetworkBySSID(ssid: String, timeoutInMillis: Int): Boolean? {
+    override suspend fun connectToNetworkBySSID(
+        ssid: String,
+        timeoutInMillis: Int,
+    ): Boolean? {
         @Suppress("Deprecation")
         val savedNetwork = wifiManager.configuredNetworks.firstOrNull { it.ssidWithoutQuotes == ssid }
         return savedNetwork?.let {
@@ -67,7 +70,10 @@ internal class DefaultNetworkConnectionApiImpl(
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE, ACCESS_NETWORK_STATE])
-    override suspend fun connectToNetworkByBSSID(bssid: String, timeoutInMillis: Int): Boolean? {
+    override suspend fun connectToNetworkByBSSID(
+        bssid: String,
+        timeoutInMillis: Int,
+    ): Boolean? {
         @Suppress("Deprecation")
         val savedNetwork = wifiManager.configuredNetworks.firstOrNull { it.bssidWithoutQuotes == bssid }
         return savedNetwork?.let {
@@ -131,14 +137,20 @@ internal class DefaultNetworkConnectionApiImpl(
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    private suspend fun waitForConnectionToSSID(ssid: String, timeoutInMillis: Int): Boolean {
+    private suspend fun waitForConnectionToSSID(
+        ssid: String,
+        timeoutInMillis: Int,
+    ): Boolean {
         return withTimeoutAsync(timeoutInMillis) {
             isCurrentNetworkConnectedBySSID(ssid)
         }
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
-    private suspend fun waitForConnectionToBSSID(bssid: String, timeoutInMillis: Int): Boolean {
+    private suspend fun waitForConnectionToBSSID(
+        bssid: String,
+        timeoutInMillis: Int,
+    ): Boolean {
         return withTimeoutAsync(timeoutInMillis) {
             isCurrentNetworkConnectedByBSSID(bssid)
         }

@@ -41,13 +41,13 @@ internal interface RemoveNetworkStore {
     suspend fun setSSIDType(ssidType: SSIDType)
 }
 
-private val Context.removeNetworkDataStore: DataStore<Preferences> by preferencesDataStore(
-    name = "removeNetworkDataStore",
-)
-
 internal class RemoveNetworkStoreUsingDataStore @Inject constructor(
     @ApplicationContext private val context: Context,
 ) : RemoveNetworkStore {
+
+    private val Context.removeNetworkDataStore: DataStore<Preferences> by preferencesDataStore(
+        name = "removeNetworkDataStore",
+    )
 
     private val ssidTypeKey = intPreferencesKey(PREF_SSID_TYPE)
     private val lastUsedNetworkInputKey = stringPreferencesKey(PREF_LAST_USED_NETWORK_INPUT)

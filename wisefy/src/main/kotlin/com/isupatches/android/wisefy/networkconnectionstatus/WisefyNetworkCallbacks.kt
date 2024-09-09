@@ -33,7 +33,10 @@ internal class WisefyNetworkCallbacks(
         onNetworkConnectionStatusUpdated(NetworkConnectionStatus.AVAILABLE)
     }
 
-    override fun onCapabilitiesChanged(network: Network, networkCapabilities: NetworkCapabilities) {
+    override fun onCapabilitiesChanged(
+        network: Network,
+        networkCapabilities: NetworkCapabilities,
+    ) {
         super.onCapabilitiesChanged(network, networkCapabilities)
         logger.d(
             LOG_TAG,
@@ -41,12 +44,18 @@ internal class WisefyNetworkCallbacks(
         )
     }
 
-    override fun onLinkPropertiesChanged(network: Network, linkProperties: LinkProperties) {
+    override fun onLinkPropertiesChanged(
+        network: Network,
+        linkProperties: LinkProperties,
+    ) {
         super.onLinkPropertiesChanged(network, linkProperties)
         logger.d(LOG_TAG, "onLinkPropertiesChanged, network: $network, linkProperties: $linkProperties")
     }
 
-    override fun onLosing(network: Network, maxMsToLive: Int) {
+    override fun onLosing(
+        network: Network,
+        maxMsToLive: Int,
+    ) {
         super.onLosing(network, maxMsToLive)
         logger.d(LOG_TAG, "onLosing, network: $network, maxMsToLive: $maxMsToLive")
         onNetworkConnectionStatusUpdated(NetworkConnectionStatus.LOSING)

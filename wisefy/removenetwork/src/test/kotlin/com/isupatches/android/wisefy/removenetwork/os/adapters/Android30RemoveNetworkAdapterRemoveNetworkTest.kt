@@ -32,7 +32,9 @@ import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 
 @RunWith(Parameterized::class)
-internal class Android30RemoveNetworkAdapterRemoveNetworkTest(private val params: RemoveNetworkParams) {
+internal class Android30RemoveNetworkAdapterRemoveNetworkTest(
+    private val params: RemoveNetworkParams,
+) {
 
     @Mock
     private lateinit var mockWifiManager: WifiManager

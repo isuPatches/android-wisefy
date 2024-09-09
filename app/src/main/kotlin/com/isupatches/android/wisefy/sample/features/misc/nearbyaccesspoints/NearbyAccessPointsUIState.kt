@@ -31,7 +31,9 @@ internal sealed class NearbyAccessPointsDialogState {
     data object None : NearbyAccessPointsDialogState()
 
     sealed class Failure : NearbyAccessPointsDialogState() {
-        data class WisefyAsync(val exception: WisefyException) : Failure()
+        data class WisefyAsync(
+            val exception: WisefyException,
+        ) : Failure()
     }
 
     sealed class GetNearbyAccessPoints : NearbyAccessPointsDialogState() {

@@ -15,7 +15,9 @@
  */
 package com.isupatches.android.wisefy.sample.entities
 
-internal enum class SearchType(val intVal: Int) {
+internal enum class SearchType(
+    val intVal: Int,
+) {
     ACCESS_POINT(0),
     SSID(1),
     SAVED_NETWORK(2),

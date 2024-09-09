@@ -65,7 +65,10 @@ class WisefyAccessPointsDelegate(
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
-    override fun getAccessPoints(query: GetAccessPointsQuery, callbacks: GetAccessPointsCallbacks?) {
+    override fun getAccessPoints(
+        query: GetAccessPointsQuery,
+        callbacks: GetAccessPointsCallbacks?,
+    ) {
         callbacks ?: return
         scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
             val result = adapter.getAccessPoints(query)

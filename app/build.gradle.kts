@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.io.ByteArrayOutputStream
 import java.io.OutputStream
 
@@ -32,9 +33,12 @@ android {
     signingConfigs {
         create("release") {
             storeFile = File("$rootDir/keystores/wisefy-sample-release.jks")
-            keyAlias = System.getenv("WISEFY_SAMPLE_RELEASE_KEY_ALIAS")
-            storePassword = System.getenv("WISEFY_SAMPLE_RELEASE_PASSWORD")
-            keyPassword = System.getenv("WISEFY_SAMPLE_RELEASE_PASSWORD")
+            keyAlias = properties["WISEFY_SAMPLE_RELEASE_KEY_ALIAS"]?.toString()
+                ?: System.getenv("WISEFY_SAMPLE_RELEASE_KEY_ALIAS")
+            storePassword = properties["WISEFY_SAMPLE_RELEASE_PASSWORD"]?.toString()
+                ?: System.getenv("WISEFY_SAMPLE_RELEASE_PASSWORD")
+            keyPassword = properties["WISEFY_SAMPLE_RELEASE_PASSWORD"]?.toString()
+                ?: System.getenv("WISEFY_SAMPLE_RELEASE_PASSWORD")
         }
     }
 
@@ -43,8 +47,8 @@ android {
             applicationIdSuffix = ".debug"
             enableUnitTestCoverage = true
             enableAndroidTestCoverage = true
-            isMinifyEnabled = System.getenv("MINIFY_DEBUG_BUILDS").toBoolean()
-            isShrinkResources = System.getenv("MINIFY_DEBUG_BUILDS").toBoolean()
+            isMinifyEnabled = properties["MINIFY_DEBUG_BUILDS"]?.toString()?.toBoolean() ?: System.getenv("MINIFY_DEBUG_BUILDS").toBoolean()
+            isShrinkResources = properties["MINIFY_DEBUG_BUILDS"]?.toString()?.toBoolean() ?: System.getenv("MINIFY_DEBUG_BUILDS").toBoolean()
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "$rootDir/proguard/r8-app-debug.pro"
@@ -85,15 +89,16 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 
     kotlin {
         compilerOptions {
             allWarningsAsErrors = true
+            jvmTarget.set(JvmTarget.JVM_21)
         }
-        jvmToolchain(17)
+        jvmToolchain(21)
     }
 
     afterEvaluate {

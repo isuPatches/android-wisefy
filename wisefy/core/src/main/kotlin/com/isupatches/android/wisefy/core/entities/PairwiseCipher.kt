@@ -23,7 +23,9 @@ package com.isupatches.android.wisefy.core.entities
  * @author Patches Barrett
  * @since 12/2022, version 5.0.0
  */
-enum class PairwiseCipher(val stringValue: String) {
+enum class PairwiseCipher(
+    val stringValue: String,
+) {
 
     /**
      * A representation of the TKIP pairwise cipher.

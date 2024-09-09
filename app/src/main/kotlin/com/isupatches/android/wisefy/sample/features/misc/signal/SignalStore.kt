@@ -44,13 +44,13 @@ internal interface SignalStore {
     suspend fun setCompareSignalLevelRSSI2(rssiLevel: String)
 }
 
-private val Context.signalDataStore: DataStore<Preferences> by preferencesDataStore(
-    name = "signalDataStore",
-)
-
 internal class SignalStoreUsingDataStore @Inject constructor(
     @ApplicationContext private val context: Context,
 ) : SignalStore {
+
+    private val Context.signalDataStore: DataStore<Preferences> by preferencesDataStore(
+        name = "signalDataStore",
+    )
 
     private val calculateSignalLevelRSSIKey = stringPreferencesKey(PREF_CALCULATE_SIGNAL_LEVEL_RSSI)
     private val compareSignalLevelRSSI1Key = stringPreferencesKey(PREF_COMPARE_SIGNAL_LEVEL_RSSI_1)
