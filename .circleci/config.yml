@@ -96,7 +96,7 @@ jobs:
   build-and-test:
     executor:
       name: android/android-machine
-      resource-class: medium
+      resource-class: large
       tag: default
     steps:
       - checkout

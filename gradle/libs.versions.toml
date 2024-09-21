@@ -42,7 +42,7 @@ androidx-navitation-ui = { module = "androidx.navigation:navigation-ui", version
 jetbrains-dokka-plugin = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokka-version" }
 jetbrains-kotlin-gradleplugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin-version" }
 jetbrains-kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin-version" }
-jetbrains-kotlinx-coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1"
+jetbrains-kotlinx-coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.9.0"
 
 google-dagger-android = { module = "com.google.dagger:dagger", version.ref ="google-dagger-version" }
 google-dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref ="google-dagger-version" }

@@ -9,7 +9,7 @@ androidx-test-rules = "androidx.test:rules:1.6.1"
 
 junit = "junit:junit:4.13.2"
 
-kotlin-coroutines-test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.1"
+kotlin-coroutines-test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.9.0"
 
 mockito-android = "org.mockito:mockito-android:5.13.0"
 mockito-core = "org.mockito:mockito-core:5.13.0"
