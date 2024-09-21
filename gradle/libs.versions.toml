@@ -4,11 +4,11 @@ sdk-compile-version = "34"
 sdk-target-version = "34"
 sdk-min-version = "23"
 
-android-gradleplugin-version = "8.6.0"
+android-gradleplugin-version = "8.6.1"
 
-androidx-compose-material-version = "1.7.0"
-androidx-compose-ui-version = "1.7.0"
-androidx-navigation-version = "2.8.0"
+androidx-compose-material-version = "1.7.2"
+androidx-compose-ui-version = "1.7.2"
+androidx-navigation-version = "2.8.1"
 
 dokka-version = "1.9.20"
 
@@ -25,7 +25,7 @@ android-gradleplugin = { module = "com.android.tools.build:gradle", version.ref 
 androidx-annotation = "androidx.annotation:annotation:1.8.2"
 androidx-appcompat = "androidx.appcompat:appcompat:1.7.0"
 androidx-activity-compose = "androidx.activity:activity-compose:1.9.2"
-androidx-compose-animation = "androidx.compose.animation:animation:1.7.0"
+androidx-compose-animation = "androidx.compose.animation:animation:1.7.2"
 androidx-compose-material = { module = "androidx.compose.material:material", version.ref = "androidx-compose-material-version" }
 androidx-compose-materialiconsextended = { module = "androidx.compose.material:material-icons-extended", version.ref = "androidx-compose-material-version" }
 androidx-compose-ui = { module = "androidx.compose.ui:ui", version.ref = "androidx-compose-ui-version" }
@@ -33,7 +33,7 @@ androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", versi
 androidx-compose-ui-toolingpreview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "androidx-compose-ui-version" }
 androidx-corektx = "androidx.core:core-ktx:1.13.1"
 androidx-datastore-preferences = "androidx.datastore:datastore-preferences:1.1.1"
-androidx-lifecycle-viewmodelcompose = "androidx.lifecycle:lifecycle-viewmodel-compose:2.8.5"
+androidx-lifecycle-viewmodelcompose = "androidx.lifecycle:lifecycle-viewmodel-compose:2.8.6"
 androidx-hilt-navigationcompose = "androidx.hilt:hilt-navigation-compose:1.2.0"
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "androidx-navigation-version" }
 androidx-navigation-fragment = { module = "androidx.navigation:navigation-fragment", version.ref = "androidx-navigation-version" }

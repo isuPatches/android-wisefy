@@ -10,7 +10,7 @@ commands:
             key: jars-{{ checksum "build.gradle.kts" }}-{{ checksum  "app/build.gradle.kts" }}-{{ checksum  "wisefy/build.gradle.kts" }}
         - run:
             name: Download Dependencies
-            command: ./gradlew androidDependencies
+            command: ./gradlew androidDependencies --no-daemon
     write-keystore-files:
       steps:
         - run:
@@ -31,36 +31,36 @@ commands:
       steps:
         - run:
             name: Publish release artifacts to Maven Local
-            command: ./gradlew publishReleasePublicationToMavenLocal
+            command: ./gradlew publishReleasePublicationToMavenLocal --no-daemon
     run-static-analysis:
       steps:
         - run:
             name: Run lint
-            command: ./gradlew lintDebug
+            command: ./gradlew lintDebug --no-daemon
         - run:
             name: Run Kotlinter
-            command: ./gradlew lintKotlin
+            command: ./gradlew lintKotlin --no-daemon
         - run:
             name: Run detekt
-            command: ./gradlew detekt
+            command: ./gradlew detekt --no-daemon
         - run:
             name: Run CPD
-            command: ./gradlew cpdCheck
+            command: ./gradlew cpdCheck --no-daemon
     build-debug-build:
       steps:
         - run:
             name: Assemble debug build
-            command: ./gradlew assembleDebug
+            command: ./gradlew assembleDebug --no-daemon
     build-release-build:
       steps:
         - run:
             name: Assemble release build
-            command: ./gradlew assembleRelease
+            command: ./gradlew assembleRelease --no-daemon
     run-unit-tests:
       steps:
         - run:
             name: Run unit tests with coverage
-            command: ./gradlew jacocoDebugUnitTest
+            command: ./gradlew jacocoDebugUnitTest --no-daemon
     store-unit-test-results:
       steps:
         - store_test_results:
