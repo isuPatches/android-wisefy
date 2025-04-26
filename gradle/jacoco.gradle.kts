@@ -1,35 +1,44 @@
 import java.util.Locale
+import org.gradle.testing.jacoco.plugins.JacocoTaskExtension
 
 plugins.apply(JacocoPlugin::class)
 
-private fun getCoverageVariants() = listOf("debug")
-private val buildTaskGroup = "verification"
+fun getCoverageVariants() = listOf("debug")
+val buildTaskGroup = "verification"
 
-private val excludes = setOf(
+val excludes = setOf(
+    // Default auto-generates classes with Android (R file and BuildConfig)
     "**/R.class",
     "**/R\$*.class",
     "**/BuildConfig.*",
+
+    // Dagger and Hilt excludes
+    "**/*Module*.*",
+    "**/*Factory*.*",
+    "**/*GeneratedInjector*.*",
+    "**/*MembersInjector*.*",
+    "**/*Hilt_*.*",
+
+    // Other excludes
     "**/Manifest*.*",
     "**/*\$Lambda\$*.class",
-    "**/*Factory*.class",
-    "**/*\$Builder*"
+    "**/*\$Builder*",
 )
 
-private fun getSourceDirectoriesTree() = files(
-    "src/main/java"
-)
+fun getSourceDirectoriesTree(project: Project): ConfigurableFileCollection {
+    val sourceDir = "${project.projectDir}/src/main/kotlin"
+    return files(sourceDir)
+}
 
-private fun getClassDirectoriesTree(buildDirectory: Directory, excludes: Set<String>): FileTree {
-    return fileTree("$buildDirectory") {
-        include(
-            "**/classes/**/main/**",
-            "**/intermediates/classes/debug/**",
-            "**/intermediates/javac/debug/*/classes/**", // Android Gradle Plugin 3.2.x support.
-            "**/tmp/kotlin-classes/debug/**"
-        )
-
+fun getClassDirectoriesTree(project: Project, excludes: Set<String>): ConfigurableFileCollection {
+    val debugKotlinClasses = fileTree("${project.layout.buildDirectory.get()}/tmp/kotlin-classes/debug") {
         exclude(excludes)
     }
+    val debugJavaClasses = fileTree("${project.layout.buildDirectory.get()}/intermediates/javac/debug/classes") {
+        exclude(excludes)
+    }
+    val allFiles = files(debugKotlinClasses, debugJavaClasses)
+    return allFiles
 }
 
 afterEvaluate {
@@ -42,17 +51,19 @@ afterEvaluate {
             }
         }
 
-        val buildDirectory = project.layout.buildDirectory.get()
-
-        tasks.create<JacocoReport>("jacoco${capitalizedVariant}UnitTest") {
+        tasks.register<JacocoReport>("jacoco${capitalizedVariant}UnitTest") {
             group = buildTaskGroup
 
             dependsOn("test${capitalizedVariant}UnitTest")
 
-            classDirectories.setFrom(getClassDirectoriesTree(buildDirectory, excludes))
-            sourceDirectories.setFrom(getSourceDirectoriesTree())
+            if (plugins.hasPlugin("com.android.library") ) {
+                mustRunAfter("compile${capitalizedVariant}LibraryResources")
+            }
+
+            classDirectories.setFrom(getClassDirectoriesTree(project, excludes))
+            sourceDirectories.setFrom(getSourceDirectoriesTree(project))
             executionData.setFrom(
-                fileTree("$buildDirectory/outputs/unit_test_code_coverage") {
+                fileTree("${project.layout.buildDirectory.get()}/outputs/unit_test_code_coverage") {
                     include("**/*.exec")
                 }
             )
@@ -63,13 +74,13 @@ afterEvaluate {
             }
         }
 
-        tasks.create<JacocoReport>("jacoco${capitalizedVariant}UnitTestReport") {
+        tasks.register<JacocoReport>("jacoco${capitalizedVariant}UnitTestReport") {
             group = buildTaskGroup
 
-            classDirectories.setFrom(getClassDirectoriesTree(buildDirectory, excludes))
-            sourceDirectories.setFrom(getSourceDirectoriesTree())
+            classDirectories.setFrom(getClassDirectoriesTree(project, excludes))
+            sourceDirectories.setFrom(getSourceDirectoriesTree(project))
             executionData.setFrom(
-                fileTree("$buildDirectory/outputs/unit_test_code_coverage") {
+                fileTree("${project.layout.buildDirectory.get()}/outputs/unit_test_code_coverage") {
                     include("**/*.exec")
                 }
             )
@@ -80,15 +91,15 @@ afterEvaluate {
             }
         }
 
-        tasks.create<JacocoReport>("jacoco${capitalizedVariant}AndroidTest") {
+        tasks.register<JacocoReport>("jacoco${capitalizedVariant}AndroidTest") {
             group = buildTaskGroup
 
             dependsOn("connected${capitalizedVariant}AndroidTest")
 
-            classDirectories.setFrom(getClassDirectoriesTree(buildDirectory, excludes))
-            sourceDirectories.setFrom(getSourceDirectoriesTree())
+            classDirectories.setFrom(getClassDirectoriesTree(project, excludes))
+            sourceDirectories.setFrom(getSourceDirectoriesTree(project))
             executionData.setFrom(
-                fileTree("$buildDirectory/outputs/code_coverage/") {
+                fileTree("${project.layout.buildDirectory.get()}/outputs/code_coverage/") {
                     include("**/*.ec")
                 }
             )
@@ -99,13 +110,13 @@ afterEvaluate {
             }
         }
 
-        tasks.create<JacocoReport>("jacoco${capitalizedVariant}AndroidTestReport") {
+        tasks.register<JacocoReport>("jacoco${capitalizedVariant}AndroidTestReport") {
             group = buildTaskGroup
 
-            classDirectories.setFrom(getClassDirectoriesTree(buildDirectory, excludes))
-            sourceDirectories.setFrom(getSourceDirectoriesTree())
+            classDirectories.setFrom(getClassDirectoriesTree(project, excludes))
+            sourceDirectories.setFrom(getSourceDirectoriesTree(project))
             executionData.setFrom(
-                fileTree("$buildDirectory/outputs/code_coverage/") {
+                fileTree("${project.layout.buildDirectory.get()}/outputs/code_coverage/") {
                     include("**/*.ec")
                 }
             )
@@ -116,18 +127,22 @@ afterEvaluate {
             }
         }
 
-        tasks.create<JacocoReport>("jacoco${capitalizedVariant}CombinedTest") {
+        tasks.register<JacocoReport>("jacoco${capitalizedVariant}CombinedTest") {
             group = buildTaskGroup
 
             dependsOn("test${capitalizedVariant}UnitTest", "connected${capitalizedVariant}AndroidTest")
 
-            classDirectories.setFrom(getClassDirectoriesTree(buildDirectory, excludes))
-            sourceDirectories.setFrom(getSourceDirectoriesTree())
+            if (plugins.hasPlugin("com.android.library") ) {
+                mustRunAfter("compile${capitalizedVariant}LibraryResources")
+            }
+
+            classDirectories.setFrom(getClassDirectoriesTree(project, excludes))
+            sourceDirectories.setFrom(getSourceDirectoriesTree(project))
             executionData.setFrom(
-                fileTree("$buildDirectory/outputs/unit_test_code_coverage") {
+                fileTree("${project.layout.buildDirectory.get()}/outputs/unit_test_code_coverage") {
                     include("**/*.exec")
                 },
-                fileTree("$buildDirectory}/outputs/code_coverage/") {
+                fileTree("${project.layout.buildDirectory.get()}/outputs/code_coverage/") {
                     include("**/*.ec")
                 }
             )
@@ -138,16 +153,16 @@ afterEvaluate {
             }
         }
 
-        tasks.create<JacocoReport>("jacoco${capitalizedVariant}CombinedTestReport") {
+        tasks.register<JacocoReport>("jacoco${capitalizedVariant}CombinedTestReport") {
             group = buildTaskGroup
 
-            classDirectories.setFrom(getClassDirectoriesTree(buildDirectory, excludes))
-            sourceDirectories.setFrom(getSourceDirectoriesTree())
+            classDirectories.setFrom(getClassDirectoriesTree(project, excludes))
+            sourceDirectories.setFrom(getSourceDirectoriesTree(project))
             executionData.setFrom(
-                fileTree("$buildDirectory/outputs/unit_test_code_coverage") {
+                fileTree("${project.layout.buildDirectory.get()}/outputs/unit_test_code_coverage") {
                     include("**/*.exec")
                 },
-                fileTree("$buildDirectory/outputs/code_coverage/") {
+                fileTree("${project.layout.buildDirectory.get()}/outputs/code_coverage/") {
                     include("**/*.ec")
                 }
             )
@@ -157,5 +172,12 @@ afterEvaluate {
                 html.required.set(true)
             }
         }
+    }
+}
+
+tasks.withType<Test> {
+    configure<JacocoTaskExtension> {
+        isIncludeNoLocationClasses  = true
+        excludes = listOf("jdk.internal.*")
     }
 }

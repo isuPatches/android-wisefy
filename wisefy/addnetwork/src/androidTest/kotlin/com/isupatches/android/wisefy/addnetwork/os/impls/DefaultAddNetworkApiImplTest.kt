@@ -17,11 +17,11 @@ package com.isupatches.android.wisefy.addnetwork.os.impls
 
 import android.net.wifi.WifiManager
 import com.isupatches.android.wisefy.addnetwork.os.apis.DefaultAddNetworkApi
-import com.isupatches.android.wisefy.core.logging.DefaultWisefyLogger
+import com.isupatches.android.wisefy.core.logging.NoOpWisefyLogger
 import com.isupatches.android.wisefy.testsupport.anyNonNull
-import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
@@ -31,29 +31,26 @@ import org.mockito.BDDMockito.given
 import org.mockito.BDDMockito.times
 import org.mockito.Mock
 import org.mockito.Mockito.verify
-import org.mockito.MockitoAnnotations
+import org.mockito.junit.MockitoJUnit
+import org.mockito.junit.MockitoRule
+import org.mockito.quality.Strictness
 
 @RunWith(Parameterized::class)
 internal class DefaultAddNetworkApiImplTest(
     private val params: AddNetworkParams,
 ) {
 
+    @get:Rule
+    var mockitoRule: MockitoRule = MockitoJUnit.rule().strictness(Strictness.STRICT_STUBS)
+
     @Mock
     private lateinit var mockWifiManager: WifiManager
 
     private lateinit var api: DefaultAddNetworkApi
 
-    private var closable: AutoCloseable? = null
-
     @Before
     fun setUp() {
-        closable = MockitoAnnotations.openMocks(this)
-        api = DefaultAddNetworkApiImpl(wifiManager = mockWifiManager, logger = DefaultWisefyLogger())
-    }
-
-    @After
-    fun tearDown() {
-        closable?.close()
+        api = DefaultAddNetworkApiImpl(wifiManager = mockWifiManager, logger = NoOpWisefyLogger())
     }
 
     @Test

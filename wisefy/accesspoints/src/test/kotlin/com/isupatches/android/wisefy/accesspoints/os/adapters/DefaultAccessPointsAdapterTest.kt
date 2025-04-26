@@ -21,7 +21,7 @@ import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
 import com.isupatches.android.wisefy.accesspoints.entities.GetAccessPointsQuery
 import com.isupatches.android.wisefy.accesspoints.entities.GetAccessPointsResult
 import com.isupatches.android.wisefy.accesspoints.os.apis.DefaultAccessPointsApi
-import com.isupatches.android.wisefy.core.logging.DefaultWisefyLogger
+import com.isupatches.android.wisefy.core.logging.NoOpWisefyLogger
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -46,7 +46,7 @@ internal class DefaultAccessPointsAdapterTest {
     fun setUp() {
         adapter = DefaultAccessPointsAdapter(
             wifiManager = mockWifiManager,
-            logger = DefaultWisefyLogger(),
+            logger = NoOpWisefyLogger(),
             api = mockDefaultAccessPointsApi,
         )
     }

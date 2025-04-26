@@ -1,6 +1,4 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import java.io.ByteArrayOutputStream
-import java.io.OutputStream
 
 plugins {
     alias(libs.plugins.android.application)
@@ -100,77 +98,67 @@ android {
         }
         jvmToolchain(21)
     }
-
-    afterEvaluate {
-        configurations.getByName("releaseRuntimeClasspath") {
-            resolutionStrategy.activateDependencyLocking()
-        }
-        configurations.getByName("debugRuntimeClasspath") {
-            resolutionStrategy.activateDependencyLocking()
-        }
-    }
-
-    dependencyLocking {
-        lockMode.set(LockMode.STRICT)
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.kotlin.compiler.version.get()
-    }
 }
 
 /*
  * https://stackoverflow.com/questions/28498688/gradle-script-to-autoversion-and-include-the-commit-hash-in-android
  */
 private fun Project.gitCommitHash(): String {
-    val stdout: OutputStream = ByteArrayOutputStream()
-    exec {
+    return providers.exec {
         commandLine("git", "rev-parse", "--short", "HEAD")
-        standardOutput = stdout
     }
-    return stdout.toString().trim()
+        .standardOutput
+        .asText
+        .get()
+        .trim()
 }
 
 dependencies {
     /*
      * This should be uncommented to run sample app directly against a published release
      */
-    implementation(platform(libs.isupatches.wisefy.bom))
+//    implementation(platform(libs.isupatches.wisefy.bom))
+//    implementation(libs.isupatches.wisefy.accesspoints)
+//    implementation(libs.isupatches.wisefy.addnetwork)
+//    implementation(libs.isupatches.wisefy.core)
+//    implementation(libs.isupatches.wisefy.ktx)
+//    implementation(libs.isupatches.wisefy.networkconnection)
+//    implementation(libs.isupatches.wisefy.networkinfo)
+//    implementation(libs.isupatches.wisefy.removenetwork)
+//    implementation(libs.isupatches.wisefy.savednetworks)
+//    implementation(libs.isupatches.wisefy.signal)
+//    implementation(libs.isupatches.wisefy.wifi)
+//    implementation(libs.isupatches.wisefy.wisefy)
 
     /*
      * This should be uncommented to run sample app directly against the source BOM
      */
-//    implementation(platform(project(":wisefy:bom")))
-
-    implementation(libs.isupatches.wisefy.accesspoints)
-    implementation(libs.isupatches.wisefy.addnetwork)
-    implementation(libs.isupatches.wisefy.core)
-    implementation(libs.isupatches.wisefy.ktx)
-    implementation(libs.isupatches.wisefy.networkconnection)
-    implementation(libs.isupatches.wisefy.networkinfo)
-    implementation(libs.isupatches.wisefy.removenetwork)
-    implementation(libs.isupatches.wisefy.savednetworks)
-    implementation(libs.isupatches.wisefy.signal)
-    implementation(libs.isupatches.wisefy.wifi)
-    implementation(libs.isupatches.wisefy.wisefy)
+    implementation(project(":wisefy:accesspoints"))
+    implementation(project(":wisefy:addnetwork"))
+    implementation(project(":wisefy:core"))
+    implementation(project(":wisefy:ktx"))
+    implementation(project(":wisefy:networkconnection"))
+    implementation(project(":wisefy:networkinfo"))
+    implementation(project(":wisefy:removenetwork"))
+    implementation(project(":wisefy:savednetworks"))
+    implementation(project(":wisefy:signal"))
+    implementation(project(":wisefy:wifi"))
 
     // AndroidX
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.annotation)
     implementation(libs.androidx.corektx)
-    implementation(libs.androidx.datastore.preferences)
+    implementation(libs.bundles.androidx.datastore.preferences)
 
     implementation(libs.androidx.hilt.navigationcompose)
     implementation(libs.androidx.lifecycle.viewmodelcompose)
 
+    implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.animation)
     implementation(libs.bundles.androidx.compose.material)
     implementation(libs.bundles.androidx.compose.ui)
     debugImplementation(libs.androidx.compose.ui.tooling)
-
-    // Koltin
-    implementation(libs.jetbrains.kotlin.stdlib)
 
     // Google
     implementation(libs.google.android.material)
@@ -190,6 +178,6 @@ if (bomLibDef != null) {
     }
 } else {
     android.buildTypes.forEach { buildType ->
-        buildType.buildConfigField("String", "WISEFY_BOM_VERSION", "unknown")
+        buildType.buildConfigField("String", "WISEFY_BOM_VERSION", "\"local\"")
     }
 }

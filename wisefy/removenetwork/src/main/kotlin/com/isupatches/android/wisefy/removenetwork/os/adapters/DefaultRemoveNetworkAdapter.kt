@@ -1,5 +1,7 @@
 /*
- * Copyright 2022 Patches Barrett
+ * Copyright (c) 2024. Patches Barrett
+ *
+ * Last modified: September 22, 2024
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +21,7 @@ import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
+import com.isupatches.android.wisefy.core.logging.NoOpWisefyLogger
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.removenetwork.RemoveNetworkApi
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkRequest
@@ -29,8 +32,8 @@ import com.isupatches.android.wisefy.removenetwork.os.impls.DefaultRemoveNetwork
 /**
  * A default adapter for removing a network.
  *
- * @param logger The [WisefyLogger] instance to use
  * @param wifiManager The WifiManager instance to use
+ * @param logger The [WisefyLogger] instance to use (defaults to no-op)
  * @param api The OS level API instance to use
  *
  * @see DefaultRemoveNetworkApi
@@ -42,8 +45,8 @@ import com.isupatches.android.wisefy.removenetwork.os.impls.DefaultRemoveNetwork
  * @since 12/2022, version 5.0.0
  */
 internal class DefaultRemoveNetworkAdapter(
-    logger: WisefyLogger,
     wifiManager: WifiManager,
+    logger: WisefyLogger = NoOpWisefyLogger(),
     private val api: DefaultRemoveNetworkApi = DefaultRemoveNetworkApiImpl(wifiManager, logger),
 ) : RemoveNetworkApi {
 

@@ -1,5 +1,7 @@
 /*
- * Copyright 2022 Patches Barrett
+ * Copyright (c) 2024. Patches Barrett
+ *
+ * Last modified: September 22, 2024
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,11 +21,12 @@ import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.Manifest.permission.CHANGE_WIFI_STATE
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
+import com.isupatches.android.wisefy.core.assertions.NoOpWisefyAssertions
 import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
-import com.isupatches.android.wisefy.core.coroutines.CoroutineDispatcherProvider
-import com.isupatches.android.wisefy.core.coroutines.createBaseCoroutineExceptionHandler
+import com.isupatches.android.wisefy.core.exceptions.WisefyException
+import com.isupatches.android.wisefy.core.logging.NoOpWisefyLogger
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
-import com.isupatches.android.wisefy.core.util.SdkUtil
+import com.isupatches.android.wisefy.core.util.AndroidUtil
 import com.isupatches.android.wisefy.wifi.callbacks.DisableWifiCallbacks
 import com.isupatches.android.wisefy.wifi.callbacks.EnableWifiCallbacks
 import com.isupatches.android.wisefy.wifi.callbacks.IsWifiEnabledCallbacks
@@ -35,28 +38,28 @@ import com.isupatches.android.wisefy.wifi.entities.IsWifiEnabledQuery
 import com.isupatches.android.wisefy.wifi.entities.IsWifiEnabledResult
 import com.isupatches.android.wisefy.wifi.os.adapters.Android29WifiAdapter
 import com.isupatches.android.wisefy.wifi.os.adapters.DefaultWifiAdapter
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
+import kotlin.coroutines.cancellation.CancellationException
 
 /**
  * An internal Wisefy delegate for enabling, disabling, and checking the state of wifi.
  *
- * @param assertions The [WisefyAssertions] instance to use
- * @param logger The [WisefyLogger] instance to use
- * @param sdkUtil The [SdkUtil] instance to use
  * @param wifiManager The WifiManager instance to use
- * @param coroutineDispatcherProvider The [CoroutineDispatcherProvider] instance to use
  * @param scope The coroutine scope to use
  * @param wifiMutex The mutex for all read/write operations involving wifi
+ * @param assertions The [WisefyAssertions] instance to use (defaults to no-op)
+ * @param logger The [WisefyLogger] instance to use (defaults to no-op)
+ * @param mainDispatcher The main thread dispatcher
  * @param adapter The adapter instance to use for wifi operations (determined based on the Android OS level)
  *
  * @see Android29WifiAdapter
- * @see CoroutineDispatcherProvider
  * @see DefaultWifiAdapter
- * @see SdkUtil
  * @see WifiDelegate
  * @see WisefyAssertions
  * @see WisefyLogger
@@ -66,14 +69,13 @@ import kotlinx.coroutines.withContext
  */
 @Suppress("LongParameterList")
 class WisefyWifiDelegate(
-    assertions: WisefyAssertions,
-    logger: WisefyLogger,
-    sdkUtil: SdkUtil,
     wifiManager: WifiManager,
-    private val coroutineDispatcherProvider: CoroutineDispatcherProvider,
     private val scope: CoroutineScope,
     private val wifiMutex: Mutex,
-    private val adapter: WifiApi = if (sdkUtil.isAtLeastQ()) {
+    assertions: WisefyAssertions = NoOpWisefyAssertions(),
+    logger: WisefyLogger = NoOpWisefyLogger(),
+    private val mainDispatcher: CoroutineDispatcher = Dispatchers.Main,
+    private val adapter: WifiApi = if (AndroidUtil.isAtLeastQ()) {
         Android29WifiAdapter(wifiManager, logger, assertions)
     } else {
         DefaultWifiAdapter(wifiManager, logger, assertions)
@@ -90,17 +92,28 @@ class WisefyWifiDelegate(
     }
 
     @RequiresPermission(CHANGE_WIFI_STATE)
+    @Suppress("TooGenericExceptionCaught")
     override fun disableWifi(
         request: DisableWifiRequest,
         callbacks: DisableWifiCallbacks?,
     ) {
-        scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
+        scope.launch {
             wifiMutex.withLock {
-                val result = adapter.disableWifi(request)
-                withContext(coroutineDispatcherProvider.main) {
-                    when (result) {
-                        is DisableWifiResult.Success -> callbacks?.onSuccessDisablingWifi(result)
-                        is DisableWifiResult.Failure -> callbacks?.onFailureDisablingWifi(result)
+                try {
+                    val result = adapter.disableWifi(request)
+                    withContext(mainDispatcher) {
+                        when (result) {
+                            is DisableWifiResult.Success -> callbacks?.onSuccessDisablingWifi(result)
+                            is DisableWifiResult.Failure -> callbacks?.onFailureDisablingWifi(result)
+                        }
+                    }
+                } catch (ex: CancellationException) {
+                    throw ex
+                } catch (ex: Exception) {
+                    withContext(mainDispatcher) {
+                        callbacks?.onWisefyAsyncFailure(
+                            WisefyException(message = "Internal Wisefy error with disableWifi", throwable = ex),
+                        )
                     }
                 }
             }
@@ -113,17 +126,28 @@ class WisefyWifiDelegate(
     }
 
     @RequiresPermission(CHANGE_WIFI_STATE)
+    @Suppress("TooGenericExceptionCaught")
     override fun enableWifi(
         request: EnableWifiRequest,
         callbacks: EnableWifiCallbacks?,
     ) {
-        scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
+        scope.launch {
             wifiMutex.withLock {
-                val result = adapter.enableWifi(request)
-                withContext(coroutineDispatcherProvider.main) {
-                    when (result) {
-                        is EnableWifiResult.Success -> callbacks?.onSuccessEnablingWifi(result)
-                        is EnableWifiResult.Failure -> callbacks?.onFailureEnablingWifi(result)
+                try {
+                    val result = adapter.enableWifi(request)
+                    withContext(mainDispatcher) {
+                        when (result) {
+                            is EnableWifiResult.Success -> callbacks?.onSuccessEnablingWifi(result)
+                            is EnableWifiResult.Failure -> callbacks?.onFailureEnablingWifi(result)
+                        }
+                    }
+                } catch (ex: CancellationException) {
+                    throw ex
+                } catch (ex: Exception) {
+                    withContext(mainDispatcher) {
+                        callbacks?.onWisefyAsyncFailure(
+                            WisefyException(message = "Internal Wisefy error with enableWifi", throwable = ex),
+                        )
                     }
                 }
             }
@@ -136,17 +160,28 @@ class WisefyWifiDelegate(
     }
 
     @RequiresPermission(ACCESS_WIFI_STATE)
+    @Suppress("TooGenericExceptionCaught")
     override fun isWifiEnabled(
         query: IsWifiEnabledQuery,
         callbacks: IsWifiEnabledCallbacks?,
     ) {
-        scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
+        scope.launch {
             wifiMutex.withLock {
-                val result = adapter.isWifiEnabled(query)
-                withContext(coroutineDispatcherProvider.main) {
-                    when (result) {
-                        is IsWifiEnabledResult.True -> callbacks?.onWifiIsEnabled()
-                        is IsWifiEnabledResult.False -> callbacks?.onWifiIsDisabled()
+                try {
+                    val result = adapter.isWifiEnabled(query)
+                    withContext(mainDispatcher) {
+                        when (result) {
+                            is IsWifiEnabledResult.True -> callbacks?.onWifiIsEnabled()
+                            is IsWifiEnabledResult.False -> callbacks?.onWifiIsDisabled()
+                        }
+                    }
+                } catch (ex: CancellationException) {
+                    throw ex
+                } catch (ex: Exception) {
+                    withContext(mainDispatcher) {
+                        callbacks?.onWisefyAsyncFailure(
+                            WisefyException(message = "Internal Wisefy error with isWifiEnabled", throwable = ex),
+                        )
                     }
                 }
             }

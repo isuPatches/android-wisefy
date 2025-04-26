@@ -1,5 +1,7 @@
 /*
- * Copyright 2022 Patches Barrett
+ * Copyright (c) 2024. Patches Barrett
+ *
+ * Last modified: September 21, 2024
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

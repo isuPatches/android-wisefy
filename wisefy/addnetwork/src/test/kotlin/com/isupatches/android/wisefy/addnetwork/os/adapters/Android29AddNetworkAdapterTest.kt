@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Patches Barrett
+ * Copyright 2025 Patches Barrett
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,16 +17,13 @@ package com.isupatches.android.wisefy.addnetwork.os.adapters
 
 import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkRequest
 import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
-import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
 import com.isupatches.android.wisefy.core.constants.AssertionMessages
-import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 import org.junit.runners.Parameterized.Parameters
-import org.mockito.MockitoAnnotations
 
 @RunWith(Parameterized::class)
 internal class Android29AddNetworkAdapterTest(
@@ -35,17 +32,9 @@ internal class Android29AddNetworkAdapterTest(
 
     private lateinit var adapter: Android29AddNetworkAdapter
 
-    private var closable: AutoCloseable? = null
-
     @Before
     fun setUp() {
-        closable = MockitoAnnotations.openMocks(this)
-        adapter = Android29AddNetworkAdapter(assertions = WisefyAssertions(false))
-    }
-
-    @After
-    fun tearDown() {
-        closable?.close()
+        adapter = Android29AddNetworkAdapter()
     }
 
     @Test

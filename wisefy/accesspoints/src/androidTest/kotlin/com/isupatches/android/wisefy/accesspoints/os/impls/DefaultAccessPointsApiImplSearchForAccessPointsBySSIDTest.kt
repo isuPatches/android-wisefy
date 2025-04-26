@@ -18,39 +18,36 @@ package com.isupatches.android.wisefy.accesspoints.os.impls
 import android.net.wifi.ScanResult
 import android.net.wifi.WifiManager
 import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
-import com.isupatches.android.wisefy.core.logging.DefaultWisefyLogger
-import org.junit.After
+import com.isupatches.android.wisefy.core.logging.NoOpWisefyLogger
 import org.junit.Assert.assertEquals
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 import org.junit.runners.Parameterized.Parameters
 import org.mockito.BDDMockito.given
 import org.mockito.Mock
-import org.mockito.MockitoAnnotations
+import org.mockito.junit.MockitoJUnit
+import org.mockito.junit.MockitoRule
+import org.mockito.quality.Strictness
 
 @RunWith(Parameterized::class)
 internal class DefaultAccessPointsApiImplSearchForAccessPointsBySSIDTest(
     private val params: SearchForAccessPointsBySSIDParams,
 ) {
 
+    @get:Rule
+    var mockitoRule: MockitoRule = MockitoJUnit.rule().strictness(Strictness.STRICT_STUBS)
+
     @Mock
     private lateinit var mockWifiManager: WifiManager
 
     private lateinit var apiImpl: DefaultAccessPointsApiImpl
 
-    private var closable: AutoCloseable? = null
-
     @Before
     fun setUp() {
-        closable = MockitoAnnotations.openMocks(this)
-        apiImpl = DefaultAccessPointsApiImpl(wifiManager = mockWifiManager, logger = DefaultWisefyLogger())
-    }
-
-    @After
-    fun tearDown() {
-        closable?.close()
+        apiImpl = DefaultAccessPointsApiImpl(wifiManager = mockWifiManager, logger = NoOpWisefyLogger())
     }
 
     @Test

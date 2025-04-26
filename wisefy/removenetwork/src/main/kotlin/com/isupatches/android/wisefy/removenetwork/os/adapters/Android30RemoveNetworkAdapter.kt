@@ -1,5 +1,7 @@
 /*
- * Copyright 2022 Patches Barrett
+ * Copyright (c) 2024. Patches Barrett
+ *
+ * Last modified: September 22, 2024
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +23,7 @@ import android.net.wifi.WifiManager.STATUS_NETWORK_SUGGESTIONS_SUCCESS
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
+import com.isupatches.android.wisefy.core.logging.NoOpWisefyLogger
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.removenetwork.RemoveNetworkApi
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkRequest
@@ -31,8 +34,8 @@ import com.isupatches.android.wisefy.removenetwork.os.impls.Android30RemoveNetwo
 /**
  * An Android 30 or higher adapter for removing a network.
  *
- * @param logger The [WisefyLogger] instance to use
  * @param wifiManager The WifiManager instance to use
+ * @param logger The [WisefyLogger] instance to use (defaults to no-op)
  * @param api The OS level API instance to use
  *
  * @see Android30RemoveNetworkApi
@@ -45,8 +48,8 @@ import com.isupatches.android.wisefy.removenetwork.os.impls.Android30RemoveNetwo
  */
 @RequiresApi(Build.VERSION_CODES.R)
 internal class Android30RemoveNetworkAdapter(
-    logger: WisefyLogger,
     private val wifiManager: WifiManager,
+    logger: WisefyLogger = NoOpWisefyLogger(),
     private val api: Android30RemoveNetworkApi = Android30RemoveNetworkApiImpl(wifiManager, logger),
 ) : RemoveNetworkApi {
 

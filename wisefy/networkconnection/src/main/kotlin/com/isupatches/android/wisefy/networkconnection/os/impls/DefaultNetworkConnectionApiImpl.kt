@@ -1,5 +1,7 @@
 /*
- * Copyright 2022 Patches Barrett
+ * Copyright (c) 2024. Patches Barrett
+ *
+ * Last modified: September 22, 2024
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,12 +23,14 @@ import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.net.ConnectivityManager
 import android.net.wifi.WifiInfo
 import android.net.wifi.WifiManager
+import android.os.Build
+import androidx.annotation.ChecksSdkIntAtLeast
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.core.bssidWithoutQuotes
 import com.isupatches.android.wisefy.core.entities.NetworkConnectionStatus
+import com.isupatches.android.wisefy.core.logging.NoOpWisefyLogger
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.core.ssidWithoutQuotes
-import com.isupatches.android.wisefy.core.util.SdkUtil
 import com.isupatches.android.wisefy.core.util.withTimeoutAsync
 import com.isupatches.android.wisefy.networkconnection.os.apis.DefaultNetworkConnectionApi
 
@@ -35,13 +39,12 @@ import com.isupatches.android.wisefy.networkconnection.os.apis.DefaultNetworkCon
  *
  * @param connectivityManager The ConnectivityManager instance to use
  * @param wifiManager The WifiManager instance to use
- * @param logger The [WisefyLogger] instance to use
- * @param sdkUtil The [SdkUtil] instance to use
+ * @param logger The [WisefyLogger] instance to use (defaults to no-op)
+ * @param isAtLeastAndroidS If the Android version is greater than or equal to Android S
  * @param networkConnectionStatusProvider The on-demand way to retrieve the current network connection status
  *
  * @see DefaultNetworkConnectionApi
  * @see NetworkConnectionStatus
- * @see SdkUtil
  * @see WisefyLogger
  *
  * @author Patches Barrett
@@ -50,8 +53,8 @@ import com.isupatches.android.wisefy.networkconnection.os.apis.DefaultNetworkCon
 internal class DefaultNetworkConnectionApiImpl(
     private val connectivityManager: ConnectivityManager,
     private val wifiManager: WifiManager,
-    private val logger: WisefyLogger,
-    private val sdkUtil: SdkUtil,
+    private val logger: WisefyLogger = NoOpWisefyLogger(),
+    @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.S) private val isAtLeastAndroidS: Boolean,
     private val networkConnectionStatusProvider: suspend () -> NetworkConnectionStatus?,
 ) : DefaultNetworkConnectionApi {
 
@@ -116,7 +119,7 @@ internal class DefaultNetworkConnectionApiImpl(
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
     private fun getNetworkTransportInfo(): WifiInfo? {
-        return if (sdkUtil.isAtLeastS()) {
+        return if (isAtLeastAndroidS) {
             connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)?.transportInfo as? WifiInfo
         } else {
             @Suppress("Deprecation")

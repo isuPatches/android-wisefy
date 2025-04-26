@@ -1,5 +1,7 @@
 /*
- * Copyright 2022 Patches Barrett
+ * Copyright (c) 2024. Patches Barrett
+ *
+ * Last modified: September 21, 2024
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +19,7 @@ package com.isupatches.android.wisefy.signal.os.impls
 
 import android.net.wifi.WifiManager
 import com.isupatches.android.wisefy.core.constants.DeprecationMessages
+import com.isupatches.android.wisefy.core.logging.NoOpWisefyLogger
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.signal.os.apis.DefaultSignalApi
 
@@ -32,7 +35,7 @@ import com.isupatches.android.wisefy.signal.os.apis.DefaultSignalApi
  * @since 12/2022, version 5.0.0
  */
 internal class DefaultSignalApiImpl(
-    private val logger: WisefyLogger,
+    private val logger: WisefyLogger = NoOpWisefyLogger(),
 ) : DefaultSignalApi {
 
     @Deprecated(

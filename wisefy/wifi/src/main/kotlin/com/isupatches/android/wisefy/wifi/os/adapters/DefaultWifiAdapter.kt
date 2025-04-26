@@ -19,8 +19,10 @@ import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.Manifest.permission.CHANGE_WIFI_STATE
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
+import com.isupatches.android.wisefy.core.assertions.NoOpWisefyAssertions
 import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
 import com.isupatches.android.wisefy.core.constants.AssertionMessages
+import com.isupatches.android.wisefy.core.logging.NoOpWisefyLogger
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.wifi.WifiApi
 import com.isupatches.android.wisefy.wifi.entities.DisableWifiRequest
@@ -51,8 +53,8 @@ import com.isupatches.android.wisefy.wifi.os.impls.DefaultWifiApiImpl
  */
 internal class DefaultWifiAdapter(
     wifiManager: WifiManager,
-    logger: WisefyLogger,
-    private val assertions: WisefyAssertions,
+    logger: WisefyLogger = NoOpWisefyLogger(),
+    private val assertions: WisefyAssertions = NoOpWisefyAssertions(),
     private val api: DefaultWifiApi = DefaultWifiApiImpl(wifiManager, logger),
 ) : WifiApi {
 

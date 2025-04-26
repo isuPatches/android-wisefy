@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Patches Barrett
+ * Copyright 2025 Patches Barrett
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,36 +25,37 @@ import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
 import com.isupatches.android.wisefy.addnetwork.os.adapters.Android29AddNetworkAdapter
 import com.isupatches.android.wisefy.addnetwork.os.adapters.Android30AddNetworkAdapter
 import com.isupatches.android.wisefy.addnetwork.os.adapters.DefaultAddNetworkAdapter
+import com.isupatches.android.wisefy.core.assertions.NoOpWisefyAssertions
 import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
-import com.isupatches.android.wisefy.core.coroutines.CoroutineDispatcherProvider
-import com.isupatches.android.wisefy.core.coroutines.createBaseCoroutineExceptionHandler
+import com.isupatches.android.wisefy.core.exceptions.WisefyException
+import com.isupatches.android.wisefy.core.logging.NoOpWisefyLogger
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
-import com.isupatches.android.wisefy.core.util.SdkUtil
+import com.isupatches.android.wisefy.core.util.AndroidUtil
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
+import kotlin.coroutines.cancellation.CancellationException
 
 /**
  * An internal Wisefy delegate for adding networks.
  *
- * @param assertions The [WisefyAssertions] instance to use
- * @param logger The [WisefyLogger] instance to use
- * @param sdkUtil The [SdkUtil] instance to use
  * @param wifiManager The WifiManager instance to use
- * @param coroutineDispatcherProvider The [CoroutineDispatcherProvider] instance to use
  * @param scope The coroutine scope to use
  * @param savedNetworkMutex The mutex for all read/write operations involving saved networks
+ * @param assertions The [WisefyAssertions] instance to use (defaults to no-op)
+ * @param logger The [WisefyLogger] instance to use (defaults to no-op)
+ * @param mainDispatcher The main thread dispatcher
  * @param adapter The adapter instance to use for adding a network (determined based on the Android OS level)
  *
  * @see AddNetworkApi
  * @see AddNetworkDelegate
  * @see Android30AddNetworkAdapter
  * @see Android29AddNetworkAdapter
- * @see CoroutineDispatcherProvider
  * @see DefaultAddNetworkAdapter
- * @see SdkUtil
  * @see WisefyAssertions
  * @see WisefyLogger
  *
@@ -62,16 +63,15 @@ import kotlinx.coroutines.withContext
  * @since 12/2022, version 5.0.0
  */
 class WisefyAddNetworkDelegate(
-    assertions: WisefyAssertions,
-    logger: WisefyLogger,
-    sdkUtil: SdkUtil,
     wifiManager: WifiManager,
-    private val coroutineDispatcherProvider: CoroutineDispatcherProvider,
     private val scope: CoroutineScope,
     private val savedNetworkMutex: Mutex,
+    assertions: WisefyAssertions = NoOpWisefyAssertions(),
+    logger: WisefyLogger = NoOpWisefyLogger(),
+    private val mainDispatcher: CoroutineDispatcher = Dispatchers.Main,
     private val adapter: AddNetworkApi = when {
-        sdkUtil.isAtLeastR() -> Android30AddNetworkAdapter(wifiManager, logger, assertions)
-        sdkUtil.isAtLeastQ() -> Android29AddNetworkAdapter(assertions)
+        AndroidUtil.isAtLeastR() -> Android30AddNetworkAdapter(wifiManager, logger, assertions)
+        AndroidUtil.isAtLeastQ() -> Android29AddNetworkAdapter(assertions)
         else -> DefaultAddNetworkAdapter(wifiManager, logger, assertions)
     },
 ) : AddNetworkDelegate {
@@ -86,17 +86,28 @@ class WisefyAddNetworkDelegate(
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, CHANGE_WIFI_STATE])
+    @Suppress("TooGenericExceptionCaught")
     override fun addNetwork(
         request: AddNetworkRequest,
         callbacks: AddNetworkCallbacks?,
     ) {
-        scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
+        scope.launch {
             savedNetworkMutex.withLock {
-                val result = adapter.addNetwork(request)
-                withContext(coroutineDispatcherProvider.main) {
-                    when (result) {
-                        is AddNetworkResult.Success -> callbacks?.onSuccessAddingNetwork(result)
-                        is AddNetworkResult.Failure -> callbacks?.onFailureAddingNetwork(result)
+                try {
+                    val result = adapter.addNetwork(request)
+                    withContext(mainDispatcher) {
+                        when (result) {
+                            is AddNetworkResult.Success -> callbacks?.onSuccessAddingNetwork(result)
+                            is AddNetworkResult.Failure -> callbacks?.onFailureAddingNetwork(result)
+                        }
+                    }
+                } catch (ex: CancellationException) {
+                    throw ex
+                } catch (ex: Exception) {
+                    withContext(mainDispatcher) {
+                        callbacks?.onWisefyAsyncFailure(
+                            WisefyException(message = "Internal Wisefy error with addNetwork", throwable = ex),
+                        )
                     }
                 }
             }

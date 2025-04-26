@@ -1,5 +1,7 @@
 /*
- * Copyright 2022 Patches Barrett
+ * Copyright (c) 2024. Patches Barrett
+ *
+ * Last modified: September 22, 2024
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +19,7 @@ package com.isupatches.android.wisefy.removenetwork.os.adapters
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import com.isupatches.android.wisefy.core.assertions.NoOpWisefyAssertions
 import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
 import com.isupatches.android.wisefy.core.constants.AssertionMessages
 import com.isupatches.android.wisefy.removenetwork.RemoveNetworkApi
@@ -36,7 +39,7 @@ import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkResult
  */
 @RequiresApi(Build.VERSION_CODES.Q)
 internal class Android29RemoveNetworkAdapter(
-    private val assertions: WisefyAssertions,
+    private val assertions: WisefyAssertions = NoOpWisefyAssertions(),
 ) : RemoveNetworkApi {
 
     override fun removeNetwork(request: RemoveNetworkRequest): RemoveNetworkResult {

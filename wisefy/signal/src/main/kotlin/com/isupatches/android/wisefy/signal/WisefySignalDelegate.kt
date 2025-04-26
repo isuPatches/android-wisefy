@@ -1,5 +1,7 @@
 /*
- * Copyright 2022 Patches Barrett
+ * Copyright (c) 2024. Patches Barrett
+ *
+ * Last modified: September 21, 2024
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,9 +18,11 @@
 package com.isupatches.android.wisefy.signal
 
 import android.net.wifi.WifiManager
+import com.isupatches.android.wisefy.core.assertions.NoOpWisefyAssertions
 import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
+import com.isupatches.android.wisefy.core.logging.NoOpWisefyLogger
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
-import com.isupatches.android.wisefy.core.util.SdkUtil
+import com.isupatches.android.wisefy.core.util.AndroidUtil
 import com.isupatches.android.wisefy.signal.entities.CalculateSignalLevelRequest
 import com.isupatches.android.wisefy.signal.entities.CalculateSignalLevelResult
 import com.isupatches.android.wisefy.signal.entities.CompareSignalLevelRequest
@@ -29,10 +33,9 @@ import com.isupatches.android.wisefy.signal.os.adapters.DefaultSignalAdapter
 /**
  * An internal Wisefy delegate for signal strength functionality.
  *
- * @param assertions The [WisefyAssertions] instance to use
- * @param logger The [WisefyLogger] instance to use
- * @param sdkUtil The [SdkUtil] instance to use
  * @param wifiManager The WifiManager instance to use
+ * @param assertions The [WisefyAssertions] instance to use (defaults to no-op)
+ * @param logger The [WisefyLogger] instance to use (defaults to no-op)
  * @param adapter The adapter instance to use for signal strength operations (determined based on the Android OS
  * level)
  *
@@ -40,7 +43,6 @@ import com.isupatches.android.wisefy.signal.os.adapters.DefaultSignalAdapter
  * @see DefaultSignalAdapter
  * @see SignalApi
  * @see SignalDelegate
- * @see SdkUtil
  * @see WisefyAssertions
  * @see WisefyLogger
  *
@@ -48,11 +50,10 @@ import com.isupatches.android.wisefy.signal.os.adapters.DefaultSignalAdapter
  * @since 12/2022, version 5.0.0
  */
 class WisefySignalDelegate(
-    assertions: WisefyAssertions,
-    logger: WisefyLogger,
-    sdkUtil: SdkUtil,
     wifiManager: WifiManager,
-    private val adapter: SignalApi = if (sdkUtil.isAtLeastR()) {
+    assertions: WisefyAssertions = NoOpWisefyAssertions(),
+    logger: WisefyLogger = NoOpWisefyLogger(),
+    private val adapter: SignalApi = if (AndroidUtil.isAtLeastR()) {
         Android30SignalAdapter(wifiManager, logger, assertions)
     } else {
         DefaultSignalAdapter(logger, assertions)

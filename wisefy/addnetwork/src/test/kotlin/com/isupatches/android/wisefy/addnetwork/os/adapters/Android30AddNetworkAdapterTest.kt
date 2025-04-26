@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Patches Barrett
+ * Copyright 2025 Patches Barrett
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,11 +19,9 @@ import android.net.wifi.WifiManager
 import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkRequest
 import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
 import com.isupatches.android.wisefy.addnetwork.os.apis.Android30AddNetworkApi
-import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
-import com.isupatches.android.wisefy.core.logging.DefaultWisefyLogger
-import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
@@ -31,12 +29,17 @@ import org.mockito.BDDMockito.anyString
 import org.mockito.BDDMockito.given
 import org.mockito.BDDMockito.isNull
 import org.mockito.Mock
-import org.mockito.MockitoAnnotations
+import org.mockito.junit.MockitoJUnit
+import org.mockito.junit.MockitoRule
+import org.mockito.quality.Strictness
 
 @RunWith(Parameterized::class)
 internal class Android30AddNetworkAdapterTest(
     private val params: AddNetworkParams,
 ) {
+
+    @get:Rule
+    var mockitoRule: MockitoRule = MockitoJUnit.rule().strictness(Strictness.STRICT_STUBS)
 
     @Mock
     private lateinit var mockWifiManager: WifiManager
@@ -46,22 +49,12 @@ internal class Android30AddNetworkAdapterTest(
 
     private lateinit var adapter: Android30AddNetworkAdapter
 
-    private var closable: AutoCloseable? = null
-
     @Before
     fun setUp() {
-        closable = MockitoAnnotations.openMocks(this)
         adapter = Android30AddNetworkAdapter(
             wifiManager = mockWifiManager,
-            logger = DefaultWisefyLogger(),
-            assertions = WisefyAssertions(false),
             api = mockApi,
         )
-    }
-
-    @After
-    fun tearDown() {
-        closable?.close()
     }
 
     @Test

@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Patches Barrett
+ * Copyright 2025 Patches Barrett
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,8 +24,10 @@ import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkRequest
 import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
 import com.isupatches.android.wisefy.addnetwork.os.apis.DefaultAddNetworkApi
 import com.isupatches.android.wisefy.addnetwork.os.impls.DefaultAddNetworkApiImpl
+import com.isupatches.android.wisefy.core.assertions.NoOpWisefyAssertions
 import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
 import com.isupatches.android.wisefy.core.constants.AssertionMessages
+import com.isupatches.android.wisefy.core.logging.NoOpWisefyLogger
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 
 /**
@@ -47,8 +49,8 @@ import com.isupatches.android.wisefy.core.logging.WisefyLogger
  */
 internal class DefaultAddNetworkAdapter(
     wifiManager: WifiManager,
-    logger: WisefyLogger,
-    private val assertions: WisefyAssertions,
+    logger: WisefyLogger = NoOpWisefyLogger(),
+    private val assertions: WisefyAssertions = NoOpWisefyAssertions(),
     private val api: DefaultAddNetworkApi = DefaultAddNetworkApiImpl(wifiManager, logger),
 ) : AddNetworkApi {
 

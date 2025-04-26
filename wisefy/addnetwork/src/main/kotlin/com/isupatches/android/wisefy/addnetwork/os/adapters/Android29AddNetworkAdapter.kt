@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Patches Barrett
+ * Copyright 2025 Patches Barrett
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,7 @@ import androidx.annotation.RequiresApi
 import com.isupatches.android.wisefy.addnetwork.AddNetworkApi
 import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkRequest
 import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
+import com.isupatches.android.wisefy.core.assertions.NoOpWisefyAssertions
 import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
 import com.isupatches.android.wisefy.core.constants.AssertionMessages
 
@@ -36,7 +37,7 @@ import com.isupatches.android.wisefy.core.constants.AssertionMessages
  */
 @RequiresApi(Build.VERSION_CODES.Q)
 internal class Android29AddNetworkAdapter(
-    private val assertions: WisefyAssertions,
+    private val assertions: WisefyAssertions = NoOpWisefyAssertions(),
 ) : AddNetworkApi {
 
     override fun addNetwork(request: AddNetworkRequest): AddNetworkResult {

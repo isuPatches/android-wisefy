@@ -1,5 +1,7 @@
 /*
- * Copyright 2022 Patches Barrett
+ * Copyright (c) 2024. Patches Barrett
+ *
+ * Last modified: September 21, 2024
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,8 +20,10 @@ package com.isupatches.android.wisefy.signal.os.adapters
 import android.net.wifi.WifiManager
 import android.os.Build
 import androidx.annotation.RequiresApi
+import com.isupatches.android.wisefy.core.assertions.NoOpWisefyAssertions
 import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
 import com.isupatches.android.wisefy.core.constants.AssertionMessages
+import com.isupatches.android.wisefy.core.logging.NoOpWisefyLogger
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.signal.SignalApi
 import com.isupatches.android.wisefy.signal.entities.CalculateSignalLevelRequest
@@ -50,8 +54,8 @@ import com.isupatches.android.wisefy.signal.os.impls.Android30SignalApiImpl
 @RequiresApi(Build.VERSION_CODES.R)
 internal class Android30SignalAdapter(
     wifiManager: WifiManager,
-    logger: WisefyLogger,
-    private val assertions: WisefyAssertions,
+    logger: WisefyLogger = NoOpWisefyLogger(),
+    private val assertions: WisefyAssertions = NoOpWisefyAssertions(),
     private val api: Android30SignalApi = Android30SignalApiImpl(wifiManager, logger),
 ) : SignalApi {
 

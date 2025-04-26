@@ -5,5 +5,5 @@ plugins {
 dependencies {
     implementation(libs.android.gradleplugin)
     implementation(libs.jetbrains.kotlin.gradleplugin)
-    implementation(libs.jetbrains.dokka.plugin)
+//    implementation(libs.jetbrains.dokka.plugin)
 }

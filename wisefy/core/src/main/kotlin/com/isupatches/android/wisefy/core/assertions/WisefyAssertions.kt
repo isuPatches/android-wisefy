@@ -1,5 +1,7 @@
 /*
- * Copyright 2022 Patches Barrett
+ * Copyright (c) 2024. Patches Barrett
+ *
+ * Last modified: September 21, 2024
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,18 +20,10 @@ package com.isupatches.android.wisefy.core.assertions
 /**
  * An assertion class that will allow Wisefy to assert for dev feedback to know about improper implementation or use.
  *
- * *Note* This should be used in cases such as debug builds and for cases that are recoverable or less noticeable from
- * the end user perspective. Typically this will be enabled by setting [throwOnAssertions] to be the same as something
- * like BuildConfig.DEBUG.
- *
- * @param throwOnAssertions If enabled, assertions will throw an IllegalArgumentException, otherwise they are no-op
- *
  * @author Patches Barrett
  * @since 12/2022, version 5.0.0
  */
-class WisefyAssertions(
-    private val throwOnAssertions: Boolean,
-) {
+interface WisefyAssertions {
 
     /**
      * An assertion function that will only throw if assertions are enabled.
@@ -40,9 +34,5 @@ class WisefyAssertions(
      * @since 12/2022, version 5.0.0
      */
     @Throws(IllegalStateException::class)
-    fun fail(message: String) {
-        if (throwOnAssertions) {
-            error(message)
-        }
-    }
+    fun fail(message: String)
 }

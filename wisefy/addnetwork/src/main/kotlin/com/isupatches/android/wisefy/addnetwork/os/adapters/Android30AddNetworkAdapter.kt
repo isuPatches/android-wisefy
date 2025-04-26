@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Patches Barrett
+ * Copyright 2025 Patches Barrett
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,9 @@ import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkRequest
 import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
 import com.isupatches.android.wisefy.addnetwork.os.apis.Android30AddNetworkApi
 import com.isupatches.android.wisefy.addnetwork.os.impls.Android30AddNetworkApiImpl
+import com.isupatches.android.wisefy.core.assertions.NoOpWisefyAssertions
 import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
+import com.isupatches.android.wisefy.core.logging.NoOpWisefyLogger
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 
 /**
@@ -48,9 +50,9 @@ import com.isupatches.android.wisefy.core.logging.WisefyLogger
 @RequiresApi(Build.VERSION_CODES.R)
 internal class Android30AddNetworkAdapter(
     wifiManager: WifiManager,
-    logger: WisefyLogger,
+    logger: WisefyLogger = NoOpWisefyLogger(),
     @Suppress("UnusedPrivateProperty")
-    private val assertions: WisefyAssertions,
+    private val assertions: WisefyAssertions = NoOpWisefyAssertions(),
     private val api: Android30AddNetworkApi = Android30AddNetworkApiImpl(wifiManager, logger),
 ) : AddNetworkApi {
 

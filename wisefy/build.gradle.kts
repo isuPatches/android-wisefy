@@ -25,6 +25,5 @@ dependencies {
     implementation(libs.androidx.annotation)
 
     // Kotlin
-    implementation(libs.jetbrains.kotlin.stdlib)
     implementation(libs.jetbrains.kotlinx.coroutines)
 }

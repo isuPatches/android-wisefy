@@ -21,6 +21,7 @@ import android.content.Intent
 import android.net.wifi.WifiManager
 import android.provider.Settings
 import androidx.annotation.RequiresPermission
+import com.isupatches.android.wisefy.core.logging.NoOpWisefyLogger
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.wifi.os.apis.Android29WifiApi
 
@@ -39,7 +40,7 @@ import com.isupatches.android.wisefy.wifi.os.apis.Android29WifiApi
  */
 internal class Android29WifiApiImpl(
     private val wifiManager: WifiManager,
-    private val logger: WisefyLogger,
+    private val logger: WisefyLogger = NoOpWisefyLogger(),
 ) : Android29WifiApi {
 
     override fun openWifiSettings(context: Context) {

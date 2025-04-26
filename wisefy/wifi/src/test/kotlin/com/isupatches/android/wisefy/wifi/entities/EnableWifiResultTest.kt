@@ -22,33 +22,6 @@ import org.junit.Test
 internal class EnableWifiResultTest {
 
     @Test
-    fun canInstantiate_success_enabled() {
-        // Given
-        val result = EnableWifiResult.Success.Enabled
-
-        // Expect
-        Assert.assertNotNull(result)
-    }
-
-    @Test
-    fun canInstantiate_success_wifiSettingsScreenOpened() {
-        // Given
-        val result = EnableWifiResult.Success.WifiSettingScreenOpened
-
-        // Expect
-        Assert.assertNotNull(result)
-    }
-
-    @Test
-    fun canInstantiate_failure_unableToEnable() {
-        // Given
-        val result = EnableWifiResult.Failure.UnableToEnable
-
-        // Expect
-        Assert.assertNotNull(result)
-    }
-
-    @Test
     fun assignsValues_failure_assertion() {
         // Given
         val result = EnableWifiResult.Failure.Assertion(

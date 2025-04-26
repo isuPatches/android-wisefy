@@ -1,5 +1,7 @@
 /*
- * Copyright 2022 Patches Barrett
+ * Copyright (c) 2024. Patches Barrett
+ *
+ * Last modified: September 22, 2024
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,25 +24,27 @@ import com.isupatches.android.wisefy.accesspoints.callbacks.GetAccessPointsCallb
 import com.isupatches.android.wisefy.accesspoints.entities.GetAccessPointsQuery
 import com.isupatches.android.wisefy.accesspoints.entities.GetAccessPointsResult
 import com.isupatches.android.wisefy.accesspoints.os.adapters.DefaultAccessPointsAdapter
-import com.isupatches.android.wisefy.core.coroutines.CoroutineDispatcherProvider
-import com.isupatches.android.wisefy.core.coroutines.createBaseCoroutineExceptionHandler
+import com.isupatches.android.wisefy.core.exceptions.WisefyException
+import com.isupatches.android.wisefy.core.logging.NoOpWisefyLogger
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 /**
  * An internal Wisefy delegate for getting and searching for nearby access points.
  *
- * @param logger The [WisefyLogger] instance to use
  * @param wifiManager The WifiManager instance to use
- * @param coroutineDispatcherProvider The [CoroutineDispatcherProvider] instance to use
  * @param scope The coroutine scope to use
+ * @param logger The [WisefyLogger] instance to use (defaults to no-op)
+ * @param mainDispatcher The main thread dispatcher
  * @param adapter The adapter instance to use for access point queries (determined based on the Android OS level)
  *
  * @see AccessPointsApi
  * @see AccessPointsDelegate
- * @see CoroutineDispatcherProvider
  * @see DefaultAccessPointsAdapter
  * @see WisefyLogger
  *
@@ -48,10 +52,10 @@ import kotlinx.coroutines.withContext
  * @since 12/2022, version 5.0.0
  */
 class WisefyAccessPointsDelegate(
-    logger: WisefyLogger,
     wifiManager: WifiManager,
-    private val coroutineDispatcherProvider: CoroutineDispatcherProvider,
     private val scope: CoroutineScope,
+    logger: WisefyLogger = NoOpWisefyLogger(),
+    private val mainDispatcher: CoroutineDispatcher = Dispatchers.Main,
     private val adapter: AccessPointsApi = DefaultAccessPointsAdapter(wifiManager, logger),
 ) : AccessPointsDelegate {
 
@@ -65,17 +69,28 @@ class WisefyAccessPointsDelegate(
     }
 
     @RequiresPermission(ACCESS_FINE_LOCATION)
+    @Suppress("TooGenericExceptionCaught")
     override fun getAccessPoints(
         query: GetAccessPointsQuery,
         callbacks: GetAccessPointsCallbacks?,
     ) {
         callbacks ?: return
-        scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
-            val result = adapter.getAccessPoints(query)
-            withContext(coroutineDispatcherProvider.main) {
-                when (result) {
-                    is GetAccessPointsResult.Empty -> callbacks.onNoNearbyAccessPoints()
-                    is GetAccessPointsResult.AccessPoints -> callbacks.onNearbyAccessPointsRetrieved(result.value)
+        scope.launch {
+            try {
+                val result = adapter.getAccessPoints(query)
+                withContext(mainDispatcher) {
+                    when (result) {
+                        is GetAccessPointsResult.Empty -> callbacks.onNoNearbyAccessPoints()
+                        is GetAccessPointsResult.AccessPoints -> callbacks.onNearbyAccessPointsRetrieved(result.value)
+                    }
+                }
+            } catch (ex: CancellationException) {
+                throw ex
+            } catch (ex: Exception) {
+                withContext(mainDispatcher) {
+                    callbacks.onWisefyAsyncFailure(
+                        WisefyException(message = "Internal Wisefy error with getAccessPoints", throwable = ex),
+                    )
                 }
             }
         }

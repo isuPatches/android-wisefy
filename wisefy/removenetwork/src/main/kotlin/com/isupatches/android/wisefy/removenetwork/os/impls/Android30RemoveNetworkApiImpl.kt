@@ -1,5 +1,7 @@
 /*
- * Copyright 2022 Patches Barrett
+ * Copyright (c) 2024. Patches Barrett
+ *
+ * Last modified: September 22, 2024
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,6 +24,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.core.bssidWithoutQuotes
+import com.isupatches.android.wisefy.core.logging.NoOpWisefyLogger
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.core.ssidWithoutQuotes
 import com.isupatches.android.wisefy.removenetwork.os.apis.Android30RemoveNetworkApi
@@ -41,7 +44,7 @@ import com.isupatches.android.wisefy.removenetwork.os.apis.Android30RemoveNetwor
 @RequiresApi(Build.VERSION_CODES.R)
 internal class Android30RemoveNetworkApiImpl(
     private val wifiManager: WifiManager,
-    private val logger: WisefyLogger,
+    private val logger: WisefyLogger = NoOpWisefyLogger(),
 ) : Android30RemoveNetworkApi {
 
     @RequiresPermission(CHANGE_WIFI_STATE)

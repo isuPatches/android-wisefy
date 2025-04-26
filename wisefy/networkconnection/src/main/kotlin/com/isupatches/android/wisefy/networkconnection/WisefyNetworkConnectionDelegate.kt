@@ -1,5 +1,7 @@
 /*
- * Copyright 2022 Patches Barrett
+ * Copyright (c) 2024. Patches Barrett
+ *
+ * Last modified: September 22, 2024
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,13 +25,14 @@ import android.net.wifi.WifiManager
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
+import com.isupatches.android.wisefy.core.assertions.NoOpWisefyAssertions
 import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
 import com.isupatches.android.wisefy.core.constants.DeprecationMessages
-import com.isupatches.android.wisefy.core.coroutines.CoroutineDispatcherProvider
-import com.isupatches.android.wisefy.core.coroutines.createBaseCoroutineExceptionHandler
 import com.isupatches.android.wisefy.core.entities.NetworkConnectionStatus
+import com.isupatches.android.wisefy.core.exceptions.WisefyException
+import com.isupatches.android.wisefy.core.logging.NoOpWisefyLogger
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
-import com.isupatches.android.wisefy.core.util.SdkUtil
+import com.isupatches.android.wisefy.core.util.AndroidUtil
 import com.isupatches.android.wisefy.networkconnection.callbacks.ChangeNetworkCallbacks
 import com.isupatches.android.wisefy.networkconnection.callbacks.ConnectToNetworkCallbacks
 import com.isupatches.android.wisefy.networkconnection.callbacks.DisconnectFromCurrentNetworkCallbacks
@@ -41,34 +44,34 @@ import com.isupatches.android.wisefy.networkconnection.entities.DisconnectFromCu
 import com.isupatches.android.wisefy.networkconnection.entities.DisconnectFromCurrentNetworkResult
 import com.isupatches.android.wisefy.networkconnection.os.adapters.Android29NetworkConnectionAdapter
 import com.isupatches.android.wisefy.networkconnection.os.adapters.DefaultNetworkConnectionAdapter
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
+import kotlin.coroutines.cancellation.CancellationException
 
 /**
  * An internal Wisefy delegate for getting and searching for nearby access points through the Android OS.
  *
- * @param assertions The [WisefyAssertions] instance to use
  * @param connectivityManager The ConnectivityManager instance to use
- * @param logger The [WisefyLogger] instance to use
- * @param sdkUtil The [SdkUtil] instance to use
  * @param wifiManager The WifiManager instance to use
  * @param networkConnectionStatusProvider The on-demand way to retrieve the current network connection status
- * @param coroutineDispatcherProvider The instance of the coroutine dispatcher provider to use
  * @param scope The coroutine scope to use
  * @param networkConnectionMutex The mutex for all read/write operations involving connecting, disconnecting, and
  * getting the device's current network and connection status
+ * @param assertions The [WisefyAssertions] instance to use (defaults to no-op)
+ * @param logger The [WisefyLogger] instance to use (defaults to no-op)
+ * @param mainDispatcher The main thread dispatcher
  * @param adapter The adapter instance to use for connecting, disconnecting, and changing networks
  * (determined based on the Android OS level)
  *
  * @see Android29NetworkConnectionAdapter
- * @see CoroutineDispatcherProvider
  * @see DefaultNetworkConnectionAdapter
  * @see NetworkConnectionDelegate
  * @see NetworkConnectionStatus
- * @see SdkUtil
  * @see WisefyAssertions
  * @see WisefyLogger
  *
@@ -76,16 +79,15 @@ import kotlinx.coroutines.withContext
  * @since 12/2022, version 5.0.0
  */
 class WisefyNetworkConnectionDelegate(
-    assertions: WisefyAssertions,
     connectivityManager: ConnectivityManager,
-    logger: WisefyLogger,
-    sdkUtil: SdkUtil,
     wifiManager: WifiManager,
     networkConnectionStatusProvider: suspend () -> NetworkConnectionStatus?,
-    private val coroutineDispatcherProvider: CoroutineDispatcherProvider,
     private val scope: CoroutineScope,
     private val networkConnectionMutex: Mutex,
-    private val adapter: NetworkConnectionApi = if (sdkUtil.isAtLeastQ()) {
+    assertions: WisefyAssertions = NoOpWisefyAssertions(),
+    logger: WisefyLogger = NoOpWisefyLogger(),
+    private val mainDispatcher: CoroutineDispatcher = Dispatchers.Main,
+    private val adapter: NetworkConnectionApi = if (AndroidUtil.isAtLeastQ()) {
         Android29NetworkConnectionAdapter(
             logger,
             assertions,
@@ -94,9 +96,9 @@ class WisefyNetworkConnectionDelegate(
         DefaultNetworkConnectionAdapter(
             connectivityManager,
             wifiManager,
-            logger,
-            sdkUtil,
             networkConnectionStatusProvider,
+            AndroidUtil.isAtLeastS(),
+            logger,
             assertions,
         )
     },
@@ -112,17 +114,28 @@ class WisefyNetworkConnectionDelegate(
     }
 
     @RequiresApi(Build.VERSION_CODES.Q)
+    @Suppress("TooGenericExceptionCaught")
     override fun changeNetwork(
         request: ChangeNetworkRequest,
         callbacks: ChangeNetworkCallbacks?,
     ) {
-        scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
+        scope.launch {
             networkConnectionMutex.withLock {
-                val result = adapter.changeNetwork(request)
-                withContext(coroutineDispatcherProvider.main) {
-                    when (result) {
-                        is ChangeNetworkResult.Success -> callbacks?.onSuccessChangingNetworks(result)
-                        is ChangeNetworkResult.Failure -> callbacks?.onFailureChangingNetworks(result)
+                try {
+                    val result = adapter.changeNetwork(request)
+                    withContext(mainDispatcher) {
+                        when (result) {
+                            is ChangeNetworkResult.Success -> callbacks?.onSuccessChangingNetworks(result)
+                            is ChangeNetworkResult.Failure -> callbacks?.onFailureChangingNetworks(result)
+                        }
+                    }
+                } catch (ex: CancellationException) {
+                    throw ex
+                } catch (ex: Exception) {
+                    withContext(mainDispatcher) {
+                        callbacks?.onWisefyAsyncFailure(
+                            WisefyException(message = "Internal Wisefy error with changeNetwork", throwable = ex),
+                        )
                     }
                 }
             }
@@ -138,18 +151,29 @@ class WisefyNetworkConnectionDelegate(
 
     @Deprecated(DeprecationMessages.NetworkConnection.CONNECT_TO_NETWORK)
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE, ACCESS_NETWORK_STATE])
+    @Suppress("TooGenericExceptionCaught")
     override fun connectToNetwork(
         request: ConnectToNetworkRequest,
         callbacks: ConnectToNetworkCallbacks?,
     ) {
-        scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
+        scope.launch {
             networkConnectionMutex.withLock {
-                @Suppress("Deprecation")
-                val result = adapter.connectToNetwork(request)
-                withContext(coroutineDispatcherProvider.main) {
-                    when (result) {
-                        is ConnectToNetworkResult.Success -> callbacks?.onSuccessConnectingToNetwork(result)
-                        is ConnectToNetworkResult.Failure -> callbacks?.onFailureConnectingToNetwork(result)
+                try {
+                    @Suppress("Deprecation")
+                    val result = adapter.connectToNetwork(request)
+                    withContext(mainDispatcher) {
+                        when (result) {
+                            is ConnectToNetworkResult.Success -> callbacks?.onSuccessConnectingToNetwork(result)
+                            is ConnectToNetworkResult.Failure -> callbacks?.onFailureConnectingToNetwork(result)
+                        }
+                    }
+                } catch (ex: CancellationException) {
+                    throw ex
+                } catch (ex: Exception) {
+                    withContext(mainDispatcher) {
+                        callbacks?.onWisefyAsyncFailure(
+                            WisefyException(message = "Internal Wisefy error with connectToNetwork", throwable = ex),
+                        )
                     }
                 }
             }
@@ -165,22 +189,37 @@ class WisefyNetworkConnectionDelegate(
     }
 
     @Deprecated(DeprecationMessages.NetworkConnection.DISCONNECT_FROM_CURRENT_NETWORK)
+    @Suppress("TooGenericExceptionCaught")
     override fun disconnectFromCurrentNetwork(
         request: DisconnectFromCurrentNetworkRequest,
         callbacks: DisconnectFromCurrentNetworkCallbacks?,
     ) {
-        scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
+        scope.launch {
             networkConnectionMutex.withLock {
-                @Suppress("Deprecation")
-                val result = adapter.disconnectFromCurrentNetwork(request)
-                withContext(coroutineDispatcherProvider.main) {
-                    when (result) {
-                        is DisconnectFromCurrentNetworkResult.Success -> {
-                            callbacks?.onSuccessDisconnectingFromCurrentNetwork(result)
+                try {
+                    @Suppress("Deprecation")
+                    val result = adapter.disconnectFromCurrentNetwork(request)
+                    withContext(mainDispatcher) {
+                        when (result) {
+                            is DisconnectFromCurrentNetworkResult.Success -> {
+                                callbacks?.onSuccessDisconnectingFromCurrentNetwork(result)
+                            }
+
+                            is DisconnectFromCurrentNetworkResult.Failure -> {
+                                callbacks?.onFailureDisconnectingFromCurrentNetwork(result)
+                            }
                         }
-                        is DisconnectFromCurrentNetworkResult.Failure -> {
-                            callbacks?.onFailureDisconnectingFromCurrentNetwork(result)
-                        }
+                    }
+                } catch (ex: CancellationException) {
+                    throw ex
+                } catch (ex: Exception) {
+                    withContext(mainDispatcher) {
+                        callbacks?.onWisefyAsyncFailure(
+                            WisefyException(
+                                message = "Internal Wisefy error with disconnectFromCurrentNetwork",
+                                throwable = ex,
+                            ),
+                        )
                     }
                 }
             }

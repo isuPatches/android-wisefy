@@ -1,5 +1,7 @@
 /*
- * Copyright 2022 Patches Barrett
+ * Copyright (c) 2024. Patches Barrett
+ *
+ * Last modified: September 22, 2024
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,38 +22,39 @@ import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.Manifest.permission.CHANGE_WIFI_STATE
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
+import com.isupatches.android.wisefy.core.assertions.NoOpWisefyAssertions
 import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
-import com.isupatches.android.wisefy.core.coroutines.CoroutineDispatcherProvider
-import com.isupatches.android.wisefy.core.coroutines.createBaseCoroutineExceptionHandler
+import com.isupatches.android.wisefy.core.exceptions.WisefyException
+import com.isupatches.android.wisefy.core.logging.NoOpWisefyLogger
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
-import com.isupatches.android.wisefy.core.util.SdkUtil
+import com.isupatches.android.wisefy.core.util.AndroidUtil
 import com.isupatches.android.wisefy.removenetwork.callbacks.RemoveNetworkCallbacks
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkRequest
 import com.isupatches.android.wisefy.removenetwork.entities.RemoveNetworkResult
 import com.isupatches.android.wisefy.removenetwork.os.adapters.Android29RemoveNetworkAdapter
 import com.isupatches.android.wisefy.removenetwork.os.adapters.Android30RemoveNetworkAdapter
 import com.isupatches.android.wisefy.removenetwork.os.adapters.DefaultRemoveNetworkAdapter
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
+import kotlin.coroutines.cancellation.CancellationException
 
 /**
  * An internal Wisefy delegate for removing a network through the Android OS.
  *
- * @param assertions The [WisefyAssertions] instance to use
- * @param logger The [WisefyLogger] instance to use
- * @param sdkUtil The [SdkUtil] instance to use
  * @param wifiManager The WifiManager instance to use
- * @param coroutineDispatcherProvider The instance of the coroutine dispatcher provider to use
  * @param scope The coroutine scope to use
  * @param savedNetworkMutex A mutex shared with add/remove network to ensure synchronization between saved network
  *  reads and writes
+ * @param assertions The [WisefyAssertions] instance to use (defaults to no-op)
+ * @param logger The [WisefyLogger] instance to use (defaults to no-op)
+ * @param mainDispatcher The main thread dispatcher
  * @param adapter The adapter instance to use for removing a network (determined based on the Android OS level)
  *
- * @see CoroutineDispatcherProvider
- * @see SdkUtil
  * @see WisefyAssertions
  * @see WisefyLogger
  *
@@ -59,17 +62,16 @@ import kotlinx.coroutines.withContext
  * @since 12/2022, version 5.0.0
  */
 class WisefyRemoveNetworkDelegate(
-    assertions: WisefyAssertions,
-    logger: WisefyLogger,
-    sdkUtil: SdkUtil,
     wifiManager: WifiManager,
-    private val coroutineDispatcherProvider: CoroutineDispatcherProvider,
     private val scope: CoroutineScope,
     private val savedNetworkMutex: Mutex,
+    assertions: WisefyAssertions = NoOpWisefyAssertions(),
+    logger: WisefyLogger = NoOpWisefyLogger(),
+    private val mainDispatcher: CoroutineDispatcher = Dispatchers.Main,
     private val adapter: RemoveNetworkApi = when {
-        sdkUtil.isAtLeastR() -> Android30RemoveNetworkAdapter(logger, wifiManager)
-        sdkUtil.isAtLeastQ() -> Android29RemoveNetworkAdapter(assertions)
-        else -> DefaultRemoveNetworkAdapter(logger, wifiManager)
+        AndroidUtil.isAtLeastR() -> Android30RemoveNetworkAdapter(wifiManager, logger)
+        AndroidUtil.isAtLeastQ() -> Android29RemoveNetworkAdapter(assertions)
+        else -> DefaultRemoveNetworkAdapter(wifiManager, logger)
     },
 ) : RemoveNetworkDelegate {
 
@@ -83,17 +85,31 @@ class WisefyRemoveNetworkDelegate(
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE, CHANGE_WIFI_STATE])
+    @Suppress("TooGenericExceptionCaught")
     override fun removeNetwork(
         request: RemoveNetworkRequest,
         callbacks: RemoveNetworkCallbacks?,
     ) {
-        scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
+        scope.launch {
             savedNetworkMutex.withLock {
-                val result = adapter.removeNetwork(request)
-                withContext(coroutineDispatcherProvider.main) {
-                    when (result) {
-                        is RemoveNetworkResult.Success -> callbacks?.onSuccessRemovingNetwork(result)
-                        is RemoveNetworkResult.Failure -> callbacks?.onFailureRemovingNetwork(result)
+                try {
+                    val result = adapter.removeNetwork(request)
+                    withContext(mainDispatcher) {
+                        when (result) {
+                            is RemoveNetworkResult.Success -> callbacks?.onSuccessRemovingNetwork(result)
+                            is RemoveNetworkResult.Failure -> callbacks?.onFailureRemovingNetwork(result)
+                        }
+                    }
+                } catch (ex: CancellationException) {
+                    throw ex
+                } catch (ex: Exception) {
+                    withContext(mainDispatcher) {
+                        callbacks?.onWisefyAsyncFailure(
+                            WisefyException(
+                                message = "Internal Wisefy error with removeNetwork",
+                                throwable = ex,
+                            ),
+                        )
                     }
                 }
             }

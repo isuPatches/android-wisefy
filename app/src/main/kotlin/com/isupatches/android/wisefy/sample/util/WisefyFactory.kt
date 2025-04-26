@@ -18,6 +18,8 @@ package com.isupatches.android.wisefy.sample.util
 import android.content.Context
 import com.isupatches.android.wisefy.Wisefy
 import com.isupatches.android.wisefy.WisefyApi
+import com.isupatches.android.wisefy.core.assertions.NoOpWisefyAssertions
+import com.isupatches.android.wisefy.core.assertions.ThrowingWisefyAssertions
 import com.isupatches.android.wisefy.sample.BuildConfig
 import com.isupatches.android.wisefy.sample.logging.WisefySampleLogger
 
@@ -28,7 +30,11 @@ internal object WisefyFactory {
     private fun createWisefy(context: Context): WisefyApi {
         return Wisefy.Brains(
             context = context,
-            throwOnAssertions = BuildConfig.DEBUG,
+            assertions = if (BuildConfig.DEBUG) {
+                ThrowingWisefyAssertions()
+            } else {
+                NoOpWisefyAssertions()
+            },
             logger = WisefySampleLogger,
         ).getSmarts()
     }

@@ -1,5 +1,7 @@
 /*
- * Copyright 2022 Patches Barrett
+ * Copyright (c) 2024. Patches Barrett
+ *
+ * Last modified: September 21, 2024
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +20,7 @@ package com.isupatches.android.wisefy.signal.os.impls
 import android.net.wifi.WifiManager
 import android.os.Build
 import androidx.annotation.RequiresApi
+import com.isupatches.android.wisefy.core.logging.NoOpWisefyLogger
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.signal.os.apis.Android30SignalApi
 
@@ -36,7 +39,7 @@ import com.isupatches.android.wisefy.signal.os.apis.Android30SignalApi
 @RequiresApi(Build.VERSION_CODES.R)
 internal class Android30SignalApiImpl(
     private val wifiManager: WifiManager,
-    private val logger: WisefyLogger,
+    private val logger: WisefyLogger = NoOpWisefyLogger(),
 ) : Android30SignalApi {
 
     override fun calculateSignalLevel(rssiLevel: Int): Int {

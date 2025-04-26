@@ -1,5 +1,7 @@
 /*
- * Copyright 2022 Patches Barrett
+ * Copyright (c) 2024. Patches Barrett
+ *
+ * Last modified: September 22, 2024
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,10 +20,12 @@ package com.isupatches.android.wisefy.networkinfo.os.adapters
 import android.Manifest
 import android.net.ConnectivityManager
 import android.net.wifi.WifiManager
+import android.os.Build
+import androidx.annotation.ChecksSdkIntAtLeast
 import androidx.annotation.RequiresPermission
 import com.isupatches.android.wisefy.core.entities.NetworkConnectionStatus
+import com.isupatches.android.wisefy.core.logging.NoOpWisefyLogger
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
-import com.isupatches.android.wisefy.core.util.SdkUtil
 import com.isupatches.android.wisefy.networkinfo.NetworkInfoApi
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkQuery
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkResult
@@ -37,17 +41,17 @@ import kotlinx.coroutines.runBlocking
  * A default adapter for getting information about a network, the device's current network, and the device's IP.
  *
  * @param connectivityManager The ConnectivityManager instance to use
- * @param sdkUtil The [SdkUtil] instance to use
- * @param logger The [WisefyLogger] instance to use
  * @param networkConnectionStatusProvider The on-demand way to retrieve the current network connection status
+ * @param isAtLeastAndroidP If the Android version is greater than or equal to Android P
+ * @param isAtLeastAndroidS If the Android version is greater than or equal to Android S
  * @param wifiManager The WifiManager instance to use
+ * @param logger The [WisefyLogger] instance to use (defaults to no-op)
  * @param api The OS level API instance to use
  *
  * @see DefaultNetworkInfoApi
  * @see DefaultNetworkInfoApiImpl
  * @see NetworkConnectionStatus
  * @see NetworkInfoApi
- * @see SdkUtil
  * @see WisefyLogger
  *
  * @author Patches Barrett
@@ -55,15 +59,17 @@ import kotlinx.coroutines.runBlocking
  */
 internal class DefaultNetworkInfoAdapter(
     connectivityManager: ConnectivityManager,
-    sdkUtil: SdkUtil,
-    logger: WisefyLogger,
     networkConnectionStatusProvider: suspend () -> NetworkConnectionStatus?,
+    @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.P) private val isAtLeastAndroidP: Boolean,
+    @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.S) private val isAtLeastAndroidS: Boolean,
     private val wifiManager: WifiManager,
+    private val logger: WisefyLogger = NoOpWisefyLogger(),
     private val api: DefaultNetworkInfoApi = DefaultNetworkInfoApiImpl(
         wifiManager = wifiManager,
         connectivityManager = connectivityManager,
-        sdkUtil = sdkUtil,
         logger = logger,
+        isAtLeastAndroidP = isAtLeastAndroidP,
+        isAtLeastAndroidS = isAtLeastAndroidS,
         networkConnectionStatusProvider = networkConnectionStatusProvider,
     ),
 ) : NetworkInfoApi {

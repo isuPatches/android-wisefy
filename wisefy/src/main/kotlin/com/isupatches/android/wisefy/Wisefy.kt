@@ -1,5 +1,7 @@
 /*
- * Copyright 2022 Patches Barrett
+ * Copyright (c) 2024. Patches Barrett
+ *
+ * Last modified: September 21, 2024
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,12 +42,12 @@ import com.isupatches.android.wisefy.addnetwork.WisefyAddNetworkDelegate
 import com.isupatches.android.wisefy.addnetwork.callbacks.AddNetworkCallbacks
 import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkRequest
 import com.isupatches.android.wisefy.addnetwork.entities.AddNetworkResult
+import com.isupatches.android.wisefy.core.assertions.NoOpWisefyAssertions
+import com.isupatches.android.wisefy.core.assertions.ThrowingWisefyAssertions
 import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
 import com.isupatches.android.wisefy.core.constants.DeprecationMessages
-import com.isupatches.android.wisefy.core.coroutines.DefaultCoroutineDispatcherProvider
-import com.isupatches.android.wisefy.core.logging.DefaultWisefyLogger
+import com.isupatches.android.wisefy.core.logging.NoOpWisefyLogger
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
-import com.isupatches.android.wisefy.core.util.SdkUtilImpl
 import com.isupatches.android.wisefy.networkconnection.NetworkConnectionDelegate
 import com.isupatches.android.wisefy.networkconnection.WisefyNetworkConnectionDelegate
 import com.isupatches.android.wisefy.networkconnection.callbacks.ChangeNetworkCallbacks
@@ -98,6 +100,7 @@ import com.isupatches.android.wisefy.wifi.entities.EnableWifiResult
 import com.isupatches.android.wisefy.wifi.entities.IsWifiEnabledQuery
 import com.isupatches.android.wisefy.wifi.entities.IsWifiEnabledResult
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.launch
@@ -153,10 +156,12 @@ class Wisefy private constructor(
      *
      * @param context The application context. Used for creating a [ConnectivityManager] and [wifiManager] instance
      * to use within Wisefy
-     * @param throwOnAssertions Whether assertions will throw an [IllegalStateException] when hit or be no-op
+     * @param assertions The [WisefyAssertions] instance to use within Wisefy
      * @param logger The [WisefyLogger] instance to use within Wisefy
      *
-     * @see DefaultWisefyLogger
+     * @see NoOpWisefyAssertions
+     * @see NoOpWisefyLogger
+     * @see ThrowingWisefyAssertions
      * @see WisefyLogger
      *
      * @author Patches Barrett
@@ -164,8 +169,8 @@ class Wisefy private constructor(
      */
     class Brains @JvmOverloads constructor(
         context: Context,
-        throwOnAssertions: Boolean = false,
-        private var logger: WisefyLogger = DefaultWisefyLogger(),
+        assertions: WisefyAssertions = NoOpWisefyAssertions(),
+        private var logger: WisefyLogger = NoOpWisefyLogger(),
     ) {
 
         private var connectivityManager: ConnectivityManager
@@ -189,10 +194,7 @@ class Wisefy private constructor(
             ) as ConnectivityManager
             wifiManager = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
 
-            val sdkUtil = SdkUtilImpl()
-            val coroutineDispatcherProvider = DefaultCoroutineDispatcherProvider()
-            wisefyScope = CoroutineScope(coroutineDispatcherProvider.io)
-            val assertions = WisefyAssertions(throwOnAssertions)
+            wisefyScope = CoroutineScope(Dispatchers.IO)
 
             /*
              * Used to ensure async conflicts don't happen with these features:
@@ -222,79 +224,65 @@ class Wisefy private constructor(
 
             // Not used by other utils
             accessPointsDelegate = WisefyAccessPointsDelegate(
-                logger,
-                wifiManager,
-                coroutineDispatcherProvider,
-                wisefyScope,
+                wifiManager = wifiManager,
+                scope = wisefyScope,
+                logger = logger,
             )
             addNetworkDelegate = WisefyAddNetworkDelegate(
-                assertions,
-                logger,
-                sdkUtil,
-                wifiManager,
-                coroutineDispatcherProvider,
-                wisefyScope,
-                savedNetworkMutex,
+                wifiManager = wifiManager,
+                scope = wisefyScope,
+                savedNetworkMutex = savedNetworkMutex,
+                assertions = assertions,
+                logger = logger,
             )
             networkConnectionDelegate = WisefyNetworkConnectionDelegate(
-                assertions,
-                connectivityManager,
-                logger,
-                sdkUtil,
-                wifiManager,
-                {
+                connectivityManager = connectivityManager,
+                wifiManager = wifiManager,
+                networkConnectionStatusProvider = {
                     WisefyNetworkConnectionStatusManager.getInstance(networkConnectionMutex)
                         .getNetworkConnectionStatus()
                 },
-                coroutineDispatcherProvider,
-                wisefyScope,
-                networkConnectionMutex,
+                scope = wisefyScope,
+                networkConnectionMutex = networkConnectionMutex,
+                assertions = assertions,
+                logger = logger,
             )
             networkInfoDelegate = WisefyNetworkInfoDelegate(
-                connectivityManager,
-                logger,
-                sdkUtil,
-                wifiManager,
-                {
+                connectivityManager = connectivityManager,
+                wifiManager = wifiManager,
+                networkConnectionStatusProvider = {
                     WisefyNetworkConnectionStatusManager.getInstance(networkConnectionMutex)
                         .getNetworkConnectionStatus()
                 },
-                coroutineDispatcherProvider,
-                wisefyScope,
-                networkConnectionMutex,
+                scope = wisefyScope,
+                networkConnectionMutex = networkConnectionMutex,
+                logger = logger,
             )
             removeNetworkDelegate = WisefyRemoveNetworkDelegate(
-                assertions,
-                logger,
-                sdkUtil,
-                wifiManager,
-                coroutineDispatcherProvider,
-                wisefyScope,
-                savedNetworkMutex,
+                wifiManager = wifiManager,
+                scope = wisefyScope,
+                savedNetworkMutex = savedNetworkMutex,
+                assertions = assertions,
+                logger = logger,
             )
             savedNetworkDelegate = WisefySavedNetworkDelegate(
-                assertions,
-                logger,
-                sdkUtil,
-                wifiManager,
-                coroutineDispatcherProvider,
-                wisefyScope,
-                savedNetworkMutex,
+                wifiManager = wifiManager,
+                scope = wisefyScope,
+                savedNetworkMutex = savedNetworkMutex,
+                assertions = assertions,
+                logger = logger,
             )
             signalDelegate = WisefySignalDelegate(
-                assertions,
-                logger,
-                sdkUtil,
-                wifiManager,
+                wifiManager = wifiManager,
+                assertions = assertions,
+                logger = logger,
             )
             wifiDelegate = WisefyWifiDelegate(
-                assertions,
-                logger,
-                sdkUtil,
-                wifiManager,
-                coroutineDispatcherProvider,
-                wisefyScope,
-                wifiMutex,
+                wifiManager = wifiManager,
+                scope = wisefyScope,
+                wifiMutex = wifiMutex,
+                assertions = assertions,
+                logger = logger,
             )
         }
 

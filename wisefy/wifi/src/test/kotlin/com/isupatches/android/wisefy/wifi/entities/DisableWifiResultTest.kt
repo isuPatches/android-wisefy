@@ -1,5 +1,7 @@
 /*
- * Copyright 2023 Patches Barrett
+ * Copyright (c) 2024. Patches Barrett
+ *
+ * Last modified: September 22, 2024
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,37 +19,9 @@ package com.isupatches.android.wisefy.wifi.entities
 
 import com.isupatches.android.wisefy.core.constants.AssertionMessages
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotNull
 import org.junit.Test
 
 internal class DisableWifiResultTest {
-
-    @Test
-    fun canInstantiate_success_disabled() {
-        // Given
-        val result = DisableWifiResult.Success.Disabled
-
-        // Expect
-        assertNotNull(result)
-    }
-
-    @Test
-    fun canInstantiate_success_wifiSettingsScreenOpened() {
-        // Given
-        val result = DisableWifiResult.Success.WifiSettingScreenOpened
-
-        // Expect
-        assertNotNull(result)
-    }
-
-    @Test
-    fun canInstantiate_failure_unableToDisable() {
-        // Given
-        val result = DisableWifiResult.Failure.UnableToDisable
-
-        // Expect
-        assertNotNull(result)
-    }
 
     @Test
     fun assignsValues_failure_assertion() {

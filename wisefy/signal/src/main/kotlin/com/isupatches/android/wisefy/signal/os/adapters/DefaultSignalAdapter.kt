@@ -1,5 +1,7 @@
 /*
- * Copyright 2022 Patches Barrett
+ * Copyright (c) 2024. Patches Barrett
+ *
+ * Last modified: September 21, 2024
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,8 +17,10 @@
  */
 package com.isupatches.android.wisefy.signal.os.adapters
 
+import com.isupatches.android.wisefy.core.assertions.NoOpWisefyAssertions
 import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
 import com.isupatches.android.wisefy.core.constants.AssertionMessages
+import com.isupatches.android.wisefy.core.logging.NoOpWisefyLogger
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.signal.SignalApi
 import com.isupatches.android.wisefy.signal.entities.CalculateSignalLevelRequest
@@ -44,8 +48,8 @@ import com.isupatches.android.wisefy.signal.os.impls.DefaultSignalApiImpl
  * @since 12/2022, version 5.0.0
  */
 internal class DefaultSignalAdapter(
-    logger: WisefyLogger,
-    private val assertions: WisefyAssertions,
+    logger: WisefyLogger = NoOpWisefyLogger(),
+    private val assertions: WisefyAssertions = NoOpWisefyAssertions(),
     private val api: DefaultSignalApi = DefaultSignalApiImpl(logger),
 ) : SignalApi {
 

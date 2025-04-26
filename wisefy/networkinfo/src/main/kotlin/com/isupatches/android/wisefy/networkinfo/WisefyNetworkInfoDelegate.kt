@@ -1,5 +1,7 @@
 /*
- * Copyright 2022 Patches Barrett
+ * Copyright (c) 2024. Patches Barrett
+ *
+ * Last modified: September 22, 2024
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,11 +21,11 @@ import android.Manifest.permission.ACCESS_NETWORK_STATE
 import android.net.ConnectivityManager
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
-import com.isupatches.android.wisefy.core.coroutines.CoroutineDispatcherProvider
-import com.isupatches.android.wisefy.core.coroutines.createBaseCoroutineExceptionHandler
 import com.isupatches.android.wisefy.core.entities.NetworkConnectionStatus
+import com.isupatches.android.wisefy.core.exceptions.WisefyException
+import com.isupatches.android.wisefy.core.logging.NoOpWisefyLogger
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
-import com.isupatches.android.wisefy.core.util.SdkUtil
+import com.isupatches.android.wisefy.core.util.AndroidUtil
 import com.isupatches.android.wisefy.networkinfo.callbacks.GetCurrentNetworkCallbacks
 import com.isupatches.android.wisefy.networkinfo.callbacks.GetNetworkConnectionStatusCallbacks
 import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkQuery
@@ -31,34 +33,34 @@ import com.isupatches.android.wisefy.networkinfo.entities.GetCurrentNetworkResul
 import com.isupatches.android.wisefy.networkinfo.entities.GetNetworkConnectionStatusQuery
 import com.isupatches.android.wisefy.networkinfo.entities.GetNetworkConnectionStatusResult
 import com.isupatches.android.wisefy.networkinfo.os.adapters.DefaultNetworkInfoAdapter
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
+import kotlin.coroutines.cancellation.CancellationException
 
 /**
  * An internal Wisefy delegate for getting information about a network, the device's current network,
  * and the device's IP through the Android OS.
  *
  * @param connectivityManager The ConnectivityManager instance to use
- * @param logger The [WisefyLogger] instance to use
- * @param sdkUtil The [SdkUtil] instance to use
  * @param wifiManager The WifiManager instance to use
  * @param networkConnectionStatusProvider The on-demand way to retrieve the current network connection status
- * @param coroutineDispatcherProvider The instance of the coroutine dispatcher provider to use
  * @param scope The coroutine scope to use
  * @param networkConnectionMutex The mutex for all read/write operations involving connecting, disconnecting, and
  * getting the device's current network and connection status
+ * @param logger The [WisefyLogger] instance to use (defaults to no-op)
+ * @param mainDispatcher The main thread dispatcher
  * @param adapter The adapter instance to use for getting the device's current network and connection status
  * (determined based on the Android OS level)
  *
- * @see CoroutineDispatcherProvider
  * @see DefaultNetworkInfoAdapter
  * @see NetworkInfoApi
  * @see NetworkConnectionStatus
  * @see NetworkInfoDelegate
- * @see SdkUtil
  * @see WisefyLogger
  *
  * @author Patches Barrett
@@ -67,18 +69,18 @@ import kotlinx.coroutines.withContext
 @Suppress("LongParameterList")
 class WisefyNetworkInfoDelegate(
     connectivityManager: ConnectivityManager,
-    logger: WisefyLogger,
-    sdkUtil: SdkUtil,
     wifiManager: WifiManager,
     networkConnectionStatusProvider: suspend () -> NetworkConnectionStatus?,
-    private val coroutineDispatcherProvider: CoroutineDispatcherProvider,
     private val scope: CoroutineScope,
     private val networkConnectionMutex: Mutex,
+    logger: WisefyLogger = NoOpWisefyLogger(),
+    private val mainDispatcher: CoroutineDispatcher = Dispatchers.Main,
     private val adapter: NetworkInfoApi = DefaultNetworkInfoAdapter(
         connectivityManager = connectivityManager,
         wifiManager = wifiManager,
-        sdkUtil = sdkUtil,
         logger = logger,
+        isAtLeastAndroidP = AndroidUtil.isAtLeastP(),
+        isAtLeastAndroidS = AndroidUtil.isAtLeastS(),
         networkConnectionStatusProvider = networkConnectionStatusProvider,
     ),
 ) : NetworkInfoDelegate {
@@ -91,15 +93,26 @@ class WisefyNetworkInfoDelegate(
         return adapter.getCurrentNetwork(query)
     }
 
+    @Suppress("TooGenericExceptionCaught")
     override fun getCurrentNetwork(
         query: GetCurrentNetworkQuery,
         callbacks: GetCurrentNetworkCallbacks?,
     ) {
-        scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
+        scope.launch {
             networkConnectionMutex.withLock {
-                val currentNetwork = adapter.getCurrentNetwork(query)
-                withContext(coroutineDispatcherProvider.main) {
-                    callbacks?.onCurrentNetworkRetrieved(currentNetwork.value)
+                try {
+                    val currentNetwork = adapter.getCurrentNetwork(query)
+                    withContext(mainDispatcher) {
+                        callbacks?.onCurrentNetworkRetrieved(currentNetwork.value)
+                    }
+                } catch (ex: CancellationException) {
+                    throw ex
+                } catch (ex: Exception) {
+                    withContext(mainDispatcher) {
+                        callbacks?.onWisefyAsyncFailure(
+                            WisefyException(message = "Internal Wisefy error with getCurrentNetwork", throwable = ex),
+                        )
+                    }
                 }
             }
         }
@@ -111,14 +124,28 @@ class WisefyNetworkInfoDelegate(
     }
 
     @RequiresPermission(ACCESS_NETWORK_STATE)
+    @Suppress("TooGenericExceptionCaught")
     override fun getNetworkConnectionStatus(
         query: GetNetworkConnectionStatusQuery,
         callbacks: GetNetworkConnectionStatusCallbacks?,
     ) {
-        scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
-            val result = adapter.getNetworkConnectionStatus(query)
-            withContext(coroutineDispatcherProvider.main) {
-                callbacks?.onDeviceNetworkConnectionStatusRetrieved(result.value)
+        scope.launch {
+            try {
+                val result = adapter.getNetworkConnectionStatus(query)
+                withContext(mainDispatcher) {
+                    callbacks?.onDeviceNetworkConnectionStatusRetrieved(result.value)
+                }
+            } catch (ex: CancellationException) {
+                throw ex
+            } catch (ex: Exception) {
+                withContext(mainDispatcher) {
+                    callbacks?.onWisefyAsyncFailure(
+                        WisefyException(
+                            message = "Internal Wisefy error with getNetworkConnectionStatus",
+                            throwable = ex,
+                        ),
+                    )
+                }
             }
         }
     }

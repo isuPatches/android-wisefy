@@ -20,8 +20,10 @@ import android.net.wifi.WifiManager
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresPermission
+import com.isupatches.android.wisefy.core.assertions.NoOpWisefyAssertions
 import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
 import com.isupatches.android.wisefy.core.constants.AssertionMessages
+import com.isupatches.android.wisefy.core.logging.NoOpWisefyLogger
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
 import com.isupatches.android.wisefy.wifi.WifiApi
 import com.isupatches.android.wisefy.wifi.entities.DisableWifiRequest
@@ -53,8 +55,8 @@ import com.isupatches.android.wisefy.wifi.os.impls.Android29WifiApiImpl
 @RequiresApi(Build.VERSION_CODES.Q)
 internal class Android29WifiAdapter(
     wifiManager: WifiManager,
-    logger: WisefyLogger,
-    private val assertions: WisefyAssertions,
+    logger: WisefyLogger = NoOpWisefyLogger(),
+    private val assertions: WisefyAssertions = NoOpWisefyAssertions(),
     private val api: Android29WifiApi = Android29WifiApiImpl(wifiManager, logger),
 ) : WifiApi {
 

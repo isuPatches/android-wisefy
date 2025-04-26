@@ -1,5 +1,7 @@
 /*
- * Copyright 2022 Patches Barrett
+ * Copyright (c) 2024. Patches Barrett
+ *
+ * Last modified: September 22, 2024
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,13 +22,16 @@ import android.Manifest.permission.ACCESS_NETWORK_STATE
 import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.net.ConnectivityManager
 import android.net.wifi.WifiManager
+import android.os.Build
+import androidx.annotation.ChecksSdkIntAtLeast
 import androidx.annotation.RequiresPermission
+import com.isupatches.android.wisefy.core.assertions.NoOpWisefyAssertions
 import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
 import com.isupatches.android.wisefy.core.constants.AssertionMessages
 import com.isupatches.android.wisefy.core.constants.DeprecationMessages
 import com.isupatches.android.wisefy.core.entities.NetworkConnectionStatus
+import com.isupatches.android.wisefy.core.logging.NoOpWisefyLogger
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
-import com.isupatches.android.wisefy.core.util.SdkUtil
 import com.isupatches.android.wisefy.networkconnection.NetworkConnectionApi
 import com.isupatches.android.wisefy.networkconnection.entities.ChangeNetworkRequest
 import com.isupatches.android.wisefy.networkconnection.entities.ChangeNetworkResult
@@ -43,10 +48,10 @@ import kotlinx.coroutines.runBlocking
  *
  * @param connectivityManager The ConnectivityManager instance to use
  * @param wifiManager The WifiManager instance to use
- * @param logger The [WisefyLogger] instance to use
- * @param sdkUtil The [SdkUtil] instance to use
  * @param networkConnectionStatusProvider The on-demand way to retrieve the current network connection status
- * @param assertions The [WisefyAssertions] instance to use
+ * @param isAtLeastAndroidS If the Android version is greater than or equal to Android S
+ * @param logger The [WisefyLogger] instance to use (defaults to no-op)
+ * @param assertions The [WisefyAssertions] instance to use (defaults to no-op)
  * @param api The OS level API instance to use
  *
  * @see DefaultNetworkConnectionApi
@@ -60,15 +65,15 @@ import kotlinx.coroutines.runBlocking
 internal class DefaultNetworkConnectionAdapter(
     connectivityManager: ConnectivityManager,
     wifiManager: WifiManager,
-    logger: WisefyLogger,
-    sdkUtil: SdkUtil,
     networkConnectionStatusProvider: suspend () -> NetworkConnectionStatus?,
-    private val assertions: WisefyAssertions,
+    @ChecksSdkIntAtLeast(api = Build.VERSION_CODES.S) private val isAtLeastAndroidS: Boolean,
+    logger: WisefyLogger = NoOpWisefyLogger(),
+    private val assertions: WisefyAssertions = NoOpWisefyAssertions(),
     private val api: DefaultNetworkConnectionApi = DefaultNetworkConnectionApiImpl(
         connectivityManager,
         wifiManager,
         logger,
-        sdkUtil,
+        isAtLeastAndroidS,
         networkConnectionStatusProvider,
     ),
 ) : NetworkConnectionApi {

@@ -17,7 +17,6 @@ dependencies {
     implementation(libs.androidx.annotation)
 
     // Kotlin
-    implementation(libs.jetbrains.kotlin.stdlib)
     implementation(libs.jetbrains.kotlinx.coroutines)
 
     // Unit Tests
@@ -31,7 +30,6 @@ dependencies {
     androidTestImplementation(testLibs.junit)
     androidTestImplementation(testLibs.androidx.test.rules)
     androidTestImplementation(testLibs.androidx.test.runner)
-    androidTestImplementation(testLibs.mockito.core)
     androidTestImplementation(testLibs.mockito.android)
     androidTestImplementation(testLibs.kotlin.coroutines.test)
 }

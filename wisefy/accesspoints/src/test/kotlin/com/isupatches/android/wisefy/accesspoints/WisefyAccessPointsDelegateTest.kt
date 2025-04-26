@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Patches Barrett
+ * Copyright 2025 Patches Barrett
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,16 +21,13 @@ import com.isupatches.android.wisefy.accesspoints.callbacks.GetAccessPointsCallb
 import com.isupatches.android.wisefy.accesspoints.entities.AccessPointData
 import com.isupatches.android.wisefy.accesspoints.entities.GetAccessPointsQuery
 import com.isupatches.android.wisefy.accesspoints.entities.GetAccessPointsResult
-import com.isupatches.android.wisefy.core.coroutines.createBaseCoroutineExceptionHandler
 import com.isupatches.android.wisefy.core.exceptions.WisefyException
-import com.isupatches.android.wisefy.core.logging.DefaultWisefyLogger
-import com.isupatches.android.wisefy.testsupport.TestCoroutineDispatchProvider
 import com.isupatches.android.wisefy.testsupport.anyNonNull
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
@@ -64,17 +61,15 @@ internal class WisefyAccessPointsDelegateTest {
 
     private lateinit var delegate: WisefyAccessPointsDelegate
 
-    private lateinit var testScope: TestScope
+    private val testDispatcher = UnconfinedTestDispatcher()
+    private val testScope = TestScope(testDispatcher)
 
     @Before
     fun setUp() {
-        Dispatchers.setMain(StandardTestDispatcher())
-        val logger = DefaultWisefyLogger()
-        testScope = TestScope()
+        Dispatchers.setMain(UnconfinedTestDispatcher())
         delegate = WisefyAccessPointsDelegate(
-            logger = logger,
             wifiManager = mockWifiManager,
-            coroutineDispatcherProvider = TestCoroutineDispatchProvider(),
+            mainDispatcher = testDispatcher,
             scope = testScope,
             adapter = mockAdapter,
         )
@@ -240,7 +235,7 @@ internal class WisefyAccessPointsDelegateTest {
         val mockCallbacks = mock(GetAccessPointsCallbacks::class.java)
         lenient().`when`(mockAdapter.getAccessPoints(request)).thenAnswer { throw testException }
 
-        testScope.launch(createBaseCoroutineExceptionHandler(mockCallbacks)) {
+        testScope.launch {
             delegate.getAccessPoints(request, mockCallbacks)
 
             // Then

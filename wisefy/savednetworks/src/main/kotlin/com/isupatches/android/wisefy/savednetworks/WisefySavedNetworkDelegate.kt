@@ -1,5 +1,7 @@
 /*
- * Copyright 2022 Patches Barrett
+ * Copyright (c) 2024. Patches Barrett
+ *
+ * Last modified: September 22, 2024
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,11 +21,12 @@ import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.Manifest.permission.ACCESS_WIFI_STATE
 import android.net.wifi.WifiManager
 import androidx.annotation.RequiresPermission
+import com.isupatches.android.wisefy.core.assertions.NoOpWisefyAssertions
 import com.isupatches.android.wisefy.core.assertions.WisefyAssertions
-import com.isupatches.android.wisefy.core.coroutines.CoroutineDispatcherProvider
-import com.isupatches.android.wisefy.core.coroutines.createBaseCoroutineExceptionHandler
+import com.isupatches.android.wisefy.core.exceptions.WisefyException
+import com.isupatches.android.wisefy.core.logging.NoOpWisefyLogger
 import com.isupatches.android.wisefy.core.logging.WisefyLogger
-import com.isupatches.android.wisefy.core.util.SdkUtil
+import com.isupatches.android.wisefy.core.util.AndroidUtil
 import com.isupatches.android.wisefy.savednetworks.callbacks.GetSavedNetworksCallbacks
 import com.isupatches.android.wisefy.savednetworks.callbacks.IsNetworkSavedCallbacks
 import com.isupatches.android.wisefy.savednetworks.entities.GetSavedNetworksQuery
@@ -33,11 +36,14 @@ import com.isupatches.android.wisefy.savednetworks.entities.IsNetworkSavedResult
 import com.isupatches.android.wisefy.savednetworks.os.adapters.Android29SavedNetworkAdapter
 import com.isupatches.android.wisefy.savednetworks.os.adapters.Android30SavedNetworkAdapter
 import com.isupatches.android.wisefy.savednetworks.os.adapters.DefaultSavedNetworkAdapter
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
+import kotlin.coroutines.cancellation.CancellationException
 
 /**
  * An internal Wisefy delegate for getting and searching for saved networks.
@@ -45,40 +51,36 @@ import kotlinx.coroutines.withContext
  * *Notes*
  *  - These functions share a mutex with add/remove network
  *
- * @param assertions The [WisefyAssertions] instance to use
- * @param logger The [WisefyLogger] instance to use
- * @param sdkUtil The [SdkUtil] instance to use
  * @param wifiManager The WifiManager instance to use
- * @param coroutineDispatcherProvider The CoroutineDispatcherProvider instance to use
  * @param scope The CoroutineScope to use
  * @param savedNetworkMutex A mutex shared with add/remove network to ensure synchronization between saved network
  *  reads and writes
+ * @param assertions The [WisefyAssertions] instance to use (defaults to no-op)
+ * @param logger The [WisefyLogger] instance to use (defaults to no-op)
+ * @param mainDispatcher The main thread dispatcher
  * @param adapter The adapter instance to use for querying for saved networks and checking if a network is saved
  * (determined based on the Android OS level)
  *
  * @see Android29SavedNetworkAdapter
  * @see Android30SavedNetworkAdapter
- * @see CoroutineDispatcherProvider
  * @see DefaultSavedNetworkAdapter
  * @see WisefyAssertions
  * @see WisefyLogger
  * @see SavedNetworkApi
- * @see SdkUtil
  *
  * @author Patches Barrett
  * @since 12/2022, version 5.0.0
  */
 class WisefySavedNetworkDelegate(
-    assertions: WisefyAssertions,
-    logger: WisefyLogger,
-    sdkUtil: SdkUtil,
     wifiManager: WifiManager,
-    private val coroutineDispatcherProvider: CoroutineDispatcherProvider,
     private val scope: CoroutineScope,
     private val savedNetworkMutex: Mutex,
+    assertions: WisefyAssertions = NoOpWisefyAssertions(),
+    logger: WisefyLogger = NoOpWisefyLogger(),
+    private val mainDispatcher: CoroutineDispatcher = Dispatchers.Main,
     private val adapter: SavedNetworkApi = when {
-        sdkUtil.isAtLeastR() -> Android30SavedNetworkAdapter(wifiManager, logger)
-        sdkUtil.isAtLeastQ() -> Android29SavedNetworkAdapter(assertions)
+        AndroidUtil.isAtLeastR() -> Android30SavedNetworkAdapter(wifiManager, logger)
+        AndroidUtil.isAtLeastQ() -> Android29SavedNetworkAdapter(assertions)
         else -> DefaultSavedNetworkAdapter(wifiManager, logger)
     },
 ) : SavedNetworkDelegate {
@@ -93,22 +95,33 @@ class WisefySavedNetworkDelegate(
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
+    @Suppress("TooGenericExceptionCaught")
     override fun getSavedNetworks(
         query: GetSavedNetworksQuery,
         callbacks: GetSavedNetworksCallbacks?,
     ) {
-        scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
+        scope.launch {
             savedNetworkMutex.withLock {
-                val result = adapter.getSavedNetworks(query)
-                withContext(coroutineDispatcherProvider.main) {
-                    when (result) {
-                        is GetSavedNetworksResult.Empty -> {
-                            callbacks?.onNoSavedNetworksFound()
-                        }
+                try {
+                    val result = adapter.getSavedNetworks(query)
+                    withContext(mainDispatcher) {
+                        when (result) {
+                            is GetSavedNetworksResult.Empty -> {
+                                callbacks?.onNoSavedNetworksFound()
+                            }
 
-                        is GetSavedNetworksResult.SavedNetworks -> {
-                            callbacks?.onSavedNetworksRetrieved(result.value)
+                            is GetSavedNetworksResult.SavedNetworks -> {
+                                callbacks?.onSavedNetworksRetrieved(result.value)
+                            }
                         }
+                    }
+                } catch (ex: CancellationException) {
+                    throw ex
+                } catch (ex: Exception) {
+                    withContext(mainDispatcher) {
+                        callbacks?.onWisefyAsyncFailure(
+                            WisefyException(message = "Internal Wisefy error with getSavedNetworks", throwable = ex),
+                        )
                     }
                 }
             }
@@ -121,17 +134,28 @@ class WisefySavedNetworkDelegate(
     }
 
     @RequiresPermission(allOf = [ACCESS_FINE_LOCATION, ACCESS_WIFI_STATE])
+    @Suppress("TooGenericExceptionCaught")
     override fun isNetworkSaved(
         query: IsNetworkSavedQuery,
         callbacks: IsNetworkSavedCallbacks?,
     ) {
-        scope.launch(createBaseCoroutineExceptionHandler(callbacks)) {
+        scope.launch {
             savedNetworkMutex.withLock {
-                val result = adapter.isNetworkSaved(query)
-                withContext(coroutineDispatcherProvider.main) {
-                    when (result) {
-                        is IsNetworkSavedResult.True -> callbacks?.onNetworkIsSaved()
-                        is IsNetworkSavedResult.False -> callbacks?.onNetworkIsNotSaved()
+                try {
+                    val result = adapter.isNetworkSaved(query)
+                    withContext(mainDispatcher) {
+                        when (result) {
+                            is IsNetworkSavedResult.True -> callbacks?.onNetworkIsSaved()
+                            is IsNetworkSavedResult.False -> callbacks?.onNetworkIsNotSaved()
+                        }
+                    }
+                } catch (ex: CancellationException) {
+                    throw ex
+                } catch (ex: Exception) {
+                    withContext(mainDispatcher) {
+                        callbacks?.onWisefyAsyncFailure(
+                            WisefyException(message = "Internal Wisefy error with isNetworkSaved", throwable = ex),
+                        )
                     }
                 }
             }
